@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="请求测试代码import java.util.HashMap; import java.util.Map;  import org.apache.commons.httpclient.HttpClient; import org.apache.commons.httpclient.NameValuePair; import org.apache.commons.httpclient.methods">
+<meta name="keywords" content="HttpClient">
+<meta property="og:type" content="article">
+<meta property="og:title" content="反向代理之http请求乱码分析">
+<meta property="og:url" content="http://www.iteedu.com/blog/arch/rproxy/requestcharset/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="请求测试代码import java.util.HashMap; import java.util.Map;  import org.apache.commons.httpclient.HttpClient; import org.apache.commons.httpclient.NameValuePair; import org.apache.commons.httpclient.methods">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-29T14:21:53.381Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="反向代理之http请求乱码分析">
+<meta name="twitter:description" content="请求测试代码import java.util.HashMap; import java.util.Map;  import org.apache.commons.httpclient.HttpClient; import org.apache.commons.httpclient.NameValuePair; import org.apache.commons.httpclient.methods">
+  <link rel="canonical" href="http://www.iteedu.com/blog/arch/rproxy/requestcharset/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>反向代理之http请求乱码分析 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/arch/rproxy/requestcharset/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">反向代理之http请求乱码分析
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-08 20:31:14" itemprop="dateCreated datePublished" datetime="2017-03-08T20:31:14+08:00">2017-03-08</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-29 22:21:53" itemprop="dateModified" datetime="2019-06-29T22:21:53+08:00">2019-06-29</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/架构/" itemprop="url" rel="index"><span itemprop="name">架构</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/架构/反向代理/" itemprop="url" rel="index"><span itemprop="name">反向代理</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="请求测试代码"><a href="#请求测试代码" class="headerlink" title="请求测试代码"></a>请求测试代码</h2><pre><code>import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.PostMethod;
+
+public class HttpCharsetTest {
+    public static void main(String[] args) throws Exception {
+        String strUrl = &quot;http://localhost:8080/front_new/rproxy/123/456&quot;;
+        Map&lt;String, String&gt; requestParams = new HashMap&lt;String, String&gt;();
+        requestParams.put(&quot;testkey&quot;, &quot;测试&quot;);
+        int i = 0;
+        NameValuePair[] nvps = new NameValuePair[requestParams.size()];
+        for (String strKey : requestParams.keySet()) {
+            NameValuePair nvp = new NameValuePair();
+            nvp.setName(strKey);
+            nvp.setValue(requestParams.get(strKey));
+            nvps[i] = nvp;
+            i++;
+        }
+        PostMethod postMethod = null;
+        HttpClient httpClient = new HttpClient();
+        // 设置超时时间
+        httpClient.getHttpConnectionManager().getParams()
+                .setConnectionTimeout(30000);
+        httpClient.getHttpConnectionManager().getParams().setSoTimeout(30000);
+        postMethod = new PostMethod(strUrl);
+        postMethod.setRequestBody(nvps);
+//        postMethod.addRequestHeader(&quot;Content-Type&quot;, &quot;text/html;charset=UTF-8&quot;);
+//        httpClient.getParams().setContentCharset(&quot;UTF-8&quot;);
+//        postMethod.getParams().setContentCharset(&quot;UTF-8&quot;);
+        httpClient.executeMethod(postMethod);
+        String resultStr = postMethod.getResponseBodyAsString();
+        System.err.println(resultStr);
+    }
+}</code></pre><p>httpClient请求编码设置</p>
+<pre><code>postMethod.addRequestHeader(&quot;Content-Type&quot;, &quot;text/html;charset=UTF-8&quot;);
+httpClient.getParams().setContentCharset(&quot;UTF-8&quot;);
+postMethod.getParams().setContentCharset(&quot;UTF-8&quot;);</code></pre><p>以上三种方式，下面的设置方法会覆盖上面的设置。</p>
+<h2 id="内容查看代码"><a href="#内容查看代码" class="headerlink" title="内容查看代码"></a>内容查看代码</h2><p>获取请求完整内容：</p>
+<pre><code>byte[] data=IOUtils.readBytesFromStream(request.getInputStream());
+String strData=new String(data);
+String strDecode=URLDecoder.decode(strData, &quot;UTF-8&quot;);</code></pre><h2 id="内容测试"><a href="#内容测试" class="headerlink" title="内容测试"></a>内容测试</h2><p>不同的httpClient请求编码，参数内容“测试”二字，方式post，<code>strData</code>内容如下：</p>
+<pre><code>不设置字符集
+testkey=%3F%3F
+UTF-8字符集
+testkey=%E6%B5%8B%E8%AF%95
+GBK字符集
+testkey=%B2%E2%CA%D4</code></pre><p>如果不设置字符集，每个汉字编码成占一个字节的编码，没找到任何一个编码与之对应<code>URLDecoder.decode</code>后是乱码。</p>
+<p>UTF-8编码成三个字节一个汉字，GBK编码成二个字节一个汉字，用对应编码<code>URLDecoder.decode</code>后都是正常汉字。</p>
+<h2 id="获取请求参数"><a href="#获取请求参数" class="headerlink" title="获取请求参数"></a>获取请求参数</h2><p>在获取参数调用<code>request.getParameter</code>前，要设置字符编码：</p>
+<pre><code>request.setCharacterEncoding(&quot;UTF-8&quot;);</code></pre><p>可以通过设置spring的filter统一设置编码：</p>
+<pre><code>&lt;filter&gt;
+  &lt;filter-name&gt;characterEncodingFilter&lt;/filter-name&gt;
+  &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;
+  &lt;init-param&gt;
+    &lt;param-name&gt;encoding&lt;/param-name&gt;
+    &lt;param-value&gt;UTF-8&lt;/param-value&gt;
+  &lt;/init-param&gt;
+  &lt;init-param&gt;
+    &lt;param-name&gt;forceEncoding&lt;/param-name&gt;
+    &lt;param-value&gt;true&lt;/param-value&gt;
+  &lt;/init-param&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+  &lt;filter-name&gt;characterEncodingFilter&lt;/filter-name&gt;
+  &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;</code></pre><p>spring的filter的实质：</p>
+<pre><code>@Override
+protected void doFilterInternal(
+        HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+        throws ServletException, IOException {
+
+    if (this.encoding != null &amp;&amp; (this.forceEncoding || request.getCharacterEncoding() == null)) {
+        request.setCharacterEncoding(this.encoding);
+        if (this.forceEncoding) {
+            response.setCharacterEncoding(this.encoding);
+        }
+    }
+    filterChain.doFilter(request, response);
+}</code></pre><p>encoding的作用相当于：</p>
+<pre><code>request.setCharacterEncoding</code></pre><p>forceEncoding为true的作用相当于：</p>
+<pre><code>request.setCharacterEncoding(“”);
+response.setCharacterEncoding(“”);</code></pre><h2 id="乱码详解"><a href="#乱码详解" class="headerlink" title="乱码详解"></a>乱码详解</h2><p>一个Http请求的数据大致包括URI、Header、和Body三个部分。这三个部分都需要encoding，不过一般只涉及到URI和Body，因此就不讨论Header了。</p>
+<p>GET的请求参数在QueryString中，是URI的一部分。因此，对于GET请求，我们需要关注，URI是如何encoding的？</p>
+<p>POST的请求参数在Body中，因此，对于POST请求，我们则需要关注，Body是如何encoding的？</p>
+<p>麻烦的是，URI和Body的charset还可以不一样，使用不同的方法进行设置和配置。</p>
+<h2 id="Tomcat如何设置charset"><a href="#Tomcat如何设置charset" class="headerlink" title="Tomcat如何设置charset"></a>Tomcat如何设置charset</h2><p>Tomcat通过URI的charset来设置QueryString的charset。我们可以在Tomcat根目录下conf/server.xml 中进行配置。</p>
+<pre><code>&lt;Connector
+URIEncoding=&quot;UTF-8&quot;
+useBodyEncodingForURI=&quot;true&quot; 
+acceptCount=&quot;100&quot;
+connectionTimeout=&quot;20000&quot;
+disableUploadTimeout=&quot;true&quot;
+enableLookups=&quot;false&quot;
+maxHttpHeaderSize=&quot;8192&quot;
+maxSpareThreads=&quot;75&quot;
+maxThreads=&quot;150&quot;
+minSpareThreads=&quot;25&quot;
+port=&quot;8080&quot;
+redirectPort=&quot;8443&quot;/&gt;</code></pre><p>URIEncoding属性就是URI的charset，上述配置表示 Tomcat认为URI的charset就是UTF-8。如果HttpClient也使用UTF-8作为QueryString的charset，那么Tomcat就可以正确decoding。详情可以参考org.apache.tomcat.util.http.Parameters类的handleQueryParameters的方法。</p>
+<p>Tomcat在启动的过程中，如果从conf/server.xml中读取到URIEncoding属性，就会设置queryStringEncoding的值。当Tomcat处理HTTP请求时，上述方法就会被调用。</p>
+<p>默认的server.xml是没有配置URIEncoding属性的，需要我们手动设置 。如果没有设置，Tomcat就会采用一种称为“fast conversion”的方式解析QueryString。详情可以参考org.apache.tomcat.util.http.Parameter类的urlDecode方法。</p>
+<p>useBodyEncodingForURI是与URI charset相关的另一个属性。如果该属性的值为true，则Tomcat将使用Body的charset作为URI的charset。如果Tomcat没有设置Body的charset，那么将使用HTTP请求Content-Type Header中的charset。如果HTTP请求中没有设置Content-Type Header，则使用ISO-8859-1作为默认charset。详情参见org.apache.catalina.connector.Request的parseParmeters方法</p>
+<p>默认的server.xml是没有配置useBodyEncodingForURI属性的，需要我们手动设置 。如果没有设置，Tomcat则认为其值为false。需要注意的是，如果URIEncoding和useBodyEncodingForURI同时设置，而且Body的charset已经设置，那么将以Body的charset为准 。</p>
+<p>设置POST请求Body的charset：</p>
+<p>设置Body charset的方法很简单，只要调用javax.servlet.ServletRequest接口的setCharacterEncoding方法即可，比如request.setCharacterEncoding(“UTF-8”)。需要注意的是，该方法必须在读取任何请求参数之前调用，才有效果。</p>
+<p>也就是说，我们只有在调用getParameter或getReader方法之前，调用setsetCharacterEncoding方法，设置的charset才能奏效。</p>
+<p>响应数据的charset：</p>
+<p>设置响应数据charset的方法很简单，只要调用javax.servlet.ServletResponse接口的setContentType或setCharacterEncoding方法即可，比如response.setContentType(“text/html;charset=UTF-8”)或response.setCharacterEncoding(“UTF-8”)。</p>
+<p>如果Servlet正确设置了响应数据的charset，那么HTTP响应数据中就会包含Content-Type Header。HttpClient的getResponseBodyAsString方法就可以正确decoding响应数据。</p>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/HttpClient/" rel="tag"># HttpClient</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/arch/rproxy/httpparse/" rel="next" title="反向代理之http请求分析">
+                <i class="fa fa-chevron-left"></i> 反向代理之http请求分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/arch/rproxy/responsecharset/" rel="prev" title="反向代理之http响应乱码分析">
+                反向代理之http响应乱码分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#请求测试代码"><span class="nav-number">1.</span> <span class="nav-text">请求测试代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内容查看代码"><span class="nav-number">2.</span> <span class="nav-text">内容查看代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内容测试"><span class="nav-number">3.</span> <span class="nav-text">内容测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取请求参数"><span class="nav-number">4.</span> <span class="nav-text">获取请求参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#乱码详解"><span class="nav-number">5.</span> <span class="nav-text">乱码详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomcat如何设置charset"><span class="nav-number">6.</span> <span class="nav-text">Tomcat如何设置charset</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

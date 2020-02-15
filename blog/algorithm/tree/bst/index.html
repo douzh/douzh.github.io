@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="二叉搜索树(Binary Search Tree,BST)1.所有非叶子结点至多拥有两个儿子（Left和Right）； 2.所有结点存储一个关键字； 3.非叶子结点的左指针指向小于其关键字的子树，右指针指向大于其关键字的子树； 如：  BST树的搜索，从根结点开始，如果查询的关键字与结点的关键字相等，那么就命中； 否则，如果查询关键字比结点关键字小，就进入左儿子；如果比结点关键字大，就进入右儿子；">
+<meta name="keywords" content="算法,树算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BST二叉搜索树">
+<meta property="og:url" content="http://www.iteedu.com/blog/algorithm/tree/bst/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="二叉搜索树(Binary Search Tree,BST)1.所有非叶子结点至多拥有两个儿子（Left和Right）； 2.所有结点存储一个关键字； 3.非叶子结点的左指针指向小于其关键字的子树，右指针指向大于其关键字的子树； 如：  BST树的搜索，从根结点开始，如果查询的关键字与结点的关键字相等，那么就命中； 否则，如果查询关键字比结点关键字小，就进入左儿子；如果比结点关键字大，就进入右儿子；">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.iteedu.com/images/tree/bst1.jpg">
+<meta property="og:image" content="http://www.iteedu.com/images/tree/bst2.jpg">
+<meta property="og:image" content="http://www.iteedu.com/images/tree/bst3.jpg">
+<meta property="og:updated_time" content="2019-06-30T15:38:31.843Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BST二叉搜索树">
+<meta name="twitter:description" content="二叉搜索树(Binary Search Tree,BST)1.所有非叶子结点至多拥有两个儿子（Left和Right）； 2.所有结点存储一个关键字； 3.非叶子结点的左指针指向小于其关键字的子树，右指针指向大于其关键字的子树； 如：  BST树的搜索，从根结点开始，如果查询的关键字与结点的关键字相等，那么就命中； 否则，如果查询关键字比结点关键字小，就进入左儿子；如果比结点关键字大，就进入右儿子；">
+<meta name="twitter:image" content="http://www.iteedu.com/images/tree/bst1.jpg">
+  <link rel="canonical" href="http://www.iteedu.com/blog/algorithm/tree/bst/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>BST二叉搜索树 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/algorithm/tree/bst/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">BST二叉搜索树
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2016-01-02 11:14:37" itemprop="dateCreated datePublished" datetime="2016-01-02T11:14:37+08:00">2016-01-02</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-30 23:38:31" itemprop="dateModified" datetime="2019-06-30T23:38:31+08:00">2019-06-30</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/算法/" itemprop="url" rel="index"><span itemprop="name">算法</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/算法/树算法/" itemprop="url" rel="index"><span itemprop="name">树算法</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="二叉搜索树-Binary-Search-Tree-BST"><a href="#二叉搜索树-Binary-Search-Tree-BST" class="headerlink" title="二叉搜索树(Binary Search Tree,BST)"></a>二叉搜索树(Binary Search Tree,BST)</h2><p>1.所有非叶子结点至多拥有两个儿子（Left和Right）；</p>
+<p>2.所有结点存储一个关键字；</p>
+<p>3.非叶子结点的左指针指向小于其关键字的子树，右指针指向大于其关键字的子树；</p>
+<p>如：</p>
+<p><img src="/images/tree/bst1.jpg" alt></p>
+<p>BST树的搜索，从根结点开始，如果查询的关键字与结点的关键字相等，那么就命中；</p>
+<p>否则，如果查询关键字比结点关键字小，就进入左儿子；如果比结点关键字大，就进入右儿子；如果左儿子或右儿子的指针为空，则报告找不到相应的关键字；</p>
+<p>如果BST树的所有非叶子结点的左右子树的结点数目均保持差不多（平衡），那么B树的搜索性能逼近二分查找；但它比连续内存空间的二分查找的优点是，改变BST树结构（插入与删除结点）不需要移动大段的内存数据，甚至通常是常数开销；</p>
+<p>如：</p>
+<p><img src="/images/tree/bst2.jpg" alt></p>
+<p>但BST树在经过多次插入与删除后，有可能导致不同的结构：</p>
+<p><img src="/images/tree/bst3.jpg" alt></p>
+<p>右边也是一个BST树，但它的搜索性能已经是线性的了；同样的关键字集合有可能导致不同的树结构索引；所以，使用BST树还要考虑尽可能让BST树保持左图的结构，和避免右图的结构，也就是所谓的”平衡”问题；</p>
+<h2 id="BST查找操作"><a href="#BST查找操作" class="headerlink" title="BST查找操作"></a>BST查找操作</h2><pre><code>BSTNode* bst_search(BSTNode* node, int value) {
+  while(node != NULL) {
+    if(value &lt; node-&gt;value) // 向左 
+      node = node-&gt;left;
+    else if(value &gt; node-&gt;value) // 向右 
+      node = node-&gt;right;
+    else // 找到 
+      return node;
+  }
+  return NULL; // 失败 
+}</code></pre><h2 id="BST树的插入操作"><a href="#BST树的插入操作" class="headerlink" title="BST树的插入操作"></a>BST树的插入操作</h2><p>首先找到插入的位置，要么向左，要么向右，直到找到空结点，即为插入位置，如果找到了相同值的结点，插入失败。</p>
+<p>伪代码：</p>
+<pre><code>TREE-INSERT(T, z)
+ 1  y ← nil[T]                 // y 始终指向 x 的父结点。
+ 2  x ← root[T]              // x 指向当前树的根结点，
+ 3  while x ≠ nil[T]
+ 4      do y ← x
+ 5         if key[z] &lt; key[x]   //向左，向右..
+ 6            then x ← left[x]
+ 7            else x ← right[x] // 为了找到合适的插入点，x 探路跟踪路径，直到x成为NIL 为止。
+ 8  p[z] ← y         // y置为 插入结点z 的父结点。
+ 9  if y = nil[T]
+10     then root[T] ← z
+11     else if key[z] &lt; key[y]
+12             then left[y] ← z
+13             else right[y] ← z //此 8-13行，置z 相关的指针。</code></pre><p>C代码：</p>
+<pre><code>bool bst_insert(BSTNode*&amp; root, int value) {
+  BSTNode* pre = NULL;
+  BSTNode* curr = root;
+  while(curr != NULL) {
+    if(value &lt; curr-&gt;value) { // 向左 
+      pre = curr;
+      curr = curr-&gt;left;
+    }
+    else if(value &gt; curr-&gt;value) { // 向右 
+      pre = curr;
+      curr = curr-&gt;right; 
+    }
+    else // 失败 
+      return false;
+  }
+  curr = new BSTNode; // 插入 
+  curr-&gt;value = value;
+  curr-&gt;left = curr-&gt;right = NULL;
+  if(pre == NULL)
+    root = curr;
+  else
+
+    curr-&gt;value &lt; pre-&gt;value ? pre-&gt;left=curr : pre-&gt;right=curr;
+  return true;
+}</code></pre><h2 id="BST删除操作"><a href="#BST删除操作" class="headerlink" title="BST删除操作"></a>BST删除操作</h2><p>相对查找和插入复杂一点，根据待删除结点的孩子情况，分三种情况：没有孩子，只有一个孩子，有两个孩子。</p>
+<p>1.没有孩子的情况，其父结点指向空，删除该结点。</p>
+<p>2.有一个孩子的情况，其父结点指向其孩子，删除该结点。</p>
+<p>3.有两个孩子的情况，当前结点要用其它结点替换，然后释放当前结点。</p>
+<p>用左子树中的最大元素替换当前结点。左子树一直right到nil，可能有左节点。</p>
+<p>用右子树中的最小结点替换当前结点。右子树一直left到nil，可能有右节点。</p>
+<p>伪代码：</p>
+<p>TREE-SUCCESSOR(z)为中序遍历z的后继节点，为z右子树中的最小结点</p>
+<pre><code>TREE-DELETE(T, z)
+ 1 if left[z] = NIL or right[z] = NIL
+ 2    then y ← z
+ 3    else y ← TREE-SUCCESSOR(z)
+ 4 if left[y] ≠ NIL
+ 5    then x ← left[y]
+ 6    else x ← right[y]
+ 7 if x≠NIL
+ 8    then p[x] ← p[y]
+ 9 if p[y] = NIL
+10    then root[T] ← x
+11    else if y = left[p[y]]
+12            then left[p[y]] ← x
+13            else right[p[y]] ← x
+14 if y ≠ z
+15    then key[z] ← key[y]
+16         copy y&apos;s satellite data into z 
+17 return y  </code></pre><p>C代码：</p>
+<pre><code>bool bst_delete(BSTNode*&amp; node, int value) {
+  BSTNode*　parent = NULL;
+  BSTNode* tmp;
+  while(node != NULL) {
+    if(value &lt; node-&gt;value) { // 向左 
+      parent = node;
+      node = node-&gt;left;
+    }
+    else if(value &gt; node-&gt;value) { // 向右 
+      parent = node;
+      node = node-&gt;right;
+    }
+    else { // 找到了 
+      if(NULL==node-&gt;left &amp;&amp; NULL==node-right) { // 叶子结点         
+        if(parent == NULL) { // 根结点 
+          delete node;
+          node = NULL;
+        }
+        else { // 非根结点 
+          (parent-&gt;left==node)?(parent-&gt;left=NULL):(parent-&gt;right=NULL);
+          delete node;
+          node = NULL;
+        }        
+      }
+      else if(NULL!=node-&gt;left &amp;&amp; NULL==node-&gt;right) { // 只有左孩子
+        if(parent == NULL) { // 根结点 
+          tmp = node;
+          node = node-&gt;left;
+          delete tmp;          
+        }
+        else { // 非根结点 
+          (parent-&gt;left==node)?(parent-&gt;left=node-&gt;left):(parent-&gt;right=node-&gt;left);
+          delete node;
+        }
+      }
+      else if(NULL!=node-&gt;right &amp;&amp; NULL==node-&gt;left) { // 只有右孩子 
+        if(parent == NULL) { // 根结点 
+          tmp = node;
+          node = node-&gt;right;
+          delete tmp;          
+        }
+        else { // 非根结点 
+          (parent-&gt;left==node)?(parent-&gt;left=node-&gt;right):(parent-&gt;right=node-&gt;right);
+          delete node;
+        }
+      }
+      else { // 既有左孩子也有右孩子 
+        BSTNode* leftNode = node;
+        while(leftNode-&gt;right != NULL) {
+          parent = leftNode;
+          leftNode = leftNode-&gt;right;
+        }
+        // 交换leftNode与node
+        int swapValue = leftNode-&gt;value;
+        leftNode-&gt;value = node-&gt;value;
+        node-&gt;value = swapValue;
+        // 删除leftNode，parent肯定不为空 
+        (parent-&gt;left==node)?(parent-&gt;left=NULL):(parent-&gt;right=NULL);
+        delete node;
+      }
+    }
+  }
+  return false; // 失败
+}</code></pre>
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/树算法/" rel="tag"># 树算法</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/plang/java/nio/buffer/" rel="next" title="JAVA NIO之Buffer">
+                <i class="fa fa-chevron-left"></i> JAVA NIO之Buffer
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/algorithm/tree/avlt/" rel="prev" title="AVLT自平衡二叉查找树">
+                AVLT自平衡二叉查找树 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉搜索树-Binary-Search-Tree-BST"><span class="nav-number">1.</span> <span class="nav-text">二叉搜索树(Binary Search Tree,BST)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BST查找操作"><span class="nav-number">2.</span> <span class="nav-text">BST查找操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BST树的插入操作"><span class="nav-number">3.</span> <span class="nav-text">BST树的插入操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BST删除操作"><span class="nav-number">4.</span> <span class="nav-text">BST删除操作</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

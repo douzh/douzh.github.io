@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="这里用的是bouncy castle（轻量级密码术包）是一种用于 Java 平台的开放源码的轻量级密码术包。 这里先给出一些数学上的定义名词，因为代码中会有对应的变量名。 六个参量有限域Fp，这个域只有有限个元素。 Fp中只有p（p为素数）个元素0,1,2 …… p-2,p-1；Fp 的加法（a+b）法则是 a+b≡c (mod p)；Fp 的乘法(a×b)法则是  a×b≡c (mod p)；F">
+<meta name="keywords" content="密码术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【密码术】ECC椭圆曲线密钥对生成">
+<meta property="og:url" content="http://www.iteedu.com/blog/arch/crypto/ecckey/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="这里用的是bouncy castle（轻量级密码术包）是一种用于 Java 平台的开放源码的轻量级密码术包。 这里先给出一些数学上的定义名词，因为代码中会有对应的变量名。 六个参量有限域Fp，这个域只有有限个元素。 Fp中只有p（p为素数）个元素0,1,2 …… p-2,p-1；Fp 的加法（a+b）法则是 a+b≡c (mod p)；Fp 的乘法(a×b)法则是  a×b≡c (mod p)；F">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-29T14:25:40.973Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【密码术】ECC椭圆曲线密钥对生成">
+<meta name="twitter:description" content="这里用的是bouncy castle（轻量级密码术包）是一种用于 Java 平台的开放源码的轻量级密码术包。 这里先给出一些数学上的定义名词，因为代码中会有对应的变量名。 六个参量有限域Fp，这个域只有有限个元素。 Fp中只有p（p为素数）个元素0,1,2 …… p-2,p-1；Fp 的加法（a+b）法则是 a+b≡c (mod p)；Fp 的乘法(a×b)法则是  a×b≡c (mod p)；F">
+  <link rel="canonical" href="http://www.iteedu.com/blog/arch/crypto/ecckey/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>【密码术】ECC椭圆曲线密钥对生成 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/arch/crypto/ecckey/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">【密码术】ECC椭圆曲线密钥对生成
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-22 17:43:27" itemprop="dateCreated datePublished" datetime="2019-01-22T17:43:27+08:00">2019-01-22</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-29 22:25:40" itemprop="dateModified" datetime="2019-06-29T22:25:40+08:00">2019-06-29</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/架构/" itemprop="url" rel="index"><span itemprop="name">架构</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/架构/密码术/" itemprop="url" rel="index"><span itemprop="name">密码术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这里用的是bouncy castle（轻量级密码术包）是一种用于 Java 平台的开放源码的轻量级密码术包。</p>
+<p>这里先给出一些数学上的定义名词，因为代码中会有对应的变量名。</p>
+<h4 id="六个参量"><a href="#六个参量" class="headerlink" title="六个参量"></a>六个参量</h4><p>有限域Fp，这个域只有有限个元素。</p>
+<p>Fp中只有p（p为素数）个元素0,1,2 …… p-2,p-1；<br>Fp 的加法（a+b）法则是 a+b≡c (mod p)；<br>Fp 的乘法(a×b)法则是  a×b≡c (mod p)；<br>Fp 的除法(a÷b)法则是  a/b≡c (mod p)；</p>
+<p>密码学中，描述Fp上的一条椭圆曲线，常用到六个参量：</p>
+<p>T=(p,a,b,G,n,h)。</p>
+<p>p 、a 、b 用来确定Fp上的一条椭圆曲线，G为基点，n为点G的阶，h 是椭圆曲线上所有点的个数m与n相除的整数部分。</p>
+<h3 id="G点"><a href="#G点" class="headerlink" title="G点"></a>G点</h3><p>如果椭圆曲线上一点P，存在最小的正整数n，使得数乘nP=O∞，则将n称为P的阶，在有限域上定义的椭圆曲线上所有的点的阶n都是存在的。</p>
+<p>K=kG  [其中 K,G为Ep(a,b)上的点，k为小于n（n是点G的阶）的整数]</p>
+<p>不难发现，给定k和G，根据加法法则，计算K很容易；但给定K和G，求k就相对困难了。</p>
+<p>这就是椭圆曲线加密算法采用的难题。我们把点G称为基点（base point）。</p>
+<p>其中小k为私钥，一般为一个大随机数。</p>
+<p>K为公钥，因为是个坐标点，所以有非压缩方式和压缩方式，压缩方式就是取x坐标，y在用时再计算出来。</p>
+<h3 id="创建曲线"><a href="#创建曲线" class="headerlink" title="创建曲线"></a>创建曲线</h3><p>首先要获取一个曲线参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static X9ECParameters CURVE_PARAMS = CustomNamedCurves.getByName(&quot;secp256k1&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>有很多内置参数，只要调用名称就可以了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">defineCurve(&quot;curve25519&quot;, curve25519);</span><br><span class="line"></span><br><span class="line">defineCurveWithOID(&quot;secp192k1&quot;, SECObjectIdentifiers.secp192k1, secp192k1);</span><br><span class="line">defineCurveWithOID(&quot;secp192r1&quot;, SECObjectIdentifiers.secp192r1, secp192r1);</span><br><span class="line">defineCurveWithOID(&quot;secp224k1&quot;, SECObjectIdentifiers.secp224k1, secp224k1);</span><br><span class="line">defineCurveWithOID(&quot;secp224r1&quot;, SECObjectIdentifiers.secp224r1, secp224r1);</span><br><span class="line">defineCurveWithOID(&quot;secp256k1&quot;, SECObjectIdentifiers.secp256k1, secp256k1);</span><br><span class="line">defineCurveWithOID(&quot;secp256r1&quot;, SECObjectIdentifiers.secp256r1, secp256r1);</span><br><span class="line">defineCurveWithOID(&quot;secp384r1&quot;, SECObjectIdentifiers.secp384r1, secp384r1);</span><br><span class="line">defineCurveWithOID(&quot;secp521r1&quot;, SECObjectIdentifiers.secp521r1, secp521r1);</span><br><span class="line"></span><br><span class="line">defineCurveAlias(&quot;P-192&quot;, SECObjectIdentifiers.secp192r1);</span><br><span class="line">defineCurveAlias(&quot;P-224&quot;, SECObjectIdentifiers.secp224r1);</span><br><span class="line">defineCurveAlias(&quot;P-256&quot;, SECObjectIdentifiers.secp256r1);</span><br><span class="line">defineCurveAlias(&quot;P-384&quot;, SECObjectIdentifiers.secp384r1);</span><br><span class="line">defineCurveAlias(&quot;P-521&quot;, SECObjectIdentifiers.secp521r1);</span><br></pre></td></tr></table></figure>
+
+<p>再创建Fp上的一条椭圆曲线对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">static ECDomainParameters CURVE = new ECDomainParameters(CURVE_PARAMS.getCurve(), CURVE_PARAMS.getG(),</span><br><span class="line">			CURVE_PARAMS.getN(), CURVE_PARAMS.getH());</span><br></pre></td></tr></table></figure>
+
+<p>如果想用自己的参数创建一条可以这样做：</p>
+<p>设置好六个参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public BigInteger p;</span><br><span class="line">public BigInteger a;</span><br><span class="line">public BigInteger b;</span><br><span class="line">public BigInteger n;</span><br><span class="line">public BigInteger gx;</span><br><span class="line">public BigInteger gy;</span><br></pre></td></tr></table></figure>
+
+<p>用如下代码创建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ECCurve fp = new ECCurve.Fp(p, a, b);</span><br><span class="line">ECPoint g = fp.createPoint(gx, gy);</span><br><span class="line">ECDomainParameters curve = new ECDomainParameters(fp, g, n);</span><br></pre></td></tr></table></figure>
+
+<h3 id="随机生成密钥"><a href="#随机生成密钥" class="headerlink" title="随机生成密钥"></a>随机生成密钥</h3><p>首先要创建一个密钥生成器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ECKeyGenerationParameters genparam = new ECKeyGenerationParameters(this.ecc_bc_spec, new SecureRandom());</span><br><span class="line">ecKeyPairGenerator = new ECKeyPairGenerator();</span><br><span class="line">ecKeyPairGenerator.init(genparam);</span><br></pre></td></tr></table></figure>
+
+<p>生成密钥：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">AsymmetricCipherKeyPair keyPair = this.ecKeyPairGenerator.generateKeyPair();</span><br><span class="line">ECPrivateKeyParameters priKey = (ECPrivateKeyParameters) keyPair.getPrivate();</span><br><span class="line">ECPublicKeyParameters pubKey = (ECPublicKeyParameters) keyPair.getPublic();</span><br><span class="line"></span><br><span class="line">BigInteger priv = priKey.getD();</span><br><span class="line">ECPoint point = pubKey.getQ().normalize();</span><br><span class="line">BigInteger pubx = point.getXCoord().toBigInteger();</span><br><span class="line">BigInteger puby = point.getYCoord().toBigInteger();</span><br></pre></td></tr></table></figure>
+
+<p>这里priv为私钥，pubx和puby为公钥，可以编码成字符串保存。</p>
+<h3 id="密钥生成过程"><a href="#密钥生成过程" class="headerlink" title="密钥生成过程"></a>密钥生成过程</h3><p>下面是<code>generateKeyPair</code>的源码，可以看出私钥是随机生成一个不大于n的随机数，公钥是私钥和曲线上的G点相乘得到的点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public AsymmetricCipherKeyPair generateKeyPair()</span><br><span class="line">&#123;</span><br><span class="line">    BigInteger n = params.getN();</span><br><span class="line">    int nBitLength = n.bitLength();</span><br><span class="line">    int minWeight = nBitLength &gt;&gt;&gt; 2;</span><br><span class="line"></span><br><span class="line">    BigInteger d;</span><br><span class="line">    for (;;)</span><br><span class="line">    &#123;</span><br><span class="line">        d = new BigInteger(nBitLength, random);</span><br><span class="line"></span><br><span class="line">        if (d.compareTo(TWO) &lt; 0  || (d.compareTo(n) &gt;= 0))</span><br><span class="line">        &#123;</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line">        if (WNafUtil.getNafWeight(d) &lt; minWeight)</span><br><span class="line">        &#123;</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ECPoint Q = createBasePointMultiplier().multiply(params.getG(), d);</span><br><span class="line"></span><br><span class="line">    return new AsymmetricCipherKeyPair(</span><br><span class="line">        new ECPublicKeyParameters(Q, params),</span><br><span class="line">        new ECPrivateKeyParameters(d, params));</span><br><span class="line">&#125;</span><br><span class="line">protected ECMultiplier createBasePointMultiplier()</span><br><span class="line">&#123;</span><br><span class="line">    return new FixedPointCombMultiplier();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用私钥求公钥是非常简单的，只要做个multiply就可以了。</p>
+<h3 id="用种子生成密钥对"><a href="#用种子生成密钥对" class="headerlink" title="用种子生成密钥对"></a>用种子生成密钥对</h3><p>私钥可以用一个字符串加工得到byte数组，再由数组构建BigInteger，这样的私钥是伪随机的，但容易记，因为有种子就可以再次生成。</p>
+<p>请参考比特币bip32协议。</p>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/密码术/" rel="tag"># 密码术</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/plang/scala/regexset/" rel="next" title="【scala】用正则提取变量">
+                <i class="fa fa-chevron-left"></i> 【scala】用正则提取变量
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/arch/crypto/javasha256/" rel="prev" title="【密码术】SHA256的JAVA示例">
+                【密码术】SHA256的JAVA示例 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#六个参量"><span class="nav-number">1.</span> <span class="nav-text">六个参量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#G点"><span class="nav-number"></span> <span class="nav-text">G点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建曲线"><span class="nav-number"></span> <span class="nav-text">创建曲线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#随机生成密钥"><span class="nav-number"></span> <span class="nav-text">随机生成密钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#密钥生成过程"><span class="nav-number"></span> <span class="nav-text">密钥生成过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用种子生成密钥对"><span class="nav-number"></span> <span class="nav-text">用种子生成密钥对</span></a></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

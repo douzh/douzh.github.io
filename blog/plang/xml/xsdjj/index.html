@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="XSDXML Schema 是基于 XML 的 DTD 替代者。 XML Schema 可描述 XML 文档的结构。 XML Schema 语言也可作为 XSD（XML Schema Definition）来引用。 XML Schema 的作用是定义 XML 文档的合法构建模块，类似 DTD。  定义可出现在文档中的元素 定义可出现在文档中的属性 定义哪个元素是子元素 定义子元素的次序 定义子元素">
+<meta name="keywords" content="XML">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XML之XSD（XML Schema Definition）简介">
+<meta property="og:url" content="http://www.iteedu.com/blog/plang/xml/xsdjj/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="XSDXML Schema 是基于 XML 的 DTD 替代者。 XML Schema 可描述 XML 文档的结构。 XML Schema 语言也可作为 XSD（XML Schema Definition）来引用。 XML Schema 的作用是定义 XML 文档的合法构建模块，类似 DTD。  定义可出现在文档中的元素 定义可出现在文档中的属性 定义哪个元素是子元素 定义子元素的次序 定义子元素">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-29T15:27:33.508Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XML之XSD（XML Schema Definition）简介">
+<meta name="twitter:description" content="XSDXML Schema 是基于 XML 的 DTD 替代者。 XML Schema 可描述 XML 文档的结构。 XML Schema 语言也可作为 XSD（XML Schema Definition）来引用。 XML Schema 的作用是定义 XML 文档的合法构建模块，类似 DTD。  定义可出现在文档中的元素 定义可出现在文档中的属性 定义哪个元素是子元素 定义子元素的次序 定义子元素">
+  <link rel="canonical" href="http://www.iteedu.com/blog/plang/xml/xsdjj/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>XML之XSD（XML Schema Definition）简介 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/plang/xml/xsdjj/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">XML之XSD（XML Schema Definition）简介
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2016-01-29 16:48:38" itemprop="dateCreated datePublished" datetime="2016-01-29T16:48:38+08:00">2016-01-29</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-29 23:27:33" itemprop="dateModified" datetime="2019-06-29T23:27:33+08:00">2019-06-29</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="XSD"><a href="#XSD" class="headerlink" title="XSD"></a>XSD</h3><p>XML Schema 是基于 XML 的 DTD 替代者。</p>
+<p>XML Schema 可描述 XML 文档的结构。</p>
+<p>XML Schema 语言也可作为 XSD（XML Schema Definition）来引用。</p>
+<p>XML Schema 的作用是定义 XML 文档的合法构建模块，类似 DTD。</p>
+<ul>
+<li>定义可出现在文档中的元素</li>
+<li>定义可出现在文档中的属性</li>
+<li>定义哪个元素是子元素</li>
+<li>定义子元素的次序</li>
+<li>定义子元素的数目</li>
+<li>定义元素是否为空，或者是否可包含文本</li>
+<li>定义元素和属性的数据类型</li>
+<li>定义元素和属性的默认值以及固定值</li>
+</ul>
+<h3 id="为什么用XSD"><a href="#为什么用XSD" class="headerlink" title="为什么用XSD"></a>为什么用XSD</h3><p>XML Schema 最重要的能力之一就是对数据类型的支持。</p>
+<p>通过对数据类型的支持：</p>
+<ul>
+<li>可更容易地描述允许的文档内容</li>
+<li>可更容易地验证数据的正确性</li>
+<li>可更容易地与来自数据库的数据一并工作</li>
+<li>可更容易地定义数据约束（data facets）</li>
+<li>可更容易地定义数据模型（或称数据格式）</li>
+<li>可更容易地在不同的数据类型间转换数据</li>
+</ul>
+<h4 id="XML-Schema-使用-XML-语法"><a href="#XML-Schema-使用-XML-语法" class="headerlink" title="XML Schema 使用 XML 语法"></a>XML Schema 使用 XML 语法</h4><p>另一个关于 XML Schema 的重要特性是，它们由 XML 编写。</p>
+<p>由 XML 编写 XML Schema 有很多好处：</p>
+<ul>
+<li>不必学习新的语言</li>
+<li>可使用 XML 编辑器来编辑 Schema 文件</li>
+<li>可使用 XML 解析器来解析 Schema 文件</li>
+<li>可通过 XML DOM 来处理 Schema</li>
+<li>可通过 XSLT 来转换 Schema</li>
+</ul>
+<h4 id="XML-Schema-可保护数据通信"><a href="#XML-Schema-可保护数据通信" class="headerlink" title="XML Schema 可保护数据通信"></a>XML Schema 可保护数据通信</h4><p>当数据从发送方被发送到接受方时，其要点是双方应有关于内容的相同的“期望值”。</p>
+<p>通过 XML Schema，发送方可以用一种接受方能够明白的方式来描述数据。</p>
+<p>一种数据，比如”03-11-2004”，在某些国家被解释为11月3日，而在另一些国家为当作3月11日。</p>
+<p>但是一个带有数据类型的 XML元素，比如：2004-03-11，可确保对内容一致的理解，这是因为 XML 的数据类型”date” 要求的格式是 “YYYY-MM-DD”。</p>
+<h4 id="XML-Schema-可扩展"><a href="#XML-Schema-可扩展" class="headerlink" title="XML Schema 可扩展"></a>XML Schema 可扩展</h4><p>XML Schema 是可扩展的，因为它们由 XML 编写。</p>
+<p>通过可扩展的 Schema 定义，您可以：</p>
+<ul>
+<li>在其他 Schema 中重复使用您的 Schema</li>
+<li>创建由标准类型衍生而来的您自己的数据类型</li>
+<li>在相同的文档中引用多重的 Schema</li>
+</ul>
+<h4 id="形式良好是不够的"><a href="#形式良好是不够的" class="headerlink" title="形式良好是不够的"></a>形式良好是不够的</h4><p>我们把符合 XML 语法的文档称为形式良好的 XML 文档，比如：</p>
+<ul>
+<li>它必须以 XML 声明开头</li>
+<li>它必须拥有唯一的根元素</li>
+<li>开始标签必须与结束标签相匹配</li>
+<li>元素对大小写敏感</li>
+<li>所有的元素都必须关闭</li>
+<li>所有的元素都必须正确地嵌套</li>
+<li>必须对特殊字符使用实体</li>
+</ul>
+<p>即使文档的形式良好，仍然不能保证它们不会包含错误，并且这些错误可能会产生严重的后果。</p>
+<p>请考虑下面的情况：您订购的了 5 打激光打印机，而不是 5 台。通过 XML Schema，大部分这样的错误会被您的验证软件捕获到。</p>
+<h3 id="如何使用-XSD？"><a href="#如何使用-XSD？" class="headerlink" title="如何使用 XSD？"></a>如何使用 XSD？</h3><p>XML 文档可对 DTD 或 XML Schema 进行引用。</p>
+<h4 id="一个简单的-XML-文档："><a href="#一个简单的-XML-文档：" class="headerlink" title="一个简单的 XML 文档："></a>一个简单的 XML 文档：</h4><p>请看这个名为 “note.xml” 的 XML 文档：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;note&gt;
+    &lt;to&gt;George&lt;/to&gt;
+    &lt;from&gt;John&lt;/from&gt;
+    &lt;heading&gt;Reminder&lt;/heading&gt;
+    &lt;body&gt;Don&apos;t forget the meeting!&lt;/body&gt;
+&lt;/note&gt;</code></pre><h4 id="DTD-文件"><a href="#DTD-文件" class="headerlink" title="DTD 文件"></a>DTD 文件</h4><p>下面这个例子是名为 “note.dtd” 的 DTD 文件，它对上面那个 XML文档的元素进行了定义：</p>
+<pre><code>&lt;!ELEMENT note (to, from, heading, body)&gt;
+&lt;!ELEMENT to (#PCDATA)&gt;
+&lt;!ELEMENT from (#PCDATA)&gt;
+&lt;!ELEMENT heading (#PCDATA)&gt;
+&lt;!ELEMENT body (#PCDATA)&gt;</code></pre><p>第 1 行定义 note 元素有四个子元素：”to, from, heading, body”。</p>
+<p>第 2-5 行定义了 to, from, heading, body 元素的类型是 “#PCDATA”。</p>
+<h4 id="XML-Schema"><a href="#XML-Schema" class="headerlink" title="XML Schema"></a>XML Schema</h4><p>下面这个例子是一个名为 “note.xsd” 的 XML Schema 文件，它定义了上面那个XML文档的元素：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;xs:schema xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;
+targetNamespace=&quot;http://www.w3school.com.cn&quot;
+xmlns=&quot;http://www.w3school.com.cn&quot;
+elementFormDefault=&quot;qualified&quot;&gt;
+
+&lt;xs:element name=&quot;note&quot;&gt;
+    &lt;xs:complexType&gt;
+      &lt;xs:sequence&gt;
+    &lt;xs:element name=&quot;to&quot; type=&quot;xs:string&quot;/&gt;
+    &lt;xs:element name=&quot;from&quot; type=&quot;xs:string&quot;/&gt;
+    &lt;xs:element name=&quot;heading&quot; type=&quot;xs:string&quot;/&gt;
+    &lt;xs:element name=&quot;body&quot; type=&quot;xs:string&quot;/&gt;
+      &lt;/xs:sequence&gt;
+    &lt;/xs:complexType&gt;
+&lt;/xs:element&gt;
+&lt;/xs:schema&gt;</code></pre><p>note 元素是一个复合类型，因为它包含其他的子元素。其他元素 (to, from,heading, body)是简易类型，因为它们没有包含其他元素。您将在下面的章节学习更多有关复合类型和简易类型的知识。</p>
+<h4 id="对-DTD-的引用"><a href="#对-DTD-的引用" class="headerlink" title="对 DTD 的引用"></a>对 DTD 的引用</h4><p>此文件包含对 DTD 的引用：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE note SYSTEM &quot;http://www.w3school.com.cn/dtd/note.dtd&quot;&gt;
+&lt;note&gt;
+    &lt;to&gt;George&lt;/to&gt;
+    &lt;from&gt;John&lt;/from&gt;
+    &lt;heading&gt;Reminder&lt;/heading&gt;
+    &lt;body&gt;Don&apos;t forget the meeting!&lt;/body&gt;
+&lt;/note&gt;</code></pre><h4 id="对-XML-Schema-的引用"><a href="#对-XML-Schema-的引用" class="headerlink" title="对 XML Schema 的引用"></a>对 XML Schema 的引用</h4><p>此文件包含对 XML Schema 的引用：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;note
+xmlns=&quot;http://www.w3school.com.cn&quot;
+xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+xsi:schemaLocation=&quot;http://www.w3school.com.cn note.xsd&quot;&gt;
+    &lt;to&gt;George&lt;/to&gt;
+    &lt;from&gt;John&lt;/from&gt;
+    &lt;heading&gt;Reminder&lt;/heading&gt;
+    &lt;body&gt;Don&apos;t forget the meeting!&lt;/body&gt;
+&lt;/note&gt;</code></pre>
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/XML/" rel="tag"># XML</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/plang/xml/xmlns/" rel="next" title="XML之命名空间（XML Namespaces）">
+                <i class="fa fa-chevron-left"></i> XML之命名空间（XML Namespaces）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/os/mkos/cpuendian/" rel="prev" title="判断CPU是大端还是小端">
+                判断CPU是大端还是小端 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#XSD"><span class="nav-number">1.</span> <span class="nav-text">XSD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么用XSD"><span class="nav-number">2.</span> <span class="nav-text">为什么用XSD</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#XML-Schema-使用-XML-语法"><span class="nav-number">2.1.</span> <span class="nav-text">XML Schema 使用 XML 语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XML-Schema-可保护数据通信"><span class="nav-number">2.2.</span> <span class="nav-text">XML Schema 可保护数据通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XML-Schema-可扩展"><span class="nav-number">2.3.</span> <span class="nav-text">XML Schema 可扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#形式良好是不够的"><span class="nav-number">2.4.</span> <span class="nav-text">形式良好是不够的</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何使用-XSD？"><span class="nav-number">3.</span> <span class="nav-text">如何使用 XSD？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一个简单的-XML-文档："><span class="nav-number">3.1.</span> <span class="nav-text">一个简单的 XML 文档：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DTD-文件"><span class="nav-number">3.2.</span> <span class="nav-text">DTD 文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XML-Schema"><span class="nav-number">3.3.</span> <span class="nav-text">XML Schema</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对-DTD-的引用"><span class="nav-number">3.4.</span> <span class="nav-text">对 DTD 的引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对-XML-Schema-的引用"><span class="nav-number">3.5.</span> <span class="nav-text">对 XML Schema 的引用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="Annotation究竟是什么？ Annotation提供了一条与程序元素关联任何信息或者任何元数据（metadata）的途径。从某些方面看，annotation就像修饰符一样被使用，并应用于包、类型、构造方法、方法、成员变量、参数、本地变量的声明中。这些信息被存储在annotation的”name=value”结构对中。 annotation类型是一种接口，能够通过java反射API的方式提供对">
+<meta name="keywords" content="JAVA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【JAVA】annotation注释（一）">
+<meta property="og:url" content="http://www.iteedu.com/blog/plang/java/features/annotation1/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="Annotation究竟是什么？ Annotation提供了一条与程序元素关联任何信息或者任何元数据（metadata）的途径。从某些方面看，annotation就像修饰符一样被使用，并应用于包、类型、构造方法、方法、成员变量、参数、本地变量的声明中。这些信息被存储在annotation的”name=value”结构对中。 annotation类型是一种接口，能够通过java反射API的方式提供对">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-10T15:11:06.847Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【JAVA】annotation注释（一）">
+<meta name="twitter:description" content="Annotation究竟是什么？ Annotation提供了一条与程序元素关联任何信息或者任何元数据（metadata）的途径。从某些方面看，annotation就像修饰符一样被使用，并应用于包、类型、构造方法、方法、成员变量、参数、本地变量的声明中。这些信息被存储在annotation的”name=value”结构对中。 annotation类型是一种接口，能够通过java反射API的方式提供对">
+  <link rel="canonical" href="http://www.iteedu.com/blog/plang/java/features/annotation1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>【JAVA】annotation注释（一） | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/plang/java/features/annotation1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">【JAVA】annotation注释（一）
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-09-14 17:48:40" itemprop="dateCreated datePublished" datetime="2015-09-14T17:48:40+08:00">2015-09-14</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-07-10 23:11:06" itemprop="dateModified" datetime="2019-07-10T23:11:06+08:00">2019-07-10</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Annotation究竟是什么？"><a href="#Annotation究竟是什么？" class="headerlink" title="Annotation究竟是什么？ "></a>Annotation究竟是什么？ </h2><p>Annotation提供了一条与程序元素关联任何信息或者任何元数据（metadata）的途径。从某些方面看，annotation就像修饰符一样被使用，并应用于包、类型、构造方法、方法、成员变量、参数、本地变量的声明中。这些信息被存储在annotation的”name=value”结构对中。</p>
+<p>annotation类型是一种接口，能够通过java反射API的方式提供对其信息的访问。</p>
+<p>annotation能被用来为某个程序元素（类、方法、成员变量等）关联任何的信息。需要注意的是，这里存在着一个基本的潜规则：annotaion不能影响程序代码的执行，无论增加、删除annotation，代码都始终如一的执行。另外，尽管一些annotation通过java的反射api方法在运行时被访问，而java语言解释器在工作时忽略了这些annotation。正是由于java虚拟机忽略了annotation，导致了annotation类型在代码中是”不起作用”的；只有通过某种配套的工具才会对annotation类型中的信息进行访问和处理。本文中将涵盖标准的annotation和meta-annotation类型，陪伴这些annotation类型的工具是java编译器（当然要以某种特殊的方式处理它们）。</p>
+<p>由于上述原因，annotation在使用时十分简便。一个本地变量可以被一个以NonNull命名的annotation类型所标注，来作为对这个本地变量不能被赋予null值的断言。而我们可以编写与之配套的一个annotation代码分析工具，使用它来对具有前面变量的代码进行解析，并且尝试验证这个断言。当然这些代码并不必自己编写。在JDK安装后，在JDK/bin目录中可以找到名为”apt”的工具，它提供了处理annotation的框架：它启动后扫描源代码中的annotation，并调用我们定义好的annotation处理器完成我们所要完成的工作（比如验证前面例子中的断言）。说到这里，annotation的强大功能似乎可以替代XDoclet这类的工具了，随着我们的深入，大家会更加坚信这一点。</p>
+<h2 id="为什么使用Annotation"><a href="#为什么使用Annotation" class="headerlink" title="为什么使用Annotation?"></a>为什么使用Annotation?</h2><p>在JAVA应用中，我们常遇到一些需要使用模版代码。例如，为了编写一个JAX-RPC web service，我们必须提供一对接口和实现作为模版代码。如果使用annotation对远程访问的方法代码进行修饰的话，这个模版就能够使用工具自动生成。</p>
+<p>另外，一些API需要使用与程序代码同时维护的附属文件。例如，JavaBeans需要一个BeanInfo Class与一个Bean同时使用/维护，而EJB则同样需要一个部署描述符。此时在程序中使用annotation来维护这些附属文件的信息将十分便利而且减少了错误。</p>
+<h2 id="Annotation的概念和语法"><a href="#Annotation的概念和语法" class="headerlink" title="Annotation的概念和语法"></a>Annotation的概念和语法</h2><p>首先，关键的概念是理解annotation是与一个程序元素相关联信息或者元数据的标注。它从不影响java程序的执行，但是对例如编译器警告或者像文档生成器等辅助工具产生影响。</p>
+<p>下面是常用的annotation列表，我们应该注意在annotation和annotation类型之间的不同：</p>
+<p>A.annotation：</p>
+<p>annotation<br>使用了在java5.0所带来的新语法，它的行为十分类似public、final这样的修饰符。每个annotation具有一个名字和成员个数&gt;=0。每个annotation的成员具有被称为name=value对的名字和值（就像javabean一样），name=value装载了annotation的信息。</p>
+<p>B.annotation类型：</p>
+<p>annotation类型定义了annotation的名字、类型、成员默认值。一个annotation类型可以说是一个特殊的java接口，它的成员变量是受限制的，而声明annotation类型时需要使用新语法。当我们通过java反射api访问annotation时，返回值将是一个实现了该annotation类型接口的对象，通过访问这个对象我们能方便的访问到其annotation成员。后面的章节将提到在java5.0的java.lang包里包含的3个标准annotation类型。</p>
+<p>C.annotation成员：</p>
+<p>annotation的成员在annotation类型中以无参数的方法的形式被声明。其方法名和返回值定义了该成员的名字和类型。在此有一个特定的默认语法：允许声明任何annotation成员的默认值：一个annotation可以将name=value对作为没有定义默认值的annotation成员的值，当然也可以使用name=value对来覆盖其它成员默认值。这一点有些近似类的继承特性，父类的构造函数可以作为子类的默认构造函数，但是也可以被子类覆盖。</p>
+<p>D.marker annotation类型：</p>
+<p>一个没有成员定义的annotation类型被称为marker annotation。这种annotation类型仅使用自身的存在与否来为我们提供信息。如后面要说的Override。</p>
+<p>E.meta-annotation：</p>
+<p>meta-annotation也称为元annotation，它是被用来声明annotation类型的annotation。Java5.0提供了一些标准的元-annotation类型。下面介绍的target、retention就是meta-annotation。</p>
+<p>F.target：</p>
+<p>annotation的target是一个被标注的程序元素。target说明了annotation所修饰的对象范围：annotation可被用于packages、types（类、接口、枚举、annotation类型）、类型成员（方法、构造方法、成员变量、枚举值）、方法参数和本地变量（如循环变量、catch参数）。在annotation类型的声明中使用了target可更加明晰其修饰的目标。</p>
+<p>G.retention：</p>
+<p>annotation的retention定义了该annotation被保留的时间长短：某些annotation仅出现在源代码中，而被编译器丢弃；而另一些却被编译在class文件中；编译在class文件中的annotation可能会被虚拟机忽略，而另一些在class被装载时将被读取（请注意并不影响class的执行，因为annotation与class在使用上是被分离的）。使用这个meta-annotation可以对annotation的”生命周期”限制。</p>
+<p>H.metadata：</p>
+<p>由于metadata被广泛使用于各种计算机开发过程中，所以当我们在这里谈论的metadata即元数据通常指被annotation装载的信息或者annotation本身。</p>
+<h2 id="Annotation工作方式"><a href="#Annotation工作方式" class="headerlink" title="Annotation工作方式"></a>Annotation工作方式</h2><p>在5.0版之前的Java平台已经具有了一些ad hoc annotation机制。比如，使用transient修饰符来标识一个成员变量在序列化子系统中应被忽略。而@deprecated这个javadoctag也是一个ad hoc annotation用来说明一个方法已过时。从Java5.0版发布以来，5.0平台提供了一个正式的annotation功能：允许开发者定义、使用自己的annoatation类型。此功能由一个定义annotation类型的语法和一个描述annotation声明的语法，读取annotaion的API，一个使用annotation修饰的class文件，一个annotation处理工具（apt）组成。</p>
+<p>annotation并不直接影响代码语义，但是它能够工作的方式被看作类似程序的工具或者类库，它会反过来对正在运行的程序语义有所影响。annotation可以从源文件、class文件或者以在运行时反射的多种方式被读取。</p>
+<p>当然annotation在某种程度上使javadoctag更加完整。一般情况下，如果这个标记对java文档产生影响或者用于生成java文档的话，它应该作为一个javadoc tag；否则将作为一个annotation。</p>
+<h2 id="Annotation与反射"><a href="#Annotation与反射" class="headerlink" title="Annotation与反射"></a>Annotation与反射</h2><p>在java5.0中Java.lang.reflect提供的反射API被扩充了读取运行时annotation的能力。让我们回顾一下前面所讲的：一个annotation类型被定义为runtimeretention后，它才是在运行时可见，当class文件被装载时被保存在class文件中的annotation才会被虚拟机读取。那么reflect是如何帮助我们访问class中的annotation呢？</p>
+<p>下文将在java.lang.reflect用于annotation的新特性，其中java.lang.reflect.AnnotatedElement是重要的接口，它代表了提供查询annotation能力的程序成员。这个接口被java.lang.Package、java.lang.Class实现，并间接地被Method类、Constructor类、java.lang.reflect的Field类实现。而annotation中的方法参数可以通过Method类、Constructor类的getParameterAnnotations()方法获得。</p>
+<p>isAnnotationPresent ()方法对于检查markerannotation是十分有用的，因为markerannotation没有成员变量，所以我们只要知道class的方法是否使用了annotation修饰就可以了。而当处理具有成员的annotation时，我们通过使用getAnnotation()方法来获得annotation的成员信息（成员名称、成员值）。这里我们看到了一套优美的java annotation系统：如果annotation存在，那么实现了相应的annotation类型接口的对象将被getAnnotation()方法返回，接着调用定义在annotation类型中的成员方法 可以方便地获得任何成员值。</p>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/plang/java/threadsafe/threadpool/" rel="next" title="JAVA同步之线程池简介">
+                <i class="fa fa-chevron-left"></i> JAVA同步之线程池简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/plang/java/lib/jacobbase/" rel="prev" title="【JAVA】JACOB使用简介">
+                【JAVA】JACOB使用简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Annotation究竟是什么？"><span class="nav-number">1.</span> <span class="nav-text">Annotation究竟是什么？ </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么使用Annotation"><span class="nav-number">2.</span> <span class="nav-text">为什么使用Annotation?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Annotation的概念和语法"><span class="nav-number">3.</span> <span class="nav-text">Annotation的概念和语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Annotation工作方式"><span class="nav-number">4.</span> <span class="nav-text">Annotation工作方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Annotation与反射"><span class="nav-number">5.</span> <span class="nav-text">Annotation与反射</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

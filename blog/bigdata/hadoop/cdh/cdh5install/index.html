@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="关于CDH和Cloudera ManagerCDH (Cloudera’s Distribution, including Apache Hadoop)，是Hadoop众多分支中的一种，由Cloudera维护，基于稳定版本的Apache Hadoop构建，并集成了很多补丁，可直接用于生产环境。 Cloudera Manager则是为了便于在集群中进行Hadoop等大数据处理相关的服务安装和监控管理">
+<meta name="keywords" content="大数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(转)离线安装Cloudera Manager 5和CDH5">
+<meta property="og:url" content="http://www.iteedu.com/blog/bigdata/hadoop/cdh/cdh5install/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="关于CDH和Cloudera ManagerCDH (Cloudera’s Distribution, including Apache Hadoop)，是Hadoop众多分支中的一种，由Cloudera维护，基于稳定版本的Apache Hadoop构建，并集成了很多补丁，可直接用于生产环境。 Cloudera Manager则是为了便于在集群中进行Hadoop等大数据处理相关的服务安装和监控管理">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.iteedu.com/images/hadoop/cdhinstall/1.png">
+<meta property="og:image" content="http://www.iteedu.com/images/hadoop/cdhinstall/2.png">
+<meta property="og:image" content="http://www.iteedu.com/images/hadoop/cdhinstall/3.png">
+<meta property="og:image" content="http://www.iteedu.com/images/hadoop/cdhinstall/4.png">
+<meta property="og:image" content="http://www.iteedu.com/images/hadoop/cdhinstall/5.png">
+<meta property="og:image" content="http://www.iteedu.com/images/hadoop/cdhinstall/6.png">
+<meta property="og:image" content="http://www.iteedu.com/images/hadoop/cdhinstall/7.png">
+<meta property="og:image" content="http://www.iteedu.com/images/hadoop/cdhinstall/8.png">
+<meta property="og:image" content="http://www.iteedu.com/images/hadoop/cdhinstall/9.png">
+<meta property="og:image" content="http://www.iteedu.com/images/hadoop/cdhinstall/10.png">
+<meta property="og:image" content="http://www.iteedu.com/images/hadoop/cdhinstall/11.png">
+<meta property="og:image" content="http://www.iteedu.com/images/hadoop/cdhinstall/12.png">
+<meta property="og:image" content="http://www.iteedu.com/images/hadoop/cdhinstall/13.png">
+<meta property="og:image" content="http://www.iteedu.com/images/hadoop/cdhinstall/14.png">
+<meta property="og:image" content="http://www.iteedu.com/images/hadoop/cdhinstall/15.png">
+<meta property="og:updated_time" content="2019-06-29T13:46:10.104Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(转)离线安装Cloudera Manager 5和CDH5">
+<meta name="twitter:description" content="关于CDH和Cloudera ManagerCDH (Cloudera’s Distribution, including Apache Hadoop)，是Hadoop众多分支中的一种，由Cloudera维护，基于稳定版本的Apache Hadoop构建，并集成了很多补丁，可直接用于生产环境。 Cloudera Manager则是为了便于在集群中进行Hadoop等大数据处理相关的服务安装和监控管理">
+<meta name="twitter:image" content="http://www.iteedu.com/images/hadoop/cdhinstall/1.png">
+  <link rel="canonical" href="http://www.iteedu.com/blog/bigdata/hadoop/cdh/cdh5install/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>(转)离线安装Cloudera Manager 5和CDH5 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/bigdata/hadoop/cdh/cdh5install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">(转)离线安装Cloudera Manager 5和CDH5
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2017-06-12 16:18:03" itemprop="dateCreated datePublished" datetime="2017-06-12T16:18:03+08:00">2017-06-12</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-29 21:46:10" itemprop="dateModified" datetime="2019-06-29T21:46:10+08:00">2019-06-29</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/大数据/" itemprop="url" rel="index"><span itemprop="name">大数据</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="关于CDH和Cloudera-Manager"><a href="#关于CDH和Cloudera-Manager" class="headerlink" title="关于CDH和Cloudera Manager"></a>关于CDH和Cloudera Manager</h2><p>CDH (Cloudera’s Distribution, including Apache Hadoop)，是Hadoop众多分支中的一种，由Cloudera维护，基于稳定版本的Apache Hadoop构建，并集成了很多补丁，可直接用于生产环境。</p>
+<p>Cloudera Manager则是为了便于在集群中进行Hadoop等大数据处理相关的服务安装和监控管理的组件，对集群中主机、Hadoop、Hive、Spark等服务的安装配置管理做了极大简化。</p>
+<h2 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h2><ul>
+<li>实验环境：Mac下VMware虚拟机</li>
+<li>操作系统：CentOS 6.5 x64 (至少内存2G以上，这里内存不够的同学建议还是整几台真机配置比较好，将CDH的所有组件全部安装会占用很多内存，我已开始设置的虚拟机内存是1G，安装过程中直接卡死了)</li>
+<li>Cloudera Manager：5.1.3</li>
+<li>CDH: 5.1.3</li>
+</ul>
+<h2 id="安装说明"><a href="#安装说明" class="headerlink" title="安装说明"></a>安装说明</h2><p>官方参考文档：</p>
+<p><a href="http://www.cloudera.com/content/cloudera/en/documentation/cloudera-manager/v5-latest/Cloudera-Manager-Installation-Guide/cm5ig_install_path_C.html" target="_blank" rel="noopener">http://www.cloudera.com/content/cloudera/en/documentation/cloudera-manager/v5-latest/Cloudera-Manager-Installation-Guide/cm5ig_install_path_C.html</a></p>
+<p>官方共给出了3中安装方式：</p>
+<p>第一种方法必须要求所有机器都能连网，由于最近各种国外的网站被墙的厉害，我尝试了几次各种超时错误，巨耽误时间不说，一旦失败，重装非常痛苦。</p>
+<p>第二种方法下载很多包。</p>
+<p>第三种方法对系统侵入性最小,最大优点可实现全离线安装，而且重装什么的都非常方便。后期的集群统一包升级也非常好。这也是我之所以选择离线安装的原因。</p>
+<h2 id="相关包的下载地址"><a href="#相关包的下载地址" class="headerlink" title="相关包的下载地址"></a>相关包的下载地址</h2><p>Cloudera Manager下载地址：<br><a href="http://archive.cloudera.com/cm5/cm/5/cloudera-manager-el6-cm5.1.3_x86_64.tar.gz，" target="_blank" rel="noopener">http://archive.cloudera.com/cm5/cm/5/cloudera-manager-el6-cm5.1.3_x86_64.tar.gz，</a><br>下载信息：<br><a href="http://www.cloudera.com/content/cloudera/en/documentation/cloudera-manager/v5-latest/Cloudera-Manager-Version-and-Download-Information/Cloudera-Manager-Version-and-Download-Information.html#cmvd_topic_1" target="_blank" rel="noopener">http://www.cloudera.com/content/cloudera/en/documentation/cloudera-manager/v5-latest/Cloudera-Manager-Version-and-Download-Information/Cloudera-Manager-Version-and-Download-Information.html#cmvd_topic_1</a></p>
+<p>CDH安装包地址：<a href="http://archive.cloudera.com/cdh5/parcels/latest/，由于我们的操作系统为CentOS6.5，需要下载以下文件：" target="_blank" rel="noopener">http://archive.cloudera.com/cdh5/parcels/latest/，由于我们的操作系统为CentOS6.5，需要下载以下文件：</a></p>
+<ul>
+<li>CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel</li>
+<li>CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel.sha1</li>
+<li>manifest.json</li>
+</ul>
+<p>注意：与CDH4的不同，原来安装CDH4的时候还需要下载IMPALA、Cloudera Search(SOLR)，CDH5中将他们包含在一起了，所以只需要下载一个CDH5的包就可以了。</p>
+<h2 id="准备工作：系统环境搭建"><a href="#准备工作：系统环境搭建" class="headerlink" title="准备工作：系统环境搭建"></a>准备工作：系统环境搭建</h2><p>以下操作均用root用户操作。</p>
+<h3 id="1-网络配置-所有节点"><a href="#1-网络配置-所有节点" class="headerlink" title="1. 网络配置(所有节点)"></a>1. 网络配置(所有节点)</h3><p><code>vi /etc/sysconfig/network</code>修改hostname：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NETWORKING=yes</span><br><span class="line">HOSTNAME=n1</span><br></pre></td></tr></table></figure>
+
+<p>通过<code>service network restart</code>重启网络服务生效。</p>
+<p><code>vi /etc/hosts</code>,修改ip与主机名的对应关系</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.106   n1</span><br><span class="line">192.168.1.107   n2</span><br><span class="line">192.168.1.108   n3</span><br></pre></td></tr></table></figure>
+
+<p>注意：这里需要将每台机器的ip及主机名对应关系都写进去，本机的也要写进去，否则启动Agent的时候会提示hostname解析错误。</p>
+<h3 id="2-打通SSH，设置ssh无密码登陆（所有节点）"><a href="#2-打通SSH，设置ssh无密码登陆（所有节点）" class="headerlink" title="2.打通SSH，设置ssh无密码登陆（所有节点）"></a>2.打通SSH，设置ssh无密码登陆（所有节点）</h3><p>在主节点上执行<code>ssh-keygen -t rsa</code>一路回车，生成无密码的密钥对。</p>
+<p>将公钥添加到认证文件中：<code>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</code>，并设置authorized_keys的访问权限：<code>chmod 600 ~/.ssh/authorized_keys</code>。</p>
+<p>scp文件到所有datenode节点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp ~/.ssh/authorized_keys root@n2:~/.ssh/</span><br></pre></td></tr></table></figure>
+
+<p>测试：在主节点上ssh n2，正常情况下，不需要密码就能直接登陆进去了。</p>
+<h3 id="3-安装Oracle的Java（所有节点）"><a href="#3-安装Oracle的Java（所有节点）" class="headerlink" title="3.安装Oracle的Java（所有节点）"></a>3.安装Oracle的Java（所有节点）</h3><p>CentOS，自带OpenJdk，不过运行CDH5需要使用Oracle的Jdk，需要Java 7的支持。</p>
+<p>卸载自带的OpenJdk，使用<code>rpm -qa | grep java</code>查询java相关的包，使用<code>rpm -e --nodeps 包名</code>卸载之。</p>
+<p>去Oracle的官网下载jdk的rpm安装包，并使用<code>rpm -ivh 包名</code>安装之。</p>
+<p>由于是rpm包并不需要我们来配置环境变量，我们只需要配置一个全局的JAVA_HOME变量即可，执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;JAVA_HOME=/usr/java/latest/&quot; &gt;&gt; /etc/environment</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-安装配置MySql（主节点）"><a href="#4-安装配置MySql（主节点）" class="headerlink" title="4.安装配置MySql（主节点）"></a>4.安装配置MySql（主节点）</h3><p>通过<code>yum install mysql-server</code>安装mysql服务器。<code>chkconfig mysqld on</code>设置开机启动，并<code>service mysqld start</code>启动mysql服务，并根据提示设置root的初试密码：<code>mysqladmin -u root password &#39;xxxx&#39;</code>。</p>
+<p><code>mysql -uroot -pxxxx</code>进入mysql命令行，创建以下数据库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#hive</span><br><span class="line">create database hive DEFAULT CHARSET utf8 COLLATE utf8_general_ci;</span><br><span class="line">#activity monitor</span><br><span class="line">create database amon DEFAULT CHARSET utf8 COLLATE utf8_general_ci;</span><br></pre></td></tr></table></figure>
+
+<p>设置root授权访问以上所有的数据库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#授权root用户在主节点拥有所有数据库的访问权限</span><br><span class="line">grant all privileges on *.* to &apos;root&apos;@&apos;n1&apos; identified by &apos;xxxx&apos; with grant option;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+<p>官方MySql配置文档：</p>
+<p><a href="http://www.cloudera.com/content/cloudera/en/documentation/cloudera-manager/v5-latest/Cloudera-Manager-Installation-Guide/cm5ig_mysql.html#cmig_topic_5_5" target="_blank" rel="noopener">http://www.cloudera.com/content/cloudera/en/documentation/cloudera-manager/v5-latest/Cloudera-Manager-Installation-Guide/cm5ig_mysql.html#cmig_topic_5_5</a></p>
+<h3 id="5-关闭防火墙和SELinux"><a href="#5-关闭防火墙和SELinux" class="headerlink" title="5. 关闭防火墙和SELinux"></a>5. 关闭防火墙和SELinux</h3><p>注意： 需要在所有的节点上执行，因为涉及到的端口太多了，临时关闭防火墙是为了安装起来更方便，安装完毕后可以根据需要设置防火墙策略，保证集群安全。</p>
+<p>关闭防火墙：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service iptables stop （临时关闭）</span><br><span class="line">chkconfig iptables off （重启后生效）</span><br></pre></td></tr></table></figure>
+
+<p>关闭SELINUX（实际安装过程中发现没有关闭也是可以的，不知道会不会有问题，还需进一步进行验证）:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setenforce 0 （临时生效）</span><br><span class="line">修改 /etc/selinux/config 下的 SELINUX=disabled （重启后永久生效）</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-所有节点配置NTP服务"><a href="#6-所有节点配置NTP服务" class="headerlink" title="6. 所有节点配置NTP服务"></a>6. 所有节点配置NTP服务</h3><p>集群中所有主机必须保持时间同步，如果时间相差较大会引起各种问题。 具体思路如下：</p>
+<p>master节点作为ntp服务器与外界对时中心同步时间，随后对所有datanode节点提供时间同步服务。</p>
+<p>所有datanode节点以master节点为基础同步时间。</p>
+<p>所有节点安装相关组件：<code>yum install ntp</code>。完成后，配置开机启动：<code>chkconfig ntpd on</code>,检查是否设置成功：<code>chkconfig --list ntpd</code>其中2-5为on状态就代表成功。</p>
+<p>主节点配置</p>
+<p>在配置之前，先使用ntpdate手动同步一下时间，免得本机与对时中心时间差距太大，使得ntpd不能正常同步。这里选用65.55.56.206作为对时中心,<code>ntpdate -u 65.55.56.206</code>。</p>
+<p>ntp服务只有一个配置文件，配置好了就OK。 这里只给出有用的配置，不需要的配置都用#注掉，这里就不在给出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">driftfile /var/lib/ntp/drift</span><br><span class="line">restrict 127.0.0.1</span><br><span class="line">restrict -6 ::1</span><br><span class="line">restrict default nomodify notrap </span><br><span class="line">server 65.55.56.206 prefer</span><br><span class="line">includefile /etc/ntp/crypto/pw</span><br><span class="line">keys /etc/ntp/keys</span><br></pre></td></tr></table></figure>
+
+<p>配置文件完成，保存退出，启动服务，执行如下命令：<code>service ntpd start</code></p>
+<p>检查是否成功，用ntpstat命令查看同步状态，出现以下状态代表启动成功：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">synchronised to NTP server () at stratum 2</span><br><span class="line">time correct to within 74 ms</span><br><span class="line">polling server every 128 s</span><br></pre></td></tr></table></figure>
+
+<p>如果出现异常请等待几分钟，一般等待5-10分钟才能同步。</p>
+<p>配置ntp客户端（所有datanode节点）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">driftfile /var/lib/ntp/drift</span><br><span class="line">restrict 127.0.0.1</span><br><span class="line">restrict -6 ::1</span><br><span class="line">restrict default kod nomodify notrap nopeer noquery</span><br><span class="line">restrict -6 default kod nomodify notrap nopeer noquery</span><br><span class="line">#这里是主节点的主机名或者ip</span><br><span class="line">server n1</span><br><span class="line">includefile /etc/ntp/crypto/pw</span><br><span class="line">keys /etc/ntp/keys</span><br></pre></td></tr></table></figure>
+
+<p>ok保存退出，请求服务器前，请先使用ntpdate手动同步一下时间：<code>ntpdate -u n1</code> (主节点ntp服务器)</p>
+<p>这里可能出现同步失败的情况，请不要着急，一般是本地的ntp服务器还没有正常启动，一般需要等待5-10分钟才可以正常同步。启动服务：<code>service ntpd start</code></p>
+<p>因为是连接内网，这次启动等待的时间会比master节点快一些，但是也需要耐心等待一会儿。</p>
+<h2 id="正式开工"><a href="#正式开工" class="headerlink" title="正式开工"></a>正式开工</h2><p>安装Cloudera Manager Server 和Agent</p>
+<p><strong>主节点解压安装</strong></p>
+<p>cloudera manager的目录默认位置在/opt下，解压：<code>tar xzvf cloudera-manager*.tar.gz</code>将解压后的cm-5.1.3和cloudera目录放到/opt目录下。</p>
+<p><strong>为Cloudera Manager 5建立数据库</strong></p>
+<p>首先需要去MySql的官网下载JDBC驱动，<a href="http://dev.mysql.com/downloads/connector/j/。" target="_blank" rel="noopener">http://dev.mysql.com/downloads/connector/j/。</a></p>
+<p>解压后，找到mysql-connector-java-5.1.33-bin.jar，放到<code>/opt/cm-5.1.3/share/cmf/lib/</code>中。</p>
+<p>在主节点初始化CM5的数据库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/opt/cm-5.1.3/share/cmf/schema/scm_prepare_database.sh mysql cm -hlocalhost -uroot -pxxxx --scm-host localhost scm scm scm</span><br></pre></td></tr></table></figure>
+
+<p><strong>Agent配置</strong></p>
+<p>修改<code>/opt/cm-5.1.3/etc/cloudera-scm-agent/config.ini</code>中的server_host为主节点的主机名。</p>
+<p><strong>同步Agent到其他节点</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp -r /opt/cm-5.1.3 root@n2:/opt/</span><br></pre></td></tr></table></figure>
+
+<p><strong>在所有节点创建cloudera-scm用户</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd --system --home=/opt/cm-5.1.3/run/cloudera-scm-server/ --no-create-home --shell=/bin/false --comment &quot;Cloudera SCM User&quot; cloudera-scm</span><br></pre></td></tr></table></figure>
+
+<p><strong>准备Parcels，用以安装CDH5</strong></p>
+<p>将CHD5相关的Parcel包放到主节点的<code>/opt/cloudera/parcel-repo/</code>目录中（parcel-repo需要手动创建）。</p>
+<p>相关的文件如下：</p>
+<ul>
+<li>CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel</li>
+<li>CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel.sha1</li>
+<li>manifest.json</li>
+</ul>
+<p>最后将CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel.sha1，重命名为CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel.sha，这点必须注意，否则，系统会重新下载CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel文件。</p>
+<p><strong>相关启动脚本</strong></p>
+<p>通过<code>/opt/cm-5.1.3/etc/init.d/cloudera-scm-server start</code>启动服务端。</p>
+<p>通过<code>/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent start</code>启动Agent服务。</p>
+<p>我们启动的其实是个service脚本，需要停止服务将以上的start参数改为stop就可以了，重启是restart。</p>
+<h2 id="CDH5的安装配置"><a href="#CDH5的安装配置" class="headerlink" title="CDH5的安装配置"></a>CDH5的安装配置</h2><p>Cloudera Manager Server和Agent都启动以后，就可以进行CDH5的安装配置了。</p>
+<p>这时可以通过浏览器访问主节点的7180端口测试一下了（由于CM Server的启动需要花点时间，这里可能要等待一会才能访问），默认的用户名和密码均为admin。</p>
+<p><img src="/images/hadoop/cdhinstall/1.png" alt></p>
+<p>免费版本的CM5已经没有原来50个节点数量的限制了。</p>
+<p><img src="/images/hadoop/cdhinstall/2.png" alt></p>
+<p>各个Agent节点正常启动后，可以在当前管理的主机列表中看到对应的节点。选择要安装的节点，点继续。</p>
+<p><img src="/images/hadoop/cdhinstall/3.png" alt></p>
+<p>接下来，出现以下包名，说明本地Parcel包配置无误，直接点继续就可以了。</p>
+<p><img src="/images/hadoop/cdhinstall/4.png" alt></p>
+<p>点击，继续，如果配置本地Parcel包无误，那么下图中的已下载，应该是瞬间就完成了，然后就是耐心等待分配过程就行了，大约10多分钟吧，取决于内网网速。</p>
+<p><img src="/images/hadoop/cdhinstall/5.png" alt></p>
+<p>接下来是服务器检查，可能会遇到以下问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cloudera 建议将 /proc/sys/vm/swappiness 设置为 0。当前设置为 60。使用 sysctl 命令在运行时更改该设置并编辑 /etc/sysctl.conf 以在重启后保存该设置。您可以继续进行安装，但可能会遇到问题，Cloudera Manager 报告您的主机由于交换运行状况不佳。以下主机受到影响：</span><br></pre></td></tr></table></figure>
+
+<p>通过<code>echo 0 &gt; /proc/sys/vm/swappiness</code>即可解决。</p>
+<p><img src="/images/hadoop/cdhinstall/6.png" alt></p>
+<p>接下来是选择安装服务：</p>
+<p><img src="/images/hadoop/cdhinstall/7.png" alt></p>
+<p>服务配置，一般情况下保持默认就可以了（Cloudera Manager会根据机器的配置自动进行配置，如果需要特殊调整，自行进行设置就可以了）：</p>
+<p><img src="/images/hadoop/cdhinstall/8.png" alt></p>
+<p>接下来是数据库的设置，检查通过后就可以进行下一步的操作了：</p>
+<p><img src="/images/hadoop/cdhinstall/9.png" alt></p>
+<p>下面是集群设置的审查页面，我这里都是保持默认配置的：</p>
+<p><img src="/images/hadoop/cdhinstall/10.png" alt></p>
+<p>终于到安装各个服务的地方了，注意，这里安装Hive的时候可能会报错，因为我们使用了MySql作为hive的元数据存储，hive默认没有带mysql的驱动，通过以下命令拷贝一个就行了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /opt/cm-5.1.3/share/cmf/lib/mysql-connector-java-5.1.33-bin.jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hive/lib/</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/hadoop/cdhinstall/11.png" alt></p>
+<p>服务的安装过程大约半小时内就可以完成：</p>
+<p><img src="/images/hadoop/cdhinstall/12.png" alt></p>
+<p>安装完成后，就可以进入集群界面看一下集群的当前状况了。</p>
+<p>这里可能会出现无法发出查询：对 Service Monitor 的请求超时的错误提示，如果各个组件安装没有问题，一般是因为服务器比较卡导致的，过一会刷新一下页面就好了：</p>
+<p><img src="/images/hadoop/cdhinstall/13.png" alt></p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>在集群的一台机器上执行以下模拟Pi的示例程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100</span><br></pre></td></tr></table></figure>
+
+<p>执行过程需要花一定的时间，通过YARN的后台也可以看到MapReduce的执行状态：</p>
+<p><img src="/images/hadoop/cdhinstall/14.png" alt></p>
+<p>MapReduce执行过程中终端的输出如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">Number of Maps  = 10</span><br><span class="line">Samples per Map = 100</span><br><span class="line">Wrote input for Map #0</span><br><span class="line">Wrote input for Map #1</span><br><span class="line">Wrote input for Map #2</span><br><span class="line">Wrote input for Map #3</span><br><span class="line">Wrote input for Map #4</span><br><span class="line">Wrote input for Map #5</span><br><span class="line">Wrote input for Map #6</span><br><span class="line">Wrote input for Map #7</span><br><span class="line">Wrote input for Map #8</span><br><span class="line">Wrote input for Map #9</span><br><span class="line">Starting Job</span><br><span class="line">14/10/13 01:15:34 INFO client.RMProxy: Connecting to ResourceManager at n1/192.168.1.161:8032</span><br><span class="line">14/10/13 01:15:36 INFO input.FileInputFormat: Total input paths to process : 10</span><br><span class="line">14/10/13 01:15:37 INFO mapreduce.JobSubmitter: number of splits:10</span><br><span class="line">14/10/13 01:15:39 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1413132307582_0001</span><br><span class="line">14/10/13 01:15:40 INFO impl.YarnClientImpl: Submitted application application_1413132307582_0001</span><br><span class="line">14/10/13 01:15:40 INFO mapreduce.Job: The url to track the job: http://n1:8088/proxy/application_1413132307582_0001/</span><br><span class="line">14/10/13 01:15:40 INFO mapreduce.Job: Running job: job_1413132307582_0001</span><br><span class="line">14/10/13 01:17:13 INFO mapreduce.Job: Job job_1413132307582_0001 running in uber mode : false</span><br><span class="line">14/10/13 01:17:13 INFO mapreduce.Job:  map 0% reduce 0%</span><br><span class="line">14/10/13 01:18:02 INFO mapreduce.Job:  map 10% reduce 0%</span><br><span class="line">14/10/13 01:18:25 INFO mapreduce.Job:  map 20% reduce 0%</span><br><span class="line">14/10/13 01:18:35 INFO mapreduce.Job:  map 30% reduce 0%</span><br><span class="line">14/10/13 01:18:45 INFO mapreduce.Job:  map 40% reduce 0%</span><br><span class="line">14/10/13 01:18:53 INFO mapreduce.Job:  map 50% reduce 0%</span><br><span class="line">14/10/13 01:19:01 INFO mapreduce.Job:  map 60% reduce 0%</span><br><span class="line">14/10/13 01:19:09 INFO mapreduce.Job:  map 70% reduce 0%</span><br><span class="line">14/10/13 01:19:17 INFO mapreduce.Job:  map 80% reduce 0%</span><br><span class="line">14/10/13 01:19:25 INFO mapreduce.Job:  map 90% reduce 0%</span><br><span class="line">14/10/13 01:19:33 INFO mapreduce.Job:  map 100% reduce 0%</span><br><span class="line">14/10/13 01:19:51 INFO mapreduce.Job:  map 100% reduce 100%</span><br><span class="line">14/10/13 01:19:53 INFO mapreduce.Job: Job job_1413132307582_0001 completed successfully</span><br><span class="line">14/10/13 01:19:56 INFO mapreduce.Job: Counters: 49</span><br><span class="line">    File System Counters</span><br><span class="line">        FILE: Number of bytes read=91</span><br><span class="line">        FILE: Number of bytes written=1027765</span><br><span class="line">        FILE: Number of read operations=0</span><br><span class="line">        FILE: Number of large read operations=0</span><br><span class="line">        FILE: Number of write operations=0</span><br><span class="line">        HDFS: Number of bytes read=2560</span><br><span class="line">        HDFS: Number of bytes written=215</span><br><span class="line">        HDFS: Number of read operations=43</span><br><span class="line">        HDFS: Number of large read operations=0</span><br><span class="line">        HDFS: Number of write operations=3</span><br><span class="line">    Job Counters</span><br><span class="line">        Launched map tasks=10</span><br><span class="line">        Launched reduce tasks=1</span><br><span class="line">        Data-local map tasks=10</span><br><span class="line">        Total time spent by all maps in occupied slots (ms)=118215</span><br><span class="line">        Total time spent by all reduces in occupied slots (ms)=11894</span><br><span class="line">        Total time spent by all map tasks (ms)=118215</span><br><span class="line">        Total time spent by all reduce tasks (ms)=11894</span><br><span class="line">        Total vcore-seconds taken by all map tasks=118215</span><br><span class="line">        Total vcore-seconds taken by all reduce tasks=11894</span><br><span class="line">        Total megabyte-seconds taken by all map tasks=121052160</span><br><span class="line">        Total megabyte-seconds taken by all reduce tasks=12179456</span><br><span class="line">    Map-Reduce Framework</span><br><span class="line">        Map input records=10</span><br><span class="line">        Map output records=20</span><br><span class="line">        Map output bytes=180</span><br><span class="line">        Map output materialized bytes=340</span><br><span class="line">        Input split bytes=1380</span><br><span class="line">        Combine input records=0</span><br><span class="line">        Combine output records=0</span><br><span class="line">        Reduce input groups=2</span><br><span class="line">        Reduce shuffle bytes=340</span><br><span class="line">        Reduce input records=20</span><br><span class="line">        Reduce output records=0</span><br><span class="line">        Spilled Records=40</span><br><span class="line">        Shuffled Maps =10</span><br><span class="line">        Failed Shuffles=0</span><br><span class="line">        Merged Map outputs=10</span><br><span class="line">        GC time elapsed (ms)=1269</span><br><span class="line">        CPU time spent (ms)=9530</span><br><span class="line">        Physical memory (bytes) snapshot=3792773120</span><br><span class="line">        Virtual memory (bytes) snapshot=16157274112</span><br><span class="line">        Total committed heap usage (bytes)=2856624128</span><br><span class="line">    Shuffle Errors</span><br><span class="line">        BAD_ID=0</span><br><span class="line">        CONNECTION=0</span><br><span class="line">        IO_ERROR=0</span><br><span class="line">        WRONG_LENGTH=0</span><br><span class="line">        WRONG_MAP=0</span><br><span class="line">        WRONG_REDUCE=0</span><br><span class="line">    File Input Format Counters</span><br><span class="line">        Bytes Read=1180</span><br><span class="line">    File Output Format Counters</span><br><span class="line">        Bytes Written=97</span><br><span class="line">Job Finished in 262.659 seconds</span><br><span class="line">Estimated value of Pi is 3.14800000000000000000</span><br></pre></td></tr></table></figure>
+
+<p>检查Hue</p>
+<p>首次登陆Hue会让设置一个初试的用户名和密码，设置好，登陆到后台，会做一次检查，一切正常后会提示：</p>
+<p><img src="/images/hadoop/cdhinstall/15.png" alt></p>
+<p>到这里表明我们的集群可以使用了。</p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>Agent启动后，安装阶段“当前管理的主机”中显示的节点不全，每次刷新显示的都不一样。</p>
+<p>Agent的错误日志表现如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[18/Nov/2014 21:12:56 +0000] 22681 MainThread agent ERROR Heartbeating to master:7182 failed.</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;/home/opt/cm-5.2.0/lib64/cmf/agent/src/cmf/agent.py&quot;, line 820, in send_heartbeat</span><br><span class="line">    response = self.requestor.request(&apos;heartbeat&apos;, dict(request=heartbeat))</span><br><span class="line">  File &quot;/home/opt/cm-5.2.0/lib64/cmf/agent/build/env/lib/python2.6/site-packages/avro-1.6.3-py2.6.egg/avro/ipc.py&quot;, line 139, in request</span><br><span class="line">    return self.issue_request(call_request, message_name, request_datum)</span><br><span class="line">  File &quot;/home/opt/cm-5.2.0/lib64/cmf/agent/build/env/lib/python2.6/site-packages/avro-1.6.3-py2.6.egg/avro/ipc.py&quot;, line 255, in issue_request</span><br><span class="line">    return self.read_call_response(message_name, buffer_decoder)</span><br><span class="line">  File &quot;/home/opt/cm-5.2.0/lib64/cmf/agent/build/env/lib/python2.6/site-packages/avro-1.6.3-py2.6.egg/avro/ipc.py&quot;, line 235, in read_call_response</span><br><span class="line">    raise self.read_error(writers_schema, readers_schema, decoder)</span><br><span class="line">  File &quot;/home/opt/cm-5.2.0/lib64/cmf/agent/build/env/lib/python2.6/site-packages/avro-1.6.3-py2.6.egg/avro/ipc.py&quot;, line 244, in read_error</span><br><span class="line">    return AvroRemoteException(datum_reader.read(decoder))</span><br><span class="line">  File &quot;/home/opt/cm-5.2.0/lib64/cmf/agent/build/env/lib/python2.6/site-packages/avro-1.6.3-py2.6.egg/avro/io.py&quot;, line 444, in read</span><br><span class="line">    return self.read_data(self.writers_schema, self.readers_schema, decoder)</span><br><span class="line">  File &quot;/home/opt/cm-5.2.0/lib64/cmf/agent/build/env/lib/python2.6/site-packages/avro-1.6.3-py2.6.egg/avro/io.py&quot;, line 448, in read_data</span><br><span class="line">    if not DatumReader.match_schemas(writers_schema, readers_schema):</span><br><span class="line">  File &quot;/home/opt/cm-5.2.0/lib64/cmf/agent/build/env/lib/python2.6/site-packages/avro-1.6.3-py2.6.egg/avro/io.py&quot;, line 379, in match_schemas</span><br><span class="line">    w_type = writers_schema.type</span><br><span class="line">AttributeError: &apos;NoneType&apos; object has no attribute &apos;type&apos;</span><br></pre></td></tr></table></figure>
+
+<p>这是由于在主节点上启动了Agent后，又将Agent scp到了其他节点上导致的，首次启动Agent，它会生成一个uuid，路径为：<code>/opt/cm-5.1.3/lib/cloudera-scm-agent/uuid</code>,这样的话每台机器上的Agent的uuid都是一样的了，就会出现紊乱的情况。</p>
+<p><strong>解决方案：</strong></p>
+<p>删除<code>/opt/cm-5.1.3/lib/cloudera-scm-agent/</code>目录下的所有文件。</p>
+<p>清空主节点CM数据库。</p>
+<p><strong>最佳实践</strong></p>
+<p>在内网单独搭建yum的repo，然后CM的管理界面安装Agent，这样安装比较快，也不会出现什么问题。</p>
+<p>如果手动添加添加Agent的话，需要注意启动之前删除相关的标示文件，否则Server端在数据库中记录Agent的信息，还得清理数据库中的信息，就麻烦了。</p>
+<p>转自：<a href="http://www.cnblogs.com/jasondan/p/4011153.html" target="_blank" rel="noopener">http://www.cnblogs.com/jasondan/p/4011153.html</a></p>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/plang/java/base/exception/" rel="next" title="java 中的Exception RuntimeException 区别">
+                <i class="fa fa-chevron-left"></i> java 中的Exception RuntimeException 区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/bigdata/hadoop/cdh/cmarch/" rel="prev" title="解析Cloudera Manager内部结构">
+                解析Cloudera Manager内部结构 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于CDH和Cloudera-Manager"><span class="nav-number">1.</span> <span class="nav-text">关于CDH和Cloudera Manager</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统环境"><span class="nav-number">2.</span> <span class="nav-text">系统环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装说明"><span class="nav-number">3.</span> <span class="nav-text">安装说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关包的下载地址"><span class="nav-number">4.</span> <span class="nav-text">相关包的下载地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作：系统环境搭建"><span class="nav-number">5.</span> <span class="nav-text">准备工作：系统环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-网络配置-所有节点"><span class="nav-number">5.1.</span> <span class="nav-text">1. 网络配置(所有节点)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-打通SSH，设置ssh无密码登陆（所有节点）"><span class="nav-number">5.2.</span> <span class="nav-text">2.打通SSH，设置ssh无密码登陆（所有节点）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-安装Oracle的Java（所有节点）"><span class="nav-number">5.3.</span> <span class="nav-text">3.安装Oracle的Java（所有节点）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-安装配置MySql（主节点）"><span class="nav-number">5.4.</span> <span class="nav-text">4.安装配置MySql（主节点）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-关闭防火墙和SELinux"><span class="nav-number">5.5.</span> <span class="nav-text">5. 关闭防火墙和SELinux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-所有节点配置NTP服务"><span class="nav-number">5.6.</span> <span class="nav-text">6. 所有节点配置NTP服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正式开工"><span class="nav-number">6.</span> <span class="nav-text">正式开工</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CDH5的安装配置"><span class="nav-number">7.</span> <span class="nav-text">CDH5的安装配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">8.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遇到的问题"><span class="nav-number">9.</span> <span class="nav-text">遇到的问题</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

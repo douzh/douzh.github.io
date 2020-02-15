@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="向量vectorCL-USER&amp;gt; (vector) #() CL-USER&amp;gt; (vector 1) #(1) CL-USER&amp;gt; (vector 1 2) #(1 2) CL-USER&amp;gt; #(1 2) #(1 2)#(...)是Lisp打印器和读取器使用向量的字面形式，可以用print和read打印和恢复重向量。 可以用#(...)添加向量，但更建议用vector创建要修改的">
+<meta name="keywords" content="Common Lisp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第11章 集合-实用Common Lisp编程笔记">
+<meta property="og:url" content="http://www.iteedu.com/blog/plang/lisp/pcldiary/chapter11/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="向量vectorCL-USER&amp;gt; (vector) #() CL-USER&amp;gt; (vector 1) #(1) CL-USER&amp;gt; (vector 1 2) #(1 2) CL-USER&amp;gt; #(1 2) #(1 2)#(...)是Lisp打印器和读取器使用向量的字面形式，可以用print和read打印和恢复重向量。 可以用#(...)添加向量，但更建议用vector创建要修改的">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-23T13:42:53.603Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第11章 集合-实用Common Lisp编程笔记">
+<meta name="twitter:description" content="向量vectorCL-USER&amp;gt; (vector) #() CL-USER&amp;gt; (vector 1) #(1) CL-USER&amp;gt; (vector 1 2) #(1 2) CL-USER&amp;gt; #(1 2) #(1 2)#(...)是Lisp打印器和读取器使用向量的字面形式，可以用print和read打印和恢复重向量。 可以用#(...)添加向量，但更建议用vector创建要修改的">
+  <link rel="canonical" href="http://www.iteedu.com/blog/plang/lisp/pcldiary/chapter11/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第11章 集合-实用Common Lisp编程笔记 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/plang/lisp/pcldiary/chapter11/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">第11章 集合-实用Common Lisp编程笔记
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2017-04-08 22:03:02" itemprop="dateCreated datePublished" datetime="2017-04-08T22:03:02+08:00">2017-04-08</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-23 21:42:53" itemprop="dateModified" datetime="2019-06-23T21:42:53+08:00">2019-06-23</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/Lisp/" itemprop="url" rel="index"><span itemprop="name">Lisp</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/Lisp/Common-Lisp/" itemprop="url" rel="index"><span itemprop="name">Common Lisp</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="向量"><a href="#向量" class="headerlink" title="向量"></a>向量</h2><h3 id="vector"><a href="#vector" class="headerlink" title="vector"></a>vector</h3><pre><code>CL-USER&gt; (vector)
+#()
+CL-USER&gt; (vector 1)
+#(1)
+CL-USER&gt; (vector 1 2)
+#(1 2)
+CL-USER&gt; #(1 2)
+#(1 2)</code></pre><p><code>#(...)</code>是Lisp打印器和读取器使用向量的字面形式，可以用print和read打印和恢复重向量。</p>
+<p>可以用<code>#(...)</code>添加向量，但更建议用vector创建要修改的向量。</p>
+<h3 id="make-array"><a href="#make-array" class="headerlink" title="make-array"></a>make-array</h3><p>make-array可以创建任何维度的数组及定长和变长向量。</p>
+<pre><code>CL-USER&gt; (make-array 5 :initial-element nil)
+#(NIL NIL NIL NIL NIL)</code></pre><p>创建可填充的向量</p>
+<pre><code>CL-USER&gt; (defparameter *x* (make-array 5 :fill-pointer 0))
+*X*
+CL-USER&gt; (vector-push &apos;a *x*)
+0
+CL-USER&gt; *x*
+#(A)
+CL-USER&gt; (vector-push &apos;b *x*)
+1
+CL-USER&gt; (vector-push &apos;c *x*)
+2
+CL-USER&gt; (vector-push &apos;d *x*)
+3
+CL-USER&gt; (vector-push &apos;e *x*)
+4
+CL-USER&gt; (vector-push &apos;f *x*)
+NIL
+CL-USER&gt; *x*
+#(A B C D E)
+CL-USER&gt; (vector-pop *x*)
+E
+CL-USER&gt; (vector-pop *x*)
+D
+CL-USER&gt; (vector-pop *x*)
+C
+CL-USER&gt; *x*
+#(A B)
+CL-USER&gt; </code></pre><p>创建可变长的向量</p>
+<pre><code>(make-array 5 :fill-pointer 0 :adjustable t)</code></pre><h2 id="向量的子类型"><a href="#向量的子类型" class="headerlink" title="向量的子类型"></a>向量的子类型</h2><p>字符串<code>“foo&quot;</code>和<code>#()</code>写成的字面向量一样，大小固定不可修改。</p>
+<p>创建变长字符串：</p>
+<pre><code>CL-USER&gt; (make-array 5 :fill-pointer 0 :adjustable t :element-type &apos;character)
+&quot;&quot;</code></pre><p>创建位向量：</p>
+<pre><code>CL-USER&gt; (make-array 5 :fill-pointer 0 :adjustable t :element-type &apos;bit)
+#*</code></pre><h2 id="序列操作"><a href="#序列操作" class="headerlink" title="序列操作"></a>序列操作</h2><pre><code>CL-USER&gt; (defparameter *x* (vector 1 2 3))
+*X*
+CL-USER&gt; (length *x*)
+3
+CL-USER&gt; (elt *x* 0)
+1
+CL-USER&gt; (elt *x* 1)
+2
+CL-USER&gt; (elt *x* 2)
+3
+CL-USER&gt; (elt *x* 3)
+Invoking restart: Kill this thread
+; Evaluation aborted on #&lt;CCL::SEQUENCE-INDEX-TYPE-ERROR #x21008241DD&gt;.
+CL-USER&gt; (setf (elt *x* 0) 10)
+10
+CL-USER&gt; *x*
+#(10 2 3)
+CL-USER&gt; </code></pre><h2 id="序列迭代函数"><a href="#序列迭代函数" class="headerlink" title="序列迭代函数"></a>序列迭代函数</h2><p>理论上所有的序列操作都可以归纳于length、elt、setf操作。</p>
+<p>序列函数允许不用显示遍历列表就可以表达一定的序列操作。</p>
+<pre><code>CL-USER&gt; (count 1 #(1 2 3 4 1 2 3))
+2
+CL-USER&gt; (remove 1 #(1 2 3 4 1 2 3))
+#(2 3 4 2 3)
+CL-USER&gt; (remove 1 &apos;(1 2 3 4 1 2 3))
+(2 3 4 2 3)
+CL-USER&gt; (remove #\a &quot;ababcdeft&quot;)
+&quot;bbcdeft&quot;
+CL-USER&gt; (substitute 10 1 #(1 2 1 2))
+#(10 2 10 2)
+CL-USER&gt; (substitute 10 1 &apos;(1 2 1 2))
+(10 2 10 2)
+CL-USER&gt; (substitute #\b #\a &quot;abcabc&quot;)
+&quot;bbcbbc&quot;
+CL-USER&gt; (find 3 #(1 2 3 4))
+3
+CL-USER&gt; (find 5 #(1 2 3 4))
+NIL
+CL-USER&gt; (position 2 #(1 1 1 2 3 ))
+3
+CL-USER&gt; </code></pre><p>关键字参数：</p>
+<p>:test 两参数函数用于比较元素和项</p>
+<p>:key 单参数函数用于从实际序列元素中解出用于比较的关键字</p>
+<p>:start 子序列的起始索引</p>
+<p>:end 子序列的结束索引</p>
+<p>:from-end 如果为真以相反顺序遍历</p>
+<p>:count 需要移除或替换的元素个数</p>
+<pre><code>CL-USER&gt; (defparameter *v* #((a 10) (b 20) (a 30) (b 40)))
+*V*
+CL-USER&gt; (defun verbose-first (x) (format t &quot;looking at ~s~%&quot; x) (first x))
+VERBOSE-FIRST
+CL-USER&gt; (count &apos;a *v* :key #&apos;verbose-first)
+looking at (A 10)
+looking at (B 20)
+looking at (A 30)
+looking at (B 40)
+2
+CL-USER&gt; (count &apos;a *v* :key #&apos;verbose-first :from-end t)
+looking at (B 40)
+looking at (A 30)
+looking at (B 20)
+looking at (A 10)
+2
+CL-USER&gt; </code></pre><h2 id="高阶函数变体"><a href="#高阶函数变体" class="headerlink" title="高阶函数变体"></a>高阶函数变体</h2><p>对于每个序列迭代函数都有两种高阶函数变体，它们接受一个将在每个序列元素上调用的函数，以此来代替项参数。</p>
+<p>第一类追加-IF，第二类追加-IF-NOT。</p>
+<pre><code>CL-USER&gt; (count-if #&apos;evenp #((1 a) (2 b) (3 c) (4 d) (5 e)) :key #&apos;first)
+2
+CL-USER&gt; (count-if-not #&apos;evenp #((1 a) (2 b) (3 c) (4 d) (5 e)) :key #&apos;first)
+3
+CL-USER&gt; (remove-if-not #&apos;alpha-char-p #(&quot;foo&quot; &quot;bar&quot; &quot;1baz&quot;) :key #&apos;(lambda (x) (elt x 0)))
+#(&quot;foo&quot; &quot;bar&quot;)
+CL-USER&gt; (remove-duplicates #(1 2 1 2 3 1 2 3 4))
+#(1 2 3 4)
+CL-USER&gt; </code></pre><h2 id="排序与合并"><a href="#排序与合并" class="headerlink" title="排序与合并"></a>排序与合并</h2><pre><code>CL-USER&gt; (sort #(&quot;foo&quot; &quot;bar&quot; &quot;baz&quot;) #&apos;string&lt;)
+\#(&quot;bar&quot; &quot;baz&quot; &quot;foo&quot;)
+CL-USER&gt; (merge &apos;vector #(1 3 5) #(2 3 4) #&apos;&lt;)
+\#(1 2 3 3 4 5)
+CL-USER&gt;</code></pre><h2 id="子序列操作"><a href="#子序列操作" class="headerlink" title="子序列操作"></a>子序列操作</h2><p>subseq取子序列，支持setf。</p>
+<pre><code>CL-USER&gt; (subseq &quot;foobarbaz&quot; 3)
+&quot;barbaz&quot;
+CL-USER&gt; (subseq &quot;foobarbaz&quot; 3 6)
+&quot;bar&quot;
+CL-USER&gt; (defparameter *x* (copy-seq &quot;foobarbaz&quot;))
+*X*
+CL-USER&gt; (setf (subseq *x* 3 6) &quot;xxx&quot;)
+&quot;xxx&quot;
+CL-USER&gt; *x*
+&quot;fooxxxbaz&quot;
+CL-USER&gt; (setf (subseq *x* 3 6) &quot;abcd&quot;)
+&quot;abcd&quot;
+CL-USER&gt; *x*
+&quot;fooabcbaz&quot;
+CL-USER&gt; (setf (subseq *x* 3 6) &quot;xx&quot;)
+&quot;xx&quot;
+CL-USER&gt; *x*
+&quot;fooxxcbaz&quot;
+CL-USER&gt; </code></pre><p>匹配串：</p>
+<pre><code>CL-USER&gt; (position #\b &quot;foobarbaz&quot;)
+3
+CL-USER&gt; (search &quot;bar&quot; &quot;foobarbaz&quot;)
+3
+CL-USER&gt; (mismatch &quot;foobarbaz&quot; &quot;foom&quot;)
+3
+CL-USER&gt; </code></pre><h2 id="序列谓词"><a href="#序列谓词" class="headerlink" title="序列谓词"></a>序列谓词</h2><p>EVERY:每个都满足为真</p>
+<p>SOME:有一个满足为真</p>
+<p>NOTANY:从未满足返回真</p>
+<p>NOTEVERY:总是满足返回假</p>
+<pre><code>CL-USER&gt; (every #&apos;evenp #(1 2 3 4 5))
+NIL
+CL-USER&gt; (some #&apos;evenp #(1 2 3 4 5))
+T
+CL-USER&gt; (notany #&apos;evenp #(1 2 3 4 5))
+NIL
+CL-USER&gt; (notevery #&apos;evenp #(1 2 3 4 5))
+T
+CL-USER&gt; (every #&apos;&gt; #(1 2 3 4) #(5 4 3 2))
+NIL
+CL-USER&gt; (some #&apos;&gt; #(1 2 3 4) #(5 4 3 2))
+T
+CL-USER&gt; (notany #&apos;&gt; #(1 2 3 4) #(5 4 3 2))
+NIL
+CL-USER&gt; (notevery #&apos;&gt; #(1 2 3 4) #(5 4 3 2))
+T
+CL-USER&gt; </code></pre><h2 id="序列映射函数"><a href="#序列映射函数" class="headerlink" title="序列映射函数"></a>序列映射函数</h2><pre><code>CL-USER&gt; (map &apos;vector #&apos;* #(1 2 3 4 5) #(10 9 8 7 6))
+#(10 18 24 28 30)
+CL-USER&gt; (reduce #&apos;+ #(1 2 3 4 5 6 7 8 9 10))
+55
+CL-USER&gt; </code></pre><p>reduce可以接收的关键字参数:</p>
+<p>:key</p>
+<p>:from-end</p>
+<p>:start</p>
+<p>:end</p>
+<p>:intial-value</p>
+<h2 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h2><p>make-hash-table:创建哈希表</p>
+<p>gethash:取值</p>
+<p>setf:设置</p>
+<p>remhash:移除</p>
+<p>clrhash:清空</p>
+<p>maphash:迭代</p>
+<pre><code>CL-USER&gt; (defparameter *h* (make-hash-table))
+*H*
+CL-USER&gt; (gethash &apos;foo *h*)
+NIL
+NIL
+CL-USER&gt; (setf (gethash &apos;foo *h*) &apos;quux)
+QUUX
+CL-USER&gt; (gethash &apos;foo *h*)
+QUUX
+T
+CL-USER&gt; 
+CL-USER&gt; (maphash #&apos;(lambda (k v) (format t &quot;~a =&gt; ~a~%&quot; k v )) *h*)
+FOO =&gt; QUUX
+NIL
+CL-USER&gt; </code></pre>
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/Common-Lisp/" rel="tag"># Common Lisp</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/plang/lisp/pcldiary/chapter10/" rel="next" title="第10章 数字和字符串-实用Common Lisp编程笔记">
+                <i class="fa fa-chevron-left"></i> 第10章 数字和字符串-实用Common Lisp编程笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/plang/java/base/exception/" rel="prev" title="java 中的Exception RuntimeException 区别">
+                java 中的Exception RuntimeException 区别 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#向量"><span class="nav-number">1.</span> <span class="nav-text">向量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vector"><span class="nav-number">1.1.</span> <span class="nav-text">vector</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#make-array"><span class="nav-number">1.2.</span> <span class="nav-text">make-array</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#向量的子类型"><span class="nav-number">2.</span> <span class="nav-text">向量的子类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列操作"><span class="nav-number">3.</span> <span class="nav-text">序列操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列迭代函数"><span class="nav-number">4.</span> <span class="nav-text">序列迭代函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高阶函数变体"><span class="nav-number">5.</span> <span class="nav-text">高阶函数变体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排序与合并"><span class="nav-number">6.</span> <span class="nav-text">排序与合并</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子序列操作"><span class="nav-number">7.</span> <span class="nav-text">子序列操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列谓词"><span class="nav-number">8.</span> <span class="nav-text">序列谓词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列映射函数"><span class="nav-number">9.</span> <span class="nav-text">序列映射函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哈希表"><span class="nav-number">10.</span> <span class="nav-text">哈希表</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

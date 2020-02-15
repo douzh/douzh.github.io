@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="队列这个数据结构已经很熟悉了，利用其先进先出的特性，多数生产消费模型的首选数据结构就是队列。对于有多个生产者和多个消费者线程的模型来说，最重要是他们共同访问的Queue是线程安全的。JDK中提供的线程安全的Queue的实现还是很丰富的： ArrayBlockingQueue,LinkedBlockingQueue,PriorityBlockingQueue,DelayQueue,Concurren">
+<meta name="keywords" content="JAVA,线程安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA同步之LinkedBlockingQueue">
+<meta property="og:url" content="http://www.iteedu.com/blog/plang/java/threadsafe/linkedblockingqueue/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="队列这个数据结构已经很熟悉了，利用其先进先出的特性，多数生产消费模型的首选数据结构就是队列。对于有多个生产者和多个消费者线程的模型来说，最重要是他们共同访问的Queue是线程安全的。JDK中提供的线程安全的Queue的实现还是很丰富的： ArrayBlockingQueue,LinkedBlockingQueue,PriorityBlockingQueue,DelayQueue,Concurren">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-23T13:27:40.448Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JAVA同步之LinkedBlockingQueue">
+<meta name="twitter:description" content="队列这个数据结构已经很熟悉了，利用其先进先出的特性，多数生产消费模型的首选数据结构就是队列。对于有多个生产者和多个消费者线程的模型来说，最重要是他们共同访问的Queue是线程安全的。JDK中提供的线程安全的Queue的实现还是很丰富的： ArrayBlockingQueue,LinkedBlockingQueue,PriorityBlockingQueue,DelayQueue,Concurren">
+  <link rel="canonical" href="http://www.iteedu.com/blog/plang/java/threadsafe/linkedblockingqueue/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>JAVA同步之LinkedBlockingQueue | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/plang/java/threadsafe/linkedblockingqueue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">JAVA同步之LinkedBlockingQueue
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-12-25 11:21:25" itemprop="dateCreated datePublished" datetime="2015-12-25T11:21:25+08:00">2015-12-25</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-23 21:27:40" itemprop="dateModified" datetime="2019-06-23T21:27:40+08:00">2019-06-23</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/JAVA/线程安全/" itemprop="url" rel="index"><span itemprop="name">线程安全</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>队列这个数据结构已经很熟悉了，利用其先进先出的特性，多数生产消费模型的首选数据结构就是队列。对于有多个生产者和多个消费者线程的模型来说，最重要是他们共同访问的Queue是线程安全的。JDK中提供的线程安全的Queue的实现还是很丰富的：</p>
+<p>ArrayBlockingQueue,LinkedBlockingQueue,PriorityBlockingQueue,DelayQueue,ConcurrentLinkedQueue等等，多数情况下使用这些数据结构编写并发程序足够了。</p>
+<p>这里分析一下LinkedBlockingQueue的实现。</p>
+<p>首先从简单的开始，先看看LinkedBlockingQueue线程安全的实现。之所以介绍它是因为其实现比较典型，对比ArrayBlokcingQueue使用一个ReentrantLock和两个Condition维护内部的数组来说，它使用了两个ReentrantLock，并且分别对应一个Condition来实现对内部数据结构Node型变量的维护。</p>
+<pre><code>public class LinkedBlockingQueue&lt; e&gt; extends AbstractQueue&lt; e&gt;
+        implements BlockingQueue&lt; e&gt;, java.io.Serializable {
+    private static final long serialVersionUID = -6903933977591709194L;
+
+    /**
+     * 节点数据结构
+     */
+    static class Node&lt; e&gt; {
+        /** The item, volatile to ensure barrier separating write and read */
+        volatile E item;
+        Node&lt; e&gt; next;
+        Node(E x) { item = x; }
+    }
+
+    /** 队列的容量 */
+    private final int capacity;
+
+    /** 持有节点计数器 */
+    private final AtomicInteger count = new AtomicInteger(0);
+
+    /** 头指针 */
+    private transient Node&lt; e&gt; head;
+
+    /** 尾指针 */
+    private transient Node&lt; e&gt; last;
+
+    /** 用于读取的独占锁*/
+    private final ReentrantLock takeLock = new ReentrantLock();
+
+    /** 队列是否为空的条件 */
+    private final Condition notEmpty = takeLock.newCondition();
+
+    /** 用于写入的独占锁 */
+    private final ReentrantLock putLock = new ReentrantLock();
+
+    /** 队列是否已满的条件 */
+    private final Condition notFull = putLock.newCondition();
+
+    private void signalNotEmpty() {
+        final ReentrantLock takeLock = this.takeLock;
+        takeLock.lock();
+        try {
+            notEmpty.signal();
+        } finally {
+            takeLock.unlock();
+        }
+    }
+
+    private void signalNotFull() {
+        final ReentrantLock putLock = this.putLock;
+        putLock.lock();
+        try {
+            notFull.signal();
+        } finally {
+            putLock.unlock();
+        }
+    }
+
+    private void insert(E x) {
+        last = last.next = new Node&lt; e&gt;(x);
+    }
+
+    private E extract() {
+        Node&lt; e&gt; first = head.next;
+        head = first;
+        E x = first.item;
+        first.item = null;
+        return x;
+    }
+
+    private void fullyLock() {
+        putLock.lock();
+        takeLock.lock();
+    }
+
+    private void fullyUnlock() {
+        takeLock.unlock();
+        putLock.unlock();
+    }
+
+    public LinkedBlockingQueue(int capacity) {
+        if (capacity &lt;= 0) throw new IllegalArgumentException();
+        this.capacity = capacity;
+        last = head = new Node&lt; e&gt;(null);
+    }
+   ...
+}</code></pre><p>这里仅仅展示部分源码，主要的方法在后面的分析中列出。分析之前明确一个最基本的概念。天天念叨着编写线程安全的类，什么是线程安全的类？那就是类内共享的全局变量的访问必须保证是不受多线程形式影响的。如果由于多线程的访问（改变，遍历，查看）而使这些变量结构被破坏或者针对这些变量操作的原子性被破坏，则这个类的编写不是线程安全的。</p>
+<p>明确了这个基本的概念就可以很好的理解这个Queue的实现为什么是线程安全的了。在LinkedBlockingQueue的所有共享的全局变量中，final声明的capacity在构造器生成实例时就成了不变量了。而final声明的count由于是AtomicInteger类型的，所以能够保证其操作的原子性。剩下的final的变量都是初始化成了不变量，并且不包含可变属性，所以都是访问安全的。那么剩下的就是Node类型的head和last两个可变量。所以要保证LinkedBlockingQueue是线程安全的就是要保证对head和last的访问是线程安全的。</p>
+<p>首先从上面的源码可以看到insert(E x),extract()是真正的操作head,last来入队和出对的方法，但是由于是私有的，所以不能被直接访问，不用担心线程的问题。实际入队的公开的方法是put(E e)，offer(E e)和offer(E e, long timeout, TimeUnit unit)。put(…)方法与offer(…)都是把新元素加入到队尾，所不同的是如果不满足条件put会把当前执行的线程扔到等待集中等待被唤醒继续执行，而offer则是直接退出，所以如果是需要使用它的阻塞特性的话，不能直接使用poll(…)。</p>
+<p>put(…)方法中加入元素的操作使用this.putLock来限制多线程的访问，并且使用了可中断的方式：</p>
+<pre><code>public void put(E e) throws InterruptedException {
+        if (e == null) throw new NullPointerException();
+        int c = -1;
+        final ReentrantLock putLock = this.putLock;
+        final AtomicInteger count = this.count; //----------------a
+        putLock.lockInterruptibly();//随时保证响应中断 //--------b
+        try {
+            //*****************************(1)*********************************
+            try {
+                while (count.get() == capacity)
+                    notFull.await();
+            } catch (InterruptedException ie) {
+                notFull.signal(); // propagate to a non-interrupted thread
+                throw ie;
+            }
+           //*****************************end*********************************
+            insert(e);//真正的入队操作
+           //********************(2)**********************
+            c = count.getAndIncrement();
+            if (c + 1 &lt; capacity)
+                notFull.signal();
+            //******************end**********************
+        } finally {
+            putLock.unlock();
+        } //-------------------------c
+        if (c == 0) //---------------d
+            signalNotEmpty();
+}</code></pre><p>代码段(1)是阻塞操作，代码段(2)是count递增和唤醒等待的操作。两者之间的insert(e)才是入队操作，其实际是操作的队尾引用last，并且没有牵涉到head。所以设计两个锁的原因就在这里！因为出队操作take()，poll()实际是执行extract()仅仅操作队首引用head。增加了this.takeLock这个锁，就实现了多个不同任务的线程入队的同时可以进行出对的操作，并且由于两个操作所共同使用的count是AtomicInteger类型的，所以完全不用考虑计数器递增递减的问题。假设count换成int，则相应的putLock内的count++和takeLock内的count–有可能相互覆盖，最终造成count的值被腐蚀，故这种设计必须使用原子操作类。</p>
+<p>保证类的线程安全只要保证head和last的操作的线程安全，也就是保证insert(E x)和extract()线程安全即可。那么上面的put方法中的代码段(1)放在a,b之间，代码段(2)放在c,d之间不是更好？毕竟锁的粒度越小越好。单纯的考虑count的话这样的改变是正确的，但是await()和singal()这两个方法执行时都会检查当前线程是否是独占锁的那个线程，如果不是则抛出java.lang.IllegalMonitorStateException异常。而这两段代码中包含notFull.await()和notFull.signal()这两句使得(1),(2)必须放在lock保护块内。这里说明主要是count本身并不需要putLock或者takeLock的保护，从</p>
+<pre><code>public int size() {
+        return count.get();
+}</code></pre><p>可以看出count的访问是不需要任何锁的。而在put等方法中，其与锁机制的混用很容易造成迷惑。最后put中的代码d的作用主要是一个低位及时通知的作用，也就是队列刚有值试图获得takeLock去通知等待集中的出队线程。因为c==0意味着count.getAndIncrement()原子递增成功，所以count &gt; 0成立。类似作用的代码：</p>
+<pre><code>if (c == capacity)
+       signalNotFull();</code></pre><p>在take和poll中也有出现，实现了高位及时通知。</p>
+<p>分析完了put，对应的offer，take，poll方法都是类似的实现。下面看看遍历队列的操作：</p>
+<pre><code>public Object[] toArray() {
+        fullyLock();
+        try {
+            int size = count.get();
+            Object[] a = new Object[size];
+            int k = 0;
+            for (Node p = head.next; p != null; p = p.next)
+                a[k++] = p.item;
+            return a;
+        } finally {
+            fullyUnlock();
+        }
+}</code></pre><p>这个方法很简单主要是要清楚一点：这个操作执行时不允许其他线程再修改队首和队尾，所以使用了fullyLock去获取putLock和takeLock，只要成功则可以保证不会再有修改队列的操作。然后就是安心的遍历到最后一个元素为止了。</p>
+<p>另外在offer(E e, long timeout, TimeUnit unit)这个方法中提供了带有超时的入队操作，如果一直不成功的话，它会尝试在timeout的时间内入队：</p>
+<pre><code>for (;;) {
+     ...//入队操作
+     if (nanos &lt;= 0)
+         return false;
+     try {
+          nanos = notFull.awaitNanos(nanos);
+     } catch (InterruptedException ie) {
+           notFull.signal(); // propagate to a non-interrupted thread
+           throw ie;
+     }
+}</code></pre><p>其内部循环使用notFull.awaitNanos(nanos)方法反复的计算剩余时间的大概值用于实现延时功能。nanos&lt;=0则放弃尝试，直接退出。</p>
+<p>整体而言，LinkedBlockingQueue的实现还是很清晰的。相对于后面要介绍的ConcurrentLinkedQueue来说，它属于简单的实现。这些看似复杂的数据结构的实现实质都是多线程的基础的综合应用。就好像数学中千变万化的难题其实都是基础公式的组合一样，如果有清晰的基础认知，还是能找到自己分析的思路的。本来是想从mina中找找类似的实现，不过很遗憾的是它好像仅仅实现了一个非线程安全的循环队列，然后在其基础上使用synchronized进行封装成线程安全的Queue。</p>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          
+            <a href="/tags/线程安全/" rel="tag"># 线程安全</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/plang/java/threadsafe/readwritelock/" rel="next" title="JAVA同步之ReentrantReadWriteLock">
+                <i class="fa fa-chevron-left"></i> JAVA同步之ReentrantReadWriteLock
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/plang/java/threadsafe/concurrentlinkedqueue/" rel="prev" title="JAVA同步之ConcurrentLinkedQueue">
+                JAVA同步之ConcurrentLinkedQueue <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="本文的由来学习Vim一时间，一直不得要领。编辑器之神没啥学习要领，鬼也不信。我的方法就是多看书，一本书浏览一遍，不行就换一本。 我在《学习VI和VIM编辑器第７版中文》貌似找到了这种感觉。下面来说一说。 Vim的成功之处在于它抽像了编辑操作的本质，针对编辑操作的本质给出了一套解决方案。 思想一：分模式从大的角度看编辑操作分两种： 新录入：需要连接性的输入文本，可能还要边输入边编辑。 修改已有：对现">
+<meta name="keywords" content="VIM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VIM核心思想">
+<meta property="og:url" content="http://www.iteedu.com/blog/tools/vim/vimthinking/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="本文的由来学习Vim一时间，一直不得要领。编辑器之神没啥学习要领，鬼也不信。我的方法就是多看书，一本书浏览一遍，不行就换一本。 我在《学习VI和VIM编辑器第７版中文》貌似找到了这种感觉。下面来说一说。 Vim的成功之处在于它抽像了编辑操作的本质，针对编辑操作的本质给出了一套解决方案。 思想一：分模式从大的角度看编辑操作分两种： 新录入：需要连接性的输入文本，可能还要边输入边编辑。 修改已有：对现">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-29T14:11:02.537Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="VIM核心思想">
+<meta name="twitter:description" content="本文的由来学习Vim一时间，一直不得要领。编辑器之神没啥学习要领，鬼也不信。我的方法就是多看书，一本书浏览一遍，不行就换一本。 我在《学习VI和VIM编辑器第７版中文》貌似找到了这种感觉。下面来说一说。 Vim的成功之处在于它抽像了编辑操作的本质，针对编辑操作的本质给出了一套解决方案。 思想一：分模式从大的角度看编辑操作分两种： 新录入：需要连接性的输入文本，可能还要边输入边编辑。 修改已有：对现">
+  <link rel="canonical" href="http://www.iteedu.com/blog/tools/vim/vimthinking/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>VIM核心思想 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/tools/vim/vimthinking/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">VIM核心思想
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-11-15 21:11:31" itemprop="dateCreated datePublished" datetime="2015-11-15T21:11:31+08:00">2015-11-15</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-29 22:11:02" itemprop="dateModified" datetime="2019-06-29T22:11:02+08:00">2019-06-29</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/工具/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/工具/VIM/" itemprop="url" rel="index"><span itemprop="name">VIM</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="本文的由来"><a href="#本文的由来" class="headerlink" title="本文的由来"></a>本文的由来</h2><p>学习Vim一时间，一直不得要领。编辑器之神没啥学习要领，鬼也不信。我的方法就是多看书，一本书浏览一遍，不行就换一本。</p>
+<p>我在《学习VI和VIM编辑器第７版中文》貌似找到了这种感觉。下面来说一说。</p>
+<p>Vim的成功之处在于它抽像了编辑操作的本质，针对编辑操作的本质给出了一套解决方案。</p>
+<h2 id="思想一：分模式"><a href="#思想一：分模式" class="headerlink" title="思想一：分模式"></a>思想一：分模式</h2><p>从大的角度看编辑操作分两种：</p>
+<p>新录入：需要连接性的输入文本，可能还要边输入边编辑。</p>
+<p>修改已有：对现有文件做边边角角的修改，主要是浏览查找。</p>
+<p>从这两个角度VIM给出了两个模式：</p>
+<p>插入模式：对应新录入。</p>
+<p>命令模式：对应修改已有。</p>
+<p>这里的命令模式包含很多地方说的“正常模式”和“命令模式”。</p>
+<h3 id="一些新手误区"><a href="#一些新手误区" class="headerlink" title="一些新手误区"></a>一些新手误区</h3><p>插入模式没有编辑命令</p>
+<p>开始使用VIM觉得插入模式进行编辑不方便，其实插入模式也可以有很多Ctrl或Alt配合的命令，可以自己来定义。这样插入模式就有了一般编辑器的所有功能了，还可以定义出只属于自己的功能。</p>
+<p>ESC太远太难用</p>
+<p>开始觉得ESC使用不方便，模式的切换太频繁，ESC都按到吐了。其实还有其它键也等同ESC，比如Ctrl+[，再觉得不方便还可以自己定义。我看网上有很多人定义jj键，就是在插入模式连续输入jj就可以退到命令模式。</p>
+<p>模式切换太频繁</p>
+<p>如果你用VIM要频繁的切换模式，说明你没有好好学习VIM。插入模式一般不用切换到命令模式，常用命令可以自己定义快捷键。你应该学学<a href="/ide/vim/vimdiary/vimmap.php">Vim按键映射(Map)</a></p>
+<h2 id="思想二：抽像编辑操作"><a href="#思想二：抽像编辑操作" class="headerlink" title="思想二：抽像编辑操作"></a>思想二：抽像编辑操作</h2><p>首先看一下VIM的一般命令模式：</p>
+<pre><code>(编辑命令)(次数)(光标命令)</code></pre><p>或</p>
+<pre><code>(次数)(编辑命令)(光标命令)</code></pre><p>光标命令是指光标移动的命令，如最常见的<code>hjkl</code>。</p>
+<p>那一般命令模式的意思就是：“编辑指定文本几次”。</p>
+<p>所以只要学会编辑命令和光标移动命令，其它的都是一些组合出的功能了。</p>
+<h3 id="VIM帮助"><a href="#VIM帮助" class="headerlink" title="VIM帮助"></a>VIM帮助</h3><p>这里不会对命令进行详细说明，详细了解最好的还是用vim的帮助，学会vim帮助是学好vim的必须功课。</p>
+<p>比如<code>:h d</code>会跳到vim命令d的帮助部分:</p>
+<pre><code>[&quot;x]d{motion}        Delete text that {motion} moves over [into register
+            x].  See below for exceptions</code></pre><p>[“x]是可选的寄存器选项，以中括号括起来的是可选的意思，里面是默认值。</p>
+<p>{motiont}和(光标命令)一样，是指确认处理哪些文本的光标命令。</p>
+<h3 id="编辑命令"><a href="#编辑命令" class="headerlink" title="编辑命令"></a>编辑命令</h3><p>编辑命令比较少，所以先说。</p>
+<p>编辑操作一般就几种：删除、复制、剪切、粘贴、修改。</p>
+<p>在VIM中对应的命令：</p>
+<ul>
+<li>删除：d[elete]或x，x其它是dl的简写，可以看帮助。</li>
+<li>复制：y[ank]，很多地方翻译为「拔」，把内容放到寄存器。</li>
+<li>剪切：VIM里删除即是剪切，删除的内容会放到寄存器。</li>
+<li>粘贴：p[ut]，放置，把寄存器里的内容放到指定位置。</li>
+<li>修改：c[hange]、s[ub]、r{place]，将内容放入寄存器，并插入新内容。</li>
+</ul>
+<p>所以vim命令第一个字母一般都是ydpc里的一个。</p>
+<h3 id="光标移动命令"><a href="#光标移动命令" class="headerlink" title="光标移动命令"></a>光标移动命令</h3><p>基本的上下左右对应<code>hjkl</code>，这也不是什么缩写，只是最快捷的键方式。</p>
+<p>行内移动：</p>
+<ul>
+<li>w：右移光标到下一个字的开头；</li>
+<li>e：右移光标到一个字的末尾；</li>
+<li>b：左移光标到前一个字的开头；</li>
+<li>0：数字０，左移光标到本行的开始；</li>
+<li>$：右移光标，到本行的末尾；</li>
+<li>^：移动光标，到本行的第一个非空字符。</li>
+</ul>
+<p>翻页：</p>
+<ul>
+<li>ctrl+f[orward]：在文件中前移一页（相当于 page down）；</li>
+<li>ctrl+b[ackward]：在文件中后移一页（相当于 page up）；</li>
+</ul>
+<p>按其它方式移动：</p>
+<ul>
+<li>(/)：移动到 前/后 句 的开始；</li>
+<li>{/}：跳转到 当前/下一个 段落 的开始。</li>
+<li>gg：将光标定位到文件第一行起始位置；</li>
+<li>G将光标定位到文件最后一行起始位置；</li>
+<li>NG或Ngg:将光标定位到第 N 行的起始位置。</li>
+<li>*：当光标停留在一个单词上，*<br>键会在文件内搜索该单词，并跳转到下一处；</li>
+<li>#当光标停留在一个单词上，# 在文件内搜索该单词，并跳转到上一处；</li>
+<li>g_ ：到本行最后一个不是 blank 字符的位置。</li>
+<li>fa：到下一个为 a 的字符处，你也可以fs到下一个为s的字符。</li>
+<li>t,：到逗号前的第一个字符。逗号可以变成其它字符。</li>
+<li>F/T：和 f 和 t 一样，只不过是相反方向;</li>
+</ul>
+<h3 id="一些组合示例"><a href="#一些组合示例" class="headerlink" title="一些组合示例"></a>一些组合示例</h3><ul>
+<li>dw:删除光标右侧的字；</li>
+<li>3dw:删除光标右侧的 3 个字；</li>
+<li>5db:删除光标左侧的 5 个字；</li>
+<li>3dd:删除（剪切） 3 行内容，并去除空隙；</li>
+<li>d$:从当前光标起删除字符直到行的结束；</li>
+<li>d0:从当前光标起删除字符直到行的开始；</li>
+<li>c$:用输入的正文替换从光标开始到本行末尾的所有字符；</li>
+<li>c0:用输入的正文替换从本行开头到光标的所有字符。</li>
+<li>5yy:复制 5 行内容到内存缓冲区；</li>
+<li>ncw:用输入的正文替换光标右侧的 n 个字；</li>
+</ul>
+<h2 id="以冒号-开头的命令"><a href="#以冒号-开头的命令" class="headerlink" title="以冒号(:)开头的命令"></a>以冒号(:)开头的命令</h2><p>如果要了解以冒号(:)开头的这些命令，还要了解一下vi的历史，vi是对unix的ex行编辑器的扩展，对ex可视化产物。所以vi里的精髓还是ex这些命令。</p>
+<p>vim里的以冒号(:)开头的这些命令大多是ex的命令，所以学好vim还要学ex的命令，你也可以以为是学vim，其实是在学ex。</p>
+<p>ex的常用命令格式：</p>
+<pre><code>:(行地址符)(命令)</code></pre><h3 id="行地址"><a href="#行地址" class="headerlink" title="行地址"></a>行地址</h3><p>对于每一个 ex 编辑命令，必须给出 ex 所要编辑的行。对于 ex 的 move 和<br>copy 命令，还需要给出 ex 移动或复制文本的目标位置。</p>
+<p>可以使用下面几种方式来指定行地址：</p>
+<p>[1] 使用明确的行号。</p>
+<p>[2] 使用能帮助你指定相对于文件中当前位置的行号的符号。</p>
+<p>[3] 使用搜索模式作为标识所要编辑的行的地址。</p>
+<p>这里就不说太详细了，列一此常用的ex命令：</p>
+<h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3><ul>
+<li>:e file2 //使用 :e 进入文件 file2 中</li>
+<li>:w //把缓冲区写（保存）到文件中但不退出</li>
+<li>:q //退出编辑器</li>
+<li>:wq //写文件并退出编辑器，即使没有修改文件，写操作也会无条件的进行</li>
+<li>:x //写文件并退出编辑器，只有修改了文件，写操作才能进行</li>
+<li>:q! //在退出时不影响原来的文本</li>
+<li>: 230 , $ w newfile //将从第230行到文件末尾的文本保存到“newfile”中</li>
+<li>: . , 600 w newfile //将从当前行到第600行的文本保存到“newfile”中</li>
+</ul>
+<p>其它命令：</p>
+<ul>
+<li>:3,18d //d[elete]删除3~18行</li>
+<li>:160,224m23 //m[ove]移动160~224行到23行的下面</li>
+<li>:23,29co100 //co[py]复制23~29行并把它们粘贴到100行的后面</li>
+<li>: . , $d //删除从当前行到文件末尾之间的文本</li>
+<li>:%d //删除文件中所有行</li>
+<li>:%t$ //复制所有行并把它们粘贴到文件的尾部</li>
+<li>: 226 , $m . -2 //把226行到文件末尾的文本移动到当前行上面的第二行</li>
+<li>:/pattern/d //删除下一个包含模式pattern的行</li>
+<li>:1 , 3d | s/thier/their/ //把1到3行删除，然后在当前行进行替换</li>
+<li>:1 ,5 m 10 | g/pattern/nu<br>//把1到5行移动到第10行的后面，然后显示所有包含模式pattern的行和行号</li>
+</ul>
+<h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><p>vi核心是ex，多学ex的命令绝对有好处。</p>
+<p>掌握vi的几个编辑命令和10几个光标移动命令，组合使用实现名称功能。</p>
+<p>自己的vim才是好vim，学会用map定义自己的快捷键。</p>
+<p>做完这些基本就完成了常用功能的学习，再学点要用的插件或编写插件，其它编辑器基本就不用了。</p>
+<p>最后再来一句，vi的成功源于ex的强大，但不得不说模式确实是点睛之笔。</p>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/VIM/" rel="tag"># VIM</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/tools/vim/vimmap/" rel="next" title="Vim按键映射(Map)详解">
+                <i class="fa fa-chevron-left"></i> Vim按键映射(Map)详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/tools/vim/vimgy/" rel="prev" title="vim格言">
+                vim格言 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的由来"><span class="nav-number">1.</span> <span class="nav-text">本文的由来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思想一：分模式"><span class="nav-number">2.</span> <span class="nav-text">思想一：分模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一些新手误区"><span class="nav-number">2.1.</span> <span class="nav-text">一些新手误区</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思想二：抽像编辑操作"><span class="nav-number">3.</span> <span class="nav-text">思想二：抽像编辑操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#VIM帮助"><span class="nav-number">3.1.</span> <span class="nav-text">VIM帮助</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑命令"><span class="nav-number">3.2.</span> <span class="nav-text">编辑命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#光标移动命令"><span class="nav-number">3.3.</span> <span class="nav-text">光标移动命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些组合示例"><span class="nav-number">3.4.</span> <span class="nav-text">一些组合示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以冒号-开头的命令"><span class="nav-number">4.</span> <span class="nav-text">以冒号(:)开头的命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#行地址"><span class="nav-number">4.1.</span> <span class="nav-text">行地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件操作"><span class="nav-number">4.2.</span> <span class="nav-text">文件操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结一下"><span class="nav-number">5.</span> <span class="nav-text">总结一下</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

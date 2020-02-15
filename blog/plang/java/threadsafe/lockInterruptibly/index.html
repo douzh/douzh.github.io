@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="本本文是对ReentrantLock可中断锁的介绍。可中断锁是通过ReentrantLock提供的lockInterruptibly()方法实现的。 响应中断是什么意思?比如A、B两线程去竞争锁，A得到了锁，B等待，但是A有很多事情要处理，所以一直不返回。B可能就会等不及了，想中断自己，不再等待这个锁了，转而处理其他事情。在这种情况下，synchronized的做法是，B线程中断自己（或者别的线程">
+<meta name="keywords" content="JAVA,线程安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA同步之ReentrantLock可中断锁的使用">
+<meta property="og:url" content="http://www.iteedu.com/blog/plang/java/threadsafe/lockInterruptibly/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="本本文是对ReentrantLock可中断锁的介绍。可中断锁是通过ReentrantLock提供的lockInterruptibly()方法实现的。 响应中断是什么意思?比如A、B两线程去竞争锁，A得到了锁，B等待，但是A有很多事情要处理，所以一直不返回。B可能就会等不及了，想中断自己，不再等待这个锁了，转而处理其他事情。在这种情况下，synchronized的做法是，B线程中断自己（或者别的线程">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-23T13:31:03.425Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JAVA同步之ReentrantLock可中断锁的使用">
+<meta name="twitter:description" content="本本文是对ReentrantLock可中断锁的介绍。可中断锁是通过ReentrantLock提供的lockInterruptibly()方法实现的。 响应中断是什么意思?比如A、B两线程去竞争锁，A得到了锁，B等待，但是A有很多事情要处理，所以一直不返回。B可能就会等不及了，想中断自己，不再等待这个锁了，转而处理其他事情。在这种情况下，synchronized的做法是，B线程中断自己（或者别的线程">
+  <link rel="canonical" href="http://www.iteedu.com/blog/plang/java/threadsafe/lockInterruptibly/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>JAVA同步之ReentrantLock可中断锁的使用 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/plang/java/threadsafe/lockInterruptibly/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">JAVA同步之ReentrantLock可中断锁的使用
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-12-23 11:18:54" itemprop="dateCreated datePublished" datetime="2015-12-23T11:18:54+08:00">2015-12-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-23 21:31:03" itemprop="dateModified" datetime="2019-06-23T21:31:03+08:00">2019-06-23</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/JAVA/线程安全/" itemprop="url" rel="index"><span itemprop="name">线程安全</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本本文是对ReentrantLock可中断锁的介绍。可中断锁是通过ReentrantLock提供的lockInterruptibly()方法实现的。</p>
+<h2 id="响应中断是什么意思"><a href="#响应中断是什么意思" class="headerlink" title="响应中断是什么意思?"></a>响应中断是什么意思?</h2><p>比如A、B两线程去竞争锁，A得到了锁，B等待，但是A有很多事情要处理，所以一直不返回。B可能就会等不及了，想中断自己，不再等待这个锁了，转而处理其他事情。在这种情况下，synchronized的做法是，B线程中断自己（或者别的线程中断它），我不去响应，继续让B线程等待，你再怎么中断，我全当耳边风。而lockInterruptibly()的做法是，B线程中断自己（或者别的线程中断它），ReentrantLock响应这个中断，不再让B等待这个锁的到来。有了这个机制，使用ReentrantLock时死锁了线程可以中断自己来解除死锁。</p>
+<h2 id="什么叫做中断自己？"><a href="#什么叫做中断自己？" class="headerlink" title="什么叫做中断自己？"></a>什么叫做中断自己？</h2><p>比如A、B两线程去竞争锁，它们肯定是被父线程创建并启动的，那父线程一定有它们的引用。线程都有interrupt()方法，假设父线程创建的线程B的引用是b，那b.interrupt()就是中断自己。</p>
+<h2 id="怎么中断自己"><a href="#怎么中断自己" class="headerlink" title="怎么中断自己"></a>怎么中断自己</h2><p>lock.lockInterruptibly()，这个方法会抛出异常InterruptedException。</p>
+<p>什么时候抛出异常呢？当调用interrupt()方法自我中断的时候。</p>
+<p>这时线程就进入了中断处理的过程，不会再等待锁了。</p>
+<p>至于异常处理是怎样的，有很多种选择呀。比如可以退出线程的run()方法使线程完结，也可以使线程处理另外的事情。</p>
+<h2 id="一个中断锁的例子"><a href="#一个中断锁的例子" class="headerlink" title="一个中断锁的例子"></a>一个中断锁的例子</h2><pre><code>import java.util.concurrent.locks.ReentrantLock;
+
+public class ReentrantLockSample {
+
+    public static void main(String[] args) {
+        testSynchronized();
+        testReentrantLock();
+    }
+
+    public static void testReentrantLock() {
+        final SampleSupport1 support = new SampleSupport1();
+        Thread first = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    support.doSomething();
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        },&quot;first&quot;);
+
+        Thread second = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    support.doSomething();
+                }
+                catch (InterruptedException e) {
+                    System.out.println(&quot;Second Thread Interrupted without executing counter++,beacuse it waits a long time.&quot;);
+                }
+            }
+        },&quot;second&quot;);
+
+        executeTest(first, second);
+    }
+
+    public static void testSynchronized() {
+        final SampleSupport2 support2 = new SampleSupport2();
+
+        Runnable runnable = new Runnable() {
+            public void run() {
+                support2.doSomething();
+            }
+        };
+
+        Thread third = new Thread(runnable,&quot;third&quot;);
+        Thread fourth = new Thread(runnable,&quot;fourth&quot;);
+
+        executeTest(third, fourth);
+    }
+
+    /**
+     * Make thread a run faster than thread b,
+     * then thread b will be interruted after about 1s.
+     * @param a
+     * @param b
+     */
+    public static void executeTest(Thread a, Thread b) {
+        a.start();
+        try {
+            Thread.sleep(100);
+            b.start(); 
+            Thread.sleep(1000);
+            b.interrupt(); 
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+abstract class SampleSupport {
+
+    protected int counter;
+
+    /**
+     * A simple countdown,it will stop after about 5s. 
+     */
+    public void startTheCountdown() {
+        long currentTime = System.currentTimeMillis();
+        for (;;) {
+            long diff = System.currentTimeMillis() - currentTime;
+            if (diff &gt; 5000) {
+                break;
+            }
+        }
+    }
+}
+
+class SampleSupport1 extends SampleSupport {
+
+    private final ReentrantLock lock = new ReentrantLock();
+
+    public void doSomething() throws InterruptedException {
+        lock.lockInterruptibly();
+//        try {
+//            lock.lockInterruptibly();
+//        } catch (InterruptedException e) {
+//            //做一些其它的事，不结束线程
+//        }
+        System.out.println(Thread.currentThread().getName() + &quot; will execute counter++.&quot;);
+        startTheCountdown();
+        try {
+            counter++;
+        }
+        finally {
+            lock.unlock();
+        }
+    }
+}
+
+class SampleSupport2 extends SampleSupport {
+
+    public synchronized void doSomething() {
+        System.out.println(Thread.currentThread().getName() + &quot; will execute counter++.&quot;);
+        startTheCountdown();
+        counter++;
+    }
+}</code></pre><h2 id="中断介绍"><a href="#中断介绍" class="headerlink" title="中断介绍"></a>中断介绍</h2><p>中断（Interrupt）一个线程意味着在该线程完成任务之前停止其正在进行的一切，有效地中止其当前的操作。线程是死亡、还是等待新的任务或是继续运行至下一步，就取决于这个程序。虽然初次看来它可能显得简单，但是，你必须进行一些预警以实现期望的结果。</p>
+<p>从上面的介绍知道，interrupt()并不会使线程停止运行，那如何停止线程呢？</p>
+<p>中断线程最好的，最受推荐的方式是，使用共享变量（shared<br>variable）发出信号，告诉线程必须停止正在运行的任务。线程必须周期性的核查这一变量（尤其在冗余操作期间），然后有秩序地中止任务。</p>
+<pre><code>class Example2 extends Thread {
+    volatile boolean stop = false;
+
+    public static void main(String args[]) throws Exception {
+        Example2 thread = new Example2();
+        System.out.println(&quot;Starting thread...&quot;);
+        thread.start();
+        Thread.sleep(3000);
+        System.out.println(&quot;Asking thread to stop...&quot;);
+
+        thread.stop = true;
+        Thread.sleep(3000);
+        System.out.println(&quot;Stopping application...&quot;);
+        //System.exit( 0 );
+    }
+
+    public void run() {
+        while (!stop) {
+            System.out.println(&quot;Thread is running...&quot;);
+            long time = System.currentTimeMillis();
+            while ((System.currentTimeMillis() - time &lt; 1000) &amp;&amp; (!stop)) {
+            }
+        }
+        System.out.println(&quot;Thread exiting under request...&quot;);
+    }
+}</code></pre>
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          
+            <a href="/tags/线程安全/" rel="tag"># 线程安全</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/plang/java/threadsafe/reentrantlock/" rel="next" title="JAVA同步之ReentrantLock 类简介">
+                <i class="fa fa-chevron-left"></i> JAVA同步之ReentrantLock 类简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/plang/java/threadsafe/conditions/" rel="prev" title="JAVA同步之ReentrantLock多条件的使用">
+                JAVA同步之ReentrantLock多条件的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#响应中断是什么意思"><span class="nav-number">1.</span> <span class="nav-text">响应中断是什么意思?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么叫做中断自己？"><span class="nav-number">2.</span> <span class="nav-text">什么叫做中断自己？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么中断自己"><span class="nav-number">3.</span> <span class="nav-text">怎么中断自己</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个中断锁的例子"><span class="nav-number">4.</span> <span class="nav-text">一个中断锁的例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中断介绍"><span class="nav-number">5.</span> <span class="nav-text">中断介绍</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

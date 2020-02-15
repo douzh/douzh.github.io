@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="Emmet (前身为 Zen Coding) 是一个能大幅度提高前端开发效率的一个工具: 基本上，大多数的文本编辑器都会允许你存储和重用一些代码块，我们称之为”片段”。虽然片段能很好地推动你得生产力，但大多数的实现都有这样一个缺点：你必须先定义你得代码片段，并且不能再运行时进行拓展。 Emmet把片段这个概念提高到了一个新的层次：你可以设置CSS形式的能够动态被解析的表达式，然后根据你所输入的缩写">
+<meta name="keywords" content="神器,Emmet">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端开发必备神器Emmet使用指南">
+<meta property="og:url" content="http://www.iteedu.com/blog/tools/emment/emmentsyzn/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="Emmet (前身为 Zen Coding) 是一个能大幅度提高前端开发效率的一个工具: 基本上，大多数的文本编辑器都会允许你存储和重用一些代码块，我们称之为”片段”。虽然片段能很好地推动你得生产力，但大多数的实现都有这样一个缺点：你必须先定义你得代码片段，并且不能再运行时进行拓展。 Emmet把片段这个概念提高到了一个新的层次：你可以设置CSS形式的能够动态被解析的表达式，然后根据你所输入的缩写">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-02T14:49:18.592Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端开发必备神器Emmet使用指南">
+<meta name="twitter:description" content="Emmet (前身为 Zen Coding) 是一个能大幅度提高前端开发效率的一个工具: 基本上，大多数的文本编辑器都会允许你存储和重用一些代码块，我们称之为”片段”。虽然片段能很好地推动你得生产力，但大多数的实现都有这样一个缺点：你必须先定义你得代码片段，并且不能再运行时进行拓展。 Emmet把片段这个概念提高到了一个新的层次：你可以设置CSS形式的能够动态被解析的表达式，然后根据你所输入的缩写">
+  <link rel="canonical" href="http://www.iteedu.com/blog/tools/emment/emmentsyzn/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>前端开发必备神器Emmet使用指南 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/tools/emment/emmentsyzn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">前端开发必备神器Emmet使用指南
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-11-06 17:28:47" itemprop="dateCreated datePublished" datetime="2015-11-06T17:28:47+08:00">2015-11-06</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-07-02 22:49:18" itemprop="dateModified" datetime="2019-07-02T22:49:18+08:00">2019-07-02</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/工具/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Emmet (前身为 Zen Coding) 是一个能大幅度提高前端开发效率的一个工具:</p>
+<p>基本上，大多数的文本编辑器都会允许你存储和重用一些代码块，我们称之为”片段”。虽然片段能很好地推动你得生产力，但大多数的实现都有这样一个缺点：你必须先定义你得代码片段，并且不能再运行时进行拓展。</p>
+<p>Emmet把片段这个概念提高到了一个新的层次：你可以设置CSS形式的能够动态被解析的表达式，然后根据你所输入的缩写来得到相应的内容。Emmet是很成熟的并且非常适用于编写HTML/XML<br>和 CSS 代码的前端开发人员，但也可以用于编程语言。</p>
+<h3 id="使用示例："><a href="#使用示例：" class="headerlink" title="使用示例："></a>使用示例：</h3><p><strong>在编辑器中输入缩写代码：</strong>ul&gt;li*5
+，然后按下拓展键（默认为tab），即可得到代码片段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">    &lt;li&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>emmet的使用方法也非常简单，以Notepad++为例，直接在编辑器中输入HTML或CSS的代码的缩写，然后按Ctrl+E键就可以拓展为完整的代码片段。（如果与已有的快捷键有冲突的话，可以自行在编辑器中将拓展键设为其他快捷键）</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法:"></a>语法:</h2><h4 id="后代：-gt"><a href="#后代：-gt" class="headerlink" title="后代：&gt;"></a>后代：&gt;</h4><p><strong>缩写</strong>：nav&gt;ul&gt;li</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;nav&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">        &lt;li&gt;&lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">&lt;/nav&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="兄弟："><a href="#兄弟：" class="headerlink" title="兄弟：+"></a>兄弟：+</h4><p><strong>缩写</strong>：div+p+bq</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;&lt;/div&gt;</span><br><span class="line">&lt;p&gt;&lt;/p&gt;</span><br><span class="line">&lt;blockquote&gt;&lt;/blockquote&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="上级："><a href="#上级：" class="headerlink" title="上级：^"></a>上级：^</h4><p><strong>缩写</strong>：div+div&gt;p&gt;span+em^bq</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;&lt;/div&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;p&gt;&lt;span&gt;&lt;/span&gt;&lt;em&gt;&lt;/em&gt;&lt;/p&gt;</span><br><span class="line">    &lt;blockquote&gt;&lt;/blockquote&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：div+div&gt;p&gt;span+em^^bq</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;&lt;/div&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;p&gt;&lt;span&gt;&lt;/span&gt;&lt;em&gt;&lt;/em&gt;&lt;/p&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;blockquote&gt;&lt;/blockquote&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="分组："><a href="#分组：" class="headerlink" title="分组：()"></a>分组：()</h4><p><strong>缩写</strong>：div&gt;(header&gt;ul&gt;li*2&gt;a)+footer&gt;p</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;header&gt;</span><br><span class="line">        &lt;ul&gt;</span><br><span class="line">            &lt;li&gt;&lt;a href=&quot;&quot;&gt;&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">            &lt;li&gt;&lt;a href=&quot;&quot;&gt;&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;/ul&gt;</span><br><span class="line">    &lt;/header&gt;</span><br><span class="line">    &lt;footer&gt;</span><br><span class="line">        &lt;p&gt;&lt;/p&gt;</span><br><span class="line">    &lt;/footer&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：(div&gt;dl&gt;(dt+dd)*3)+footer&gt;p</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;dl&gt;</span><br><span class="line">        &lt;dt&gt;&lt;/dt&gt;</span><br><span class="line">        &lt;dd&gt;&lt;/dd&gt;</span><br><span class="line">        &lt;dt&gt;&lt;/dt&gt;</span><br><span class="line">        &lt;dd&gt;&lt;/dd&gt;</span><br><span class="line">        &lt;dt&gt;&lt;/dt&gt;</span><br><span class="line">        &lt;dd&gt;&lt;/dd&gt;</span><br><span class="line">    &lt;/dl&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;footer&gt;</span><br><span class="line">    &lt;p&gt;&lt;/p&gt;</span><br><span class="line">&lt;/footer&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="乘法："><a href="#乘法：" class="headerlink" title="乘法：*"></a>乘法：*</h4><p><strong>缩写</strong>：ul&gt;li*5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">    &lt;li&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="自增符号："><a href="#自增符号：" class="headerlink" title="自增符号：$"></a>自增符号：$</h4><p><strong>缩写</strong>：ul&gt;li.item$*5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">    &lt;li class=&quot;item1&quot;&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;item2&quot;&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;item3&quot;&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;item4&quot;&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;item5&quot;&gt;&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：h$[title=item$]{Header $}*3</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;h1 title=&quot;item1&quot;&gt;Header 1&lt;/h1&gt;</span><br><span class="line">&lt;h2 title=&quot;item2&quot;&gt;Header 2&lt;/h2&gt;</span><br><span class="line">&lt;h3 title=&quot;item3&quot;&gt;Header 3&lt;/h3&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：ul&gt;li.item$$$*5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">    &lt;li class=&quot;item001&quot;&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;item002&quot;&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;item003&quot;&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;item004&quot;&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;item005&quot;&gt;&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：ul&gt;li.item$@-*5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">    &lt;li class=&quot;item5&quot;&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;item4&quot;&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;item3&quot;&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;item2&quot;&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;item1&quot;&gt;&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：ul&gt;li.item$@3*5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">    &lt;li class=&quot;item3&quot;&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;item4&quot;&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;item5&quot;&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;item6&quot;&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;item7&quot;&gt;&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="ID和类属性"><a href="#ID和类属性" class="headerlink" title="ID和类属性"></a>ID和类属性</h4><p><strong>缩写</strong>：#header</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;header&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：.title</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;title&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：form#search.wide</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;form id=&quot;search&quot; class=&quot;wide&quot;&gt;&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：p.class1.class2.class3</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;p class=&quot;class1 class2 class3&quot;&gt;&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="自定义属性"><a href="#自定义属性" class="headerlink" title="自定义属性"></a>自定义属性</h4><p><strong>缩写</strong>：p[title=&quot;Hello world&quot;]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;p title=&quot;Hello world&quot;&gt;&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：td[rowspan=2 colspan=3 title]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;td rowspan=&quot;2&quot; colspan=&quot;3&quot; title=&quot;&quot;&gt;&lt;/td&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：[a=&#39;value1&#39; b=&quot;value2&quot;]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div a=&quot;value1&quot; b=&quot;value2&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="文本："><a href="#文本：" class="headerlink" title="文本：{}"></a>文本：{}</h4><p><strong>缩写</strong>：a{Click me}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;&quot;&gt;Click me&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：p&gt;{Click }+a{here}+{ to continue}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;Click &lt;a href=&quot;&quot;&gt;here&lt;/a&gt; to continue&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="隐式标签"><a href="#隐式标签" class="headerlink" title="隐式标签"></a>隐式标签</h4><p><strong>缩写</strong>：.class</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;class&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：em&gt;.class</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;em&gt;&lt;span class=&quot;class&quot;&gt;&lt;/span&gt;&lt;/em&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：ul&gt;.class</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">    &lt;li class=&quot;class&quot;&gt;&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：table&gt;.row&gt;.col</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;table&gt;</span><br><span class="line">    &lt;tr class=&quot;row&quot;&gt;</span><br><span class="line">        &lt;td class=&quot;col&quot;&gt;&lt;/td&gt;</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">&lt;/table&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h3><p><em>所有未知的缩写都会转换成标签，例如，foo → &lt;foo&gt;&lt;/foo&gt;</em></p>
+<p><strong>缩写</strong>：!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!doctype html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：a</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;&quot;&gt;&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：a:link</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;http://&quot;&gt;&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：a:mail</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;mailto:&quot;&gt;&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：abbr</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;abbr title=&quot;&quot;&gt;&lt;/abbr&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：acronym</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;acronym title=&quot;&quot;&gt;&lt;/acronym&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：base</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;base href=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：basefont</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;basefont /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：br</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;br /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：frame</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;frame /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：hr</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;hr /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：bdo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;bdo dir=&quot;&quot;&gt;&lt;/bdo&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：bdo:r</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;bdo dir=&quot;rtl&quot;&gt;&lt;/bdo&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：bdo:l</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;bdo dir=&quot;ltr&quot;&gt;&lt;/bdo&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：col</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;col /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：link</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：link:css</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：link:print</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;print.css&quot; media=&quot;print&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：link:favicon</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;shortcut icon&quot; type=&quot;image/x-icon&quot; href=&quot;favicon.ico&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：link:touch</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;apple-touch-icon&quot; href=&quot;favicon.png&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：link:rss</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;RSS&quot; href=&quot;rss.xml&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：link:atom</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;alternate&quot; type=&quot;application/atom+xml&quot; title=&quot;Atom&quot; href=&quot;atom.xml&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：meta</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：meta:utf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=UTF-8&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：meta:win</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=windows-1251&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：meta:vp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：meta:compat</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=7&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：style</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：script</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：script:src</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：img</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=&quot;&quot; alt=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：iframe</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe src=&quot;&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：embed</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;embed src=&quot;&quot; type=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：object</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;object data=&quot;&quot; type=&quot;&quot;&gt;&lt;/object&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：param</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;param name=&quot;&quot; value=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：map</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;map name=&quot;&quot;&gt;&lt;/map&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：area</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;area shape=&quot;&quot; coords=&quot;&quot; href=&quot;&quot; alt=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：area:d</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;area shape=&quot;default&quot; href=&quot;&quot; alt=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：area:c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;area shape=&quot;circle&quot; coords=&quot;&quot; href=&quot;&quot; alt=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：area:r</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;area shape=&quot;rect&quot; coords=&quot;&quot; href=&quot;&quot; alt=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：area:p</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;area shape=&quot;poly&quot; coords=&quot;&quot; href=&quot;&quot; alt=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：form</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=&quot;&quot;&gt;&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：form:get</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=&quot;&quot; method=&quot;get&quot;&gt;&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：form:post</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：label</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;label for=&quot;&quot;&gt;&lt;/label&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：inp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:hidden</p>
+<p><em>别名：input[type=hidden name]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;hidden&quot; name=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:h</p>
+<p><em>别名：input:hidden</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;hidden&quot; name=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:text, input:t</p>
+<p><em>别名：inp</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:search</p>
+<p><em>别名：inp[type=search]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;search&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:email</p>
+<p><em>别名：inp[type=email]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;email&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:url</p>
+<p><em>别名：inp[type=url]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;url&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:password</p>
+<p><em>别名：inp[type=password]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;password&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:p</p>
+<p><em>别名：input:password</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;password&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:datetime</p>
+<p><em>别名：inp[type=datetime]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;datetime&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:date</p>
+<p><em>别名：inp[type=date]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;date&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:datetime-local</p>
+<p><em>别名：inp[type=datetime-local]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;datetime-local&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:month</p>
+<p><em>别名：inp[type=month]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;month&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:week</p>
+<p><em>别名：inp[type=week]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;week&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:time</p>
+<p><em>别名：inp[type=time]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;time&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:number</p>
+<p><em>别名：inp[type=number]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;number&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:color</p>
+<p><em>别名：inp[type=color]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;color&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:checkbox</p>
+<p><em>别名：inp[type=checkbox]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;checkbox&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:c</p>
+<p><em>别名：input:checkbox</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;checkbox&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:radio</p>
+<p><em>别名：inp[type=radio]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;radio&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:r</p>
+<p><em>别名：input:radio</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;radio&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:range</p>
+<p><em>别名：inp[type=range]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;range&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:file</p>
+<p><em>别名：inp[type=file]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;file&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:f</p>
+<p><em>别名：input:file</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;file&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:submit</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;submit&quot; value=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:s</p>
+<p><em>别名：input:submit</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;submit&quot; value=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:image</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;image&quot; src=&quot;&quot; alt=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:i</p>
+<p><em>别名：input:image</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;image&quot; src=&quot;&quot; alt=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:button</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;button&quot; value=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:b</p>
+<p><em>别名：input:button</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;button&quot; value=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：isindex</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;isindex /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：input:reset</p>
+<p><em>别名：input:button[type=reset]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;reset&quot; value=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：select</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;select name=&quot;&quot; id=&quot;&quot;&gt;&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：option</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;option value=&quot;&quot;&gt;&lt;/option&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：textarea</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;textarea name=&quot;&quot; id=&quot;&quot; cols=&quot;30&quot; rows=&quot;10&quot;&gt;&lt;/textarea&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：menu:context</p>
+<p><em>别名：menu[type=context]&gt;</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;menu type=&quot;context&quot;&gt;&lt;/menu&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：menu:c</p>
+<p><em>别名：menu:context</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;menu type=&quot;context&quot;&gt;&lt;/menu&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：menu:toolbar</p>
+<p><em>别名：menu[type=toolbar]&gt;</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;menu type=&quot;toolbar&quot;&gt;&lt;/menu&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：menu:t</p>
+<p><em>别名：menu:toolbar</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;menu type=&quot;toolbar&quot;&gt;&lt;/menu&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：video</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;video src=&quot;&quot;&gt;&lt;/video&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：audio</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;audio src=&quot;&quot;&gt;&lt;/audio&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：html:xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：keygen</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;keygen /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：command</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;command /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：bq</p>
+<p><em>别名：blockquote</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;blockquote&gt;&lt;/blockquote&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：acr</p>
+<p><em>别名：acronym</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;acronym title=&quot;&quot;&gt;&lt;/acronym&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：fig</p>
+<p><em>别名：figure</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;figure&gt;&lt;/figure&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：figc</p>
+<p><em>别名：figcaption</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;figcaption&gt;&lt;/figcaption&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：ifr</p>
+<p><em>别名：iframe</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe src=&quot;&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：emb</p>
+<p><em>别名：embed</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;embed src=&quot;&quot; type=&quot;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：obj</p>
+<p><em>别名：object</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;object data=&quot;&quot; type=&quot;&quot;&gt;&lt;/object&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：src</p>
+<p><em>别名：source</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;source&gt;&lt;/source&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：cap</p>
+<p><em>别名：caption</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;caption&gt;&lt;/caption&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：colg</p>
+<p><em>别名：colgroup</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;colgroup&gt;&lt;/colgroup&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：fst, fset</p>
+<p><em>别名：fieldset</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;fieldset&gt;&lt;/fieldset&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：btn</p>
+<p><em>别名：button</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：btn:b</p>
+<p><em>别名：button[type=button]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button type=&quot;button&quot;&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：btn:r</p>
+<p><em>别名：button[type=reset]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button type=&quot;reset&quot;&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缩写</strong>：btn:s</p>
+<p><em>别名：button[type=submit]</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button type=&quot;submit&quot;&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/神器/" rel="tag"># 神器</a>
+          
+            <a href="/tags/Emmet/" rel="tag"># Emmet</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/webtech/edithtmlentity/" rel="next" title="如何解决编辑器中HTML实体自动替换问题">
+                <i class="fa fa-chevron-left"></i> 如何解决编辑器中HTML实体自动替换问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/tools/vim/installemmet/" rel="prev" title="Vim安装Emmet插件简介">
+                Vim安装Emmet插件简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用示例："><span class="nav-number">1.</span> <span class="nav-text">使用示例：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用方法"><span class="nav-number">2.</span> <span class="nav-text">使用方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number"></span> <span class="nav-text">语法:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#后代：-gt"><span class="nav-number">0.1.</span> <span class="nav-text">后代：&gt;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#兄弟："><span class="nav-number">0.2.</span> <span class="nav-text">兄弟：+</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#上级："><span class="nav-number">0.3.</span> <span class="nav-text">上级：^</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分组："><span class="nav-number">0.4.</span> <span class="nav-text">分组：()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#乘法："><span class="nav-number">0.5.</span> <span class="nav-text">乘法：*</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自增符号："><span class="nav-number">0.6.</span> <span class="nav-text">自增符号：$</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ID和类属性"><span class="nav-number">0.7.</span> <span class="nav-text">ID和类属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义属性"><span class="nav-number">0.8.</span> <span class="nav-text">自定义属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文本："><span class="nav-number">0.9.</span> <span class="nav-text">文本：{}</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#隐式标签"><span class="nav-number">0.10.</span> <span class="nav-text">隐式标签</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML"><span class="nav-number">1.</span> <span class="nav-text">HTML</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="mongodb不支持事务，所以，在你的项目中应用时，要注意这点。无论什么设计，都不要要求mongodb保证数据的完整性。 但是mongodb提供了许多原子操作，比如文档的保存，修改，删除等，都是原子操作。 所谓原子操作就是要么这个文档保存到Mongodb，要么没有保存到Mongodb，不会出现查询到的文档没有保存完整的情况。 原子操作数据模型考虑下面的例子，图书馆的书籍及结账信息。 实例说明了在一">
+<meta name="keywords" content="nosql,MongoDB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB 原子操作">
+<meta property="og:url" content="http://www.iteedu.com/blog/nosql/mongodb/atomic/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="mongodb不支持事务，所以，在你的项目中应用时，要注意这点。无论什么设计，都不要要求mongodb保证数据的完整性。 但是mongodb提供了许多原子操作，比如文档的保存，修改，删除等，都是原子操作。 所谓原子操作就是要么这个文档保存到Mongodb，要么没有保存到Mongodb，不会出现查询到的文档没有保存完整的情况。 原子操作数据模型考虑下面的例子，图书馆的书籍及结账信息。 实例说明了在一">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-29T13:50:30.190Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MongoDB 原子操作">
+<meta name="twitter:description" content="mongodb不支持事务，所以，在你的项目中应用时，要注意这点。无论什么设计，都不要要求mongodb保证数据的完整性。 但是mongodb提供了许多原子操作，比如文档的保存，修改，删除等，都是原子操作。 所谓原子操作就是要么这个文档保存到Mongodb，要么没有保存到Mongodb，不会出现查询到的文档没有保存完整的情况。 原子操作数据模型考虑下面的例子，图书馆的书籍及结账信息。 实例说明了在一">
+  <link rel="canonical" href="http://www.iteedu.com/blog/nosql/mongodb/atomic/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>MongoDB 原子操作 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/nosql/mongodb/atomic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">MongoDB 原子操作
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2016-04-10 17:38:12" itemprop="dateCreated datePublished" datetime="2016-04-10T17:38:12+08:00">2016-04-10</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-29 21:50:30" itemprop="dateModified" datetime="2019-06-29T21:50:30+08:00">2019-06-29</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/nosql/" itemprop="url" rel="index"><span itemprop="name">nosql</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/nosql/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>mongodb不支持事务，所以，在你的项目中应用时，要注意这点。无论什么设计，都不要要求mongodb保证数据的完整性。</p>
+<p>但是mongodb提供了许多原子操作，比如文档的保存，修改，删除等，都是原子操作。</p>
+<p>所谓原子操作就是要么这个文档保存到Mongodb，要么没有保存到Mongodb，不会出现查询到的文档没有保存完整的情况。</p>
+<h2 id="原子操作数据模型"><a href="#原子操作数据模型" class="headerlink" title="原子操作数据模型"></a>原子操作数据模型</h2><p>考虑下面的例子，图书馆的书籍及结账信息。</p>
+<p>实例说明了在一个相同的文档中如何确保嵌入字段关联原子操作（update：更新）的字段是同步的。</p>
+<pre><code>book = {
+          _id: 123456789,
+          title: &quot;MongoDB: The Definitive Guide&quot;,
+          author: [ &quot;Kristina Chodorow&quot;, &quot;Mike Dirolf&quot; ],
+          published_date: ISODate(&quot;2010-09-24&quot;),
+          pages: 216,
+          language: &quot;English&quot;,
+          publisher_id: &quot;oreilly&quot;,
+          available: 3,
+          checkout: [ { by: &quot;joe&quot;, date: ISODate(&quot;2012-10-15&quot;) } ]
+        }</code></pre><p>你可以使用 db.collection.findAndModify()方法来判断书籍是否可结算并更新新的结算信息。</p>
+<p>在同一个文档中嵌入的 available 和 checkout<br>字段来确保这些字段是同步更新的:</p>
+<pre><code>db.books.findAndModify ( {
+   query: {
+            _id: 123456789,
+            available: { $gt: 0 }
+          },
+   update: {
+             $inc: { available: -1 },
+             $push: { checkout: { by: &quot;abc&quot;, date: new Date() } }
+           }
+} )</code></pre><h2 id="原子操作常用命令"><a href="#原子操作常用命令" class="headerlink" title="原子操作常用命令"></a>原子操作常用命令</h2><h4 id="set"><a href="#set" class="headerlink" title="$set"></a>$set</h4><p>用来指定一个键并更新键值，若键不存在并创建。</p>
+<pre><code>{ $set : { field : value } }</code></pre><h4 id="unset"><a href="#unset" class="headerlink" title="$unset"></a>$unset</h4><p>用来删除一个键。</p>
+<pre><code>{ $unset : { field : 1} }</code></pre><h4 id="inc"><a href="#inc" class="headerlink" title="$inc"></a>$inc</h4><p>$inc可以对文档的某个值为数字型（只能为满足要求的数字）的键进行增减的操作。</p>
+<pre><code>{ $inc : { field : value } }</code></pre><h4 id="push"><a href="#push" class="headerlink" title="$push"></a>$push</h4><p>用法：</p>
+<pre><code>{ $push : { field : value } }</code></pre><p>把value追加到field里面去，field一定要是数组类型才行，如果field不存在，会新增一个数组类型加进去。</p>
+<h4 id="pushAll"><a href="#pushAll" class="headerlink" title="$pushAll"></a>$pushAll</h4><p>同$push,只是一次可以追加多个值到一个数组字段内。</p>
+<pre><code>{ $pushAll : { field : value_array } }</code></pre><h4 id="pull"><a href="#pull" class="headerlink" title="$pull"></a>$pull</h4><p>从数组field内删除一个等于value值。</p>
+<pre><code>{ $pull : { field : _value } }</code></pre><h4 id="addToSet"><a href="#addToSet" class="headerlink" title="$addToSet"></a>$addToSet</h4><p>增加一个值到数组内，而且只有当这个值不在数组内才增加。</p>
+<h4 id="pop"><a href="#pop" class="headerlink" title="$pop"></a>$pop</h4><p>删除数组的第一个或最后一个元素</p>
+<pre><code>{ $pop : { field : 1 } }</code></pre><h4 id="rename"><a href="#rename" class="headerlink" title="$rename"></a>$rename</h4><p>修改字段名称</p>
+<pre><code>{ $rename : { old_field_name : new_field_name } }</code></pre><h4 id="bit"><a href="#bit" class="headerlink" title="$bit"></a>$bit</h4><p>位操作，integer类型</p>
+<pre><code>{$bit : { field : {and : 5}}}</code></pre><h4 id="偏移操作符"><a href="#偏移操作符" class="headerlink" title="偏移操作符"></a>偏移操作符</h4><pre><code>&gt; t.find() { &quot;_id&quot; : ObjectId(&quot;4b97e62bf1d8c7152c9ccb74&quot;), &quot;title&quot; : &quot;ABC&quot;, &quot;comments&quot; : [ { &quot;by&quot; : &quot;joe&quot;, &quot;votes&quot; : 3 }, { &quot;by&quot; : &quot;jane&quot;, &quot;votes&quot; : 7 } ] }
+
+&gt; t.update( {&apos;comments.by&apos;:&apos;joe&apos;}, {$inc:{&apos;comments.$.votes&apos;:1}}, false, true )
+
+&gt; t.find() { &quot;_id&quot; : ObjectId(&quot;4b97e62bf1d8c7152c9ccb74&quot;), &quot;title&quot; : &quot;ABC&quot;, &quot;comments&quot; : [ { &quot;by&quot; : &quot;joe&quot;, &quot;votes&quot; : 4 }, { &quot;by&quot; : &quot;jane&quot;, &quot;votes&quot; : 7 } ] }</code></pre>
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/nosql/" rel="tag"># nosql</a>
+          
+            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/nosql/mongodb/aggregate/" rel="next" title="MongoDB 聚合方法aggregate()">
+                <i class="fa fa-chevron-left"></i> MongoDB 聚合方法aggregate()
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/nosql/nosql/" rel="prev" title="NoSQL 简介">
+                NoSQL 简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#原子操作数据模型"><span class="nav-number">1.</span> <span class="nav-text">原子操作数据模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原子操作常用命令"><span class="nav-number">2.</span> <span class="nav-text">原子操作常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#set"><span class="nav-number">2.0.1.</span> <span class="nav-text">$set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unset"><span class="nav-number">2.0.2.</span> <span class="nav-text">$unset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#inc"><span class="nav-number">2.0.3.</span> <span class="nav-text">$inc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#push"><span class="nav-number">2.0.4.</span> <span class="nav-text">$push</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pushAll"><span class="nav-number">2.0.5.</span> <span class="nav-text">$pushAll</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pull"><span class="nav-number">2.0.6.</span> <span class="nav-text">$pull</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#addToSet"><span class="nav-number">2.0.7.</span> <span class="nav-text">$addToSet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pop"><span class="nav-number">2.0.8.</span> <span class="nav-text">$pop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rename"><span class="nav-number">2.0.9.</span> <span class="nav-text">$rename</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bit"><span class="nav-number">2.0.10.</span> <span class="nav-text">$bit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#偏移操作符"><span class="nav-number">2.0.11.</span> <span class="nav-text">偏移操作符</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="Emacs的基本编辑功能并不复杂，这里主要介绍Emacs的常用编辑功能。 控制键Emacs 键盘命令通常包含 CONTROL 键（有时候以 CTRL 或 CTL 来标示）和META键（有时候用 EDIT 或 ALT来标示）。为了避免每次都要写出全名，我们约定使用下述缩写： C-:表示当输入字符 时按住 CONTROL 键。因此 C-f 就表示：按住 CONTROL键再输入 f。 M-: 表示当输入">
+<meta name="keywords" content="Emacs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Emacs快速入门">
+<meta property="og:url" content="http://www.iteedu.com/blog/tools/emacs/emacsdiary/emacsksrm/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="Emacs的基本编辑功能并不复杂，这里主要介绍Emacs的常用编辑功能。 控制键Emacs 键盘命令通常包含 CONTROL 键（有时候以 CTRL 或 CTL 来标示）和META键（有时候用 EDIT 或 ALT来标示）。为了避免每次都要写出全名，我们约定使用下述缩写： C-:表示当输入字符 时按住 CONTROL 键。因此 C-f 就表示：按住 CONTROL键再输入 f。 M-: 表示当输入">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-29T14:09:47.578Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Emacs快速入门">
+<meta name="twitter:description" content="Emacs的基本编辑功能并不复杂，这里主要介绍Emacs的常用编辑功能。 控制键Emacs 键盘命令通常包含 CONTROL 键（有时候以 CTRL 或 CTL 来标示）和META键（有时候用 EDIT 或 ALT来标示）。为了避免每次都要写出全名，我们约定使用下述缩写： C-:表示当输入字符 时按住 CONTROL 键。因此 C-f 就表示：按住 CONTROL键再输入 f。 M-: 表示当输入">
+  <link rel="canonical" href="http://www.iteedu.com/blog/tools/emacs/emacsdiary/emacsksrm/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Emacs快速入门 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/tools/emacs/emacsdiary/emacsksrm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">Emacs快速入门
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-10-14 15:57:22" itemprop="dateCreated datePublished" datetime="2015-10-14T15:57:22+08:00">2015-10-14</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-29 22:09:47" itemprop="dateModified" datetime="2019-06-29T22:09:47+08:00">2019-06-29</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/工具/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/工具/Emacs/" itemprop="url" rel="index"><span itemprop="name">Emacs</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Emacs的基本编辑功能并不复杂，这里主要介绍Emacs的常用编辑功能。</p>
+<h2 id="控制键"><a href="#控制键" class="headerlink" title="控制键"></a>控制键</h2><p>Emacs 键盘命令通常包含 CONTROL 键（有时候以 CTRL 或 CTL 来标示）和META键（有时候用 EDIT 或 ALT<br>来标示）。为了避免每次都要写出全名，我们约定使用下述缩写：</p>
+<p>C-:表示当输入字符 时按住 CONTROL 键。因此 C-f 就表示：按住 CONTROL键再输入 f。</p>
+<p>M-: 表示当输入字符 时按住 META（或 EDIT 或 ALT）键。如果你的键盘上没有META 、EDIT 或 ALT 键，用下述方法也等效：先按一下 ESC 键然后放开，再输入。我们用 来表示ESC 键。</p>
+<p>通常的惯例是：META系列组合键用来操作“由语言定义的单位（比如词、句子、段落）”，而CONTROL系列组合键用来操作“与语言无关的基本单位（比如字符、行等等）”。</p>
+<p>CTRL有很多按法，推荐用两手小拇指按，一手按CTRL一手按字母。</p>
+<p>ALT推荐用两手大拇指，一手按ALT一手按字母。</p>
+<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><ul>
+<li>C-x C-f：寻找文件。</li>
+<li>C-x C-s：保存文件</li>
+<li>C-x C-b：列出缓冲区</li>
+<li>C-x C-c：离开 Emacs</li>
+<li>C-x 1：关掉其它所有窗格，只保留一个</li>
+<li>C-x u：撤销</li>
+</ul>
+<h2 id="滚屏"><a href="#滚屏" class="headerlink" title="滚屏"></a>滚屏</h2><ul>
+<li>C-v:向前移动一屏</li>
+<li>M-v:向后移动一屏</li>
+<li>C-l:重绘屏幕，并将光标所在行置于屏幕的中央</li>
+</ul>
+<h2 id="移动光标"><a href="#移动光标" class="headerlink" title="移动光标"></a>移动光标</h2><pre><code>                 上一行 C-p
+                      :
+                      :
+向左移 C-b .... 目前光标位置 .... 向右移 C-f
+                      :
+                      :
+                 下一行 C-n</code></pre><ul>
+<li>C-b:B 代表 backward（回退）</li>
+<li>C-f:F 则代表 forward（前进）</li>
+<li>C-p:P 代表 previous（上一行）</li>
+<li>C-n:N 代表 next（下一行）</li>
+</ul>
+<p>按单词移动,这里的“词”指英文单词，对中文来说，则是指移动到下一个标点符号：</p>
+<ul>
+<li>M-f:(META-f) 向前移动一个词</li>
+<li>M-b:向后移动一个词</li>
+</ul>
+<p>移动动到首尾：</p>
+<ul>
+<li>C-a：移动到行首</li>
+<li>C-e：移动到行尾</li>
+<li>M-a：移动到句首</li>
+<li>M-e：移动到句尾</li>
+<li>M-&lt;：移到文件最开始</li>
+<li>M-&gt;：移到文件最末尾</li>
+</ul>
+<h2 id="命令参数"><a href="#命令参数" class="headerlink" title="命令参数"></a>命令参数</h2><p>命令参数最常用的是重复执行命令。</p>
+<p>输入方法：先输入 C-u，然后输入数字作为参数，最后再输入命令。</p>
+<p>例：向前移动 8 个字符</p>
+<pre><code>C-u 8 C-f</code></pre><p>例：输入相同字符，插入 ********</p>
+<pre><code>C-u 8 *</code></pre><h2 id="终止命令"><a href="#终止命令" class="headerlink" title="终止命令"></a>终止命令</h2><p>如果 Emacs 对你的命令失去响应，你可以用 C-g来安全地终止这条命令。C-g也可以终止一条执行过久的命令。</p>
+<p>C-g 还可以取消数字参数和只输入到一半的命令。</p>
+<h2 id="删除剪切内容"><a href="#删除剪切内容" class="headerlink" title="删除剪切内容"></a>删除剪切内容</h2><p>Emacs的编辑和普通的编辑器的输入删除一样，这里介绍几个删除的快捷键：</p>
+<ul>
+<li>C-d:删除光标后的一个字符</li>
+<li>M-d:移除（剪切）光标后的一个词</li>
+<li>C-k:移除（剪切）从光标到“行尾”间的字符</li>
+<li>M-k:移除（剪切）从光标到“句尾”间的字符</li>
+<li>C-w:移除（剪切）区块</li>
+<li>M-w:复制区块</li>
+</ul>
+<p>注意,“移除（kill）”和“删除（delete）”的不同在于被移除的东西可以被重新插入（在任何位置），而被删除的就不能使用相同的方法重新插入了。</p>
+<p>一般而言，那些可能消除很多文字的命令会把消除掉的文字记录下来（它们被设定成了“可召回”），而那些只消除一个字符或者只消除空白的命令就不会记录被消除的内容（自然你也就无法召回了）。</p>
+<h2 id="粘贴-召回内容"><a href="#粘贴-召回内容" class="headerlink" title="粘贴/召回内容"></a>粘贴/召回内容</h2><ul>
+<li>C-y:光标所在处插入你最后移除的文字。</li>
+<li>M-y:召回再前一次被移除的内容，可以一直向前召回。</li>
+</ul>
+<h2 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h2><ul>
+<li>C-s:向前搜索</li>
+<li>C-r:向后搜索</li>
+</ul>
+<p>按回车可以结束搜索,如果想搜索下一个结果就按C-s/C-r</p>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/Emacs/" rel="tag"># Emacs</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/basetech/math/xxds/jzcfbz/" rel="next" title="矩阵乘法和矩阵的本质理解">
+                <i class="fa fa-chevron-left"></i> 矩阵乘法和矩阵的本质理解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/algorithm/other/monte-carlo-method/" rel="prev" title="蒙特卡罗方法入门">
+                蒙特卡罗方法入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#控制键"><span class="nav-number">1.</span> <span class="nav-text">控制键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用操作"><span class="nav-number">2.</span> <span class="nav-text">常用操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#滚屏"><span class="nav-number">3.</span> <span class="nav-text">滚屏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移动光标"><span class="nav-number">4.</span> <span class="nav-text">移动光标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令参数"><span class="nav-number">5.</span> <span class="nav-text">命令参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#终止命令"><span class="nav-number">6.</span> <span class="nav-text">终止命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除剪切内容"><span class="nav-number">7.</span> <span class="nav-text">删除剪切内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#粘贴-召回内容"><span class="nav-number">8.</span> <span class="nav-text">粘贴/召回内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搜索"><span class="nav-number">9.</span> <span class="nav-text">搜索</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

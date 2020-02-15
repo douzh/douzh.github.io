@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="网络七层协议7 应用层 : telnet，HTTP,FTP,NFS,SMTP 6 表示层 5 会话层 4 传输层 : 是否选择差错恢复协议还是无差错恢复协议，TCP、UDP协议 3 网络层 ：对端到端的包传输进行定义，IP协议 2 数据链路层 :数据链路的建立,拆除,对数据的检错,纠错是数据链路层的基本任务 1 物理层：有关传输介质的特性标准，提供传输媒体及其连接 网络四层层协议实际的实现不是按七">
+<meta name="keywords" content="JAVA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA网络编程概要">
+<meta property="og:url" content="http://www.iteedu.com/blog/plang/java/base/javanetpgm/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="网络七层协议7 应用层 : telnet，HTTP,FTP,NFS,SMTP 6 表示层 5 会话层 4 传输层 : 是否选择差错恢复协议还是无差错恢复协议，TCP、UDP协议 3 网络层 ：对端到端的包传输进行定义，IP协议 2 数据链路层 :数据链路的建立,拆除,对数据的检错,纠错是数据链路层的基本任务 1 物理层：有关传输介质的特性标准，提供传输媒体及其连接 网络四层层协议实际的实现不是按七">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.iteedu.com/images/java/javanet7p.png">
+<meta property="og:image" content="http://iteedu.com/images/java/javasocket.png">
+<meta property="og:updated_time" content="2019-07-07T15:04:19.601Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JAVA网络编程概要">
+<meta name="twitter:description" content="网络七层协议7 应用层 : telnet，HTTP,FTP,NFS,SMTP 6 表示层 5 会话层 4 传输层 : 是否选择差错恢复协议还是无差错恢复协议，TCP、UDP协议 3 网络层 ：对端到端的包传输进行定义，IP协议 2 数据链路层 :数据链路的建立,拆除,对数据的检错,纠错是数据链路层的基本任务 1 物理层：有关传输介质的特性标准，提供传输媒体及其连接 网络四层层协议实际的实现不是按七">
+<meta name="twitter:image" content="http://www.iteedu.com/images/java/javanet7p.png">
+  <link rel="canonical" href="http://www.iteedu.com/blog/plang/java/base/javanetpgm/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>JAVA网络编程概要 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/plang/java/base/javanetpgm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">JAVA网络编程概要
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-12-01 15:11:48" itemprop="dateCreated datePublished" datetime="2015-12-01T15:11:48+08:00">2015-12-01</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-07-07 23:04:19" itemprop="dateModified" datetime="2019-07-07T23:04:19+08:00">2019-07-07</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/JAVA/BASE/" itemprop="url" rel="index"><span itemprop="name">BASE</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="网络七层协议"><a href="#网络七层协议" class="headerlink" title="网络七层协议"></a>网络七层协议</h2><p>7 应用层 : telnet，HTTP,FTP,NFS,SMTP</p>
+<p>6 表示层</p>
+<p>5 会话层</p>
+<p>4 传输层 : 是否选择差错恢复协议还是无差错恢复协议，TCP、UDP协议</p>
+<p>3 网络层 ：对端到端的包传输进行定义，IP协议</p>
+<p>2 数据链路层 :<br>数据链路的建立,拆除,对数据的检错,纠错是数据链路层的基本任务</p>
+<p>1 物理层：有关传输介质的特性标准，提供传输媒体及其连接</p>
+<h2 id="网络四层层协议"><a href="#网络四层层协议" class="headerlink" title="网络四层层协议"></a>网络四层层协议</h2><p>实际的实现不是按七层开发来的，是四层。</p>
+<p>七层协议中的物理层、会话层、表达层只是一种定义，实际上是没有实现的。</p>
+<p><img src="/images/java/javanet7p.png" alt>\</p>
+<h2 id="JAVA网络通信过程"><a href="#JAVA网络通信过程" class="headerlink" title="JAVA网络通信过程"></a>JAVA网络通信过程</h2><p><img src="http://iteedu.com/images/java/javasocket.png" alt>\</p>
+<h2 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h2><p>构造函数</p>
+<pre><code>Socket()
+Socket(InetAddress address, int port)throws UnknownHostException, IOException
+Socket(InetAddress address, int port, InetAddress localAddress, int localPort)throws IOException
+Socket(String host, int port)throws UnknownHostException, IOException
+Socket(String host, int port, InetAddress localAddress, int localPort)throws IOException</code></pre><p>除去第一种不带参数的之外，其它构造函数会尝试建立与服务器的连接。如果失败会抛出IOException错误。如果成功，则返回Socket对象。</p>
+<p>InetAddress是一个用于记录主机的类，其静态getHostByName(String<br>msg)可以返回一个实例，其静态方法getLocalHost()也可以获得当前主机的IP地址，并返回一个实例。</p>
+<p>Socket(String host, int port, InetAddress localAddress, int<br>localPort)构造函数的参数分别为目标IP、目标端口、绑定本地IP、绑定本地端口。</p>
+<p>主要方法：</p>
+<pre><code>getInetAddress();    //远程服务端的IP地址
+getPort();    　　　//远程服务端的端口
+getLocalAddress()   //本地客户端的IP地址
+getLocalPort()    　//本地客户端的端口
+getInputStream();   //获得输入流
+getOutStream();    //获得输出流
+isClosed(); //连接是否已关闭，若关闭，返回true；否则返回false
+isConnect();　　//如果曾经连接过，返回true；否则返回false
+isBound();  //如果Socket已经与本地一个端口绑定，返回true；否则返回false</code></pre><h2 id="ServerSocket"><a href="#ServerSocket" class="headerlink" title="ServerSocket"></a>ServerSocket</h2><p>构造函数</p>
+<pre><code>ServerSocket()throws IOException
+ServerSocket(int port)throws IOException
+ServerSocket(int port, int backlog)throws IOException
+ServerSocket(int port, int backlog, InetAddress bindAddr)throws IOException</code></pre><p>注意点：</p>
+<p>1.<br>port服务端要监听的端口；backlog客户端连接请求的队列长度；bindAddr服务端绑定IP</p>
+<p>2.<br>如果端口被占用或者没有权限使用某些端口会抛出BindException错误。譬如1~1023的端口需要管理员才拥有权限绑定。</p>
+<p>3. 如果设置端口为0，则系统会自动为其分配一个端口；</p>
+<p>4.<br>bindAddr用于绑定服务器IP，为什么会有这样的设置呢，譬如有些机器有多个网卡。</p>
+<p>5.<br>ServerSocket一旦绑定了监听端口，就无法更改。ServerSocket()可以实现在绑定端口前设置其他的参数。</p>
+<p>多线程的ServerSocket示例：</p>
+<pre><code>public void service(){
+    while(true){
+        Socket socket=null;
+        try{
+            socket=serverSocket.accept();    //主线程获取客户端连接
+            Thread workThread=new Thread(new Handler(socket)); //创建线程
+            workThread.start();  //启动线程
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+}
+
+class Handler implements Runnable{
+    private Socket socket;
+    public Handler(Socket socket){
+        this.socket=socket;
+    }
+
+    public void run(){
+        try{
+            System.out.println(&quot;新连接:&quot;+socket.getInetAddress()+&quot;:&quot;+socket.getPort());
+            Thread.sleep(10000);
+        }catch(Exception e){e.printStackTrace();}finally{
+            try{
+                System.out.println(&quot;关闭连接:&quot;+socket.getInetAddress()+&quot;:&quot;+socket.getPort());
+                if(socket!=null)socket.close();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+}</code></pre><h2 id="URL对象示例"><a href="#URL对象示例" class="headerlink" title="URL对象示例"></a>URL对象示例</h2><pre><code>URL url = new URL(&quot;http://www.cnblogs.com/linjiqin/&quot;);
+BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+String inputLine;
+while ((inputLine = in.readLine()) != null) {
+System.out.println(inputLine);
+}
+in.close();</code></pre><h2 id="URLConnection示例"><a href="#URLConnection示例" class="headerlink" title="URLConnection示例"></a>URLConnection示例</h2><p>通过URL的方法openStream()，我们只能从网络上读取数据，如果我们同时还想输出数据，例如向服务器端的CGI程序发送一些数据，我们必须先与URL建立连接，然后才能对其进行读写，这时就要用到类URLConnection了。</p>
+<pre><code>//创建URL对象
+URL url=new URL(&quot;http://www.javasoft.com/cgi-bin/backwards&quot;);
+//由URL对象获取URLConnection对象
+URLConnection conn=url.openConnection();
+//由URLConnection获取输入流，并构造DataInputStream对象
+DataInputStream dis=new DataInputStream(conn.getInputStream()); 
+//由URLConnection获取输出流，并构造PrintStream对象
+PrintStream ps=new PrintStream(conn.getOutputStream());
+String line=dis.readLine(); 
+ps.println(&quot;client…&quot;); //向服务器写出字符串 &quot;client…&quot;</code></pre><h2 id="DatagramSocket"><a href="#DatagramSocket" class="headerlink" title="DatagramSocket"></a>DatagramSocket</h2><p>DatagramSocket具有的主要方法如下：</p>
+<p>receive(DatagramPacket<br>d)：接收数据报文到d中。receive方法产生一个”阻塞”。”阻塞”是一个专业名词，它会产生一个内部循环，使程序暂停在这个地方，直到一个条件触发。</p>
+<p>send(DatagramPacket dp)：发送报文dp到目的地。</p>
+<p>setSoTimeout(int timeout)：设置超时时间，单位为毫秒。</p>
+<p>close()：关闭DatagramSocket。在应用程序退出的时候，通常会主动释放资源，关闭Socket，但是由于异常地退出可能造成资源无法回收。所以，应该在程序完成时，主动使用此方法关闭Socket，或在捕获到异常抛出后关闭Socket。</p>
+<pre><code>DatagramSocket  server = new DatagramSocket(5050);</code></pre><h2 id="DatagramPacket"><a href="#DatagramPacket" class="headerlink" title="DatagramPacket"></a>DatagramPacket</h2><p>用于处理报文，它将Byte数组、目标地址、目标端口等数据包装成报文或者将报文拆卸成Byte数组。应用程序在产生数据包是应该注意，TCP/IP规定数据报文大小最多包含65507个，通常主机接收548个字节，但大多数平台能够支持8192字节大小的报文。</p>
+<p>DatagramPacket类的构建器共有4个：</p>
+<p>DatagramPacket(byte[] buf, int<br>length)：将数据包中Length长的数据装进Buf数组，一般用来接收客户端发送的数据。</p>
+<p>DatagramPacket(byte[] buf, int offset, int<br>length)：将数据包中从Offset开始、Length长的数据装进Buf数组。</p>
+<p>DatagramPacket(byte[] buf, int length, InetAddress clientAddress, int<br>clientPort)：从Buf数组中，取出Length长的数据创建数据包对象，目标是clientAddress地址，clientPort端口,通常用来发送数据给客户端。</p>
+<p>DatagramPacket(byte[] buf, int offset, int length, InetAddress<br>clientAddress, int<br>clientPort)：从Buf数组中，取出Offset开始的、Length长的数据创建数据包对象，目标是clientAddress地址，clientPort端口，通常用来发送数据给客户端。</p>
+<p>主要的方法如下：</p>
+<p>getData(): 从实例中取得报文的Byte数组编码。</p>
+<p>setDate(byte[] buf)：将byte数组放入要发送的报文中。</p>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/pytx/jsdql/" rel="next" title="技术的囚笼">
+                <i class="fa fa-chevron-left"></i> 技术的囚笼
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/tools/vim/vimcolmode/" rel="prev" title="Vim列模式的应用">
+                Vim列模式的应用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#网络七层协议"><span class="nav-number">1.</span> <span class="nav-text">网络七层协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络四层层协议"><span class="nav-number">2.</span> <span class="nav-text">网络四层层协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA网络通信过程"><span class="nav-number">3.</span> <span class="nav-text">JAVA网络通信过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Socket"><span class="nav-number">4.</span> <span class="nav-text">Socket</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ServerSocket"><span class="nav-number">5.</span> <span class="nav-text">ServerSocket</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URL对象示例"><span class="nav-number">6.</span> <span class="nav-text">URL对象示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URLConnection示例"><span class="nav-number">7.</span> <span class="nav-text">URLConnection示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DatagramSocket"><span class="nav-number">8.</span> <span class="nav-text">DatagramSocket</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DatagramPacket"><span class="nav-number">9.</span> <span class="nav-text">DatagramPacket</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

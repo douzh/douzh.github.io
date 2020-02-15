@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="java thread 日志分析工具这里用的是tda(Thread Dump Analyzer)，可以到网上下载到，是个免费的软件。 这个软件可以分析导出的java线程日志，至于如何获取java线程日志，可以看”获取JAVA线程和堆信息“。 \ 各种JAVA线程状态的说明先看一下线程的各种状态的状态图： \  下面是日志里线程状态的一些解释。 waiting for monitor entry意味">
+<meta name="keywords" content="JAVA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【JAVA】线程日志分析之TDA">
+<meta property="og:url" content="http://www.iteedu.com/blog/plang/java/analyzer/dtatools/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="java thread 日志分析工具这里用的是tda(Thread Dump Analyzer)，可以到网上下载到，是个免费的软件。 这个软件可以分析导出的java线程日志，至于如何获取java线程日志，可以看”获取JAVA线程和堆信息“。 \ 各种JAVA线程状态的说明先看一下线程的各种状态的状态图： \  下面是日志里线程状态的一些解释。 waiting for monitor entry意味">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.iteedu.com/images/janalyzer/tda.gif">
+<meta property="og:image" content="http://www.iteedu.com/images/janalyzer/threadstat.gif">
+<meta property="og:updated_time" content="2019-07-07T15:49:49.002Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【JAVA】线程日志分析之TDA">
+<meta name="twitter:description" content="java thread 日志分析工具这里用的是tda(Thread Dump Analyzer)，可以到网上下载到，是个免费的软件。 这个软件可以分析导出的java线程日志，至于如何获取java线程日志，可以看”获取JAVA线程和堆信息“。 \ 各种JAVA线程状态的说明先看一下线程的各种状态的状态图： \  下面是日志里线程状态的一些解释。 waiting for monitor entry意味">
+<meta name="twitter:image" content="http://www.iteedu.com/images/janalyzer/tda.gif">
+  <link rel="canonical" href="http://www.iteedu.com/blog/plang/java/analyzer/dtatools/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>【JAVA】线程日志分析之TDA | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/plang/java/analyzer/dtatools/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">【JAVA】线程日志分析之TDA
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-12-03 13:49:50" itemprop="dateCreated datePublished" datetime="2015-12-03T13:49:50+08:00">2015-12-03</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-07-07 23:49:49" itemprop="dateModified" datetime="2019-07-07T23:49:49+08:00">2019-07-07</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="java-thread-日志分析工具"><a href="#java-thread-日志分析工具" class="headerlink" title="java thread 日志分析工具"></a>java thread 日志分析工具</h2><p>这里用的是tda(Thread Dump Analyzer)，可以到网上下载到，是个免费的软件。</p>
+<p>这个软件可以分析导出的java线程日志，至于如何获取java线程日志，可以看”<a href="获取JAVA线程和堆信息">获取JAVA线程和堆信息</a>“。</p>
+<p><img src="/images/janalyzer/tda.gif" alt>\</p>
+<h2 id="各种JAVA线程状态的说明"><a href="#各种JAVA线程状态的说明" class="headerlink" title="各种JAVA线程状态的说明"></a>各种JAVA线程状态的说明</h2><p>先看一下线程的各种状态的状态图：</p>
+<p><img src="/images/janalyzer/threadstat.gif" alt>\</p>
+<p><img src alt></p>
+<p>下面是日志里线程状态的一些解释。</p>
+<h2 id="waiting-for-monitor-entry"><a href="#waiting-for-monitor-entry" class="headerlink" title="waiting for monitor entry"></a>waiting for monitor entry</h2><p>意味着它 在等待进入一个临界区 ，所以它在”Entry<br>Set”队列中等待。此时线程状态一般都是 Blocked</p>
+<p>如果大量线程在 “waiting for monitor entry”：</p>
+<p>可能是一个全局锁阻塞住了大量线程。</p>
+<p>如果短时间内打印的 thread dump 文件反映，随着时间流逝，waiting for<br>monitor entry 的线程越来越多，没有减少的趋势，可能意味着<br>某些线程在临界区里呆的时间太长了，以至于越来越多新线程迟迟无法进入临界区。</p>
+<p>java.lang.Thread.State: BLOCKED (on object monitor)</p>
+<h2 id="waiting-on-condition"><a href="#waiting-on-condition" class="headerlink" title="waiting on condition"></a>waiting on condition</h2><p>说明它<br>在等待另一个条件的发生，来把自己唤醒，或者干脆它是调用了sleep(N)。此时线程状态大致为以下几种</p>
+<p>java.lang.Thread.State: WAITING (parking)：一直等那个条件发生；</p>
+<p>java.lang.Thread.State: TIMED_WAITING<br>(parking或sleeping)：定时的，那个条件不到来，也将定时唤醒自己。</p>
+<p>如果大量线程在 “ waiting on condition “：</p>
+<p>可能是它们又跑去获取第三方资源，<br>尤其是第三方网络资源，迟迟获取不到Response，导致大量线程进入等待状态。</p>
+<p>所以如果你发现有大量的线程都处在 Wait on<br>condition，从线程堆栈看，正等待网络读写<br>，这可能是一个网络瓶颈的征兆，因为网络阻塞导致线程无法执行。</p>
+<h2 id="in-Object-wait"><a href="#in-Object-wait" class="headerlink" title="in Object.wait()"></a>in Object.wait()</h2><p>说明它 获得了监视器之后，又调用了 java.lang.Object.wait() 方法。</p>
+<p>每个 Monitor在某个时刻，只能被一个线程拥有，该线程就是 “Active<br>Thread”，而其它线程都是 “Waiting Thread”，分别在两个队列 “ Entry Set”和<br>“Wait Set”里面等候。在 “Entry Set”中等待的线程状态是 “Waiting for<br>monitor entry”，而在 “Wait Set”中等待的线程状态是 “in Object.wait()”。</p>
+<p>当线程获得了<br>Monitor，如果发现线程继续运行的条件没有满足，它则调用对象（一般就是被<br>synchronized 的对象）的 wait() 方法，放弃了 Monitor，进入 “Wait<br>Set”队列。此时线程状态大致为以下几种：</p>
+<p>java.lang.Thread.State: TIMED_WAITING (on object monitor)；</p>
+<p>java.lang.Thread.State: WAITING (on object monitor)；</p>
+<h2 id="示范一"><a href="#示范一" class="headerlink" title="示范一"></a>示范一</h2><p>下面这个线程在等待这个锁 0x00000000fe7e3b50，等待进入临界区：</p>
+<pre><code>&quot;RMI TCP Connection(64896)-172.16.52.118&quot; daemon prio=10 tid=0x00000000405a6000 nid=0x68fe waiting for monitor entry [0x00007f2be65a3000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+at com.xyz.goods.service.impl.GoodsServiceImpl. findChanellGoodsCountWithCache(GoodsServiceImpl.java:1734)
+-  waiting to lock &lt;0x00000000fe7e3b50&gt; (a java.lang.String)</code></pre><p>那么谁持有这个锁呢？</p>
+<p>是另一个先调用了 findChanellGoodsCountWithCache 函数的线程：</p>
+<pre><code>&quot;RMI TCP Connection(64878)-172.16.52.117&quot; daemon prio=10 tid=0x0000000040822000 nid=0x6841 runnable [0x00007f2be76b3000]
+   java.lang.Thread.State: RUNNABLE
+at java.net.SocketInputStream.socketRead0(Native Method)
+at java.net.SocketInputStream.read(SocketInputStream.java:129)
+at java.io.BufferedInputStream.fill(BufferedInputStream.java:218)
+at java.io.BufferedInputStream.read1(BufferedInputStream.java:258)
+at java.io.BufferedInputStream.read(BufferedInputStream.java:317)
+- locked &lt;0x00000000af4ed638&gt; (a java.io.BufferedInputStream)
+at org.bson.io.Bits.readFully(Bits.java:35)
+at org.bson.io.Bits.readFully(Bits.java:28)
+at com.mongodb.Response.(Response.java:35)
+at com.mongodb.DBPort.go(DBPort.java:110)
+- locked &lt;0x00000000af442d48&gt; (a com.mongodb.DBPort)
+at com.mongodb.DBPort.go(DBPort.java:75)
+- locked &lt;0x00000000af442d48&gt; (a com.mongodb.DBPort)
+at com.mongodb.DBPort.call(DBPort.java:65)
+at com.mongodb.DBTCPConnector.call(DBTCPConnector.java:202)
+at com.mongodb.DBApiLayer$MyCollection.__find(DBApiLayer.java:296)
+at com.mongodb.DB.command(DB.java:152)
+at com.mongodb.DBCollection.getCount(DBCollection.java:760)
+at com.mongodb.DBCollection.getCount(DBCollection.java:731)
+at com.mongodb.DBCollection.count(DBCollection.java:697)
+at com.xyz.goods.manager.MongodbManager.count(MongodbManager.java:202)
+at com.xyz.goods.service.impl.GoodsServiceImpl.findChanellGoodsCount(GoodsServiceImpl.java:1787)
+at com.xyz.goods.service.impl.GoodsServiceImpl. findChanellGoodsCountWithCache(GoodsServiceImpl.java:1739)
+-  locked &lt;0x00000000fe7e3b50&gt; (a java.lang.String)</code></pre><h2 id="示范二"><a href="#示范二" class="headerlink" title="示范二"></a>示范二</h2><p>等待另一个条件发生来将自己唤醒：</p>
+<pre><code>&quot;RMI TCP Connection(idle)&quot; daemon prio=10 tid=0x00007fd50834e800 nid=0x56b2  waiting on condition [0x00007fd4f1a59000]
+   java.lang.Thread.State:  TIMED_WAITING (parking)
+at sun.misc.Unsafe.park(Native Method)
+-  parking to wait for  &lt;0x00000000acd84de8&gt; (a java.util.concurrent.SynchronousQueue$TransferStack)
+at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:198)
+at java.util.concurrent.SynchronousQueue$TransferStack.awaitFulfill(SynchronousQueue.java:424)
+at java.util.concurrent.SynchronousQueue$TransferStack.transfer(SynchronousQueue.java:323)
+at java.util.concurrent.SynchronousQueue.poll(SynchronousQueue.java:874)
+at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:945)
+at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:907)
+at java.lang.Thread.run(Thread.java:662)</code></pre><p>&quot;TIMED_WAITING (parking)&quot;中的 timed_waiting<br>指等待状态，但这里指定了时间，到达指定的时间后自动退出等待状态；parking指线程处于挂起中。</p>
+<p>&quot;waiting on condition&quot;需要与堆栈中的&quot;parking to wait for<br>&lt;0x00000000acd84de8&gt; (a<br>java.util.concurrent.SynchronousQueue$TransferStack)&quot;<br>结合来看。首先，本线程肯定是在等待某个条件的发生，来把自己唤醒。其次，SynchronousQueue<br>并不是一个队列，只是线程之间移交信息的机制，当我们把一个元素放入到<br>SynchronousQueue<br>中时必须有另一个线程正在等待接受移交的任务，因此这就是本线程在等待的条件。</p>
+<p>示范三</p>
+<pre><code>&quot;RMI RenewClean-[172.16.50.182:4888]&quot; daemon prio=10 tid=0x0000000040d2c800 nid=0x97e  in Object.wait() [0x00007f9ccafd0000]
+   java.lang.Thread.State:  TIMED_WAITING (on object monitor)
+at java.lang.Object.wait(Native Method)
+- waiting on &lt;0x0000000799b032d8&gt; (a java.lang.ref.ReferenceQueue$Lock)
+at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:118)
+- locked &lt;0x0000000799b032d8&gt; (a java.lang.ref.ReferenceQueue$Lock)
+at sun.rmi.transport.DGCClient$EndpointEntry$RenewCleanThread.run(DGCClient.java:516)
+at java.lang.Thread.run(Thread.java:662)</code></pre>
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/plang/java/analyzer/binjktools/" rel="next" title="【Java】bin目录监控常用命令">
+                <i class="fa fa-chevron-left"></i> 【Java】bin目录监控常用命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/plang/java/analyzer/matuse/" rel="prev" title="【JAVA】使用Eclipse Memory Analyzer分析Tomcat内存溢出">
+                【JAVA】使用Eclipse Memory Analyzer分析Tomcat内存溢出 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#java-thread-日志分析工具"><span class="nav-number">1.</span> <span class="nav-text">java thread 日志分析工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各种JAVA线程状态的说明"><span class="nav-number">2.</span> <span class="nav-text">各种JAVA线程状态的说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#waiting-for-monitor-entry"><span class="nav-number">3.</span> <span class="nav-text">waiting for monitor entry</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#waiting-on-condition"><span class="nav-number">4.</span> <span class="nav-text">waiting on condition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#in-Object-wait"><span class="nav-number">5.</span> <span class="nav-text">in Object.wait()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示范一"><span class="nav-number">6.</span> <span class="nav-text">示范一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示范二"><span class="nav-number">7.</span> <span class="nav-text">示范二</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

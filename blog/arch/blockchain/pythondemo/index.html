@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="在开始之前，我们需要做些准备工作，搞清楚一些问题。 什么是区块链？区块链是由不可变的、有顺序记录的区块组成。他们可以包含交易数据、文件数据或者其他你想要记录的数据。不过最重要的是这些区块通过哈希表链接在一起。 什么是散列？散列函数是一个输入值函数，从该输入创建一个确定输入值的输出值。 这篇文章适合谁，首先Python程序员，你只要能轻松地读写一些基本的Python代码就可以了；第二是HTTP程序员">
+<meta name="keywords" content="区块链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="区块链python示例">
+<meta property="og:url" content="http://www.iteedu.com/blog/arch/blockchain/pythondemo/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="在开始之前，我们需要做些准备工作，搞清楚一些问题。 什么是区块链？区块链是由不可变的、有顺序记录的区块组成。他们可以包含交易数据、文件数据或者其他你想要记录的数据。不过最重要的是这些区块通过哈希表链接在一起。 什么是散列？散列函数是一个输入值函数，从该输入创建一个确定输入值的输出值。 这篇文章适合谁，首先Python程序员，你只要能轻松地读写一些基本的Python代码就可以了；第二是HTTP程序员">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-23T13:47:18.206Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="区块链python示例">
+<meta name="twitter:description" content="在开始之前，我们需要做些准备工作，搞清楚一些问题。 什么是区块链？区块链是由不可变的、有顺序记录的区块组成。他们可以包含交易数据、文件数据或者其他你想要记录的数据。不过最重要的是这些区块通过哈希表链接在一起。 什么是散列？散列函数是一个输入值函数，从该输入创建一个确定输入值的输出值。 这篇文章适合谁，首先Python程序员，你只要能轻松地读写一些基本的Python代码就可以了；第二是HTTP程序员">
+  <link rel="canonical" href="http://www.iteedu.com/blog/arch/blockchain/pythondemo/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>区块链python示例 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/arch/blockchain/pythondemo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">区块链python示例
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-08 21:12:27" itemprop="dateCreated datePublished" datetime="2018-11-08T21:12:27+08:00">2018-11-08</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-23 21:47:18" itemprop="dateModified" datetime="2019-06-23T21:47:18+08:00">2019-06-23</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/架构/" itemprop="url" rel="index"><span itemprop="name">架构</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/架构/区块链/" itemprop="url" rel="index"><span itemprop="name">区块链</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在开始之前，我们需要做些准备工作，搞清楚一些问题。</p>
+<p>什么是区块链？区块链是由不可变的、有顺序记录的区块组成。他们可以包含交易数据、文件数据或者其他你想要记录的数据。不过最重要的是这些区块通过哈希表链接在一起。</p>
+<p>什么是散列？散列函数是一个输入值函数，从该输入创建一个确定输入值的输出值。</p>
+<p>这篇文章适合谁，首先Python程序员，你只要能轻松地读写一些基本的Python代码就可以了；第二是HTTP程序员，因为我们接下来讲到的区块链，是构建在HTTP上面的，这需要你起码要了解HTTP请求的工作原理。</p>
+<p>我需要做什么？首先要确保安装了Python 3.6以上的环境和Flask，此外还需要安装一个碉堡的Requests库。版本信息如下：</p>
+<p><code>pip install Flask==0.12.2 requests==2.18.4</code></p>
+<h2 id="第一步：创建区块链"><a href="#第一步：创建区块链" class="headerlink" title="第一步：创建区块链"></a>第一步：创建区块链</h2><p>打开你常用的编辑器，我个人比较喜欢PyCharm。创建一个新的文件，命名为 blockchain.py。整个项目，我们都只会用到这一个文件。有不清楚的地方，可以参考源代码。</p>
+<p>表示一个区块链</p>
+<p>我们将创建一个 Blockchain 类，它的构造函数里创建了一个初始为空的列表（用于存储我们的区块链），和一个存储交易的列表。下边是这个类的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class Blockchain(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.chain = []</span><br><span class="line">        self.current_transactions = []</span><br><span class="line"></span><br><span class="line">    def new_block(self):</span><br><span class="line">        # Creates a new Block and adds it to the chain</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">    def new_transaction(self):</span><br><span class="line">        # Adds a new transaction to the list of transactions</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def hash(block):</span><br><span class="line">        # Hashes a Block</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">    @property</span><br><span class="line">    def last_block(self):</span><br><span class="line">        # Returns the last Block in the chain</span><br><span class="line">        pass</span><br></pre></td></tr></table></figure>
+
+<p>Blockchain参数的作用是管理区块链，也用于存储交易信息和添加区块的方式。</p>
+<h3 id="区块到底长什么样？"><a href="#区块到底长什么样？" class="headerlink" title="区块到底长什么样？"></a>区块到底长什么样？</h3><p>每一个区块包含一个索引、一个时间戳、一个交易列表、一个证明（之后更多）和前一个区块的哈希值。</p>
+<p>以下是一个区块的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">block = &#123;</span><br><span class="line">    &apos;index&apos;: 1,</span><br><span class="line">    &apos;timestamp&apos;: 1506057125.900785,</span><br><span class="line">    &apos;transactions&apos;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &apos;sender&apos;: &quot;8527147fe1f5426f9dd545de4b27ee00&quot;,</span><br><span class="line">            &apos;recipient&apos;: &quot;a77f5cdfa2934df3954a5c7c7da5df1f&quot;,</span><br><span class="line">            &apos;amount&apos;: 5,</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    &apos;proof&apos;: 324984774000,</span><br><span class="line">    &apos;previous_hash&apos;: &quot;2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>到这里，区块链的原理就很容易理解了：每一个区块包含它自己本身的一些变量，以及前一个区块的哈希值。这一点非常重要，因为哈希值保证了区块链不可篡改的特性。如果一个区块受到攻击哈希值变了，那么后面的所有区块的哈希值都会为之改变。</p>
+<p>你可能想，我还是不太理解。没关系，先接着往下看。</p>
+<h3 id="在区块上添加交易"><a href="#在区块上添加交易" class="headerlink" title="在区块上添加交易"></a>在区块上添加交易</h3><p>那么，我们怎么在区块上添加交易呢？可以使用new_transaction()参数。使用方法简单、直接，如下面代码所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class Blockchain(object):</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    def new_transaction(self, sender, recipient, amount):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Creates a new transaction to go into the next mined Block</span><br><span class="line"></span><br><span class="line">        :param sender: &lt;str&gt; Address of the Sender</span><br><span class="line">        :param recipient: &lt;str&gt; Address of the Recipient</span><br><span class="line">        :param amount: &lt;int&gt; Amount</span><br><span class="line">        :return: &lt;int&gt; The index of the Block that will hold this transaction</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        self.current_transactions.append(&#123;</span><br><span class="line">            &apos;sender&apos;: sender,</span><br><span class="line">            &apos;recipient&apos;: recipient,</span><br><span class="line">            &apos;amount&apos;: amount,</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        return self.last_block[&apos;index&apos;] + 1</span><br></pre></td></tr></table></figure>
+
+<p>在 new_transaction() 添加交易信息到列表中后，它会返回下一个将被开采区块的索引号，交易信息将被打包到这个区块上。这对稍后提交交易的用户有用。</p>
+<h3 id="创建新区块"><a href="#创建新区块" class="headerlink" title="创建新区块"></a>创建新区块</h3><p>在区块链创建完成后，我们需要创建一个创世区块（也就是区块链上的第一个区块）。当然，创世区块也需要被证明，这需要通过PoW的挖矿机制。后边我们会更多的介绍挖矿，这儿就不做过多的介绍了。</p>
+<p>除了在构造函数中创建创始区块，我们还需要用new_block()、new_transaction() 和 hash()参数对其进行完善。代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line">import json</span><br><span class="line">from time import time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Blockchain(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.current_transactions = []</span><br><span class="line">        self.chain = []</span><br><span class="line"></span><br><span class="line">        # Create the genesis block</span><br><span class="line">        self.new_block(previous_hash=1, proof=100)</span><br><span class="line"></span><br><span class="line">    def new_block(self, proof, previous_hash=None):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Create a new Block in the Blockchain</span><br><span class="line">        :param proof: &lt;int&gt; The proof given by the Proof of Work algorithm</span><br><span class="line">        :param previous_hash: (Optional) &lt;str&gt; Hash of previous Block</span><br><span class="line">        :return: &lt;dict&gt; New Block</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        block = &#123;</span><br><span class="line">            &apos;index&apos;: len(self.chain) + 1,</span><br><span class="line">            &apos;timestamp&apos;: time(),</span><br><span class="line">            &apos;transactions&apos;: self.current_transactions,</span><br><span class="line">            &apos;proof&apos;: proof,</span><br><span class="line">            &apos;previous_hash&apos;: previous_hash or self.hash(self.chain[-1]),</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # Reset the current list of transactions</span><br><span class="line">        self.current_transactions = []</span><br><span class="line"></span><br><span class="line">        self.chain.append(block)</span><br><span class="line">        return block</span><br><span class="line"></span><br><span class="line">    def new_transaction(self, sender, recipient, amount):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Creates a new transaction to go into the next mined Block</span><br><span class="line">        :param sender: &lt;str&gt; Address of the Sender</span><br><span class="line">        :param recipient: &lt;str&gt; Address of the Recipient</span><br><span class="line">        :param amount: &lt;int&gt; Amount</span><br><span class="line">        :return: &lt;int&gt; The index of the Block that will hold this transaction</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        self.current_transactions.append(&#123;</span><br><span class="line">            &apos;sender&apos;: sender,</span><br><span class="line">            &apos;recipient&apos;: recipient,</span><br><span class="line">            &apos;amount&apos;: amount,</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        return self.last_block[&apos;index&apos;] + 1</span><br><span class="line"></span><br><span class="line">    @property</span><br><span class="line">    def last_block(self):</span><br><span class="line">        return self.chain[-1]</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def hash(block):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Creates a SHA-256 hash of a Block</span><br><span class="line">        :param block: &lt;dict&gt; Block</span><br><span class="line">        :return: &lt;str&gt;</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        # We must make sure that the Dictionary is Ordered, or we&apos;ll have inconsistent hashes</span><br><span class="line">        block_string = json.dumps(block, sort_keys=True).encode()</span><br><span class="line">        return hashlib.sha256(block_string).hexdigest()</span><br></pre></td></tr></table></figure>
+
+<p>为了方便大家理解，我在上面代码中加了一些注释。到这里，我们就已经对区块链属性有一个全面的了解了。不过我们还是要知道，区块链是怎么创建、怎么开发，以及跟矿工有什么关系。</p>
+<h3 id="关于工作量证明-PoW）"><a href="#关于工作量证明-PoW）" class="headerlink" title="关于工作量证明(PoW）"></a>关于工作量证明(PoW）</h3><p>工作证明算法（PoW）的作用，是对区块链上创建或开发新的区块的证明。其背后的核心是：找到一串解决某个数学问题的数字，这个数字必须符合两个条件：第一，难找；第二，很容易被验证（而且是很容易被任何人验证）。</p>
+<p>我们来举个非常简单的例子来帮助大家理解。</p>
+<p>我们来看一下这个例子，某个整数 x 乘以另外一个数 y ，得到的结果的哈希值必须是以 0 结尾。可以简单表示为：hash(x * y) = ac23dc…0。所以，我们的目标是找到满足这个条件的一个 y 值。为了方便理解，我们暂定x=5。下面我们就用Python来做这样一个运算：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from hashlib import sha256</span><br><span class="line">x = 5</span><br><span class="line">y = 0  # We don&apos;t know what y should be yet...</span><br><span class="line">while sha256(f&apos;&#123;x*y&#125;&apos;.encode()).hexdigest()[-1] != &quot;0&quot;:</span><br><span class="line">    y += 1</span><br><span class="line">print(f&apos;The solution is y = &#123;y&#125;&apos;)</span><br></pre></td></tr></table></figure>
+
+<p>最终，计算结果是 y=21。因此，生成的以 0 结尾的哈希值是：</p>
+<p><code>hash(5 * 21) = 1253e9373e...5e3600155e860</code></p>
+<p>在比特币中，PoW算法被称为Hashcash，原理跟上面例子差不多。矿工们为了能创建一个新区块，铆足劲儿做着上面的数学题（只有胜出者才能添加区块）。一般而言，证明的难度取决于字符串中搜索的字符数量，先找到正确数字的旷工就能够在每笔交易中获得比特币作为奖励。</p>
+<p>系统能够很容易验证他们的解决方案。</p>
+<h3 id="实现基本的工作量证明"><a href="#实现基本的工作量证明" class="headerlink" title="实现基本的工作量证明"></a>实现基本的工作量证明</h3><p>下面在我们刚刚创建好的区块链上，来实现一个相似的工作量证明算法。规则与上边那个简单的例子相似：</p>
+<p>找到一个数字 p ，它和前边一个区块的解决数字进行散列，生成前4位为 0 的哈希值。</p>
+<p>下面是具体的Python代码实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line">import json</span><br><span class="line"></span><br><span class="line">from time import time</span><br><span class="line">from uuid import uuid4</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Blockchain(object):</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    def proof_of_work(self, last_proof):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Simple Proof of Work Algorithm:</span><br><span class="line">         - Find a number p&apos; such that hash(pp&apos;) contains leading 4 zeroes, where p is the previous p&apos;</span><br><span class="line">         - p is the previous proof, and p&apos; is the new proof</span><br><span class="line">        :param last_proof: &lt;int&gt;</span><br><span class="line">        :return: &lt;int&gt;</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        proof = 0</span><br><span class="line">        while self.valid_proof(last_proof, proof) is False:</span><br><span class="line">            proof += 1</span><br><span class="line"></span><br><span class="line">        return proof</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def valid_proof(last_proof, proof):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Validates the Proof: Does hash(last_proof, proof) contain 4 leading zeroes?</span><br><span class="line">        :param last_proof: &lt;int&gt; Previous Proof</span><br><span class="line">        :param proof: &lt;int&gt; Current Proof</span><br><span class="line">        :return: &lt;bool&gt; True if correct, False if not.</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        guess = f&apos;&#123;last_proof&#125;&#123;proof&#125;&apos;.encode()</span><br><span class="line">        guess_hash = hashlib.sha256(guess).hexdigest()</span><br><span class="line">        return guess_hash[:4] == &quot;0000&quot;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以通过修改哈希值前 0 的数量，来调整算法的难度，一般来说，4位已经是足够了。每在哈希值前多加一个0，计算所花费的时间将呈指数倍增加。</p>
+<p>到这儿，我们的类基本写好了。下面，我们准备通过 HTTP 请求与其交互。</p>
+<h2 id="第二步：创建-API"><a href="#第二步：创建-API" class="headerlink" title="第二步：创建 API"></a>第二步：创建 API</h2><p>我们打算使用 Python 的 Flask 框架，它是一个轻型框架，可以很容易实现端点到Python函数的映射。这样，我们就可以使用 HTTP 请求通过网页访问我们的区块链了。</p>
+<p>我们用以下三个方法创建：</p>
+<p>/transactions/new 为一个区块创建一个新的交易；<br>/mine 告诉我们的服务器开采一个新的区块；<br>/chain 返回完整的 Blockchain 类。</p>
+<h3 id="搭建-Flask-框架"><a href="#搭建-Flask-框架" class="headerlink" title="搭建 Flask 框架"></a>搭建 Flask 框架</h3><p>我们的服务器会在区块链网络中形成单个节点。下面来创建一些样板代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line">import json</span><br><span class="line">from textwrap import dedent</span><br><span class="line">from time import time</span><br><span class="line">from uuid import uuid4</span><br><span class="line"></span><br><span class="line">from flask import Flask</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Blockchain(object):</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Instantiate our Node</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"># Generate a globally unique address for this node</span><br><span class="line">node_identifier = str(uuid4()).replace(&apos;-&apos;, &apos;&apos;)</span><br><span class="line"></span><br><span class="line"># Instantiate the Blockchain</span><br><span class="line">blockchain = Blockchain()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&apos;/mine&apos;, methods=[&apos;GET&apos;])</span><br><span class="line">def mine():</span><br><span class="line">    return &quot;We&apos;ll mine a new Block&quot;</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/transactions/new&apos;, methods=[&apos;POST&apos;])</span><br><span class="line">def new_transaction():</span><br><span class="line">    return &quot;We&apos;ll add a new transaction&quot;</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/chain&apos;, methods=[&apos;GET&apos;])</span><br><span class="line">def full_chain():</span><br><span class="line">    response = &#123;</span><br><span class="line">        &apos;chain&apos;: blockchain.chain,</span><br><span class="line">        &apos;length&apos;: len(blockchain.chain),</span><br><span class="line">    &#125;</span><br><span class="line">    return jsonify(response), 200</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    app.run(host=&apos;0.0.0.0&apos;, port=5000)</span><br></pre></td></tr></table></figure>
+
+<p>我们来简单的解释一下上边的代码：</p>
+<p>第15行： 实例化我们的节点；加载 Flask 框架。<br>第18行：为我们的节点创建一个随机名称。<br>第21行：实例化 Blockchain 类。<br>第24-26行：创建 /mine 端点，这是一个GET请求。<br>第28-30行：创建 /transactions/new 端点，这是一个 POST 请求，我们将用它来发送数据。<br>第32-38行：创建 /chain 端点，它是用来返回整个 Blockchain 类。<br>第40-41行：设置服务器运行端口为 5000。</p>
+<h3 id="交易节点"><a href="#交易节点" class="headerlink" title="交易节点"></a>交易节点</h3><p>交易的请求是什么形式呢？下面我们看看用户发送到服务器的一段请求代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"> &quot;sender&quot;: &quot;my address&quot;,</span><br><span class="line"> &quot;recipient&quot;: &quot;someone else&apos;s address&quot;,</span><br><span class="line"> &quot;amount&quot;: 5</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为我们已经写好了将交易打包到区块上的代码，剩下的部分就简单了。只需要调用这个方法，从而实现添加交易的功能。下面是具体代码实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line">import json</span><br><span class="line">from textwrap import dedent</span><br><span class="line">from time import time</span><br><span class="line">from uuid import uuid4</span><br><span class="line"></span><br><span class="line">from flask import Flask, jsonify, request</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/transactions/new&apos;, methods=[&apos;POST&apos;])</span><br><span class="line">def new_transaction():</span><br><span class="line">    values = request.get_json()</span><br><span class="line"></span><br><span class="line">    # Check that the required fields are in the POST&apos;ed data</span><br><span class="line">    required = [&apos;sender&apos;, &apos;recipient&apos;, &apos;amount&apos;]</span><br><span class="line">    if not all(k in values for k in required):</span><br><span class="line">        return &apos;Missing values&apos;, 400</span><br><span class="line"></span><br><span class="line">    # Create a new Transaction</span><br><span class="line">    index = blockchain.new_transaction(values[&apos;sender&apos;], values[&apos;recipient&apos;], values[&apos;amount&apos;])</span><br><span class="line"></span><br><span class="line">    response = &#123;&apos;message&apos;: f&apos;Transaction will be added to Block &#123;index&#125;&apos;&#125;</span><br><span class="line">    return jsonify(response), 201</span><br></pre></td></tr></table></figure>
+
+<h3 id="挖矿节点"><a href="#挖矿节点" class="headerlink" title="挖矿节点"></a>挖矿节点</h3><p>挖矿节点是整个过程中最有趣的部分，它必须要达到三个目的：</p>
+<p>计算工作量证明；<br>通过打包交易奖励矿工一个币；<br>通过将新块添加到链中来伪造新块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line">import json</span><br><span class="line"></span><br><span class="line">from time import time</span><br><span class="line">from uuid import uuid4</span><br><span class="line"></span><br><span class="line">from flask import Flask, jsonify, request</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/mine&apos;, methods=[&apos;GET&apos;])</span><br><span class="line">def mine():</span><br><span class="line">    # We run the proof of work algorithm to get the next proof...</span><br><span class="line">    last_block = blockchain.last_block</span><br><span class="line">    last_proof = last_block[&apos;proof&apos;]</span><br><span class="line">    proof = blockchain.proof_of_work(last_proof)</span><br><span class="line"></span><br><span class="line">    # We must receive a reward for finding the proof.</span><br><span class="line">    # The sender is &quot;0&quot; to signify that this node has mined a new coin.</span><br><span class="line">    blockchain.new_transaction(</span><br><span class="line">        sender=&quot;0&quot;,</span><br><span class="line">        recipient=node_identifier,</span><br><span class="line">        amount=1,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    # Forge the new Block by adding it to the chain</span><br><span class="line">    previous_hash = blockchain.hash(last_block)</span><br><span class="line">    block = blockchain.new_block(proof, previous_hash)</span><br><span class="line"></span><br><span class="line">    response = &#123;</span><br><span class="line">        &apos;message&apos;: &quot;New Block Forged&quot;,</span><br><span class="line">        &apos;index&apos;: block[&apos;index&apos;],</span><br><span class="line">        &apos;transactions&apos;: block[&apos;transactions&apos;],</span><br><span class="line">        &apos;proof&apos;: block[&apos;proof&apos;],</span><br><span class="line">        &apos;previous_hash&apos;: block[&apos;previous_hash&apos;],</span><br><span class="line">    &#125;</span><br><span class="line">    return jsonify(response), 200</span><br></pre></td></tr></table></figure>
+
+<p>这儿要注意一下，开采区块的接收者是我们节点的地址。在这里完成的大部分工作只是与Blockchain类中的方法进行交互。下面可以开始与我们的区块链交互啦。</p>
+<h3 id="第三步：实现与-Blockchain-类交互"><a href="#第三步：实现与-Blockchain-类交互" class="headerlink" title="第三步：实现与 Blockchain 类交互"></a>第三步：实现与 Blockchain 类交互</h3><p>你可以使用普通的 cURL 或者 Postman 通过网络和刚才生成的 API 进行交互。</p>
+<p>启动服务器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ python blockchain.py</span><br><span class="line">* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)</span><br></pre></td></tr></table></figure>
+
+<p>通过向以下地址发送请求，我们可以尝试一下挖矿。</p>
+<p><code>http://localhost:5000/mine</code></p>
+<p>下面我们通过向下面链接发送post请求，来创建一个新的交易：<br><code>http://localhost:5000/transactions/new</code></p>
+<p>请求中要包含我们的交易结构。</p>
+<p>如果你用的是cURL，则可以通过下面代码来实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ curl -X POST -H &quot;Content-Type: application/json&quot; -d &apos;&#123;</span><br><span class="line"> &quot;sender&quot;: &quot;d4ee26eee15148ee92c6cd394edd974e&quot;,</span><br><span class="line"> &quot;recipient&quot;: &quot;someone-other-address&quot;,</span><br><span class="line"> &quot;amount&quot;: 5</span><br><span class="line">&#125;&apos; &quot;http://localhost:5000/transactions/new&quot;</span><br></pre></td></tr></table></figure>
+
+<p>完成上面步骤之后，需要重启下服务器。这时候，我挖出了2个区块，获得了3个币的奖励。这里，我们还可以像以下地址发送请求，来对整条链进行检查。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;chain&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;index&quot;: 1,</span><br><span class="line">      &quot;previous_hash&quot;: 1,</span><br><span class="line">      &quot;proof&quot;: 100,</span><br><span class="line">      &quot;timestamp&quot;: 1506280650.770839,</span><br><span class="line">      &quot;transactions&quot;: []</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;index&quot;: 2,</span><br><span class="line">      &quot;previous_hash&quot;: &quot;c099bc...bfb7&quot;,</span><br><span class="line">      &quot;proof&quot;: 35293,</span><br><span class="line">      &quot;timestamp&quot;: 1506280664.717925,</span><br><span class="line">      &quot;transactions&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;amount&quot;: 1,</span><br><span class="line">          &quot;recipient&quot;: &quot;8bbcb347e0634905b0cac7955bae152b&quot;,</span><br><span class="line">          &quot;sender&quot;: &quot;0&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;index&quot;: 3,</span><br><span class="line">      &quot;previous_hash&quot;: &quot;eff91a...10f2&quot;,</span><br><span class="line">      &quot;proof&quot;: 35089,</span><br><span class="line">      &quot;timestamp&quot;: 1506280666.1086972,</span><br><span class="line">      &quot;transactions&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;amount&quot;: 1,</span><br><span class="line">          &quot;recipient&quot;: &quot;8bbcb347e0634905b0cac7955bae152b&quot;,</span><br><span class="line">          &quot;sender&quot;: &quot;0&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;length&quot;: 3</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="第四步：形成共识"><a href="#第四步：形成共识" class="headerlink" title="第四步：形成共识"></a>第四步：形成共识</h2><p>终于写到共识了，共识机制是我认为区块链中最有意思的部分。 在上面的步骤中，我们已经创建完成了一个简单的区块链，并且能够实现交易、挖矿等基本功能。 不过，区块链上的节点应该是分散的。 如果它们是分散的，我们究竟如何确保它们记录的都是同一条链？ 这就叫共识问题。如果我们的网络中需要多个节点，我们必须实现共识算法。</p>
+<h3 id="注册新节点"><a href="#注册新节点" class="headerlink" title="注册新节点"></a>注册新节点</h3><p>在我们实现共识算法之前，需要解决一个问题：在同一个网络上，让其中一个节点知道它的相邻节点有哪些。每一个节点需要网络上的其他节点进行注册。因此，我们将需要更多的节点：</p>
+<p>/nodes/register 接受URL形式的新节点列表。<br>/nodes/resolve 实现我们的共识算法，它可以解决任何争议，保证节点具有正确的链。</p>
+<p>下面，我们需要修改Blockchain类的结构，以及找到注册节点实现的方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">from urllib.parse import urlparse</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Blockchain(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        ...</span><br><span class="line">        self.nodes = set()</span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line">    def register_node(self, address):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Add a new node to the list of nodes</span><br><span class="line">        :param address: &lt;str&gt; Address of node. Eg. &apos;http://192.168.0.5:5000&apos;</span><br><span class="line">        :return: None</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        parsed_url = urlparse(address)</span><br><span class="line">        self.nodes.add(parsed_url.netloc)</span><br></pre></td></tr></table></figure>
+
+<p>这儿需要注意一下，set（）函数用来保存节点列表。 它是确保添加的新节点具有幂等性的方法，意思是无论我们使用这个方法添加特定节点多少次，它都只会出现一次。</p>
+<h3 id="实现共识算法"><a href="#实现共识算法" class="headerlink" title="实现共识算法"></a>实现共识算法</h3><p>先前提到的，当某个节点与另一个节点的记录不一致时，会「打架」。为了解决这个冲突，我们需要制定一个规则，即最长而有效的链是最有权威性的。换句话说，网络上最长的链就是事实。使用这个算法，我们就可以在我们的网络上达成共识。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Blockchain(object)</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    def valid_chain(self, chain):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Determine if a given blockchain is valid</span><br><span class="line">        :param chain: &lt;list&gt; A blockchain</span><br><span class="line">        :return: &lt;bool&gt; True if valid, False if not</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        last_block = chain[0]</span><br><span class="line">        current_index = 1</span><br><span class="line"></span><br><span class="line">        while current_index &lt; len(chain):</span><br><span class="line">            block = chain[current_index]</span><br><span class="line">            print(f&apos;&#123;last_block&#125;&apos;)</span><br><span class="line">            print(f&apos;&#123;block&#125;&apos;)</span><br><span class="line">            print(&quot;\n-----------\n&quot;)</span><br><span class="line">            # Check that the hash of the block is correct</span><br><span class="line">            if block[&apos;previous_hash&apos;] != self.hash(last_block):</span><br><span class="line">                return False</span><br><span class="line"></span><br><span class="line">            # Check that the Proof of Work is correct</span><br><span class="line">            if not self.valid_proof(last_block[&apos;proof&apos;], block[&apos;proof&apos;]):</span><br><span class="line">                return False</span><br><span class="line"></span><br><span class="line">            last_block = block</span><br><span class="line">            current_index += 1</span><br><span class="line"></span><br><span class="line">        return True</span><br><span class="line"></span><br><span class="line">    def resolve_conflicts(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        This is our Consensus Algorithm, it resolves conflicts</span><br><span class="line">        by replacing our chain with the longest one in the network.</span><br><span class="line">        :return: &lt;bool&gt; True if our chain was replaced, False if not</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        neighbours = self.nodes</span><br><span class="line">        new_chain = None</span><br><span class="line"></span><br><span class="line">        # We&apos;re only looking for chains longer than ours</span><br><span class="line">        max_length = len(self.chain)</span><br><span class="line"></span><br><span class="line">        # Grab and verify the chains from all the nodes in our network</span><br><span class="line">        for node in neighbours:</span><br><span class="line">            response = requests.get(f&apos;http://&#123;node&#125;/chain&apos;)</span><br><span class="line"></span><br><span class="line">            if response.status_code == 200:</span><br><span class="line">                length = response.json()[&apos;length&apos;]</span><br><span class="line">                chain = response.json()[&apos;chain&apos;]</span><br><span class="line"></span><br><span class="line">                # Check if the length is longer and the chain is valid</span><br><span class="line">                if length &gt; max_length and self.valid_chain(chain):</span><br><span class="line">                    max_length = length</span><br><span class="line">                    new_chain = chain</span><br><span class="line"></span><br><span class="line">        # Replace our chain if we discovered a new, valid chain longer than ours</span><br><span class="line">        if new_chain:</span><br><span class="line">            self.chain = new_chain</span><br><span class="line">            return True</span><br><span class="line"></span><br><span class="line">        return False</span><br></pre></td></tr></table></figure>
+
+<p>其中，valid_chain() 方法是负责校验这一条链是否是有效的，怎么校验呢？遍历每一个区块，验证它们的哈希值和工作量证明。</p>
+<p>resolve_conflicts() 是遍历我们所有相邻节点的方法，会下载它们的链，然后使用上述方法去验证它们。如果找到一个有效的链，其长度大于我们的链，就将我们的链条替换为该链。</p>
+<p>下面我们在API中，注册两个节点，一个用于添加相邻节点，另一个用于解决冲突：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;/nodes/register&apos;, methods=[&apos;POST&apos;])</span><br><span class="line">def register_nodes():</span><br><span class="line">    values = request.get_json()</span><br><span class="line"></span><br><span class="line">    nodes = values.get(&apos;nodes&apos;)</span><br><span class="line">    if nodes is None:</span><br><span class="line">        return &quot;Error: Please supply a valid list of nodes&quot;, 400</span><br><span class="line"></span><br><span class="line">    for node in nodes:</span><br><span class="line">        blockchain.register_node(node)</span><br><span class="line"></span><br><span class="line">    response = &#123;</span><br><span class="line">        &apos;message&apos;: &apos;New nodes have been added&apos;,</span><br><span class="line">        &apos;total_nodes&apos;: list(blockchain.nodes),</span><br><span class="line">    &#125;</span><br><span class="line">    return jsonify(response), 201</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&apos;/nodes/resolve&apos;, methods=[&apos;GET&apos;])</span><br><span class="line">def consensus():</span><br><span class="line">    replaced = blockchain.resolve_conflicts()</span><br><span class="line"></span><br><span class="line">    if replaced:</span><br><span class="line">        response = &#123;</span><br><span class="line">            &apos;message&apos;: &apos;Our chain was replaced&apos;,</span><br><span class="line">            &apos;new_chain&apos;: blockchain.chain</span><br><span class="line">        &#125;</span><br><span class="line">    else:</span><br><span class="line">        response = &#123;</span><br><span class="line">            &apos;message&apos;: &apos;Our chain is authoritative&apos;,</span><br><span class="line">            &apos;chain&apos;: blockchain.chain</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    return jsonify(response), 200</span><br></pre></td></tr></table></figure>
+
+<p>此时，你可以使用不同机器（或使用同一台机器的不同端口）启动不同的节点。 我是使用的同一台机器，在另外一个端口上创建了另一个节点，并将其注册到当前节点。 因此，我有两个节点：http：// localhost：5000 和 http：// localhost：5001。</p>
+<p>完整代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line">import json</span><br><span class="line">from textwrap import dedent</span><br><span class="line">from time import time</span><br><span class="line">from uuid import uuid4</span><br><span class="line">from urllib.parse import urlparse</span><br><span class="line">from flask import Flask, jsonify, request</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Blockchain(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.chain = []</span><br><span class="line">        self.current_transactions = []</span><br><span class="line"></span><br><span class="line">        self.nodes = set()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        # Create the genesis block</span><br><span class="line">        self.new_block(previous_hash=1, proof=100)</span><br><span class="line"></span><br><span class="line">    def new_block(self, proof, previous_hash=None):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Create a new Block in the Blockchain</span><br><span class="line">        :param proof: &lt;int&gt; The proof given by the Proof of Work algorithm</span><br><span class="line">        :param previous_hash: (Optional) &lt;str&gt; Hash of previous Block</span><br><span class="line">        :return: &lt;dict&gt; New Block</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        block = &#123;</span><br><span class="line">            &apos;index&apos;: len(self.chain) + 1,</span><br><span class="line">            &apos;timestamp&apos;: time(),</span><br><span class="line">            &apos;transactions&apos;: self.current_transactions,</span><br><span class="line">            &apos;proof&apos;: proof,</span><br><span class="line">            &apos;previous_hash&apos;: previous_hash or self.hash(self.chain[-1]),</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # Reset the current list of transactions</span><br><span class="line">        self.current_transactions = []</span><br><span class="line"></span><br><span class="line">        self.chain.append(block)</span><br><span class="line">        return block</span><br><span class="line"></span><br><span class="line">    def new_transaction(self, sender, recipient, amount):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Creates a new transaction to go into the next mined Block</span><br><span class="line"></span><br><span class="line">        :param sender: &lt;str&gt; Address of the Sender</span><br><span class="line">        :param recipient: &lt;str&gt; Address of the Recipient</span><br><span class="line">        :param amount: &lt;int&gt; Amount</span><br><span class="line">        :return: &lt;int&gt; The index of the Block that will hold this transaction</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        self.current_transactions.append(&#123;</span><br><span class="line">            &apos;sender&apos;: sender,</span><br><span class="line">            &apos;recipient&apos;: recipient,</span><br><span class="line">            &apos;amount&apos;: amount,</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        return self.last_block[&apos;index&apos;] + 1</span><br><span class="line"></span><br><span class="line">    @property</span><br><span class="line">    def last_block(self):</span><br><span class="line">        return self.chain[-1]</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def hash(block):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Creates a SHA-256 hash of a Block</span><br><span class="line">        :param block: &lt;dict&gt; Block</span><br><span class="line">        :return: &lt;str&gt;</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        # We must make sure that the Dictionary is Ordered, or we&apos;ll have inconsistent hashes</span><br><span class="line">        block_string = json.dumps(block, sort_keys=True).encode()</span><br><span class="line">        return hashlib.sha256(block_string).hexdigest()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    def proof_of_work(self, last_proof):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Simple Proof of Work Algorithm:</span><br><span class="line">         - Find a number p&apos; such that hash(pp&apos;) contains leading 4 zeroes, where p is the previous p&apos;</span><br><span class="line">         - p is the previous proof, and p&apos; is the new proof</span><br><span class="line">        :param last_proof: &lt;int&gt;</span><br><span class="line">        :return: &lt;int&gt;</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        proof = 0</span><br><span class="line">        while self.valid_proof(last_proof, proof) is False:</span><br><span class="line">            proof += 1</span><br><span class="line"></span><br><span class="line">        return proof</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def valid_proof(last_proof, proof):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Validates the Proof: Does hash(last_proof, proof) contain 4 leading zeroes?</span><br><span class="line">        :param last_proof: &lt;int&gt; Previous Proof</span><br><span class="line">        :param proof: &lt;int&gt; Current Proof</span><br><span class="line">        :return: &lt;bool&gt; True if correct, False if not.</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        guess = f&apos;&#123;last_proof&#125;&#123;proof&#125;&apos;.encode()</span><br><span class="line">        guess_hash = hashlib.sha256(guess).hexdigest()</span><br><span class="line">        return guess_hash[:4] == &quot;0000&quot;</span><br><span class="line">    </span><br><span class="line">    def register_node(self, address):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Add a new node to the list of nodes</span><br><span class="line">        :param address: &lt;str&gt; Address of node. Eg. &apos;http://192.168.0.5:5000&apos;</span><br><span class="line">        :return: None</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        parsed_url = urlparse(address)</span><br><span class="line">        self.nodes.add(parsed_url.netloc)</span><br><span class="line"></span><br><span class="line">    def valid_chain(self, chain):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Determine if a given blockchain is valid</span><br><span class="line">        :param chain: &lt;list&gt; A blockchain</span><br><span class="line">        :return: &lt;bool&gt; True if valid, False if not</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        last_block = chain[0]</span><br><span class="line">        current_index = 1</span><br><span class="line"></span><br><span class="line">        while current_index &lt; len(chain):</span><br><span class="line">            block = chain[current_index]</span><br><span class="line">            print(f&apos;&#123;last_block&#125;&apos;)</span><br><span class="line">            print(f&apos;&#123;block&#125;&apos;)</span><br><span class="line">            print(&quot;\n-----------\n&quot;)</span><br><span class="line">            # Check that the hash of the block is correct</span><br><span class="line">            if block[&apos;previous_hash&apos;] != self.hash(last_block):</span><br><span class="line">                return False</span><br><span class="line"></span><br><span class="line">            # Check that the Proof of Work is correct</span><br><span class="line">            if not self.valid_proof(last_block[&apos;proof&apos;], block[&apos;proof&apos;]):</span><br><span class="line">                return False</span><br><span class="line"></span><br><span class="line">            last_block = block</span><br><span class="line">            current_index += 1</span><br><span class="line"></span><br><span class="line">        return True</span><br><span class="line"></span><br><span class="line">    def resolve_conflicts(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        This is our Consensus Algorithm, it resolves conflicts</span><br><span class="line">        by replacing our chain with the longest one in the network.</span><br><span class="line">        :return: &lt;bool&gt; True if our chain was replaced, False if not</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        neighbours = self.nodes</span><br><span class="line">        new_chain = None</span><br><span class="line"></span><br><span class="line">        # We&apos;re only looking for chains longer than ours</span><br><span class="line">        max_length = len(self.chain)</span><br><span class="line"></span><br><span class="line">        # Grab and verify the chains from all the nodes in our network</span><br><span class="line">        for node in neighbours:</span><br><span class="line">            response = requests.get(f&apos;http://&#123;node&#125;/chain&apos;)</span><br><span class="line"></span><br><span class="line">            if response.status_code == 200:</span><br><span class="line">                length = response.json()[&apos;length&apos;]</span><br><span class="line">                chain = response.json()[&apos;chain&apos;]</span><br><span class="line"></span><br><span class="line">                # Check if the length is longer and the chain is valid</span><br><span class="line">                if length &gt; max_length and self.valid_chain(chain):</span><br><span class="line">                    max_length = length</span><br><span class="line">                    new_chain = chain</span><br><span class="line"></span><br><span class="line">        # Replace our chain if we discovered a new, valid chain longer than ours</span><br><span class="line">        if new_chain:</span><br><span class="line">            self.chain = new_chain</span><br><span class="line">            return True</span><br><span class="line"></span><br><span class="line">        return False</span><br><span class="line"></span><br><span class="line"># Instantiate our Node</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"># Generate a globally unique address for this node</span><br><span class="line">node_identifier = str(uuid4()).replace(&apos;-&apos;, &apos;&apos;)</span><br><span class="line"></span><br><span class="line"># Instantiate the Blockchain</span><br><span class="line">blockchain = Blockchain()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&apos;/mine&apos;, methods=[&apos;GET&apos;])</span><br><span class="line">def mine():</span><br><span class="line">    # We run the proof of work algorithm to get the next proof...</span><br><span class="line">    last_block = blockchain.last_block</span><br><span class="line">    last_proof = last_block[&apos;proof&apos;]</span><br><span class="line">    proof = blockchain.proof_of_work(last_proof)</span><br><span class="line"></span><br><span class="line">    # We must receive a reward for finding the proof.</span><br><span class="line">    # The sender is &quot;0&quot; to signify that this node has mined a new coin.</span><br><span class="line">    blockchain.new_transaction(</span><br><span class="line">        sender=&quot;0&quot;,</span><br><span class="line">        recipient=node_identifier,</span><br><span class="line">        amount=1,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    # Forge the new Block by adding it to the chain</span><br><span class="line">    previous_hash = blockchain.hash(last_block)</span><br><span class="line">    block = blockchain.new_block(proof, previous_hash)</span><br><span class="line"></span><br><span class="line">    response = &#123;</span><br><span class="line">        &apos;message&apos;: &quot;New Block Forged&quot;,</span><br><span class="line">        &apos;index&apos;: block[&apos;index&apos;],</span><br><span class="line">        &apos;transactions&apos;: block[&apos;transactions&apos;],</span><br><span class="line">        &apos;proof&apos;: block[&apos;proof&apos;],</span><br><span class="line">        &apos;previous_hash&apos;: block[&apos;previous_hash&apos;],</span><br><span class="line">    &#125;</span><br><span class="line">    return jsonify(response), 200</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/transactions/new&apos;, methods=[&apos;POST&apos;])</span><br><span class="line">def new_transaction():</span><br><span class="line">    values = request.get_json()</span><br><span class="line"></span><br><span class="line">    # Check that the required fields are in the POST&apos;ed data</span><br><span class="line">    required = [&apos;sender&apos;, &apos;recipient&apos;, &apos;amount&apos;]</span><br><span class="line">    if not all(k in values for k in required):</span><br><span class="line">        return &apos;Missing values&apos;, 400</span><br><span class="line"></span><br><span class="line">    # Create a new Transaction</span><br><span class="line">    index = blockchain.new_transaction(values[&apos;sender&apos;], values[&apos;recipient&apos;], values[&apos;amount&apos;])</span><br><span class="line"></span><br><span class="line">    response = &#123;&apos;message&apos;: f&apos;Transaction will be added to Block &#123;index&#125;&apos;&#125;</span><br><span class="line">    return jsonify(response), 201</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/chain&apos;, methods=[&apos;GET&apos;])</span><br><span class="line">def full_chain():</span><br><span class="line">    response = &#123;</span><br><span class="line">        &apos;chain&apos;: blockchain.chain,</span><br><span class="line">        &apos;length&apos;: len(blockchain.chain),</span><br><span class="line">    &#125;</span><br><span class="line">    return jsonify(response), 200</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/nodes/register&apos;, methods=[&apos;POST&apos;])</span><br><span class="line">def register_nodes():</span><br><span class="line">    values = request.get_json()</span><br><span class="line"></span><br><span class="line">    nodes = values.get(&apos;nodes&apos;)</span><br><span class="line">    if nodes is None:</span><br><span class="line">        return &quot;Error: Please supply a valid list of nodes&quot;, 400</span><br><span class="line"></span><br><span class="line">    for node in nodes:</span><br><span class="line">        blockchain.register_node(node)</span><br><span class="line"></span><br><span class="line">    response = &#123;</span><br><span class="line">        &apos;message&apos;: &apos;New nodes have been added&apos;,</span><br><span class="line">        &apos;total_nodes&apos;: list(blockchain.nodes),</span><br><span class="line">    &#125;</span><br><span class="line">    return jsonify(response), 201</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&apos;/nodes/resolve&apos;, methods=[&apos;GET&apos;])</span><br><span class="line">def consensus():</span><br><span class="line">    replaced = blockchain.resolve_conflicts()</span><br><span class="line"></span><br><span class="line">    if replaced:</span><br><span class="line">        response = &#123;</span><br><span class="line">            &apos;message&apos;: &apos;Our chain was replaced&apos;,</span><br><span class="line">            &apos;new_chain&apos;: blockchain.chain</span><br><span class="line">        &#125;</span><br><span class="line">    else:</span><br><span class="line">        response = &#123;</span><br><span class="line">            &apos;message&apos;: &apos;Our chain is authoritative&apos;,</span><br><span class="line">            &apos;chain&apos;: blockchain.chain</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    return jsonify(response), 200</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    app.run(host=&apos;0.0.0.0&apos;, port=5000)</span><br></pre></td></tr></table></figure>
+
+<p>然后，我在第二个节点上挖出了一些新的区块，以确保第二个节点的链条比第一个节点的链条更长。 之后，我在第一个节点上调用 GET / nodes / resolve，使其中链通过共识算法被第二个节点的链条取代。</p>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/区块链/" rel="tag"># 区块链</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/plang/scala/fold/" rel="next" title="【scala】fold算子示例：字每记数">
+                <i class="fa fa-chevron-left"></i> 【scala】fold算子示例：字每记数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/arch/crypto/bouncycastle/" rel="prev" title="【密码术】bouncycastle 轻量级密码术包">
+                【密码术】bouncycastle 轻量级密码术包 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一步：创建区块链"><span class="nav-number">1.</span> <span class="nav-text">第一步：创建区块链</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#区块到底长什么样？"><span class="nav-number">1.1.</span> <span class="nav-text">区块到底长什么样？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在区块上添加交易"><span class="nav-number">1.2.</span> <span class="nav-text">在区块上添加交易</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建新区块"><span class="nav-number">1.3.</span> <span class="nav-text">创建新区块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于工作量证明-PoW）"><span class="nav-number">1.4.</span> <span class="nav-text">关于工作量证明(PoW）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现基本的工作量证明"><span class="nav-number">1.5.</span> <span class="nav-text">实现基本的工作量证明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二步：创建-API"><span class="nav-number">2.</span> <span class="nav-text">第二步：创建 API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建-Flask-框架"><span class="nav-number">2.1.</span> <span class="nav-text">搭建 Flask 框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交易节点"><span class="nav-number">2.2.</span> <span class="nav-text">交易节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#挖矿节点"><span class="nav-number">2.3.</span> <span class="nav-text">挖矿节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三步：实现与-Blockchain-类交互"><span class="nav-number">2.4.</span> <span class="nav-text">第三步：实现与 Blockchain 类交互</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四步：形成共识"><span class="nav-number">3.</span> <span class="nav-text">第四步：形成共识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注册新节点"><span class="nav-number">3.1.</span> <span class="nav-text">注册新节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现共识算法"><span class="nav-number">3.2.</span> <span class="nav-text">实现共识算法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

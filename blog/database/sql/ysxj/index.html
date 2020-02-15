@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="约束用于限制加入表的数据的类型。 可以在创建表时规定约束（通过 CREATE TABLE语句），或者在表创建之后也可以（通过 ALTER TABLE 语句）。 我们将主要探讨以下几种约束：  NOT NULL UNIQUE PRIMARY KEY FOREIGN KEY CHECK DEFAULT  注释：在下面的章节，我们会详细讲解每一种约束。 NOT NULL 约束NOT NULL 约束强制列">
+<meta name="keywords" content="数据库,SQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL 约束详解">
+<meta property="og:url" content="http://www.iteedu.com/blog/database/sql/ysxj/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="约束用于限制加入表的数据的类型。 可以在创建表时规定约束（通过 CREATE TABLE语句），或者在表创建之后也可以（通过 ALTER TABLE 语句）。 我们将主要探讨以下几种约束：  NOT NULL UNIQUE PRIMARY KEY FOREIGN KEY CHECK DEFAULT  注释：在下面的章节，我们会详细讲解每一种约束。 NOT NULL 约束NOT NULL 约束强制列">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-01T14:55:11.570Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SQL 约束详解">
+<meta name="twitter:description" content="约束用于限制加入表的数据的类型。 可以在创建表时规定约束（通过 CREATE TABLE语句），或者在表创建之后也可以（通过 ALTER TABLE 语句）。 我们将主要探讨以下几种约束：  NOT NULL UNIQUE PRIMARY KEY FOREIGN KEY CHECK DEFAULT  注释：在下面的章节，我们会详细讲解每一种约束。 NOT NULL 约束NOT NULL 约束强制列">
+  <link rel="canonical" href="http://www.iteedu.com/blog/database/sql/ysxj/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>SQL 约束详解 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/database/sql/ysxj/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">SQL 约束详解
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-09-16 10:22:52" itemprop="dateCreated datePublished" datetime="2015-09-16T10:22:52+08:00">2015-09-16</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-07-01 22:55:11" itemprop="dateModified" datetime="2019-07-01T22:55:11+08:00">2019-07-01</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>约束用于限制加入表的数据的类型。</p>
+<p>可以在创建表时规定约束（通过 CREATE TABLE<br>语句），或者在表创建之后也可以（通过 ALTER TABLE 语句）。</p>
+<p>我们将主要探讨以下几种约束：</p>
+<ol>
+<li>NOT NULL</li>
+<li>UNIQUE</li>
+<li>PRIMARY KEY</li>
+<li>FOREIGN KEY</li>
+<li>CHECK</li>
+<li>DEFAULT</li>
+</ol>
+<p>注释：在下面的章节，我们会详细讲解每一种约束。</p>
+<h3 id="NOT-NULL-约束"><a href="#NOT-NULL-约束" class="headerlink" title="NOT NULL 约束"></a>NOT NULL 约束</h3><p>NOT NULL 约束强制列不接受 NULL 值。</p>
+<p>NOT NULL<br>约束强制字段始终包含值。这意味着，如果不向字段添加值，就无法插入新记录或者更新记录。</p>
+<p>下面的 SQL 语句强制 “Id_P” 列和 “LastName” 列不接受 NULL 值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Persons</span><br><span class="line">(</span><br><span class="line">Id_P int NOT NULL,</span><br><span class="line">LastName varchar(255) NOT NULL,</span><br><span class="line">FirstName varchar(255),</span><br><span class="line">Address varchar(255),</span><br><span class="line">City varchar(255)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="UNIQUE-约束"><a href="#UNIQUE-约束" class="headerlink" title="UNIQUE 约束"></a>UNIQUE 约束</h3><p>UNIQUE 约束唯一标识数据库表中的每条记录。</p>
+<p>UNIQUE 和 PRIMARY KEY 约束均为列或列集合提供了唯一性的保证。</p>
+<p>PRIMARY KEY 拥有自动定义的 UNIQUE 约束。</p>
+<p>请注意，每个表可以有多个 UNIQUE 约束，但是每个表只能有一个 PRIMARY KEY<br>约束。</p>
+<h4 id="CREATE-TABLE中的UNIQUE"><a href="#CREATE-TABLE中的UNIQUE" class="headerlink" title="CREATE TABLE中的UNIQUE"></a>CREATE TABLE中的UNIQUE</h4><p>下面的 SQL 在 “Persons” 表创建时在 “Id_P” 列创建 UNIQUE 约束：</p>
+<p>MySQL:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Persons</span><br><span class="line">(</span><br><span class="line">Id_P int NOT NULL,</span><br><span class="line">LastName varchar(255) NOT NULL,</span><br><span class="line">FirstName varchar(255),</span><br><span class="line">Address varchar(255),</span><br><span class="line">City varchar(255),</span><br><span class="line">UNIQUE (Id_P)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Persons</span><br><span class="line">(</span><br><span class="line">Id_P int NOT NULL UNIQUE,</span><br><span class="line">LastName varchar(255) NOT NULL,</span><br><span class="line">FirstName varchar(255),</span><br><span class="line">Address varchar(255),</span><br><span class="line">City varchar(255)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>如果需要命名 UNIQUE 约束，以及为多个列定义 UNIQUE 约束，请使用下面的 SQL<br>语法：</p>
+<p>MySQL / SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Persons</span><br><span class="line">(</span><br><span class="line">Id_P int NOT NULL,</span><br><span class="line">LastName varchar(255) NOT NULL,</span><br><span class="line">FirstName varchar(255),</span><br><span class="line">Address varchar(255),</span><br><span class="line">City varchar(255),</span><br><span class="line">CONSTRAINT uc_PersonID UNIQUE (Id_P,LastName)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="ALTER-TABLE中的UNIQUE"><a href="#ALTER-TABLE中的UNIQUE" class="headerlink" title="ALTER TABLE中的UNIQUE"></a>ALTER TABLE中的UNIQUE</h4><p>当表已被创建时，如需在 “Id_P” 列创建 UNIQUE 约束，请使用下列 SQL：</p>
+<p>MySQL / SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Persons</span><br><span class="line">ADD UNIQUE (Id_P)</span><br></pre></td></tr></table></figure>
+
+<p>如需命名 UNIQUE 约束，并定义多个列的 UNIQUE 约束，请使用下面的 SQL<br>语法：</p>
+<p>MySQL / SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Persons</span><br><span class="line">ADD CONSTRAINT uc_PersonID UNIQUE (Id_P,LastName)</span><br></pre></td></tr></table></figure>
+
+<h4 id="撤销-UNIQUE-约束"><a href="#撤销-UNIQUE-约束" class="headerlink" title="撤销 UNIQUE 约束"></a>撤销 UNIQUE 约束</h4><p>如需撤销 UNIQUE 约束，请使用下面的 SQL：</p>
+<p>MySQL:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Persons</span><br><span class="line">DROP INDEX uc_PersonID</span><br></pre></td></tr></table></figure>
+
+<p>SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Persons</span><br><span class="line">DROP CONSTRAINT uc_PersonID</span><br></pre></td></tr></table></figure>
+
+<h3 id="PRIMARY-KEY-约束"><a href="#PRIMARY-KEY-约束" class="headerlink" title="PRIMARY KEY 约束"></a>PRIMARY KEY 约束</h3><p>PRIMARY KEY 约束唯一标识数据库表中的每条记录。</p>
+<p>主键必须包含唯一的值。</p>
+<p>主键列不能包含 NULL 值。</p>
+<p>每个表都应该有一个主键，并且每个表只能有一个主键。</p>
+<h4 id="CREATE-TABLE中的PRIMARY-KEY"><a href="#CREATE-TABLE中的PRIMARY-KEY" class="headerlink" title="CREATE TABLE中的PRIMARY KEY"></a>CREATE TABLE中的PRIMARY KEY</h4><p>下面的 SQL 在 “Persons” 表创建时在 “Id_P” 列创建 PRIMARY KEY 约束：</p>
+<p>MySQL:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Persons</span><br><span class="line">(</span><br><span class="line">Id_P int NOT NULL,</span><br><span class="line">LastName varchar(255) NOT NULL,</span><br><span class="line">FirstName varchar(255),</span><br><span class="line">Address varchar(255),</span><br><span class="line">City varchar(255),</span><br><span class="line">PRIMARY KEY (Id_P)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Persons</span><br><span class="line">(</span><br><span class="line">Id_P int NOT NULL PRIMARY KEY,</span><br><span class="line">LastName varchar(255) NOT NULL,</span><br><span class="line">FirstName varchar(255),</span><br><span class="line">Address varchar(255),</span><br><span class="line">City varchar(255)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>如果需要命名 PRIMARY KEY 约束，以及为多个列定义 PRIMARY KEY<br>约束，请使用下面的 SQL 语法：</p>
+<p>MySQL / SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Persons</span><br><span class="line">(</span><br><span class="line">Id_P int NOT NULL,</span><br><span class="line">LastName varchar(255) NOT NULL,</span><br><span class="line">FirstName varchar(255),</span><br><span class="line">Address varchar(255),</span><br><span class="line">City varchar(255),</span><br><span class="line">CONSTRAINT uc_PersonID PRIMARY KEY (Id_P,LastName)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="ALTER-TABLE中的PRIMARY-KEY"><a href="#ALTER-TABLE中的PRIMARY-KEY" class="headerlink" title="ALTER TABLE中的PRIMARY KEY"></a>ALTER TABLE中的PRIMARY KEY</h4><p>如果在表已存在的情况下为 “Id_P” 列创建 PRIMARY KEY 约束，请使用下面的<br>SQL：</p>
+<p>MySQL / SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Persons</span><br><span class="line">ADD PRIMARY KEY (Id_P)</span><br></pre></td></tr></table></figure>
+
+<p>如果需要命名 PRIMARY KEY 约束，以及为多个列定义 PRIMARY KEY<br>约束，请使用下面的 SQL 语法：</p>
+<p>MySQL / SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Persons</span><br><span class="line">ADD CONSTRAINT pk_PersonID PRIMARY KEY (Id_P,LastName)</span><br></pre></td></tr></table></figure>
+
+<p>注释：如果您使用 ALTER TABLE 语句添加主键，必须把主键列声明为不包含 NULL<br>值（在表首次创建时）。</p>
+<h4 id="撤销-PRIMARY-KEY-约束"><a href="#撤销-PRIMARY-KEY-约束" class="headerlink" title="撤销 PRIMARY KEY 约束"></a>撤销 PRIMARY KEY 约束</h4><p>如需撤销 PRIMARY KEY 约束，请使用下面的 SQL：</p>
+<p>MySQL:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Persons</span><br><span class="line">DROP PRIMARY KEY</span><br></pre></td></tr></table></figure>
+
+<p>SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Persons</span><br><span class="line">DROP CONSTRAINT pk_PersonID</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="FOREIGN-KEY-约束"><a href="#FOREIGN-KEY-约束" class="headerlink" title="FOREIGN KEY 约束"></a>FOREIGN KEY 约束</h3><p>一个表中的 FOREIGN KEY 指向另一个表中的 PRIMARY KEY。</p>
+<p>FOREIGN KEY 约束用于预防破坏表之间连接的动作。</p>
+<p>FOREIGN KEY<br>约束也能防止非法数据插入外键列，因为它必须是它指向的那个表中的值之一。</p>
+<h4 id="CREATE-TABLE中的FOREIGN-KEY"><a href="#CREATE-TABLE中的FOREIGN-KEY" class="headerlink" title="CREATE TABLE中的FOREIGN KEY"></a>CREATE TABLE中的FOREIGN KEY</h4><p>下面的 SQL 在 “Orders” 表创建时为 “Id_P” 列创建 FOREIGN KEY：</p>
+<p>MySQL:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Orders</span><br><span class="line">(</span><br><span class="line">O_Id int NOT NULL,</span><br><span class="line">OrderNo int NOT NULL,</span><br><span class="line">Id_P int,</span><br><span class="line">PRIMARY KEY (O_Id),</span><br><span class="line">FOREIGN KEY (Id_P) REFERENCES Persons(Id_P)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Orders</span><br><span class="line">(</span><br><span class="line">O_Id int NOT NULL PRIMARY KEY,</span><br><span class="line">OrderNo int NOT NULL,</span><br><span class="line">Id_P int FOREIGN KEY REFERENCES Persons(Id_P)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>如果需要命名 FOREIGN KEY 约束，以及为多个列定义 FOREIGN KEY<br>约束，请使用下面的 SQL 语法：</p>
+<p>MySQL / SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Orders</span><br><span class="line">(</span><br><span class="line">O_Id int NOT NULL,</span><br><span class="line">OrderNo int NOT NULL,</span><br><span class="line">Id_P int,</span><br><span class="line">PRIMARY KEY (O_Id),</span><br><span class="line">CONSTRAINT fk_PerOrders FOREIGN KEY (Id_P)</span><br><span class="line">REFERENCES Persons(Id_P)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="ALTER-TABLE中的FOREIGN-KEY"><a href="#ALTER-TABLE中的FOREIGN-KEY" class="headerlink" title="ALTER TABLE中的FOREIGN KEY"></a>ALTER TABLE中的FOREIGN KEY</h4><p>如果在 “Orders” 表已存在的情况下为 “Id_P” 列创建 FOREIGN KEY<br>约束，请使用下面的 SQL：</p>
+<p>MySQL / SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Orders</span><br><span class="line">ADD FOREIGN KEY (Id_P)</span><br><span class="line">REFERENCES Persons(Id_P)</span><br></pre></td></tr></table></figure>
+
+<p>如果需要命名 FOREIGN KEY 约束，以及为多个列定义 FOREIGN KEY<br>约束，请使用下面的 SQL 语法：</p>
+<p>MySQL / SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Orders</span><br><span class="line">ADD CONSTRAINT fk_PerOrders</span><br><span class="line">FOREIGN KEY (Id_P)</span><br><span class="line">REFERENCES Persons(Id_P)</span><br></pre></td></tr></table></figure>
+
+<h4 id="撤销-FOREIGN-KEY-约束"><a href="#撤销-FOREIGN-KEY-约束" class="headerlink" title="撤销 FOREIGN KEY 约束"></a>撤销 FOREIGN KEY 约束</h4><p>如需撤销 FOREIGN KEY 约束，请使用下面的 SQL：</p>
+<p>MySQL:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Orders</span><br><span class="line">DROP FOREIGN KEY fk_PerOrders</span><br></pre></td></tr></table></figure>
+
+<p>SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Orders</span><br><span class="line">DROP CONSTRAINT fk_PerOrders</span><br></pre></td></tr></table></figure>
+
+<h3 id="CHECK-约束"><a href="#CHECK-约束" class="headerlink" title="CHECK 约束"></a>CHECK 约束</h3><p>CHECK 约束用于限制列中的值的范围。</p>
+<p>如果对单个列定义 CHECK 约束，那么该列只允许特定的值。</p>
+<p>如果对一个表定义 CHECK 约束，那么此约束会在特定的列中对值进行限制。</p>
+<h4 id="CREATE-TABLE中的CHECK"><a href="#CREATE-TABLE中的CHECK" class="headerlink" title="CREATE TABLE中的CHECK"></a>CREATE TABLE中的CHECK</h4><p>下面的 SQL 在 “Persons” 表创建时为 “Id_P” 列创建 CHECK 约束。CHECK<br>约束规定 “Id_P” 列必须只包含大于 0 的整数。</p>
+<p>My SQL:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Persons</span><br><span class="line">(</span><br><span class="line">Id_P int NOT NULL,</span><br><span class="line">LastName varchar(255) NOT NULL,</span><br><span class="line">FirstName varchar(255),</span><br><span class="line">Address varchar(255),</span><br><span class="line">City varchar(255),</span><br><span class="line">CHECK (Id_P&gt;0)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Persons</span><br><span class="line">(</span><br><span class="line">Id_P int NOT NULL CHECK (Id_P&gt;0),</span><br><span class="line">LastName varchar(255) NOT NULL,</span><br><span class="line">FirstName varchar(255),</span><br><span class="line">Address varchar(255),</span><br><span class="line">City varchar(255)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>如果需要命名 CHECK 约束，以及为多个列定义 CHECK 约束，请使用下面的 SQL<br>语法：</p>
+<p>MySQL / SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Persons</span><br><span class="line">(</span><br><span class="line">Id_P int NOT NULL,</span><br><span class="line">LastName varchar(255) NOT NULL,</span><br><span class="line">FirstName varchar(255),</span><br><span class="line">Address varchar(255),</span><br><span class="line">City varchar(255),</span><br><span class="line">CONSTRAINT chk_Person CHECK (Id_P&gt;0 AND City=&apos;Sandnes&apos;)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="ALTER-TABLE中的CHECK"><a href="#ALTER-TABLE中的CHECK" class="headerlink" title="ALTER TABLE中的CHECK"></a>ALTER TABLE中的CHECK</h4><p>如果在表已存在的情况下为 “Id_P” 列创建 CHECK 约束，请使用下面的 SQL：</p>
+<p>MySQL / SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Persons</span><br><span class="line">ADD CHECK (Id_P&gt;0)</span><br></pre></td></tr></table></figure>
+
+<p>如果需要命名 CHECK 约束，以及为多个列定义 CHECK 约束，请使用下面的 SQL<br>语法：</p>
+<p>MySQL / SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Persons</span><br><span class="line">ADD CONSTRAINT chk_Person CHECK (Id_P&gt;0 AND City=&apos;Sandnes&apos;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="撤销-CHECK-约束"><a href="#撤销-CHECK-约束" class="headerlink" title="撤销 CHECK 约束"></a>撤销 CHECK 约束</h4><p>如需撤销 CHECK 约束，请使用下面的 SQL：</p>
+<p>SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Persons</span><br><span class="line">DROP CONSTRAINT chk_Person</span><br></pre></td></tr></table></figure>
+
+<p>MySQL:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Persons</span><br><span class="line">DROP CHECK chk_Person</span><br></pre></td></tr></table></figure>
+
+<h3 id="DEFAULT-约束"><a href="#DEFAULT-约束" class="headerlink" title="DEFAULT 约束"></a>DEFAULT 约束</h3><p>DEFAULT 约束用于向列中插入默认值。</p>
+<p>如果没有规定其他的值，那么会将默认值添加到所有的新记录。</p>
+<h4 id="CREATE-TABLE中的DEFAULT"><a href="#CREATE-TABLE中的DEFAULT" class="headerlink" title="CREATE TABLE中的DEFAULT"></a>CREATE TABLE中的DEFAULT</h4><p>下面的 SQL 在 “Persons” 表创建时为 “City” 列创建 DEFAULT 约束：</p>
+<p>My SQL / SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Persons</span><br><span class="line">(</span><br><span class="line">Id_P int NOT NULL,</span><br><span class="line">LastName varchar(255) NOT NULL,</span><br><span class="line">FirstName varchar(255),</span><br><span class="line">Address varchar(255),</span><br><span class="line">City varchar(255) DEFAULT &apos;Sandnes&apos;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>通过使用类似 GETDATE() 这样的函数，DEFAULT 约束也可以用于插入系统值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE Orders</span><br><span class="line">(</span><br><span class="line">Id_O int NOT NULL,</span><br><span class="line">OrderNo int NOT NULL,</span><br><span class="line">Id_P int,</span><br><span class="line">OrderDate date DEFAULT GETDATE()</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="ALTER-TABLE中的DEFAULT"><a href="#ALTER-TABLE中的DEFAULT" class="headerlink" title="ALTER TABLE中的DEFAULT"></a>ALTER TABLE中的DEFAULT</h4><p>如果在表已存在的情况下为 “City” 列创建 DEFAULT 约束，请使用下面的 SQL：</p>
+<p>MySQL:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Persons</span><br><span class="line">ALTER City SET DEFAULT &apos;SANDNES&apos;</span><br></pre></td></tr></table></figure>
+
+<p>SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Persons</span><br><span class="line">ALTER COLUMN City SET DEFAULT &apos;SANDNES&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="撤销-DEFAULT-约束"><a href="#撤销-DEFAULT-约束" class="headerlink" title="撤销 DEFAULT 约束"></a>撤销 DEFAULT 约束</h4><p>如需撤销 DEFAULT 约束，请使用下面的 SQL：</p>
+<p>MySQL:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Persons</span><br><span class="line">ALTER City DROP DEFAULT</span><br></pre></td></tr></table></figure>
+
+<p>SQL Server / Oracle / MS Access:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE Persons</span><br><span class="line">ALTER COLUMN City DROP DEFAULT</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/数据库/" rel="tag"># 数据库</a>
+          
+            <a href="/tags/SQL/" rel="tag"># SQL</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/database/sql/altertable/" rel="next" title="SQL ALTER TABLE 语句">
+                <i class="fa fa-chevron-left"></i> SQL ALTER TABLE 语句
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/database/sql/autoincrement/" rel="prev" title="SQL AUTO INCREMENT 字段">
+                SQL AUTO INCREMENT 字段 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#NOT-NULL-约束"><span class="nav-number">1.</span> <span class="nav-text">NOT NULL 约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UNIQUE-约束"><span class="nav-number">2.</span> <span class="nav-text">UNIQUE 约束</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CREATE-TABLE中的UNIQUE"><span class="nav-number">2.1.</span> <span class="nav-text">CREATE TABLE中的UNIQUE</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ALTER-TABLE中的UNIQUE"><span class="nav-number">2.2.</span> <span class="nav-text">ALTER TABLE中的UNIQUE</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#撤销-UNIQUE-约束"><span class="nav-number">2.3.</span> <span class="nav-text">撤销 UNIQUE 约束</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PRIMARY-KEY-约束"><span class="nav-number">3.</span> <span class="nav-text">PRIMARY KEY 约束</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CREATE-TABLE中的PRIMARY-KEY"><span class="nav-number">3.1.</span> <span class="nav-text">CREATE TABLE中的PRIMARY KEY</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ALTER-TABLE中的PRIMARY-KEY"><span class="nav-number">3.2.</span> <span class="nav-text">ALTER TABLE中的PRIMARY KEY</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#撤销-PRIMARY-KEY-约束"><span class="nav-number">3.3.</span> <span class="nav-text">撤销 PRIMARY KEY 约束</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FOREIGN-KEY-约束"><span class="nav-number">4.</span> <span class="nav-text">FOREIGN KEY 约束</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CREATE-TABLE中的FOREIGN-KEY"><span class="nav-number">4.1.</span> <span class="nav-text">CREATE TABLE中的FOREIGN KEY</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ALTER-TABLE中的FOREIGN-KEY"><span class="nav-number">4.2.</span> <span class="nav-text">ALTER TABLE中的FOREIGN KEY</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#撤销-FOREIGN-KEY-约束"><span class="nav-number">4.3.</span> <span class="nav-text">撤销 FOREIGN KEY 约束</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CHECK-约束"><span class="nav-number">5.</span> <span class="nav-text">CHECK 约束</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CREATE-TABLE中的CHECK"><span class="nav-number">5.1.</span> <span class="nav-text">CREATE TABLE中的CHECK</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ALTER-TABLE中的CHECK"><span class="nav-number">5.2.</span> <span class="nav-text">ALTER TABLE中的CHECK</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#撤销-CHECK-约束"><span class="nav-number">5.3.</span> <span class="nav-text">撤销 CHECK 约束</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DEFAULT-约束"><span class="nav-number">6.</span> <span class="nav-text">DEFAULT 约束</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CREATE-TABLE中的DEFAULT"><span class="nav-number">6.1.</span> <span class="nav-text">CREATE TABLE中的DEFAULT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ALTER-TABLE中的DEFAULT"><span class="nav-number">6.2.</span> <span class="nav-text">ALTER TABLE中的DEFAULT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#撤销-DEFAULT-约束"><span class="nav-number">6.3.</span> <span class="nav-text">撤销 DEFAULT 约束</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

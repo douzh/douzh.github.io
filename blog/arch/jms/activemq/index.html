@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="ActiveMQActiveMQ是JMS的一种实现，是比较流行的一款，特性及优势： 1、实现 JMS1.1 规范，支持 J2EE1.4以上2、可运行于任何 jvm和大部分 web 容器（ActiveMQ works great in any JVM）3、支持多种语言客户端（java, C, C++, AJAX, ACTIONSCRIPT 等等）4、支持多种协议（stomp，openwire，RES">
+<meta name="keywords" content="ActiveMQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【JMS】ActiveMQ使用指南">
+<meta property="og:url" content="http://www.iteedu.com/blog/arch/jms/activemq/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="ActiveMQActiveMQ是JMS的一种实现，是比较流行的一款，特性及优势： 1、实现 JMS1.1 规范，支持 J2EE1.4以上2、可运行于任何 jvm和大部分 web 容器（ActiveMQ works great in any JVM）3、支持多种语言客户端（java, C, C++, AJAX, ACTIONSCRIPT 等等）4、支持多种协议（stomp，openwire，RES">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-23T12:41:19.363Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【JMS】ActiveMQ使用指南">
+<meta name="twitter:description" content="ActiveMQActiveMQ是JMS的一种实现，是比较流行的一款，特性及优势： 1、实现 JMS1.1 规范，支持 J2EE1.4以上2、可运行于任何 jvm和大部分 web 容器（ActiveMQ works great in any JVM）3、支持多种语言客户端（java, C, C++, AJAX, ACTIONSCRIPT 等等）4、支持多种协议（stomp，openwire，RES">
+  <link rel="canonical" href="http://www.iteedu.com/blog/arch/jms/activemq/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>【JMS】ActiveMQ使用指南 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/arch/jms/activemq/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">【JMS】ActiveMQ使用指南
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-07 17:46:34" itemprop="dateCreated datePublished" datetime="2019-01-07T17:46:34+08:00">2019-01-07</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-23 20:41:19" itemprop="dateModified" datetime="2019-06-23T20:41:19+08:00">2019-06-23</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/架构/" itemprop="url" rel="index"><span itemprop="name">架构</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/架构/消息队列/" itemprop="url" rel="index"><span itemprop="name">消息队列</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/架构/消息队列/JMS/" itemprop="url" rel="index"><span itemprop="name">JMS</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="ActiveMQ"><a href="#ActiveMQ" class="headerlink" title="ActiveMQ"></a>ActiveMQ</h3><p>ActiveMQ是JMS的一种实现，是比较流行的一款，特性及优势：</p>
+<p>1、实现 JMS1.1 规范，支持 J2EE1.4以上<br>2、可运行于任何 jvm和大部分 web 容器（ActiveMQ works great in any JVM）<br>3、支持多种语言客户端（java, C, C++, AJAX, ACTIONSCRIPT 等等）<br>4、支持多种协议（stomp，openwire，REST）<br>5、良好的 spring 支持（ActiveMQ has great Spring Support）<br>6、速度很快，JBossMQ的十倍（ActiveMQ is very fast; often 10x faster than JBossMQ.）<br>7、与 OpenJMS、JbossMQ等开源jms provider 相比，ActiveMQ有 Apache 的支<br>持，持续发展的优势明显。</p>
+<h3 id="编程模板"><a href="#编程模板" class="headerlink" title="编程模板"></a>编程模板</h3><p>要初始化 JMS，则需要使用连接工厂。客户端通过创建ConnectionFactory 建立到<br>ActveMQ 的连接。</p>
+<h4 id="ActiveMQConnectionFactory"><a href="#ActiveMQConnectionFactory" class="headerlink" title="ActiveMQConnectionFactory"></a>ActiveMQConnectionFactory</h4><p>构造方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ActiveMQConnectionFactory();</span><br><span class="line">ActiveMQConnectionFactory(String brokerURL);</span><br><span class="line">ActiveMQConnectionFactory(String userName, String password, String brokerURL) ;</span><br><span class="line">ActiveMQConnectionFactory(String userName, String password, URI brokerURL) ;</span><br><span class="line">ActiveMQConnectionFactory(URI brokerURL);</span><br></pre></td></tr></table></figure>
+
+<p>其中 brokerURL 为 ActiveMQ 服务地址和端口。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(&quot;tcp://192.168.0.135:61616&quot;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Connection"><a href="#Connection" class="headerlink" title="Connection"></a>Connection</h4><p>在成功创建正确的 ConnectionFactory后，下一步将是创建一个连接，它是 JMS 定<br>义的一个接口。</p>
+<p>ConnectionFactory负责返回可以与底层消息传递系统进行通信的 Connection 实现。通常客户端只使用单一连接。根据JMS 文档，Connection的目的是“利用 JMS 提供者封装开放的连接”，以及表示“客户端与提供者服务例程之间的开放TCP/IP 套接字”。</p>
+<p>该文档还指出 Connection 应该是进行客户端身份验证的地方，除了其他一些事项外，客户端还可以指定惟一标志符。</p>
+<p>当一个 Connection 被创建时， 它的传输默认是关闭的， 必须使用 start 方法开启。</p>
+<p>一个 Connection 可以建立一个或多个的Session。</p>
+<p>当一个程序执行完成后，必须关闭之前创建的Connection，否则ActiveMQ不能释放资源，关闭一个Connection 同样也关闭了Session，MessageProducer 和MessageConsumer。</p>
+<p>Connection 支持并发。</p>
+<p>ActiveMQConnectionFactory 方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Connection createConnection()；</span><br><span class="line">Connection createConnection(String userName, String password);</span><br></pre></td></tr></table></figure>
+
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Connection connection = connectionFactory.createConnection();</span><br><span class="line">connection.start();</span><br></pre></td></tr></table></figure>
+
+<h4 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h4><p>一旦从 ConnectionFactory 中获得一个Connection，就必须从 Connection中创建一个或者多个 Session。Session 是一个发送或接收消息的线程，可以使用Session创建 MessageProducer，MessageConsumer和 Message。</p>
+<p>Session 可以被事务化，也可以不被事务化，通常，可以通过向 Connection 上的适<br>当创建方法传递一个布尔参数对此进行设置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Session createSession(boolean transacted, int acknowledgeMode);</span><br></pre></td></tr></table></figure>
+
+<p>其中 transacted 为使用事务标识，acknowledgeMode 为签收模式。<br>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Destination"><a href="#Destination" class="headerlink" title="Destination"></a>Destination</h4><p>Destination 是一个客户端用来指定生产消息目标和消费消息来源的对象。</p>
+<p>在 PTP 模式中，Destination 被称作Queue 即队列；在 Pub/Sub 模式，Destinatio<br>n 被称作 Topic 即主题。在程序中可以使用多个Queue 和 Topic。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Queue createQueue(String queueName);</span><br><span class="line">TemporaryQueue createTemporaryQueue();</span><br><span class="line">Topic createTopic(String topicName);</span><br><span class="line">TemporaryTopic createTemporaryTopic();</span><br></pre></td></tr></table></figure>
+
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Destination destination = session.createQueue(&quot;TEST.FOO&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Destination destination = session.createTopic(&quot;TEST.FOO&quot;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="MessageProducer"><a href="#MessageProducer" class="headerlink" title="MessageProducer"></a>MessageProducer</h4><p>MessageProducer 是一个由 Session创建的对象，用来向 Destination发送消息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MessageProducer createProducer(Destination destination);</span><br></pre></td></tr></table></figure>
+
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MessageProducer producer = session.createProducer(destination);</span><br></pre></td></tr></table></figure>
+
+<p>发送消息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void send(Destination destination, Message message);</span><br><span class="line">void send(Destination destination, Message message, int deliveryMode, int priority,long timeToLive);</span><br><span class="line">void send(Message message);</span><br><span class="line">void send(Message message, int deliveryMode, int priority, long timeToLive);</span><br></pre></td></tr></table></figure>
+
+<p>其中 deliveryMode 为传送模式，priority 为消息优先级，timeToLive 为消息过期时间。</p>
+<h4 id="MessageConsumer"><a href="#MessageConsumer" class="headerlink" title="MessageConsumer"></a>MessageConsumer</h4><p>MessageConsumer 是一个由 Session创建的对象，用来从 Destination接收消息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MessageConsumer createConsumer(Destination destination);</span><br><span class="line">MessageConsumer createConsumer(Destination destination, String messageSelector);</span><br><span class="line">MessageConsumer createConsumer(Destination destination, String messageSelector, boolean noLocal);</span><br><span class="line">TopicSubscriber createDurableSubscriber(Topic topic, String name);</span><br><span class="line">TopicSubscriber createDurableSubscriber(Topic topic, String name, String</span><br><span class="line"> messageSelector, boolean noLocal);</span><br></pre></td></tr></table></figure>
+
+<p>其中 messageSelector 为消息选择器；noLocal 标志默认为 false，当设置为true时限制消费者只能接收和自己相同的连接（Connection）所发布的消息，此标志只适用于主题，不适用于队列；name标识订阅主题所对应的订阅名称，持久订阅时需要设置此参数。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MessageConsumer consumer = session.createConsumer(destination);</span><br></pre></td></tr></table></figure>
+
+<h4 id="消息的同步和异步接收"><a href="#消息的同步和异步接收" class="headerlink" title="消息的同步和异步接收"></a>消息的同步和异步接收</h4><p>消息的同步接收是指客户端主动去接收消息，客户端可以采用MessageConsumer的 receive 方法去接收下一个消息。</p>
+<p>消息的异步接收是指当消息到达时，ActiveMQ 主动通知客户端。客户端可以通过注册一个实现 MessageListener 接口的对象到MessageConsumer。MessageListener只有一个必须实现的方法 —— onMessage，它只接收一个参数，即 Message。在为每个发送到 Destination 的消息实现 onMessage时，将调用该方法。</p>
+<p>Message receive()<br>Message receive(long timeout)<br>Message receiveNoWait()</p>
+<p>其中 timeout 为等待时间，单位为毫秒。</p>
+<p>或者实现 MessageListener 接口，每当消息到达时，ActiveMQ 会调用 MessageListener中的 onMessage 函数。</p>
+<h4 id="消息选择器"><a href="#消息选择器" class="headerlink" title="消息选择器"></a>消息选择器</h4><p>JMS 提供了一种机制，使用它，消息服务可根据消息选择器中的标准来执行消息过滤。生产者可在消息中放入应用程序特有的属性，而消费者可使用基于这些属性的选择标准来表明对消息是否感兴趣。这就简化了客户端的工作，并避免了向不需要这些消息的消费者传送消息的开销。然而，它也使得处理选择标准的消息服务增加了一些额外开销。</p>
+<p>消息选择器是用于MessageConsumer的过滤器，可以用来过滤传入消息的属性和消息头部分（但不过滤消息体），并确定是否将实际消费该消息。按照 JMS 文档的说法，消息选择器是一些字符串，它们基于某种语法，而这种语法是SQL-92的子集。可以将消息选择器作为MessageConsumer 创建的一部分。</p>
+<h4 id="Message"><a href="#Message" class="headerlink" title="Message"></a>Message</h4><p>JMS 程序的最终目的是生产和消费的消息能被其他程序使用，JMS的 Message是一个既简单又不乏灵活性的基本格式，允许创建不同平台上符合非 JMS 程序格式的消息。Message 由以下几部分组成：消息头，属性和消息体。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">BlobMessage createBlobMessage(File file)</span><br><span class="line">BlobMessage createBlobMessage(InputStream in)</span><br><span class="line">BlobMessage createBlobMessage(URL url)</span><br><span class="line">BlobMessage createBlobMessage(URL url, boolean deletedByBroker)</span><br><span class="line">BytesMessage createBytesMessage()</span><br><span class="line">MapMessage createMapMessage()</span><br><span class="line">Message createMessage()</span><br><span class="line">ObjectMessage createObjectMessage()</span><br><span class="line">ObjectMessage createObjectMessage(Serializable object)</span><br><span class="line">TextMessage createTextMessage()</span><br><span class="line">TextMessage createTextMessage(String text)</span><br></pre></td></tr></table></figure>
+
+<p>例如：</p>
+<p>下例演示创建并发送一个 TextMessage到一个队列：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TextMessage message = queueSession.createTextMessage();</span><br><span class="line">message.setText(msg_text); // msg_text is a String</span><br><span class="line">queueSender.send(message);</span><br></pre></td></tr></table></figure>
+
+<p>下例演示接收消息并转换为合适的消息类型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Message m = queueReceiver.receive();</span><br><span class="line">if (m instanceof TextMessage) &#123;</span><br><span class="line"> TextMessage message = (TextMessage) m;</span><br><span class="line"> System.out.println(&quot;Reading message: &quot; + message.getText());</span><br><span class="line">&#125; else &#123;</span><br><span class="line"> // Handle error</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/ActiveMQ/" rel="tag"># ActiveMQ</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/arch/jms/jms/" rel="next" title="【JMS】JMS概述">
+                <i class="fa fa-chevron-left"></i> 【JMS】JMS概述
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/arch/jms/activemqsenior/" rel="prev" title="【JMS】ActiveMQ高级特性">
+                【JMS】ActiveMQ高级特性 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ActiveMQ"><span class="nav-number">1.</span> <span class="nav-text">ActiveMQ</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编程模板"><span class="nav-number">2.</span> <span class="nav-text">编程模板</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ActiveMQConnectionFactory"><span class="nav-number">2.1.</span> <span class="nav-text">ActiveMQConnectionFactory</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Connection"><span class="nav-number">2.2.</span> <span class="nav-text">Connection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Session"><span class="nav-number">2.3.</span> <span class="nav-text">Session</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Destination"><span class="nav-number">2.4.</span> <span class="nav-text">Destination</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MessageProducer"><span class="nav-number">2.5.</span> <span class="nav-text">MessageProducer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MessageConsumer"><span class="nav-number">2.6.</span> <span class="nav-text">MessageConsumer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消息的同步和异步接收"><span class="nav-number">2.7.</span> <span class="nav-text">消息的同步和异步接收</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消息选择器"><span class="nav-number">2.8.</span> <span class="nav-text">消息选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Message"><span class="nav-number">2.9.</span> <span class="nav-text">Message</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

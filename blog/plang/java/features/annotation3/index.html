@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="内建AnnotationJava5.0版在java语法中经常用到的内建Annotation：  @Deprecated用于修饰已经过时的方法； @Override用于修饰此方法覆盖了父类的方法（而非重载）； @SuppressWarnings用于通知java编译器禁止特定的编译警告。  下面代码展示了内建Annotation类型的用法： 123456789101112131415161718192">
+<meta name="keywords" content="JAVA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【JAVA】annotation注释（三）">
+<meta property="og:url" content="http://www.iteedu.com/blog/plang/java/features/annotation3/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="内建AnnotationJava5.0版在java语法中经常用到的内建Annotation：  @Deprecated用于修饰已经过时的方法； @Override用于修饰此方法覆盖了父类的方法（而非重载）； @SuppressWarnings用于通知java编译器禁止特定的编译警告。  下面代码展示了内建Annotation类型的用法： 123456789101112131415161718192">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-10T15:11:15.137Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【JAVA】annotation注释（三）">
+<meta name="twitter:description" content="内建AnnotationJava5.0版在java语法中经常用到的内建Annotation：  @Deprecated用于修饰已经过时的方法； @Override用于修饰此方法覆盖了父类的方法（而非重载）； @SuppressWarnings用于通知java编译器禁止特定的编译警告。  下面代码展示了内建Annotation类型的用法： 123456789101112131415161718192">
+  <link rel="canonical" href="http://www.iteedu.com/blog/plang/java/features/annotation3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>【JAVA】annotation注释（三） | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/plang/java/features/annotation3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">【JAVA】annotation注释（三）
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-09-14 17:48:40" itemprop="dateCreated datePublished" datetime="2015-09-14T17:48:40+08:00">2015-09-14</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-07-10 23:11:15" itemprop="dateModified" datetime="2019-07-10T23:11:15+08:00">2019-07-10</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="内建Annotation"><a href="#内建Annotation" class="headerlink" title="内建Annotation"></a>内建Annotation</h2><p>Java5.0版在java语法中经常用到的内建Annotation：</p>
+<ol>
+<li>@Deprecated用于修饰已经过时的方法；</li>
+<li>@Override用于修饰此方法覆盖了父类的方法（而非重载）；</li>
+<li>@SuppressWarnings用于通知java编译器禁止特定的编译警告。</li>
+</ol>
+<p>下面代码展示了内建Annotation类型的用法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public class UsingBuiltInAnnotation &#123;</span><br><span class="line">        //食物类</span><br><span class="line">        class Food&#123;&#125;</span><br><span class="line">        //干草类</span><br><span class="line">        class Hay extends Food&#123;&#125;</span><br><span class="line">        //动物类</span><br><span class="line">        class Animal&#123;</span><br><span class="line">                Food getFood()&#123;</span><br><span class="line">                        return null;</span><br><span class="line">                &#125;</span><br><span class="line">                //使用Annotation声明Deprecated方法</span><br><span class="line">                @Deprecated</span><br><span class="line">                void deprecatedMethod()&#123;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //马类-继承动物类</span><br><span class="line">        class Horse extends Animal&#123;</span><br><span class="line">                //使用Annotation声明覆盖方法</span><br><span class="line">                @Override</span><br><span class="line">                Hay getFood()&#123;</span><br><span class="line">                        return new Hay();</span><br><span class="line">                &#125;</span><br><span class="line">                //使用Annotation声明禁止警告</span><br><span class="line">                @SuppressWarnings(&#123;&quot;deprecation&quot;,&quot;unchecked&quot;&#125;)</span><br><span class="line">                void callDeprecatedMethod(List horseGroup)&#123;</span><br><span class="line">                        Animal an=new Animal();</span><br><span class="line">                        an.deprecatedMethod();</span><br><span class="line">                        horseGroup.add(an);</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用标准Annotation"><a href="#使用标准Annotation" class="headerlink" title="使用标准Annotation"></a>使用标准Annotation</h2><p>java5.0在java.lang包中定义了3种标准的annotation类型：</p>
+<h2 id="A-Override："><a href="#A-Override：" class="headerlink" title="A.Override："></a>A.Override：</h2><p>java.lang.Override 是一个marker<br>annotation类型，它被用作标注方法。它说明了被标注的方法重载了父类的方法，起到了断言的作用。如果我们使用了这种annotation在一个没有覆盖父类方法的方法时，java编译器将以一个编译错误来警示。<br>这个annotaton常常在我们试图覆盖父类方法而确又写错了方法名时发挥威力。<br>使用方法极其简单：在使用此annotation时只要在被修饰的方法前面加上@Override。<br>下面的代码是一个使用@Override修饰一个企图重载父类的toString方法，而又存在拼写错误的sample：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">  public String toString() &#123;   </span><br><span class="line">      return &quot;[&quot; + super.toString() + &quot;]&quot;;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="B-Deprecated："><a href="#B-Deprecated：" class="headerlink" title="B.Deprecated："></a>B.Deprecated：</h2><p>同样Deprecated也是一个marker<br>annotation。当一个类型或者类型成员使用@Deprecated修饰的话，编译器将不鼓励使用这个被标注的程序元素。而且这种修饰具有一定的<br>“延续性”：如果我们在代码中通过继承或者覆盖的方式使用了这个过时的类型或者成员，虽然继承或者覆盖后的类型或者成员并不是被声明为<br>@Deprecated，但编译器仍然要报警。</p>
+<p>值得注意，@Deprecated这个annotation类型和javadoc中的<br>@deprecated这个tag是有区别的：前者是java编译器识别的，而后者是被javadoc工具所识别用来生成文档（包含程序成员为什么已经过时、它应当如何被禁止或者替代的描述）。</p>
+<p>在java5.0，java编译器仍然象其从前版本那样寻找@deprecated这个javadoc<br>tag，并使用它们产生警告信息。但是这种状况将在后续版本中改变，我们应在现在就开始使用@Deprecated来修饰过时的方法而不是<br>@deprecated javadoc tag。</p>
+<p>下面是一段使用@Deprecated的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * 这里是javadoc的@deprecated声明.</span><br><span class="line">  * @deprecated No one has players for this format any more.  Use VHS instead.</span><br><span class="line">  */</span><br><span class="line">  @Deprecated public class Betamax &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="C-SuppressWarnings："><a href="#C-SuppressWarnings：" class="headerlink" title="C.SuppressWarnings："></a>C.SuppressWarnings：</h2><p>@SuppressWarnings<br>被用于有选择的关闭编译器对类、方法、成员变量、变量初始化的警告。在java5.0，sun提供的javac编译器为我们提供了-Xlint选项来使编译器对合法的程序代码提出警告，此种警告从某种程度上代表了程序错误。例如当我们使用一个generic<br>collection类而又没有提供它的类型时，编译器将提示出&quot;unchecked<br>warning&quot;的警告。</p>
+<p>通常当这种情况发生时，我们就需要查找引起警告的代码。如果它真的表示错误，我们就需要纠正它。例如如果警告信息表明我们代码中的switch语句没有覆盖所有可能的case，那么我们就应增加一个默认的case来避免这种警告。</p>
+<p>相仿，有时我们无法避免这种警告，例如，我们使用必须和非generic的旧代码交互的generic<br>collection类时，我们不能避免这个unchecked<br>warning。此时@SuppressWarning就要派上用场了，在调用的方法前增加@SuppressWarnings修饰，告诉编译器停止对此方法的警告。</p>
+<p>SuppressWarning不是一个marker<br>annotation。它有一个类型为String[]的成员，这个成员的值为被禁止的警告名。对于javac编译器来讲，被-Xlint选项有效的警告名也同样对@SuppressWarings有效，同时编译器忽略掉无法识别的警告名。</p>
+<p>annotation语法允许在annotation名后跟括号，括号中是使用逗号分割的name=value对用于为annotation的成员赋值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@SuppressWarnings(value=&#123;&quot;unchecked&quot;,&quot;fallthrough&quot;&#125;)</span><br><span class="line">public void lintTrap() &#123; /* sloppy method body omitted */ &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中SuppressWarnings<br>annotation类型只定义了一个单一的成员，所以只有一个简单的value={...}作为name=value对。又由于成员值是一个数组，故使用大括号来声明数组值。</p>
+<p>注意：我们可以在下面的情况中缩写annotation：当annotation只有单一成员，并成员命名为&quot;value=&quot;。这时可以省去&quot;value=&quot;。比如将上面的SuppressWarnings<br>annotation进行缩写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@SuppressWarnings(&#123;&quot;unchecked&quot;,&quot;fallthrough&quot;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>如果SuppressWarnings所声明的被禁止警告个数为一个时，可以省去大括号：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@SuppressWarnings(&quot;unchecked&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="开发者自定义Annotation"><a href="#开发者自定义Annotation" class="headerlink" title="开发者自定义Annotation"></a>开发者自定义Annotation</h2><p>由开发者自定义Annotation类型。<br>下面是一个使用annotation进行方法测试的sample：<br>AnnotationDefineForTestFunction类型定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.annotation.*;</span><br><span class="line">//加载在VM中，在运行时进行映射</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">//限定此annotation只能标示方法</span><br><span class="line">@Target(ElementType.METHOD)</span><br><span class="line">public @interface AnnotationDefineForTestFunction&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试annotation的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.reflect.*;</span><br><span class="line"></span><br><span class="line">public class UsingAnnotation &#123;</span><br><span class="line">        @AnnotationDefineForTestFunction public static void method01()&#123;&#125;</span><br><span class="line">        </span><br><span class="line">        public static void method02()&#123;&#125;</span><br><span class="line">        </span><br><span class="line">        @AnnotationDefineForTestFunction public static void method03()&#123;</span><br><span class="line">                throw new RuntimeException(&quot;method03&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        public static void method04()&#123;</span><br><span class="line">                throw new RuntimeException(&quot;method04&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        public static void main(String[] argv) throws Exception&#123;</span><br><span class="line">                int passed = 0, failed = 0;</span><br><span class="line">                //被检测的类名</span><br><span class="line">                String className=&quot;com.bjinfotech.practice.annotation.UsingAnnotation&quot;;</span><br><span class="line">                //逐个检查此类的方法，当其方法使用annotation声明时调用此方法</span><br><span class="line">            for (Method m : Class.forName(className).getMethods()) &#123;</span><br><span class="line">               if (m.isAnnotationPresent(AnnotationDefineForTestFunction.class)) &#123;</span><br><span class="line">                  try &#123;</span><br><span class="line">                     m.invoke(null);</span><br><span class="line">                     passed++;</span><br><span class="line">                  &#125; catch (Throwable ex) &#123;</span><br><span class="line">                     System.out.printf(&quot;测试 %s 失败: %s %n&quot;, m, ex.getCause());</span><br><span class="line">                     failed++;</span><br><span class="line">                  &#125;</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.printf(&quot;测试结果： 通过: %d, 失败： %d%n&quot;, passed, failed);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用第三方开发的Annotation类型"><a href="#使用第三方开发的Annotation类型" class="headerlink" title="使用第三方开发的Annotation类型"></a>使用第三方开发的Annotation类型</h2><p>这也是开发人员所常常用到的一种方式。比如我们在使用Hibernate3.0时就可以利用Annotation生成数据表映射配置文件，而不必使用Xdoclet。\</p>
+<h2 id="Meta-Annotation"><a href="#Meta-Annotation" class="headerlink" title="Meta-Annotation"></a>Meta-Annotation</h2><p>Annotation<br>类型可以被它们自己所标注。Java5.0定义了4个标准的meta-annotation类型，它们被用来提供对其它annotation类型作说明。这些类型和它们所支持的类在java.lang.annotation包中可以找到。如果需要更详细的信息可以参考jdk5.0手册。</p>
+<h2 id="1．再谈Target"><a href="#1．再谈Target" class="headerlink" title="1．再谈Target"></a>1．再谈Target</h2><p>作为meta-annotation类型的Target,它描述了annotation所修饰的程序成员的类型。当一个annotation类型没有<br>Target时，它将被作为普通的annotation看待。当将它修饰一个特定的程序成员时，它将发挥其应用的作用，例如：Override用于修饰方法时，增加了@Target这个meta-annotation就使编译器对annotation作检查，从而去掉修饰错误类型的Override。</p>
+<p>Target<br>meta-annotation类型有唯一的value作为成员。这个成员的类型是java.lang.annotation.ElementType[]类型的，ElementType类型是可以被标注的程序成员的枚举类型。</p>
+<h2 id="2．Retention的用法"><a href="#2．Retention的用法" class="headerlink" title="2．Retention的用法"></a>2．Retention的用法</h2><p>我们在文章的开头曾经提到过Retention，但是没有详细讲解。Retention描述了annotation是否被编译器丢弃或者保留在class文件；如果保留在class文件中，是否在class文件被装载时被虚拟机读取。默认情况下，annotation被保存在class文件中，但在运行时并不能被反射访问。Retention具有三个取值：source、class、runtime，这些取值来自<br>java.lang.annotation.RetentionPolicy的枚举类型值。</p>
+<p>Retention<br>meta-annotation类型有唯一的value作为成员，它的取值来自java.lang.annotation.RetentionPolicy的枚举类型值。</p>
+<h2 id="3．Documented"><a href="#3．Documented" class="headerlink" title="3．Documented"></a>3．Documented</h2><p>Documented是一个meta-annotation类型，用于描述其它类型的annotation应该被作为被标注的程序成员的公共API，因此可以被例如javadoc此类的工具文档化。</p>
+<p>Documented是一个marker annotation，没有成员。</p>
+<h2 id="4．Inherited"><a href="#4．Inherited" class="headerlink" title="4．Inherited"></a>4．Inherited</h2><p>@Inherited meta-annotation也是一个marker<br>annotation，它阐述了某个被标注的类型是被继承的。如果一个使用了@Inherited修饰的annotation类型被用于一个class，则这个annotation将被用于该class的子类。</p>
+<p>注意：@Inherited<br>annotation类型是被标注过的class的子类所继承。类并不从它所实现的接口继承annotation，方法并不从它所重载的方法继承annotation。</p>
+<p>值得思考的是，当@Inherited<br>annotation类型标注的annotation的Retention是RetentionPolicy.RUNTIME，则反射API增强了这种继承性。如果我们使用java.lang.reflect去查询一个@Inherited<br>annotation类型的annotation时，反射代码检查将展开工作：检查class和其父类，直到发现指定的annotation类型被发现，或者到达类继承结构的顶层。\</p>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/plang/java/lib/jacobbase/" rel="next" title="【JAVA】JACOB使用简介">
+                <i class="fa fa-chevron-left"></i> 【JAVA】JACOB使用简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/plang/java/features/annotation2/" rel="prev" title="【JAVA】annotation注释（二）">
+                【JAVA】annotation注释（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内建Annotation"><span class="nav-number">1.</span> <span class="nav-text">内建Annotation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用标准Annotation"><span class="nav-number">2.</span> <span class="nav-text">使用标准Annotation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A-Override："><span class="nav-number">3.</span> <span class="nav-text">A.Override：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-Deprecated："><span class="nav-number">4.</span> <span class="nav-text">B.Deprecated：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-SuppressWarnings："><span class="nav-number">5.</span> <span class="nav-text">C.SuppressWarnings：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发者自定义Annotation"><span class="nav-number">6.</span> <span class="nav-text">开发者自定义Annotation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用第三方开发的Annotation类型"><span class="nav-number">7.</span> <span class="nav-text">使用第三方开发的Annotation类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Meta-Annotation"><span class="nav-number">8.</span> <span class="nav-text">Meta-Annotation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1．再谈Target"><span class="nav-number">9.</span> <span class="nav-text">1．再谈Target</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2．Retention的用法"><span class="nav-number">10.</span> <span class="nav-text">2．Retention的用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3．Documented"><span class="nav-number">11.</span> <span class="nav-text">3．Documented</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4．Inherited"><span class="nav-number">12.</span> <span class="nav-text">4．Inherited</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

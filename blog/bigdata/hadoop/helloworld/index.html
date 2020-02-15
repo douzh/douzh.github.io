@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="这里利用hadoop自带的hadoop-0.20.2-examples.jar做一个单词统计的测试，相当于编程时的HelloWorld程序。 注意切换目录，”hadoop@hadoop-1:~/hadoop-0.20.2$“的格式为”用户@主机:目录$“，注意命令运行时的目录所在，可以通过CD命令切换目录。 hadoop@hadoop-1:~/hadoop-0.20.2$ ls bin">
+<meta name="keywords" content="大数据,hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop的hello world程序">
+<meta property="og:url" content="http://www.iteedu.com/blog/bigdata/hadoop/helloworld/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="这里利用hadoop自带的hadoop-0.20.2-examples.jar做一个单词统计的测试，相当于编程时的HelloWorld程序。 注意切换目录，”hadoop@hadoop-1:~/hadoop-0.20.2$“的格式为”用户@主机:目录$“，注意命令运行时的目录所在，可以通过CD命令切换目录。 hadoop@hadoop-1:~/hadoop-0.20.2$ ls bin">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-30T15:52:37.890Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop的hello world程序">
+<meta name="twitter:description" content="这里利用hadoop自带的hadoop-0.20.2-examples.jar做一个单词统计的测试，相当于编程时的HelloWorld程序。 注意切换目录，”hadoop@hadoop-1:~/hadoop-0.20.2$“的格式为”用户@主机:目录$“，注意命令运行时的目录所在，可以通过CD命令切换目录。 hadoop@hadoop-1:~/hadoop-0.20.2$ ls bin">
+  <link rel="canonical" href="http://www.iteedu.com/blog/bigdata/hadoop/helloworld/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Hadoop的hello world程序 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/bigdata/hadoop/helloworld/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">Hadoop的hello world程序
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-10-18 16:33:32" itemprop="dateCreated datePublished" datetime="2015-10-18T16:33:32+08:00">2015-10-18</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-30 23:52:37" itemprop="dateModified" datetime="2019-06-30T23:52:37+08:00">2019-06-30</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/大数据/" itemprop="url" rel="index"><span itemprop="name">大数据</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这里利用hadoop自带的hadoop-0.20.2-examples.jar做一个单词统计的测试，相当于编程时的Hello<br>World程序。</p>
+<p>注意切换目录，”hadoop@hadoop-1:~/hadoop-0.20.2$“的格式为”用户@主机:目录$“，注意命令运行时的目录所在，可以通过CD命令切换目录。</p>
+<pre><code>hadoop@hadoop-1:~/hadoop-0.20.2$ ls
+bin          docs                        ivy          NOTICE.txt
+build.xml    hadoop-0.20.2-ant.jar       ivy.xml      README.txt
+c++          hadoop-0.20.2-core.jar      lib          src
+CHANGES.txt  hadoop-0.20.2-examples.jar  librecordio  webapps
+conf         hadoop-0.20.2-test.jar      LICENSE.txt
+contrib      hadoop-0.20.2-tools.jar     logs
+hadoop@hadoop-1:~/hadoop-0.20.2$ </code></pre><p>创建input文件夹，在里面创建两个文件，里面输入英文单词。</p>
+<pre><code>hadoop@hadoop-1:~$ mkdir input
+hadoop@hadoop-1:~$ ls
+1  hadoop-0.20.2         input   模板  图片  下载  桌面
+3  hadoop-0.20.2.tar.gz  公共的  视频  文档  音乐
+hadoop@hadoop-1:~$ cd input
+hadoop@hadoop-1:~/input$ echo &quot;hello world&quot;&gt;test1.txt
+hadoop@hadoop-1:~/input$ echo &quot;hello hadoop&quot;&gt;test2.txt
+hadoop@hadoop-1:~/input$ cat test1.txt 
+hello world
+hadoop@hadoop-1:~/input$ cat test2.txt 
+hello hadoop
+hadoop@hadoop-1:~/input$ </code></pre><p>将input目录复制到HDFS文件系统的in目录。</p>
+<pre><code>hadoop@hadoop-1:~/input$ cd ../hadoop-0.20.2/
+hadoop@hadoop-1:~/hadoop-0.20.2$ bin/hadoop dfs -put ../input in
+hadoop@hadoop-1:~/hadoop-0.20.2$ bin/hadoop dfs -ls ./in/*
+-rw-r--r--   2 hadoop supergroup         12 2015-10-18 00:59 /user/hadoop/in/test1.txt
+-rw-r--r--   2 hadoop supergroup         13 2015-10-18 00:59 /user/hadoop/in/test2.txt
+hadoop@hadoop-1:~/hadoop-0.20.2$ </code></pre><p>执行统计单词的任务，统计in目录里的文件，结果放到out目录里。</p>
+<pre><code>hadoop@hadoop-1:~/hadoop-0.20.2$ bin/hadoop jar hadoop-0.20.2-examples.jar wordcount in out 
+15/10/18 01:03:40 INFO input.FileInputFormat: Total input paths to process : 2
+15/10/18 01:03:41 INFO mapred.JobClient: Running job: job_201510171812_0001
+15/10/18 01:03:42 INFO mapred.JobClient:  map 0% reduce 0%
+15/10/18 01:03:52 INFO mapred.JobClient:  map 50% reduce 0%
+15/10/18 01:03:56 INFO mapred.JobClient:  map 100% reduce 0%
+15/10/18 01:04:07 INFO mapred.JobClient:  map 100% reduce 100%
+15/10/18 01:04:09 INFO mapred.JobClient: Job complete: job_201510171812_0001
+15/10/18 01:04:09 INFO mapred.JobClient: Counters: 17
+15/10/18 01:04:09 INFO mapred.JobClient:   Map-Reduce Framework
+15/10/18 01:04:09 INFO mapred.JobClient:     Combine output records=4
+15/10/18 01:04:09 INFO mapred.JobClient:     Spilled Records=8
+15/10/18 01:04:09 INFO mapred.JobClient:     Reduce input records=4
+15/10/18 01:04:09 INFO mapred.JobClient:     Reduce output records=3
+15/10/18 01:04:09 INFO mapred.JobClient:     Map input records=2
+15/10/18 01:04:09 INFO mapred.JobClient:     Map output records=4
+15/10/18 01:04:09 INFO mapred.JobClient:     Map output bytes=41
+15/10/18 01:04:09 INFO mapred.JobClient:     Reduce shuffle bytes=61
+15/10/18 01:04:09 INFO mapred.JobClient:     Combine input records=4
+15/10/18 01:04:09 INFO mapred.JobClient:     Reduce input groups=3
+15/10/18 01:04:09 INFO mapred.JobClient:   FileSystemCounters
+15/10/18 01:04:09 INFO mapred.JobClient:     HDFS_BYTES_READ=25
+15/10/18 01:04:09 INFO mapred.JobClient:     FILE_BYTES_WRITTEN=180
+15/10/18 01:04:09 INFO mapred.JobClient:     FILE_BYTES_READ=55
+15/10/18 01:04:09 INFO mapred.JobClient:     HDFS_BYTES_WRITTEN=25
+15/10/18 01:04:09 INFO mapred.JobClient:   Job Counters 
+15/10/18 01:04:09 INFO mapred.JobClient:     Launched map tasks=2
+15/10/18 01:04:09 INFO mapred.JobClient:     Launched reduce tasks=1
+15/10/18 01:04:09 INFO mapred.JobClient:     Data-local map tasks=2
+hadoop@hadoop-1:~/hadoop-0.20.2$ </code></pre><p>查看HDFS文件系统，可以看到多出了个out目录。</p>
+<pre><code>hadoop@hadoop-1:~/hadoop-0.20.2$ bin/hadoop dfs -ls
+Found 2 items
+drwxr-xr-x   - hadoop supergroup          0 2015-10-18 00:59 /user/hadoop/in
+drwxr-xr-x   - hadoop supergroup          0 2015-10-18 01:04 /user/hadoop/out
+hadoop@hadoop-1:~/hadoop-0.20.2$ </code></pre><p>查看out目录，时面有个_logs目录，还有一个part-r-00000文件。</p>
+<pre><code>hadoop@hadoop-1:~/hadoop-0.20.2$ bin/hadoop dfs -ls ./out
+Found 2 items
+drwxr-xr-x   - hadoop supergroup          0 2015-10-18 01:03 /user/hadoop/out/_logs
+-rw-r--r--   2 hadoop supergroup         25 2015-10-18 01:04 /user/hadoop/out/part-r-00000</code></pre><p>查看结果，可以看到统计结果。</p>
+<pre><code>hadoop@hadoop-1:~/hadoop-0.20.2$ bin/hadoop dfs -cat ./out/part-r-00000
+hadoop  1
+hello   2
+world   1</code></pre>
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+            <a href="/tags/hadoop/" rel="tag"># hadoop</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/algorithm/other/monte-carlo-method/" rel="next" title="蒙特卡罗方法入门">
+                <i class="fa fa-chevron-left"></i> 蒙特卡罗方法入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/bigdata/hadoop/hadoopwebmanager/" rel="prev" title="Hadoop WEB控制台的使用">
+                Hadoop WEB控制台的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

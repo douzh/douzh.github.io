@@ -1,0 +1,4407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[【置顶】特别说明]]></title>
+    <url>%2Fblog%2Fexplain%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[VUE用Nginx的非根配制]]></title>
+    <url>%2Fblog%2Fwebtech%2Fvue%2Fvuenginx%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[【组件】Shiro设置PHP的password_hash验证]]></title>
+    <url>%2Fblog%2Farch%2Fcomponent%2Fshriophp%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>组件</category>
+      </categories>
+      <tags>
+        <tag>Shiro</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【hexo】静态网站建站神器-hexo]]></title>
+    <url>%2Fblog%2Ftools%2Fhexo%2Fhexobase%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>神器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【SSO】JWT协议示例]]></title>
+    <url>%2Fblog%2Farch%2Fsso%2Fjwt%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>SSO</category>
+      </categories>
+      <tags>
+        <tag>架构</tag>
+        <tag>JWT</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【权限】如何用AOP实现数据权限功能]]></title>
+    <url>%2Fblog%2Farch%2Fcomponent%2Fdataauth%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>组件</category>
+      </categories>
+      <tags>
+        <tag>AOP</tag>
+        <tag>数据权限</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【组件】如何用AOP实现功能审计]]></title>
+    <url>%2Fblog%2Farch%2Fcomponent%2Faopaudit%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>组件</category>
+      </categories>
+      <tags>
+        <tag>AOP</tag>
+        <tag>审计</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【CAP】JAVA之AtomicReference非锁同步]]></title>
+    <url>%2Fblog%2Farch%2Fcap%2Fatomicrefer%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>一致性</category>
+      </categories>
+      <tags>
+        <tag>一致性</tag>
+        <tag>JAVA</tag>
+        <tag>并发</tag>
+        <tag>锁</tag>
+        <tag>CAS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【CAP】CAS和自旋锁]]></title>
+    <url>%2Fblog%2Farch%2Fcap%2Fcas%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>一致性</category>
+      </categories>
+      <tags>
+        <tag>一致性</tag>
+        <tag>JAVA</tag>
+        <tag>并发</tag>
+        <tag>锁</tag>
+        <tag>CAS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【CAP】(转)分布式事务最佳实践方案汇总]]></title>
+    <url>%2Fblog%2Farch%2Fcap%2Fallplan%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>一致性</category>
+      </categories>
+      <tags>
+        <tag>一致性</tag>
+        <tag>并发</tag>
+        <tag>架构</tag>
+        <tag>CAP</tag>
+        <tag>分布式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【CAP】数据库的竞态问题]]></title>
+    <url>%2Fblog%2Farch%2Fcap%2Fdblock%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>一致性</category>
+      </categories>
+      <tags>
+        <tag>一致性</tag>
+        <tag>并发</tag>
+        <tag>锁</tag>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【CAP】CPU密集型与IO密集型]]></title>
+    <url>%2Fblog%2Farch%2Fcap%2Fcpuio%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+      </categories>
+      <tags>
+        <tag>并发</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【密码术】openssl源码分析一]]></title>
+    <url>%2Fblog%2Farch%2Fcrypto%2Fopenssl%2Fsrcmain%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>密码术</category>
+      </categories>
+      <tags>
+        <tag>密码术</tag>
+        <tag>openssl</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【密码术】cygwin编译安装openssl]]></title>
+    <url>%2Fblog%2Farch%2Fcrypto%2Fopenssl%2Fcygwininstall%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>密码术</category>
+      </categories>
+      <tags>
+        <tag>密码术</tag>
+        <tag>openssl</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MinGw 和 cygwin 的区别和联系]]></title>
+    <url>%2Fblog%2Fplang%2Fccpp%2Fmingwcygwin%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>C语言</category>
+      </categories>
+      <tags>
+        <tag>C语言</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【密码术】openssl椭圆曲线密钥对生成]]></title>
+    <url>%2Fblog%2Farch%2Fcrypto%2Fopenssleckey%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>密码术</category>
+      </categories>
+      <tags>
+        <tag>密码术</tag>
+        <tag>openssl</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【密码术】JAVA安全体系JCA和JCE介绍]]></title>
+    <url>%2Fblog%2Farch%2Fcrypto%2Fjcajce%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>密码术</category>
+      </categories>
+      <tags>
+        <tag>密码术</tag>
+        <tag>数字签名</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【密码术】SHA256的JAVA示例]]></title>
+    <url>%2Fblog%2Farch%2Fcrypto%2Fjavasha256%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>密码术</category>
+      </categories>
+      <tags>
+        <tag>密码术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【密码术】ECC椭圆曲线密钥对生成]]></title>
+    <url>%2Fblog%2Farch%2Fcrypto%2Fecckey%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>密码术</category>
+      </categories>
+      <tags>
+        <tag>密码术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【scala】用正则提取变量]]></title>
+    <url>%2Fblog%2Fplang%2Fscala%2Fregexset%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Scala</category>
+      </categories>
+      <tags>
+        <tag>Scala</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【Linux】top命令]]></title>
+    <url>%2Fblog%2Fos%2Flinux%2Fcmd%2Ftop%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>操作系统</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JMS】ActiveMQ示例]]></title>
+    <url>%2Fblog%2Farch%2Fjms%2Factivemqdemo%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>消息队列</category>
+        <category>JMS</category>
+      </categories>
+      <tags>
+        <tag>ActiveMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JMS】ActiveMQ高级特性]]></title>
+    <url>%2Fblog%2Farch%2Fjms%2Factivemqsenior%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>消息队列</category>
+        <category>JMS</category>
+      </categories>
+      <tags>
+        <tag>ActiveMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JMS】ActiveMQ使用指南]]></title>
+    <url>%2Fblog%2Farch%2Fjms%2Factivemq%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>消息队列</category>
+        <category>JMS</category>
+      </categories>
+      <tags>
+        <tag>ActiveMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JMS】JMS概述]]></title>
+    <url>%2Fblog%2Farch%2Fjms%2Fjms%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>消息队列</category>
+        <category>JMS</category>
+      </categories>
+      <tags>
+        <tag>消息队列</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JAVA】JAVA的命名空间]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fnamespace%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【密码术】bouncycastle 轻量级密码术包]]></title>
+    <url>%2Fblog%2Farch%2Fcrypto%2Fbouncycastle%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>密码术</category>
+      </categories>
+      <tags>
+        <tag>密码术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[区块链python示例]]></title>
+    <url>%2Fblog%2Farch%2Fblockchain%2Fpythondemo%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>区块链</category>
+      </categories>
+      <tags>
+        <tag>区块链</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【scala】fold算子示例：字每记数]]></title>
+    <url>%2Fblog%2Fplang%2Fscala%2Ffold%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Scala</category>
+      </categories>
+      <tags>
+        <tag>Scala</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[IPFS 入门笔记]]></title>
+    <url>%2Fblog%2Farch%2Fblockchain%2Fipfsinstall%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>区块链</category>
+      </categories>
+      <tags>
+        <tag>IPFS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Spark操作：Aggregate和AggregateByKey]]></title>
+    <url>%2Fblog%2Fbigdata%2Fspark%2Fsparkdiary%2Faggregate%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>大数据</category>
+        <category>spark</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Spark中map和flatMap的区别详解]]></title>
+    <url>%2Fblog%2Fbigdata%2Fspark%2Fsparkdiary%2Fflatmap%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>大数据</category>
+        <category>spark</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[摘要（Hash）算法]]></title>
+    <url>%2Fblog%2Farch%2Fcrypto%2Fhash%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>密码术</category>
+      </categories>
+      <tags>
+        <tag>密码术</tag>
+        <tag>摘要算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[数字证书的原理]]></title>
+    <url>%2Fblog%2Farch%2Fcrypto%2Fcert%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>密码术</category>
+      </categories>
+      <tags>
+        <tag>密码术</tag>
+        <tag>数字证书</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[数字签名原理]]></title>
+    <url>%2Fblog%2Farch%2Fcrypto%2Fsignature%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>密码术</category>
+      </categories>
+      <tags>
+        <tag>密码术</tag>
+        <tag>数字签名</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Springboot配制文件外置方法]]></title>
+    <url>%2Fblog%2Fjavaweb%2Fspring%2Fspringboot%2Foutconfig%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>JAVA WEB</category>
+        <category>Spring Boot</category>
+      </categories>
+      <tags>
+        <tag>JAVA WEB</tag>
+        <tag>Spring Boot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[azkaban集群部署方案]]></title>
+    <url>%2Fblog%2Farch%2Fjob%2Fazkaban%2Fjqbs%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>任务调度</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+        <tag>任务调度</tag>
+        <tag>azkaban</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[azkaban集群任务执行状态status一直为:Preparing]]></title>
+    <url>%2Fblog%2Farch%2Fjob%2Fazkaban%2Fpreparing%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>任务调度</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+        <tag>任务调度</tag>
+        <tag>azkaban</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[spark任务设置日志输出]]></title>
+    <url>%2Fblog%2Fbigdata%2Fspark%2Fsparkdiary%2Flogconfig%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>大数据</category>
+        <category>spark</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MAVEN pom.xml 详解]]></title>
+    <url>%2Fblog%2Ftools%2Fmaven%2Fpomdesc%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Springmvc整合Mybatis无法读取properties]]></title>
+    <url>%2Fblog%2Fjavaweb%2Fspring%2Fspringmvc%2Ffaqmybatis%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>JAVA WEB</category>
+      </categories>
+      <tags>
+        <tag>spring</tag>
+        <tag>Spring MVC</tag>
+        <tag>JAVA WEB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hadoop2.7-windows环境搭建]]></title>
+    <url>%2Fblog%2Fbigdata%2Fhadoop%2Fh27win%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+        <tag>hadoop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[HIVE常用语法]]></title>
+    <url>%2Fblog%2Fbigdata%2Fhive%2Fhiveuse%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+        <tag>hive</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[GitLab如何更换服务器IP]]></title>
+    <url>%2Fblog%2Ftools%2Fgit%2Fgitlibchip%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>GIT</category>
+      </categories>
+      <tags>
+        <tag>GIT</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[scalikejdbc数据连接配制]]></title>
+    <url>%2Fblog%2Fbigdata%2Fspark%2Fscalikejdbcconfig%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+        <tag>hadoop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【scala】关键字implicit详解]]></title>
+    <url>%2Fblog%2Fplang%2Fscala%2Fimplicit%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Scala</category>
+      </categories>
+      <tags>
+        <tag>Scala</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[搭建spark开发环境]]></title>
+    <url>%2Fblog%2Fbigdata%2Fspark%2Fsparkdiary%2Fdevenv%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>大数据</category>
+        <category>spark</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[(转)JAVA8之Nashorn脚本引擎]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Ffeatures%2Fjava8%2Fnashorn%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>JAVA8</category>
+      </categories>
+      <tags>
+        <tag>JAVA8</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[(转)JAVA8之Optional类深度解析]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Ffeatures%2Fjava8%2Foptional%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>JAVA8</category>
+      </categories>
+      <tags>
+        <tag>JAVA8</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA8之Base64]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Ffeatures%2Fjava8%2Fbase64%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>JAVA8</category>
+      </categories>
+      <tags>
+        <tag>JAVA8</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA8之Date Time API]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Ffeatures%2Fjava8%2Fdatetimeapi%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>JAVA8</category>
+      </categories>
+      <tags>
+        <tag>JAVA8</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA8之Streams API 详解]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Ffeatures%2Fjava8%2Fsteamapi%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>JAVA8</category>
+      </categories>
+      <tags>
+        <tag>JAVA8</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA8之方法引用]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Ffeatures%2Fjava8%2Fmethod%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>JAVA8</category>
+      </categories>
+      <tags>
+        <tag>JAVA8</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA8之接口默认方法和静态方法]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Ffeatures%2Fjava8%2Fdefintf%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>JAVA8</category>
+      </categories>
+      <tags>
+        <tag>JAVA8</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA8之Lambda表达式]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Ffeatures%2Fjava8%2Flambda%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>JAVA8</category>
+      </categories>
+      <tags>
+        <tag>JAVA8</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[(转)Spark RDD API详解(一) Map和Reduce]]></title>
+    <url>%2Fblog%2Fbigdata%2Fspark%2Fsparkdiary%2Frddapi%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>大数据</category>
+        <category>spark</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[解析Cloudera Manager内部结构]]></title>
+    <url>%2Fblog%2Fbigdata%2Fhadoop%2Fcdh%2Fcmarch%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[(转)离线安装Cloudera Manager 5和CDH5]]></title>
+    <url>%2Fblog%2Fbigdata%2Fhadoop%2Fcdh%2Fcdh5install%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[java 中的Exception RuntimeException 区别]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fexception%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[第11章 集合-实用Common Lisp编程笔记]]></title>
+    <url>%2Fblog%2Fplang%2Flisp%2Fpcldiary%2Fchapter11%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Lisp</category>
+        <category>Common Lisp</category>
+      </categories>
+      <tags>
+        <tag>Common Lisp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[第10章 数字和字符串-实用Common Lisp编程笔记]]></title>
+    <url>%2Fblog%2Fplang%2Flisp%2Fpcldiary%2Fchapter10%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Lisp</category>
+        <category>Common Lisp</category>
+      </categories>
+      <tags>
+        <tag>Common Lisp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB命令]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Fbin%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[反向代理之HttpClient4基本使用]]></title>
+    <url>%2Fblog%2Farch%2Frproxy%2Fhttpclient4base%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>反向代理</category>
+      </categories>
+      <tags>
+        <tag>HttpClient</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[反向代理之http响应乱码分析]]></title>
+    <url>%2Fblog%2Farch%2Frproxy%2Fresponsecharset%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>反向代理</category>
+      </categories>
+      <tags>
+        <tag>HttpClient</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[反向代理之http请求乱码分析]]></title>
+    <url>%2Fblog%2Farch%2Frproxy%2Frequestcharset%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>反向代理</category>
+      </categories>
+      <tags>
+        <tag>HttpClient</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[反向代理之http请求分析]]></title>
+    <url>%2Fblog%2Farch%2Frproxy%2Fhttpparse%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>反向代理</category>
+      </categories>
+      <tags>
+        <tag>HttpClient</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[第9章建立单元测试框架-实用Common Lisp编程笔记]]></title>
+    <url>%2Fblog%2Fplang%2Flisp%2Fpcldiary%2Fchapter9%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Lisp</category>
+        <category>Common Lisp</category>
+      </categories>
+      <tags>
+        <tag>Common Lisp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[反向代理之如何转发webservice请求]]></title>
+    <url>%2Fblog%2Farch%2Frproxy%2Ftransws%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>反向代理</category>
+      </categories>
+      <tags>
+        <tag>HttpClient</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[如何用HttpClient和xml报文调用webservice服务]]></title>
+    <url>%2Fblog%2Farch%2Frproxy%2Fhttpcallws%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>反向代理</category>
+      </categories>
+      <tags>
+        <tag>webservice</tag>
+        <tag>HttpClient</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[第8章如何自定义宏-实用Common Lisp编程笔记]]></title>
+    <url>%2Fblog%2Fplang%2Flisp%2Fpcldiary%2Fchapter8%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Lisp</category>
+        <category>Common Lisp</category>
+      </categories>
+      <tags>
+        <tag>Common Lisp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[第7章标准控制结构-实用Common Lisp编程笔记]]></title>
+    <url>%2Fblog%2Fplang%2Flisp%2Fpcldiary%2Fchapter7%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Lisp</category>
+        <category>Common Lisp</category>
+      </categories>
+      <tags>
+        <tag>Common Lisp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[第6章变量-实用Common Lisp编程笔记]]></title>
+    <url>%2Fblog%2Fplang%2Flisp%2Fpcldiary%2Fchapter6%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Lisp</category>
+        <category>Common Lisp</category>
+      </categories>
+      <tags>
+        <tag>Common Lisp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Markdown基本语法]]></title>
+    <url>%2Fblog%2Ftools%2Fmarkdown%2Fbase%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>Markdown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA字符串转码String.getBytes()和new String()]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fjavastring%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>字符编码</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[文档转换神器Pandoc]]></title>
+    <url>%2Fblog%2Ftools%2Fpandoc%2Fbase%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>神器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[第5章函数-实用Common Lisp编程笔记]]></title>
+    <url>%2Fblog%2Fplang%2Flisp%2Fpcldiary%2Fchapter5%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Lisp</category>
+        <category>Common Lisp</category>
+      </categories>
+      <tags>
+        <tag>Common Lisp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[第3章简单的数据库-实用Common Lisp编程笔记]]></title>
+    <url>%2Fblog%2Fplang%2Flisp%2Fpcldiary%2Fchapter3%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Lisp</category>
+        <category>Common Lisp</category>
+      </categories>
+      <tags>
+        <tag>Common Lisp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Markdown 在线编辑器editormd使用笔记]]></title>
+    <url>%2Fblog%2Ftools%2Fmarkdown%2Feditormd%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>Markdown</tag>
+        <tag>神器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[lisp开发环境之安装slime]]></title>
+    <url>%2Fblog%2Fplang%2Flisp%2Flispdiary%2Finstallslime%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Lisp</category>
+      </categories>
+      <tags>
+        <tag>Lisp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB Map Reduce]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Fmapreduce%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB GridFS]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Fgridfs%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB 备份与恢复]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Fdump%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB 分片]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Fshard%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB 复制（副本集）]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Freplset%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[NoSQL 简介]]></title>
+    <url>%2Fblog%2Fnosql%2Fnosql%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB 原子操作]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Fatomic%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB 聚合方法aggregate()]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Faggregate%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB 查询分析explain()]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Fexplain%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB 索引的使用]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Fuseindex%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB 分页与排序]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Fpagesort%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB 文档的增删改查]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Fzsgc%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB 创建删除数据库]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Fcreatedropdb%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB 连接]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Fconnection%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB 概念解析]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Fbase%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDb web 用户界面]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Fmongodbweb%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Linux平台安装MongoDB]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Finstalllinux%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[window平台安装MongoDB]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Finstallwindows%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MongoDB后台管理 Shell]]></title>
+    <url>%2Fblog%2Fnosql%2Fmongodb%2Fmongoshell%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>nosql</category>
+        <category>MongoDB</category>
+      </categories>
+      <tags>
+        <tag>nosql</tag>
+        <tag>MongoDB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[javascript中用字符创建Date时间对象]]></title>
+    <url>%2Fblog%2Fplang%2Fjavascript%2Fnewdate%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Ajax技术介绍]]></title>
+    <url>%2Fblog%2Fplang%2Fjavascript%2Fajax%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+        <tag>Ajax</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[javascript作用域链和闭包]]></title>
+    <url>%2Fblog%2Fplang%2Fjavascript%2Fscope%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[javascript深入Function和类型]]></title>
+    <url>%2Fblog%2Fplang%2Fjavascript%2Ffunction%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[javascript面向对象设计-深入constructor属性]]></title>
+    <url>%2Fblog%2Fplang%2Fjavascript%2Fconstructor%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[javascript中new关键字的作用]]></title>
+    <url>%2Fblog%2Fplang%2Fjavascript%2Fnewkeyword%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[javascript面向对象设计-继承]]></title>
+    <url>%2Fblog%2Fplang%2Fjavascript%2Fextends%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[javascript创建对象详解]]></title>
+    <url>%2Fblog%2Fplang%2Fjavascript%2Fcreateobject%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[javascript面向对象设计-对象和原型浅析]]></title>
+    <url>%2Fblog%2Fplang%2Fjavascript%2Fprototype%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[javascript面向对象设计-深入this关键字]]></title>
+    <url>%2Fblog%2Fplang%2Fjavascript%2Fthis%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[FAT12文件系统之引导扇区结构]]></title>
+    <url>%2Fblog%2Fos%2Fmkos%2Ffat12bootsec%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>操作系统</category>
+        <category>自制操作系统</category>
+      </categories>
+      <tags>
+        <tag>自制操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[递归和尾递归详解]]></title>
+    <url>%2Fblog%2Falgorithm%2Fother%2Fwdg%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>尾递归</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA源码之HashMap]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fhashmap%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA之用MessageDigest进行MD5加密]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fmd5%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Maven最佳实践：划分模块]]></title>
+    <url>%2Fblog%2Ftools%2Fmaven%2Fmodel%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MAVEN仓库repository介绍]]></title>
+    <url>%2Fblog%2Ftools%2Fmaven%2Frepository%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Maven插件archetype介绍]]></title>
+    <url>%2Fblog%2Ftools%2Fmaven%2Farchetype%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA实现生产者/消费者问题的多种方式]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fpcp%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[判断CPU是大端还是小端]]></title>
+    <url>%2Fblog%2Fos%2Fmkos%2Fcpuendian%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>操作系统</category>
+        <category>自制操作系统</category>
+      </categories>
+      <tags>
+        <tag>自制操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[XML之XSD（XML Schema Definition）简介]]></title>
+    <url>%2Fblog%2Fplang%2Fxml%2Fxsdjj%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+      </categories>
+      <tags>
+        <tag>XML</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[XML之命名空间（XML Namespaces）]]></title>
+    <url>%2Fblog%2Fplang%2Fxml%2Fxmlns%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+      </categories>
+      <tags>
+        <tag>XML</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[判断JVM是大端还是小端]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fjvmddxd%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Emacs org-mode之导出发布]]></title>
+    <url>%2Fblog%2Ftools%2Femacs%2Forg-mode%2Fexport%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>Emacs</category>
+      </categories>
+      <tags>
+        <tag>Emacs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Emacs org-mode之tag]]></title>
+    <url>%2Fblog%2Ftools%2Femacs%2Forg-mode%2Ftag%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>Emacs</category>
+      </categories>
+      <tags>
+        <tag>Emacs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Emacs org-mode之标记语言]]></title>
+    <url>%2Fblog%2Ftools%2Femacs%2Forg-mode%2Fmarklang%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>Emacs</category>
+      </categories>
+      <tags>
+        <tag>Emacs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Emacs org-mode之链接]]></title>
+    <url>%2Fblog%2Ftools%2Femacs%2Forg-mode%2Flink%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>Emacs</category>
+      </categories>
+      <tags>
+        <tag>Emacs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Emacs org-mode之大纲]]></title>
+    <url>%2Fblog%2Ftools%2Femacs%2Forg-mode%2Foutline%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>Emacs</category>
+      </categories>
+      <tags>
+        <tag>Emacs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[在web项目中用CXF搭建webservice服务]]></title>
+    <url>%2Fblog%2Fwebtech%2Fws%2Fcxfwebdemo%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>WEB开发</category>
+      </categories>
+      <tags>
+        <tag>webservice</tag>
+        <tag>WEB开发</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[用CXF搭建webservice示例]]></title>
+    <url>%2Fblog%2Fwebtech%2Fws%2Fcxfdemo%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>WEB开发</category>
+      </categories>
+      <tags>
+        <tag>webservice</tag>
+        <tag>WEB开发</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[解释器模式（Interpreter）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Finterpreter%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[中介者模式（Mediator）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fmediator%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[访问者模式（Visitor）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fvisitor%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[状态模式（State）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fstate%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[命令模式（Command）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fcommand%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[责任链模式（Chain of Responsibility）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fchain%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[迭代子模式（Iterator）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fiterator%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[观察者模式（Observer）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fobserver%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[模板方法模式（Template Method）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Ftemplate%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[策略模式（strategy）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fstategy%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[备忘录模式（Memento）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fmemento%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[享元模式（Flyweight）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fflyweight%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[组合模式（Composite）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fcomposite%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[桥接模式（Bridge）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fbridge%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[外观模式（Facade）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Ffacade%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[代理模式（Proxy）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fproxy%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[装饰模式（Decorator）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fdecorator%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[适配器模式（Adapter）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fadapter%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[原型模式（Prototype）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fprototype%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[建造者模式（Builder）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fbuilder%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[单例模式（Singleton）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fsingleton%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[抽象工厂模式（Abstract Factory）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Fabfactory%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[工厂方法模式（Factory Method）]]></title>
+    <url>%2Fblog%2Farch%2Fdp%2Ffactorymethod%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[负载均衡算法]]></title>
+    <url>%2Fblog%2Farch%2Flb%2Flbsf%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>负载均衡</category>
+      </categories>
+      <tags>
+        <tag>负载均衡</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[硬件负载均衡]]></title>
+    <url>%2Fblog%2Farch%2Flb%2Fhandware%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>负载均衡</category>
+      </categories>
+      <tags>
+        <tag>负载均衡</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[负载均衡之数据链路层]]></title>
+    <url>%2Fblog%2Farch%2Flb%2Fmac%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>负载均衡</category>
+      </categories>
+      <tags>
+        <tag>负载均衡</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[负载均衡之IP均衡]]></title>
+    <url>%2Fblog%2Farch%2Flb%2Fip%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>负载均衡</category>
+      </categories>
+      <tags>
+        <tag>负载均衡</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[负载均衡之DNS域名解析]]></title>
+    <url>%2Fblog%2Farch%2Flb%2Fdns%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>负载均衡</category>
+      </categories>
+      <tags>
+        <tag>负载均衡</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[负载均衡之反向代理]]></title>
+    <url>%2Fblog%2Farch%2Flb%2Fproxy%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>负载均衡</category>
+      </categories>
+      <tags>
+        <tag>负载均衡</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[负载均衡之HTTP重定向]]></title>
+    <url>%2Fblog%2Farch%2Flb%2Fredirect%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+        <category>负载均衡</category>
+      </categories>
+      <tags>
+        <tag>负载均衡</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[大型网站系统架构的演化]]></title>
+    <url>%2Fblog%2Farch%2Fweb%2Fwebjgyh%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+      </categories>
+      <tags>
+        <tag>架构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步设计败笔synchronized]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fbbsynchronized%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA NIO之Charset]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fnio%2Fcharset%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>JAVA NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA NIO之内存映射（memory mapping）]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fnio%2Fmemmap%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>JAVA NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA NIO2之WatchService变更通知]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fnio%2Fwatchservice%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>JAVA NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA NIO之WEB服务器]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fnio%2Fnioserver%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>JAVA NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA NIO 与IO]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fnio%2Fniovsio%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>JAVA NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA NIO之Pipe]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fnio%2Fpipe%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>JAVA NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA NIO之DatagramChannel]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fnio%2Fdatagramchannle%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>JAVA NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA NIO之ServerSocketChannel]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fnio%2Fsschannel%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>JAVA NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA NIO之SocketChannel]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fnio%2Fsocketchannel%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>JAVA NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA NIO之FileChannel]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fnio%2Ffilechannel%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>JAVA NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA NIO之Selector]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fnio%2Fselector%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>JAVA NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA NIO之通道之间的数据传输]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fnio%2Ftransferx%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>JAVA NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA NIO之Scatter/Gather]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fnio%2Fscattergather%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>JAVA NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Java NIO 概述]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fnio%2Foverview%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>JAVA NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA IO之ObjectOutputStream&ObjectIntputStream]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fio%2Fobjectio%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>IO</category>
+      </categories>
+      <tags>
+        <tag>JAVA IO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA IO之PushbackInputStream]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fio%2Fpushbackio%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>IO</category>
+      </categories>
+      <tags>
+        <tag>JAVA IO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA IO之ZipOutputString&ZipInputStream]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fio%2Fzipio%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>IO</category>
+      </categories>
+      <tags>
+        <tag>JAVA IO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA IO之SequenceInputStream]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fio%2Fsequenceio%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>IO</category>
+      </categories>
+      <tags>
+        <tag>JAVA IO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA IO之DataOutputStream&DataInputStream]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fio%2Fdataio%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>IO</category>
+      </categories>
+      <tags>
+        <tag>JAVA IO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA IO之Scanner]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fio%2Fscanner%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>IO</category>
+      </categories>
+      <tags>
+        <tag>JAVA IO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA IO 之BufferedReader]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fio%2Fbufferedreader%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>IO</category>
+      </categories>
+      <tags>
+        <tag>JAVA IO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA IO之输入输出生定向]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fio%2Fsetio%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>IO</category>
+      </categories>
+      <tags>
+        <tag>JAVA IO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA IO之PrintStream的使用]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fio%2Fprints%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>IO</category>
+      </categories>
+      <tags>
+        <tag>JAVA IO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA IO之PipedOutputStream&PipedInputStream]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fio%2Fpipedio%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>IO</category>
+      </categories>
+      <tags>
+        <tag>JAVA IO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA IO之字节流转化为字符流]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fio%2Fbytetochar%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>IO</category>
+      </categories>
+      <tags>
+        <tag>JAVA IO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA IO之FileInputStream&FileOutputStream]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fio%2Ffosfis%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>IO</category>
+      </categories>
+      <tags>
+        <tag>JAVA IO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA IO之File类的使用]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fio%2Ffile%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>IO</category>
+      </categories>
+      <tags>
+        <tag>JAVA IO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[UTF-8编码详解]]></title>
+    <url>%2Fblog%2Fbasetech%2Fcharset%2Futf8%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>基础</category>
+        <category>字符集</category>
+      </categories>
+      <tags>
+        <tag>字符集</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[用JAVA输出UTF-8编码的二进制码]]></title>
+    <url>%2Fblog%2Fbasetech%2Fcharset%2Foutbinarycharset%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>基础</category>
+        <category>字符集</category>
+      </categories>
+      <tags>
+        <tag>字符集</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Unicode和UTF-8编码示例]]></title>
+    <url>%2Fblog%2Fbasetech%2Fcharset%2Fucsutf8demo%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>基础</category>
+        <category>字符集</category>
+      </categories>
+      <tags>
+        <tag>字符集</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[字符编码的故事]]></title>
+    <url>%2Fblog%2Fbasetech%2Fcharset%2Fstory%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>基础</category>
+        <category>字符集</category>
+      </categories>
+      <tags>
+        <tag>字符集</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA transient关键字与序列化]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Ftransient%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[常用树结构和其算法]]></title>
+    <url>%2Fblog%2Falgorithm%2Ftree%2Findex%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>树算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>树算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[B*树]]></title>
+    <url>%2Fblog%2Falgorithm%2Ftree%2Fbxtree%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>树算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>树算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[B+树]]></title>
+    <url>%2Fblog%2Falgorithm%2Ftree%2Fb%2Btree%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>树算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>树算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[B-树]]></title>
+    <url>%2Fblog%2Falgorithm%2Ftree%2Fb-tree%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>树算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>树算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[二叉树递归和非递归遍历]]></title>
+    <url>%2Fblog%2Falgorithm%2Ftree%2Fbitreetraversal%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>树算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>树算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[RBT红黑树（二）删除算法]]></title>
+    <url>%2Fblog%2Falgorithm%2Ftree%2Frbtdel%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>树算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>树算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[RBT红黑树（一）概念和插入算法]]></title>
+    <url>%2Fblog%2Falgorithm%2Ftree%2Frbt%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>树算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>树算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[AVLT自平衡二叉查找树]]></title>
+    <url>%2Fblog%2Falgorithm%2Ftree%2Favlt%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>树算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>树算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[BST二叉搜索树]]></title>
+    <url>%2Fblog%2Falgorithm%2Ftree%2Fbst%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>树算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>树算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA NIO之Buffer]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fnio%2Fbuffer%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>JAVA NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA NIO之Channel]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fnio%2Fchannel%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>NIO</category>
+      </categories>
+      <tags>
+        <tag>JAVA NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[4+1视图之进程视图（Process View）]]></title>
+    <url>%2Fblog%2Farch%2Fview%2Fprocessview%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+      </categories>
+      <tags>
+        <tag>架构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[4+1视图之物理视图（Physical View）]]></title>
+    <url>%2Fblog%2Farch%2Fview%2Fphysicalview%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+      </categories>
+      <tags>
+        <tag>架构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[4+1视图之开发视图（Development View)]]></title>
+    <url>%2Fblog%2Farch%2Fview%2Fdevelopmentview%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+      </categories>
+      <tags>
+        <tag>架构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[4+1视图之逻辑视图（Logic View）]]></title>
+    <url>%2Fblog%2Farch%2Fview%2Flogicview%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+      </categories>
+      <tags>
+        <tag>架构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[架构设计之4+1视图]]></title>
+    <url>%2Fblog%2Farch%2Fview%2Findex%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+      </categories>
+      <tags>
+        <tag>架构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA线程池submit和Future的使用]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fsubmitfuture%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[放倒一片的JAVA基础面试题]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fmstneworder%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[疑似Google多线程面试题的Java实现]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fmstgoogle%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步之线程安全队列Queue]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fblockingqueue%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步之ArrayBlockingQueue]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Farrayblockqueue%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步之线程状态]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fthreadstatus%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[LinkedBlockingQueue生产消费模型简单实现]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Flbqexample%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步之ConcurrentLinkedQueue]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fconcurrentlinkedqueue%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步之LinkedBlockingQueue]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Flinkedblockingqueue%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步之ReentrantReadWriteLock]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Freadwritelock%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步之Atomic类的使用]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fatomic%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步之守护线程和JOIN方法]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fdeamonjoin%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步之ReentrantLock多条件的使用]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fconditions%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步之ReentrantLock可中断锁的使用]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2FlockInterruptibly%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步之ReentrantLock 类简介]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Freentrantlock%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步之ThreadLocal的使用]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fthreadlocal%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步之wait()和notify()的使用]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fwaitnotify%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步之synchronized关键字的使用]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fsynchronized%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Emacs安装配置]]></title>
+    <url>%2Fblog%2Ftools%2Femacs%2Femacsdiary%2Femacsinstall%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>Emacs</category>
+      </categories>
+      <tags>
+        <tag>Emacs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Emacs窗口和缓冲区快捷键]]></title>
+    <url>%2Fblog%2Ftools%2Femacs%2Femacsdiary%2Fwinbufshutkey%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>Emacs</category>
+      </categories>
+      <tags>
+        <tag>Emacs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Vim标签页（tab）的使用]]></title>
+    <url>%2Fblog%2Ftools%2Fvim%2Fvimtab%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>VIM</category>
+      </categories>
+      <tags>
+        <tag>VIM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Emacs安装扩展]]></title>
+    <url>%2Fblog%2Ftools%2Femacs%2Femacsdiary%2Femacs-plugin%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>Emacs</category>
+      </categories>
+      <tags>
+        <tag>Emacs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Emacs的mode和hook]]></title>
+    <url>%2Fblog%2Ftools%2Femacs%2Femacsdiary%2Femacs-modehook%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>Emacs</category>
+      </categories>
+      <tags>
+        <tag>Emacs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Emacs快捷键绑定]]></title>
+    <url>%2Fblog%2Ftools%2Femacs%2Femacsdiary%2Femacs-key%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>Emacs</category>
+      </categories>
+      <tags>
+        <tag>Emacs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Emacs设置变量值]]></title>
+    <url>%2Fblog%2Ftools%2Femacs%2Femacsdiary%2Femacs-setq%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>Emacs</category>
+      </categories>
+      <tags>
+        <tag>Emacs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Emacs帮助系统的使用]]></title>
+    <url>%2Fblog%2Ftools%2Femacs%2Femacsdiary%2Femacshelp%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>Emacs</category>
+      </categories>
+      <tags>
+        <tag>Emacs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[选择排序算法准则]]></title>
+    <url>%2Fblog%2Falgorithm%2Fsort%2Fwhichsort%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>排序</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[桶排序/基数排序]]></title>
+    <url>%2Fblog%2Falgorithm%2Fsort%2Fradixsort%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>排序</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[归并排序]]></title>
+    <url>%2Fblog%2Falgorithm%2Fsort%2Fmergesort%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>排序</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[快速排序]]></title>
+    <url>%2Fblog%2Falgorithm%2Fsort%2Fquicksort%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>排序</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[冒泡排序]]></title>
+    <url>%2Fblog%2Falgorithm%2Fsort%2Fbubsort%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>排序</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[堆排序]]></title>
+    <url>%2Fblog%2Falgorithm%2Fsort%2Fheapsort%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>排序</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[简单选择排序]]></title>
+    <url>%2Fblog%2Falgorithm%2Fsort%2Fsselectsort%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>排序</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[希尔排序]]></title>
+    <url>%2Fblog%2Falgorithm%2Fsort%2Fshellsort%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>排序</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[直接插入排序]]></title>
+    <url>%2Fblog%2Falgorithm%2Fsort%2Fsisort%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+        <category>排序</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[NASM和C互相调用对方的变量]]></title>
+    <url>%2Fblog%2Fos%2Fmkos%2Fnasmcvar%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>操作系统</category>
+        <category>自制操作系统</category>
+      </categories>
+      <tags>
+        <tag>自制操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[NASM和C互相调用对方的函数]]></title>
+    <url>%2Fblog%2Fos%2Fmkos%2Fnasmcfunc%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>操作系统</category>
+        <category>自制操作系统</category>
+      </categories>
+      <tags>
+        <tag>自制操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[VIM设置代码折叠]]></title>
+    <url>%2Fblog%2Ftools%2Fvim%2Ffdm%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>VIM</category>
+      </categories>
+      <tags>
+        <tag>VIM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【转】计算机的启动过程]]></title>
+    <url>%2Fblog%2Fos%2Fmkos%2Fcomputerstart%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>操作系统</category>
+        <category>自制操作系统</category>
+      </categories>
+      <tags>
+        <tag>自制操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[制作最小操作系统hello world]]></title>
+    <url>%2Fblog%2Fos%2Fmkos%2Fhelloos%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>操作系统</category>
+        <category>自制操作系统</category>
+      </categories>
+      <tags>
+        <tag>自制操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[vim打开多窗口、多文件之间的切换]]></title>
+    <url>%2Fblog%2Ftools%2Fvim%2Fmutilwindow%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>VIM</category>
+      </categories>
+      <tags>
+        <tag>VIM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Emacs编辑二进制文件]]></title>
+    <url>%2Fblog%2Ftools%2Femacs%2Femacsdiary%2Fhexl-mode%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>Emacs</category>
+      </categories>
+      <tags>
+        <tag>Emacs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Emacs可视化列模式cua-mode]]></title>
+    <url>%2Fblog%2Ftools%2Femacs%2Femacsdiary%2Fcua-mode%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>Emacs</category>
+      </categories>
+      <tags>
+        <tag>Emacs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JAVA】使用 Eclipse Memory Analyzer 进行堆转储文件分析]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fanalyzer%2Fmatuse2%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JAVA】使用Eclipse Memory Analyzer分析Tomcat内存溢出]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fanalyzer%2Fmatuse%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JAVA】线程日志分析之TDA]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fanalyzer%2Fdtatools%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【Java】bin目录监控常用命令]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fanalyzer%2Fbinjktools%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JAVA】获取线程和堆信息]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fanalyzer%2Fgetthreadheap%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Vim列模式的应用]]></title>
+    <url>%2Fblog%2Ftools%2Fvim%2Fvimcolmode%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>VIM</category>
+      </categories>
+      <tags>
+        <tag>VIM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA网络编程概要]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fjavanetpgm%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[技术的囚笼]]></title>
+    <url>%2Fblog%2Fpytx%2Fjsdql%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[如何给java web应用添加登录验证码]]></title>
+    <url>%2Fblog%2Fjavaweb%2Fverificationcode%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[vim格言]]></title>
+    <url>%2Fblog%2Ftools%2Fvim%2Fvimgy%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>VIM</category>
+      </categories>
+      <tags>
+        <tag>VIM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[VIM核心思想]]></title>
+    <url>%2Fblog%2Ftools%2Fvim%2Fvimthinking%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>VIM</category>
+      </categories>
+      <tags>
+        <tag>VIM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Vim按键映射(Map)详解]]></title>
+    <url>%2Fblog%2Ftools%2Fvim%2Fvimmap%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>VIM</category>
+      </categories>
+      <tags>
+        <tag>VIM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【BAT】实记备份数据库和文件的bat脚本]]></title>
+    <url>%2Fblog%2Fos%2Fbat%2Fbakdbfile%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>BAT脚本</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Vim移动一行或一段代码]]></title>
+    <url>%2Fblog%2Ftools%2Fvim%2Fvimaltjk%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>VIM</category>
+      </categories>
+      <tags>
+        <tag>VIM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Vim打开中文文件乱码问题]]></title>
+    <url>%2Fblog%2Ftools%2Fvim%2Fvimfaqzwlm%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>VIM</category>
+      </categories>
+      <tags>
+        <tag>VIM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Vim开发常用配制]]></title>
+    <url>%2Fblog%2Ftools%2Fvim%2Fvimrccypz%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>VIM</category>
+      </categories>
+      <tags>
+        <tag>VIM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Vim安装Emmet插件简介]]></title>
+    <url>%2Fblog%2Ftools%2Fvim%2Finstallemmet%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>VIM</category>
+      </categories>
+      <tags>
+        <tag>VIM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[前端开发必备神器Emmet使用指南]]></title>
+    <url>%2Fblog%2Ftools%2Femment%2Femmentsyzn%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>神器</tag>
+        <tag>Emmet</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[如何解决编辑器中HTML实体自动替换问题]]></title>
+    <url>%2Fblog%2Fwebtech%2Fedithtmlentity%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Lisp macro宏的本质]]></title>
+    <url>%2Fblog%2Fplang%2Flisp%2Flispdiary%2Fmacrobz%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Lisp</category>
+      </categories>
+      <tags>
+        <tag>Lisp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[jquery源码分析（一）]]></title>
+    <url>%2Fblog%2Fwebtech%2Fjquery%2Fjsource1%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>WEB开发</category>
+      </categories>
+      <tags>
+        <tag>WEB开发</tag>
+        <tag>jquery</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[什么是CommonJS？]]></title>
+    <url>%2Fblog%2Fplang%2Fjavascript%2Fcommonjsjj%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA静态代码块、静态变量、构造方法的执行顺序]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fjavacshsx%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[携程Java工程师的一道试题]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fxcmst%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[(转)Lisp之根源]]></title>
+    <url>%2Fblog%2Fplang%2Flisp%2Flispdiary%2Flispzgy%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Lisp</category>
+      </categories>
+      <tags>
+        <tag>Lisp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[(转)Lisp概况与学习方法]]></title>
+    <url>%2Fblog%2Fplang%2Flisp%2Flispdiary%2Flispgkxx%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Lisp</category>
+      </categories>
+      <tags>
+        <tag>Lisp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JAVA】logback使用简介]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Flib%2Flogbacksyjj%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[(转)Lisp 的本质-深度好文]]></title>
+    <url>%2Fblog%2Fplang%2Flisp%2Flispdiary%2Flispbz%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>Lisp</category>
+      </categories>
+      <tags>
+        <tag>Lisp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hadoop WEB控制台的使用]]></title>
+    <url>%2Fblog%2Fbigdata%2Fhadoop%2Fhadoopwebmanager%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+        <tag>hadoop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hadoop的hello world程序]]></title>
+    <url>%2Fblog%2Fbigdata%2Fhadoop%2Fhelloworld%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+        <tag>hadoop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[蒙特卡罗方法入门]]></title>
+    <url>%2Fblog%2Falgorithm%2Fother%2Fmonte-carlo-method%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Emacs快速入门]]></title>
+    <url>%2Fblog%2Ftools%2Femacs%2Femacsdiary%2Femacsksrm%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>Emacs</category>
+      </categories>
+      <tags>
+        <tag>Emacs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[矩阵乘法和矩阵的本质理解]]></title>
+    <url>%2Fblog%2Fbasetech%2Fmath%2Fxxds%2Fjzcfbz%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Vim快速入门]]></title>
+    <url>%2Fblog%2Ftools%2Fvim%2Fvimksrm%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>VIM</category>
+      </categories>
+      <tags>
+        <tag>VIM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Vim正规表达式最短匹配]]></title>
+    <url>%2Fblog%2Ftools%2Fvim%2Fvimregzdpp%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>VIM</category>
+      </categories>
+      <tags>
+        <tag>VIM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Vim入门基础]]></title>
+    <url>%2Fblog%2Ftools%2Fvim%2Fvimrm%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+        <category>VIM</category>
+      </categories>
+      <tags>
+        <tag>VIM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hadoop组织架构]]></title>
+    <url>%2Fblog%2Fbigdata%2Fhadoop%2Fhadoopjg%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+        <tag>hadoop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hadoop的配制与安装]]></title>
+    <url>%2Fblog%2Fbigdata%2Fhadoop%2Finstall%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+        <tag>hadoop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【Linux】如何用tar.gz包安装JDK]]></title>
+    <url>%2Fblog%2Fos%2Flinux%2Fjdktar%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>操作系统</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【Linux】tar命令的使用]]></title>
+    <url>%2Fblog%2Fos%2Flinux%2Fcmd%2Ftar%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>操作系统</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hadoop学习笔记]]></title>
+    <url>%2Fblog%2Fbigdata%2Fhadoop%2Findex%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+        <tag>hadoop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Ubuntu Linux配制SSH免密码接入]]></title>
+    <url>%2Fblog%2Fos%2Flinux%2Fsshmmmjr%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>操作系统</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【Linux】scp 远程传输命令]]></title>
+    <url>%2Fblog%2Fos%2Flinux%2Fcmd%2Fscp%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>操作系统</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu如何查看修改主机名]]></title>
+    <url>%2Fblog%2Fos%2Flinux%2Fhostname%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>操作系统</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ASCII码表相关]]></title>
+    <url>%2Fblog%2Fbasetech%2Fcharset%2Fascii10%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>基础</category>
+        <category>字符集</category>
+      </categories>
+      <tags>
+        <tag>字符集</tag>
+        <tag>ASCII码</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ASCII码表:八进制 十六进制 十进制对应]]></title>
+    <url>%2Fblog%2Fbasetech%2Fcharset%2Fascii%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>基础</category>
+        <category>字符集</category>
+      </categories>
+      <tags>
+        <tag>字符集</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA digit(Char,Int)把一个字符转换为一个数字]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fdigit%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA parseInt(String)字符串转整数]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fparseint%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA把数字转换为字符串]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fnumtostring%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA 把一个数字转换成字符]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fnumtochar%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA字符大小写转换]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fcharuplower%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[什么是多态]]></title>
+    <url>%2Fblog%2Fplang%2Fwhatisduotai%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+      </categories>
+      <tags>
+        <tag>杂谈</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[怎么学习编程]]></title>
+    <url>%2Fblog%2Fplang%2Fhowprgm%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+      </categories>
+      <tags>
+        <tag>杂谈</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Visual Studio版本简述]]></title>
+    <url>%2Fblog%2Ftools%2Fvs%2Fvsbbjj%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[【Linux】nc命令使用详解]]></title>
+    <url>%2Fblog%2Fos%2Flinux%2Fcmd%2Fnc%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>操作系统</category>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SELECT INTO 和 INSERT INTO SELECT 两种表复制语句]]></title>
+    <url>%2Fblog%2Fdatabase%2Fsql%2Fselectinto%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SQL中EXISTS的用法]]></title>
+    <url>%2Fblog%2Fdatabase%2Fsql%2Fexists%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[检查 Sql Server的阻塞和死锁]]></title>
+    <url>%2Fblog%2Fdatabase%2Fsqlserver%2Fzshss%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[关于SYSPROCESSES表各字段的作用]]></title>
+    <url>%2Fblog%2Fdatabase%2Fsqlserver%2Fsysprocesses%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SQL Server Date 函数]]></title>
+    <url>%2Fblog%2Fdatabase%2Fsqlserver%2Fdatehsxj%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MySQL Date 函数详解]]></title>
+    <url>%2Fblog%2Fdatabase%2Fmysql%2Fdatehsxj%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SQL CREATE VIEW 语法]]></title>
+    <url>%2Fblog%2Fdatabase%2Fsql%2Fcreateview%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SQL AUTO INCREMENT 字段]]></title>
+    <url>%2Fblog%2Fdatabase%2Fsql%2Fautoincrement%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SQL 约束详解]]></title>
+    <url>%2Fblog%2Fdatabase%2Fsql%2Fysxj%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SQL ALTER TABLE 语句]]></title>
+    <url>%2Fblog%2Fdatabase%2Fsql%2Faltertable%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SQL DROP 语句]]></title>
+    <url>%2Fblog%2Fdatabase%2Fsql%2Fdrop%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SQL 创建索引 CREATE INDEX]]></title>
+    <url>%2Fblog%2Fdatabase%2Fsql%2Fcreateindex%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SQL语法数据库和表]]></title>
+    <url>%2Fblog%2Fdatabase%2Fsql%2Ftableanddb%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SQL JOIN详解]]></title>
+    <url>%2Fblog%2Fdatabase%2Fsql%2Fjoin%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SQL 语法高级]]></title>
+    <url>%2Fblog%2Fdatabase%2Fsql%2Fyfgj%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SQL语法基础]]></title>
+    <url>%2Fblog%2Fdatabase%2Fsql%2Fyfbase%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[正则表达式规则]]></title>
+    <url>%2Fblog%2Ftools%2Fregex%2Fregexrule%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>神器</tag>
+        <tag>正规表达式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[UML中类与类的关系，关联和依赖的区别]]></title>
+    <url>%2Fblog%2Farch%2Fuml%2Fclassdiagram%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>架构</category>
+      </categories>
+      <tags>
+        <tag>UML</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[java中byte数组与int，long，short间的转换]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fbytetonum%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[jdbc-driver-url 各数据库jdbc驱动和链接类型]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fjdbcurl%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[java正则表达式之非捕获组(?:X)]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fregex-fbhz%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Eclipse里配置内存大小]]></title>
+    <url>%2Fblog%2Ftools%2Feclipse%2Fjvmconfig%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>Eclipse</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Eclipse常用参数详解]]></title>
+    <url>%2Fblog%2Ftools%2Feclipse%2Fstartparams%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>Eclipse</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Eclipse（MyEclipse）必需记住的快捷键]]></title>
+    <url>%2Fblog%2Ftools%2Feclipse%2Fshortcutkey%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>Eclipse</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Java单例对象同步问题]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fsingletonsync%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Java编译、运行、打包命令]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fcommand%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA类机制思考]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fthinkofclass%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hashcode()和equals()方法]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fhashcode-equals%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Java中的Enum用法介绍]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fenum%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步之ThreadLocal使用示例]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fthreadlocalexample%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[使用java来实现ping功能]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fbase%2Fping%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>BASE</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[浅谈Java的volatile]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fvolatile%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JAVA】用HtmlUnit抓取雪球数据]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Flib%2Fxueqiuspider%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[数据库索引使用基础知识]]></title>
+    <url>%2Fblog%2Fdatabase%2Fdbi%2Fdbiusebase%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[聚集索引(聚簇索引)的使用]]></title>
+    <url>%2Fblog%2Fdatabase%2Fdbi%2Fclusterdbi%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[主流内存数据库介绍]]></title>
+    <url>%2Fblog%2Fdatabase%2Farticle%2Fmemdb%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JAVA】jacob操作word接口api]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Flib%2Fjacobcode%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JAVA】annotation注释（二）]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Ffeatures%2Fannotation2%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JAVA】annotation注释（三）]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Ffeatures%2Fannotation3%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JAVA】JACOB使用简介]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Flib%2Fjacobbase%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JAVA】annotation注释（一）]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Ffeatures%2Fannotation1%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA同步之线程池简介]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Fthreadsafe%2Fthreadpool%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+        <category>线程安全</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+        <tag>线程安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[开发人员基本工具介绍]]></title>
+    <url>%2Fblog%2Fpytx%2Ftools%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>知识体系</category>
+      </categories>
+      <tags>
+        <tag>知识体系</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[计算机科学技术基础知识]]></title>
+    <url>%2Fblog%2Fpytx%2Fjsjjczs%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>知识体系</category>
+      </categories>
+      <tags>
+        <tag>知识体系</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[助理软件工程师基本技能]]></title>
+    <url>%2Fblog%2Fpytx%2Fzlrjgcs%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[软件工程师基本技能]]></title>
+    <url>%2Fblog%2Fpytx%2Frjgcs%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[高级软件工程师基本技能]]></title>
+    <url>%2Fblog%2Fpytx%2Fgjrjgcs%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>知识体系</category>
+      </categories>
+      <tags>
+        <tag>知识体系</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[（资深）架构师基本技能]]></title>
+    <url>%2Fblog%2Fpytx%2Fjgs%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>知识体系</category>
+      </categories>
+      <tags>
+        <tag>知识体系</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[软件开发专题技术]]></title>
+    <url>%2Fblog%2Fpytx%2Fztjs%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[编程技术面试的五大要点(转)]]></title>
+    <url>%2Fblog%2Fpytx%2Farticle%2Fms5yd%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>知识体系</category>
+      </categories>
+      <tags>
+        <tag>知识体系</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[如何学好C语言]]></title>
+    <url>%2Fblog%2Fplang%2Fccpp%2Fhowlearn%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>C语言</category>
+      </categories>
+      <tags>
+        <tag>C语言</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JAVA】Generic泛型使用指南]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Ffeatures%2Fgeneric%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[【JAVA】反射机制使用指南]]></title>
+    <url>%2Fblog%2Fplang%2Fjava%2Ffeatures%2Freflect%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+        <category>JAVA</category>
+      </categories>
+      <tags>
+        <tag>JAVA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA WEB之ServletConfig]]></title>
+    <url>%2Fblog%2Fjavaweb%2Fservlet%2Fservletconfig%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>JAVA WEB</category>
+      </categories>
+      <tags>
+        <tag>servlet</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[手工创建布署一个servlet]]></title>
+    <url>%2Fblog%2Fjavaweb%2Fservlet%2Ffirstservlet%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>JAVA WEB</category>
+      </categories>
+      <tags>
+        <tag>servlet</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JAVA WEB基础servlet简介]]></title>
+    <url>%2Fblog%2Fjavaweb%2Fservlet%2Fservletjj%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>JAVA WEB</category>
+      </categories>
+      <tags>
+        <tag>servlet</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[我的编程学习经历]]></title>
+    <url>%2Fblog%2Fplang%2Fmyexperience%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+      </categories>
+      <tags>
+        <tag>杂谈</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[编程语言有高低优劣之分吗]]></title>
+    <url>%2Fblog%2Fplang%2Fgoodbadplang%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>编程语言</category>
+      </categories>
+      <tags>
+        <tag>杂谈</tag>
+      </tags>
+  </entry>
+</search>

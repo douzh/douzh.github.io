@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="这片文章主要讲如何时在java web项目中如何给登录添加验证码功能。 添加验证码主要工作：做一个验证码图片的生成类，在网上有很多，copy一个很方便。 做一个验证码的图片接口，通过链接可以访问，返回一张图片。 做一个filter，对登录请求进行拦截，判断验证码是否正确。 登录页面加上一个IMG节点，通过js设置其显示验证码。 做一个验证码图片生成类：直接在网上复制了一个，还挺好用的。 impor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何给java web应用添加登录验证码">
+<meta property="og:url" content="http://www.iteedu.com/blog/javaweb/verificationcode/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="这片文章主要讲如何时在java web项目中如何给登录添加验证码功能。 添加验证码主要工作：做一个验证码图片的生成类，在网上有很多，copy一个很方便。 做一个验证码的图片接口，通过链接可以访问，返回一张图片。 做一个filter，对登录请求进行拦截，判断验证码是否正确。 登录页面加上一个IMG节点，通过js设置其显示验证码。 做一个验证码图片生成类：直接在网上复制了一个，还挺好用的。 impor">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-09T14:51:17.673Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何给java web应用添加登录验证码">
+<meta name="twitter:description" content="这片文章主要讲如何时在java web项目中如何给登录添加验证码功能。 添加验证码主要工作：做一个验证码图片的生成类，在网上有很多，copy一个很方便。 做一个验证码的图片接口，通过链接可以访问，返回一张图片。 做一个filter，对登录请求进行拦截，判断验证码是否正确。 登录页面加上一个IMG节点，通过js设置其显示验证码。 做一个验证码图片生成类：直接在网上复制了一个，还挺好用的。 impor">
+  <link rel="canonical" href="http://www.iteedu.com/blog/javaweb/verificationcode/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>如何给java web应用添加登录验证码 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/javaweb/verificationcode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">如何给java web应用添加登录验证码
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-11-24 11:08:43" itemprop="dateCreated datePublished" datetime="2015-11-24T11:08:43+08:00">2015-11-24</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-07-09 22:51:17" itemprop="dateModified" datetime="2019-07-09T22:51:17+08:00">2019-07-09</time>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这片文章主要讲如何时在java web项目中如何给登录添加验证码功能。</p>
+<h2 id="添加验证码主要工作："><a href="#添加验证码主要工作：" class="headerlink" title="添加验证码主要工作："></a>添加验证码主要工作：</h2><p>做一个验证码图片的生成类，在网上有很多，copy一个很方便。</p>
+<p>做一个验证码的图片接口，通过链接可以访问，返回一张图片。</p>
+<p>做一个filter，对登录请求进行拦截，判断验证码是否正确。</p>
+<p>登录页面加上一个IMG节点，通过js设置其显示验证码。</p>
+<h2 id="做一个验证码图片生成类："><a href="#做一个验证码图片生成类：" class="headerlink" title="做一个验证码图片生成类："></a>做一个验证码图片生成类：</h2><p>直接在网上复制了一个，还挺好用的。</p>
+<pre><code>import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.Random;
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
+
+/**
+ * 验证码相关
+ * VerificationCodeUtil
+ * @author douzh
+ * @version 1.0
+ *
+ */
+
+public class VerificationCodeUtil {
+    public static String VCODE_SESSION_KEY=&quot;Verification_Code_Key&quot;;
+    private ByteArrayInputStream image;//图像 
+
+    private String str;//验证码 
+
+    private VerificationCodeUtil() {
+        init();//初始化属性 
+    }
+
+    /*
+     * 取得RandomNumUtil实例
+     */
+    public static VerificationCodeUtil Instance() {
+        return new VerificationCodeUtil();
+    }
+
+    /*
+     * 取得验证码图片
+     */
+    public ByteArrayInputStream getImage() {
+        return this.image;
+    }
+
+    /*
+     * 取得图片的验证码
+     */
+    public String getString() {
+        return this.str;
+    }
+
+    private void init() {
+        // 在内存中创建图象 
+        int width = 85, height = 30;
+        BufferedImage image = new BufferedImage(width, height,
+                BufferedImage.TYPE_INT_RGB);
+        // 获取图形上下文 
+        Graphics g = image.getGraphics();
+        // 生成随机类 
+        Random random = new Random();
+        // 设定背景色 
+        g.setColor(getRandColor(200, 250));
+        g.fillRect(0, 0, width, height);
+        // 设定字体 
+        g.setFont(new Font(&quot;Times New Roman&quot;, Font.PLAIN, 25));
+        // 随机产生155条干扰线，使图象中的认证码不易被其它程序探测到 
+        g.setColor(getRandColor(160, 200));
+        for (int i = 0; i &lt; 155; i++) {
+            int x = random.nextInt(width);
+            int y = random.nextInt(height);
+            int xl = random.nextInt(12);
+            int yl = random.nextInt(12);
+            g.drawLine(x, y, x + xl, y + yl);
+        }
+        // 取随机产生的认证码(6位数字) 
+        String sRand = &quot;&quot;;
+        for (int i = 0; i &lt; 6; i++) {
+            String rand = String.valueOf(random.nextInt(10));
+            sRand += rand;
+            // 将认证码显示到图象中 
+            g.setColor(new Color(20 + random.nextInt(110), 20 + random
+                    .nextInt(110), 20 + random.nextInt(110)));
+            // 调用函数出来的颜色相同，可能是因为种子太接近，所以只能直接生成 
+            g.drawString(rand, 13 * i + 6, 25);
+        }
+        //赋值验证码
+        this.str = sRand;
+
+        //图象生效 
+        g.dispose();
+        ByteArrayInputStream input = null;
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        try {
+            ImageOutputStream imageOut = ImageIO
+                    .createImageOutputStream(output);
+            ImageIO.write(image, &quot;JPEG&quot;, imageOut);
+            imageOut.close();
+            input = new ByteArrayInputStream(output.toByteArray());
+        } catch (Exception e) {
+            System.out.println(&quot;验证码图片产生出现错误：&quot; + e.toString());
+        }
+
+        this.image = input;/* 赋值图像 */
+    }
+
+    /*
+     * 给定范围获得随机颜色
+     */
+    private Color getRandColor(int fc, int bc) {
+        Random random = new Random();
+        if (fc &gt; 255)
+            fc = 255;
+        if (bc &gt; 255)
+            bc = 255;
+        int r = fc + random.nextInt(bc - fc);
+        int g = fc + random.nextInt(bc - fc);
+        int b = fc + random.nextInt(bc - fc);
+        return new Color(r, g, b);
+    }
+}</code></pre><h2 id="做一个返回验证码的接口："><a href="#做一个返回验证码的接口：" class="headerlink" title="做一个返回验证码的接口："></a>做一个返回验证码的接口：</h2><pre><code>public void getVcImage() {
+    try {
+        VerificationCodeUtil vc = VerificationCodeUtil.Instance();
+        InputStream s = vc.getImage();
+        this.getHttpRequest()
+                .getSession()
+                .setAttribute(VerificationCodeUtil.VCODE_SESSION_KEY,
+                    vc.getString());
+        ServletOutputStream outputStream = getHttpResponse()
+                .getOutputStream();
+        if (s != null) {
+            IOUtils.copy(s, outputStream);
+            IOUtils.closeQuietly(s);
+            IOUtils.closeQuietly(outputStream);
+        }
+    } catch (Exception e) {
+        logger.error(&quot;获取验证码出错&quot;, e);
+        writJsonResult(new ErrorPojo(&quot;syserror&quot;, &quot;获取验证码出错！&quot;));
+    }
+    return;
+}</code></pre><p>注意，要把验证码对应的字符串放到session里，以供验证对比用。IOUtils是用的org.apache.commons.io里的类。</p>
+<p>现在就可以通过浏览器访问接口返回一张验证码图片了。</p>
+<h2 id="拦截登录请求的filter"><a href="#拦截登录请求的filter" class="headerlink" title="拦截登录请求的filter"></a>拦截登录请求的filter</h2><p>先写一个处理验证码的Filter类</p>
+<pre><code>/**
+ * 过滤验证码
+ * VCodeFilter
+ * @version 1.0
+ *
+ */
+public class VCodeFilter extends BaseLogic implements Filter {
+
+    @Override
+    public void destroy() {
+
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest servletRequest = null;
+        try {
+            servletRequest = (HttpServletRequest) request;
+            HttpServletResponse servletResponse = (HttpServletResponse) response;
+            String action = servletRequest.getQueryString();
+            if (StringUtils.isNotBlank(action)
+                    &amp;&amp; action.startsWith(&quot;action=login&quot;)) {
+                String vcode = request.getParameter(&quot;j_vcode&quot;);
+                if(StringUtils.isBlank(vcode)){
+                    writeResult(&quot;请先填写验证码&quot;,servletResponse);
+                    return;
+                }
+                String vcode2 = (String) servletRequest.getSession()
+                        .getAttribute(VerificationCodeUtil.VCODE_SESSION_KEY);
+                if(StringUtils.isBlank(vcode2)){
+                    writeResult(&quot;验证码已经过期，重新获取&quot;,servletResponse);
+                    return;
+                }
+                if(!vcode2.equals(vcode)){
+                    writeResult(&quot;验证码填写不正确，请重新填写&quot;,servletResponse);
+                    return;
+                }
+            }
+            chain.doFilter(servletRequest, servletResponse);
+        } catch (Exception e) {
+            logger.error(&quot;查看出现异常时候的方法&quot; + servletRequest.getMethod());
+        }
+
+    }
+    /**
+     * 向response管道写数据
+     * 
+     * @param data 输出的数据
+     */
+    protected void writeResult(String data,HttpServletResponse resp) {
+        try {
+            resp.setCharacterEncoding(&quot;UTF-8&quot;);
+            resp.getWriter().write(data);
+            resp.getWriter().flush();
+            resp.getWriter().close();
+        } catch (IOException e) {
+            logger.error(&quot;接口输出内容出错&quot;, e);
+        }
+    }
+    @Override
+    public void init(FilterConfig config) throws ServletException {
+    }
+}</code></pre><p>添加对于filter配制。</p>
+<pre><code>&lt;filter&gt;
+    &lt;filter-name&gt;VCodeFilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;
+        com.xxxx.support.VCodeFilter
+    &lt;/filter-class&gt;
+&lt;/filter&gt;
+
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;VCodeFilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/login.do&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;</code></pre><p>这样所有的登录请求先要过验证码这一关。</p>
+<h2 id="登录界面的验证码"><a href="#登录界面的验证码" class="headerlink" title="登录界面的验证码"></a>登录界面的验证码</h2><p>添加一个img节点：</p>
+<p>用js初始化节点。</p>
+<pre><code>function initVcode(){
+$(&quot;#vcode&quot;).attr(&apos;src&apos;,contextPath+&quot;/paramsApi.do?action=getVcImage&amp;time=&quot;+new Date().getTime()); ;
+};
+initVcode();</code></pre><p>参数加个时间戳是为了防止浏览器缓存验证码图片。</p>
+<h2 id="之后呢"><a href="#之后呢" class="headerlink" title="之后呢"></a>之后呢</h2><p>要有一个input让用户输入验证码，提交登录信息时也把这项提交上，filter就会处理带验证吗的请求了。</p>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/tools/vim/vimgy/" rel="next" title="vim格言">
+                <i class="fa fa-chevron-left"></i> vim格言
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/pytx/jsdql/" rel="prev" title="技术的囚笼">
+                技术的囚笼 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#添加验证码主要工作："><span class="nav-number">1.</span> <span class="nav-text">添加验证码主要工作：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#做一个验证码图片生成类："><span class="nav-number">2.</span> <span class="nav-text">做一个验证码图片生成类：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#做一个返回验证码的接口："><span class="nav-number">3.</span> <span class="nav-text">做一个返回验证码的接口：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拦截登录请求的filter"><span class="nav-number">4.</span> <span class="nav-text">拦截登录请求的filter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#登录界面的验证码"><span class="nav-number">5.</span> <span class="nav-text">登录界面的验证码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#之后呢"><span class="nav-number">6.</span> <span class="nav-text">之后呢</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

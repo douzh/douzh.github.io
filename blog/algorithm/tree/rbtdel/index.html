@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="在看本文前请先看RBT红黑树（一）概念和插入算法 RBT删除算法红黑树的删除和BST基本相同，只是多了调整树的过程。这里再复习一下删除的思想： 根据待删除结点的孩子情况，分三种情况：没有孩子，只有一个孩子，有两个孩子。 1.没有孩子的情况，其父结点指向空，删除该结点。 2.有一个孩子的情况，其父结点指向其孩子，删除该结点。 3.有两个孩子的情况，当前结点要用其它结点替换，然后释放当前结点。 用左子">
+<meta name="keywords" content="算法,树算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RBT红黑树（二）删除算法">
+<meta property="og:url" content="http://www.iteedu.com/blog/algorithm/tree/rbtdel/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="在看本文前请先看RBT红黑树（一）概念和插入算法 RBT删除算法红黑树的删除和BST基本相同，只是多了调整树的过程。这里再复习一下删除的思想： 根据待删除结点的孩子情况，分三种情况：没有孩子，只有一个孩子，有两个孩子。 1.没有孩子的情况，其父结点指向空，删除该结点。 2.有一个孩子的情况，其父结点指向其孩子，删除该结点。 3.有两个孩子的情况，当前结点要用其它结点替换，然后释放当前结点。 用左子">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.iteedu.com/images/tree/rbtdelall.jpg">
+<meta property="og:image" content="http://www.iteedu.com/images/tree/rbtdelc1.jpg">
+<meta property="og:image" content="http://www.iteedu.com/images/tree/rbtdelc2.jpg">
+<meta property="og:image" content="http://www.iteedu.com/images/tree/rbtdelc3.jpg">
+<meta property="og:image" content="http://www.iteedu.com/images/tree/rbtdelc4.jpg">
+<meta property="og:updated_time" content="2019-06-30T15:36:10.485Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RBT红黑树（二）删除算法">
+<meta name="twitter:description" content="在看本文前请先看RBT红黑树（一）概念和插入算法 RBT删除算法红黑树的删除和BST基本相同，只是多了调整树的过程。这里再复习一下删除的思想： 根据待删除结点的孩子情况，分三种情况：没有孩子，只有一个孩子，有两个孩子。 1.没有孩子的情况，其父结点指向空，删除该结点。 2.有一个孩子的情况，其父结点指向其孩子，删除该结点。 3.有两个孩子的情况，当前结点要用其它结点替换，然后释放当前结点。 用左子">
+<meta name="twitter:image" content="http://www.iteedu.com/images/tree/rbtdelall.jpg">
+  <link rel="canonical" href="http://www.iteedu.com/blog/algorithm/tree/rbtdel/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>RBT红黑树（二）删除算法 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/algorithm/tree/rbtdel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">RBT红黑树（二）删除算法
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2016-01-03 12:00:11" itemprop="dateCreated datePublished" datetime="2016-01-03T12:00:11+08:00">2016-01-03</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-30 23:36:10" itemprop="dateModified" datetime="2019-06-30T23:36:10+08:00">2019-06-30</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/算法/" itemprop="url" rel="index"><span itemprop="name">算法</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/算法/树算法/" itemprop="url" rel="index"><span itemprop="name">树算法</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在看本文前请先看<a href="/algorithm/tree/rbt/">RBT红黑树（一）概念和插入算法</a></p>
+<h2 id="RBT删除算法"><a href="#RBT删除算法" class="headerlink" title="RBT删除算法"></a>RBT删除算法</h2><p>红黑树的删除和BST基本相同，只是多了调整树的过程。这里再复习一下删除的思想：</p>
+<p>根据待删除结点的孩子情况，分三种情况：没有孩子，只有一个孩子，有两个孩子。</p>
+<p>1.没有孩子的情况，其父结点指向空，删除该结点。</p>
+<p>2.有一个孩子的情况，其父结点指向其孩子，删除该结点。</p>
+<p>3.有两个孩子的情况，当前结点要用其它结点替换，然后释放当前结点。</p>
+<p>用左子树中的最大元素替换当前结点。左子树一直right到nil，可能有左节点。</p>
+<p>用右子树中的最小结点替换当前结点。右子树一直left到nil，可能有右节点。</p>
+<p>替换后不改变BST的性质，可以自己想一下。</p>
+<p>RBT删除伪代码：</p>
+<p>对于两个孩子的情况用的是右子树的最小结点。</p>
+<p>RB-DELETE(T, z)</p>
+<pre><code> 1 if left[z] = nil[T] or right[z] = nil[T]
+ 2    then y ← z
+ 3    else y ← TREE-SUCCESSOR(z)
+ 4 if left[y] ≠ nil[T]
+ 5    then x ← left[y]
+ 6    else x ← right[y]
+ 7 p[x] ← p[y]
+ 8 if p[y] = nil[T]
+ 9    then root[T] ← x
+10    else if y = left[p[y]]
+11            then left[p[y]] ← x
+12            else right[p[y]] ← x
+13 if y ≠ z
+14    then key[z] ← key[y]
+15         copy y&apos;s satellite data into z
+16 if color[y] = BLACK               //如果y是黑色的，
+17    then RB-DELETE-FIXUP(T, x)   //则调用RB-DELETE-FIXUP(T, x) 
+18 return y</code></pre><p>对于有两个孩子的节点，删除的是其右子树的最小结点。最小结点的内容会替换要删除结点的内容。</p>
+<p>对于RBT的删除操作，只有删除节点为黑色时才进行调整，删除有两个孩子的节点，实际删除的是右子树最小节点。这个结点对应伪代码中的y。</p>
+<p>删除的节点y一定至多有一个孩子，这个很明显，自己想一下。</p>
+<p>删除的节点为红色时不必变RBT的性质，所以不要调整，为黑色才调整。调整时传入的x为删除节点y的孩子节点。</p>
+<p>下文中的图都是删除后的RBT，其中标注的x就是删除节点的孩子。</p>
+<h3 id="RB-DELETE-FIXUP"><a href="#RB-DELETE-FIXUP" class="headerlink" title="RB-DELETE-FIXUP"></a>RB-DELETE-FIXUP</h3><p>伪代码：</p>
+<p>RB-DELETE-FIXUP(T, x)</p>
+<pre><code> 1 while x ≠ root[T] and color[x] = BLACK
+ 2     do if x = left[p[x]]
+ 3           then w ← right[p[x]]
+ 4                if color[w] = RED
+ 5                   then color[w] ← BLACK                        ?  Case 1
+ 6                        color[p[x]] ← RED                       ?  Case 1
+ 7                        LEFT-ROTATE(T, p[x])                    ?  Case 1
+ 8                        w ← right[p[x]]                         ?  Case 1
+ 9                if color[left[w]] = BLACK and color[right[w]] = BLACK
+10                   then color[w] ← RED                          ?  Case 2
+11                        x ← p[x]                                  ?  Case 2
+12                   else if color[right[w]] = BLACK
+13                           then color[left[w]] ← BLACK          ?  Case 3
+14                                color[w] ← RED                  ?  Case 3
+15                                RIGHT-ROTATE(T, w)              ?  Case 3
+16                                w ← right[p[x]]                 ?  Case 3
+17                         color[w] ← color[p[x]]                 ?  Case 4
+18                         color[p[x]] ← BLACK                    ?  Case 4
+19                         color[right[w]] ← BLACK                ?  Case 4
+20                         LEFT-ROTATE(T, p[x])                   ?  Case 4
+21                         x ← root[T]                            ?  Case 4
+22        else (same as then clause with &quot;right&quot; and &quot;left&quot; exchanged)
+23 color[x] ← BLACK </code></pre><p>当前节点为x，从伪代码中看出，有两种简单情况：</p>
+<p>当前节点是红色，直接把当前节点染成黑色，结束。</p>
+<p>当前节点是黑色且是根节点，什么都不做，结束。</p>
+<p>其它情况分为四种情况处理。这里简单说明一下。</p>
+<p>Case1：从代码结构可以看出Case1不能平衡RBT，会转换成Case2~4。</p>
+<p>Case2：可以平衡RBT树，上移x，new x为红节点会结束循环，为黑会继续调整。</p>
+<p>Case3：不能平衡RBT，转换成Case4。</p>
+<p>Case4：可以平衡RBT树，x会指向ROOT，结束循环。</p>
+<p>下图为四种情况的变换图：</p>
+<p><img src="/images/tree/rbtdelall.jpg" alt></p>
+<p>图中x都为黑色，这是因为当前节点是红色，直接把当前节点染成黑色，RBT平衡了，是一种简单情况。</p>
+<p>图中w节点永远是x的兄弟结点。</p>
+<h4 id="Case1"><a href="#Case1" class="headerlink" title="Case1"></a>Case1</h4><pre><code>5      then color[w] ← BLACK    ?  Case 1
+6           color[p[x]] ← RED   ?  Case 1
+7           LEFT-ROTATE(T, p[x]) ?  Case 1
+8           w ← right[p[x]]     ?  Case 1</code></pre><p><img src="/images/tree/rbtdelc1.jpg" alt></p>
+<p>对策：改变w、p[z]颜色，再对p[x]做一次左旋，红黑性质得以继续保持，A~E黑高度都没变。</p>
+<p>x的新兄弟new w是旋转之前w的某个孩子，为黑色。</p>
+<p>所以，情况1转化成情况2或3、4。</p>
+<h4 id="Case2"><a href="#Case2" class="headerlink" title="Case2"></a>Case2</h4><pre><code>10  then color[w] ← RED   ?  Case 2
+11       x &lt;-p[x]         ?  Case 2</code></pre><p><img src="/images/tree/rbtdelc2.jpg" alt></p>
+<p>如图所示，w的俩个孩子都是黑色的，w也是黑的。</p>
+<p>因为删除后B的左子树比右子树黑高度小1，把w改为红的，则B的左右子树黑高度就一样了。</p>
+<p>但和删除之前相比，左右子树的黑高度都小了1。</p>
+<p>如果B是红的，直接改为黑的，BST就平衡了，和删除之前一样，这会在下个循环完成。</p>
+<p>如果B是黑的，会再进入循环向上迭代。</p>
+<h4 id="Case3"><a href="#Case3" class="headerlink" title="Case3"></a>Case3</h4><pre><code>13   then color[left[w]] ← BLACK  ?  Case 3
+14        color[w] ← RED          ?  Case 3
+15        RIGHT-ROTATE(T, w)      ?  Case 3
+16        w ← right[p[x]]       ?  Case 3</code></pre><p><img src="/images/tree/rbtdelc3.jpg" alt></p>
+<p>w为黑，其左孩子为红，右孩子为黑</p>
+<p>对策：交换w和和其左孩子left[w]的颜色。 即上图的D、C颜色互换。</p>
+<p>并对w进行右旋，而红黑性质仍然得以保持。</p>
+<p>现在x的新兄弟w是一个有红色右孩子的黑结点，于是将情况3转化为情况4.</p>
+<h4 id="Case4"><a href="#Case4" class="headerlink" title="Case4"></a>Case4</h4><pre><code>17   color[w] ← color[p[x]]    ?  Case 4
+18   color[p[x]] ← BLACK       ?  Case 4
+19   color[right[w]] ← BLACK   ?  Case 4
+20   LEFT-ROTATE(T, p[x])      ?  Case 4
+21   x ← root[T]              ?  Case 4</code></pre><p><img src="/images/tree/rbtdelc4.jpg" alt></p>
+<p>x的兄弟w为黑色，且w的右孩子为红色。</p>
+<p>对策：做颜色修改，并对p[x]做一次旋转，可以去掉x的额外黑色，来把x变成单独的黑色，此举不破坏红黑性质。</p>
+<p>这样做右子树黑高度没变，左子树黑高度加了1，和删除前一样了。</p>
+<p>最后将x置为根后，循环结束。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>可以结束调整的两种状态要记住，总结为以下两句话：</p>
+<p>父红右三黑：x的父为红，父的右是三个黑结点。</p>
+<p>右黑右红：x的父的右节点为黑，右节点的右孩子为黑。</p>
+<p>其它情况在不破坏RBT的红黑性质前提下做旋转，转换到这两种状态。</p>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/树算法/" rel="tag"># 树算法</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/algorithm/tree/rbt/" rel="next" title="RBT红黑树（一）概念和插入算法">
+                <i class="fa fa-chevron-left"></i> RBT红黑树（一）概念和插入算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/algorithm/tree/bitreetraversal/" rel="prev" title="二叉树递归和非递归遍历">
+                二叉树递归和非递归遍历 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RBT删除算法"><span class="nav-number">1.</span> <span class="nav-text">RBT删除算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RB-DELETE-FIXUP"><span class="nav-number">1.1.</span> <span class="nav-text">RB-DELETE-FIXUP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Case1"><span class="nav-number">1.1.1.</span> <span class="nav-text">Case1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Case2"><span class="nav-number">1.1.2.</span> <span class="nav-text">Case2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Case3"><span class="nav-number">1.1.3.</span> <span class="nav-text">Case3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Case4"><span class="nav-number">1.1.4.</span> <span class="nav-text">Case4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">1.1.5.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

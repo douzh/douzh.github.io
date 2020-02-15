@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="语法：tar [主选项+辅选项] 文件或者目录 使用该命令时，主选项是必须要有的，它告诉tar要做什么事情，辅选项是辅助使用的，可以选用。 主选项： -c：创建新的档案文件。如果用户想备份一个目录或是一些文件，就要选择这个选项。相当于打包 -x ：从档案文件中释放文件。相当于拆包。 -t ：列出档案文件的内容，查看已经备份了哪些文件。  特别注意，在参数的下达中， c/x/t仅能存在一个！不可同时">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Linux】tar命令的使用">
+<meta property="og:url" content="http://www.iteedu.com/blog/os/linux/cmd/tar/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="语法：tar [主选项+辅选项] 文件或者目录 使用该命令时，主选项是必须要有的，它告诉tar要做什么事情，辅选项是辅助使用的，可以选用。 主选项： -c：创建新的档案文件。如果用户想备份一个目录或是一些文件，就要选择这个选项。相当于打包 -x ：从档案文件中释放文件。相当于拆包。 -t ：列出档案文件的内容，查看已经备份了哪些文件。  特别注意，在参数的下达中， c/x/t仅能存在一个！不可同时">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-09T14:18:38.272Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Linux】tar命令的使用">
+<meta name="twitter:description" content="语法：tar [主选项+辅选项] 文件或者目录 使用该命令时，主选项是必须要有的，它告诉tar要做什么事情，辅选项是辅助使用的，可以选用。 主选项： -c：创建新的档案文件。如果用户想备份一个目录或是一些文件，就要选择这个选项。相当于打包 -x ：从档案文件中释放文件。相当于拆包。 -t ：列出档案文件的内容，查看已经备份了哪些文件。  特别注意，在参数的下达中， c/x/t仅能存在一个！不可同时">
+  <link rel="canonical" href="http://www.iteedu.com/blog/os/linux/cmd/tar/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>【Linux】tar命令的使用 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/os/linux/cmd/tar/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">【Linux】tar命令的使用
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-10-06 10:19:44" itemprop="dateCreated datePublished" datetime="2015-10-06T10:19:44+08:00">2015-10-06</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-07-09 22:18:38" itemprop="dateModified" datetime="2019-07-09T22:18:38+08:00">2019-07-09</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/操作系统/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/操作系统/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="语法："><a href="#语法：" class="headerlink" title="语法："></a>语法：</h2><p>tar [主选项+辅选项] 文件或者目录</p>
+<p>使用该命令时，主选项是必须要有的，它告诉tar要做什么事情，辅选项是辅助使用的，可以选用。</p>
+<h2 id="主选项："><a href="#主选项：" class="headerlink" title="主选项："></a>主选项：</h2><ul>
+<li>-c<br>：创建新的档案文件。如果用户想备份一个目录或是一些文件，就要选择这个选项。相当于打包</li>
+<li>-x ：从档案文件中释放文件。相当于拆包。</li>
+<li>-t ：列出档案文件的内容，查看已经备份了哪些文件。</li>
+</ul>
+<p>特别注意，在参数的下达中， c/x/t<br>仅能存在一个！不可同时存在！因为不可能同时压缩与解压缩。</p>
+<h2 id="辅助选项："><a href="#辅助选项：" class="headerlink" title="辅助选项："></a>辅助选项：</h2><ul>
+<li>-z ：是否同时具有 gzip 的属性？亦即是否需要用 gzip 压缩或解压？<br>一般格式为xx.tar.gz或xx. tgz</li>
+<li>-j ：是否同时具有 bzip2 的属性？亦即是否需要用 bzip2<br>压缩或解压？一般格式为xx.tar.bz2</li>
+<li>-v ：压缩的过程中显示文件！这个常用</li>
+<li>-f ：使用档名，请留意，在 f 之后要立即接档名喔！不要再加其他参数！</li>
+<li>-p ：使用原文件的原来属性（属性不会依据使用者而变）</li>
+<li>--exclude FILE：在压缩的过程中，不要将 FILE 打包！</li>
+</ul>
+<h2 id="范例："><a href="#范例：" class="headerlink" title="范例："></a>范例：</h2><p>范例一：将整个 /etc 目录下的文件全部打包成为 /tmp/etc.tar</p>
+<pre><code>[root@linux ~]# tar -cvf /tmp/etc.tar /etc　　　　&lt;==仅打包，不压缩！
+
+[root@linux ~]# tar -zcvf /tmp/etc.tar.gz /etc　　&lt;==打包后，以 gzip 压缩
+
+[root@linux ~]# tar -jcvf /tmp/etc.tar.bz2 /etc　　&lt;==打包后，以 bzip2 压缩
+
+# 特别注意，在参数 f 之后的文件档名是自己取的，我们习惯上都用 .tar 来作为辨识。
+
+# 如果加 z 参数，则以 .tar.gz 或 .tgz 来代表 gzip 压缩过的 tar file ～
+
+# 如果加 j 参数，则以 .tar.bz2 来作为附档名啊～
+
+# 上述指令在执行的时候，会显示一个警告讯息：
+
+# 『tar: Removing leading `/&quot; from member names』那是关於绝对路径的特殊设定。</code></pre><p>范例二：查阅上述 /tmp/etc.tar.gz 文件内有哪些文件？</p>
+<pre><code>[root@linux ~]# tar -ztvf /tmp/etc.tar.gz
+
+# 由於我们使用 gzip 压缩，所以要查阅该 tar file 内的文件时，
+
+# 就得要加上 z 这个参数了！这很重要的！</code></pre><p>范例三：将 /tmp/etc.tar.gz 文件解压缩在 /usr/local/src 底下</p>
+<pre><code>[root@linux ~]# cd /usr/local/src
+
+[root@linux src]# tar -zxvf /tmp/etc.tar.gz
+
+# 在预设的情况下，我们可以将压缩档在任何地方解开的！以这个范例来说
+
+# 我先将工作目录变换到 /usr/local/src 底下，并且解开 /tmp/etc.tar.gz
+
+# 则解开的目录会在 /usr/local/src/etc ，另外，如果您进入 /usr/local/src/etc
+
+# 则会发现，该目录下的文件属性与 /etc/ 可能会有所不同喔！</code></pre><p>范例四：在 /tmp 底下，我只想要将 /tmp/etc.tar.gz 内的 etc/passwd<br>解开而已</p>
+<pre><code>[root@linux ~]# cd /tmp
+
+[root@linux tmp]# tar -zxvf /tmp/etc.tar.gz etc/passwd
+
+# 我可以透过 tar -ztvf 来查阅 tarfile 内的文件名称，如果单只要一个文件，
+
+# 就可以透过这个方式来下达！注意到！ etc.tar.gz 内的根目录 / 是被拿掉了！</code></pre><p>范例五：我要备份 /home, /etc ，但不要 /home/dmtsai</p>
+<pre><code>[root@linux ~]# tar --exclude /home/dmtsai -zcvf myfile.tar.gz /home/* /etc</code></pre><h2 id="tar命令的-C参数"><a href="#tar命令的-C参数" class="headerlink" title="tar命令的-C参数"></a>tar命令的-C参数</h2><p>-C dir参数的作用在于改变工作目录，其有效期为该命令中下一次-C<br>dir参数之前。</p>
+<pre><code>$ tar -cvf file2.tar /home/usr2/file2
+tar: Removing leading &apos;/&apos; from members names
+home/usr2/file2</code></pre><p>该命令可以将/home/usr2/file2文件打包到当前目录下的file2.tar中，需要注意的是：使用绝对路径标识的源文件，在用tar命令压缩后，文件名连同绝对路径（这里是home/usr2/，根目录&#39;/&#39;被自动去掉了）一并被压缩进来。使用tar命令解压缩后会出现以下情况：</p>
+<pre><code>$ tar -xvf file2.tar
+$ ls
+…… …… home …… …… </code></pre><p>解压缩后的文件名不是想象中的file2，而是home/usr2/file2。</p>
+<pre><code>$ tar -cvf file2.tar -C /home/usr2 file2</code></pre><p>该命令中的-C<br>dir参数，将tar的工作目录从当前目录改为/home/usr2，将file2文件（不带绝对路径）压缩到file2.tar中。</p>
+<p>使用tar的-C<br>dir参数，同样可以做到在当前目录/home/usr1下将文件解压缩到其他目录，例如：</p>
+<pre><code>$ tar -xvf file2.tar -C /home/usr2</code></pre><p>而tar不用-C dir参数时是无法做到的：</p>
+<pre><code>$ tar -xvf file2.tar /home/usr2
+tar: /tmp/file: Not found in archive
+tar: Error exit delayed from previous errors</code></pre>
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/bigdata/hadoop/index/" rel="next" title="Hadoop学习笔记">
+                <i class="fa fa-chevron-left"></i> Hadoop学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/os/linux/jdktar/" rel="prev" title="【Linux】如何用tar.gz包安装JDK">
+                【Linux】如何用tar.gz包安装JDK <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#语法："><span class="nav-number">1.</span> <span class="nav-text">语法：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主选项："><span class="nav-number">2.</span> <span class="nav-text">主选项：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#辅助选项："><span class="nav-number">3.</span> <span class="nav-text">辅助选项：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#范例："><span class="nav-number">4.</span> <span class="nav-text">范例：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tar命令的-C参数"><span class="nav-number">5.</span> <span class="nav-text">tar命令的-C参数</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

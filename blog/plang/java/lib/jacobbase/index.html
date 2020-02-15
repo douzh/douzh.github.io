@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="它允许在java中调用com接口自动组件，它使用JNI（本地调用程序）来进行本地调用COM库。它可运行在x86和支持32位和64位Java虚拟机X64的环境。 jacob操作word接口api 测试源码包： 链接: http://pan.baidu.com/s/1mg9tsZA 密码: ej9u JACOB项目的由来首先，我们将了解JACOB项目的基本情况，探讨在什么样的情况下选择它来完成您的任务">
+<meta name="keywords" content="JAVA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【JAVA】JACOB使用简介">
+<meta property="og:url" content="http://www.iteedu.com/blog/plang/java/lib/jacobbase/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="它允许在java中调用com接口自动组件，它使用JNI（本地调用程序）来进行本地调用COM库。它可运行在x86和支持32位和64位Java虚拟机X64的环境。 jacob操作word接口api 测试源码包： 链接: http://pan.baidu.com/s/1mg9tsZA 密码: ej9u JACOB项目的由来首先，我们将了解JACOB项目的基本情况，探讨在什么样的情况下选择它来完成您的任务">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-07T14:57:17.062Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【JAVA】JACOB使用简介">
+<meta name="twitter:description" content="它允许在java中调用com接口自动组件，它使用JNI（本地调用程序）来进行本地调用COM库。它可运行在x86和支持32位和64位Java虚拟机X64的环境。 jacob操作word接口api 测试源码包： 链接: http://pan.baidu.com/s/1mg9tsZA 密码: ej9u JACOB项目的由来首先，我们将了解JACOB项目的基本情况，探讨在什么样的情况下选择它来完成您的任务">
+  <link rel="canonical" href="http://www.iteedu.com/blog/plang/java/lib/jacobbase/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>【JAVA】JACOB使用简介 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/plang/java/lib/jacobbase/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">【JAVA】JACOB使用简介
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-09-14 17:48:40" itemprop="dateCreated datePublished" datetime="2015-09-14T17:48:40+08:00">2015-09-14</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-07-07 22:57:17" itemprop="dateModified" datetime="2019-07-07T22:57:17+08:00">2019-07-07</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>它允许在java中调用com接口自动组件，它使用JNI（本地调用程序）来进行本地调用COM库。它可运行在x86和支持32位和64位Java虚拟机<br>X64的环境。</p>
+<p><a href="jacobcode.php">jacob操作word接口api</a></p>
+<p>测试源码包：</p>
+<p>链接: <a href="http://pan.baidu.com/s/1mg9tsZA" target="_blank" rel="noopener">http://pan.baidu.com/s/1mg9tsZA</a></p>
+<p>密码: ej9u</p>
+<h2 id="JACOB项目的由来"><a href="#JACOB项目的由来" class="headerlink" title="JACOB项目的由来"></a>JACOB项目的由来</h2><p>首先，我们将了解JACOB项目的基本情况，探讨在什么样的情况下选择它来完成您的任务</p>
+<p>COM中暴露出来的方法，主要有两种机制：早期绑定和晚期绑定。</p>
+<p>大桥调用可以参考IBM的RJCB项目，它提供了一套高性能的解决方案。当然您需要了解更多的COM组件的细节，虽然框架为您完成了大部分的生成桥<br>RJCB仅支持那些提供早期绑定的虚函数表的接口的COM API。</p>
+<p>而晚期绑定方式是通过IDispatch的接口来实现，类似的Java的反射机制，您可以按照名称或者ID进行方法调用，这种设计主要目的是支持脚本语言操作COM，因为脚本是解释执行的，通常都不支持指针也就没有C</p>
+<ul>
+<li>+中的虚函数表 ID</li>
+</ul>
+<p>雅各开源项目提供的是一个JVM独立的自动化服务器的实现，其核心是基于JNI技术实现的变异，调度等接口，设计参考了微软VJ<br>+
++内置的通用自动化服务器，但是微软的实现仅仅支持自身的JVM。通过雅各，您可以方便地在Java的语言中进行晚期绑定方式的调用，开源项目实现了一种简单，灵活的Java与COM的通信方式，为您充分利用现有应用提供了可能。</p>
+<h2 id="Jacob安装"><a href="#Jacob安装" class="headerlink" title="Jacob安装"></a>Jacob安装</h2><p>下载jacob的zip包，如jacob-1.18-M3.zip。</p>
+<p>将jacob.jar引入项目。</p>
+<p>将dll库放到指定位置，dll分为64位和32位，jacob-xx-x64.dll和jacob-xx-x32.dll，不知道放哪个都放上是一个好的选择。</p>
+<p>为了确保能使程序找到库，可能考虑入到如下位置：</p>
+<p>“WINDOWS\SYSTEM32”下面。</p>
+<p>运行程序的jdk或jre的bin目录下。</p>
+<p>如果用MyEclipse，可以指定运行程序所用的jdk，否则要放入MyEclipse自己的jdk里一份。</p>
+<p>一般系统没有加载到Jacob.dll文件时，报错信息为：”java.lang.UnsatisfiedLinkError:<br>no jacob in java.library.path”</p>
+<h2 id="Jacob基础语法说明"><a href="#Jacob基础语法说明" class="headerlink" title="Jacob基础语法说明"></a>Jacob基础语法说明</h2><p>ActiveXComponent ax = new ActiveXComponent(&quot;a1&quot;);</p>
+<p>构建ActiveX组件实例,其中的a1的值和你需要调用的ActiveX控件有关</p>
+<p>+———————————–+———————————–+<br>| MS控件名                          | a1的值                            |<br>+———————————–+———————————–+<br>| InternetExplorer                  | InternetExplorer.Application      |<br>+———————————–+———————————–+<br>| Excel                             | Excel.Application                 |<br>+———————————–+———————————–+<br>| Word                              | Word.Application                  |<br>+———————————–+———————————–+<br>| Powerpoint                        | Powerpoint.Application            |<br>+———————————–+———————————–+<br>| vb/java Script                    | ScriptControl                     |<br>+———————————–+———————————–+<br>| windows media Player              | WMPlayer.OCX                      |<br>+———————————–+———————————–+<br>| Outlook                           | Outlook.Application               |<br>+———————————–+———————————–+<br>| Visio                             | Visio.Application                 |<br>+———————————–+———————————–+<br>| DAO                               | DAO.PrivateDBEngine.35            |<br>+———————————–+———————————–+<br>| MultiFace                         | MultiFace.Face                    |<br>+———————————–+———————————–+</p>
+<p>Dispatch ds = ax.getObject(). toDispatch();</p>
+<p>获取Dispatch对象，我们可以把每个Dispatch对象看成是对Activex控件的一个操作，这一步是获得该ActiveX控件的控制权。 </p>
+<p>（注：浅析JACOB 中提到过Variant类，这里的ax.getObject()便是获得该对象，我们将其转化为任何对象（类型））</p>
+<p>Dispatch.get(ds, “a1”);</p>
+<p>返回Variant类型，获取ds对象的a1属性，通过to…()和get...()方法可以转换为java的很多类型</p>
+<p>Dispatch.put(ds, “a1”, …);</p>
+<p>设置ds对象a1属性，具体参数为…指定</p>
+<p>ActiveXComponent有setProperty(“a1”,<br>…)和getProperty(“a1”)方法，比Dispatch的put和get方法方便！</p>
+<p>Dispatch.invoke(ds, “a3”, a4, a5, a6).toDispatch();</p>
+<p>说明：ds为要执行操作的对象，a3为要执行的操作名称；a4一般为Dispatch.Method、Dispatch.Put、Dispatch.Get三种，正是这三种指定让此方法可以执行put、set、call同样操作；a5为一个对象数组，形如：new<br>Object[]{}，一般的当Method时为三个参数，Get时没有参数，Put是为两个参数；a6一般为new<br>int[1]</p>
+<p>Dispatch.call(ds, “a1”, …) .toDispatch();</p>
+<p>和invoke差不多，执行a1名称的操作，少了invoke中的a4和a6参数；…和invoke中newObject[]{}中参数一样</p>
+<p>所以Dispatch.call()和Dispatch.invoke()方法可以执行Dispatch.put()和Dispatch.set()的操作，反之不可以</p>
+<h2 id="Word中的属性参数"><a href="#Word中的属性参数" class="headerlink" title="Word中的属性参数"></a>Word中的属性参数</h2><p>Documents：所有文档</p>
+<p>Open：打开文档</p>
+<p>ActiveXComponent.Visible：设置编辑器是否可见</p>
+<p>Tables：获得所有的表格</p>
+<p>Bookmarks：所有标签</p>
+<p>Selection：光标所在处或选中的区域</p>
+<p>select：选中</p>
+<p>typeParagraph：设置为一个段落</p>
+<p>ParagraphFormat：段落格式，用alignment设置</p>
+<p>alignment：1、居中，2、靠右，3、靠左</p>
+<p>Add：新建一个word文档</p>
+<p>Close：关闭文档，0不保存，-1保存，-2弹出框确认，注意ComThread.Release();关闭整个word进程</p>
+<p>SaveAS：另存为</p>
+<p>save：保存</p>
+<p>printOut：打印</p>
+<p>Application：得到ActiveXComponent的实例</p>
+<p>WindowState：Application的属性，表示窗口的大小，0、default，1、maximize，2、minimize</p>
+<p>top、left、height、width：application的属性，表示窗口的位置</p>
+<p>ActiveXComponent.Quit：关闭所有word文档，但是不退出整个word程序</p>
+<p>Range：表示文档中的一个连续范围，由一个起始字符位置和一个终止字符位置定义，进而可以得到格式的信息</p>
+<p>Item：得到指定的表格</p>
+<p>Rows：得到表格的所有行</p>
+<p>Cell：表格的一个单元格</p>
+<p>Text：word的文本内容</p>
+<p>InsertFile：插入文件</p>
+<p>InsertRowsBelow：在指定的行下面插入一行</p>
+<p>InsertAfter：在指定对象后插入</p>
+<p>Delete：删除，可以是表格的行</p>
+<p>Count：返回数目，比如Rows、Tables的数目</p>
+<p>Height：返回高度，比如行高、表格行的高</p>
+<p>Split：拆分单元格，要指定行数和列数</p>
+<p>Merge：合并单元格</p>
+<p>Exists：指定的对象是否存在，返回bool值</p>
+<p>Copy：复制</p>
+<p>Paste：粘贴</p>
+<p>Font：字体</p>
+<p>Name：字体的名字</p>
+<p>Bold：字体是否为粗体</p>
+<p>Italic：字体是否为斜体</p>
+<p>Underline：字体是否有下划线</p>
+<p>Color：颜色</p>
+<p>Size：大小</p>
+<p>Borders：指定边框，-1为上边框，-2左边框，-3为下边框，-4有右边框，-5为横向边框，-6为纵向边框，-7从左上角开始的斜线，-8从左下角开始的斜线</p>
+<p>AutoFitBehavior：自动调整大小，1为内容自动调整大小，2为窗口自动调整大小</p>
+<p>Content：去的内容</p>
+<p>InLineShapes：</p>
+<p>AddPicture：增加一张图片，需要制定路径</p>
+<p>homeKey:光标移到开头</p>
+<p>moveDown：光标往下一行</p>
+<p>moveUp：光标往上一行</p>
+<p>moveRight：光标往左一列</p>
+<p>moveLeft：光标往右一列</p>
+<p>find：要查找的文本</p>
+<p>Forward：向前查找</p>
+<p>Format：查找的文本格式</p>
+<p>MatchCase：大小写匹配</p>
+<p>MatchWholeWord：全字匹配</p>
+<p>Execute：开始执行查找</p>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/plang/java/features/annotation1/" rel="next" title="【JAVA】annotation注释（一）">
+                <i class="fa fa-chevron-left"></i> 【JAVA】annotation注释（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/plang/java/features/annotation3/" rel="prev" title="【JAVA】annotation注释（三）">
+                【JAVA】annotation注释（三） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JACOB项目的由来"><span class="nav-number">1.</span> <span class="nav-text">JACOB项目的由来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jacob安装"><span class="nav-number">2.</span> <span class="nav-text">Jacob安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jacob基础语法说明"><span class="nav-number">3.</span> <span class="nav-text">Jacob基础语法说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Word中的属性参数"><span class="nav-number">4.</span> <span class="nav-text">Word中的属性参数</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

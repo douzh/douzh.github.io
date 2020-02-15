@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="Org-mode可以完美的编辑，但是最终文档可能需要发布成其他的格式。 Org-Mode支持多种文档的输出，包括：  文本 网页 PDF（需要 Latex 支持） XOXO FreeMind/Xmind Docbook iCalendar（苹果 iCal 文件） ……  准备工作为了更好的发布文档，还需要做一些准备工作。主要是为文档添加一些”元数据“，使得发布的时候能更好地识别文档的内容。 文档元">
+<meta name="keywords" content="Emacs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Emacs org-mode之导出发布">
+<meta property="og:url" content="http://www.iteedu.com/blog/tools/emacs/org-mode/export/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="Org-mode可以完美的编辑，但是最终文档可能需要发布成其他的格式。 Org-Mode支持多种文档的输出，包括：  文本 网页 PDF（需要 Latex 支持） XOXO FreeMind/Xmind Docbook iCalendar（苹果 iCal 文件） ……  准备工作为了更好的发布文档，还需要做一些准备工作。主要是为文档添加一些”元数据“，使得发布的时候能更好地识别文档的内容。 文档元">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-29T14:10:26.925Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Emacs org-mode之导出发布">
+<meta name="twitter:description" content="Org-mode可以完美的编辑，但是最终文档可能需要发布成其他的格式。 Org-Mode支持多种文档的输出，包括：  文本 网页 PDF（需要 Latex 支持） XOXO FreeMind/Xmind Docbook iCalendar（苹果 iCal 文件） ……  准备工作为了更好的发布文档，还需要做一些准备工作。主要是为文档添加一些”元数据“，使得发布的时候能更好地识别文档的内容。 文档元">
+  <link rel="canonical" href="http://www.iteedu.com/blog/tools/emacs/org-mode/export/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Emacs org-mode之导出发布 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/tools/emacs/org-mode/export/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">Emacs org-mode之导出发布
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2016-01-20 16:34:00" itemprop="dateCreated datePublished" datetime="2016-01-20T16:34:00+08:00">2016-01-20</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-29 22:10:26" itemprop="dateModified" datetime="2019-06-29T22:10:26+08:00">2019-06-29</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/工具/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/工具/Emacs/" itemprop="url" rel="index"><span itemprop="name">Emacs</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Org-mode可以完美的编辑，但是最终文档可能需要发布成其他的格式。 Org-Mode<br>支持多种文档的输出，包括：</p>
+<ul>
+<li>文本</li>
+<li>网页</li>
+<li>PDF（需要 Latex 支持）</li>
+<li>XOXO</li>
+<li>FreeMind/Xmind</li>
+<li>Docbook</li>
+<li>iCalendar（苹果 iCal 文件）</li>
+<li>……</li>
+</ul>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>为了更好的发布文档，还需要做一些准备工作。主要是为文档添加一些”元数据“，使得发布的时候能更好地识别文档的内容。</p>
+<h4 id="文档元数据"><a href="#文档元数据" class="headerlink" title="文档元数据"></a>文档元数据</h4><p>具体包括：</p>
+<pre><code>#+TITLE:       the title to be shown (default is the buffer name)
+#+AUTHOR:      the author (default taken from user-full-name)
+#+DATE:        a date, an Org timestamp1, or a format string for format-time-string
+#+EMAIL:       his/her email address (default from user-mail-address)
+#+DESCRIPTION: the page description, e.g. for the XHTML meta tag
+#+KEYWORDS:    the page keywords, e.g. for the XHTML meta tag
+#+LANGUAGE:    language for HTML, e.g. ‘en’ (org-export-default-language)
+#+TEXT:        Some descriptive text to be inserted at the beginning.
+#+TEXT:        Several lines may be given.
+#+OPTIONS:     H:2 num:t toc:t \n:nil @:t ::t |:t ^:t f:t TeX:t ...
+#+BIND:        lisp-var lisp-val, e.g.: org-export-latex-low-levels itemize
+               You need to confirm using these, or configure org-export-allow-BIND
+#+LINK_UP:     the ``up&apos;&apos; link of an exported page
+#+LINK_HOME:   the ``home&apos;&apos; link of an exported page
+#+LATEX_HEADER: extra line(s) for the LaTeX header, like \usepackage{xyz}
+#+EXPORT_SELECT_TAGS:   Tags that select a tree for export
+#+EXPORT_EXCLUDE_TAGS:  Tags that exclude a tree from export
+#+XSLT:        the XSLT stylesheet used by DocBook exporter to generate FO file</code></pre><p>其中#+OPTIONS是复合的选项，包括：</p>
+<pre><code>H:         set the number of headline levels for export
+num:       turn on/off section-numbers
+toc:       turn on/off table of contents, or set level limit (integer)
+\n:        turn on/off line-break-preservation (DOES NOT WORK)
+@:         turn on/off quoted HTML tags
+::         turn on/off fixed-width sections
+|:         turn on/off tables
+^:         turn on/off TeX-like syntax for sub- and superscripts.  If
+           you write &quot;^:{}&quot;, a_{b} will be interpreted, but
+           the simple a_b will be left as it is.
+-:         turn on/off conversion of special strings.
+f:         turn on/off footnotes like this[1].
+todo:      turn on/off inclusion of TODO keywords into exported text
+tasks:     turn on/off inclusion of tasks (TODO items), can be nil to remove
+           all tasks, todo to remove DONE tasks, or list of kwds to keep
+pri:       turn on/off priority cookies
+tags:      turn on/off inclusion of tags, may also be not-in-toc
+&lt;:         turn on/off inclusion of any time/date stamps like DEADLINES
+*:         turn on/off emphasized text (bold, italic, underlined)
+TeX:       turn on/off simple TeX macros in plain text
+LaTeX:     configure export of LaTeX fragments.  Default auto
+skip:      turn on/off skipping the text before the first heading
+author:    turn on/off inclusion of author name/email into exported file
+email:     turn on/off inclusion of author email into exported file
+creator:   turn on/off inclusion of creator info into exported file
+timestamp: turn on/off inclusion creation time into exported file
+d:         turn on/off inclusion of drawers</code></pre><p>这些元数据可以根据需要设置。建议放在文档的开头部分。如，本文采用的元数据如下：</p>
+<pre><code>#+TITLE: org-mode: 最好的文档编辑利器，没有之一
+#+AUTHOR:Holbrook Wong
+#+EMAIL: wanghaikuo@gmail.com
+#+KEYWORDS: emacs, org-mode
+#+OPTIONS: H:4 toc:t </code></pre><h4 id="内容元数据"><a href="#内容元数据" class="headerlink" title="内容元数据"></a>内容元数据</h4><p>通常在行首以“#+”开头，可以有多种用途。</p>
+<p>分行区块</p>
+<p>默认内容不换行，需要留出空行才能换行。定义了分行的区块可以实现普通换行：</p>
+<pre><code>#+BEGIN_VERSE
+ Great clouds overhead
+ Tiny black birds rise and fall
+ Snow covers Emacs
+     -- AlexSchroeder
+#+END_VERSE</code></pre><p>缩进区块</p>
+<p>通常用于引用，与默认格式相比左右都会留出缩进：</p>
+<pre><code>#+BEGIN_QUOTE
+  缩进区块
+#+END_QUOTE</code></pre><p>居中区块</p>
+<pre><code>#+BEGIN_CENTER
+Everything should be made as simple as possible, \\
+but not any simpler
+#+END_CENTER</code></pre><p>代码区块</p>
+<pre><code>#+BEGIN_SRC ruby
+  require &apos;redcarpet&apos;
+  md = Redcarpet.new(&quot;Hello, world.&quot;)
+  puts md.to_html
+#+END_SRC</code></pre><p>例子</p>
+<pre><code>: 单行的例子以冒号开头
+
+#+BEGIN_EXAMPLE
+ 多行的例子
+ 使用区块
+#+END_EXAMPLE</code></pre><p>注释</p>
+<p>以‘#‘开头的行被看作注释，不会被导出</p>
+<p>区块注释采用如下写法：</p>
+<pre><code>#+BEGIN_COMMENT
+  块注释
+  ...
+ #+END_COMMENT</code></pre><p>表格与图片</p>
+<p>对于表格和图片，可以在前面增加标题和标签的说明，以方便交叉引用。</p>
+<p>比如在表格的前面添加：</p>
+<pre><code>#+CAPTION: This is the caption for the next table (or link)
+#+LABEL: tbl:table1</code></pre><p>则在需要的地方可以通过</p>
+<pre><code>\ref{table1}</code></pre><p>来引用该表格。</p>
+<h4 id="嵌入Html"><a href="#嵌入Html" class="headerlink" title="嵌入Html"></a>嵌入Html</h4><p>对于导出html以及发布，嵌入html代码就很有用。比如下面的例子适用于格式化为cnblogs的代码块：</p>
+<pre><code>#+BEGIN_HTML
+
+    int main()
+  {
+    return 0;
+  }</code></pre><p>#+END_HTML</p>
+<p>相当于在cnblogs的网页编辑器中插入”c++”代码。</p>
+<h4 id="包含文件"><a href="#包含文件" class="headerlink" title="包含文件"></a>包含文件</h4><p>当导出文档时，你可以包含其他文件中的内容。比如，想包含你的“.emacs”文件，你可以用：</p>
+<pre><code>#+INCLUDE: &quot;~/.emacs&quot; src emacs-lisp</code></pre><p>可选的第二个第三个参数是组织方式（例如，“quote”，“example”，或者“src”），如果是<br>“src”，语言用来格式化内容。组织方式是可选的，如果不给出，文本会被当作<br>Org 模式的正常处理。用 C-c ,可以访问包含的文件。</p>
+<h4 id="嵌入-LaTex"><a href="#嵌入-LaTex" class="headerlink" title="嵌入 LaTex"></a>嵌入 LaTex</h4><p>对于需要包含数学符号和特殊方程的科学笔记，Org 模式支持嵌入 LaTeX<br>代码到文件中。你可以直接使用类 TeX<br>的宏来输入特殊符号，输入方程，或者整个 LaTeX 环境。</p>
+<pre><code>Angles are written as Greek letters \alpha, \beta and \gamma. The mass if
+the sun is M_sun = 1.989 x 10^30 kg. The radius of the sun is R_{sun} =
+6.96 x 10^8 m. If $a^2=b$ and $b=2$, then the solution must be either
+$a=+\sqrt{2}$ or $a=-\sqrt{2}$.
+\begin{equation}
+x=\sqrt{b}
+\end{equation}</code></pre><p>特殊设置之后，导出 HTML 时 LaTeX 代码片断会生成图片并包含进来。</p>
+<h3 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h3><p>做好准备工作后，就可以导出了。使用命令：</p>
+<pre><code>C-c C-e</code></pre><p>然后选择相应的格式，就可以导出对应的文件了。</p>
+<h3 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h3><p>Org 包含一个发布管理系统，可以配置一个由相互链接的 Org<br>文件组成的工程项目的自动向 HTML 转换。你也可以设置 Org，将导出的 HTML<br>页面和相应的附件如图片，源代 码文件等自动上传到服务器。</p>
+<p>下面是一个例子：</p>
+<pre><code>(setq org-publish-project-alist
+     &apos;((&quot;org&quot;
+        :base-directory &quot;~/org/&quot;
+        :publishing-directory &quot;~/public_html&quot;
+        :section-numbers nil
+        :table-of-contents nil
+        :style &quot;&quot;)))</code></pre><p>发布相关的命令：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>C-c C-e C</td>
+<td>提示指明一个项目，将所有的文件发布</td>
+</tr>
+<tr>
+<td>C-c C-e P</td>
+<td>发布包含当前文件的项目</td>
+</tr>
+<tr>
+<td>C-c C-e F</td>
+<td>只发布当前文件</td>
+</tr>
+<tr>
+<td>C-c C-e E</td>
+<td>发布所有项目</td>
+</tr>
+</tbody></table>
+<p>Org<br>用时间戳来查看文件是否改变。上面的命令只发布修改过的文件。你可以给它们加上前缀来强制重新发布所有的文件。</p>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/Emacs/" rel="tag"># Emacs</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/tools/emacs/org-mode/tag/" rel="next" title="Emacs org-mode之tag">
+                <i class="fa fa-chevron-left"></i> Emacs org-mode之tag
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/plang/java/base/jvmddxd/" rel="prev" title="判断JVM是大端还是小端">
+                判断JVM是大端还是小端 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文档元数据"><span class="nav-number">1.1.</span> <span class="nav-text">文档元数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内容元数据"><span class="nav-number">1.2.</span> <span class="nav-text">内容元数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#嵌入Html"><span class="nav-number">1.3.</span> <span class="nav-text">嵌入Html</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#包含文件"><span class="nav-number">1.4.</span> <span class="nav-text">包含文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#嵌入-LaTex"><span class="nav-number">1.5.</span> <span class="nav-text">嵌入 LaTex</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导出"><span class="nav-number">2.</span> <span class="nav-text">导出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发布"><span class="nav-number">3.</span> <span class="nav-text">发布</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

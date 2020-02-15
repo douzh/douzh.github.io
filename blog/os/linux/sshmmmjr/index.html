@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="在学习hadoop过程中要配制SSH免密码接入，这里把配制过程和遇到的问题整理了一下。 目标可以通过scp命令在部署的linux间免密码传送文件。 环境Ubuntu 14 环境检查SSH客户端一般linux都会安装，但SSHSERVER不一定安装，要先检查一下有没有安装。 测试ssh时使用ssh localhost 命令，出现错误提示connect to host localhostport 22">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu Linux配制SSH免密码接入">
+<meta property="og:url" content="http://www.iteedu.com/blog/os/linux/sshmmmjr/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="在学习hadoop过程中要配制SSH免密码接入，这里把配制过程和遇到的问题整理了一下。 目标可以通过scp命令在部署的linux间免密码传送文件。 环境Ubuntu 14 环境检查SSH客户端一般linux都会安装，但SSHSERVER不一定安装，要先检查一下有没有安装。 测试ssh时使用ssh localhost 命令，出现错误提示connect to host localhostport 22">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-09T14:14:32.612Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu Linux配制SSH免密码接入">
+<meta name="twitter:description" content="在学习hadoop过程中要配制SSH免密码接入，这里把配制过程和遇到的问题整理了一下。 目标可以通过scp命令在部署的linux间免密码传送文件。 环境Ubuntu 14 环境检查SSH客户端一般linux都会安装，但SSHSERVER不一定安装，要先检查一下有没有安装。 测试ssh时使用ssh localhost 命令，出现错误提示connect to host localhostport 22">
+  <link rel="canonical" href="http://www.iteedu.com/blog/os/linux/sshmmmjr/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Ubuntu Linux配制SSH免密码接入 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/os/linux/sshmmmjr/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">Ubuntu Linux配制SSH免密码接入
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-10-01 17:57:10" itemprop="dateCreated datePublished" datetime="2015-10-01T17:57:10+08:00">2015-10-01</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-07-09 22:14:32" itemprop="dateModified" datetime="2019-07-09T22:14:32+08:00">2019-07-09</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/操作系统/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/操作系统/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在学习hadoop过程中要配制SSH免密码接入，这里把配制过程和遇到的问题整理了一下。</p>
+<h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>可以通过<a href="/os/linux/ubuntu/cmd/scp.php">scp命令</a>在部署的linux间免密码传送文件。</p>
+<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>Ubuntu 14</p>
+<h3 id="环境检查"><a href="#环境检查" class="headerlink" title="环境检查"></a>环境检查</h3><p>SSH客户端一般linux都会安装，但SSH<br>SERVER不一定安装，要先检查一下有没有安装。</p>
+<p>测试ssh时使用ssh localhost 命令，出现错误提示connect to host localhost<br>port 22:Connection refused，说明可能没有安装SSH SERVER。</p>
+<p>运行 ps -e | grep ssh，查看是否有sshd进程。</p>
+<p>如果没有，说明server没启动，通过 /etc/init.d/ssh -start<br>启动server进程，如果提示ssh不存在那么就是没安装server。</p>
+<p>通过 sudo apt-get install openssh-server命令安装。</p>
+<h3 id="生成SSH密钥对"><a href="#生成SSH密钥对" class="headerlink" title="生成SSH密钥对"></a>生成SSH密钥对</h3><p>执行ssh-keygen -t rsa命令，生成ssh所用的公钥和私钥。</p>
+<p>生成两个文件：id_rsa和id_rsa.pub。</p>
+<p>生成文件所在位置：/home//.ssh，这是一个隐藏目录，直接ls是看不到的，可以cd进去查看。</p>
+<p>每个linux用户都有一个自己的文件夹，为/home/，其中user为文件名，所以配制的ssh只是针对当前登录用户的。</p>
+<h3 id="分发SSH公钥"><a href="#分发SSH公钥" class="headerlink" title="分发SSH公钥"></a>分发SSH公钥</h3><p>在每个linux的.ssh文件夹里创建文件：authorized_keys，里面为刚才生成的每个linux用户的公钥。</p>
+<p>我的做法是用gedit创建文件：</p>
+<p>hadoop@hadoop-1:~$ gedit .ssh/authorized_keys</p>
+<p>用gedit打开t每个linux的公钥文件：</p>
+<p>hadoop@hadoop-1:~$ gedit .ssh/id_rsa.pub</p>
+<p>复制好一份，再复制到其它linux上。因为不会用vi什么的，linux一般都是用vi做这事的。</p>
+<p>下面是做好的文件：</p>
+<pre><code>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9cOV9golV2keSnmFrjeUd1IZqWGYquYNWu8eZXVA/+fKpgSdMjxHI4yXSsNazTvTJ5Jzr/b1mDOTQXs9gkutsudM+jrGtwfcl2X63PauLspszEYqqFK7apQULCc85QGLUr9enqiRLarnFGtKvCpleJa5TRzC+pCAKBjsTy9aKuVsYjq+/5F/oemI9uI5qGXrg9lfgPubeFPZ2cZgY6bquugEQL+YYb4VHUNMYMuAWyMAau4IDpvKcBLHBbSbGPqe8xnllIC512eMOJ7+057Gq9ZC4PNkCfZ86QL58WZUwPnpuywh634ukTjnKbsOLOXvGCHH1O7y5BDCWv8Ie7zKp hadoop@hadoop-1
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUuVG79a2WYtYU+b1BXvXgBQ7Bp7SkOtFGlNEpM4PZJgcZyGm9xIuFqRUQMkmHr/TE+FFNAJlX3y8ryyDQTnOz0RpbEsrsjYLquao70Nx5OgqjpyFLWgnkuh/wcCSq37lQtDMmYWOLgbTIob5BSV1CCFxKk2kCjR89Vc+K5Nuypy9Lv8SnuPCIOt5AoZQX2oRI/KBtHasJ2ekFDfoOdTc2VVXhWSxqKC92V2+mk6GJM0L9FOWv4zNTO7LpDhLKGh4ezECOieQ+v1KrdV6+9wFBQKZRvOM8T7/M6t27YzCcrz1hzM4lGaKEvtv11RBKs+bcq946cQjZV0JEMqfhzkEf hadoop@hadoop-1
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVyHyIusaehysmaCD5Tgt5oz82x5jFkOMnIsR7V03MoBr7200/qD6bPL7QiO17DNqTp6UhuyBtMrbYYWpgQoJlIfnPzE99dvCoLFy8lNwgS8m2RxARJU+XoP+1NsfgwYm2QkuLdgdSvQXcAfxp42ZZPv74KTUZy3wqR65KDkdX7qrA2/OvpU1rDVa02XRU5FH5N1MWFWIUeMmXMUw0JBOwF0kfj2/L4Rcp/vwJA9Jw9yUNS4OOhDKz1Hmd6d0BK+JMaihv6+mKmKtoaurdc21NOXse9OfJnIjHiLCfy/PsuOiLNxtciI6VdbPp/9n2p5QPd9ui3KgwbIA77vQz1ZiV hadoop@hadoop-1</code></pre><h3 id="配制主机名和hosts文件"><a href="#配制主机名和hosts文件" class="headerlink" title="配制主机名和hosts文件"></a>配制主机名和hosts文件</h3><p>文件里的最后的hadoop@hadoop-1是”用户@主机名”，因为我是用虚拟机克隆了三个，所以是一样的。不过主机名要改成不一样的，否则用scp时指定主机名就冲突了。注意不是改公钥文件里的内容。</p>
+<p>修改主机名参考：<a href="/os/linux/ubuntu/hostname.php">Ubuntu如何查看修改主机名</a></p>
+<p>修改主机名用：sudo gedit /etc/hostname</p>
+<p>修改hosts文件用：sudo gedit /etc/hosts</p>
+<p>改后的hosts文件：</p>
+<pre><code>127.0.0.1 localhost
+127.0.1.1   ubuntu
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+192.168.163.136 hadoop-1
+192.168.163.137 hadoop-2
+192.168.163.138 hadoop-3</code></pre><p>重启各linux后相互就可以通过主机名访问了。</p>
+<h3 id="第一次连接的问题"><a href="#第一次连接的问题" class="headerlink" title="第一次连接的问题"></a>第一次连接的问题</h3><p>都配制好了应该就可以用scp传送文件了，不过第一次会提示公钥没有记录在known_hosts文件里。要输入一次yes,以后再连接同一台机器就不会提示了。</p>
+<pre><code>hadoop@hadoop-3:~$ scp ./scptest hadoop-3:/home/hadoop/test
+The authenticity of host &apos;hadoop-3 (192.168.163.138)&apos; can&apos;t be established.
+ECDSA key fingerprint is 2a:1f:cf:e0:94:31:55:95:da:53:e8:27:a2:92:37:bb.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added &apos;hadoop-3,192.168.163.138&apos; (ECDSA) to the list of known hosts.
+scptest                                       100%    0     0.0KB/s   00:00    
+hadoop@hadoop-3:~$ </code></pre>
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/os/linux/cmd/scp/" rel="next" title="【Linux】scp 远程传输命令">
+                <i class="fa fa-chevron-left"></i> 【Linux】scp 远程传输命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/bigdata/hadoop/index/" rel="prev" title="Hadoop学习笔记">
+                Hadoop学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#目标"><span class="nav-number">1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#环境"><span class="nav-number">2.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#环境检查"><span class="nav-number">3.</span> <span class="nav-text">环境检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成SSH密钥对"><span class="nav-number">4.</span> <span class="nav-text">生成SSH密钥对</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分发SSH公钥"><span class="nav-number">5.</span> <span class="nav-text">分发SSH公钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配制主机名和hosts文件"><span class="nav-number">6.</span> <span class="nav-text">配制主机名和hosts文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一次连接的问题"><span class="nav-number">7.</span> <span class="nav-text">第一次连接的问题</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

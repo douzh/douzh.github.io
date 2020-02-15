@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="CAS要想理解java.util.concurrent.atomic包的原子类的原理和使用，先要理解CAS(Compare-And-Swap比较并交换)的概念。 现在大多数的处理器都提供对并发访问的支持，这个支持的反映方式就是提供硬件的指令支持多处理的特殊需求。比如检测或者阻止其它处理器的并发访问来更新共享变量的指令。 对于Intel x86架构的处理器来说就是通过提供实现CAS或者比较并设置的硬">
+<meta name="keywords" content="JAVA,线程安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA同步之Atomic类的使用">
+<meta property="og:url" content="http://www.iteedu.com/blog/plang/java/threadsafe/atomic/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="CAS要想理解java.util.concurrent.atomic包的原子类的原理和使用，先要理解CAS(Compare-And-Swap比较并交换)的概念。 现在大多数的处理器都提供对并发访问的支持，这个支持的反映方式就是提供硬件的指令支持多处理的特殊需求。比如检测或者阻止其它处理器的并发访问来更新共享变量的指令。 对于Intel x86架构的处理器来说就是通过提供实现CAS或者比较并设置的硬">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-23T13:28:16.763Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JAVA同步之Atomic类的使用">
+<meta name="twitter:description" content="CAS要想理解java.util.concurrent.atomic包的原子类的原理和使用，先要理解CAS(Compare-And-Swap比较并交换)的概念。 现在大多数的处理器都提供对并发访问的支持，这个支持的反映方式就是提供硬件的指令支持多处理的特殊需求。比如检测或者阻止其它处理器的并发访问来更新共享变量的指令。 对于Intel x86架构的处理器来说就是通过提供实现CAS或者比较并设置的硬">
+  <link rel="canonical" href="http://www.iteedu.com/blog/plang/java/threadsafe/atomic/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>JAVA同步之Atomic类的使用 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/plang/java/threadsafe/atomic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">JAVA同步之Atomic类的使用
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-12-24 14:26:30" itemprop="dateCreated datePublished" datetime="2015-12-24T14:26:30+08:00">2015-12-24</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-23 21:28:16" itemprop="dateModified" datetime="2019-06-23T21:28:16+08:00">2019-06-23</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/" itemprop="url" rel="index"><span itemprop="name">编程语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/编程语言/JAVA/线程安全/" itemprop="url" rel="index"><span itemprop="name">线程安全</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h2><p>要想理解java.util.concurrent.atomic包的原子类的原理和使用，先要理解CAS(Compare-And-Swap比较并交换)的概念。</p>
+<p>现在大多数的处理器都提供对并发访问的支持，这个支持的反映方式就是提供硬件的指令支持多处理的特殊需求。比如检测或者阻止其它处理器的并发访问来更新共享变量的指令。</p>
+<p>对于Intel x86架构的处理器来说就是通过提供实现CAS或者比较并设置的硬件原语指令集。CAS操作的三个操作数：内存位置（V），预期原值（A）和新值（B）。执行的过程通常是：预测内存地址V应该包含值A，如果包含则将值B替换到位置V；否则，不更改任何值，告知地址V的当前值。CAS对待“读－修改－写”的操作一般是检测这个过程是否有其它的线程在修改变量，如果有那么这次的CAS操作失败，可以尝试重新进行CAS。</p>
+<h2 id="原子类"><a href="#原子类" class="headerlink" title="原子类"></a>原子类</h2><p>JDK5以后在java.util.concurrent.atomic包下提供了十几个原子类。常见的是AtomicInteger,AtomicLong,AtomicReference以及它们的数组形式，还有AtomicBoolean和为了处理ABA问题引入的AtomicStampedReference类，最后就是基于反射的对volatile变量进行更新的实用工具类：AtomicIntegerFieldUpdater,AtomicLongFieldUpdater,AtomicReferenceFieldUpdater。这些原子类理论上能够大幅的提升性能。并且java.util.concurrent内的并发集合，线程池，执行器，同步器的内部实现大量的依赖这些无锁原子类，从而争取性能的最大化。</p>
+<p>原子类的核心方法是一个叫compareAndSet的方法，比如AtomicInteger的：</p>
+<pre><code>public final boolean compareAndSet(int expect, int update) {
+   return unsafe.compareAndSwapInt(this, valueOffset, expect, update);
+   }</code></pre><p>如果当前真实值为expect，那就更新其为update，成功返回true，失败返回false。</p>
+<p>让我们看年compareAndSet怎么使用，也以AtomicInteger里的方法为例：</p>
+<pre><code>public final int addAndGet(int delta) {
+    for (;;) {
+        int current = get();
+        int next = current + delta;
+        if (compareAndSet(current, next))
+            return next;
+    }
+}</code></pre><p>addAndGet方法会给当前值加上delta，然后返回相加的值。他是如何保证“读-修改-写”的原子性的呢？</p>
+<p>看代码可知，读和修改后，写会用compareAndSet，如果读和修改后在写之前，有其它线程改变了真实值，那current就和内存的值不一样了，这样会返回false，那return就不会执行，for循环会再来一次“读-修改-写”操作。直到成功完成操作，返回修改后的值。</p>
+<p>原子类都是用这种方式修改值的，这样就保证了“读-修改-写”的原子性，这就是CAS的用途。</p>
+<h2 id="一个例子："><a href="#一个例子：" class="headerlink" title="一个例子："></a>一个例子：</h2><pre><code>import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.concurrent.atomic.AtomicInteger;
+
+
+public class AtomicCounterSample extends Thread {
+    private AtomicCounter atomicCounter;
+
+    public AtomicCounterSample(AtomicCounter atomicCounter) {
+        this.atomicCounter = atomicCounter;
+    }
+
+    @Override
+    public void run() {
+        long sleepTime = (long) (Math.random() * 100);
+        try {
+            Thread.sleep(sleepTime);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        atomicCounter.counterIncrement();
+    }
+
+    public static void main(String[] args) throws Exception {
+        AtomicCounter atomicCounter = new AtomicCounter();
+
+        for (int i = 0; i &lt; 5000; i++) {
+            new AtomicCounterSample(atomicCounter).start();
+        }
+
+        Thread.sleep(3000);
+
+        System.out.println(&quot;counter=&quot; + atomicCounter.getCounter());
+    }
+}
+
+class AtomicCounter {
+    private AtomicInteger counter = new AtomicInteger(0);
+
+    public int getCounter() {
+        return counter.get();
+    }
+
+    public void counterIncrement() {
+        for (; ;) {
+            int current = counter.get();
+            int next = current + 1;
+            if (counter.compareAndSet(current, next))
+                return;
+        }
+    }
+}
+
+class AtomicCounter2 {
+    private volatile int counter;
+    private static final AtomicIntegerFieldUpdater&lt; atomiccounter2&gt; counterUpdater
+             = AtomicIntegerFieldUpdater.newUpdater(AtomicCounter2.class, &quot;counter&quot;);
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public int counterIncrement() {
+//        return counter++;
+        return counterUpdater.getAndIncrement(this);
+    }
+}</code></pre><p>这个例子实现了原子计数器的两个版本：AtomicCounter，AtomicCounter2。AtomicCounterSample作为Thread的子类对共享变量AtomicCounter或者AtomicCounter2内的counter变量进行增幅为1的递增。主函数的过程是开启5000线程，并且每个线程随机睡眠极短时间后执行递增。所以线程安全的执行结果应该是5000。</p>
+<p>首先看版本1：AtomicCounter内的共享变量使用了Integer的原子类代替，在get()方法中不使用锁，也不用担心获取的过程中别的线程去改变counter的值，因为这些原子类可以看成volatile的范化扩展，可见性能够保证。而在counterIncrement()方法中揭示了使用原子类的重要技巧：循环结合CAS。这个技巧可以帮助我们实现复杂的非阻塞并发集合。方法中的counter.compareAndSet(current,next)就是原子类使用的精髓－－CAS操作。compareAndSet(…)可以说是原子类搭积木的原材料，在循环中使用它可以让我们的并发程序昂首挺胸。</p>
+<p>再看版本2：AtomicCounter2内有个volatile的共享变量counter，并且有个类变量counterUpdater作为counter的更新器。在counterIncrement()里注释掉的代码是非线程安全的。而counterUpdater.getAndIncrement(this)的内部实现其实和版本1的几乎一样。唯一不同的是通过反射找到要原子操作更新的变量counter，但是“循环+CAS”的精髓是一样的。</p>
+<p>最后看看结果吧：版本1和版本2的无锁同步的执行分别20次均是5000，正确。版本2把无锁同步的代码注释，把已注释的非线程安全的代码还原执行，平均每10次大概有1～2次出现&lt;5000的数字。这个例子侧面证明了++的原子性操作非线程安全是保证不了的。因为“读－修改－写”的操作碰到如下场景：线程A“读－修改”后“写”之前，线程B完成“读－修改－写”。这时候A,B的写值是重复的，这就造成了结果&lt;5000，又杯具了…</p>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          
+            <a href="/tags/线程安全/" rel="tag"># 线程安全</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/plang/java/threadsafe/deamonjoin/" rel="next" title="JAVA同步之守护线程和JOIN方法">
+                <i class="fa fa-chevron-left"></i> JAVA同步之守护线程和JOIN方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/plang/java/threadsafe/readwritelock/" rel="prev" title="JAVA同步之ReentrantReadWriteLock">
+                JAVA同步之ReentrantReadWriteLock <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS"><span class="nav-number">1.</span> <span class="nav-text">CAS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原子类"><span class="nav-number">2.</span> <span class="nav-text">原子类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个例子："><span class="nav-number">3.</span> <span class="nav-text">一个例子：</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="目前计算机中用得最广泛的字符集及其编码，是由美国国家标准局(ANSI)制定的ASCII码（American Standard Code for Information Interchange，美国标准信息交换码），它已被国际标准化组织（ISO）定为国际标准，称为ISO646标准。适用于所有拉丁文字字母，ASCII码有7位码和8位码两种形式。 因为1位二进制数可以表示（21=）2种状态：0、1；而2">
+<meta name="keywords" content="字符集">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASCII码表:八进制 十六进制 十进制对应">
+<meta property="og:url" content="http://www.iteedu.com/blog/basetech/charset/ascii/index.html">
+<meta property="og:site_name" content="ITEEDU">
+<meta property="og:description" content="目前计算机中用得最广泛的字符集及其编码，是由美国国家标准局(ANSI)制定的ASCII码（American Standard Code for Information Interchange，美国标准信息交换码），它已被国际标准化组织（ISO）定为国际标准，称为ISO646标准。适用于所有拉丁文字字母，ASCII码有7位码和8位码两种形式。 因为1位二进制数可以表示（21=）2种状态：0、1；而2">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-02T15:35:13.793Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ASCII码表:八进制 十六进制 十进制对应">
+<meta name="twitter:description" content="目前计算机中用得最广泛的字符集及其编码，是由美国国家标准局(ANSI)制定的ASCII码（American Standard Code for Information Interchange，美国标准信息交换码），它已被国际标准化组织（ISO）定为国际标准，称为ISO646标准。适用于所有拉丁文字字母，ASCII码有7位码和8位码两种形式。 因为1位二进制数可以表示（21=）2种状态：0、1；而2">
+  <link rel="canonical" href="http://www.iteedu.com/blog/basetech/charset/ascii/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>ASCII码表:八进制 十六进制 十进制对应 | ITEEDU</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5213b08a76d4fc6b8a80eb382490e0b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ITEEDU</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">编程学习网</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-oldsite">
+      
+    
+
+    <a href="http://site.iteedu.com" rel="noopener" target="_blank"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>旧站归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.iteedu.com/blog/basetech/charset/ascii/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="证心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ITEEDU">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">ASCII码表:八进制 十六进制 十进制对应
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2015-09-30 11:14:30" itemprop="dateCreated datePublished" datetime="2015-09-30T11:14:30+08:00">2015-09-30</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-07-02 23:35:13" itemprop="dateModified" datetime="2019-07-02T23:35:13+08:00">2019-07-02</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/基础/" itemprop="url" rel="index"><span itemprop="name">基础</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/基础/字符集/" itemprop="url" rel="index"><span itemprop="name">字符集</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>目前计算机中用得最广泛的字符集及其编码，是由美国国家标准局(ANSI)制定的ASCII码（American Standard Code for Information Interchange，美国标准信息交换码），它已被国际标准化组织（ISO）定为国际标准，称为ISO646标准。适用于所有拉丁文字字母，ASCII码有7位码和8位码两种形式。</p>
+<p>因为1位二进制数可以表示（21=）2种状态：0、1；而2位二进制数可以表示（22）=4种状态：00、01、10、11；依次类推，7位二进制数可以表示（27=）128种状态，每种状态都唯一地编为一个7位的二进制码，对应一个字符（或控制码），这些码可以排列成一个十进制序号0～127。所以，7位ASCII码是用七位二进制数进行编码的，可以表示128个字符。<br>第0～32号及第127号(共34个)是控制字符或通讯专用字符，如控制符：LF（换行）、CR（回车）、FF（换页）、DEL（删除）、BEL（振铃）等；通讯专用字符：SOH（文头）、EOT（文尾）、ACK（确认）等；</p>
+<p>第33～126号(共94个)是字符，其中第48～57号为0～9十个阿拉伯数字；65～90号为26个大写英文字母，97～122号为26个小写英文字母，其余为一些标点符号、运算符号等。</p>
+<table>
+<thead>
+<tr>
+<th>八进制</th>
+<th>十六进制</th>
+<th>十进制</th>
+<th>字符</th>
+<th>八进制</th>
+<th>十六进制</th>
+<th>十进制</th>
+<th>字符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>00</td>
+<td>00</td>
+<td>0</td>
+<td>nul</td>
+<td>100</td>
+<td>40</td>
+<td>64</td>
+<td>@</td>
+</tr>
+<tr>
+<td>01</td>
+<td>01</td>
+<td>1</td>
+<td>soh</td>
+<td>101</td>
+<td>41</td>
+<td>65</td>
+<td>A</td>
+</tr>
+<tr>
+<td>02</td>
+<td>02</td>
+<td>2</td>
+<td>stx</td>
+<td>102</td>
+<td>42</td>
+<td>66</td>
+<td>B</td>
+</tr>
+<tr>
+<td>03</td>
+<td>03</td>
+<td>3</td>
+<td>etx</td>
+<td>103</td>
+<td>43</td>
+<td>67</td>
+<td>C</td>
+</tr>
+<tr>
+<td>04</td>
+<td>04</td>
+<td>4</td>
+<td>eot</td>
+<td>104</td>
+<td>44</td>
+<td>68</td>
+<td>D</td>
+</tr>
+<tr>
+<td>05</td>
+<td>05</td>
+<td>5</td>
+<td>enq</td>
+<td>105</td>
+<td>45</td>
+<td>69</td>
+<td>E</td>
+</tr>
+<tr>
+<td>06</td>
+<td>06</td>
+<td>6</td>
+<td>ack</td>
+<td>106</td>
+<td>46</td>
+<td>70</td>
+<td>F</td>
+</tr>
+<tr>
+<td>07</td>
+<td>07</td>
+<td>7</td>
+<td>bel</td>
+<td>107</td>
+<td>47</td>
+<td>71</td>
+<td>G</td>
+</tr>
+<tr>
+<td>10</td>
+<td>08</td>
+<td>8</td>
+<td>bs</td>
+<td>110</td>
+<td>48</td>
+<td>72</td>
+<td>H</td>
+</tr>
+<tr>
+<td>11</td>
+<td>09</td>
+<td>9</td>
+<td>ht</td>
+<td>111</td>
+<td>49</td>
+<td>73</td>
+<td>I</td>
+</tr>
+<tr>
+<td>12</td>
+<td>0a</td>
+<td>10</td>
+<td>nl</td>
+<td>112</td>
+<td>4a</td>
+<td>74</td>
+<td>J</td>
+</tr>
+<tr>
+<td>13</td>
+<td>0b</td>
+<td>11</td>
+<td>vt</td>
+<td>113</td>
+<td>4b</td>
+<td>75</td>
+<td>K</td>
+</tr>
+<tr>
+<td>14</td>
+<td>0c</td>
+<td>12</td>
+<td>ff</td>
+<td>114</td>
+<td>4c</td>
+<td>76</td>
+<td>L</td>
+</tr>
+<tr>
+<td>15</td>
+<td>0d</td>
+<td>13</td>
+<td>er</td>
+<td>115</td>
+<td>4d</td>
+<td>77</td>
+<td>M</td>
+</tr>
+<tr>
+<td>16</td>
+<td>0e</td>
+<td>14</td>
+<td>so</td>
+<td>116</td>
+<td>4e</td>
+<td>78</td>
+<td>N</td>
+</tr>
+<tr>
+<td>17</td>
+<td>0f</td>
+<td>15</td>
+<td>si</td>
+<td>117</td>
+<td>4f</td>
+<td>79</td>
+<td>O</td>
+</tr>
+<tr>
+<td>20</td>
+<td>10</td>
+<td>16</td>
+<td>dle</td>
+<td>120</td>
+<td>50</td>
+<td>80</td>
+<td>P</td>
+</tr>
+<tr>
+<td>21</td>
+<td>11</td>
+<td>17</td>
+<td>dc1</td>
+<td>121</td>
+<td>51</td>
+<td>81</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>22</td>
+<td>12</td>
+<td>18</td>
+<td>dc2</td>
+<td>122</td>
+<td>52</td>
+<td>82</td>
+<td>R</td>
+</tr>
+<tr>
+<td>23</td>
+<td>13</td>
+<td>19</td>
+<td>dc3</td>
+<td>123</td>
+<td>53</td>
+<td>83</td>
+<td>S</td>
+</tr>
+<tr>
+<td>24</td>
+<td>14</td>
+<td>20</td>
+<td>dc4</td>
+<td>124</td>
+<td>54</td>
+<td>84</td>
+<td>T</td>
+</tr>
+<tr>
+<td>25</td>
+<td>15</td>
+<td>21</td>
+<td>nak</td>
+<td>125</td>
+<td>55</td>
+<td>85</td>
+<td>U</td>
+</tr>
+<tr>
+<td>26</td>
+<td>16</td>
+<td>22</td>
+<td>syn</td>
+<td>126</td>
+<td>56</td>
+<td>86</td>
+<td>V</td>
+</tr>
+<tr>
+<td>27</td>
+<td>17</td>
+<td>23</td>
+<td>etb</td>
+<td>127</td>
+<td>57</td>
+<td>87</td>
+<td>W</td>
+</tr>
+<tr>
+<td>30</td>
+<td>18</td>
+<td>24</td>
+<td>can</td>
+<td>130</td>
+<td>58</td>
+<td>88</td>
+<td>X</td>
+</tr>
+<tr>
+<td>31</td>
+<td>19</td>
+<td>25</td>
+<td>em</td>
+<td>131</td>
+<td>59</td>
+<td>89</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>32</td>
+<td>1a</td>
+<td>26</td>
+<td>sub</td>
+<td>132</td>
+<td>5a</td>
+<td>90</td>
+<td>Z</td>
+</tr>
+<tr>
+<td>33</td>
+<td>1b</td>
+<td>27</td>
+<td>esc</td>
+<td>133</td>
+<td>5b</td>
+<td>91</td>
+<td>[</td>
+</tr>
+<tr>
+<td>34</td>
+<td>1c</td>
+<td>28</td>
+<td>fs</td>
+<td>134</td>
+<td>5c</td>
+<td>92</td>
+<td>\</td>
+</tr>
+<tr>
+<td>35</td>
+<td>1d</td>
+<td>29</td>
+<td>gs</td>
+<td>135</td>
+<td>5d</td>
+<td>93</td>
+<td>]</td>
+</tr>
+<tr>
+<td>36</td>
+<td>1e</td>
+<td>30</td>
+<td>re</td>
+<td>136</td>
+<td>5e</td>
+<td>94</td>
+<td>^</td>
+</tr>
+<tr>
+<td>37</td>
+<td>1f</td>
+<td>31</td>
+<td>us</td>
+<td>137</td>
+<td>5f</td>
+<td>95</td>
+<td>_</td>
+</tr>
+<tr>
+<td>40</td>
+<td>20</td>
+<td>32</td>
+<td>sp</td>
+<td>140</td>
+<td>60</td>
+<td>96</td>
+<td>&#39;</td>
+</tr>
+<tr>
+<td>41</td>
+<td>21</td>
+<td>33</td>
+<td>!</td>
+<td>141</td>
+<td>61</td>
+<td>97</td>
+<td>a</td>
+</tr>
+<tr>
+<td>42</td>
+<td>22</td>
+<td>34</td>
+<td>&quot;</td>
+<td>142</td>
+<td>62</td>
+<td>98</td>
+<td>b</td>
+</tr>
+<tr>
+<td>43</td>
+<td>23</td>
+<td>35</td>
+<td>#</td>
+<td>143</td>
+<td>63</td>
+<td>99</td>
+<td>c</td>
+</tr>
+<tr>
+<td>44</td>
+<td>24</td>
+<td>36</td>
+<td>$</td>
+<td>144</td>
+<td>64</td>
+<td>100</td>
+<td>d</td>
+</tr>
+<tr>
+<td>45</td>
+<td>25</td>
+<td>37</td>
+<td>%</td>
+<td>145</td>
+<td>65</td>
+<td>101</td>
+<td>e</td>
+</tr>
+<tr>
+<td>46</td>
+<td>26</td>
+<td>38</td>
+<td>&amp;</td>
+<td>146</td>
+<td>66</td>
+<td>102</td>
+<td>f</td>
+</tr>
+<tr>
+<td>47</td>
+<td>27</td>
+<td>39</td>
+<td>`</td>
+<td>147</td>
+<td>67</td>
+<td>103</td>
+<td>g</td>
+</tr>
+<tr>
+<td>50</td>
+<td>28</td>
+<td>40</td>
+<td>(</td>
+<td>150</td>
+<td>68</td>
+<td>104</td>
+<td>h</td>
+</tr>
+<tr>
+<td>51</td>
+<td>29</td>
+<td>41</td>
+<td>)</td>
+<td>151</td>
+<td>69</td>
+<td>105</td>
+<td>i</td>
+</tr>
+<tr>
+<td>52</td>
+<td>2a</td>
+<td>42</td>
+<td>*</td>
+<td>152</td>
+<td>6a</td>
+<td>106</td>
+<td>j</td>
+</tr>
+<tr>
+<td>53</td>
+<td>2b</td>
+<td>43</td>
+<td>+</td>
+<td>153</td>
+<td>6b</td>
+<td>107</td>
+<td>k</td>
+</tr>
+<tr>
+<td>54</td>
+<td>2c</td>
+<td>44</td>
+<td>,</td>
+<td>154</td>
+<td>6c</td>
+<td>108</td>
+<td>l</td>
+</tr>
+<tr>
+<td>55</td>
+<td>2d</td>
+<td>45</td>
+<td>-</td>
+<td>155</td>
+<td>6d</td>
+<td>109</td>
+<td>m</td>
+</tr>
+<tr>
+<td>56</td>
+<td>2e</td>
+<td>46</td>
+<td>.</td>
+<td>156</td>
+<td>6e</td>
+<td>110</td>
+<td>n</td>
+</tr>
+<tr>
+<td>57</td>
+<td>2f</td>
+<td>47</td>
+<td>/</td>
+<td>157</td>
+<td>6f</td>
+<td>111</td>
+<td>o</td>
+</tr>
+<tr>
+<td>60</td>
+<td>30</td>
+<td>48</td>
+<td>0</td>
+<td>160</td>
+<td>70</td>
+<td>112</td>
+<td>p</td>
+</tr>
+<tr>
+<td>61</td>
+<td>31</td>
+<td>49</td>
+<td>1</td>
+<td>161</td>
+<td>71</td>
+<td>113</td>
+<td>q</td>
+</tr>
+<tr>
+<td>62</td>
+<td>32</td>
+<td>50</td>
+<td>2</td>
+<td>162</td>
+<td>72</td>
+<td>114</td>
+<td>r</td>
+</tr>
+<tr>
+<td>63</td>
+<td>33</td>
+<td>51</td>
+<td>3</td>
+<td>163</td>
+<td>73</td>
+<td>115</td>
+<td>s</td>
+</tr>
+<tr>
+<td>64</td>
+<td>34</td>
+<td>52</td>
+<td>4</td>
+<td>164</td>
+<td>74</td>
+<td>116</td>
+<td>t</td>
+</tr>
+<tr>
+<td>65</td>
+<td>35</td>
+<td>53</td>
+<td>5</td>
+<td>165</td>
+<td>75</td>
+<td>117</td>
+<td>u</td>
+</tr>
+<tr>
+<td>66</td>
+<td>36</td>
+<td>54</td>
+<td>6</td>
+<td>166</td>
+<td>76</td>
+<td>118</td>
+<td>v</td>
+</tr>
+<tr>
+<td>67</td>
+<td>37</td>
+<td>55</td>
+<td>7</td>
+<td>167</td>
+<td>77</td>
+<td>119</td>
+<td>w</td>
+</tr>
+<tr>
+<td>70</td>
+<td>38</td>
+<td>56</td>
+<td>8</td>
+<td>170</td>
+<td>78</td>
+<td>120</td>
+<td>x</td>
+</tr>
+<tr>
+<td>71</td>
+<td>39</td>
+<td>57</td>
+<td>9</td>
+<td>171</td>
+<td>79</td>
+<td>121</td>
+<td>y</td>
+</tr>
+<tr>
+<td>72</td>
+<td>3a</td>
+<td>58</td>
+<td>:</td>
+<td>172</td>
+<td>7a</td>
+<td>122</td>
+<td>z</td>
+</tr>
+<tr>
+<td>73</td>
+<td>3b</td>
+<td>59</td>
+<td>;</td>
+<td>173</td>
+<td>7b</td>
+<td>123</td>
+<td>{</td>
+</tr>
+<tr>
+<td>74</td>
+<td>3c</td>
+<td>60</td>
+<td>&lt;</td>
+<td>174</td>
+<td>7c</td>
+<td>124</td>
+<td>|</td>
+</tr>
+<tr>
+<td>75</td>
+<td>3d</td>
+<td>61</td>
+<td>=</td>
+<td>175</td>
+<td>7d</td>
+<td>125</td>
+<td>}</td>
+</tr>
+<tr>
+<td>76</td>
+<td>3e</td>
+<td>62</td>
+<td>&gt;</td>
+<td>176</td>
+<td>7e</td>
+<td>126</td>
+<td>~</td>
+</tr>
+<tr>
+<td>77</td>
+<td>3f</td>
+<td>63</td>
+<td>?</td>
+<td>177</td>
+<td>7f</td>
+<td>127</td>
+<td>del</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+    
+      <div>
+        <div id="reward-container">
+  <div></div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/uploads/wechatpay.png" alt="证心 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      </div>
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/字符集/" rel="tag"># 字符集</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/blog/plang/java/base/digit/" rel="next" title="JAVA digit(Char,Int)把一个字符转换为一个数字">
+                <i class="fa fa-chevron-left"></i> JAVA digit(Char,Int)把一个字符转换为一个数字
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/blog/basetech/charset/ascii10/" rel="prev" title="ASCII码表相关">
+                ASCII码表相关 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">证心</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">363</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/douzh" title="GitHub &rarr; https://github.com/douzh" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="http://weibo.com/douzh1988" title="微博 &rarr; http://weibo.com/douzh1988" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>微博</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备16069454号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">证心</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>
