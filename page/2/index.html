@@ -77,6 +77,102 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/tools/maven/dn-cst-maven-archtype" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/tools/maven/dn-cst-maven-archtype/" class="article-date">
+  <time class="dt-published" datetime="2020-10-02T13:00:53.000Z" itemprop="datePublished">2020-10-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/maven/">maven</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>开发新项目就需要搭建新工程，但是搭建新工程的这个过程是非常繁琐浪费时间的，并且不可避免的需要踩坑。更可怕的是，如果是在一个团队中，每新起一个项目都由不同的开发人员去自定义的搭建工程结构，那么对后续的统一管理，监控，运维简直是灾难。基于以上几点，团队内部其实是非常有必要搭建一个统一的脚手架来供统一使用</p>
+<h1 id="制作一个脚手架"><a href="#制作一个脚手架" class="headerlink" title="制作一个脚手架"></a>制作一个脚手架</h1><p>下面我们就来详细的介绍如何搭建一个maven工程的脚手架</p>
+<p>要搭建脚手架，首先我们需要一个模板工程，这个模板工程一般来说会集成一些工具类，底层中间件，通用配置，并且要有良好的分层结构等。需要能够达到开箱即用的程度。</p>
+<p>以下是一个模板工程的目录结构，也是目前我们团队内部的标准化结构</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── example-client</span><br><span class="line">│   ├── pom.xml</span><br><span class="line">│   └── src</span><br><span class="line">├── example-core</span><br><span class="line">│   ├── pom.xml</span><br><span class="line">│   └── src</span><br><span class="line">├── example-server</span><br><span class="line">│   ├── pom.xml</span><br><span class="line">│   └── src</span><br><span class="line">├── example-test</span><br><span class="line">│   ├── pom.xml</span><br><span class="line">│   └── src</span><br><span class="line">├── Jenkinsfile</span><br><span class="line">├── README.md</span><br><span class="line">├── .gitignore</span><br><span class="line">└── pom.xml</span><br></pre></td></tr></table></figure>
+
+<p>完成模板工程的搭建后，需要在模板工程的最外层 pom 文件加入以下配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">pluginManagement</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">plugins</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">plugin</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-archetype-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">plugin</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.6.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">configuration</span>&gt;</span>  </span><br><span class="line">                    <span class="tag">&lt;<span class="name">source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">source</span>&gt;</span>  </span><br><span class="line">                    <span class="tag">&lt;<span class="name">target</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">target</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">plugin</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-resources-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">configuration</span>&gt;</span>  </span><br><span class="line">                    <span class="tag">&lt;<span class="name">encoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">encoding</span>&gt;</span>  </span><br><span class="line">                <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">pluginManagement</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>完成之后在根目录下执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn archetype:create-from-project</span><br></pre></td></tr></table></figure>
+
+<p>刷新项目后，会发现在 <code>./target/generated-sources/archetype</code>目录下生成了脚手架工程，生成的脚手架工程可以当成是一个独立的项目，目录结构如下图</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── pom.xml</span><br><span class="line">├── src</span><br><span class="line">│   ├── main</span><br><span class="line">│   │   └── resources</span><br><span class="line">│   │       ├── META-INF</span><br><span class="line">│   │       │   └── maven</span><br><span class="line">│   │       │       └── archetype-metadata.xml</span><br><span class="line">│   │       └── archetype-resources</span><br><span class="line">│   │           ├── Jenkinsfile</span><br><span class="line">│   │           ├── README.md</span><br><span class="line">│   │           ├── __artifactId__.iml</span><br><span class="line">│   │           ├── __rootArtifactId__-client</span><br><span class="line">│   │           │   ├── __parentArtifactId__-client.iml</span><br><span class="line">│   │           │   ├── pom.xml</span><br><span class="line">│   │           │   └── src</span><br><span class="line">│   │           ├── __rootArtifactId__-core</span><br><span class="line">│   │           │   ├── __parentArtifactId__-core.iml</span><br><span class="line">│   │           │   ├── pom.xml</span><br><span class="line">│   │           │   └── src</span><br><span class="line">│   │           ├── __rootArtifactId__-server</span><br><span class="line">│   │           │   ├── __parentArtifactId__-server.iml</span><br><span class="line">│   │           │   ├── pom.xml</span><br><span class="line">│   │           │   └── src</span><br><span class="line">│   │           ├── __rootArtifactId__-<span class="built_in">test</span></span><br><span class="line">│   │           │   ├── __parentArtifactId__-test.iml</span><br><span class="line">│   │           │   ├── pom.xml</span><br><span class="line">│   │           │   └── src</span><br><span class="line">│   │           └── pom.xml</span><br><span class="line">│   └── <span class="built_in">test</span></span><br><span class="line">│       └── resources</span><br><span class="line">│           └── projects</span><br><span class="line">│               └── basic</span><br><span class="line">│                   ├── archetype.properties</span><br><span class="line">│                   └── goal.txt</span><br></pre></td></tr></table></figure>
+
+<p>在脚手架工程目录下执行 mvn install 就完成了脚手架的本地安装，安装完成之后，这个脚手架在本地就可以使用了<br>可以执行以下脚本来通过此脚手架创建项目</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn archetype:generate -DgroupId=com.xxx.example -DartifactId=xxxx -Dpackage=com.xxx.example -DarchetypeGroupId=com.demo.archetype -DarchetypeArtifactId=demo-archetype -DarchetypeVersion=1.0.0-SNAPSHOT -DinteractiveMode=<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="扫坑"><a href="#扫坑" class="headerlink" title="扫坑"></a>扫坑</h1><p>不过如果我们直接这样使用的话，会发现生成了很多我们并不想要它出现的文件，比如 .idea .iml 文件等等，并且 .gitignore 文件也诡异的消失了（不知为何会忽略这个文件？？）… 这显然不是成熟的脚手架了。那么就需要对它做一些额外的配置了</p>
+<p>有两种方式可以解决上面出现的问题</p>
+<ol>
+<li>将 <code>.gitignore</code>文件重命名为 <code>__gitignore__</code>，然后在模板工程根目录下新建 <code>archetype.properties</code> 文件，并填入以下内容</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## generate for archetype-metadata.xml</span></span><br><span class="line">excludePatterns=archetype.properties,*.iml,.idea/,.idea/libraries,logs/,build.sh</span><br><span class="line"><span class="comment">## generate .gitignore file</span></span><br><span class="line">gitignore=.gitignore</span><br></pre></td></tr></table></figure>
+
+<p>完成上述配置后，重新执行 <code>mvn archetype:create-from-project</code> 生成脚手架工程。再完成本地安装，上面出现的问题就会解决</p>
+<ol start="2">
+<li>第二种方式本质上和第一种方式是一样的，只是第二种方式是直接修改脚手架工程的配置文件。第一种方式相当于是执行  <code>mvn archetype:create-from-project</code> 时读取了 <code>archetype.properties</code> 帮我们做了配置文件的修改。</li>
+</ol>
+<p>maven的脚手架工程下有两个重要的配置文件</p>
+<ul>
+<li><p>.&#x2F;src&#x2F;test&#x2F;resources&#x2F;projects&#x2F;basic&#x2F;archetype.properties</p>
+<ul>
+<li>这里可以加入自定义变量，如  gitignore 变量</li>
+</ul>
+</li>
+<li><p>.&#x2F;src&#x2F;main&#x2F;resources&#x2F;META-INF&#x2F;maven&#x2F;archetype-metadata.xml</p>
+</li>
+</ul>
+<p>下面是一个典型的archetype-metadata.xml文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">archetype-descriptor</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0 http://maven.apache.org/xsd/archetype-descriptor-1.0.0.xsd&quot;</span> <span class="attr">name</span>=<span class="string">&quot;example&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">requiredProperties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">requiredProperty</span> <span class="attr">key</span>=<span class="string">&quot;gitignore&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">defaultValue</span>&gt;</span>.gitignore<span class="tag">&lt;/<span class="name">defaultValue</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">requiredProperty</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">requiredProperty</span> <span class="attr">key</span>=<span class="string">&quot;port&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">defaultValue</span>&gt;</span>8888<span class="tag">&lt;/<span class="name">defaultValue</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">requiredProperty</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">requiredProperties</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">fileSets</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">fileSet</span> <span class="attr">encoding</span>=<span class="string">&quot;UTF-8&quot;</span> <span class="attr">filtered</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">directory</span>&gt;</span><span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">include</span>&gt;</span>__gitignore__<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">include</span>&gt;</span>README.md<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">include</span>&gt;</span>Jenkinsfile<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">include</span>&gt;</span>pom.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">fileSet</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">fileSets</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">modules</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">module</span> <span class="attr">id</span>=<span class="string">&quot;$&#123;rootArtifactId&#125;-client&quot;</span> <span class="attr">dir</span>=<span class="string">&quot;__rootArtifactId__-client&quot;</span> <span class="attr">name</span>=<span class="string">&quot;$&#123;rootArtifactId&#125;-client&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">fileSets</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">fileSet</span> <span class="attr">filtered</span>=<span class="string">&quot;true&quot;</span> <span class="attr">packaged</span>=<span class="string">&quot;true&quot;</span> <span class="attr">encoding</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/java<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.java<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">fileSet</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">fileSets</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">module</span> <span class="attr">id</span>=<span class="string">&quot;$&#123;rootArtifactId&#125;-core&quot;</span> <span class="attr">dir</span>=<span class="string">&quot;__rootArtifactId__-core&quot;</span> <span class="attr">name</span>=<span class="string">&quot;$&#123;rootArtifactId&#125;-core&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">fileSets</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">fileSet</span> <span class="attr">filtered</span>=<span class="string">&quot;true&quot;</span> <span class="attr">packaged</span>=<span class="string">&quot;true&quot;</span> <span class="attr">encoding</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/java<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.java<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">fileSet</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">fileSet</span> <span class="attr">filtered</span>=<span class="string">&quot;true&quot;</span> <span class="attr">encoding</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">fileSet</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">fileSets</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">module</span> <span class="attr">id</span>=<span class="string">&quot;$&#123;rootArtifactId&#125;-server&quot;</span> <span class="attr">dir</span>=<span class="string">&quot;__rootArtifactId__-server&quot;</span> <span class="attr">name</span>=<span class="string">&quot;$&#123;rootArtifactId&#125;-server&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">fileSets</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">fileSet</span> <span class="attr">filtered</span>=<span class="string">&quot;true&quot;</span> <span class="attr">packaged</span>=<span class="string">&quot;true&quot;</span> <span class="attr">encoding</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/java<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.java<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">fileSet</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">fileSet</span> <span class="attr">filtered</span>=<span class="string">&quot;true&quot;</span> <span class="attr">encoding</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">fileSet</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">fileSet</span> <span class="attr">filtered</span>=<span class="string">&quot;true&quot;</span> <span class="attr">encoding</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/resources/META-INF/dubbo<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">include</span>&gt;</span>*<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">fileSet</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">fileSet</span> <span class="attr">filtered</span>=<span class="string">&quot;true&quot;</span> <span class="attr">encoding</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.yml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">fileSet</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">fileSets</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">module</span> <span class="attr">id</span>=<span class="string">&quot;$&#123;rootArtifactId&#125;-test&quot;</span> <span class="attr">dir</span>=<span class="string">&quot;__rootArtifactId__-test&quot;</span> <span class="attr">name</span>=<span class="string">&quot;$&#123;rootArtifactId&#125;-test&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">fileSets</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">fileSets</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">modules</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">archetype-descriptor</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="archetype-metadata-xml-结构"><a href="#archetype-metadata-xml-结构" class="headerlink" title="archetype-metadata.xml 结构"></a>archetype-metadata.xml 结构</h2><p>简单介绍archetype-metadata.xml文件的基本结构</p>
+<ul>
+<li><code>&lt;requiredProperties&gt;</code>是属性变量定义层，在这里定义的变量可以在archetype工程文件中通过 <code>$&#123;xxx&#125;</code> 来进行引用，文件名则可以通过 <code>__xxx__</code>来引用变量（这就是为什么要把<code>.gitignore</code>重命名为<code>__gitignore__</code>）。变量在执行 <code>mvn archetype:generate</code>时才录入真正内容</li>
+<li>再往下其实就是定义将要生成的工程目录结构，首先是一个 <code>fileSets</code> （包含多个 <code>fileSet</code>标签）标签定义了根目录需要生成哪些文件，再通过多个 <code>modules</code> 标签来定义多个子模块（如果是多模块工程的话）。这其中比较重要的其实还是 <code>fileSet</code>标签，fileSet有两个重要的属性<ul>
+<li>filtered &#x3D; true 如果为true，则该 <code>fileSet</code>包含的文件中的 <code>$&#123;&#125;</code> 占位符会被替换成相应的变量</li>
+<li>packaged &#x3D; true 如果为true，则 <code>src/main/java</code> 下得文件内容会被加入 指定包路径下</li>
+</ul>
+</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>一个优秀少坑的脚手架还是能极大的提升生产力的，毕竟这种重复且无价值的劳动我们还是交给工具吧</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/tools/maven/dn-cst-maven-archtype/" data-id="clhlnylgi00j3ojupevrc8ghz" data-title="开发一个maven脚手架" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/archtype/" rel="tag">archtype</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/" rel="tag">maven</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/nosql/neo4j/neo4jindustrystock" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/nosql/neo4j/neo4jindustrystock/" class="article-date">
@@ -166,185 +262,11 @@
 
 
   
-    <article id="post-blog/nosql/neo4j/neo4jindustry" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/nosql/neo4j/neo4jindustry/" class="article-date">
-  <time class="dt-published" datetime="2020-05-05T14:40:15.000Z" itemprop="datePublished">2020-05-05</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/nosql/">nosql</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE (i:INDUSTRY &#123; code: &quot;C0&quot;, name: &quot;国证行业&quot;&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>一线行业</p>
-<table>
-<thead>
-<tr>
-<th>code</th>
-<th>name</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>C01</td>
-<td>能源</td>
-</tr>
-<tr>
-<td>C02</td>
-<td>原材料</td>
-</tr>
-<tr>
-<td>C03</td>
-<td>工业</td>
-</tr>
-<tr>
-<td>C04</td>
-<td>可选消费</td>
-</tr>
-<tr>
-<td>C05</td>
-<td>主要消费</td>
-</tr>
-<tr>
-<td>C06</td>
-<td>医药卫生</td>
-</tr>
-<tr>
-<td>C07</td>
-<td>金融</td>
-</tr>
-<tr>
-<td>C08</td>
-<td>信息技术</td>
-</tr>
-<tr>
-<td>C09</td>
-<td>电信业务</td>
-</tr>
-<tr>
-<td>C10</td>
-<td>公用事业</td>
-</tr>
-<tr>
-<td>C11</td>
-<td>房地产</td>
-</tr>
-</tbody></table>
-<p>二级行业</p>
-<table>
-<thead>
-<tr>
-<th>code</th>
-<th>name</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>C0101</td>
-<td>能源</td>
-</tr>
-<tr>
-<td>C0201</td>
-<td>基础化工</td>
-</tr>
-<tr>
-<td>C0202</td>
-<td>基础材料</td>
-</tr>
-<tr>
-<td>C0301</td>
-<td>工业品</td>
-</tr>
-<tr>
-<td>C0302</td>
-<td>工业服务</td>
-</tr>
-<tr>
-<td>C0303</td>
-<td>运输</td>
-</tr>
-<tr>
-<td>C0401</td>
-<td>汽车与汽车零配件</td>
-</tr>
-</tbody></table>
-<p>三级行业</p>
-<table>
-<thead>
-<tr>
-<th>code</th>
-<th>name</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>C010101</td>
-<td>能源设备与服务</td>
-</tr>
-<tr>
-<td>C010102</td>
-<td>石油天然气</td>
-</tr>
-<tr>
-<td>C010103</td>
-<td>煤炭</td>
-</tr>
-<tr>
-<td>C010104</td>
-<td>可替代能源</td>
-</tr>
-<tr>
-<td>C020101</td>
-<td>化学原料</td>
-</tr>
-<tr>
-<td>C020102</td>
-<td>化学制品</td>
-</tr>
-</tbody></table>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">LOAD CSV WITH HEADERS FROM &quot;file:///行业一级.csv&quot; AS row</span><br><span class="line">CREATE (n:INDUSTRYL1)</span><br><span class="line">SET n = row</span><br><span class="line"></span><br><span class="line">LOAD CSV WITH HEADERS FROM &quot;file:///行业二级.csv&quot; AS row</span><br><span class="line">CREATE (n:INDUSTRYL2)</span><br><span class="line">SET n = row</span><br><span class="line"></span><br><span class="line">LOAD CSV WITH HEADERS FROM &quot;file:///行业三级.csv&quot; AS row</span><br><span class="line">CREATE (n:INDUSTRYL3)</span><br><span class="line">SET n = row</span><br></pre></td></tr></table></figure>
-
-<p>创建关联关系</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">match (i:INDUSTRY),(i1:INDUSTRYL1)  create(i)-[:subclass]-&gt;(i1)</span><br><span class="line"></span><br><span class="line">match (i1:INDUSTRYL1),(i2:INDUSTRYL2) where i1.code=substring(i2.code,0,3) create(i1)-[:subclass]-&gt;(i2)</span><br><span class="line"></span><br><span class="line">match (i2:INDUSTRYL2),(i3:INDUSTRYL3) where i2.code=substring(i3.code,0,5) create(i2)-[:subclass]-&gt;(i3)</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/nosql/neo4j/neo4jindustry/" data-id="clhlnylfr00eaojupdi9q7d0t" data-title="neo4j创建三级行业关系" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nosql-neo4j/" rel="tag">nosql neo4j</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -362,6 +284,10 @@
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -371,10 +297,6 @@
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -396,7 +318,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

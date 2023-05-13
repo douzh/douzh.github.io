@@ -77,6 +77,81 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/plang/java/nio/memmap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/plang/java/nio/memmap/" class="article-date">
+  <time class="dt-published" datetime="2016-01-10T08:51:21.000Z" itemprop="datePublished">2016-01-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/plang/java/nio/memmap/">JAVA NIO之内存映射（memory mapping）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>NIO里对性能提升最显著的是内存映射（memory mapping）。内存映射是一个系统层面的服务，它把程序里用到的文件的一段当作内存来处理。</p>
+<p>内存映射存在很多潜在的影响，比我这里提供的要多。在一个更高的层次上，它能够使得文件访问的I&#x2F;O的性能达到内存访问的速度。内存访问的速度往往比文件访问的速度快几个数量级。一个NIO内存映射的一个简单示例。</p>
+<pre><code>import java.io.RandomAccessFile; 
+ import java.nio.MappedByteBuffer; 
+ import java.nio.channels.FileChannel; 
+  
+   public class mem_map_example &#123; 
+     private static int mem_map_size = 20 * 1024 * 1024; 
+     private static String fn = &quot;example_memory_mapped_file.txt&quot;; 
+  
+     public static void main(String[] args) throws Exception &#123; 
+         RandomAccessFile memoryMappedFile = new RandomAccessFile(fn, &quot;rw&quot;); 
+  
+         //Mapping a file into memory 
+         MappedByteBuffer out = memoryMappedFile.getChannel().map(FileChannel.MapMode.READ_WRITE, 0, mem_map_size); 
+  
+         //Writing into Memory Mapped File 
+         for (int i = 0; i &lt; mem_map_size; i++) &#123; 
+             out.put((byte) &#39;A&#39;); 
+         &#125; 
+         System.out.println(&quot;File &#39;&quot; + fn + &quot;&#39; is now &quot; + Integer.toString(mem_map_size) + &quot; bytes full.&quot;); 
+  
+         // Read from memory-mapped file. 
+         for (int i = 0; i &lt; 30 ; i++) &#123; 
+             System.out.print((char) out.get(i)); 
+         &#125; 
+         System.out.println(&quot;\nReading from memory-mapped file &#39;&quot; + fn + &quot;&#39; is complete.&quot;); 
+     &#125; 
+ &#125;
+</code></pre>
+<p>这个简单的示例创建了一个20M的文件example_memory_mapped_file.txt，并且用字符A对它进行填充，然后读取前30个字节。在实际的应用中，内存映射不仅仅擅长提高I&#x2F;O的原始速度，同时它也允许多个不同的reader和writer同时处理同一个文件镜像。这个技术功能强大但是也很危险，不过如果正确使用的话，它会使得你的IO速度提高数倍。众所周知，华尔街的交易操作为了能够赢得秒级甚至是毫秒级的优势，都使用了内存映射技术。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/nio/memmap/" data-id="clhlnyli600suojupddnv076p" data-title="JAVA NIO之内存映射（memory mapping）" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA-NIO/" rel="tag">JAVA NIO</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/plang/java/nio/watchservice" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/java/nio/watchservice/" class="article-date">
@@ -156,279 +231,11 @@
 
 
   
-    <article id="post-blog/plang/java/nio/nioserver" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/plang/java/nio/nioserver/" class="article-date">
-  <time class="dt-published" datetime="2016-01-10T08:26:16.000Z" itemprop="datePublished">2016-01-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/plang/java/nio/nioserver/">JAVA NIO之WEB服务器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/java/nioserver.jpg"></p>
-<h3 id="NIOServer"><a href="#NIOServer" class="headerlink" title="NIOServer"></a>NIOServer</h3><pre><code>package com.iteedu.nioserver;
-
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
-import java.util.Iterator;
-
-/**
- * NIO服务端
- */
-public class NIOServer &#123;
-    //通道管理器
-    private Selector selector;
-
-    /**
-     * 获得一个ServerSocket通道，并对该通道做一些初始化的工作
-     * @param port  绑定的端口号
-     * @throws IOException
-     */
-    public void initServer(int port) throws IOException &#123;
-        // 获得一个ServerSocket通道
-        ServerSocketChannel serverChannel = ServerSocketChannel.open();
-        // 设置通道为非阻塞
-        serverChannel.configureBlocking(false);
-        // 将该通道对应的ServerSocket绑定到port端口
-        serverChannel.socket().bind(new InetSocketAddress(port));
-        // 获得一个通道管理器
-        this.selector = Selector.open();
-        //将通道管理器和该通道绑定，并为该通道注册SelectionKey.OP_ACCEPT事件,注册该事件后，
-        //当该事件到达时，selector.select()会返回，如果该事件没到达selector.select()会一直阻塞。
-        serverChannel.register(selector, SelectionKey.OP_ACCEPT);
-    &#125;
-
-    /**
-     * 采用轮询的方式监听selector上是否有需要处理的事件，如果有，则进行处理
-     * @throws IOException
-     */
-    public void listen() throws IOException &#123;
-        System.out.println(&quot;服务端启动成功！&quot;);
-        // 轮询访问selector
-        while (true) &#123;
-            //当注册的事件到达时，方法返回；否则,该方法会一直阻塞
-            selector.select();
-            // 获得selector中选中的项的迭代器，选中的项为注册的事件
-            Iterator ite = this.selector.selectedKeys().iterator();
-            while (ite.hasNext()) &#123;
-                SelectionKey key = ite.next();
-                // 删除已选的key,以防重复处理
-                ite.remove();
-                // 客户端请求连接事件
-                if (key.isAcceptable()) &#123;
-                    ServerSocketChannel server = (ServerSocketChannel) key
-                            .channel();
-                    // 获得和客户端连接的通道
-                    SocketChannel channel = server.accept();
-                    // 设置成非阻塞
-                    channel.configureBlocking(false);
-
-                    //在这里可以给客户端发送信息哦
-                    channel.write(ByteBuffer.wrap(new String(&quot;向客户端发送了一条信息&quot;).getBytes()));
-                    //在和客户端连接成功之后，为了可以接收到客户端的信息，需要给通道设置读的权限。
-                    channel.register(this.selector, SelectionKey.OP_READ);
-                    
-                    // 获得了可读的事件
-                &#125; else if (key.isReadable()) &#123;
-                        read(key);
-                &#125;
-
-            &#125;
-
-        &#125;
-    &#125;
-    /**
-     * 处理读取客户端发来的信息 的事件
-     * @param key
-     * @throws IOException 
-     */
-    public void read(SelectionKey key) throws IOException&#123;
-        // 服务器可读取消息:得到事件发生的Socket通道
-        SocketChannel channel = (SocketChannel) key.channel();
-        // 创建读取的缓冲区
-        ByteBuffer buffer = ByteBuffer.allocate(10);
-        channel.read(buffer);
-        byte[] data = buffer.array();
-        String msg = new String(data).trim();
-        System.out.println(&quot;服务端收到信息：&quot;+msg);
-        ByteBuffer outBuffer = ByteBuffer.wrap(msg.getBytes());
-        channel.write(outBuffer);// 将消息回送给客户端
-    &#125;
-    
-    /**
-     * 启动服务端测试
-     * @throws IOException 
-     */
-    public static void main(String[] args) throws IOException &#123;
-        NIOServer server = new NIOServer();
-        server.initServer(8000);
-        server.listen();
-    &#125;
-
-&#125;
-</code></pre>
-<h3 id="NIOClient"><a href="#NIOClient" class="headerlink" title="NIOClient"></a>NIOClient</h3><pre><code>package com.iteedu.nioserver;
-
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.SocketChannel;
-import java.util.Iterator;
-
-/**
- * NIO客户端
- * 
- */
-public class NIOClient &#123;
-    // 通道管理器
-    private Selector selector;
-
-    /**
-     * 获得一个Socket通道，并对该通道做一些初始化的工作
-     * 
-     * @param ip
-     *            连接的服务器的ip
-     * @param port
-     *            连接的服务器的端口号
-     * @throws IOException
-     */
-    public void initClient(String ip, int port) throws IOException &#123;
-        // 获得一个Socket通道
-        SocketChannel channel = SocketChannel.open();
-        // 设置通道为非阻塞
-        channel.configureBlocking(false);
-        // 获得一个通道管理器
-        this.selector = Selector.open();
-
-        // 客户端连接服务器,其实方法执行并没有实现连接，需要在listen（）方法中调
-        // 用channel.finishConnect();才能完成连接
-        channel.connect(new InetSocketAddress(ip, port));
-        // 将通道管理器和该通道绑定，并为该通道注册SelectionKey.OP_CONNECT事件。
-        channel.register(selector, SelectionKey.OP_CONNECT);
-    &#125;
-
-    /**
-     * 采用轮询的方式监听selector上是否有需要处理的事件，如果有，则进行处理
-     * 
-     * @throws IOException
-     */
-    public void listen() throws IOException &#123;
-        // 轮询访问selector
-        while (true) &#123;
-            selector.select();
-            // 获得selector中选中的项的迭代器
-            Iterator ite = this.selector.selectedKeys()
-                    .iterator();
-            while (ite.hasNext()) &#123;
-                SelectionKey key = ite.next();
-                // 删除已选的key,以防重复处理
-                ite.remove();
-                // 连接事件发生
-                if (key.isConnectable()) &#123;
-                    SocketChannel channel = (SocketChannel) key.channel();
-                    // 如果正在连接，则完成连接
-                    if (channel.isConnectionPending()) &#123;
-                        channel.finishConnect();
-
-                    &#125;
-                    // 设置成非阻塞
-                    channel.configureBlocking(false);
-
-                    // 在这里可以给服务端发送信息哦
-                    channel.write(ByteBuffer.wrap(new String(&quot;向服务端发送了一条信息&quot;)
-                            .getBytes()));
-                    // 在和服务端连接成功之后，为了可以接收到服务端的信息，需要给通道设置读的权限。
-                    channel.register(this.selector, SelectionKey.OP_READ);
-
-                    // 获得了可读的事件
-                &#125; else if (key.isReadable()) &#123;
-                    read(key);
-                &#125;
-
-            &#125;
-
-        &#125;
-    &#125;
-
-    /**
-     * 处理读取服务端发来的信息 的事件
-     * 
-     * @param key
-     * @throws IOException
-     */
-    public void read(SelectionKey key) throws IOException &#123;
-        // 服务器可读取消息:得到事件发生的Socket通道
-        SocketChannel channel = (SocketChannel) key.channel();
-        // 创建读取的缓冲区
-        ByteBuffer buffer = ByteBuffer.allocate(10);
-        channel.read(buffer);
-        byte[] data = buffer.array();
-        String msg = new String(data).trim();
-        System.out.println(&quot;客户端收到信息：&quot; + msg);
-        ByteBuffer outBuffer = ByteBuffer.wrap(msg.getBytes());
-        channel.write(outBuffer);// 将消息回送给客户端
-    &#125;
-
-    /**
-     * 启动客户端测试
-     * 
-     * @throws IOException
-     */
-    public static void main(String[] args) throws IOException &#123;
-        NIOClient client = new NIOClient();
-        client.initClient(&quot;localhost&quot;, 8000);
-        client.listen();
-    &#125;
-
-&#125;
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/java/nio/nioserver/" data-id="clhlnyli700t2ojup31n386d0" data-title="JAVA NIO之WEB服务器" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA-NIO/" rel="tag">JAVA NIO</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/83/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/82/">82</a><a class="page-number" href="/page/83/">83</a><span class="page-number current">84</span><a class="page-number" href="/page/85/">85</a><a class="page-number" href="/page/86/">86</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/85/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/83/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/82/">82</a><a class="page-number" href="/page/83/">83</a><span class="page-number current">84</span><a class="page-number" href="/page/85/">85</a><a class="page-number" href="/page/86/">86</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/85/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -446,6 +253,10 @@ public class NIOClient &#123;
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -455,10 +266,6 @@ public class NIOClient &#123;
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -480,7 +287,7 @@ public class NIOClient &#123;
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

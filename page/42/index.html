@@ -77,6 +77,214 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/plang/lisp/pcldiary/chapter3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/plang/lisp/pcldiary/chapter3/" class="article-date">
+  <time class="dt-published" datetime="2017-01-07T14:54:13.000Z" itemprop="datePublished">2017-01-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/plang/lisp/pcldiary/chapter3/">第3章简单的数据库-实用Common Lisp编程笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="属性表"><a href="#属性表" class="headerlink" title="属性表"></a>属性表</h3><pre><code>CL-USER&gt; (getf (list :a 1 :b 2 :c 3) :a)
+1
+</code></pre>
+<h3 id="make-cd"><a href="#make-cd" class="headerlink" title="make-cd"></a>make-cd</h3><pre><code> (defun make-cd (title artist rating ripped)
+    (list :tilte title :artist artist :rating rating :ripped ripped))
+</code></pre>
+<h3 id="DEFVAR"><a href="#DEFVAR" class="headerlink" title="DEFVAR"></a>DEFVAR</h3><p>定义全局变量</p>
+<pre><code>(defvar *db* nil)
+</code></pre>
+<h3 id="add-record"><a href="#add-record" class="headerlink" title="add-record"></a>add-record</h3><pre><code>(defun add-record (cd) (push cd *db*))
+</code></pre>
+<h3 id="录入"><a href="#录入" class="headerlink" title="录入"></a>录入</h3><pre><code>CL-USER&gt; (add-record (make-cd &quot;roses&quot; &quot;kathy&quot; 7 t))
+((:TILTE &quot;roses&quot; :ARTIST &quot;kathy&quot; :RATING 7 :RIPPED T))
+CL-USER&gt; (add-record (make-cd &quot;roses2&quot; &quot;kathy2&quot; 8 t))
+((:TILTE &quot;roses2&quot; :ARTIST &quot;kathy2&quot; :RATING 8 :RIPPED T)
+(:TILTE &quot;roses&quot; :ARTIST &quot;kathy&quot; :RATING 7 :RIPPED T))
+CL-USER&gt; (add-record (make-cd &quot;roses3&quot; &quot;kathy3&quot; 9 t))
+((:TILTE &quot;roses3&quot; :ARTIST &quot;kathy3&quot; :RATING 9 :RIPPED T)
+(:TILTE &quot;roses2&quot; :ARTIST &quot;kathy2&quot; :RATING 8 :RIPPED T)
+(:TILTE &quot;roses&quot; :ARTIST &quot;kathy&quot; :RATING 7 :RIPPED T))
+CL-USER&gt; 
+</code></pre>
+<h3 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h3><pre><code>CL-USER&gt; *db*
+((:TILTE &quot;roses3&quot; :ARTIST &quot;kathy3&quot; :RATING 9 :RIPPED T)
+(:TILTE &quot;roses2&quot; :ARTIST &quot;kathy2&quot; :RATING 8 :RIPPED T)
+(:TILTE &quot;roses&quot; :ARTIST &quot;kathy&quot; :RATING 7 :RIPPED T))
+CL-USER&gt; 
+</code></pre>
+<h3 id="dump-db"><a href="#dump-db" class="headerlink" title="dump-db"></a>dump-db</h3><pre><code>(defun dump-db()
+    (dolist (cd *db*)
+        (format t &quot;~&#123;~a: ~10t~a~%~&#125;~%&quot; cd)))
+</code></pre>
+<p>format</p>
+<pre><code>~a: ~10t~a~%~
+</code></pre>
+<p>处理一个键值对。</p>
+<pre><code>~&#123;~a: ~10t~a~%~&#125;
+</code></pre>
+<p>循环处理列表所有键值对。</p>
+<pre><code>(defun dump-db ()
+    (format t &quot;~&#123;~&#123;~a: ~10t~a~%~&#125;~%~&#125;&quot; *db*))
+</code></pre>
+<h3 id="format"><a href="#format" class="headerlink" title="format"></a>format</h3><pre><code>~a
+</code></pre>
+<p>美化，关键字没有前导冒号，字段串没有双引号。</p>
+<pre><code>~10t
+</code></pre>
+<p>输出制表符。</p>
+<pre><code>~&#123;~&#125;
+</code></pre>
+<p>列表处理部分。</p>
+<pre><code>~%
+</code></pre>
+<p>换行。</p>
+<h3 id="交互读取"><a href="#交互读取" class="headerlink" title="交互读取"></a>交互读取</h3><pre><code>(defun prompt-read (prompt)
+    (format *query-io* &quot;~a: &quot; prompt)
+    (force-output *query-io*)
+    (read-line *query-io*))
+</code></pre>
+<p><em>query-io</em></p>
+<p>当前终端输入流的全局变量。</p>
+<pre><code>(defun prompt-for-cd () 
+    (make-cd 
+        (prompt-read &quot;title&quot;)
+        (prompt-read &quot;artist&quot;)
+        (prompt-read &quot;rating&quot;)
+        (prompt-read &quot;ripped [y/n]&quot;)))
+         
+(defun prompt-for-cd () 
+    (make-cd 
+        (prompt-read &quot;title&quot;)
+        (prompt-read &quot;artist&quot;)
+        (or (parse-integer (prompt-read &quot;rating&quot;) :junk-allowed t) 0)
+        (y-or-n-p &quot;ripped [y/n]&quot;)))
+
+(defun add-cds ()
+   (loop (add-record (prompt-for-cd))
+      (if (not (y-or-n-p &quot;another? [y/n]: &quot;)) (return))))     
+</code></pre>
+<h3 id="保存和加载数据库"><a href="#保存和加载数据库" class="headerlink" title="保存和加载数据库"></a>保存和加载数据库</h3><pre><code>(defun save-db (filename)
+  (with-open-file (out filename
+               :direction :output
+               :if-exists :supersede)
+    (with-standard-io-syntax
+      (print *db* out))))
+</code></pre>
+<p>:direction :output</p>
+<p>用于写入的文件。</p>
+<p>:if-exists :supersede</p>
+<p>覆盖已经存在的文件。</p>
+<pre><code>(defun load-db (filename)
+  (with-open-file (in filename)
+    (with-standard-io-syntax
+      (setf *db* (read in)))))
+</code></pre>
+<h3 id="remove-if-not"><a href="#remove-if-not" class="headerlink" title="remove-if-not"></a>remove-if-not</h3><pre><code>CL-USER&gt; (remove-if-not #&#39;evenp &#39;(1 2 3 4 5 6 7 8 9 10))
+(2 4 6 8 10)
+</code></pre>
+<p>​<br>​    CL-USER&gt; (remove-if-not #’(lambda (x) (&#x3D; 0 (mod x 2)))<br>​    		‘(1 2 3 4 5 6 7 8 9 10))<br>​    (2 4 6 8 10)</p>
+<h3 id="查询数据库"><a href="#查询数据库" class="headerlink" title="查询数据库"></a>查询数据库</h3><pre><code>(defun select (select-fn)
+    (remove-if-not select-fn *db*))
+  
+(defun select-by-artist (artist)
+  (remove-if-not
+   #&#39;(lambda (cd) (equal (getf cd :artist) artist))
+   *db*))
+   
+(defun artist-selector (artist)
+    #&#39;(lambda (cd) (equal (getf cd :artist) artist)))
+</code></pre>
+<h3 id="where"><a href="#where" class="headerlink" title="where"></a>where</h3><pre><code>(defun where (&amp;key title artist rating (ripped nil ripped-p))
+  #&#39;(lambda (cd)
+      (and
+       (if title (equal (getf cd :title) title) t)
+       (if artist (equal (getf cd :artist) artist) t)
+       (if rating (equal (getf cd :rating) rating) t)
+       (if ripped-p (equal (getf cd :ripped) ripped) t))))
+</code></pre>
+<h3 id="update"><a href="#update" class="headerlink" title="update"></a>update</h3><pre><code>(defun update (selector-fn &amp;key title artist rating (ripped nil ripped-p))
+  (setf *db*
+    (mapcar
+     #&#39;(lambda (row)
+         (when (funcall selector-fn row)
+           (if title (setf (getf row :title) title))
+           (if artist (setf (getf row :artist) artist))
+           (if rating (setf (getf row :rating) rating))
+           (if ripped-p (setf (getf row :ripped) ripped)))
+         row) *db*)))
+</code></pre>
+<h3 id="macro"><a href="#macro" class="headerlink" title="macro"></a>macro</h3><pre><code>CL-USER&gt; (defun make-comparison-expr (field value)
+       (list &#39;equal (list &#39;getf &#39;cd field) value))
+MAKE-COMPARISON-EXPR
+CL-USER&gt; (make-comparison-expr :rating 10)
+(EQUAL (GETF CD :RATING) 10)
+</code></pre>
+<p>反引号</p>
+<p>任何以逗号开始的子句会被求值</p>
+<pre><code>CL-USER&gt; `(1 2 (+ 1 2))
+(1 2 (+ 1 2))
+CL-USER&gt; `(1 2 ,(+ 1 2))
+(1 2 3)
+CL-USER&gt; 
+</code></pre>
+<p>where宏</p>
+<pre><code>(defun make-comparison-expr (field value)
+    `(equal (getf cd ,field) ,value))
+
+(defun make-comparisons-list (fields)
+    (loop while fields
+        collecting (make-comparison-expr (pop fields) (pop fields))))
+          
+(defmacro where (&amp;rest clauses)
+    `#&#39;(lambda (cd) (and ,@(make-comparisons-list clauses))))
+</code></pre>
+<h3 id=""><a href="#" class="headerlink" title=",@"></a>,@</h3><pre><code>CL-USER&gt; `(and ,(list 1 2 3))
+(AND (1 2 3))
+CL-USER&gt; `(and ,@(list 1 2 3))
+(AND 1 2 3)
+</code></pre>
+<h3 id="macroexpand-1"><a href="#macroexpand-1" class="headerlink" title="macroexpand-1"></a>macroexpand-1</h3><pre><code>CL-USER&gt; (macroexpand-1 &#39;(where :title &quot;adafdsf&quot; :ripped t))
+#&#39;(LAMBDA (CD) (AND (EQUAL (GETF CD :TITLE) &quot;adafdsf&quot;) (EQUAL (GETF CD :RIPPED) T)))
+T
+</code></pre>
+<p>​           </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/lisp/pcldiary/chapter3/" data-id="clhlnylj300xwojup4fhtfbag" data-title="第3章简单的数据库-实用Common Lisp编程笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/tools/markdown/editormd" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/tools/markdown/editormd/" class="article-date">
@@ -129,73 +337,11 @@
 
 
   
-    <article id="post-blog/plang/lisp/lispdiary/installslime" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/plang/lisp/lispdiary/installslime/" class="article-date">
-  <time class="dt-published" datetime="2016-07-26T07:38:29.000Z" itemprop="datePublished">2016-07-26</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/plang/lisp/lispdiary/installslime/">lisp开发环境之安装slime</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Slime 的意思是“Emacs 下优秀的 Lisp 交互式开发模式”。</p>
-<p>通过支持 Common Lisp 的交互式编程，Slime 扩展了 Emacs。所以的特性都基于 slime-mode，一个 Emacs 的 minor-mode，它为标准的 lisp-mode 提供补充。lisp-mode 为编辑 Lisp 源文件提供支持，而 slime-mode 则提供了与一个 Lisp 进程进行交互的功能，包括编译、调试、文档查找等等。</p>
-<p>Slime 由两部分组成：用 Emacs Lisp 写的用户界面，和用 Common Lisp 写的服务器端。这两部分通过套接字连接在一起，并且使用一个类似于 RPC 的协议通信。</p>
-<p>服务器端的 Lisp 主要是可移植的 Commom Lisp。所需要的跟特定 Lisp 实现相关的特性都由一个接口定义好，然后由不同的 Lisp 实现提供。这使得 Slime 非常容易移植。</p>
-<p>有名的LispBox集成开发环境也只是emacs+slime+ccl+quicklisp的集成。</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>你可以选择使用发行版本的 Slime 或者直接通过 CVS 仓库使用 Slime。你可以从我们的网站下载最新发布版本： <a target="_blank" rel="noopener" href="http://www.common-lisp.net/project/slime/">http://www.common-lisp.net/project/slime/</a> 。</p>
-<p>如果你已经有了一个可以从命令行启动的 Lisp 实现，那么仅需在 .emacs 文件中添加几行即可安装成功：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(setq inferior-lisp-program &quot;/opt/sbcl/bin/sbcl&quot;) ; your Lisp system</span><br><span class="line">(add-to-list &#x27;load-path &quot;~/hacking/lisp/slime/&quot;)  ; your SLIME directory</span><br><span class="line">(require &#x27;slime)</span><br><span class="line">(slime-setup)</span><br></pre></td></tr></table></figure>
-
-<p>这是没有其它杂项的最小化配置。</p>
-<p>在windows环境中inferior-lisp-program要指定到sbcl.exe的全路径</p>
-<p>注：sbcl在window环境安装后要重新启动电脑，否则会报找不到sbcl.core的错误。</p>
-<h2 id="启动-Slime"><a href="#启动-Slime" class="headerlink" title="启动 Slime"></a>启动 Slime</h2><p>Emacs 命令 M-x slime 可以启动 Slime。它使用 inferior-lisp 包来启动一个 Lisp 进程，加载并启动 Lisp 端服务器（叫做“Swank”），然后在 Emacs 和 Lisp 之间建立一个 socket 连接。最后会生成一个 REPL 缓冲区，你可以在这里输入 Lisp 表达式并求值。</p>
-<h2 id="自动加载"><a href="#自动加载" class="headerlink" title="自动加载"></a>自动加载</h2><p>基本设置始终会加载 Slime，即使你不使用它。如果你只在需要的时候才加载 Slime，那么 Emacs 会启动的快一点。要这样，你需要稍微更改你的 .emacs 文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(setq inferior-lisp-program &quot;the path to your Lisp system&quot;)</span><br><span class="line">(add-to-list &#x27;load-path &quot;the path of your slime directory&quot;)</span><br><span class="line">(require &#x27;slime-autoloads)</span><br><span class="line">(slime-setup)</span><br><span class="line">;让slime变得更好看，比如把sbcl的*变成CL-USER&gt;</span><br><span class="line">(slime-setup &#x27;(slime-fancy))</span><br></pre></td></tr></table></figure>
-
-<p>跟基本配置相比，差别只在这一行 (require ‘slime-autoloads)。它告诉 Emacs 当 M-x slime 或者 M-x slime-connect 命令第一次执行之后 Slime 的其它部分会被自动加载。</p>
-<p>摘选自:<a target="_blank" rel="noopener" href="http://www.open-open.com/lib/view/open1400054028504.html">http://www.open-open.com/lib/view/open1400054028504.html</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/lisp/lispdiary/installslime/" data-id="clhlnyli000rqojupcukwd972" data-title="lisp开发环境之安装slime" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lisp/" rel="tag">Lisp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/41/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/40/">40</a><a class="page-number" href="/page/41/">41</a><span class="page-number current">42</span><a class="page-number" href="/page/43/">43</a><a class="page-number" href="/page/44/">44</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/43/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/41/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/40/">40</a><a class="page-number" href="/page/41/">41</a><span class="page-number current">42</span><a class="page-number" href="/page/43/">43</a><a class="page-number" href="/page/44/">44</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/43/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -213,6 +359,10 @@
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -222,10 +372,6 @@
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -247,7 +393,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

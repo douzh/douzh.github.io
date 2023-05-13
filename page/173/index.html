@@ -77,6 +77,86 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/database/dbi/dbiusebase" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/database/dbi/dbiusebase/" class="article-date">
+  <time class="dt-published" datetime="2015-09-14T09:54:29.000Z" itemprop="datePublished">2015-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/database/dbi/dbiusebase/">数据库索引使用基础知识</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="哪些列上可以创建索引"><a href="#哪些列上可以创建索引" class="headerlink" title="哪些列上可以创建索引"></a>哪些列上可以创建索引</h2><p>在经常需要<strong>搜索</strong>的列上，可以加快搜索的速度；</p>
+<p>在作为<strong>主键</strong>的列上，强制该列的唯一性和组织表中数据的排列结构；</p>
+<p>在经常用在<strong>连接</strong>的列上，这些列主要是一些外键，可以加快连接的速度；</p>
+<p>在经常需要<strong>根据范围进行搜索</strong>的列上创建索引，因为索引已经排序，其指定的范围是连续的；</p>
+<p>在经常需要<strong>排序</strong>的列上创建索引，因为索引已经排序，这样查询可以利用索引的排序，加快排序查询时间；</p>
+<p>在经常使用在WHERE子句中的列上面创建索引，加快条件的判断速度。</p>
+<h2 id="哪些列上不能创建索引"><a href="#哪些列上不能创建索引" class="headerlink" title="哪些列上不能创建索引"></a>哪些列上不能创建索引</h2><p>第一，对于那些在查询中<strong>很少使用或者参考的列</strong>不应该创建索引。</p>
+<p>这是因为，既然这些列很少使用到，因此有索引或者无索引，并不能提高查询速度。相反，由于增加了索引，反而降低了系统的维护速度和增大了空间需求。</p>
+<p>第二，对于那些只有<strong>很少数据值的列</strong>也不应该增加索引。这</p>
+<p>是因为，由于这些列的取值很少，例如人事表的性别列，在查询的结果中，结果集的数据行占了表中数据行的很大比例，即需要在表中搜索的数据行的比例很大。增加索引，并不能明显加快检索速度。</p>
+<p>第三，对于那些定义为text, image和bit数据类型的列不应该增加索引。</p>
+<p>这是因为，这些列的数据量要么相当大，要么取值很少。</p>
+<p>第四，当<strong>修改性能远远大于检索性能时，不应该创建索引</strong>。</p>
+<p>这是因为，修改性能和检索性能是互相矛盾的。当增加索引时，会提高检索性能，但是会降低修改性能。当减少索引时，会提高修改性能，降低检索性能。因此，当修改性能远远大于检索性能时，不应该创建索引。</p>
+<h2 id="索引没有使用可能是什么导致的"><a href="#索引没有使用可能是什么导致的" class="headerlink" title="索引没有使用可能是什么导致的"></a>索引没有使用可能是什么导致的</h2><p>单字段索引，查询中没有用到这个字段。</p>
+<p>复合索引，查询中没有复合索引的第一个字段。</p>
+<p>索引字段进行了函数操作。</p>
+<p>索引字段查询条件是like。</p>
+<p>索引字段值太少，如男、女，数据量很大。</p>
+<p>表中数据量很少。</p>
+<h2 id="索引有哪些类型"><a href="#索引有哪些类型" class="headerlink" title="索引有哪些类型"></a>索引有哪些类型</h2><p>1.直接创建索引和间接创建索引</p>
+<p>直接创建索引： CREATE INDEX mycolumn_index ON mytable (myclumn)</p>
+<p>间接创建索引：定义主键约束或者唯一性键约束，可以间接创建索引</p>
+<p>2.普通索引和唯一性索引</p>
+<p>普通索引：CREATE INDEX mycolumn_index ON mytable (myclumn)</p>
+<p>唯一性索引：保证在索引列中的全部数据是唯一的，对聚簇索引和非聚簇索引都可以使用</p>
+<p>CREATE UNIQUE COUSTERED INDEX myclumn_cindex ON mytable(mycolumn)</p>
+<p>3.单个索引和复合索引</p>
+<p>单个索引：即非复合索引</p>
+<p>复合索引：又叫组合索引，在索引建立语句中同时包含多个字段名，最多16个字段</p>
+<p>CREATE INDEX name_index ON username(firstname,lastname)</p>
+<p>4.聚簇索引和非聚簇索引(聚集索引，群集索引)</p>
+<p>聚簇索引：物理索引，与基表的物理顺序相同，数据值的顺序总是按照顺序排列</p>
+<p>CREATE CLUSTERED INDEX mycolumn_cindex ON mytable(mycolumn) WITH<br>ALLOW_DUP_ROW</p>
+<p>(允许有重复记录的聚簇索引)</p>
+<p>非聚簇索引：CREATE UNCLUSTERED INDEX mycolumn_cindex ON<br>mytable(mycolumn)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/database/dbi/dbiusebase/" data-id="clhlnyle00049ojupbwpk3ajq" data-title="数据库索引使用基础知识" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/database/dbi/clusterdbi" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/database/dbi/clusterdbi/" class="article-date">
@@ -167,113 +247,11 @@
 
 
   
-    <article id="post-blog/database/article/memdb" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/database/article/memdb/" class="article-date">
-  <time class="dt-published" datetime="2015-09-14T09:52:17.000Z" itemprop="datePublished">2015-09-14</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/database/article/memdb/">主流内存数据库介绍</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><strong>什么是内存数据库</strong>?</p>
-<p>传统的数据库管理系统把所有数据都放在磁盘上进行管理，所以称做磁盘数据库（DRDB:Disk-Resident Database）。磁盘数据库需要频繁地访问磁盘来进行数据的操作，由于对磁盘读写数据的操作一方面要进行磁头的机械移动，另一方面受到系统调用（通常通过CPU中断完成，受到CPU时钟周期的制约）时间的影响，当数据量很大，操作频繁且复杂时，就会暴露出很多问题。</p>
-<p>近年来，内存容量不断提高，价格不断下跌，操作系统已经可以支持更大的地址空间（计算机进入了64位时代），同时对数据库系统实时响应能力要求日益提高，充分利用内存技术提升数据库性能成为一个热点。</p>
-<p>?在数据库技术中，目前主要有两种方法来使用大量的内存。一种是在传统的数据库中，增大缓冲池，将一个事务所涉及的数据都放在缓冲池中，组织成相应的数据结构来进行查询和更新处理，也就是常说的共享内存技术，这种方法优化的主要目标是最小化磁盘访问。另一种就是内存数据库(MMDB:Main Memory Database，也叫主存数据库)技术，就是干脆重新设计一种数据库管理系统，对查询处理、并发控制与恢复的算法和数据结构进行重新设计，以更有效地使用CPU周期和内存，这种技术近乎把整个数据库放进内存中，因而会产生一些根本性的变化。</p>
-<p>内存数据库系统带来的优越性能不仅仅在于对内存读写比对磁盘读写快上，更重要的是，从根本上抛弃了磁盘数据管理的许多传统方式，基于全部数据都在内存中管理进行了新的体系结构的设计，并且在数据缓存、快速算法、并行操作方面也进行了相应的改进，从而使数据处理速度一般比传统数据库的数据处理速度快很多，一般都在10倍以上，理想情况甚至可以达到1000倍。</p>
-<p>Oracle TimesTen</p>
-<p>不开源，商业使用付费</p>
-<p>1. 符合RDBMS标准的独立内存数据库服务。</p>
-<p>2.支持SQL访问，支持ODBC&amp;JDBC。</p>
-<p>3.本身不支持与非Oracle数据库的互操作。</p>
-<p>4.高可靠性，支持完整日志，支持镜像复制功能。</p>
-<p>5.目前不支持存储过程和触发器。</p>
-<p>6.内存结构简单，并没有数据库缓冲区、保存池或丢弃池的概念。</p>
-<p>7.目前支持散列索引和T树索引，前者仅支持余键-值查找，速度非常快，执行过程与底层表的数量无关，具有较高的读取扩展性和很好的并发性；T树索引读取效率很高，但是，在繁重写操作时，并发性较差。</p>
-<p>ASE-IMDB</p>
-<p>不开源、商业使用付费</p>
-<p>1.被整合到Sysbase ASE平台中（TimesTen则为一个独立的数据库）。</p>
-<p>2. 基于经典ASE数据库模板创建。</p>
-<p>3. 采用复制技术实现读取其他数据源的数据。</p>
-<p>4. 完全支持ASE本身的SQL语法、安全性和加密。</p>
-<p>IBM SolidDB</p>
-<p>不开源、商业使用付费</p>
-<p>1.可以提供超快的速度和超高的可用性，可以提供每秒数万至数十万事务的吞吐率，并且始终可以获得微秒级的响应时间。</p>
-<p>2.抛弃大数据块结构，表行和索引节点独立地存储在内存中，可以直接添加索引，而不必重新组织大块结构。</p>
-<p>3.放弃使用大块索引，以精简结构、增加索引层数、将索引节点最小化，从而避免节点内处理的成本。</p>
-<p>4.使用一种称作trie（前缀树）的索引方式，更适合现代处理器缓存，通过有效促进缓存的使用来提高处理器的效率，从而实现性能的最大化。</p>
-<p>5.使用一种获得专利的检查点方法来加快数据处理，查询事务的延时通常是10到20微秒，更新事务的延时通常小于100微秒。</p>
-<p>VoltDB</p>
-<p>开源版本免费 商业版本需付费</p>
-<p>1.基于存储过程的事务提交方式：用户通过写存储过程完成应用程序的逻辑，作为一个先置条件将存储过程提交到VoltDB，运行时，用户程序调用存储过程完成事务操作，所有事务的运行逻辑是由VoltDB在服务器进程中完成。</p>
-<p>2．基于Shared<br>Nothing结构的数据分布，整个数据库的数据分散到集群的多台机器上。</p>
-<p>3.基于哈希的数据分布策略，好处是数据分散的均匀，没有动态数据调整的烦恼；缺点是新增的机器需要停止服务后重新分布数据。哈希方法打乱了数据的连续性，使得VoltDB对于范围查询的处理能力显著下降。</p>
-<p>4.其事务并发控制需要依赖于集群内所有机器的时间一致，其数据分片规模是按照集群核数来划分，当整个系统压力比较大时，可以使事务的时延有效降低。</p>
-<p>eXtremeDB</p>
-<p>不开源的商业数据库，<br>测试版本在功能上与正式版没有区别，但是，对连接次数做了限制</p>
-<p>1.高性能和高效的存储效率，为了提高性能方便程序使用，eXtremeDB中的数据未做任何压缩。</p>
-<p>2.不仅开源建立完全运行在主内存的内存数据库，更可以建立磁盘&#x2F;内存混合介质的数据库。</p>
-<p>3.嵌入式数据库：其内核以链接库的形式包含在应用程序之中，开销只有50KB-130KB；避免了进程间的通信，从而剔除了进程间通信的开销和不确定性；其独特的数据格式方便程序直接使用，剔除了数据复制及数据翻译的开销，缩短了应用程序的代码执行路径。</p>
-<p>4.由应用定制的API，应用程序对eXtremeDB数据库的操作接口是根据应用数据库设计而自动产生，剔除了通用接口所必不可少的动态内存分配。</p>
-<p>5.其独特的体系结构，保证了数据管理的可预测性。</p>
-<p>SQLite</p>
-<p>开源，免费使用 商业目的的分发版免费</p>
-<p>1.需要专业支持则需要购买。</p>
-<ol start="2">
-<li>在并发（包括多进程和多线程）读写方面的性能一直不太理想。数据库可能会被写操作独占，从而导致其它读写操作阻塞或出错。</li>
-</ol>
-<p>3.32\64位主流操作系统均支持。</p>
-<p>4.不支持ODBC连接，需通过第三方驱动支持JDBC连接。</p>
-<p>5.支持SQL</p>
-<p>H2</p>
-<p>开源，免费使用 商业目的的分发版免费</p>
-<p>1.需要专业支持则需要购买。</p>
-<ol start="2">
-<li>并发性较好（在模拟器中有使用，支持50个并发查询没问题），数据量少的情况，查询速度很好。</li>
-</ol>
-<p>3.32\64位主流操作系统均支持，但需Java平台支持。</p>
-<p>4.支持ODBC&amp;JDBC</p>
-<p>5.支持SQL</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/database/article/memdb/" data-id="clhlnyle0004cojup10yh32gr" data-title="主流内存数据库介绍" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/172/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/171/">171</a><a class="page-number" href="/page/172/">172</a><span class="page-number current">173</span><a class="page-number" href="/page/174/">174</a><a class="page-number" href="/page/175/">175</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/174/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/172/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/171/">171</a><a class="page-number" href="/page/172/">172</a><span class="page-number current">173</span><a class="page-number" href="/page/174/">174</a><a class="page-number" href="/page/175/">175</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/174/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -291,6 +269,10 @@
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -300,10 +282,6 @@
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -325,7 +303,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

@@ -77,6 +77,91 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/arch/crypto/ecckey" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/arch/crypto/ecckey/" class="article-date">
+  <time class="dt-published" datetime="2019-01-22T09:43:27.000Z" itemprop="datePublished">2019-01-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/arch/crypto/ecckey/">【密码术】ECC椭圆曲线密钥对生成</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>这里用的是bouncy castle（轻量级密码术包）是一种用于 Java 平台的开放源码的轻量级密码术包。</p>
+<p>这里先给出一些数学上的定义名词，因为代码中会有对应的变量名。</p>
+<h4 id="六个参量"><a href="#六个参量" class="headerlink" title="六个参量"></a>六个参量</h4><p>有限域Fp，这个域只有有限个元素。</p>
+<p>Fp中只有p（p为素数）个元素0,1,2 …… p-2,p-1；<br>Fp 的加法（a+b）法则是 a+b≡c (mod p)；<br>Fp 的乘法(a×b)法则是  a×b≡c (mod p)；<br>Fp 的除法(a÷b)法则是  a&#x2F;b≡c (mod p)；</p>
+<p>密码学中，描述Fp上的一条椭圆曲线，常用到六个参量：</p>
+<p>T&#x3D;(p,a,b,G,n,h)。</p>
+<p>p 、a 、b 用来确定Fp上的一条椭圆曲线，G为基点，n为点G的阶，h 是椭圆曲线上所有点的个数m与n相除的整数部分。</p>
+<h3 id="G点"><a href="#G点" class="headerlink" title="G点"></a>G点</h3><p>如果椭圆曲线上一点P，存在最小的正整数n，使得数乘nP&#x3D;O∞，则将n称为P的阶，在有限域上定义的椭圆曲线上所有的点的阶n都是存在的。</p>
+<p>K&#x3D;kG  [其中 K,G为Ep(a,b)上的点，k为小于n（n是点G的阶）的整数]</p>
+<p>不难发现，给定k和G，根据加法法则，计算K很容易；但给定K和G，求k就相对困难了。</p>
+<p>这就是椭圆曲线加密算法采用的难题。我们把点G称为基点（base point）。</p>
+<p>其中小k为私钥，一般为一个大随机数。</p>
+<p>K为公钥，因为是个坐标点，所以有非压缩方式和压缩方式，压缩方式就是取x坐标，y在用时再计算出来。</p>
+<h3 id="创建曲线"><a href="#创建曲线" class="headerlink" title="创建曲线"></a>创建曲线</h3><p>首先要获取一个曲线参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static X9ECParameters CURVE_PARAMS = CustomNamedCurves.getByName(&quot;secp256k1&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>有很多内置参数，只要调用名称就可以了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">defineCurve(&quot;curve25519&quot;, curve25519);</span><br><span class="line"></span><br><span class="line">defineCurveWithOID(&quot;secp192k1&quot;, SECObjectIdentifiers.secp192k1, secp192k1);</span><br><span class="line">defineCurveWithOID(&quot;secp192r1&quot;, SECObjectIdentifiers.secp192r1, secp192r1);</span><br><span class="line">defineCurveWithOID(&quot;secp224k1&quot;, SECObjectIdentifiers.secp224k1, secp224k1);</span><br><span class="line">defineCurveWithOID(&quot;secp224r1&quot;, SECObjectIdentifiers.secp224r1, secp224r1);</span><br><span class="line">defineCurveWithOID(&quot;secp256k1&quot;, SECObjectIdentifiers.secp256k1, secp256k1);</span><br><span class="line">defineCurveWithOID(&quot;secp256r1&quot;, SECObjectIdentifiers.secp256r1, secp256r1);</span><br><span class="line">defineCurveWithOID(&quot;secp384r1&quot;, SECObjectIdentifiers.secp384r1, secp384r1);</span><br><span class="line">defineCurveWithOID(&quot;secp521r1&quot;, SECObjectIdentifiers.secp521r1, secp521r1);</span><br><span class="line"></span><br><span class="line">defineCurveAlias(&quot;P-192&quot;, SECObjectIdentifiers.secp192r1);</span><br><span class="line">defineCurveAlias(&quot;P-224&quot;, SECObjectIdentifiers.secp224r1);</span><br><span class="line">defineCurveAlias(&quot;P-256&quot;, SECObjectIdentifiers.secp256r1);</span><br><span class="line">defineCurveAlias(&quot;P-384&quot;, SECObjectIdentifiers.secp384r1);</span><br><span class="line">defineCurveAlias(&quot;P-521&quot;, SECObjectIdentifiers.secp521r1);</span><br></pre></td></tr></table></figure>
+
+<p>再创建Fp上的一条椭圆曲线对象：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">static ECDomainParameters CURVE = new ECDomainParameters(CURVE_PARAMS.getCurve(), CURVE_PARAMS.getG(),</span><br><span class="line">			CURVE_PARAMS.getN(), CURVE_PARAMS.getH());</span><br></pre></td></tr></table></figure>
+
+<p>如果想用自己的参数创建一条可以这样做：</p>
+<p>设置好六个参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public BigInteger p;</span><br><span class="line">public BigInteger a;</span><br><span class="line">public BigInteger b;</span><br><span class="line">public BigInteger n;</span><br><span class="line">public BigInteger gx;</span><br><span class="line">public BigInteger gy;</span><br></pre></td></tr></table></figure>
+<p>用如下代码创建</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ECCurve fp = new ECCurve.Fp(p, a, b);</span><br><span class="line">ECPoint g = fp.createPoint(gx, gy);</span><br><span class="line">ECDomainParameters curve = new ECDomainParameters(fp, g, n);</span><br></pre></td></tr></table></figure>
+
+<h3 id="随机生成密钥"><a href="#随机生成密钥" class="headerlink" title="随机生成密钥"></a>随机生成密钥</h3><p>首先要创建一个密钥生成器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ECKeyGenerationParameters genparam = new ECKeyGenerationParameters(this.ecc_bc_spec, new SecureRandom());</span><br><span class="line">ecKeyPairGenerator = new ECKeyPairGenerator();</span><br><span class="line">ecKeyPairGenerator.init(genparam);</span><br></pre></td></tr></table></figure>
+
+<p>生成密钥：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">AsymmetricCipherKeyPair keyPair = this.ecKeyPairGenerator.generateKeyPair();</span><br><span class="line">ECPrivateKeyParameters priKey = (ECPrivateKeyParameters) keyPair.getPrivate();</span><br><span class="line">ECPublicKeyParameters pubKey = (ECPublicKeyParameters) keyPair.getPublic();</span><br><span class="line"></span><br><span class="line">BigInteger priv = priKey.getD();</span><br><span class="line">ECPoint point = pubKey.getQ().normalize();</span><br><span class="line">BigInteger pubx = point.getXCoord().toBigInteger();</span><br><span class="line">BigInteger puby = point.getYCoord().toBigInteger();</span><br></pre></td></tr></table></figure>
+
+<p>这里priv为私钥，pubx和puby为公钥，可以编码成字符串保存。</p>
+<h3 id="密钥生成过程"><a href="#密钥生成过程" class="headerlink" title="密钥生成过程"></a>密钥生成过程</h3><p>下面是<code>generateKeyPair</code>的源码，可以看出私钥是随机生成一个不大于n的随机数，公钥是私钥和曲线上的G点相乘得到的点：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public AsymmetricCipherKeyPair generateKeyPair()</span><br><span class="line">&#123;</span><br><span class="line">    BigInteger n = params.getN();</span><br><span class="line">    int nBitLength = n.bitLength();</span><br><span class="line">    int minWeight = nBitLength &gt;&gt;&gt; 2;</span><br><span class="line"></span><br><span class="line">    BigInteger d;</span><br><span class="line">    for (;;)</span><br><span class="line">    &#123;</span><br><span class="line">        d = new BigInteger(nBitLength, random);</span><br><span class="line"></span><br><span class="line">        if (d.compareTo(TWO) &lt; 0  || (d.compareTo(n) &gt;= 0))</span><br><span class="line">        &#123;</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line">        if (WNafUtil.getNafWeight(d) &lt; minWeight)</span><br><span class="line">        &#123;</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ECPoint Q = createBasePointMultiplier().multiply(params.getG(), d);</span><br><span class="line"></span><br><span class="line">    return new AsymmetricCipherKeyPair(</span><br><span class="line">        new ECPublicKeyParameters(Q, params),</span><br><span class="line">        new ECPrivateKeyParameters(d, params));</span><br><span class="line">&#125;</span><br><span class="line">protected ECMultiplier createBasePointMultiplier()</span><br><span class="line">&#123;</span><br><span class="line">    return new FixedPointCombMultiplier();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用私钥求公钥是非常简单的，只要做个multiply就可以了。</p>
+<h3 id="用种子生成密钥对"><a href="#用种子生成密钥对" class="headerlink" title="用种子生成密钥对"></a>用种子生成密钥对</h3><p>私钥可以用一个字符串加工得到byte数组，再由数组构建BigInteger，这样的私钥是伪随机的，但容易记，因为有种子就可以再次生成。</p>
+<p>请参考比特币bip32协议。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/crypto/ecckey/" data-id="clhlnylf100aeojupffwj1qvi" data-title="【密码术】ECC椭圆曲线密钥对生成" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/plang/scala/regexset" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/scala/regexset/" class="article-date">
@@ -122,71 +207,11 @@
 
 
   
-    <article id="post-blog/os/linux/cmd/top" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/os/linux/cmd/top/" class="article-date">
-  <time class="dt-published" datetime="2019-01-18T06:50:29.000Z" itemprop="datePublished">2019-01-18</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>►<a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/os/linux/cmd/top/">【Linux】top命令</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>top使用方法：</p>
-<p>使用格式：</p>
-<p>top [-] [d] [p] [q] [c] [C] [S] [s] [n]</p>
-<p>参数说明：</p>
-<p>d：指定每两次屏幕信息刷新之间的时间间隔。当然用户可以使用s交互命令来改变之。<br>p:通过指定监控进程ID来仅仅监控某个进程的状态。<br>q:该选项将使top没有任何延迟的进行刷新。如果调用程序有超级用户权限，那么top将以尽可能高的优先级运行。<br>S：指定累计模式。<br>s：使top命令在安全模式中运行。这将去除交互命令所带来的潜在危险。<br>i：使top不显示任何闲置或者僵死进程。<br>c:显示整个命令行而不只是显示命令名。</p>
-<p>VIRT：virtual memory usage 虚拟内存<br>1、进程“需要的”虚拟内存大小，包括进程使用的库、代码、数据等<br>2、假如进程申请100m的内存，但实际只使用了10m，那么它会增长100m，而不是实际的使用量</p>
-<p>RES：resident memory usage 常驻内存<br>1、进程当前使用的内存大小，但不包括swap out<br>2、包含其他进程的共享<br>3、如果申请100m的内存，实际使用10m，它只增长10m，与VIRT相反<br>4、关于库占用内存的情况，它只统计加载的库文件所占内存大小</p>
-<p>SHR：shared memory 共享内存<br>1、除了自身进程的共享内存，也包括其他进程的共享内存<br>2、虽然进程只使用了几个共享库的函数，但它包含了整个共享库的大小<br>3、计算某个进程所占的物理内存大小公式：RES – SHR<br>4、swap out后，它将会降下来</p>
-<p>DATA<br>1、数据占用的内存。如果top没有显示，按f键可以显示出来。<br>2、真正的该程序要求的数据空间，是真正在运行中要使用的。</p>
-<p>top 运行中可以通过 top 的内部命令对进程的显示方式进行控制。内部命令如下：<br>s – 改变画面更新频率<br>l – 关闭或开启第一部分第一行 top 信息的表示<br>t – 关闭或开启第一部分第二行 Tasks 和第三行 Cpus 信息的表示<br>m – 关闭或开启第一部分第四行 Mem 和 第五行 Swap 信息的表示<br>N – 以 PID 的大小的顺序排列表示进程列表<br>P – 以 CPU 占用率大小的顺序排列进程列表<br>M – 以内存占用率大小的顺序排列进程列表<br>h – 显示帮助<br>n – 设置在进程列表所显示进程的数量<br>q – 退出 top<br>s – 改变画面更新周期</p>
-<p>序号 列名 含义<br>a PID 进程id<br>b PPID 父进程id<br>c RUSER Real user name<br>d UID 进程所有者的用户id<br>e USER 进程所有者的用户名<br>f GROUP 进程所有者的组名<br>g TTY 启动进程的终端名。不是从终端启动的进程则显示为 ?<br>h PR 优先级<br>i NI nice值。负值表示高优先级，正值表示低优先级<br>j P 最后使用的CPU，仅在多CPU环境下有意义<br>k %CPU 上次更新到现在的CPU时间占用百分比<br>l TIME 进程使用的CPU时间总计，单位秒<br>m TIME+ 进程使用的CPU时间总计，单位1&#x2F;100秒<br>n %MEM 进程使用的物理内存百分比<br>o VIRT 进程使用的虚拟内存总量，单位kb。VIRT&#x3D;SWAP+RES<br>p SWAP 进程使用的虚拟内存中，被换出的大小，单位kb。<br>q RES 进程使用的、未被换出的物理内存大小，单位kb。RES&#x3D;CODE+DATA<br>r CODE 可执行代码占用的物理内存大小，单位kb<br>s DATA 可执行代码以外的部分(数据段+栈)占用的物理内存大小，单位kb<br>t SHR 共享内存大小，单位kb<br>u nFLT 页面错误次数<br>v nDRT 最后一次写入到现在，被修改过的页面数。<br>w S 进程状态。（D&#x3D;不可中断的睡眠状态，R&#x3D;运行，S&#x3D;睡眠，T&#x3D;跟踪&#x2F;停止，Z&#x3D;僵尸进程）<br>x COMMAND 命令名&#x2F;命令行<br>y WCHAN 若该进程在睡眠，则显示睡眠中的系统函数名<br>z Flags 任务标志，参考 sched.h</p>
-<p>默认情况下仅显示比较重要的 PID、USER、PR、NI、VIRT、RES、SHR、S、%CPU、%MEM、TIME+、COMMAND 列。可以通过下面的快捷键来更改显示内容。</p>
-<p>通过 f 键可以选择显示的内容。</p>
-<p>按 f 键之后会显示列的列表，按 a-z 即可显示或隐藏对应的列，最后按回车键确定。</p>
-<p>按 o 键可以改变列的显示顺序。按小写的 a-z 可以将相应的列向右移动，而大写的 A-Z 可以将相应的列向左移动。最后按回车键确定。</p>
-<p>按大写的 F 或 O 键，然后按 a-z 可以将进程按照相应的列进行排序。而大写的 R 键可以将当前的排序倒转。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/os/linux/cmd/top/" data-id="clhlnylh400mqojupdv475n0t" data-title="【Linux】top命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/12/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/14/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/12/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/14/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -204,6 +229,10 @@
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -213,10 +242,6 @@
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -238,7 +263,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

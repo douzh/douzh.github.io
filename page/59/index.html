@@ -77,6 +77,181 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/plang/java/base/hashmap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/plang/java/base/hashmap/" class="article-date">
+  <time class="dt-published" datetime="2016-02-26T05:49:13.000Z" itemprop="datePublished">2016-02-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/plang/java/base/hashmap/">JAVA源码之HashMap</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>HashMap 类的 put(K key , V value) 方法的源代码：</p>
+<pre><code> public V put(K key, V value) 
+ &#123; 
+     // 如果 key 为 null，调用 putForNullKey 方法进行处理
+     if (key == null) 
+         return putForNullKey(value); 
+     // 根据 key 的 keyCode 计算 Hash 值
+     int hash = hash(key.hashCode()); 
+     // 搜索指定 hash 值在对应 table 中的索引
+     int i = indexFor(hash, table.length);
+     // 如果 i 索引处的 Entry 不为 null，通过循环不断遍历 e 元素的下一个元素
+     for (Entry&lt; K,V&gt; e = table[i]; e != null; e = e.next) 
+     &#123; 
+         Object k; 
+         // 找到指定 key 与需要放入的 key 相等（hash 值相同
+         // 通过 equals 比较放回 true）
+         if (e.hash == hash &amp;&amp; ((k = e.key) == key 
+             || key.equals(k))) 
+         &#123; 
+             V oldValue = e.value; 
+             e.value = value; 
+             e.recordAccess(this); 
+             return oldValue; 
+         &#125; 
+     &#125; 
+     // 如果 i 索引处的 Entry 为 null，表明此处还没有 Entry 
+     modCount++; 
+     // 将 key、value 添加到 i 索引处
+     addEntry(hash, key, value, i); 
+     return null; 
+ &#125; 
+</code></pre>
+<p>上面程序中用到了一个重要的内部接口：Map.Entry，每个 Map.Entry<br>其实就是一个 key-value 对。从上面程序中可以看出：当系统决定存储 HashMap<br>中的 key-value 对时，完全没有考虑 Entry 中的 value，仅仅只是根据 key<br>来计算并决定每个 Entry 的存储位置。这也说明了前面的结论：我们完全可以把<br>Map 集合中的 value 当成 key 的附属，当系统决定了 key<br>的存储位置之后，value 随之保存在那里即可。</p>
+<p>上面方法提供了一个根据 hashCode() 返回值来计算 Hash<br>码的方法：hash()，这个方法是一个纯粹的数学计算，其方法如下：</p>
+<pre><code>static int hash(int h) 
+&#123; 
+    h ^= (h &gt;&gt;&gt; 20) ^ (h &gt;&gt;&gt; 12); 
+    return h ^ (h &gt;&gt;&gt; 7) ^ (h &gt;&gt;&gt; 4); 
+&#125; 
+</code></pre>
+<p>对于任意给定的对象，只要它的 hashCode() 返回值相同，那么程序调用<br>hash(int h) 方法所计算得到的 Hash 码值总是相同的。接下来程序会调用<br>indexFor(int h, int length) 方法来计算该对象应该保存在 table<br>数组的哪个索引处。indexFor(int h, int length) 方法的代码如下：</p>
+<pre><code>static int indexFor(int h, int length) 
+&#123; 
+    return h &amp; (length-1); 
+&#125;
+</code></pre>
+<p>这个方法非常巧妙，它总是通过 h &amp;(table.length -1)<br>来得到该对象的保存位置——而 HashMap 底层数组的长度总是 2 的 n<br>次方，这一点可参看后面关于 HashMap 构造器的介绍。</p>
+<p>当 length 总是 2 的倍数时，h &amp; (length-1) 将是一个非常巧妙的设计：假设<br>h&#x3D;5,length&#x3D;16, 那么 h &amp; length - 1 将得到 5；如果 h&#x3D;6,length&#x3D;16, 那么 h<br>&amp; length - 1 将得到 6 ……如果 h&#x3D;15,length&#x3D;16, 那么 h &amp; length - 1<br>将得到 15；但是当 h&#x3D;16 时 , length&#x3D;16 时，那么 h &amp; length - 1 将得到 0<br>了；当 h&#x3D;17 时 , length&#x3D;16 时，那么 h &amp; length - 1 将得到 1<br>了……这样保证计算得到的索引值总是位于 table 数组的索引之内。</p>
+<p>根据上面 put 方法的源代码可以看出，当程序试图将一个 key-value 对放入<br>HashMap 中时，程序首先根据该 key 的 hashCode() 返回值决定该 Entry<br>的存储位置：如果两个 Entry 的 key 的 hashCode()<br>返回值相同，那它们的存储位置相同。如果这两个 Entry 的 key 通过 equals<br>比较返回 true，新添加 Entry 的 value 将覆盖集合中原有 Entry 的 value，但<br>key 不会覆盖。如果这两个 Entry 的 key 通过 equals 比较返回<br>false，新添加的 Entry 将与集合中原有 Entry 形成 Entry 链，而且新添加的<br>Entry 位于 Entry 链的头部——具体说明继续看 addEntry() 方法的说明。</p>
+<p>当向 HashMap 中添加 key-value 对，由其 key 的 hashCode() 返回值决定该<br>key-value 对（就是 Entry 对象）的存储位置。当两个 Entry 对象的 key 的<br>hashCode() 返回值相同时，将由 key 通过 eqauls()<br>比较值决定是采用覆盖行为（返回 true），还是产生 Entry 链（返回 false）。</p>
+<p>上面程序中还调用了 addEntry(hash, key, value, i); 代码，其中 addEntry 是<br>HashMap 提供的一个包访问权限的方法，该方法仅用于添加一个 key-value<br>对。下面是该方法的代码：</p>
+<pre><code>void addEntry(int hash, K key, V value, int bucketIndex) 
+&#123; 
+    // 获取指定 bucketIndex 索引处的 Entry 
+    Entry&lt; K,V&gt; e = table[bucketIndex];    // ①
+    // 将新创建的 Entry 放入 bucketIndex 索引处，并让新的 Entry 指向原来的 Entry 
+    table[bucketIndex] = new Entry&lt; K,V&gt;(hash, key, value, e); 
+    // 如果 Map 中的 key-value 对的数量超过了极限
+    if (size++ &gt;= threshold) 
+        // 把 table 对象的长度扩充到 2 倍。
+        resize(2 * table.length);    // ②
+&#125; 
+</code></pre>
+<p>上面方法的代码很简单，但其中包含了一个非常优雅的设计：系统总是将新添加的<br>Entry 对象放入 table 数组的 bucketIndex 索引处——如果 bucketIndex<br>索引处已经有了一个 Entry 对象，那新添加的 Entry 对象指向原有的 Entry<br>对象（产生一个 Entry 链），如果 bucketIndex 索引处没有 Entry<br>对象，也就是上面程序①号代码的 e 变量是 null，也就是新放入的 Entry<br>对象指向 null，也就是没有产生 Entry 链。</p>
+<p>上面程序中还有这样两个变量：</p>
+<p>* size：该变量保存了该 HashMap 中所包含的 key-value 对的数量。</p>
+<p>* threshold：该变量包含了 HashMap 能容纳的 key-value<br>对的极限，它的值等于 HashMap 的容量乘以负载因子（load factor）。</p>
+<p>当 size++ &gt;&#x3D; threshold 时，HashMap 会自动调用 resize 方法扩充 HashMap<br>的容量。每扩充一次，HashMap 的容量就增大一倍。</p>
+<p>上面程序中使用的 table<br>其实就是一个普通数组，每个数组都有一个固定的长度，这个数组的长度就是<br>HashMap 的容量。HashMap 包含如下几个构造器：</p>
+<p>HashMap()：构建一个初始容量为 16，负载因子为 0.75 的 HashMap。</p>
+<p>HashMap(int initialCapacity)：构建一个初始容量为<br>initialCapacity，负载因子为 0.75 的 HashMap。</p>
+<p>HashMap(int initialCapacity, float<br>loadFactor)：以指定初始容量、指定的负载因子创建一个 HashMap。</p>
+<p>当创建一个 HashMap 时，系统会自动创建一个 table 数组来保存 HashMap 中的<br>Entry，下面是 HashMap 中一个构造器的代码：</p>
+<pre><code>// 以指定初始化容量、负载因子创建 HashMap 
+ public HashMap(int initialCapacity, float loadFactor) 
+ &#123; 
+     // 初始容量不能为负数
+     if (initialCapacity &lt; 0) 
+         throw new IllegalArgumentException( 
+        &quot;Illegal initial capacity: &quot; + 
+             initialCapacity); 
+     // 如果初始容量大于最大容量，让出示容量
+     if (initialCapacity &gt; MAXIMUM_CAPACITY) 
+         initialCapacity = MAXIMUM_CAPACITY; 
+     // 负载因子必须大于 0 的数值
+     if (loadFactor &lt;= 0 || Float.isNaN(loadFactor)) 
+         throw new IllegalArgumentException( 
+         loadFactor); 
+     // 计算出大于 initialCapacity 的最小的 2 的 n 次方值。
+     int capacity = 1; 
+     while (capacity &lt; initialCapacity) 
+         capacity &lt;&lt;= 1; 
+     this.loadFactor = loadFactor; 
+     // 设置容量极限等于容量 * 负载因子
+     threshold = (int)(capacity * loadFactor); 
+     // 初始化 table 数组
+     table = new Entry[capacity];            // ①
+     init(); 
+ &#125; 
+</code></pre>
+<p>对于 HashMap 及其子类而言，它们采用 Hash<br>算法来决定集合中元素的存储位置。当系统开始初始化 HashMap<br>时，系统会创建一个长度为 capacity 的 Entry<br>数组，这个数组里可以存储元素的位置被称为”桶（bucket）”，每个 bucket<br>都有其指定索引，系统可以根据其索引快速访问该 bucket 里存储的元素。</p>
+<p>无论何时，HashMap 的每个”桶”只存储一个元素（也就是一个 Entry），由于<br>Entry 对象可以包含一个引用变量（就是 Entry<br>构造器的的最后一个参数）用于指向下一个<br>Entry，因此可能出现的情况是：HashMap 的 bucket 中只有一个 Entry，但这个<br>Entry 指向另一个 Entry ——这就形成了一个 Entry 链。</p>
+<p>HashMap 的读取实现</p>
+<p>当 HashMap 的每个 bucket 里存储的 Entry 只是单个 Entry<br>——也就是没有通过指针产生 Entry 链时，此时的 HashMap<br>具有最好的性能：当程序通过 key 取出对应 value 时，系统只要先计算出该 key<br>的 hashCode() 返回值，在根据该 hashCode 返回值找出该 key 在 table<br>数组中的索引，然后取出该索引处的 Entry，最后返回该 key 对应的 value<br>即可。看 HashMap 类的 get(K key) 方法代码：</p>
+<pre><code> public V get(Object key) 
+ &#123; 
+     // 如果 key 是 null，调用 getForNullKey 取出对应的 value 
+     if (key == null) 
+         return getForNullKey(); 
+     // 根据该 key 的 hashCode 值计算它的 hash 码
+     int hash = hash(key.hashCode()); 
+     // 直接取出 table 数组中指定索引处的值，
+     for (Entry&lt; K,V&gt; e = table[indexFor(hash, table.length)]; 
+         e != null; 
+         // 搜索该 Entry 链的下一个 Entr 
+         e = e.next)         // ①
+     &#123; 
+         Object k; 
+         // 如果该 Entry 的 key 与被搜索 key 相同
+         if (e.hash == hash &amp;&amp; ((k = e.key) == key 
+             || key.equals(k))) 
+             return e.value; 
+     &#125; 
+     return null; 
+ &#125; 
+</code></pre>
+<p>从上面代码中可以看出，如果 HashMap 的每个 bucket 里只有一个 Entry<br>时，HashMap 可以根据索引、快速地取出该 bucket 里的 Entry；在发生”Hash<br>冲突”的情况下，单个 bucket 里存储的不是一个 Entry，而是一个 Entry<br>链，系统只能必须按顺序遍历每个 Entry，直到找到想搜索的 Entry<br>为止——如果恰好要搜索的 Entry 位于该 Entry 链的最末端（该 Entry<br>是最早放入该 bucket 中），那系统必须循环到最后才能找到该元素。</p>
+<p>归纳起来简单地说，HashMap 在底层将 key-value<br>当成一个整体进行处理，这个整体就是一个 Entry 对象。HashMap 底层采用一个<br>Entry[] 数组来保存所有的 key-value 对，当需要存储一个 Entry<br>对象时，会根据 Hash 算法来决定其存储位置；当需要取出一个 Entry<br>时，也会根据 Hash 算法找到其存储位置，直接取出该<br>Entry。由此可见：HashMap 之所以能快速存、取它所包含的<br>Entry，完全类似于现实生活中母亲从小教我们的：不同的东西要放在不同的位置，需要时才能快速找到它。</p>
+<p>当创建 HashMap 时，有一个默认的负载因子（load factor），其默认值为<br>0.75，这是时间和空间成本上一种折衷：增大负载因子可以减少 Hash<br>表（就是那个 Entry<br>数组）所占用的内存空间，但会增加查询数据的时间开销，而查询是最频繁的的操作（HashMap<br>的 get() 与 put()<br>方法都要用到查询）；减小负载因子会提高数据查询的性能，但会增加 Hash<br>表所占用的内存空间。</p>
+<p>掌握了上面知识之后，我们可以在创建 HashMap 时根据实际需要适当地调整 load<br>factor<br>的值；如果程序比较关心空间开销、内存比较紧张，可以适当地增加负载因子；如果程序比较关心时间开销，内存比较宽裕则可以适当的减少负载因子。通常情况下，程序员无需改变负载因子的值。</p>
+<p>如果开始就知道 HashMap 会保存多个 key-value<br>对，可以在创建时就使用较大的初始化容量，如果 HashMap 中 Entry<br>的数量一直不会超过极限容量（capacity * load factor），HashMap<br>就无需调用 resize() 方法重新分配 table<br>数组，从而保证较好的性能。当然，开始就将初始容量设置太高可能会浪费空间（系统需要创建一个长度为<br>capacity 的 Entry 数组），因此创建 HashMap<br>时初始化容量设置也需要小心对待。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/base/hashmap/" data-id="clhlnylhp00phojup9f0h6b3d" data-title="JAVA源码之HashMap" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/plang/java/base/md5" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/java/base/md5/" class="article-date">
@@ -144,214 +319,11 @@ public class MD5Test &#123;
 
 
   
-    <article id="post-blog/tools/maven/model" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/tools/maven/model/" class="article-date">
-  <time class="dt-published" datetime="2016-02-22T08:31:05.000Z" itemprop="datePublished">2016-02-22</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/tools/maven/model/">Maven最佳实践：划分模块</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>所有用Maven管理的真实的项目都应该是分模块的，每个模块都对应着一个pom.xml。它们之间通过继承和聚合（也称作多模块，multi-module）相互关联。那么，为什么要这么做呢？我们明明在开发一个项目，划分模块后，导入Eclipse变成了N个项目，这会带来复杂度，给开发带来不便。</p>
-<p>为了解释原因，假设有这样一个项目，很常见的Java<br>Web应用。在这个应用中，我们分了几层：</p>
-<ul>
-<li>Dao层负责数据库交互，封装了Hibernate交互的类。</li>
-<li>Service层处理业务逻辑，放一些Service接口和实现相关的Bean。</li>
-<li>Web层负责与客户端交互，主要有一些Structs的Action类。</li>
-</ul>
-<p>对应的，在一个项目中，我们会看到一些包名：</p>
-<ul>
-<li>org.myorg.app.dao</li>
-<li>org.myorg.app.service</li>
-<li>org.myorg.app.web</li>
-<li>org.myorg.app.util</li>
-</ul>
-<p>这样整个项目的框架就清晰了，但随着项目的进行，你可能会遇到如下问题：</p>
-<ol>
-<li>这个应用可能需要有一个前台和一个后台管理端（web或者swing），你发现大部分dao，一些service，和大部分util是在两个应用中可。这样的问题，你一周内遇到了好几次。</li>
-<li>pom.xml中的依赖列表越来越长以重用的，但是，由于目前只有一个项目（WAR），你不得不新建一个项目依赖这个WAR，这变得非常的恶心，因为在Maven中配置对WAR的依赖远不如依赖JAR那样简单明了，而且你根本不需要org.myorg.app.web。有人修改了dao，提交到svn并且不小心导致build失败了，你在编写service的代码，发现编译不过，只能等那人把dao修复了，你才能继续进行，很多人都在修改，到后来你根本就不清楚哪个依赖是谁需要的，渐渐的，很多不必要的依赖被引入。甚至出现了一个依赖有多个版本存在。</li>
-<li>build整个项目的时间越来越长，尽管你只是一直在web层工作，但你不得不build整个项目。</li>
-<li>某个模块，比如util，你只想让一些经验丰富的人来维护，可是，现在这种情况，每个开发者都能修改，这导致关键模块的代码质量不能达到你的要求。\</li>
-</ol>
-<p>我们会发现，其实这里实际上没有遵守一个设计模式原则：”高内聚，低耦合”。虽然我们通过包名划分了层次，并且你还会说，这些包的依赖都是单向的，没有包的环依赖。这很好，但还不够，因为就构建层次来说，所有东西都被耦合在一起了。因此我们需要使用Maven划分模块。</p>
-<p> </p>
-<p>一个简单的Maven模块结构是这样的：</p>
-<pre><code>---- app-parent
-             |-- pom.xml (pom)
-             |
-             |-- app-util
-             |        |-- pom.xml (jar)
-             |
-             |-- app-dao
-             |        |-- pom.xml (jar)
-             |
-             |-- app-service
-             |        |-- pom.xml (jar)
-             |
-             |-- app-web
-                      |-- pom.xml (war)  
-</code></pre>
-<p>上述简单示意图中，有一个父项目(app-parent)聚合很多子项目（app-util,<br>app-dao, app-service,<br>app-web）。每个项目，不管是父子，都含有一个pom.xml文件。而且要注意的是，小括号中标出了每个项目的打包类型。父项目是pom,也只能是pom。子项目有jar，或者war。根据它包含的内容具体考虑。</p>
-<p> </p>
-<p>这些模块的依赖关系如下：</p>
-<p> </p>
-<p>app-dao      --&gt; app-util</p>
-<p>app-service --&gt; app-dao</p>
-<p>app-web     --&gt; app-service</p>
-<p> </p>
-<p>注意依赖的传递性（大部分情况是传递的，除非你配置了特殊的依赖scope），app-dao依赖于app-util，app-service依赖于app-dao，于是app-service也依赖于app-util。同理，app-web依赖于app-dao,app-util。</p>
-<p> </p>
-<p>用项目层次的划分替代包层次的划分能给我们带来如下好处：</p>
-<ol>
-<li>方便重用，如果你有一个新的swing项目需要用到app-dao和app-service，添加对它们的依赖即可，你不再需要去依赖一个WAR。而有些模块，如app-util，完全可以渐渐进化成公司的一份基础工具类库，供所有项目使用。这是模块化最重要的一个目的。</li>
-<li>由于你现在划分了模块，每个模块的配置都在各自的pom.xml里，不用再到一个混乱的纷繁复杂的总的POM中寻找自己的配置。</li>
-<li>如果你只是在app-dao上工作，你不再需要build整个项目，只要在app-dao目录运行mvn命令进行build即可，这样可以节省时间，尤其是当项目越来越复杂，build越来越耗时后。</li>
-<li>某些模块，如app-util被所有人依赖，但你不想给所有人修改，现在你完全可以从这个项目结构出来，做成另外一个项目，svn只给特定的人访问，但仍提供jar给别人使用。</li>
-<li>多模块的Maven项目结构支持一些Maven的更有趣的特性（如DepencencyManagement），这留作以后讨论。</li>
-</ol>
-<p>接下来讨论一下POM配置细节，实际上非常简单，先看app-parent的pom.xml：</p>
-<pre><code>    4.0.0
-    org.myorg.myapp
-    app-parent
-    pom
-    1.0-SNAPSHOT
-    
-        app-util
-        app-dao
-        app-service
-        app-web
-    
-</code></pre>
-<p>Maven的坐标GAV（groupId, artifactId,<br>version）在这里进行配置，这些都是必须的。特殊的地方在于，这里的packaging为pom。所有带有子模块的项目的packaging都为pom。packaging如果不进行配置，它的默认值是jar，代表Maven会将项目打成一个jar包。</p>
-<p>该配置重要的地方在于modules，例子中包含的子模块有app-util, app-dao,<br>app-service, app-war。在Maven build<br>app-parent的时候，它会根据子模块的相互依赖关系整理一个build顺序，然后依次build。</p>
-<p>这就是一个父模块大概需要的配置，接下来看一下子模块符合配置继承父模块。、</p>
-<pre><code>        app-parent
-        org.myorg.myapp
-        1.0-SNAPSHOT
-    
-    4.0.0
-    app-util
-    
-        
-            commons-lang
-            commons-lang
-            2.4
-        
-    
-</code></pre>
-<p>app-util模块继承了app-parent父模块，因此这个POM的一开始就声明了对app-parent的引用，该引用是通过Maven坐标GAV实现的。而关于项目app-util本身，它却没有声明完整GAV，这里我们只看到了artifactId。这个POM并没有错，groupId和version默认从父模块继承了。实际上子模块从父模块继承一切东西，包括依赖，插件配置等等。</p>
-<p>此外app-util配置了一个对于commons-lang的简单依赖，这是最简单的依赖配置形式。大部分情况，也是通过GAV引用的。</p>
-<p>再看一下app-dao，它也是继承于app-parent，同时依赖于app-util：</p>
-<pre><code>        app-parent
-        org.myorg.myapp
-        1.0-SNAPSHOT
-    
-    4.0.0
-    app-dao
-    
-        
-            org.myorg.myapp
-            app-util
-            $&#123;project.version&#125;
-        
-    
-</code></pre>
-<p>该配置和app-util的配置几乎没什么差别，不同的地方在于，依赖变化了，app-dao依赖于app-util。这里要注意的是version的值为${project.version}，这个值是一个属性引用，指向了POM的project&#x2F;version的值，也就是这个POM对应的version。由于app-dao的version继承于app-parent，因此它的值就是1.0-SNAPSHOT。而app-util也继承了这个值，因此在所有这些项目中，我们做到了保持版本一致。</p>
-<p>这里还需要注意的是，app-dao依赖于app-util，而app-util又依赖于commons-lang，根据传递性，app-dao也拥有了对于commons-lang的依赖。</p>
-<p>app-service我们跳过不谈，它依赖于app-dao。我们最后看一下app-web：</p>
-<pre><code>        app-parent
-        org.myorg.myapp
-        1.0-SNAPSHOT
-    
-    4.0.0
-    app-web
-    war
-    
-        
-            org.myorg.myapp
-            app-service
-            $&#123;project.version&#125;
-        
-    
-</code></pre>
-<p>app-web依赖于app-service，因此配置了对其的依赖。</p>
-<p>由于app-web是我们最终要部署的应用，因此它的packaging是war。为此，你需要有一个目录src&#x2F;main&#x2F;webapp。并在这个目录下拥有web应用需要的文件，如&#x2F;WEB-INF&#x2F;web.xml。没有web.xml，Maven会报告build失败，此外你可能还会有这样一些子目录：&#x2F;js,<br>&#x2F;img, &#x2F;css ... 。</p>
-<p> </p>
-<p>看看Maven是如何build整个项目的，我们在 app-parent 根目录中运行 mvn clean<br>install ，输出的末尾会有大致这样的内容：</p>
-<pre><code>...
-...
-[INFO] [war:war]
-[INFO] Packaging webapp
-[INFO] Assembling webapp[app-web] in [/home/juven/workspaces/ws-others/myapp/app-web/target/app-web-1.0-SNAPSHOT]
-[INFO] Processing war project
-[INFO] Webapp assembled in[50 msecs]
-[INFO] Building war: /home/juven/workspaces/ws-others/myapp/app-web/target/app-web-1.0-SNAPSHOT.war
-[INFO] [install:install]
-[INFO] Installing /home/juven/workspaces/ws-others/myapp/app-web/target/app-web-1.0-SNAPSHOT.war to /home/juven/.m2/repository/org/myorg/myapp/app-web/1.0-SNAPSHOT/app-web-1.0-SNAPSHOT.war
-[INFO] 
-[INFO] 
-[INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary:
-[INFO] ------------------------------------------------------------------------
-[INFO] app-parent ............................................ SUCCESS [1.191s]
-[INFO] app-util .............................................. SUCCESS [1.274s]
-[INFO] app-dao ............................................... SUCCESS [0.583s]
-[INFO] app-service ........................................... SUCCESS [0.593s]
-[INFO] app-web ............................................... SUCCESS [0.976s]
-[INFO] ------------------------------------------------------------------------
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESSFUL
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 4 seconds
-[INFO] Finished at: Sat Dec 27 08:20:18 PST 2008
-[INFO] Final Memory: 3M/17M
-[INFO] ------------------------------------------------------------------------
-</code></pre>
-<p>注意Reactor<br>Summary，整个项目根据我们希望的顺序进行build。Maven根据我们的依赖配置，智能的安排了顺序，app-util,<br>app-dao, app-service, app-web。</p>
-<p> </p>
-<p>最后，你可以在 app-web&#x2F;target 目录下找到文件 app-web-1.0-SNAPSHOT.war<br>，打开这个war包，在 &#x2F;WEB-INF&#x2F;lib 目录看到了<br>commons-lang-2.4.jar，以及对应的app-util, app-dao, app-service<br>的jar包。Maven自动帮你处理了打包的事情，并且根据你的依赖配置帮你引入了相应的jar文件。</p>
-<p>使用多模块的Maven配置，可以帮助项目划分模块，鼓励重用，防止POM变得过于庞大，方便某个模块的构建，而不用每次都构建整个项目，并且使得针对某个模块的特殊控制更为方便。本文同时给出了一个实际的配置样例，展示了如何使用Maven配置多模块项目。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/tools/maven/model/" data-id="clhlnylgh00j0ojup3ubaa4e0" data-title="Maven最佳实践：划分模块" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/" rel="tag">maven</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/58/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/57/">57</a><a class="page-number" href="/page/58/">58</a><span class="page-number current">59</span><a class="page-number" href="/page/60/">60</a><a class="page-number" href="/page/61/">61</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/60/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/58/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/57/">57</a><a class="page-number" href="/page/58/">58</a><span class="page-number current">59</span><a class="page-number" href="/page/60/">60</a><a class="page-number" href="/page/61/">61</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/60/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -369,6 +341,10 @@ public class MD5Test &#123;
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -378,10 +354,6 @@ public class MD5Test &#123;
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -403,7 +375,7 @@ public class MD5Test &#123;
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

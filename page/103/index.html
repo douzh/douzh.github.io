@@ -77,6 +77,71 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/algorithm/tree/avlt" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/algorithm/tree/avlt/" class="article-date">
+  <time class="dt-published" datetime="2016-01-02T07:05:51.000Z" itemprop="datePublished">2016-01-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>►<a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/algorithm/tree/avlt/">AVLT自平衡二叉查找树</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="AVL树定义"><a href="#AVL树定义" class="headerlink" title="AVL树定义"></a>AVL树定义</h2><p>在计算机科学中，AVL树是最先发明的自平衡二叉查找树（[Balanced Binary<br>Search<br>Tree,BBST]{style&#x3D;”color: rgb(51, 51, 51); font-family: arial, 宋体, sans-serif; line-height: 26px;”}）。在AVL树中任何节点的两个子树的高度最大差别为一，所以它也被称为高度平衡树。查找、插入和删除在平均和最坏情况下都是O（log<br>n）。增加和删除可能需要通过一次或多次树旋转来重新平衡这个树。AVL树得名于它的发明者G.M.<br>Adelson-Velsky和E.M. Landis，他们在1962年的论文《An algorithm for the<br>organization of information》中发表了它。</p>
+<p>节点的平衡因子是它的右子树的高度减去它的左子树的高度。带有平衡因子1、0或<br>-1的节点被认为是平衡的。带有平衡因子<br>-2或2的节点被认为是不平衡的，并需要重新平衡这个树。平衡因子可以直接存储在每个节点中，或从可能存储在节点中的子树高度计算出来。</p>
+<h2 id="关键问题"><a href="#关键问题" class="headerlink" title="关键问题"></a>关键问题</h2><p>AVL树的操作中异于普通二叉查找树的地方是插入和删除过程。</p>
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入过程可能会导致不平衡的情况出现，这样我们就需要对这些情况进行处理-----即旋转。先来个详细的图：（Root是失去平衡的树的根结点，pivot是旋转后重新平衡的树的根结点。</p>
+<p><img src="/images/tree/bstrotate.gif"></p>
+<p>总共有四种情况插入导致不平衡：（不平衡结点为上图中的root)</p>
+<p>（1）不平衡结点的左子树的左子树高度增加，导致不平衡结点的左子树结点高度增加，如果不平衡结点的左子树结点高度原来就比不平衡结点的右子树结点高度大一，则现在变为大2.导致不平衡结点的平衡因子由-1变为-2。需要对不平衡结点进行右旋，即把不平衡结点移动到它的右孩子的位置，将左孩子移动到它的位置上，并将左孩子的右子树接到不平衡结点的左孩子上。</p>
+<p>（2）不平衡结点的右子树的右子树高度增加，导致不平衡结点的右子树结点高度增加，如果不平衡结点的右子树结点高度原来就比不平衡结点的左子树结点高度大一，则现在变为大2.导致不平衡结点的平衡因子由1变为2。需要对不平衡结点进行左旋，即把不平衡结点移动到它的左孩子的位置，将右孩子移动到它的位置上，并将右孩子的左子树接到不平衡结点的右孩子上。</p>
+<p>下面两种情况进行一次旋转并不能使树恢复平衡，需要进行两次旋转。</p>
+<p>（3）不平衡结点的左子树的右子树高度增加，导致不平衡结点的左子树结点高度增加，如果不平衡结点的左子树结点高度原来就比不平衡结点的右子树结点高度大一，则现在变为大2.导致不平衡结点的平衡因子由-1变为-2。先进行左旋使树变为（1）的情况，再进行右旋。</p>
+<p>（4）不平衡结点的右子树的左子树高度增加，导致不平衡结点的右子树结点高度增加，如果不平衡结点的右子树结点高度原来就比不平衡结点的左子树结点高度大一，则现在变为大2.导致不平衡结点的平衡因子由1变为2。先进行右旋使树变为（2）的情况，再进行左旋。</p>
+<p>知道了四种需要进行旋转的情况，我们知道有不平衡结点后该如何进行位置调整。但是如何知道查找平衡结点呢？当我们进行插入时，需要将插入元素不断地与树中的结点进行比较，然后决定插入它的左子树还是它的右子树，这条路径记录了插入元素和哪些结点相关（即哪些结点的左子树或右子树插入了元素）。这条路径上的结点的平衡因子可能会发生变化，记住是可能。</p>
+<h2 id="调整平衡因子"><a href="#调整平衡因子" class="headerlink" title="调整平衡因子"></a>调整平衡因子</h2><p>插入结点后，插入路径上的结点的平衡因子需要进行调整以表达现在的平衡情况。是不是在插入路径范围进行变化呢？不是。之后的回溯过程会从插入路径回溯，直到找到不平衡点，找到不平衡点后，不平衡点的祖先结点们的平衡因子是不用改变的。从插入结点到不平衡结点中的每个结点之间的平衡因子需要怎么变化呢？因为它们的平衡因子之前都是0.现在插入了新结点，这些结点的高度都会加1.如果插入元素小于结点值，则结点平衡因子-1，大于则结点平衡因子+1（分别对应插入了结点的哪个子树中）。至于为什么么这些结点的平衡因子都是之前都是零0，看获得不平衡点。</p>
+<h2 id="获得不平衡点"><a href="#获得不平衡点" class="headerlink" title="获得不平衡点"></a>获得不平衡点</h2><p>分析旋转的四种情况，不然发现，旋转前和旋转后，子树t的高度是没有变化的。也就是说只需要找到路径中和插入结点最近的不平衡点，然后以该不平衡结点进行旋转处理，则路径中该不平衡结点的祖先结点们的平衡因子是不变的。该结点即为不平衡点，即旋转中的root结点。由此可见插入新元素后不平衡点可能大于一个，但是经过对离插入结点最近的不平衡点进行旋转调整后，不平衡点全部消失。如何判断谁是可能是最近的不平衡点呢？插入路径中离插入结点最近的插入时平衡因子不等于0的结点即为可能的不平衡点。为什么呢?因为如果结点平衡因子是0，插入一个结点不会导致该结点的平衡因子变为+2，或者-2。但是会改变它的父结点的平衡因子，会使父结点的平衡因子变化1。如果父结点的平衡因子之前是0.则继续向上回溯。</p>
+<p>（1）如果父结点的平衡因子因为变化1而变为0，则是在父结点的较短的子树中插入了新结点导致子树高度加1，使父结点平衡因子变为了0。父结点为根的子树高度没有变化，则祖先们的平衡因子不需要变化，所以得到没有平衡因子的结论。</p>
+<p>2)如果父结点的平衡因子因为变化1而变为-2或者+2,那么父结点成为了不平衡结点，需要以父结点为根进行旋转变化。至于使用哪种变化，首先根据父结点与插入值的大小关系，插入值小于该结点，则为L，大于则为R。再根据插入值与该结点的左孩子（L）或者右孩子（R）进行大小比较得出。LL、LR、RR、RL四种情况之一进行位置调整。</p>
+<h2 id="旋转后平衡因子调整"><a href="#旋转后平衡因子调整" class="headerlink" title="旋转后平衡因子调整"></a>旋转后平衡因子调整</h2><p>上面获取不平衡结点后，进行了位置调整，但是位置调整后平衡因子也需要再次调整。</p>
+<p>一、LL型平衡因子调整</p>
+<p>二、LR型平衡因子调整</p>
+<p>三、RR型平衡因子调整</p>
+<p>四、RL型平衡因子调整</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/algorithm/tree/avlt/" data-id="clhlnyldu0035ojupgv803jd4" data-title="AVLT自平衡二叉查找树" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" rel="tag">树算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/algorithm/tree/bst" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/algorithm/tree/bst/" class="article-date">
@@ -283,181 +348,11 @@
 
 
   
-    <article id="post-blog/plang/java/nio/buffer" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/plang/java/nio/buffer/" class="article-date">
-  <time class="dt-published" datetime="2015-12-31T07:51:43.000Z" itemprop="datePublished">2015-12-31</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/plang/java/nio/buffer/">JAVA NIO之Buffer</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Java NIO中的Buffer用于和NIO通道进行交互。如你所知，数据是从通道读入缓冲区，从缓冲区写入到通道中的。</p>
-<p>缓冲区本质上是一块可以写入数据，然后可以从中读取数据的内存。这块内存被包装成NIO Buffer对象，并提供了一组方法，用来方便的访问该块内存。</p>
-<p>下面是NIO Buffer相关的话题列表：</p>
-<p>[TOC]</p>
-<h3 id="Buffer的基本用法"><a href="#Buffer的基本用法" class="headerlink" title="Buffer的基本用法"></a>Buffer的基本用法</h3><p>使用Buffer读写数据一般遵循以下四个步骤：</p>
-<ol>
-<li>写入数据到Buffer</li>
-<li>调用<code>flip()</code>方法</li>
-<li>从Buffer中读取数据</li>
-<li>调用<code>clear()</code>方法或者<code>compact()</code>方法</li>
-</ol>
-<p>当向buffer写入数据时，buffer会记录下写了多少数据。一旦要读取数据，需要通过flip()方法将Buffer从写模式切换到读模式。在读模式下，可以读取之前写入到buffer的所有数据。</p>
-<p>一旦读完了所有的数据，就需要清空缓冲区，让它可以再次被写入。有两种方式能清空缓冲区：调用clear()或compact()方法。clear()方法会清空整个缓冲区。compact()方法只会清除已经读过的数据。任何未读的数据都被移到缓冲区的起始处，新写入的数据将放到缓冲区未读数据的后面。</p>
-<p>下面是一个使用Buffer的例子：</p>
-<pre><code>RandomAccessFile aFile = new RandomAccessFile(&quot;data/nio-data.txt&quot;, &quot;rw&quot;);
-FileChannel inChannel = aFile.getChannel();
-
-//create buffer with capacity of 48 bytes
-ByteBuffer buf = ByteBuffer.allocate(48);
-
-int bytesRead = inChannel.read(buf); //read into buffer.
-while (bytesRead != -1) &#123;
-
-  buf.flip();  //make buffer ready for read
-
-  while(buf.hasRemaining())&#123;
-      System.out.print((char) buf.get()); // read 1 byte at a time
-  &#125;
-
-  buf.clear(); //make buffer ready for writing
-  bytesRead = inChannel.read(buf);
-&#125;
-aFile.close();
-</code></pre>
-<h3 id="Buffer的capacity-position和limit"><a href="#Buffer的capacity-position和limit" class="headerlink" title="Buffer的capacity,position和limit"></a>Buffer的capacity,position和limit</h3><p>缓冲区本质上是一块可以写入数据，然后可以从中读取数据的内存。这块内存被包装成NIO Buffer对象，并提供了一组方法，用来方便的访问该块内存。</p>
-<p>为了理解Buffer的工作原理，需要熟悉它的三个属性：</p>
-<ul>
-<li>capacity</li>
-<li>position</li>
-<li>limit</li>
-</ul>
-<p>position和limit的含义取决于Buffer处在读模式还是写模式。不管Buffer处在什么模式，capacity的含义总是一样的。</p>
-<p>这里有一个关于capacity，position和limit在读写模式中的说明，详细的解释在插图后面。</p>
-<p><img src="/images/java/niobuffer.png"></p>
-<h4 id="capacity"><a href="#capacity" class="headerlink" title="capacity"></a>capacity</h4><p>作为一个内存块，Buffer有一个固定的大小值，也叫“capacity”.你只能往里写capacity个byte、long，char等类型。一旦Buffer满了，需要将其清空（通过读数据或者清除数据）才能继续写数据往里写数据。</p>
-<h4 id="position"><a href="#position" class="headerlink" title="position"></a>position</h4><p>当你写数据到Buffer中时，position表示当前的位置。初始的position值为0.当一个byte、long等数据写到Buffer后，position会向前移动到下一个可插入数据的Buffer单元。position最大可为capacity– 1.</p>
-<p>当读取数据时，也是从某个特定位置读。当将Buffer从写模式切换到读模式，position会被重置为0.</p>
-<p>当从Buffer的position处读取数据时，position向前移动到下一个可读的位置。</p>
-<h4 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h4><p>在写模式下，Buffer的limit表示你最多能往Buffer里写多少数据。</p>
-<p>写模式下，limit等于Buffer的capacity。</p>
-<p>当切换Buffer到读模式时，limit表示你最多能读到多少数据。因此，当切换Buffer到读模式时，limit会被设置成写模式下的position值。换句话说，你能读到之前写入的所有数据（limit被设置成已写数据的数量，这个值在写模式下就是position）</p>
-<h3 id="Buffer的类型"><a href="#Buffer的类型" class="headerlink" title="Buffer的类型"></a>Buffer的类型</h3><p>Java NIO 有以下Buffer类型</p>
-<ul>
-<li>ByteBuffer</li>
-<li>MappedByteBuffer</li>
-<li>CharBuffer</li>
-<li>DoubleBuffer</li>
-<li>FloatBuffer</li>
-<li>IntBuffer</li>
-<li>LongBuffer</li>
-<li>ShortBuffer</li>
-</ul>
-<p>如你所见，这些Buffer类型代表了不同的数据类型。换句话说，就是可以通过char，short，int，long，float或 double类型来操作缓冲区中的字节。</p>
-<p>MappedByteBuffer 有些特别，在涉及它的专门章节中再讲。</p>
-<h3 id="Buffer的分配"><a href="#Buffer的分配" class="headerlink" title="Buffer的分配"></a>Buffer的分配</h3><p>要想获得一个Buffer对象首先要进行分配。</p>
-<p>每一个Buffer类都有一个allocate方法。下面是一个分配48字节capacity的ByteBuffer的例子。</p>
-<pre><code>ByteBuffer buf = ByteBuffer.allocate(48);
-</code></pre>
-<p>这是分配一个可存储1024个字符的CharBuffer：</p>
-<pre><code>CharBuffer buf = CharBuffer.allocate(1024);
-</code></pre>
-<h3 id="向Buffer中写数据"><a href="#向Buffer中写数据" class="headerlink" title="向Buffer中写数据"></a>向Buffer中写数据</h3><p>写数据到Buffer有两种方式：</p>
-<ul>
-<li>从Channel写到Buffer。</li>
-<li>通过Buffer的put()方法写到Buffer里。</li>
-</ul>
-<p>从Channel写到Buffer的例子</p>
-<pre><code>int bytesRead = inChannel.read(buf); //read into buffer.
-</code></pre>
-<p>通过put方法写Buffer的例子：</p>
-<pre><code>buf.put(127);
-</code></pre>
-<p>put方法有很多版本，允许你以不同的方式把数据写入到Buffer中。例如，写到一个指定的位置，或者把一个字节数组写入到Buffer。</p>
-<p>更多Buffer实现的细节参考JavaDoc。</p>
-<h4 id="flip-方法"><a href="#flip-方法" class="headerlink" title="flip()方法"></a>flip()方法</h4><p>flip方法将Buffer从写模式切换到读模式。调用flip()方法会将position设回0，并将limit设置成之前position的值。</p>
-<p>换句话说，position现在用于标记读的位置，limit表示之前写进了多少个byte、char等—— 现在能读取多少个byte、char等。</p>
-<h3 id="从Buffer中读取数据"><a href="#从Buffer中读取数据" class="headerlink" title="从Buffer中读取数据"></a>从Buffer中读取数据</h3><p>从Buffer中读取数据有两种方式：</p>
-<ol>
-<li>从Buffer读取数据到Channel。</li>
-<li>使用get()方法从Buffer中读取数据。</li>
-</ol>
-<p>从Buffer读取数据到Channel的例子：</p>
-<pre><code>//read from buffer into channel.
-int bytesWritten = inChannel.write(buf);
-</code></pre>
-<p>使用get()方法从Buffer中读取数据的例子</p>
-<pre><code>byte aByte = buf.get();
-</code></pre>
-<p>get方法有很多版本，允许你以不同的方式从Buffer中读取数据。例如，从指定position读取，或者从Buffer中读取数据到字节数组。更多Buffer实现的细节参考JavaDoc。</p>
-<h3 id="rewind-方法"><a href="#rewind-方法" class="headerlink" title="rewind()方法"></a>rewind()方法</h3><p>Buffer.rewind()将position设回0，所以你可以重读Buffer中的所有数据。limit保持不变，仍然表示能从Buffer中读取多少个元素（byte、char等）。</p>
-<h3 id="clear-与compact-方法"><a href="#clear-与compact-方法" class="headerlink" title="clear()与compact()方法"></a>clear()与compact()方法</h3><p>一旦读完Buffer中的数据，需要让Buffer准备好再次被写入。可以通过clear()或compact()方法来完成。</p>
-<p>如果调用的是clear()方法，position将被设回0，limit被设置成capacity的值。换句话说，Buffer被清空了。Buffer中的数据并未清除，只是这些标记告诉我们可以从哪里开始往Buffer里写数据。</p>
-<p>如果Buffer中有一些未读的数据，调用clear()方法，数据将“被遗忘”，意味着不再有任何标记会告诉你哪些数据被读过，哪些还没有。</p>
-<p>如果Buffer中仍有未读的数据，且后续还需要这些数据，但是此时想要先先写些数据，那么使用compact()方法。</p>
-<p>compact()方法将所有未读的数据拷贝到Buffer起始处。然后将position设到最后一个未读元素正后面。limit属性依然像clear()方法一样，设置成capacity。现在Buffer准备好写数据了，但是不会覆盖未读的数据。</p>
-<h3 id="mark-与reset-方法"><a href="#mark-与reset-方法" class="headerlink" title="mark()与reset()方法"></a>mark()与reset()方法</h3><p>通过调用Buffer.mark()方法，可以标记Buffer中的一个特定position。之后可以通过调用Buffer.reset()方法恢复到这个position。例如：</p>
-<pre><code>buffer.mark();
-
-//call buffer.get() a couple of times, e.g. during parsing.
-
-buffer.reset();  //set position back to mark.
-</code></pre>
-<h3 id="equals-与compareTo-方法"><a href="#equals-与compareTo-方法" class="headerlink" title="equals()与compareTo()方法"></a>equals()与compareTo()方法</h3><p>可以使用equals()和compareTo()方法两个Buffer。</p>
-<h4 id="equals"><a href="#equals" class="headerlink" title="equals()"></a>equals()</h4><p>当满足下列条件时，表示两个Buffer相等：</p>
-<ol>
-<li>有相同的类型（byte、char、int等）。</li>
-<li>Buffer中剩余的byte、char等的个数相等。</li>
-<li>Buffer中所有剩余的byte、char等都相同。</li>
-</ol>
-<p>如你所见，equals只是比较Buffer的一部分，不是每一个在它里面的元素都比较。实际上，它只比较Buffer中的剩余元素。</p>
-<h4 id="compareTo-方法"><a href="#compareTo-方法" class="headerlink" title="compareTo()方法"></a>compareTo()方法</h4><p>compareTo()方法比较两个Buffer的剩余元素(byte、char等)，如果满足下列条件，则认为一个Buffer“小于”另一个Buffer：</p>
-<ol>
-<li>第一个不相等的元素小于另一个Buffer中对应的元素 。</li>
-<li>所有元素都相等，但第一个Buffer比另一个先耗尽(第一个Buffer的元素个数比另一个少)。</li>
-</ol>
-<p><em>（译注：剩余元素是从 position到limit之间的元素）</em></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/java/nio/buffer/" data-id="clhlnyli300sbojuped5b3olh" data-title="JAVA NIO之Buffer" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA-NIO/" rel="tag">JAVA NIO</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/102/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="page-number" href="/page/102/">102</a><span class="page-number current">103</span><a class="page-number" href="/page/104/">104</a><a class="page-number" href="/page/105/">105</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/104/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/102/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="page-number" href="/page/102/">102</a><span class="page-number current">103</span><a class="page-number" href="/page/104/">104</a><a class="page-number" href="/page/105/">105</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/104/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -475,6 +370,10 @@ buffer.reset();  //set position back to mark.
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -484,10 +383,6 @@ buffer.reset();  //set position back to mark.
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -509,7 +404,7 @@ buffer.reset();  //set position back to mark.
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

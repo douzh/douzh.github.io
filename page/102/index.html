@@ -77,6 +77,167 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/algorithm/tree/rbtdel" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/algorithm/tree/rbtdel/" class="article-date">
+  <time class="dt-published" datetime="2016-01-03T04:00:11.000Z" itemprop="datePublished">2016-01-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>►<a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/algorithm/tree/rbtdel/">RBT红黑树（二）删除算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在看本文前请先看<a href="/algorithm/tree/rbt/">RBT红黑树（一）概念和插入算法</a></p>
+<h2 id="RBT删除算法"><a href="#RBT删除算法" class="headerlink" title="RBT删除算法"></a>RBT删除算法</h2><p>红黑树的删除和BST基本相同，只是多了调整树的过程。这里再复习一下删除的思想：</p>
+<p>根据待删除结点的孩子情况，分三种情况：没有孩子，只有一个孩子，有两个孩子。</p>
+<p>1.没有孩子的情况，其父结点指向空，删除该结点。</p>
+<p>2.有一个孩子的情况，其父结点指向其孩子，删除该结点。</p>
+<p>3.有两个孩子的情况，当前结点要用其它结点替换，然后释放当前结点。</p>
+<p>用左子树中的最大元素替换当前结点。左子树一直right到nil，可能有左节点。</p>
+<p>用右子树中的最小结点替换当前结点。右子树一直left到nil，可能有右节点。</p>
+<p>替换后不改变BST的性质，可以自己想一下。</p>
+<p>RBT删除伪代码：</p>
+<p>对于两个孩子的情况用的是右子树的最小结点。</p>
+<p>RB-DELETE(T, z)</p>
+<pre><code> 1 if left[z] = nil[T] or right[z] = nil[T]
+ 2    then y ← z
+ 3    else y ← TREE-SUCCESSOR(z)
+ 4 if left[y] ≠ nil[T]
+ 5    then x ← left[y]
+ 6    else x ← right[y]
+ 7 p[x] ← p[y]
+ 8 if p[y] = nil[T]
+ 9    then root[T] ← x
+10    else if y = left[p[y]]
+11            then left[p[y]] ← x
+12            else right[p[y]] ← x
+13 if y ≠ z
+14    then key[z] ← key[y]
+15         copy y&#39;s satellite data into z
+16 if color[y] = BLACK               //如果y是黑色的，
+17    then RB-DELETE-FIXUP(T, x)   //则调用RB-DELETE-FIXUP(T, x) 
+18 return y
+</code></pre>
+<p>对于有两个孩子的节点，删除的是其右子树的最小结点。最小结点的内容会替换要删除结点的内容。</p>
+<p>对于RBT的删除操作，只有删除节点为黑色时才进行调整，删除有两个孩子的节点，实际删除的是右子树最小节点。这个结点对应伪代码中的y。</p>
+<p>删除的节点y一定至多有一个孩子，这个很明显，自己想一下。</p>
+<p>删除的节点为红色时不必变RBT的性质，所以不要调整，为黑色才调整。调整时传入的x为删除节点y的孩子节点。</p>
+<p>下文中的图都是删除后的RBT，其中标注的x就是删除节点的孩子。</p>
+<h3 id="RB-DELETE-FIXUP"><a href="#RB-DELETE-FIXUP" class="headerlink" title="RB-DELETE-FIXUP"></a>RB-DELETE-FIXUP</h3><p>伪代码：</p>
+<p>RB-DELETE-FIXUP(T, x)</p>
+<pre><code> 1 while x ≠ root[T] and color[x] = BLACK
+ 2     do if x = left[p[x]]
+ 3           then w ← right[p[x]]
+ 4                if color[w] = RED
+ 5                   then color[w] ← BLACK                        ?  Case 1
+ 6                        color[p[x]] ← RED                       ?  Case 1
+ 7                        LEFT-ROTATE(T, p[x])                    ?  Case 1
+ 8                        w ← right[p[x]]                         ?  Case 1
+ 9                if color[left[w]] = BLACK and color[right[w]] = BLACK
+10                   then color[w] ← RED                          ?  Case 2
+11                        x ← p[x]                                  ?  Case 2
+12                   else if color[right[w]] = BLACK
+13                           then color[left[w]] ← BLACK          ?  Case 3
+14                                color[w] ← RED                  ?  Case 3
+15                                RIGHT-ROTATE(T, w)              ?  Case 3
+16                                w ← right[p[x]]                 ?  Case 3
+17                         color[w] ← color[p[x]]                 ?  Case 4
+18                         color[p[x]] ← BLACK                    ?  Case 4
+19                         color[right[w]] ← BLACK                ?  Case 4
+20                         LEFT-ROTATE(T, p[x])                   ?  Case 4
+21                         x ← root[T]                            ?  Case 4
+22        else (same as then clause with &quot;right&quot; and &quot;left&quot; exchanged)
+23 color[x] ← BLACK 
+</code></pre>
+<p>当前节点为x，从伪代码中看出，有两种简单情况：</p>
+<p>当前节点是红色，直接把当前节点染成黑色，结束。</p>
+<p>当前节点是黑色且是根节点，什么都不做，结束。</p>
+<p>其它情况分为四种情况处理。这里简单说明一下。</p>
+<p>Case1：从代码结构可以看出Case1不能平衡RBT，会转换成Case2~4。</p>
+<p>Case2：可以平衡RBT树，上移x，new x为红节点会结束循环，为黑会继续调整。</p>
+<p>Case3：不能平衡RBT，转换成Case4。</p>
+<p>Case4：可以平衡RBT树，x会指向ROOT，结束循环。</p>
+<p>下图为四种情况的变换图：</p>
+<p><img src="/images/tree/rbtdelall.jpg"></p>
+<p>图中x都为黑色，这是因为当前节点是红色，直接把当前节点染成黑色，RBT平衡了，是一种简单情况。</p>
+<p>图中w节点永远是x的兄弟结点。</p>
+<h4 id="Case1"><a href="#Case1" class="headerlink" title="Case1"></a>Case1</h4><pre><code> 5      then color[w] ← BLACK    ?  Case 1
+ 6           color[p[x]] ← RED   ?  Case 1
+ 7           LEFT-ROTATE(T, p[x]) ?  Case 1
+ 8           w ← right[p[x]]     ?  Case 1
+</code></pre>
+<p><img src="/images/tree/rbtdelc1.jpg"></p>
+<p>对策：改变w、p[z]颜色，再对p[x]做一次左旋，红黑性质得以继续保持，A~E黑高度都没变。</p>
+<p>x的新兄弟new w是旋转之前w的某个孩子，为黑色。</p>
+<p>所以，情况1转化成情况2或3、4。</p>
+<h4 id="Case2"><a href="#Case2" class="headerlink" title="Case2"></a>Case2</h4><pre><code>10  then color[w] ← RED   ?  Case 2
+11       x &lt;-p[x]         ?  Case 2
+</code></pre>
+<p><img src="/images/tree/rbtdelc2.jpg"></p>
+<p>如图所示，w的俩个孩子都是黑色的，w也是黑的。</p>
+<p>因为删除后B的左子树比右子树黑高度小1，把w改为红的，则B的左右子树黑高度就一样了。</p>
+<p>但和删除之前相比，左右子树的黑高度都小了1。</p>
+<p>如果B是红的，直接改为黑的，BST就平衡了，和删除之前一样，这会在下个循环完成。</p>
+<p>如果B是黑的，会再进入循环向上迭代。</p>
+<h4 id="Case3"><a href="#Case3" class="headerlink" title="Case3"></a>Case3</h4><pre><code>13   then color[left[w]] ← BLACK  ?  Case 3
+14        color[w] ← RED          ?  Case 3
+15        RIGHT-ROTATE(T, w)      ?  Case 3
+16        w ← right[p[x]]       ?  Case 3
+</code></pre>
+<p><img src="/images/tree/rbtdelc3.jpg"></p>
+<p>w为黑，其左孩子为红，右孩子为黑</p>
+<p>对策：交换w和和其左孩子left[w]的颜色。 即上图的D、C颜色互换。</p>
+<p>并对w进行右旋，而红黑性质仍然得以保持。</p>
+<p>现在x的新兄弟w是一个有红色右孩子的黑结点，于是将情况3转化为情况4.</p>
+<h4 id="Case4"><a href="#Case4" class="headerlink" title="Case4"></a>Case4</h4><pre><code>17   color[w] ← color[p[x]]    ?  Case 4
+18   color[p[x]] ← BLACK       ?  Case 4
+19   color[right[w]] ← BLACK   ?  Case 4
+20   LEFT-ROTATE(T, p[x])      ?  Case 4
+21   x ← root[T]              ?  Case 4
+</code></pre>
+<p><img src="/images/tree/rbtdelc4.jpg"></p>
+<p>x的兄弟w为黑色，且w的右孩子为红色。</p>
+<p>对策：做颜色修改，并对p[x]做一次旋转，可以去掉x的额外黑色，来把x变成单独的黑色，此举不破坏红黑性质。</p>
+<p>这样做右子树黑高度没变，左子树黑高度加了1，和删除前一样了。</p>
+<p>最后将x置为根后，循环结束。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>可以结束调整的两种状态要记住，总结为以下两句话：</p>
+<p>父红右三黑：x的父为红，父的右是三个黑结点。</p>
+<p>右黑右红：x的父的右节点为黑，右节点的右孩子为黑。</p>
+<p>其它情况在不破坏RBT的红黑性质前提下做旋转，转换到这两种状态。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/algorithm/tree/rbtdel/" data-id="clhlnyldy0041ojupbjncgfs7" data-title="RBT红黑树（二）删除算法" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" rel="tag">树算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/algorithm/tree/rbt" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/algorithm/tree/rbt/" class="article-date">
@@ -252,76 +413,11 @@
 
 
   
-    <article id="post-blog/algorithm/tree/avlt" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/algorithm/tree/avlt/" class="article-date">
-  <time class="dt-published" datetime="2016-01-02T07:05:51.000Z" itemprop="datePublished">2016-01-02</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>►<a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/algorithm/tree/avlt/">AVLT自平衡二叉查找树</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="AVL树定义"><a href="#AVL树定义" class="headerlink" title="AVL树定义"></a>AVL树定义</h2><p>在计算机科学中，AVL树是最先发明的自平衡二叉查找树（[Balanced Binary<br>Search<br>Tree,BBST]{style&#x3D;”color: rgb(51, 51, 51); font-family: arial, 宋体, sans-serif; line-height: 26px;”}）。在AVL树中任何节点的两个子树的高度最大差别为一，所以它也被称为高度平衡树。查找、插入和删除在平均和最坏情况下都是O（log<br>n）。增加和删除可能需要通过一次或多次树旋转来重新平衡这个树。AVL树得名于它的发明者G.M.<br>Adelson-Velsky和E.M. Landis，他们在1962年的论文《An algorithm for the<br>organization of information》中发表了它。</p>
-<p>节点的平衡因子是它的右子树的高度减去它的左子树的高度。带有平衡因子1、0或<br>-1的节点被认为是平衡的。带有平衡因子<br>-2或2的节点被认为是不平衡的，并需要重新平衡这个树。平衡因子可以直接存储在每个节点中，或从可能存储在节点中的子树高度计算出来。</p>
-<h2 id="关键问题"><a href="#关键问题" class="headerlink" title="关键问题"></a>关键问题</h2><p>AVL树的操作中异于普通二叉查找树的地方是插入和删除过程。</p>
-<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入过程可能会导致不平衡的情况出现，这样我们就需要对这些情况进行处理-----即旋转。先来个详细的图：（Root是失去平衡的树的根结点，pivot是旋转后重新平衡的树的根结点。</p>
-<p><img src="/images/tree/bstrotate.gif"></p>
-<p>总共有四种情况插入导致不平衡：（不平衡结点为上图中的root)</p>
-<p>（1）不平衡结点的左子树的左子树高度增加，导致不平衡结点的左子树结点高度增加，如果不平衡结点的左子树结点高度原来就比不平衡结点的右子树结点高度大一，则现在变为大2.导致不平衡结点的平衡因子由-1变为-2。需要对不平衡结点进行右旋，即把不平衡结点移动到它的右孩子的位置，将左孩子移动到它的位置上，并将左孩子的右子树接到不平衡结点的左孩子上。</p>
-<p>（2）不平衡结点的右子树的右子树高度增加，导致不平衡结点的右子树结点高度增加，如果不平衡结点的右子树结点高度原来就比不平衡结点的左子树结点高度大一，则现在变为大2.导致不平衡结点的平衡因子由1变为2。需要对不平衡结点进行左旋，即把不平衡结点移动到它的左孩子的位置，将右孩子移动到它的位置上，并将右孩子的左子树接到不平衡结点的右孩子上。</p>
-<p>下面两种情况进行一次旋转并不能使树恢复平衡，需要进行两次旋转。</p>
-<p>（3）不平衡结点的左子树的右子树高度增加，导致不平衡结点的左子树结点高度增加，如果不平衡结点的左子树结点高度原来就比不平衡结点的右子树结点高度大一，则现在变为大2.导致不平衡结点的平衡因子由-1变为-2。先进行左旋使树变为（1）的情况，再进行右旋。</p>
-<p>（4）不平衡结点的右子树的左子树高度增加，导致不平衡结点的右子树结点高度增加，如果不平衡结点的右子树结点高度原来就比不平衡结点的左子树结点高度大一，则现在变为大2.导致不平衡结点的平衡因子由1变为2。先进行右旋使树变为（2）的情况，再进行左旋。</p>
-<p>知道了四种需要进行旋转的情况，我们知道有不平衡结点后该如何进行位置调整。但是如何知道查找平衡结点呢？当我们进行插入时，需要将插入元素不断地与树中的结点进行比较，然后决定插入它的左子树还是它的右子树，这条路径记录了插入元素和哪些结点相关（即哪些结点的左子树或右子树插入了元素）。这条路径上的结点的平衡因子可能会发生变化，记住是可能。</p>
-<h2 id="调整平衡因子"><a href="#调整平衡因子" class="headerlink" title="调整平衡因子"></a>调整平衡因子</h2><p>插入结点后，插入路径上的结点的平衡因子需要进行调整以表达现在的平衡情况。是不是在插入路径范围进行变化呢？不是。之后的回溯过程会从插入路径回溯，直到找到不平衡点，找到不平衡点后，不平衡点的祖先结点们的平衡因子是不用改变的。从插入结点到不平衡结点中的每个结点之间的平衡因子需要怎么变化呢？因为它们的平衡因子之前都是0.现在插入了新结点，这些结点的高度都会加1.如果插入元素小于结点值，则结点平衡因子-1，大于则结点平衡因子+1（分别对应插入了结点的哪个子树中）。至于为什么么这些结点的平衡因子都是之前都是零0，看获得不平衡点。</p>
-<h2 id="获得不平衡点"><a href="#获得不平衡点" class="headerlink" title="获得不平衡点"></a>获得不平衡点</h2><p>分析旋转的四种情况，不然发现，旋转前和旋转后，子树t的高度是没有变化的。也就是说只需要找到路径中和插入结点最近的不平衡点，然后以该不平衡结点进行旋转处理，则路径中该不平衡结点的祖先结点们的平衡因子是不变的。该结点即为不平衡点，即旋转中的root结点。由此可见插入新元素后不平衡点可能大于一个，但是经过对离插入结点最近的不平衡点进行旋转调整后，不平衡点全部消失。如何判断谁是可能是最近的不平衡点呢？插入路径中离插入结点最近的插入时平衡因子不等于0的结点即为可能的不平衡点。为什么呢?因为如果结点平衡因子是0，插入一个结点不会导致该结点的平衡因子变为+2，或者-2。但是会改变它的父结点的平衡因子，会使父结点的平衡因子变化1。如果父结点的平衡因子之前是0.则继续向上回溯。</p>
-<p>（1）如果父结点的平衡因子因为变化1而变为0，则是在父结点的较短的子树中插入了新结点导致子树高度加1，使父结点平衡因子变为了0。父结点为根的子树高度没有变化，则祖先们的平衡因子不需要变化，所以得到没有平衡因子的结论。</p>
-<p>2)如果父结点的平衡因子因为变化1而变为-2或者+2,那么父结点成为了不平衡结点，需要以父结点为根进行旋转变化。至于使用哪种变化，首先根据父结点与插入值的大小关系，插入值小于该结点，则为L，大于则为R。再根据插入值与该结点的左孩子（L）或者右孩子（R）进行大小比较得出。LL、LR、RR、RL四种情况之一进行位置调整。</p>
-<h2 id="旋转后平衡因子调整"><a href="#旋转后平衡因子调整" class="headerlink" title="旋转后平衡因子调整"></a>旋转后平衡因子调整</h2><p>上面获取不平衡结点后，进行了位置调整，但是位置调整后平衡因子也需要再次调整。</p>
-<p>一、LL型平衡因子调整</p>
-<p>二、LR型平衡因子调整</p>
-<p>三、RR型平衡因子调整</p>
-<p>四、RL型平衡因子调整</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/algorithm/tree/avlt/" data-id="clhlnyldu0035ojupgv803jd4" data-title="AVLT自平衡二叉查找树" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" rel="tag">树算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/101/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="page-number" href="/page/101/">101</a><span class="page-number current">102</span><a class="page-number" href="/page/103/">103</a><a class="page-number" href="/page/104/">104</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/103/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/101/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="page-number" href="/page/101/">101</a><span class="page-number current">102</span><a class="page-number" href="/page/103/">103</a><a class="page-number" href="/page/104/">104</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/103/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -339,6 +435,10 @@
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -348,10 +448,6 @@
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -373,7 +469,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

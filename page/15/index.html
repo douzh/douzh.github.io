@@ -77,6 +77,99 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/arch/jms/activemqsenior" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/arch/jms/activemqsenior/" class="article-date">
+  <time class="dt-published" datetime="2019-01-08T02:15:15.000Z" itemprop="datePublished">2019-01-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/arch/jms/activemqsenior/">【JMS】ActiveMQ高级特性</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="异步发送消息"><a href="#异步发送消息" class="headerlink" title="异步发送消息"></a>异步发送消息</h3><p>ActiveMQ支持生产者以同步或异步模式发送消息。使用不同的模式对 send方法的反应时间有巨大的影响，反映时间是衡量ActiveMQ 吞吐量的重要因素，使用异步发送可以提高系统的性能。</p>
+<p>在默认大多数情况下，AcitveMQ是以异步模式发送消息。例外的情况：在没有使用事务的情况下，生产者以 PERSISTENT传送模式发送消息。在这种情况下，send方法都是同步的，并且一直阻塞直到 ActiveMQ发回确认消息：消息已经存储在持久性数据存储中。这种确认机制保证消息不会丢失，但会造成生产者阻塞从而影响反应时间。</p>
+<p>高性能的程序一般都能容忍在故障情况下丢失少量数据。如果编写这样的程序，可以通过使用异步发送来提高吞吐量（甚至在使用PERSISTENT 传送模式的情况下）。</p>
+<p>使用 Connection URI 配置异步发送:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cf = new ActiveMQConnectionFactory(&quot;tcp://locahost:61616?jms.useAsyncSend=true&quot;);</span><br></pre></td></tr></table></figure>
+<p>在 ConnectionFactory 层面配置异步发送:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((ActiveMQConnectionFactory)connectionFactory).setUseAsyncSend(true);</span><br></pre></td></tr></table></figure>
+<p>在 Connection 层面配置异步发送，此层面的设置将覆盖ConnectionFactory层面的设置:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((ActiveMQConnection)connection).setUseAsyncSend(true);</span><br></pre></td></tr></table></figure>
+<h3 id="消费者特色"><a href="#消费者特色" class="headerlink" title="消费者特色"></a>消费者特色</h3><h4 id="消费者异步分派"><a href="#消费者异步分派" class="headerlink" title="消费者异步分派"></a>消费者异步分派</h4><p>在 ActiveMQ4 中，支持 ActiveMQ 以同步或异步模式向消费者分派消息。这样的意义：可以以异步模式向处理消息慢的消费者分配消息；以同步模式向处理消息快的消费者分配消息。</p>
+<p>ActiveMQ默认以同步模式分派消息，这样的设置可以提高性能。但是对于处理消息慢的消费者，需要以异步模式分派。</p>
+<p>在 ConnectionFactory 层面配置同步分派:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((ActiveMQConnectionFactory)connectionFactory).setDispatchAsync(false);</span><br></pre></td></tr></table></figure>
+<p>在 Connection 层面配置同步分派，此层面的设置将覆盖ConnectionFactory层面的设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((ActiveMQConnection)connection).setDispatchAsync(false);</span><br></pre></td></tr></table></figure>
+
+<p>在消费者层面以 Destination URI配置同步分派，此层面的设置将覆盖ConnectionFactory 和 Connection 层面的设置:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">queue = new ActiveMQQueue(&quot;TEST.QUEUE?consumer.dispatchAsync=false&quot;);</span><br><span class="line">consumer = session.createConsumer(queue);</span><br></pre></td></tr></table></figure>
+
+<h4 id="消费者优先级"><a href="#消费者优先级" class="headerlink" title="消费者优先级"></a>消费者优先级</h4><p>在 ActveMQ 分布式环境中，在有消费者存在的情况下，如果更希望ActveMQ 发送消息给消费者而不是其他的 ActveMQ 到ActveMQ 的传送，可以如下设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">queue = new ActiveMQQueue(&quot;TEST.QUEUE?consumer.prority=10&quot;);</span><br><span class="line">consumer = session.createConsumer(queue);</span><br></pre></td></tr></table></figure>
+
+<h4 id="独占的消费者"><a href="#独占的消费者" class="headerlink" title="独占的消费者"></a>独占的消费者</h4><p>ActiveMQ维护队列消息的顺序并顺序把消息分派给消费者。但是如果建立了多个Session 和 MessageConsumer，那么同一时刻多个线程同时从一个队列中接收消息时就并不能保证处理时有序。</p>
+<p>有时候有序处理消息是非常重要的。ActiveMQ4 支持独占的消费。ActiveMQ 挑选一个MessageConsumer， 并把一个队列中所有消息按顺序分派给它。 如果消费者发生故障，那么 ActiveMQ 将自动故障转移并选择另一个消费者。可以如下设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">queue = new ActiveMQQueue(&quot;TEST.QUEUE?consumer.exclusive=true&quot;);</span><br><span class="line">consumer = session.createConsumer(queue);</span><br></pre></td></tr></table></figure>
+
+<h4 id="再次传送策略"><a href="#再次传送策略" class="headerlink" title="再次传送策略"></a>再次传送策略</h4><p>在以下三种情况中，消息会被再次传送给消费者：</p>
+<p>1．在使用事务的 Session 中，调用 rollback()方法；<br>2．在使用事务的 Session 中，调用 commit()方法之前就关闭了 Session;<br>3．在 Session中使用 CLIENT_ACKNOWLEDGE 签收模式，并且调用了 recover()方法。</p>
+<p>可以通过设置 ActiveMQConnectionFactory和 ActiveMQConnection 来定制想要的再次传送策略。</p>
+<h3 id="目标特色"><a href="#目标特色" class="headerlink" title="目标特色"></a>目标特色</h3><h4 id="复合目标"><a href="#复合目标" class="headerlink" title="复合目标"></a>复合目标</h4><p>在 1.1 版本之后，ActiveMQ支持混合目标技术。它允许在一个 JMS 目标中使用一组JMS 目标。</p>
+<p>例如可以利用混合目标在同一操作中用向 12 个队列发送同一条消息或者在同一操作中向一个主题和一个队列发送同一条消息。</p>
+<p>在混合目标中，通过“,”来分隔不同的目标。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// send to 3 queues as one logical operation</span><br><span class="line">Queue queue = new ActiveMQQueue(&quot;FOO.A,FOO.B,FOO.C&quot;);</span><br><span class="line">producer.send(queue, someMessage);</span><br></pre></td></tr></table></figure>
+<p>如果在一个目标中混合不同类别的目标， 可以通过使用 “queue:&#x2F;&#x2F;” 和 “topic:&#x2F;&#x2F;”<br>前缀来识别不同的目标。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// send to queues and topic one logical operation</span><br><span class="line">Queue queue = new ActiveMQQueue(&quot;FOO.A,topic://NOTIFY.FOO.A&quot;);</span><br><span class="line">producer.send(queue, someMessage);</span><br></pre></td></tr></table></figure>
+<h4 id="消息预取"><a href="#消息预取" class="headerlink" title="消息预取"></a>消息预取</h4><p>ActiveMQ的目标之一就是高性能的数据传送，所以 ActiveMQ 使用“预取限制”来控制有多少消息能及时的传送给任何地方的消费者。</p>
+<p>一旦预取数量达到限制，那么就不会有消息被分派给这个消费者直到它发回签收消息（用来标识所有的消息已经被处理）。</p>
+<p>可以为每个消费者指定消息预取。如果有大量的消息并且希望更高的性能，那么可以为这个消费者增大预取值。如果有少量的消息并且每条消息的处理都要花费很长的时间，那么可以设置预取值为 1，这样同一时间，ActiveMQ 只会为这个消费者分派一条消息。</p>
+<p>在 ConnectionFactory 层面为所有消费者配置预取值:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp://localhost:61616?jms.prefetchPolicy.all=50</span><br></pre></td></tr></table></figure>
+<p>在 ConnectionFactory 层面为队列消费者配置预取值:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp://localhost:61616?jms.prefetchPolicy.queuePrefetch=1</span><br></pre></td></tr></table></figure>
+<p>使用“目标选项”为一个消费者配置预取值:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">queue = new ActiveMQQueue(&quot;TEST.QUEUE?consumer.prefetchSize=10&quot;);</span><br><span class="line">consumer = session.createConsumer(queue);</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置连接URL"><a href="#配置连接URL" class="headerlink" title="配置连接URL"></a>配置连接URL</h4><p>ActiveMQ支持通过 Configuration URI 明确的配置连接属性。</p>
+<p>例如：当要设置异步发送时，可以通过在Configuration URI 中使用jms.$PROPER<br>TY 来设置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp://localhost:61616?jms.useAsyncSend=true</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/jms/activemqsenior/" data-id="clhlnyley009uojup1b22h65u" data-title="【JMS】ActiveMQ高级特性" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ActiveMQ/" rel="tag">ActiveMQ</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/arch/jms/activemq" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/arch/jms/activemq/" class="article-date">
@@ -182,98 +275,11 @@
 
 
   
-    <article id="post-blog/arch/jms/jms" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/arch/jms/jms/" class="article-date">
-  <time class="dt-published" datetime="2019-01-03T07:43:20.000Z" itemprop="datePublished">2019-01-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/arch/jms/jms/">【JMS】JMS概述</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>当前，CORBA、DCOM、RMI等RPC中间件技术已广泛应用于各个领域。但是面对规模和复杂度都越来越高的分布式系统，这些技术也显示出其局限性：</p>
-<p>（1）同步通信：客户发出调用后，必须等待服务对象完成处理并返回结果后才能继续执行；<br>（2）客户和服务对象的生命周期紧密耦合：客户进程和服务对象进程 都必须正常运行；如果由于服务对象崩溃或者网络故障导致客户的请求不可达，客户会接收到异常；<br>（3）点对点通信：客户的一次调用只发送给某个单独的目标对象。</p>
-<p>面向消息的中间件（Message Oriented Middleware，MOM）较好的解决了以上问题。发送者将消息发送给消息服务器，消息服务器将消息存放在若干队列中，在合适的时候再将消息转发给接收者。</p>
-<p>这种模式下， 发送和接收是异步的， 发送者无需等待；二者的生命周期未必相同：发送消息的时候接收者不一定运行，接收消息的时候发送者也不一定运行； 一对多通信：对于一个消息可以有多个接收者。</p>
-<p>已有的 MOM 系统包括IBM 的MQSeries、Microsoft 的 MSMQ和BEA 的 MessageQ等。由于没有一个通用的标准，这些系统很难实现互操作和无缝连接。</p>
-<h3 id="JMS"><a href="#JMS" class="headerlink" title="JMS"></a>JMS</h3><p>[Java Message Service（JMS）]是 SUN 提出的旨在统一各种 MOM 系统接口的规范，它包含点对点（Point to Point，PTP）和发布&#x2F;订阅（Publish&#x2F;Subscribe，pub&#x2F;sub）两种消息模型，提供可靠消息传输、事务和消息过滤等机制。</p>
-<h3 id="JMS规范"><a href="#JMS规范" class="headerlink" title="JMS规范"></a>JMS规范</h3><p>JAVA 消息服务(JMS)定义了 Java 中访问消息中间件的接口。JMS 只是接口，并没有给予实现，实现 JMS 接口的消息中间件称为 JMS Provider，例如 ActiveMQ。</p>
-<h3 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h3><ol>
-<li>JMS Provider：实现 JMS 接口的消息中间件；</li>
-<li>PTP：Point to Point，即点对点的消息模型；</li>
-<li>Pub&#x2F;Sub：Publish&#x2F;Subscribe，即发布&#x2F;订阅的消息模型；</li>
-<li>Queue：队列目标；</li>
-<li>Topic：主题目标；</li>
-<li>ConnectionFactory：连接工厂，JMS 用它创建连接；</li>
-<li>Connection：JMS 客户端到 JMS Provider 的连接；</li>
-<li>Destination：消息的目的地；</li>
-<li>Session：会话，一个发送或接收消息的线程； MessageProducer：由 Session 对象创建的用来发送消息的对象；</li>
-<li>MessageConsumer：由 Session 对象创建的用来接收消息的对象;</li>
-<li>Acknowledge：签收；</li>
-<li>Transaction：事务。</li>
-</ol>
-<h3 id="JMS-编程模型"><a href="#JMS-编程模型" class="headerlink" title="JMS 编程模型"></a>JMS 编程模型</h3><p>在JMS编程模型中， JMS客户端（组件或应用程序） 通过JMS消息服务交换消息。消息生产者将消息发送至消息服务，消息消费者则从消息服务接收这些消息。这些消息传送操作是使用一组实现 JMS 应用编程接口 (API) 的对象（由 JMS Provide 提供）来执行的。</p>
-<p>在JMS编程模型中，JMS客户端使用 <code>ConnectionFactory</code> 对象创建一个连接，向消息服务发送消息以及从消息服务接收消息均是通过此连接来进行。Connection 是客户端与消息服务的活动连接。创建连接时，将分配通信资源以及验证客户端。这是一个相当重要的对象，大多数客户端均使用一个连接来进行所有的消息传送。</p>
-<p>连接用于创建会话。<code>Session</code> 是一个用于生成和使用消息的单线程上下文。它用于创建发送的生产者和接收消息的消费者，并为所发送的消息定义发送顺序。会话通过大量确认选项或通过事务来支持可靠传送。</p>
-<p>客户端使用 <code>MessageProducer</code> 向指定的物理目标（在 API 中表示为目标身份对象）发送消息。生产者可指定一个默认传送模式（持久性消息与非持久性消息）、优先级和有效期值，以控制生产者向物理目标发送的所有消息。</p>
-<p>同样，客户端使用 <code>MessageConsumer</code> 对象从指定的物理目标（在 API 中表示为目标对象）接收消息。消费者可使用消息选择器，借助它，消息服务可以只向消费者发送与选择标准匹配的那些消息。</p>
-<p>消费者可以支持同步或异步消息接收。异步使用可通过向消费者注册 <code>MessageListener</code> 来实现。当会话线程调用 <code>MessageListener</code> 对象的 <code>onMessage</code> 方法时，客户端将使用消息。</p>
-<h3 id="JMS-编程域"><a href="#JMS-编程域" class="headerlink" title="JMS 编程域"></a>JMS 编程域</h3><p>JMS 支持两种截然不同的消息传送模型：PTP（即点对点模型）和Pub&#x2F;Sub（即发布&#x2F;订阅模型），分别称作：PTP Domain 和Pub&#x2F;Sub Domain。</p>
-<p>PTP（使用Queue即队列目标）消息从一个生产者传送至一个消费者。在此传送模型中，目标是一个队列。消息首先被传送至队列目标，然后根据队列传送策略，从该队列将消息传送至向此队列进行注册的某一个消费者，一次只传送一条消息。可以向队列目标发送消息的生产者的数量没有限制，但每条消息只能发送至、并由一个消费者成功使用。如果没有已经向队列目标注册的消费者，队列将保留它收到的消息，并在某个消费者向该队列进行注册时将消息传送给该消费者。</p>
-<p>Pub&#x2F;Sub（使用 Topic即主题目标）消息从一个生产者传送至任意数量的消费者。在此传送模型中，目标是一个主题。消息首先被传送至主题目标，然后传送至所有已订阅此主题的活动消费者。可以向主题目标发送消息的生产者的数量没有限制，并且每个消息可以发送至任意数量的订阅消费者。主题目标也支持持久订阅的概念。持久订阅表示消费者已向主题目标进行注册，但在消息传送时此消费者可以处于非活动状态。当此消费者再次处于活动状态时，它将接收此信息。如果没有已经向主题目标注册的消费者，主题不保留其接收到的消息，除非有非活动消费者注册了持久订阅。</p>
-<p>简单说就是，同一目标可以有多个生产者，也可以有多个消息者。一个消息，PTP模式被一个消费都消费之后目标会删除消息，其它消费者就消费不到了；PS模式一个消息被消费后不会消失，其它消息者还可以消费。</p>
-<h3 id="开发-JSM-的步骤"><a href="#开发-JSM-的步骤" class="headerlink" title="开发 JSM 的步骤"></a>开发 JSM 的步骤</h3><p>广义上说，一个 JMS 应用是几个JMS 客户端交换消息，开发 JMS 客户端应用由以<br>下几步构成：</p>
-<ol>
-<li>得到 ConnectionFactory 对象；</li>
-<li>用 ConnectionFactory 创建 Connection 对象；</li>
-<li>用 Connection 对象创建一个或多个JMS Session；</li>
-<li>得到目标队列或主题对象，即Destination 对象；</li>
-<li>用 Session 和 Destination 创建MessageProducer 和 MessageConsumer；</li>
-<li>通知 Connection 开始传送消息。</li>
-</ol>
-<h3 id="JMS支持并发"><a href="#JMS支持并发" class="headerlink" title="JMS支持并发"></a>JMS支持并发</h3><p>JMS对象并不是所有对象都支持并发。</p>
-<p>支持并发：Destination、ConnectionFactory、Connection</p>
-<p>不支持并发：Session、MessageProducer、MessageConsumer</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/arch/jms/jms/" data-id="clhlnylex009qojuphq2g4w90" data-title="【JMS】JMS概述" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/14/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/16/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/14/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/16/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -291,6 +297,10 @@
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -300,10 +310,6 @@
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -325,7 +331,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

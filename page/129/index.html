@@ -77,6 +77,110 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/plang/java/analyzer/matuse2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/plang/java/analyzer/matuse2/" class="article-date">
+  <time class="dt-published" datetime="2015-12-04T06:11:58.000Z" itemprop="datePublished">2015-12-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/plang/java/analyzer/matuse2/">【JAVA】使用 Eclipse Memory Analyzer 进行堆转储文件分析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述 "></a>概述 </h2><p>对于大型 JAVA应用程序来说，再精细的测试也难以堵住所有的漏洞，即便我们在测试阶段进行了大量卓有成效的工作，很多问题还是会在生产环境下暴露出来，并且很难在测试环境中进行重现。JVM<br>能够记录下问题发生时系统的部分运行状态，并将其存储在堆转储 (Heap Dump)文件中，从而为我们分析和诊断问题提供了重要的依据。</p>
+<p>通常内存泄露分析被认为是一件很有难度的工作，一般由团队中的资深人士进行。不过，今天我们要介绍的MAT（Eclipse Memory Analyzer）被认为是一个”傻瓜式”的堆转储文件分析工具，你只需要轻轻点击一下鼠标就可以生成一个专业的分析报告。和其他内存泄露分析工具相比，MAT的使用非常容易，基本可以实现一键到位，即使是新手也能够很快上手使用。</p>
+<p>MAT的使用是如此容易，你是不是也很有兴趣来亲自感受下呢，那么第一步我们先来安装MAT。</p>
+<h2 id="准备环境和测试数据"><a href="#准备环境和测试数据" class="headerlink" title="准备环境和测试数据 "></a>准备环境和测试数据 </h2><p>我们使用的是 Eclipse Memory Analyzer V0.8，Sun JDK 6</p>
+<h3 id="安装-MAT"><a href="#安装-MAT" class="headerlink" title="安装 MAT"></a>安装 MAT</h3><p>和其他插件的安装非常类似，MAT支持两种安装方式，一种是”单机版”的，也就是说用户不必安装 Eclipse IDE环境，MAT 作为一个独立的 Eclipse RCP应用运行；另一种是”集成版”的，也就是说 MAT 也可以作为 Eclipse IDE的一部分，和现有的开发平台集成。</p>
+<p>集成版的安装需要借助 Update Manager。</p>
+<p>如图 1 所示，首先通过 Help -&gt; Software Updates...启动软件更新管理向导。</p>
+<h5 id="图-1-安装插件第一步"><a href="#图-1-安装插件第一步" class="headerlink" title="图 1. 安装插件第一步"></a>图 1. 安装插件第一步</h5><p><img src="/images/janalyzer/image001.jpg" alt="图 1. 安装插件第一步">{width&#x3D;”282”}</p>
+<p>选择”Available Software”然后按如图 2 所示的方式添加 MAT 的更新地址<br><a target="_blank" rel="noopener" href="http://download.eclipse.org/technology/mat/0.8/update-site/">http://download.eclipse.org/technology/mat/0.8/update-site/</a>。</p>
+<h5 id="图-2-安装插件第二步"><a href="#图-2-安装插件第二步" class="headerlink" title="图 2. 安装插件第二步"></a>图 2. 安装插件第二步</h5><p><img src="/images/janalyzer/image002.jpg" alt="图 2. 安装插件第二步">{width&#x3D;”576”}</p>
+<p>如图 3 所示，接下来选择你想要安装的 MAT 的功能点，需要注意的是 Memory Analyzer (Chart)这个功能是一个可选的安装项目，它主要用来生成相关的报表，不过如果需要用到这个功能，你还需要额外的安装<br>BIRT Chart Engine。</p>
+<h5 id="图-3-安装插件第三步"><a href="#图-3-安装插件第三步" class="headerlink" title="图 3. 安装插件第三步"></a>图 3. 安装插件第三步</h5><p><img src="/images/janalyzer/image003.jpg" alt="图 3. 安装插件第三步">{width&#x3D;”575”}</p>
+<p>插件安装完毕，你还需要重新启动 Eclipse 的工作平台。</p>
+<p>比较而言，单机版的安装方式非常简单，用户只需要下载相应的安装包，然后解压缩即可运行，这也是被普遍采用的一种安装方式。在下面的例子里，我们使用的也是单机版的<br>MAT。具体的下载要求和地址可参见其产品下载页面：<a target="_blank" rel="noopener" href="http://www.eclipse.org/mat/downloads.php">http://www.eclipse.org/mat/downloads.php</a>。</p>
+<p>另外，如果你需要用 MAT 来分析 IBM JVM 生成的 dump文件的话，还需要额外安装 IBM Diagnostic Tool Framework，具体的下载和安装配置步骤请参见：<a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/java/jdk/tools/dtfj.html">http://www.ibm.com/developerworks/java/jdk/tools/dtfj.html</a></p>
+<h3 id="配置环境参数"><a href="#配置环境参数" class="headerlink" title="配置环境参数"></a>配置环境参数</h3><p>安装完成之后，为了更有效率的使用MAT，我们还需要做一些配置工作。因为通常而言，分析一个堆转储文件需要消耗很多的堆空间，为了保证分析的效率和性能，在有条件的情况下，我们会建议分配给MAT 尽可能多的内存资源。你可以采用如下两种方式来分配内存更多的内存资源给MAT。</p>
+<p>一种是修改启动参数 MemoryAnalyzer.exe -vmargs -Xmx4g</p>
+<p>另一种是编辑文件 MemoryAnalyzer.ini，在里面添加类似信息 -vmargs –Xmx4g。</p>
+<p>至此，MAT 就已经成功地安装配置好了，开始进入实战吧。</p>
+<h3 id="获得堆转储文件"><a href="#获得堆转储文件" class="headerlink" title="获得堆转储文件"></a>获得堆转储文件</h3><p>巧妇难为无米之炊，我们首先需要获得一个堆转储文件。为了方便，本文采用的是Sun JDK 6。通常来说，只要你设置了如下所示的 JVM 参数：</p>
+<p>-XX:+HeapDumpOnOutOfMemoryError</p>
+<p>JVM就会在发生内存泄露时抓拍下当时的内存状态，也就是我们想要的堆转储文件。</p>
+<p>如果你不想等到发生崩溃性的错误时才获得堆转储文件，也可以通过设置如下 JVM参数来按需获取堆转储文件。</p>
+<p>-XX:+HeapDumpOnCtrlBreak</p>
+<p>除此之外，还有很多的工具，例如<br><a target="_blank" rel="noopener" href="http://java.sun.com/j2se/1.5.0/docs/tooldocs/share/jmap.html">JMap</a>，JConsole都可以帮助我们得到一个堆转储文件。本文实例就是使用 JMap 直接获取了Eclipse Galileo 进程的堆转储文件。您可以使用如下命令：</p>
+<p>JMap -dump:format&#x3D;b,file&#x3D;&lt;dumpfile&gt; &lt;pid&gt;</p>
+<p>不过，您需要了解到，不同厂家的 JVM所生成的堆转储文件在数据存储格式以及数据存储内容上有很多区别， MAT不是一个万能工具，它并不能处理所有类型的堆存储文件。但是比较主流的厂家和格式，例如Sun, HP, SAP 所采用的 HPROF 二进制堆存储文件，以及 IBM 的 PHD堆存储文件等都能被很好的解析（您需要安装额外的插件，请参考<a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/java/jdk/tools/dtfj.html">相关说明</a>，本文不作详细解释）。</p>
+<p>万事俱备，接下来，我们就可以开始体验一键式的堆存储分析功能了。</p>
+<h2 id="生成分析报告"><a href="#生成分析报告" class="headerlink" title="生成分析报告 "></a>生成分析报告 </h2><p>首先，启动前面安装配置好的 Memory Analyzer tool , 然后选择菜单项 File-Open Heap Dump来加载需要分析的堆转储文件。文件加载完成后，你可以看到如图 4所示的界面：</p>
+<h5 id="图-4-概览"><a href="#图-4-概览" class="headerlink" title="图 4. 概览"></a>图 4. 概览</h5><p><img src="/images/janalyzer/image004.jpg" alt="图 4. 概览">{width&#x3D;”576”}</p>
+<p>通过上面的概览，我们对内存占用情况有了一个总体的了解。先检查一下 MAT生成的一系列文件。</p>
+<h5 id="图-5-文件列表"><a href="#图-5-文件列表" class="headerlink" title="图 5. 文件列表"></a>图 5. 文件列表</h5><p><img src="/images/janalyzer/image005.jpg" alt="图 5. 文件列表">{width&#x3D;”331”}</p>
+<p>可以看到 MAT 工具提供了一个很贴心的功能，将报告的内容压缩打包到一个 zip文件，并把它存放到原始堆转储文件的存放目录下，这样如果您需要和同事一起分析这个内存问题的话，只需要把这个小小的zip 包发给他就可以了，不需要把整个堆文件发给他。并且整个报告是一个 HTML<br>格式的文件，用浏览器就可以轻松打开。</p>
+<p>接下来我们就可以来看看生成的报告都包括什么内容，能不能帮我们找到问题所在吧。您可以点击工具栏上的Leak Suspects 菜单项来生成内存泄露分析报告，也可以直接点击饼图下方的Reports-&gt;Leak Suspects 链接来生成报告。</p>
+<h5 id="图-6-工具栏菜单"><a href="#图-6-工具栏菜单" class="headerlink" title="图 6. 工具栏菜单"></a>图 6. 工具栏菜单</h5><p><img src="/images/janalyzer/image006.jpg" alt="图 6. 工具栏菜单">{width&#x3D;”301”}</p>
+<h2 id="分析三步曲"><a href="#分析三步曲" class="headerlink" title="分析三步曲 "></a>分析三步曲 </h2><p>通常我们都会采用下面的”三步曲”来分析内存泄露问题：</p>
+<p>首先，对问题发生时刻的系统内存状态获取一个整体印象。</p>
+<p>第二步，找到最有可能导致内存泄露的元凶，通常也就是消耗内存最多的对象</p>
+<p>接下来，进一步去查看这个内存消耗大户的具体情况，看看是否有什么异常的行为。</p>
+<p>下面将用一个基本的例子来展示如何采用”三步曲”来查看生产的分析报告。</p>
+<h3 id="查看报告之一：内存消耗的整体状况"><a href="#查看报告之一：内存消耗的整体状况" class="headerlink" title="查看报告之一：内存消耗的整体状况"></a>查看报告之一：内存消耗的整体状况</h3><h5 id="图-7-内存泄露分析报告"><a href="#图-7-内存泄露分析报告" class="headerlink" title="图 7. 内存泄露分析报告"></a>图 7. 内存泄露分析报告</h5><p><img src="/images/janalyzer/image007.jpg" alt="图 7. 内存泄露分析报告">{width&#x3D;”576”}</p>
+<p>如图 7所示，在报告上最醒目的就是一张简洁明了的饼图，从图上我们可以清晰地看到一个可疑对象消耗了系统99% 的内存。</p>
+<p>在图的下方还有对这个可疑对象的进一步描述。我们可以看到内存是由java.util.Vector 的实例消耗的，com.ibm.oti.vm.BootstrapClassLoader负责这个对象的加载。这段描述非常短，但我相信您已经可以从中找到很多线索了，比如是哪个类占用了绝大多数的内存，它属于哪个组件等等。</p>
+<p>接下来，我们应该进一步去分析问题，为什么一个 Vector 会占据了系统 99%的内存，谁阻止了垃圾回收机制对它的回收。</p>
+<h3 id="查看报告之二：分析问题的所在"><a href="#查看报告之二：分析问题的所在" class="headerlink" title="查看报告之二：分析问题的所在"></a>查看报告之二：分析问题的所在</h3><p>首先我们简单回顾下 JAVA的内存回收机制，内存空间中垃圾回收的工作由垃圾回收器 (Garbage Collector,GC)完成的，它的核心思想是：对虚拟机可用内存空间，即堆空间中的对象进行识别，如果对象正在被引用，那么称其为存活对象，反之，如果对象不再被引用，则为垃圾对象，可以回收其占据的空间，用于再分配。</p>
+<p>在垃圾回收机制中有一组元素被称为根元素集合，它们是一组被虚拟机直接引用的对象，比如，正在运行的线程对象，系统调用栈里面的对象以及被system class loader所加载的那些对象。堆空间中的每个对象都是由一个根元素为起点被层层调用的。因此，一个对象还被某一个存活的根元素所引用，就会被认为是存活对象，不能被回收，进行内存释放。因此，我们可以通过分析一个对象到根元素的引用路径来分析为什么该对象不能被顺利回收。如果说一个对象已经不被任何程序逻辑所需要但是还存在被根元素引用的情况，我们可以说这里存在内存泄露。</p>
+<p>现在，让我们开始真正的寻找内存泄露之旅，点击”Details “链接，可以看到如图8 所示对可疑对象 1 的详细分析报告。</p>
+<h5 id="图-8-可疑对象-1-的详细分析报告"><a href="#图-8-可疑对象-1-的详细分析报告" class="headerlink" title="图 8. 可疑对象 1 的详细分析报告"></a>图 8. 可疑对象 1 的详细分析报告</h5><p><img src="/images/janalyzer/image008.jpg" alt="图 8. 可疑对象 1的详细分析报告">{width&#x3D;”557”}</p>
+<ol>
+<li>我们查看下从 GC 根元素到内存消耗聚集点的最短路径：</li>
+</ol>
+<h5 id="图-9-从根元素到内存消耗聚集点的最短路径"><a href="#图-9-从根元素到内存消耗聚集点的最短路径" class="headerlink" title="图 9. 从根元素到内存消耗聚集点的最短路径"></a>图 9. 从根元素到内存消耗聚集点的最短路径</h5><p><img src="/images/janalyzer/image009.jpg" alt="图 9.从根元素到内存消耗聚集点的最短路径">{width&#x3D;”576”}</p>
+<p>我们可以很清楚的看到整个引用链，内存聚集点是一个拥有大量对象的集合，如果你对代码比较熟悉的话，相信这些信息应该能给你提供一些找到内存泄露的思路了。</p>
+<p>接下来，我们再继续看看，这个对象集合里到底存放了什么，为什么会消耗掉如此多的内存。</p>
+<h5 id="图-10-内存消耗聚集对象信息"><a href="#图-10-内存消耗聚集对象信息" class="headerlink" title="图 10. 内存消耗聚集对象信息"></a>图 10. 内存消耗聚集对象信息</h5><p><img src="/images/janalyzer/image010.jpg" alt="图 10.内存消耗聚集对象信息">{width&#x3D;”509”}</p>
+<p>在这张图上，我们可以清楚的看到，这个对象集合中保存了大量 Person对象的引用，就是它导致的内存泄露。</p>
+<p>至此，我们已经拥有了足够的信息去寻找泄露点，回到代码，我们发现，是下面的代码导致了内存泄露<br>:</p>
+<h5 id="清单-1-内存泄漏的代码段"><a href="#清单-1-内存泄漏的代码段" class="headerlink" title="清单 1. 内存泄漏的代码段"></a>清单 1. 内存泄漏的代码段</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">while (1&lt;2) </span><br><span class="line">&#123; </span><br><span class="line">           </span><br><span class="line">    Person person = new Person(&quot;name&quot;,&quot;address&quot;,i); </span><br><span class="line">    v.add(person); </span><br><span class="line">    person = null; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结 "></a>总结 </h2><p>从上面的例子我们可以看到用 MAT来进行堆转储文件分析，寻找内存泄露非常简单，尤其是对于新手而言，这是一个很好的辅助分析工具。但是，MAT绝对不仅仅是一个”傻瓜式”内存分析工具，它还提供很多高级功能，比如 MAT支持用 OQL（Object Query Language）对 heap dump中的对象进行查询，支持对线程的分析等，有关这些功能的使用可以参考 MAT的帮助文档。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/analyzer/matuse2/" data-id="clhlnyli000rnojupf2xac29x" data-title="【JAVA】使用 Eclipse Memory Analyzer 进行堆转储文件分析" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/plang/java/analyzer/matuse" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/java/analyzer/matuse/" class="article-date">
@@ -154,138 +258,11 @@
 
 
   
-    <article id="post-blog/plang/java/analyzer/dtatools" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/plang/java/analyzer/dtatools/" class="article-date">
-  <time class="dt-published" datetime="2015-12-03T05:49:50.000Z" itemprop="datePublished">2015-12-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/plang/java/analyzer/dtatools/">【JAVA】线程日志分析之TDA</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="java-thread-日志分析工具"><a href="#java-thread-日志分析工具" class="headerlink" title="java thread 日志分析工具"></a>java thread 日志分析工具</h2><p>这里用的是tda(Thread Dump Analyzer)，可以到网上下载到，是个免费的软件。</p>
-<p>这个软件可以分析导出的java线程日志，至于如何获取java线程日志，可以看”<a href="%E8%8E%B7%E5%8F%96JAVA%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%A0%86%E4%BF%A1%E6%81%AF">获取JAVA线程和堆信息</a>“。</p>
-<p><img src="/images/janalyzer/tda.gif">\</p>
-<h2 id="各种JAVA线程状态的说明"><a href="#各种JAVA线程状态的说明" class="headerlink" title="各种JAVA线程状态的说明"></a>各种JAVA线程状态的说明</h2><p>先看一下线程的各种状态的状态图：</p>
-<p><img src="/images/janalyzer/threadstat.gif">\</p>
-<p><img src="/"></p>
-<p>下面是日志里线程状态的一些解释。</p>
-<h2 id="waiting-for-monitor-entry"><a href="#waiting-for-monitor-entry" class="headerlink" title="waiting for monitor entry"></a>waiting for monitor entry</h2><p>意味着它 在等待进入一个临界区 ，所以它在”Entry<br>Set”队列中等待。此时线程状态一般都是 Blocked</p>
-<p>如果大量线程在 “waiting for monitor entry”：</p>
-<p>可能是一个全局锁阻塞住了大量线程。</p>
-<p>如果短时间内打印的 thread dump 文件反映，随着时间流逝，waiting for<br>monitor entry 的线程越来越多，没有减少的趋势，可能意味着<br>某些线程在临界区里呆的时间太长了，以至于越来越多新线程迟迟无法进入临界区。</p>
-<p>java.lang.Thread.State: BLOCKED (on object monitor)</p>
-<h2 id="waiting-on-condition"><a href="#waiting-on-condition" class="headerlink" title="waiting on condition"></a>waiting on condition</h2><p>说明它<br>在等待另一个条件的发生，来把自己唤醒，或者干脆它是调用了sleep(N)。此时线程状态大致为以下几种</p>
-<p>java.lang.Thread.State: WAITING (parking)：一直等那个条件发生；</p>
-<p>java.lang.Thread.State: TIMED_WAITING<br>(parking或sleeping)：定时的，那个条件不到来，也将定时唤醒自己。</p>
-<p>如果大量线程在 “ waiting on condition “：</p>
-<p>可能是它们又跑去获取第三方资源，<br>尤其是第三方网络资源，迟迟获取不到Response，导致大量线程进入等待状态。</p>
-<p>所以如果你发现有大量的线程都处在 Wait on<br>condition，从线程堆栈看，正等待网络读写<br>，这可能是一个网络瓶颈的征兆，因为网络阻塞导致线程无法执行。</p>
-<h2 id="in-Object-wait"><a href="#in-Object-wait" class="headerlink" title="in Object.wait()"></a>in Object.wait()</h2><p>说明它 获得了监视器之后，又调用了 java.lang.Object.wait() 方法。</p>
-<p>每个 Monitor在某个时刻，只能被一个线程拥有，该线程就是 “Active<br>Thread”，而其它线程都是 “Waiting Thread”，分别在两个队列 “ Entry Set”和<br>“Wait Set”里面等候。在 “Entry Set”中等待的线程状态是 “Waiting for<br>monitor entry”，而在 “Wait Set”中等待的线程状态是 “in Object.wait()”。</p>
-<p>当线程获得了<br>Monitor，如果发现线程继续运行的条件没有满足，它则调用对象（一般就是被<br>synchronized 的对象）的 wait() 方法，放弃了 Monitor，进入 “Wait<br>Set”队列。此时线程状态大致为以下几种：</p>
-<p>java.lang.Thread.State: TIMED_WAITING (on object monitor)；</p>
-<p>java.lang.Thread.State: WAITING (on object monitor)；</p>
-<h2 id="示范一"><a href="#示范一" class="headerlink" title="示范一"></a>示范一</h2><p>下面这个线程在等待这个锁 0x00000000fe7e3b50，等待进入临界区：</p>
-<pre><code>&quot;RMI TCP Connection(64896)-172.16.52.118&quot; daemon prio=10 tid=0x00000000405a6000 nid=0x68fe waiting for monitor entry [0x00007f2be65a3000]
-   java.lang.Thread.State: BLOCKED (on object monitor)
-at com.xyz.goods.service.impl.GoodsServiceImpl. findChanellGoodsCountWithCache(GoodsServiceImpl.java:1734)
--  waiting to lock &lt;0x00000000fe7e3b50&gt; (a java.lang.String)
-</code></pre>
-<p>那么谁持有这个锁呢？</p>
-<p>是另一个先调用了 findChanellGoodsCountWithCache 函数的线程：</p>
-<pre><code>&quot;RMI TCP Connection(64878)-172.16.52.117&quot; daemon prio=10 tid=0x0000000040822000 nid=0x6841 runnable [0x00007f2be76b3000]
-   java.lang.Thread.State: RUNNABLE
-at java.net.SocketInputStream.socketRead0(Native Method)
-at java.net.SocketInputStream.read(SocketInputStream.java:129)
-at java.io.BufferedInputStream.fill(BufferedInputStream.java:218)
-at java.io.BufferedInputStream.read1(BufferedInputStream.java:258)
-at java.io.BufferedInputStream.read(BufferedInputStream.java:317)
-- locked &lt;0x00000000af4ed638&gt; (a java.io.BufferedInputStream)
-at org.bson.io.Bits.readFully(Bits.java:35)
-at org.bson.io.Bits.readFully(Bits.java:28)
-at com.mongodb.Response.(Response.java:35)
-at com.mongodb.DBPort.go(DBPort.java:110)
-- locked &lt;0x00000000af442d48&gt; (a com.mongodb.DBPort)
-at com.mongodb.DBPort.go(DBPort.java:75)
-- locked &lt;0x00000000af442d48&gt; (a com.mongodb.DBPort)
-at com.mongodb.DBPort.call(DBPort.java:65)
-at com.mongodb.DBTCPConnector.call(DBTCPConnector.java:202)
-at com.mongodb.DBApiLayer$MyCollection.__find(DBApiLayer.java:296)
-at com.mongodb.DB.command(DB.java:152)
-at com.mongodb.DBCollection.getCount(DBCollection.java:760)
-at com.mongodb.DBCollection.getCount(DBCollection.java:731)
-at com.mongodb.DBCollection.count(DBCollection.java:697)
-at com.xyz.goods.manager.MongodbManager.count(MongodbManager.java:202)
-at com.xyz.goods.service.impl.GoodsServiceImpl.findChanellGoodsCount(GoodsServiceImpl.java:1787)
-at com.xyz.goods.service.impl.GoodsServiceImpl. findChanellGoodsCountWithCache(GoodsServiceImpl.java:1739)
--  locked &lt;0x00000000fe7e3b50&gt; (a java.lang.String)
-</code></pre>
-<h2 id="示范二"><a href="#示范二" class="headerlink" title="示范二"></a>示范二</h2><p>等待另一个条件发生来将自己唤醒：</p>
-<pre><code>&quot;RMI TCP Connection(idle)&quot; daemon prio=10 tid=0x00007fd50834e800 nid=0x56b2  waiting on condition [0x00007fd4f1a59000]
-   java.lang.Thread.State:  TIMED_WAITING (parking)
-at sun.misc.Unsafe.park(Native Method)
--  parking to wait for  &lt;0x00000000acd84de8&gt; (a java.util.concurrent.SynchronousQueue$TransferStack)
-at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:198)
-at java.util.concurrent.SynchronousQueue$TransferStack.awaitFulfill(SynchronousQueue.java:424)
-at java.util.concurrent.SynchronousQueue$TransferStack.transfer(SynchronousQueue.java:323)
-at java.util.concurrent.SynchronousQueue.poll(SynchronousQueue.java:874)
-at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:945)
-at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:907)
-at java.lang.Thread.run(Thread.java:662)
-</code></pre>
-<p>&quot;TIMED_WAITING (parking)&quot;中的 timed_waiting<br>指等待状态，但这里指定了时间，到达指定的时间后自动退出等待状态；parking指线程处于挂起中。</p>
-<p>&quot;waiting on condition&quot;需要与堆栈中的&quot;parking to wait for<br>&lt;0x00000000acd84de8&gt; (a<br>java.util.concurrent.SynchronousQueue$TransferStack)&quot;<br>结合来看。首先，本线程肯定是在等待某个条件的发生，来把自己唤醒。其次，SynchronousQueue<br>并不是一个队列，只是线程之间移交信息的机制，当我们把一个元素放入到<br>SynchronousQueue<br>中时必须有另一个线程正在等待接受移交的任务，因此这就是本线程在等待的条件。</p>
-<p>示范三</p>
-<pre><code>&quot;RMI RenewClean-[172.16.50.182:4888]&quot; daemon prio=10 tid=0x0000000040d2c800 nid=0x97e  in Object.wait() [0x00007f9ccafd0000]
-   java.lang.Thread.State:  TIMED_WAITING (on object monitor)
-at java.lang.Object.wait(Native Method)
-- waiting on &lt;0x0000000799b032d8&gt; (a java.lang.ref.ReferenceQueue$Lock)
-at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:118)
-- locked &lt;0x0000000799b032d8&gt; (a java.lang.ref.ReferenceQueue$Lock)
-at sun.rmi.transport.DGCClient$EndpointEntry$RenewCleanThread.run(DGCClient.java:516)
-at java.lang.Thread.run(Thread.java:662)
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/java/analyzer/dtatools/" data-id="clhlnylhz00riojup1e4v15we" data-title="【JAVA】线程日志分析之TDA" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/128/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/127/">127</a><a class="page-number" href="/page/128/">128</a><span class="page-number current">129</span><a class="page-number" href="/page/130/">130</a><a class="page-number" href="/page/131/">131</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/130/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/128/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/127/">127</a><a class="page-number" href="/page/128/">128</a><span class="page-number current">129</span><a class="page-number" href="/page/130/">130</a><a class="page-number" href="/page/131/">131</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/130/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -303,6 +280,10 @@ at java.lang.Thread.run(Thread.java:662)
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -312,10 +293,6 @@ at java.lang.Thread.run(Thread.java:662)
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -337,7 +314,7 @@ at java.lang.Thread.run(Thread.java:662)
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

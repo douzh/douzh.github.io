@@ -77,6 +77,98 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/algorithm/other/monte-carlo-method" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/algorithm/other/monte-carlo-method/" class="article-date">
+  <time class="dt-published" datetime="2015-10-14T09:58:58.000Z" itemprop="datePublished">2015-10-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/algorithm/other/monte-carlo-method/">蒙特卡罗方法入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本文通过五个例子，介绍蒙特卡罗方法（Monte Carlo Method）。</p>
+<h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>蒙特卡罗方法是一种计算方法。原理是通过大量随机样本，去了解一个系统，进而得到所要计算的值。</p>
+<p>它非常强大和灵活，又相当简单易懂，很容易实现。对于许多问题来说，它往往是最简单的计算方法，有时甚至是唯一可行的方法。</p>
+<p><img src="/images/algorithm/mtklrm1.jpg"></p>
+<p>它诞生于上个世纪40年代美国的&quot;曼哈顿计划&quot;，名字来源于赌城蒙特卡罗，象征概率。</p>
+<h2 id="二、π的计算"><a href="#二、π的计算" class="headerlink" title="二、π的计算"></a>二、π的计算</h2><p>第一个例子是，如何用蒙特卡罗方法计算圆周率π。</p>
+<p>正方形内部有一个相切的圆，它们的面积之比是π&#x2F;4。</p>
+<p><img src="/images/algorithm/mtklrm2.jpg"></p>
+<p><img src="/images/algorithm/mtklrm3.jpg"></p>
+<p>现在，在这个正方形内部，随机产生10000个点（即10000个坐标对 (x,<br>y)），计算它们与中心点的距离，从而判断是否落在圆的内部。</p>
+<p><img src="/images/algorithm/mtklrm4.jpg"></p>
+<p>如果这些点均匀分布，那么圆内的点应该占到所有点的<br>π&#x2F;4，因此将这个比值乘以4，就是π的值。通过R语言脚本随机模拟30000个点，π的估算值与真实值相差0.07%。</p>
+<h2 id="三、积分的计算"><a href="#三、积分的计算" class="headerlink" title="三、积分的计算"></a>三、积分的计算</h2><p>上面的方法加以推广，就可以计算任意一个积分的值。</p>
+<p><img src="/images/algorithm/mtklrm5.gif"></p>
+<p>比如，计算函数 y &#x3D; x^2^ 在 [0, 1]<br>区间的积分，就是求出下图红色部分的面积。</p>
+<p><img src="/images/algorithm/mtklrm6.jpg"></p>
+<p>这个函数在 (1,1)<br>点的取值为1，所以整个红色区域在一个面积为1的正方形里面。在该正方形内部，产生大量随机点，可以计算出有多少点落在红色区域（判断条件<br>y &lt; x^2^）。这个比重就是所要求的积分值。</p>
+<p>用Matlab模拟100万个随机点，结果为0.3328。</p>
+<h2 id="四、交通堵塞"><a href="#四、交通堵塞" class="headerlink" title="四、交通堵塞"></a>四、交通堵塞</h2><p>蒙特卡罗方法不仅可以用于计算，还可以用于模拟系统内部的随机运动。下面的例子模拟单车道的交通堵塞。</p>
+<p>根据 Nagel-Schreckenberg 模型，车辆的运动满足以下规则。</p>
+<blockquote>
+<ul>
+<li>当前速度是 v 。</li>
+<li>如果前面没车，它在下一秒的速度会提高到 v + 1<br>，直到达到规定的最高限速。</li>
+<li>如果前面有车，距离为d，且 d &lt; v，那么它在下一秒的速度会降低到 d -<br>1 。</li>
+<li>此外，司机还会以概率 p 随机减速， 将下一秒的速度降低到 v - 1 。</li>
+</ul>
+</blockquote>
+<p>在一条直线上，随机产生100个点，代表道路上的100辆车，另取概率 p 为 0.3 。</p>
+<p><img src="/images/algorithm/mtklrm7.png"></p>
+<p>上图中，横轴代表距离（从左到右），纵轴代表时间（从上到下），因此每一行就表示下一秒的道路情况。</p>
+<p>可以看到，该模型会随机产生交通拥堵（图形上黑色聚集的部分）。这就证明了，单车道即使没有任何原因，也会产生交通堵塞。</p>
+<h2 id="五、产品厚度"><a href="#五、产品厚度" class="headerlink" title="五、产品厚度"></a>五、产品厚度</h2><p>某产品由八个零件堆叠组成。也就是说，这八个零件的厚度总和，等于该产品的厚度。</p>
+<p><img src="/images/algorithm/mtklrm8.jpg"></p>
+<p>已知该产品的厚度，必须控制在27mm以内，但是每个零件有一定的概率，厚度会超出误差。请问有多大的概率，产品的厚度会超出27mm？</p>
+<p><img src="/images/algorithm/mtklrm9.png"></p>
+<p>取100000个随机样本，每个样本有8个值，对应8个零件各自的厚度。计算发现，产品的合格率为99.9979%，即百万分之21的概率，厚度会超出27mm。</p>
+<h2 id="六、证券市场"><a href="#六、证券市场" class="headerlink" title="六、证券市场"></a>六、证券市场</h2><p>证券市场有时交易活跃，有时交易冷清。下面是你对市场的预测。</p>
+<ul>
+<li>如果交易冷清，你会以平均价11元，卖出5万股。</li>
+<li>如果交易活跃，你会以平均价8元，卖出10万股。</li>
+<li>如果交易温和，你会以平均价10元，卖出7.5万股。</li>
+</ul>
+<p>已知你的成本在每股5.5元到7.5元之间，平均是6.5元。请问接下来的交易，你的净利润会是多少？</p>
+<p>取1000个随机样本，每个样本有两个数值：一个是证券的成本（5.5元到7.5元之间的均匀分布），另一个是当前市场状态（冷清、活跃、温和，各有三分之一可能）。</p>
+<p><img src="/images/algorithm/mtklrm10.png"></p>
+<p>模拟计算得到，平均净利润为92, 427美元。</p>
+<p>转自：<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2015/07/monte-carlo-method.html">http://www.ruanyifeng.com/blog/2015/07/monte-carlo-method.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/algorithm/other/monte-carlo-method/" data-id="clhlnyldi001eojupasic6b2h" data-title="蒙特卡罗方法入门" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/tools/emacs/emacsdiary/emacsksrm" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/tools/emacs/emacsdiary/emacsksrm/" class="article-date">
@@ -199,83 +291,11 @@
 
 
   
-    <article id="post-blog/basetech/math/xxds/jzcfbz" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/basetech/math/xxds/jzcfbz/" class="article-date">
-  <time class="dt-published" datetime="2015-10-12T10:22:39.000Z" itemprop="datePublished">2015-10-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/basetech/math/xxds/jzcfbz/">矩阵乘法和矩阵的本质理解</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>大多数人在高中，或者大学低年级，都上过一门课《线性代数》。这门课其实是教矩阵。</p>
-<p>刚学的时候，还蛮简单的，矩阵加法就是相同位置的数字加一下。</p>
-<p><img src="/images/matrix/ljjzcf1.png"></p>
-<p>矩阵减法也类似。</p>
-<p>矩阵乘以一个常数，就是所有位置都乘以这个数。</p>
-<p><img src="/images/matrix/ljjzcf2.png"></p>
-<p>但是，等到矩阵乘以矩阵的时候，一切就不一样了。</p>
-<p><img src="/images/matrix/ljjzcf3.png"></p>
-<p>这个结果是怎么算出来的？</p>
-<p>教科书告诉你，计算规则是，第一个矩阵第一行的每个数字（2和1），各自乘以第二个矩阵第一列对应位置的数字（1和1），然后将乘积相加（<br>2 x 1 + 1 x 1），得到结果矩阵左上角的那个值3。</p>
-<p><img src="/images/matrix/ljjzcf4.gif"></p>
-<p>也就是说，结果矩阵第m行与第n列交叉位置的那个值，等于第一个矩阵第m行与第二个矩阵第n列，对应位置的每个值的乘积之和。</p>
-<p>怎么会有这么奇怪的规则？</p>
-<p>我一直没理解这个规则的含义，导致《线性代数》这门课就没学懂。研究生时发现，线性代数是向量计算的基础，很多重要的数学模型都要用到向量计算，所以我做不了复杂模型。这一直让我有点伤心。</p>
-<p>前些日子，受到一篇文章的启发，我终于想通了，矩阵乘法到底是什么东西。关键就是一句话，<strong>矩阵的本质就是线性方程式，两者是一一对应关系。</strong>如果从线性方程式的角度，理解矩阵乘法就毫无难度。</p>
-<p>下面是一组线性方程式。</p>
-<p><img src="/images/matrix/ljjzcf5.png"></p>
-<p>矩阵的最初目的，只是为线性方程组提供一个简写形式。</p>
-<p><img src="/images/matrix/ljjzcf6.png"></p>
-<p>老实说，从上面这种写法，已经能看出矩阵乘法的规则了：系数矩阵第一行的2和1，各自与<br>x 和 y<br>的乘积之和，等于3。不过，这不算严格的证明，只是线性方程式转为矩阵的书写规则。</p>
-<p>下面才是严格的证明。有三组未知数 x、y 和 t，其中 x 和 y 的关系如下。</p>
-<p><img src="/images/matrix/ljjzcf7.png"></p>
-<p>x 和 t 的关系如下。</p>
-<p><img src="/images/matrix/ljjzcf8.png"></p>
-<p>有了这两组方程式，就可以求 y 和 t<br>的关系。从矩阵来看，很显然，只要把第二个矩阵代入第一个矩阵即可。</p>
-<p><img src="/images/matrix/ljjzcf9.png"></p>
-<p>从方程式来看，也可以把第二个方程组代入第一个方程组。</p>
-<p><img src="/images/matrix/ljjzcf10.png"></p>
-<p>上面的方程组可以整理成下面的形式。</p>
-<p><img src="/images/matrix/ljjzcf11.png"></p>
-<p>最后那个矩阵等式，与前面的矩阵等式一对照，就会得到下面的关系。</p>
-<p><img src="/images/matrix/ljjzcf12.png"></p>
-<p>矩阵乘法的计算规则，从而得到证明。</p>
-<p>转自：<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2015/09/matrix/ljjzcf-multiplication.html">http://www.ruanyifeng.com/blog/2015/09/matrix/ljjzcf-multiplication.html</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/basetech/math/xxds/jzcfbz/" data-id="clhlnylgx00loojup3mv1433x" data-title="矩阵乘法和矩阵的本质理解" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/143/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/142/">142</a><a class="page-number" href="/page/143/">143</a><span class="page-number current">144</span><a class="page-number" href="/page/145/">145</a><a class="page-number" href="/page/146/">146</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/145/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/143/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/142/">142</a><a class="page-number" href="/page/143/">143</a><span class="page-number current">144</span><a class="page-number" href="/page/145/">145</a><a class="page-number" href="/page/146/">146</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/145/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -293,6 +313,10 @@
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -302,10 +326,6 @@
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -327,7 +347,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

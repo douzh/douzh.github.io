@@ -77,6 +77,66 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/arch/crypto/openssl/srcmain" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/arch/crypto/openssl/srcmain/" class="article-date">
+  <time class="dt-published" datetime="2019-03-04T07:37:03.000Z" itemprop="datePublished">2019-03-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/arch/crypto/openssl/srcmain/">【密码术】openssl源码分析一</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="openssl命令入口"><a href="#openssl命令入口" class="headerlink" title="openssl命令入口"></a>openssl命令入口</h3><p>文件：openssl.c<br>位置：apps目录</p>
+<p>命令调用方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">prog = prog_init();</span><br><span class="line">pname = opt_progname(argv[0]);</span><br><span class="line"></span><br><span class="line">/* first check the program name */</span><br><span class="line">f.name = pname;</span><br><span class="line">fp = lh_FUNCTION_retrieve(prog, &amp;f);</span><br><span class="line">if (fp != NULL) &#123;</span><br><span class="line">    argv[0] = pname;</span><br><span class="line">    ret = fp-&gt;func(argc, argv);</span><br><span class="line">    goto end;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里是生成了一个<code>FUNCTION</code>对象的结构体。</p>
+<h3 id="FUNCTION对象"><a href="#FUNCTION对象" class="headerlink" title="FUNCTION对象"></a>FUNCTION对象</h3><p>文件：progs.h<br>位置：apps<br>来源：通过apps&#x2F;progs.pl生成，不可修改</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef struct function_st &#123;</span><br><span class="line">    FUNC_TYPE type;</span><br><span class="line">    const char *name;</span><br><span class="line">    int (*func)(int argc, char *argv[]);</span><br><span class="line">    const OPTIONS *help;</span><br><span class="line">&#125; FUNCTION;</span><br></pre></td></tr></table></figure>
+
+<p><code>FUNCTION</code>结构体是对一个方法调用的封装。</p>
+<p>最主要的是函数指针，用于调用命令指定的函数。</p>
+<p><code>FUNC_TYPE</code>是一个枚举对象，用于分类。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef enum FUNC_TYPE &#123;</span><br><span class="line">    FT_none, FT_general, FT_md, FT_cipher, FT_pkey,</span><br><span class="line">    FT_md_alg, FT_cipher_alg</span><br><span class="line">&#125; FUNC_TYPE;</span><br></pre></td></tr></table></figure>
+
+<p>对于类型只用到三类，对应<code>openssl help</code>列出的帮助。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static FUNCTION functions[] = &#123;</span><br><span class="line">......</span><br><span class="line">    &#123;FT_general, &quot;help&quot;, help_main, help_options&#125;,</span><br><span class="line">    &#123;FT_general, &quot;list&quot;, list_main, list_options&#125;,</span><br><span class="line">......</span><br><span class="line">    &#123;FT_md, &quot;sha256&quot;, dgst_main&#125;,</span><br><span class="line">......</span><br><span class="line">    &#123;FT_cipher, &quot;aes-128-cbc&quot;, enc_main, enc_options&#125;,</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+<p><code>openssl help</code>的显示结果为三部分，第一部类标准命令对应类型<code>FT_general</code>，第二部分对应摘要命令对应类型<code>FT_md</code>，第三部分为加解密命令对应类型<code>FT_cipher</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">$ openssl help</span><br><span class="line">Standard commands</span><br><span class="line">asn1parse         ca                ciphers           cms</span><br><span class="line">crl               crl2pkcs7         dgst              dhparam</span><br><span class="line">dsa               dsaparam          ec                ecparam</span><br><span class="line">enc               engine            errstr            gendsa</span><br><span class="line">genpkey           genrsa            help              list</span><br><span class="line">nseq              ocsp              passwd            pkcs12</span><br><span class="line">pkcs7             pkcs8             pkey              pkeyparam</span><br><span class="line">pkeyutl           prime             rand              rehash</span><br><span class="line">req               rsa               rsautl            s_client</span><br><span class="line">s_server          s_time            sess_id           smime</span><br><span class="line">speed             spkac             srp               storeutl</span><br><span class="line">ts                verify            version           x509</span><br><span class="line"></span><br><span class="line">Message Digest commands (see the `dgst&#x27; command for more details)</span><br><span class="line">blake2b512        blake2s256        gost              md4</span><br><span class="line">md5               mdc2              rmd160            sha1</span><br><span class="line">sha224            sha256            sha3-224          sha3-256</span><br><span class="line">sha3-384          sha3-512          sha384            sha512</span><br><span class="line">sha512-224        sha512-256        shake128          shake256</span><br><span class="line">sm3</span><br><span class="line"></span><br><span class="line">Cipher commands (see the `enc&#x27; command for more details)</span><br><span class="line">aes-128-cbc       aes-128-ecb       aes-192-cbc       aes-192-ecb</span><br><span class="line">aes-256-cbc       aes-256-ecb       aria-128-cbc      aria-128-cfb</span><br><span class="line">aria-128-cfb1     aria-128-cfb8     aria-128-ctr      aria-128-ecb</span><br><span class="line">aria-128-ofb      aria-192-cbc      aria-192-cfb      aria-192-cfb1</span><br><span class="line">aria-192-cfb8     aria-192-ctr      aria-192-ecb      aria-192-ofb</span><br><span class="line">aria-256-cbc      aria-256-cfb      aria-256-cfb1     aria-256-cfb8</span><br><span class="line">aria-256-ctr      aria-256-ecb      aria-256-ofb      base64</span><br><span class="line">bf                bf-cbc            bf-cfb            bf-ecb</span><br><span class="line">bf-ofb            camellia-128-cbc  camellia-128-ecb  camellia-192-cbc</span><br><span class="line">camellia-192-ecb  camellia-256-cbc  camellia-256-ecb  cast</span><br><span class="line">cast-cbc          cast5-cbc         cast5-cfb         cast5-ecb</span><br><span class="line">cast5-ofb         des               des-cbc           des-cfb</span><br><span class="line">des-ecb           des-ede           des-ede-cbc       des-ede-cfb</span><br><span class="line">des-ede-ofb       des-ede3          des-ede3-cbc      des-ede3-cfb</span><br><span class="line">des-ede3-ofb      des-ofb           des3              desx</span><br><span class="line">idea              idea-cbc          idea-cfb          idea-ecb</span><br><span class="line">idea-ofb          rc2               rc2-40-cbc        rc2-64-cbc</span><br><span class="line">rc2-cbc           rc2-cfb           rc2-ecb           rc2-ofb</span><br><span class="line">rc4               rc4-40            seed              seed-cbc</span><br><span class="line">seed-cfb          seed-ecb          seed-ofb          sm4-cbc</span><br><span class="line">sm4-cfb           sm4-ctr           sm4-ecb           sm4-ofb</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/crypto/openssl/srcmain/" data-id="clhlnylgz00lyojup0fqc0jzm" data-title="【密码术】openssl源码分析一" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openssl/" rel="tag">openssl</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/arch/crypto/openssl/cygwininstall" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/arch/crypto/openssl/cygwininstall/" class="article-date">
@@ -143,73 +203,11 @@
 
 
   
-    <article id="post-blog/plang/ccpp/mingwcygwin" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/plang/ccpp/mingwcygwin/" class="article-date">
-  <time class="dt-published" datetime="2019-03-01T07:35:45.000Z" itemprop="datePublished">2019-03-01</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/plang/ccpp/mingwcygwin/">MinGw 和 cygwin 的区别和联系</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="windows与Linux操作系统的不同"><a href="#windows与Linux操作系统的不同" class="headerlink" title="windows与Linux操作系统的不同"></a>windows与Linux操作系统的不同</h3><p>windows和Linux是目前来说最流行的两大操作系统，在基本设计概念上，进程、线程、寻址、内存管理等方面都是大同小异的，但是二者之间的程序不兼容，因为二者在系统功能上是不同的，提供的系统API也是不同的。</p>
-<p>从最明显的几点来说：</p>
-<p>可执行文件的格式，Windows采用的是PE的格式，要求以.exe为后缀名，而Linux使用的是 elf 的格式；</p>
-<p>操作系统提供的系统API是不同的，如Windows使用CreateProcess()创建进程，而Linux使用fork()。</p>
-<p>所以想要在Windows环境下使用Linux的编译工具，也就是gcc&#x2F;g++，我们需要一个中间的转换工具或者平台，这也就是MinGW和cygwin存在的原因。</p>
-<h3 id="什么是-MinGW"><a href="#什么是-MinGW" class="headerlink" title="什么是 MinGW"></a>什么是 MinGW</h3><p>MinGw全称 Minimalistic GNU for Windows，某种程度上可以看做是win版本下的GCC。Mingw有一个Msys的子项目，可以提供一些模拟Linux的shell和基本的Linux工具，Msys是一个辅助环境。</p>
-<p>MinGw 有专门的Win32 API的头文件，来把代码中Linux方式的系统调用替换为对应的Windows下的调用方式，某种程度上可以称之为将Linux调用 翻译为 Windows调用。</p>
-<h3 id="什么是-cygwin"><a href="#什么是-cygwin" class="headerlink" title="什么是 cygwin"></a>什么是 cygwin</h3><p>Cygwin 则是一个在Windows平台上运行的unix模拟环境，是cygnus solutions 公司开发的自由软件。Cygwin更像一个平台，模拟了Linux的接口，提供了运行在它上面的程序使用，提供了很多Linux环境下的GNU软件。</p>
-<p>Cygwin 通过Cygwin1.dll的文件实现操作系统API的转换，模拟了Linux的调用接口给程序，程序以Linux的方式调用系统API，但这个API的目标库是Cygwin1.dll，Cygwin1.dll再调用Windows对用的方式实现，再把结果返回给程序。</p>
-<h3 id="两者的区别"><a href="#两者的区别" class="headerlink" title="两者的区别"></a>两者的区别</h3><p>MinGW生成的程序，究其本质调用的是Kernel.32导出的标准Windows系统API，在windows下Mingw的编译性能会高一些，编译速度也会快一些。</p>
-<p>Cygwin更像一个平台，它相对完整地模拟了LInux，提供了一个接近2M的Cygwin1.dll的文件作为目标库，来模拟Linux系统的接口，但是相对来说编译的速度就要慢一些。如果想要在Windows上开发可以运行在LInux上的程序，应该选用Cygwin。</p>
-<p>总的来说：</p>
-<ol>
-<li>cygwin大，mingw小</li>
-<li>cygwin编译后的exe需要cygwin1.dll作为支持，而mingw不需要就可以直接运行，因为有中间层所以cygwin慢，mingw快。</li>
-<li>cygwin包含的内容更全面，能编译通过的linux源文件更多，mingw的min是minimalist所以能编译通过的更少。但，不是全部，就是说别指望你可以把任何为linux写的源代码在cygwin或mingw编译通过并运行。</li>
-</ol>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>事实上，cygwin&#x2F;gcc和Mingw都是为了gcc可以在windows下使用的编译环境，可以方便进行一些类Linux环境下的编程。但是两种平台不管是哪一种，Linux程序都不能直接运行在Windows下的，需要对程序进行重新编译，同时建议重要的源码还是应该在真正的Linux环境下进行编译。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/ccpp/mingwcygwin/" data-id="clhlnylg000fxojupes16cy6e" data-title="MinGw 和 cygwin 的区别和联系" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/9/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/11/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/9/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/11/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -227,6 +225,10 @@
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -236,10 +238,6 @@
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -261,7 +259,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

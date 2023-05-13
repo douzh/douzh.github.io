@@ -77,6 +77,93 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/arch/rproxy/httpclient4base" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/arch/rproxy/httpclient4base/" class="article-date">
+  <time class="dt-published" datetime="2017-03-30T07:17:03.000Z" itemprop="datePublished">2017-03-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/arch/rproxy/httpclient4base/">反向代理之HttpClient4基本使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="构建NameValue参数"><a href="#构建NameValue参数" class="headerlink" title="构建NameValue参数"></a>构建NameValue参数</h2><pre><code>private static HttpPost buildKvHttpPost(String strUrl,
+        Map&lt;String, String&gt; requestParams)
+        throws UnsupportedEncodingException &#123;
+    List&lt;NameValuePair&gt; nvps = new ArrayList&lt;&gt;();
+    for (String strKey : requestParams.keySet()) &#123;
+        nvps.add(new BasicNameValuePair(strKey,requestParams.get(strKey)));
+    &#125;
+    HttpPost post=new HttpPost(strUrl);
+    post.setEntity(new UrlEncodedFormEntity(nvps, &quot;UTF-8&quot;));
+    return post;
+&#125;
+</code></pre>
+<h2 id="构建Json报文参数"><a href="#构建Json报文参数" class="headerlink" title="构建Json报文参数"></a>构建Json报文参数</h2><pre><code>    private static HttpPost buildJsonHttpPost(String strUrl, String body)
+        throws UnsupportedEncodingException &#123;
+    StringEntity entity = new StringEntity(body,ContentType.create(&quot;application/json&quot;,&quot;UTF-8&quot;));
+    HttpPost post=new HttpPost(strUrl);
+    post.setEntity(entity);
+    return post;
+&#125;
+</code></pre>
+<h2 id="获取返回结果"><a href="#获取返回结果" class="headerlink" title="获取返回结果"></a>获取返回结果</h2><pre><code>private String getRespString(HttpPost httpPost) throws ParseException, IOException&#123;
+    CloseableHttpClient httpClient = HttpClients.createDefault();
+    CloseableHttpResponse resp=httpClient.execute(httpPost);
+    HttpEntity entity=resp.getEntity();
+    ContentType ct=ContentType.getOrDefault(entity);
+    String resultStr = EntityUtils.toString(entity , ct.getCharset()).trim();
+    System.out.println(resultStr);
+    return resultStr;
+&#125;
+</code></pre>
+<h2 id="整体转发请求"><a href="#整体转发请求" class="headerlink" title="整体转发请求"></a>整体转发请求</h2><pre><code>HttpPost httpPost = new HttpPost(servcieUrl);
+InputStreamEntity entity = new InputStreamEntity(
+        request.getInputStream());
+httpPost.setEntity(entity);
+for (Enumeration&lt;String&gt; e = request.getHeaderNames(); e
+        .hasMoreElements();) &#123;
+    String name = e.nextElement().toString();
+    if (&quot;Content-Length&quot;.equals(name)) &#123;
+        continue;
+    &#125;
+    httpPost.setHeader(name, request.getHeader(name));
+&#125;
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/rproxy/httpclient4base/" data-id="clhlnylfe00c2ojupf8nk9g7n" data-title="反向代理之HttpClient4基本使用" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/arch/rproxy/responsecharset" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/arch/rproxy/responsecharset/" class="article-date">
@@ -155,187 +242,11 @@ public String getResponseCharSet() &#123;
 
 
   
-    <article id="post-blog/arch/rproxy/requestcharset" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/arch/rproxy/requestcharset/" class="article-date">
-  <time class="dt-published" datetime="2017-03-08T12:31:14.000Z" itemprop="datePublished">2017-03-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/arch/rproxy/requestcharset/">反向代理之http请求乱码分析</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="请求测试代码"><a href="#请求测试代码" class="headerlink" title="请求测试代码"></a>请求测试代码</h2><pre><code>import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.PostMethod;
-
-public class HttpCharsetTest &#123;
-    public static void main(String[] args) throws Exception &#123;
-        String strUrl = &quot;http://localhost:8080/front_new/rproxy/123/456&quot;;
-        Map&lt;String, String&gt; requestParams = new HashMap&lt;String, String&gt;();
-        requestParams.put(&quot;testkey&quot;, &quot;测试&quot;);
-        int i = 0;
-        NameValuePair[] nvps = new NameValuePair[requestParams.size()];
-        for (String strKey : requestParams.keySet()) &#123;
-            NameValuePair nvp = new NameValuePair();
-            nvp.setName(strKey);
-            nvp.setValue(requestParams.get(strKey));
-            nvps[i] = nvp;
-            i++;
-        &#125;
-        PostMethod postMethod = null;
-        HttpClient httpClient = new HttpClient();
-        // 设置超时时间
-        httpClient.getHttpConnectionManager().getParams()
-                .setConnectionTimeout(30000);
-        httpClient.getHttpConnectionManager().getParams().setSoTimeout(30000);
-        postMethod = new PostMethod(strUrl);
-        postMethod.setRequestBody(nvps);
-//		postMethod.addRequestHeader(&quot;Content-Type&quot;, &quot;text/html;charset=UTF-8&quot;);
-//		httpClient.getParams().setContentCharset(&quot;UTF-8&quot;);
-//		postMethod.getParams().setContentCharset(&quot;UTF-8&quot;);
-        httpClient.executeMethod(postMethod);
-        String resultStr = postMethod.getResponseBodyAsString();
-        System.err.println(resultStr);
-    &#125;
-&#125;
-</code></pre>
-<p>httpClient请求编码设置</p>
-<pre><code>postMethod.addRequestHeader(&quot;Content-Type&quot;, &quot;text/html;charset=UTF-8&quot;);
-httpClient.getParams().setContentCharset(&quot;UTF-8&quot;);
-postMethod.getParams().setContentCharset(&quot;UTF-8&quot;);
-</code></pre>
-<p>以上三种方式，下面的设置方法会覆盖上面的设置。</p>
-<h2 id="内容查看代码"><a href="#内容查看代码" class="headerlink" title="内容查看代码"></a>内容查看代码</h2><p>获取请求完整内容：</p>
-<pre><code>byte[] data=IOUtils.readBytesFromStream(request.getInputStream());
-String strData=new String(data);
-String strDecode=URLDecoder.decode(strData, &quot;UTF-8&quot;);
-</code></pre>
-<h2 id="内容测试"><a href="#内容测试" class="headerlink" title="内容测试"></a>内容测试</h2><p>不同的httpClient请求编码，参数内容“测试”二字，方式post，<code>strData</code>内容如下：</p>
-<pre><code>不设置字符集
-testkey=%3F%3F
-UTF-8字符集
-testkey=%E6%B5%8B%E8%AF%95
-GBK字符集
-testkey=%B2%E2%CA%D4
-</code></pre>
-<p>如果不设置字符集，每个汉字编码成占一个字节的编码，没找到任何一个编码与之对应<code>URLDecoder.decode</code>后是乱码。</p>
-<p>UTF-8编码成三个字节一个汉字，GBK编码成二个字节一个汉字，用对应编码<code>URLDecoder.decode</code>后都是正常汉字。</p>
-<h2 id="获取请求参数"><a href="#获取请求参数" class="headerlink" title="获取请求参数"></a>获取请求参数</h2><p>在获取参数调用<code>request.getParameter</code>前，要设置字符编码：</p>
-<pre><code>request.setCharacterEncoding(&quot;UTF-8&quot;);
-</code></pre>
-<p>可以通过设置spring的filter统一设置编码：</p>
-<pre><code>&lt;filter&gt;
-  &lt;filter-name&gt;characterEncodingFilter&lt;/filter-name&gt;
-  &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;
-  &lt;init-param&gt;
-    &lt;param-name&gt;encoding&lt;/param-name&gt;
-    &lt;param-value&gt;UTF-8&lt;/param-value&gt;
-  &lt;/init-param&gt;
-  &lt;init-param&gt;
-    &lt;param-name&gt;forceEncoding&lt;/param-name&gt;
-    &lt;param-value&gt;true&lt;/param-value&gt;
-  &lt;/init-param&gt;
-&lt;/filter&gt;
-&lt;filter-mapping&gt;
-  &lt;filter-name&gt;characterEncodingFilter&lt;/filter-name&gt;
-  &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
-&lt;/filter-mapping&gt;
-</code></pre>
-<p>spring的filter的实质：</p>
-<pre><code>@Override
-protected void doFilterInternal(
-        HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-        throws ServletException, IOException &#123;
-
-    if (this.encoding != null &amp;&amp; (this.forceEncoding || request.getCharacterEncoding() == null)) &#123;
-        request.setCharacterEncoding(this.encoding);
-        if (this.forceEncoding) &#123;
-            response.setCharacterEncoding(this.encoding);
-        &#125;
-    &#125;
-    filterChain.doFilter(request, response);
-&#125;
-</code></pre>
-<p>encoding的作用相当于：</p>
-<pre><code>request.setCharacterEncoding
-</code></pre>
-<p>forceEncoding为true的作用相当于：</p>
-<pre><code>request.setCharacterEncoding(“”);
-response.setCharacterEncoding(“”);
-</code></pre>
-<h2 id="乱码详解"><a href="#乱码详解" class="headerlink" title="乱码详解"></a>乱码详解</h2><p>一个Http请求的数据大致包括URI、Header、和Body三个部分。这三个部分都需要encoding，不过一般只涉及到URI和Body，因此就不讨论Header了。</p>
-<p>GET的请求参数在QueryString中，是URI的一部分。因此，对于GET请求，我们需要关注，URI是如何encoding的？</p>
-<p>POST的请求参数在Body中，因此，对于POST请求，我们则需要关注，Body是如何encoding的？</p>
-<p>麻烦的是，URI和Body的charset还可以不一样，使用不同的方法进行设置和配置。</p>
-<h2 id="Tomcat如何设置charset"><a href="#Tomcat如何设置charset" class="headerlink" title="Tomcat如何设置charset"></a>Tomcat如何设置charset</h2><p>Tomcat通过URI的charset来设置QueryString的charset。我们可以在Tomcat根目录下conf&#x2F;server.xml 中进行配置。</p>
-<pre><code>&lt;Connector
-URIEncoding=&quot;UTF-8&quot;
-useBodyEncodingForURI=&quot;true&quot; 
-acceptCount=&quot;100&quot;
-connectionTimeout=&quot;20000&quot;
-disableUploadTimeout=&quot;true&quot;
-enableLookups=&quot;false&quot;
-maxHttpHeaderSize=&quot;8192&quot;
-maxSpareThreads=&quot;75&quot;
-maxThreads=&quot;150&quot;
-minSpareThreads=&quot;25&quot;
-port=&quot;8080&quot;
-redirectPort=&quot;8443&quot;/&gt;
-</code></pre>
-<p>URIEncoding属性就是URI的charset，上述配置表示 Tomcat认为URI的charset就是UTF-8。如果HttpClient也使用UTF-8作为QueryString的charset，那么Tomcat就可以正确decoding。详情可以参考org.apache.tomcat.util.http.Parameters类的handleQueryParameters的方法。</p>
-<p>Tomcat在启动的过程中，如果从conf&#x2F;server.xml中读取到URIEncoding属性，就会设置queryStringEncoding的值。当Tomcat处理HTTP请求时，上述方法就会被调用。</p>
-<p>默认的server.xml是没有配置URIEncoding属性的，需要我们手动设置 。如果没有设置，Tomcat就会采用一种称为“fast conversion”的方式解析QueryString。详情可以参考org.apache.tomcat.util.http.Parameter类的urlDecode方法。</p>
-<p>useBodyEncodingForURI是与URI charset相关的另一个属性。如果该属性的值为true，则Tomcat将使用Body的charset作为URI的charset。如果Tomcat没有设置Body的charset，那么将使用HTTP请求Content-Type Header中的charset。如果HTTP请求中没有设置Content-Type Header，则使用ISO-8859-1作为默认charset。详情参见org.apache.catalina.connector.Request的parseParmeters方法</p>
-<p>默认的server.xml是没有配置useBodyEncodingForURI属性的，需要我们手动设置 。如果没有设置，Tomcat则认为其值为false。需要注意的是，如果URIEncoding和useBodyEncodingForURI同时设置，而且Body的charset已经设置，那么将以Body的charset为准 。</p>
-<p>设置POST请求Body的charset：</p>
-<p>设置Body charset的方法很简单，只要调用javax.servlet.ServletRequest接口的setCharacterEncoding方法即可，比如request.setCharacterEncoding(“UTF-8”)。需要注意的是，该方法必须在读取任何请求参数之前调用，才有效果。</p>
-<p>也就是说，我们只有在调用getParameter或getReader方法之前，调用setsetCharacterEncoding方法，设置的charset才能奏效。</p>
-<p>响应数据的charset：</p>
-<p>设置响应数据charset的方法很简单，只要调用javax.servlet.ServletResponse接口的setContentType或setCharacterEncoding方法即可，比如response.setContentType(“text&#x2F;html;charset&#x3D;UTF-8”)或response.setCharacterEncoding(“UTF-8”)。</p>
-<p>如果Servlet正确设置了响应数据的charset，那么HTTP响应数据中就会包含Content-Type Header。HttpClient的getResponseBodyAsString方法就可以正确decoding响应数据。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/arch/rproxy/requestcharset/" data-id="clhlnylff00c5ojup6oxwbmpp" data-title="反向代理之http请求乱码分析" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/34/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="page-number" href="/page/34/">34</a><span class="page-number current">35</span><a class="page-number" href="/page/36/">36</a><a class="page-number" href="/page/37/">37</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/36/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/34/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="page-number" href="/page/34/">34</a><span class="page-number current">35</span><a class="page-number" href="/page/36/">36</a><a class="page-number" href="/page/37/">37</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/36/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -353,6 +264,10 @@ redirectPort=&quot;8443&quot;/&gt;
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -362,10 +277,6 @@ redirectPort=&quot;8443&quot;/&gt;
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -387,7 +298,7 @@ redirectPort=&quot;8443&quot;/&gt;
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

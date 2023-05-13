@@ -77,6 +77,117 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/plang/java/features/generic" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/plang/java/features/generic/" class="article-date">
+  <time class="dt-published" datetime="2013-09-14T09:48:40.000Z" itemprop="datePublished">2013-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/plang/java/features/generic/">【JAVA】Generic泛型使用指南</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="泛型简介"><a href="#泛型简介" class="headerlink" title="泛型简介"></a>泛型简介</h2><p>在Java SE 1.5之前，没有泛型的情况的下，通过对类型Object的引用来实现参数的&quot;任意化&quot;，&quot;任意化&quot;带来的缺点是要做显式的强制类型转换，而这种转换是要求开发者对实际参数类型可以预知的情况下进行的。对于强制类型转换错误的情况，编译器可能不提示错误，在运行的时候才出现异常，这是一个安全隐患。</p>
+<p>泛型的好处是在编译的时候检查类型安全，并且所有的强制转换都是自动和隐式的，提高代码的重用率。</p>
+<h2 id="规则和限制"><a href="#规则和限制" class="headerlink" title="规则和限制"></a>规则和限制</h2><p>　1、泛型的类型参数只能是类类型（包括自定义类），不能是简单类型。</p>
+<p>　2、同一种泛型可以对应多个版本（因为参数类型是不确定的），不同版本的泛型类实例是不兼容的。</p>
+<p>　3、泛型的类型参数可以有多个。</p>
+<p>　4、泛型的参数类型可以使用extends语句，例如&lt;T extends superclass&gt;。习惯上称为”有界类型”。</p>
+<p>　5、泛型的参数类型还可以是通配符类型。例如Class&lt;?&gt; classType &#x3D;Class.forName(&quot;java.lang.String&quot;);</p>
+<p>泛型还有接口、方法等等，内容很多，需要花费一番功夫才能理解掌握并熟练应用。</p>
+<h2 id="泛型-类"><a href="#泛型-类" class="headerlink" title="泛型 类"></a>泛型 类</h2><p>在类的命名空间中使用的泛型，在类名后加&quot;&lt;逗号分割的名字列表&gt;&quot;。</p>
+<p>例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class GenericFoo&lt;T&gt; &#123;</span><br><span class="line">    private T foo;</span><br><span class="line">    public void setFoo(T foo) &#123;</span><br><span class="line">        this.foo = foo;</span><br><span class="line">    &#125;</span><br><span class="line">    public T getFoo() &#123;</span><br><span class="line">        return foo;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&lt;T&gt; 用来宣告一个型态持有者（Holder）T，之后您可以用 T作为型态代表来宣告变量（参考）名称。</p>
+<p>使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GenericFoo&lt;Boolean&gt; foo1 = new GenericFoo&lt;Boolean&gt;();</span><br><span class="line">GenericFoo&lt;Integer&gt; foo2 = new GenericFoo&lt;Integer&gt;();</span><br><span class="line"></span><br><span class="line">foo1.setFoo(new Boolean(true));</span><br><span class="line">Boolean b = foo1.getFoo();</span><br><span class="line"></span><br><span class="line">foo2.setFoo(new Integer(10));</span><br><span class="line">Integer i = foo2.getFoo();</span><br></pre></td></tr></table></figure>
+
+<h2 id="泛型类实例"><a href="#泛型类实例" class="headerlink" title="泛型类实例"></a>泛型类实例</h2><p>可以在定义泛型类别时，宣告多个类型持有者，例如：</p>
+<h5 id="GenericFoo-java"><a href="#GenericFoo-java" class="headerlink" title="GenericFoo.java"></a>GenericFoo.java</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class GenericFoo&lt;T1, T2&gt; &#123;</span><br><span class="line">    private T1 foo1;</span><br><span class="line">    private T2 foo2;</span><br><span class="line">    public void setFoo1(T1 foo1) &#123;</span><br><span class="line">        this.foo1 = foo1;</span><br><span class="line">    &#125;</span><br><span class="line">    public T1 getFoo1() &#123;</span><br><span class="line">        return foo1;</span><br><span class="line">    &#125;</span><br><span class="line">    public void setFoo2(T2 foo2) &#123;</span><br><span class="line">        this.foo2 = foo2;</span><br><span class="line">    &#125;</span><br><span class="line">    public T2 getFoo2() &#123;</span><br><span class="line">        return foo2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>您可以如下使用GenericFoo类别，分别以Integer与Boolean取代T1与T2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GenericFoo&lt;Integer, Boolean&gt; foo =new GenericFoo&lt;Integer, Boolean&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>如果是数组的话，可以像这样：</p>
+<h5 id="GenericFoo-java-1"><a href="#GenericFoo-java-1" class="headerlink" title="GenericFoo.java"></a>GenericFoo.java</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class GenericFoo&lt;T&gt; &#123;</span><br><span class="line">    private T[] fooArray;</span><br><span class="line">    public void setFooArray(T[] fooArray) &#123;</span><br><span class="line">        this.fooArray = fooArray;</span><br><span class="line">    &#125;</span><br><span class="line">    public T[] getFooArray() &#123;</span><br><span class="line">        return fooArray;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>您可以像下面的方式来使用它：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String[] strs = &#123;&quot;caterpillar&quot;, &quot;momor&quot;, &quot;bush&quot;&#125;;</span><br><span class="line"></span><br><span class="line">GenericFoo&lt;String&gt; foo = new GenericFoo&lt;String&gt;();</span><br><span class="line">foo.setFooArray(strs);</span><br><span class="line">strs = foo.getFooArray();</span><br></pre></td></tr></table></figure>
+
+<h2 id="泛型类中的泛型类"><a href="#泛型类中的泛型类" class="headerlink" title="泛型类中的泛型类"></a>泛型类中的泛型类</h2><p>如果您已经定义了一个泛型类别，想要用这个类别来于另一个泛型类别中宣告成员的话要如何作？举个实例，假设您已经定义了下面的类别：</p>
+<h5 id="GenericFoo-java-2"><a href="#GenericFoo-java-2" class="headerlink" title="GenericFoo.java"></a>GenericFoo.java</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class GenericFoo&lt;T&gt; &#123;</span><br><span class="line">    private T foo;</span><br><span class="line">    public void setFoo(T foo) &#123;</span><br><span class="line">        this.foo = foo;</span><br><span class="line">    &#125;</span><br><span class="line">    public T getFoo() &#123;</span><br><span class="line">        return foo;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>您想要写一个包装类别（Wrapper），这个类别必须也具有GenericFoo的泛型功能，您可以这么写：</p>
+<h5 id="WrapperFoo-java"><a href="#WrapperFoo-java" class="headerlink" title="WrapperFoo.java"></a>WrapperFoo.java</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class WrapperFoo&lt;T&gt; &#123;</span><br><span class="line">    private GenericFoo&lt;T&gt; foo;</span><br><span class="line">    public void setFoo(GenericFoo&lt;T&gt; foo) &#123;</span><br><span class="line">        this.foo = foo;</span><br><span class="line">    &#125;</span><br><span class="line">    public GenericFoo&lt;T&gt; getFoo() &#123;</span><br><span class="line">        return foo;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这么一来，您就可以保留型态持有者 T 的功能，一个使用的例子如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GenericFoo&lt;Integer&gt; foo = new GenericFoo&lt;Integer&gt;();</span><br><span class="line">foo.setFoo(new Integer(10));</span><br><span class="line"></span><br><span class="line">WrapperFoo&lt;Integer&gt; wrapper = new WrapperFoo&lt;Integer&gt;();</span><br><span class="line">wrapper.setFoo(foo);</span><br></pre></td></tr></table></figure>
+
+<h2 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h2><p>是否拥有泛型方法，与其所在的类是否泛型没有关系。要定义泛型方法，只需将泛型参数列表置于返回值前。</p>
+<p>使用泛型方法时，不必指明参数类型，编译器会自己找出具体的类型。泛型方法除了定义不同，调用就像普通方法一样。</p>
+<p>需要注意，一个static方法，无法访问泛型类的类型参数，所以，若要static方法需要使用泛型能力，必须使其成为泛型方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class ExampleA &#123;</span><br><span class="line">    public  void f(T x) &#123;</span><br><span class="line">        System.out.println(x.getClass().getName());</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        ExampleA ea = new ExampleA();</span><br><span class="line">        ea.f(&quot; &quot;);</span><br><span class="line">        ea.f(10);</span><br><span class="line">        ea.f(&#x27;a&#x27;);</span><br><span class="line">        ea.f(ea);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java.lang.String 　　</span><br><span class="line">java.lang.Integer 　　</span><br><span class="line">java.lang.Character </span><br></pre></td></tr></table></figure>
+
+<h2 id="通配符泛型"><a href="#通配符泛型" class="headerlink" title="通配符泛型"></a>通配符泛型</h2><p>为了解决类型被限制死了不能动态根据实例来确定的缺点，引入了&quot;通配符泛型&quot;，针对上面的例子，使用通配泛型格式为&lt;? extends Collection&gt;，&quot;?&quot;代表未知类型，这个类型是实现Collection接口。那么上面实现的方式可以写为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class CollectionGenFooDemo &#123;</span><br><span class="line">    public static void main(String args[]) &#123;</span><br><span class="line">    CollectionGenFoo&lt;ArrayList&gt; listFoo = null;</span><br><span class="line">    listFoo = new CollectionGenFoo&lt;ArrayList&gt;(new ArrayList());</span><br><span class="line">    //现在不会出错了</span><br><span class="line">    CollectionGenFoo&lt;? extends Collection&gt; listFoo1 = null;</span><br><span class="line">    listFoo=new CollectionGenFoo&lt;ArrayList&gt;(new ArrayList());</span><br><span class="line">    System.out.println(&quot;实例化成功!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<p>1、如果只指定了&lt;?&gt;，而没有extends，则默认是允许Object及其下的任何Java类了。也就是任意类。</p>
+<p>2、通配符泛型不单可以向下限制，如&lt;? extends Collection&gt;，还可以向上限制，如&lt;? super Double&gt;，表示类型只能接受Double及其上层父类类型，如Number、Object类型的实例。</p>
+<p>3、泛型类定义可以有多个泛型参数，中间用逗号隔开，还可以定义泛型接口，泛型方法。这些都泛型类中泛型的使用规则类似。</p>
+<h2 id="限制泛型可用类型"><a href="#限制泛型可用类型" class="headerlink" title="限制泛型可用类型"></a>限制泛型可用类型</h2><p>在定义泛型类别时，预设您可以使用任何的型态来实例化泛型类别中的型态持有者，但假设您想要限制使用泛型类别时，只能用某个特定型态或其子类别才能实例化型态持有者的话呢？</p>
+<p>您可以在定义型态持有者时，一并使用&quot;extends&quot;指定这个型态持有者必须是扩充某个类型，举个实例来说：</p>
+<h5 id="ListGenericFoo-java"><a href="#ListGenericFoo-java" class="headerlink" title="ListGenericFoo.java"></a>ListGenericFoo.java</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import java.util.List;</span><br><span class="line">public class ListGenericFoo&lt;T extends List&gt; &#123;</span><br><span class="line">    private T[] fooArray;</span><br><span class="line">    public void setFooArray(T[] fooArray) &#123;</span><br><span class="line">        this.fooArray = fooArray;</span><br><span class="line">    &#125;</span><br><span class="line">    public T[] getFooArray() &#123;</span><br><span class="line">        return fooArray;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ListGenericFoo在宣告类型持有者时，一并指定这个持有者必须扩充自List接口（interface），在限定持有者时，无论是要限定的对象是接口或类别，都是使用&quot;extends&quot;关键词。</p>
+<p>您使用&quot;extends&quot;限定型态持有者必须是实作List的类别或其子类别，例如LinkedList与ArrayList，下面的程序是合法的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ListGenericFoo&lt;LinkedList&gt; foo1 =new ListGenericFoo&lt;LinkedList&gt;();</span><br><span class="line">ListGenericFoo&lt;ArrayList&gt; foo2 =new ListGenericFoo&lt;ArrayList&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>但是如果不是List的类别或是其子类别，就会发生编译错误，例如下面的程序通不过编译：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ListGenericFoo&lt;HashMap&gt; foo3 =new ListGenericFoo&lt;HashMap&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>编译器会回报以下错误讯息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">type parameter java.util.HashMap is not within its bound</span><br><span class="line">ListGenericFoo&lt;HashMap&gt; foo3 = new ListGenericFoo&lt;HashMap&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>HashMap并没有实作List界面，所以无法用来实例化型态持有者，事实上，当您没有使用extends关键词限定型态持有者时，预设则是Object下的所有子类别都可以实例化型态持有者，即只写&lt;T&gt;时就相当于&lt;T extends Object&gt;。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/features/generic/" data-id="clhlnylh700n5ojupeq0jfcfc" data-title="【JAVA】Generic泛型使用指南" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/plang/java/features/reflect" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/java/features/reflect/" class="article-date">
@@ -491,126 +602,11 @@ public class Main &#123;
 
 
   
-    <article id="post-blog/javaweb/servlet/servletconfig" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/javaweb/servlet/servletconfig/" class="article-date">
-  <time class="dt-published" datetime="2010-02-12T09:11:11.000Z" itemprop="datePublished">2010-02-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA-WEB/">JAVA WEB</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/javaweb/servlet/servletconfig/">JAVA WEB之ServletConfig</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>在Servlet的配置文件web.xml中，可以使用一个或多个&lt;init-param&gt;标签为servlet配置一些初始化参数。</p>
-<pre><code>&lt;servlet&gt;
-    &lt;servlet-name&gt;ServletConfigDemo1&lt;/servlet-name&gt;
-    &lt;servlet-class&gt;com.iteedu.javaweb.ServletConfigDemo1&lt;/servlet-class&gt;
-    &lt;!--配置ServletConfigDemo1的初始化参数 --&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;name&lt;/param-name&gt;
-        &lt;param-value&gt;gacl&lt;/param-value&gt;
-    &lt;/init-param&gt;
-     &lt;init-param&gt;
-        &lt;param-name&gt;password&lt;/param-name&gt;
-        &lt;param-value&gt;123&lt;/param-value&gt;
-    &lt;/init-param&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;charset&lt;/param-name&gt;
-        &lt;param-value&gt;UTF-8&lt;/param-value&gt;
-    &lt;/init-param&gt;
-&lt;/servlet&gt;
-</code></pre>
-<p>当servlet配置了初始化参数后，web容器在创建servlet实例对象时，会自动将这些初始化参数封装到ServletConfig对象中，并在调用servlet的init方法时，将ServletConfig对象传递给servlet。进而，我们通过ServletConfig对象就可以得到当前servlet的初始化参数信息。</p>
-<pre><code>com.iteedu.javaweb;
-
-import java.io.IOException;
-import java.util.Enumeration;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-public class ServletConfigDemo1 extends HttpServlet &#123;
-
-    /**
-     * 定义ServletConfig对象来接收配置的初始化参数
-     */
-    private ServletConfig config;
-    
-    /**
-     * 当servlet配置了初始化参数后，web容器在创建servlet实例对象时，
-     * 会自动将这些初始化参数封装到ServletConfig对象中，并在调用servlet的init方法时，
-     * 将ServletConfig对象传递给servlet。进而，程序员通过ServletConfig对象就可以
-     * 得到当前servlet的初始化参数信息。
-     */
-    @Override
-    public void init(ServletConfig config) throws ServletException &#123;
-        this.config = config;
-    &#125;
-
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException &#123;
-        //获取在web.xml中配置的初始化参数
-        String paramVal = this.config.getInitParameter(&quot;name&quot;);//获取指定的初始化参数
-        response.getWriter().print(paramVal);
-        
-        response.getWriter().print(&quot;&quot;);
-        //获取所有的初始化参数
-        Enumeration e = config.getInitParameterNames();
-        while(e.hasMoreElements())&#123;
-            String name = e.nextElement();
-            String value = config.getInitParameter(name);
-            response.getWriter().print(name + &quot;=&quot; + value + &quot;&quot;);
-        &#125;
-    &#125;
-
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException &#123;
-        this.doGet(request, response);
-    &#125;
-
-&#125;
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/javaweb/servlet/servletconfig/" data-id="clhlnylfg00cfojuph75bc4zo" data-title="JAVA WEB之ServletConfig" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/servlet/" rel="tag">servlet</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/181/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/180/">180</a><a class="page-number" href="/page/181/">181</a><span class="page-number current">182</span><a class="page-number" href="/page/183/">183</a><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/183/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/181/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/180/">180</a><a class="page-number" href="/page/181/">181</a><span class="page-number current">182</span><a class="page-number" href="/page/183/">183</a><a class="page-number" href="/page/184/">184</a><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/183/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -628,6 +624,10 @@ public class ServletConfigDemo1 extends HttpServlet &#123;
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -637,10 +637,6 @@ public class ServletConfigDemo1 extends HttpServlet &#123;
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -662,7 +658,7 @@ public class ServletConfigDemo1 extends HttpServlet &#123;
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

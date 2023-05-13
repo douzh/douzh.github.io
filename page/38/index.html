@@ -77,6 +77,53 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/arch/rproxy/httpcallws" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/arch/rproxy/httpcallws/" class="article-date">
+  <time class="dt-published" datetime="2017-03-04T06:44:51.000Z" itemprop="datePublished">2017-03-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/arch/rproxy/httpcallws/">如何用HttpClient和xml报文调用webservice服务</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>依赖jar包：</p>
+<p>httpclient-4.5.2.jar</p>
+<p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">package com.iteedu.demo.webservicesdk;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">import org.apache.http.HttpEntity;</span><br><span class="line">import org.apache.http.HttpStatus;</span><br><span class="line">import org.apache.http.client.ClientProtocolException;</span><br><span class="line">import org.apache.http.client.config.RequestConfig;</span><br><span class="line">import org.apache.http.client.methods.CloseableHttpResponse;</span><br><span class="line">import org.apache.http.client.methods.HttpPost;</span><br><span class="line">import org.apache.http.entity.StringEntity;</span><br><span class="line">import org.apache.http.impl.client.CloseableHttpClient;</span><br><span class="line">import org.apache.http.impl.client.HttpClients;</span><br><span class="line">import org.apache.http.util.EntityUtils;</span><br><span class="line"></span><br><span class="line">public class HelloWorldHttpClient &#123;</span><br><span class="line">	public static void main(String[] args) throws ClientProtocolException,</span><br><span class="line">			IOException &#123;</span><br><span class="line">		RequestConfig requestConfig = RequestConfig.custom()</span><br><span class="line">				.setConnectionRequestTimeout(30).setConnectTimeout(30)</span><br><span class="line">				.setSocketTimeout(30).build();</span><br><span class="line">		CloseableHttpClient httpClient = HttpClients.custom()</span><br><span class="line">				.setDefaultRequestConfig(requestConfig).build();</span><br><span class="line">		HttpPost httpPost = new HttpPost(&quot;http://localhost:8080/helloWorld&quot;);</span><br><span class="line">		StringEntity entity = new StringEntity(getRequestXML(), &quot;UTF-8&quot;);</span><br><span class="line">		httpPost.setEntity(entity);</span><br><span class="line">		httpPost.setHeader(&quot;Content-Type&quot;, &quot;text/xml; charset=&quot; + &quot;UTF-8&quot;);</span><br><span class="line">		httpPost.setHeader(&quot;SOAPAction&quot;, &quot;&quot;);</span><br><span class="line">		CloseableHttpResponse httpResponse = httpClient.execute(httpPost);</span><br><span class="line"></span><br><span class="line">		String result = null;</span><br><span class="line">		int iCode = httpResponse.getStatusLine().getStatusCode();</span><br><span class="line">		if (HttpStatus.SC_OK == iCode) &#123;</span><br><span class="line">			HttpEntity httpEntity = httpResponse.getEntity();</span><br><span class="line">			result = EntityUtils.toString(httpEntity, &quot;UTF-8&quot;);</span><br><span class="line">		&#125; else &#123; // 如果返回非200，则手动关闭连接</span><br><span class="line">			httpPost.abort();</span><br><span class="line">			System.out.println(&quot;get status code &#123;&#125; from server:&quot;</span><br><span class="line">					+ httpResponse.getStatusLine().getStatusCode());</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(result);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static String getRequestXML() &#123;</span><br><span class="line">		StringBuilder sb = new StringBuilder(&quot;&lt;soapenv:Envelope&quot;);</span><br><span class="line">		sb.append(&quot; xmlns:soapenv=\&quot;http://schemas.xmlsoap.org/soap/envelope/\&quot;&quot;);</span><br><span class="line">		sb.append(&quot; xmlns:web=\&quot;http://webservicesdk.demo.iteedu.com/\&quot;&gt;&quot;);</span><br><span class="line">		sb.append(&quot;   &lt;soapenv:Header/&gt;&quot;);</span><br><span class="line">		sb.append(&quot;   &lt;soapenv:Body&gt;&quot;);</span><br><span class="line">		sb.append(&quot;      &lt;web:sayHiToUser&gt;&quot;);</span><br><span class="line">		sb.append(&quot;         &lt;arg0&gt;&quot;);</span><br><span class="line">		sb.append(&quot;         &lt;name&gt;assd&lt;/name&gt;&lt;/arg0&gt;&quot;);</span><br><span class="line">		sb.append(&quot;      &lt;/web:sayHiToUser&gt;&quot;);</span><br><span class="line">		sb.append(&quot;   &lt;/soapenv:Body&gt;&quot;);</span><br><span class="line">		sb.append(&quot;&lt;/soapenv:Envelope&gt;&quot;);</span><br><span class="line">		return sb.toString();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/rproxy/httpcallws/" data-id="clhlnylfc00bqojuperho9qs1" data-title="如何用HttpClient和xml报文调用webservice服务" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webservice/" rel="tag">webservice</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/plang/lisp/pcldiary/chapter8" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/lisp/pcldiary/chapter8/" class="article-date">
@@ -238,159 +285,11 @@ NIL
 
 
   
-    <article id="post-blog/plang/lisp/pcldiary/chapter7" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/plang/lisp/pcldiary/chapter7/" class="article-date">
-  <time class="dt-published" datetime="2017-02-09T08:35:55.000Z" itemprop="datePublished">2017-02-09</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/plang/lisp/pcldiary/chapter7/">第7章标准控制结构-实用Common Lisp编程笔记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="if"><a href="#if" class="headerlink" title="if"></a>if</h2><pre><code>(if condtion then-form [else-form])
-</code></pre>
-<p>then-form和else-form只能是单一lisp表达式。</p>
-<p>示例：</p>
-<pre><code>CL-USER&gt; (if (&gt; 2 3) &quot;then-form&quot; &quot;else-form&quot;)
-&quot;else-form&quot;
-CL-USER&gt; (if (&gt; 2 3) &quot;then-form&quot;)
-NIL
-CL-USER&gt; (if (&gt; 3 2) &quot;then-form&quot; &quot;else-form&quot;)
-&quot;then-form&quot;
-CL-USER&gt;
-</code></pre>
-<h2 id="progn"><a href="#progn" class="headerlink" title="progn"></a>progn</h2><p>顺序执行任意数量的宏，返回最后一个形式的值。</p>
-<pre><code>(when (判断条件)
-  (语句1)
-  (语句2))
-
-CL-USER&gt; (when T &quot;a&quot; &quot;b&quot;)
-&quot;b&quot;
-CL-USER&gt; (when NIL &quot;a&quot; &quot;b&quot;)
-NIL
-</code></pre>
-<h2 id="WHEN宏"><a href="#WHEN宏" class="headerlink" title="WHEN宏"></a>WHEN宏</h2><pre><code>(defmacro when (condtion &amp;rest body)
-    `(if ,condtion (progn ,@body)))
-</code></pre>
-<h2 id="UNLESS宏"><a href="#UNLESS宏" class="headerlink" title="UNLESS宏"></a>UNLESS宏</h2><pre><code>(defmacro when (condtion &amp;rest body)
-    `(if （not ,condtion) (progn ,@body)))
-    
-    
-</code></pre>
-<h2 id="COND宏"><a href="#COND宏" class="headerlink" title="COND宏"></a>COND宏</h2><pre><code>(cond 
-    (test-1 form*)
-    ...
-    (test-n form*))
-
-CL-USER&gt; (COND (t &quot;a&quot; &quot;b&quot;)
-           (t &quot;c&quot; &quot;d&quot;))
-&quot;b&quot;
-</code></pre>
-<h2 id="AND-OR-NOT"><a href="#AND-OR-NOT" class="headerlink" title="AND OR NOT"></a>AND OR NOT</h2><pre><code>CL-USER&gt; (not nil)
-T
-CL-USER&gt; (not t)
-NIL
-CL-USER&gt; (and t nil)
-NIL
-CL-USER&gt; (or t nil)
-T
-</code></pre>
-<h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><p>lisp的25个操作符没有循环结构，所有循环结构都是基于TAGBODY和GO操作符上的宏。</p>
-<p>低层是一个强大的DO宏，dolist和dotimes是基于DO宏上的简便宏。</p>
-<p>非LISP语法的LOOP宏，类Algol语言。</p>
-<h2 id="dolist"><a href="#dolist" class="headerlink" title="dolist"></a>dolist</h2><pre><code>(dolist (var list-form)
-    body-form*)
-    
-CL-USER&gt; (dolist (x &#39;(1 2 3)) (print x))
-
-1 
-2 
-3 
-NIL
-</code></pre>
-<p>中断循环</p>
-<p>CL-USER&gt; (dolist (x ‘(1 2 3)) (print x) (if (evenp x) (return)))</p>
-<p>1<br>2<br>NIL</p>
-<h2 id="dotimes"><a href="#dotimes" class="headerlink" title="dotimes"></a>dotimes</h2><pre><code>(dotimes (var count-form)
-    body-form*)
-    
-CL-USER&gt; (dotimes (n 5)(print n) (prin1 (* n n)))
-
-0 0
-1 1
-2 4
-3 9
-4 16
-NIL
-</code></pre>
-<h2 id="do"><a href="#do" class="headerlink" title="do"></a>do</h2><pre><code>(do (variable-defination*)
-    (end-test-form result-form*)
-    statment*)
-</code></pre>
-<p>每个variable-defination的格式：</p>
-<p>(var init-form step-form)</p>
-<p>init-form:在循环开始时求值并赋给var，如果没有给出，则赋值为nil。</p>
-<p>step-form:在后续迭代开始前求值并赋给var,可选，如果没有变量值不变，<br>可在循环体中做修改。</p>
-<p>end-test-form:在每次迭代开始时以及所有所有循环变量指定新值后会被求值，只要值为nil，迭代继续。</p>
-<p>result-form: 当end-test-form值为真时会被求值，最后一个结果形式的值被当作DO表达式的值返回。<br>在迭代的每一步里step-form将在分配任何值给变量之前被求值。这意味着可以在步长形式里引用其它循环变量。如在下列循环中：</p>
-<pre><code>CL-USER&gt; (do ((n 0 (+ 1 n))
-          (cur 0 next)
-          (next 1 (+ cur next)))
-         ((= 10 n) cur))
-55
-</code></pre>
-<p>定义了三个variable-defination，n、cur、next，三个的步长(+ 1 n)、next、(+ cur next)都用旧值来求值。当所有步长被求值后变量才会赋新值。</p>
-<p>由于可以同时推进多个循环变量，往往不需要循环体。</p>
-<pre><code>CL-USER&gt; (do ((i 0 (+ 1 i)))
-         ((&gt;= i 4))
-       (print i))
-
-0 
-1 
-2 
-3 
-NIL
-</code></pre>
-<h2 id="LOOP"><a href="#LOOP" class="headerlink" title="LOOP"></a>LOOP</h2>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/lisp/pcldiary/chapter7/" data-id="clhlnylj500y5ojupea7a8zol" data-title="第7章标准控制结构-实用Common Lisp编程笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/37/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="page-number" href="/page/37/">37</a><span class="page-number current">38</span><a class="page-number" href="/page/39/">39</a><a class="page-number" href="/page/40/">40</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/39/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/37/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="page-number" href="/page/37/">37</a><span class="page-number current">38</span><a class="page-number" href="/page/39/">39</a><a class="page-number" href="/page/40/">40</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/39/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -408,6 +307,10 @@ NIL
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -417,10 +320,6 @@ NIL
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -442,7 +341,7 @@ NIL
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

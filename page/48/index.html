@@ -77,6 +77,210 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/nosql/mongodb/useindex" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/nosql/mongodb/useindex/" class="article-date">
+  <time class="dt-published" datetime="2016-04-10T08:37:15.000Z" itemprop="datePublished">2016-04-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/nosql/">nosql</a>►<a class="article-category-link" href="/categories/nosql/MongoDB/">MongoDB</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/nosql/mongodb/useindex/">MongoDB 索引的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>索引通常能够极大的提高查询的效率，如果没有索引，MongoDB在读取数据时必须扫描集合中的每个文件并选取那些符合查询条件的记录。</p>
+<p>索引是特殊的数据结构，索引存储在一个易于遍历读取的数据集合中，索引是对数据库表中一列或多列的值进行排序的一种结构</p>
+<h2 id="ensureIndex"><a href="#ensureIndex" class="headerlink" title="ensureIndex()"></a>ensureIndex()</h2><p>MongoDB使用 ensureIndex() 方法来创建索引。</p>
+<p>ensureIndex()方法基本语法格式如下所示：</p>
+<pre><code>&gt;db.COLLECTION_NAME.ensureIndex(&#123;KEY:1&#125;)
+</code></pre>
+<p>语法中 Key 值为你要创建的索引字段，1为指定按升序创建索引，如果你想按降序来创建索引指定为-1即可。</p>
+<p>示例：</p>
+<pre><code>&gt;db.col.ensureIndex(&#123;&quot;title&quot;:1&#125;)
+</code></pre>
+<p>ensureIndex()方法中你也可以设置使用多个字段创建索引（关系型数据库中称作复合索引）。</p>
+<pre><code>&gt;db.col.ensureIndex(&#123;&quot;title&quot;:1,&quot;description&quot;:-1&#125;)
+</code></pre>
+<p>ensureIndex() 接收可选参数，可选参数列表如下：</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>background</td>
+<td>Boolean</td>
+<td>建索引过程会阻塞其它数据库操作，background可指定以后台方式创建索引，即增加 “background” 可选参数。 “background” 默认值为<strong>false</strong>。</td>
+</tr>
+<tr>
+<td>unique</td>
+<td>Boolean</td>
+<td>建立的索引是否唯一。指定为true创建唯一索引。默认值为<strong>false</strong>.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>索引的名称。如果未指定，MongoDB的通过连接索引的字段名和排序顺序生成一个索引名称。</td>
+</tr>
+<tr>
+<td>dropDups</td>
+<td>Boolean</td>
+<td>在建立唯一索引时是否删除重复记录,指定 true 创建唯一索引。默认值为 <strong>false</strong>.</td>
+</tr>
+<tr>
+<td>sparse</td>
+<td>Boolean</td>
+<td>对文档中不存在的字段数据不启用索引；这个参数需要特别注意，如果设置为true的话，在索引字段中不会查询出不包含对应字段的文档.。默认值为 <strong>false</strong>.</td>
+</tr>
+<tr>
+<td>expireAfterSeconds</td>
+<td>integer</td>
+<td>指定一个以秒为单位的数值，完成 TTL设定，设定集合的生存时间。</td>
+</tr>
+<tr>
+<td>v</td>
+<td>index version</td>
+<td>索引的版本号。默认的索引版本取决于mongod创建索引时运行的版本。</td>
+</tr>
+<tr>
+<td>weights</td>
+<td>document</td>
+<td>索引权重值，数值在 1 到 99,999 之间，表示该索引相对于其他索引字段的得分权重。</td>
+</tr>
+<tr>
+<td>default_language</td>
+<td>string</td>
+<td>对于文本索引，该参数决定了停用词及词干和词器的规则的列表。 默认为英语</td>
+</tr>
+<tr>
+<td>language_override</td>
+<td>string</td>
+<td>对于文本索引，该参数指定了包含在文档中的字段名，语言覆盖默认的language，默认值为 language.</td>
+</tr>
+</tbody></table>
+<p>示例：</p>
+<p>在后台创建索引：</p>
+<pre><code>db.values.ensureIndex(&#123;open: 1, close: 1&#125;, &#123;background: true&#125;)
+</code></pre>
+<p>通过在创建索引时加background:true 的选项，让创建工作在后台执行</p>
+<h2 id="高级索引"><a href="#高级索引" class="headerlink" title="高级索引"></a>高级索引</h2><p>考虑以下文档集合（users ）:</p>
+<pre><code>&#123;
+   &quot;address&quot;: &#123;
+      &quot;city&quot;: &quot;Los Angeles&quot;,
+      &quot;state&quot;: &quot;California&quot;,
+      &quot;pincode&quot;: &quot;123&quot;
+   &#125;,
+   &quot;tags&quot;: [
+      &quot;music&quot;,
+      &quot;cricket&quot;,
+      &quot;blogs&quot;
+   ],
+   &quot;name&quot;: &quot;Tom Benzamin&quot;
+&#125;
+</code></pre>
+<p>以上文档包含了 address 子文档和 tags 数组。</p>
+<h3 id="索引数组字段"><a href="#索引数组字段" class="headerlink" title="索引数组字段"></a>索引数组字段</h3><p>假设我们基于标签来检索用户，为此我们需要对集合中的数组 tags 建立索引。</p>
+<p>在数组中创建索引，需要对数组中的每个字段依次建立索引。所以在我们为数组tags 创建索引时，会为 music、cricket、blogs三个值建立单独的索引。</p>
+<p>使用以下命令创建数组索引：</p>
+<pre><code>&gt;db.users.ensureIndex(&#123;&quot;tags&quot;:1&#125;)
+</code></pre>
+<p>创建索引后，我们可以这样检索集合的 tags 字段：</p>
+<pre><code>db.users.find(&#123;tags:&quot;cricket&quot;&#125;)&gt;
+</code></pre>
+<p>为了验证我们使用使用了索引，可以使用 explain 命令：</p>
+<pre><code>&gt;db.users.find(&#123;tags:&quot;cricket&quot;&#125;).explain()
+</code></pre>
+<p>以上命令执行结果中会显示 “cursor” : “BtreeCursor tags_1”，则表示已经使用了索引。</p>
+<h3 id="索引子文档字段"><a href="#索引子文档字段" class="headerlink" title="索引子文档字段"></a>索引子文档字段</h3><p>假设我们需要通过city、state、pincode字段来检索文档，由于这些字段是子文档的字段，所以我们需要对子文档建立索引。</p>
+<p>为子文档的三个字段创建索引，命令如下：</p>
+<pre><code>&gt;db.users.ensureIndex(&#123;&quot;address.city&quot;:1,&quot;address.state&quot;:1,&quot;address.pincode&quot;:1&#125;)
+</code></pre>
+<p>一旦创建索引，我们可以使用子文档的字段来检索数据：</p>
+<pre><code>&gt;db.users.find(&#123;&quot;address.city&quot;:&quot;Los Angeles&quot;&#125;)
+</code></pre>
+<p>记住查询表达式必须遵循指定的索引的顺序。所以上面创建的索引将支持以下查询：</p>
+<pre><code>&gt;db.users.find(&#123;&quot;address.city&quot;:&quot;Los Angeles&quot;,&quot;address.state&quot;:&quot;California&quot;&#125;) 
+</code></pre>
+<p>同样支持以下查询：</p>
+<pre><code>&gt;db.users.find(&#123;&quot;address.city&quot;:&quot;LosAngeles&quot;,&quot;address.state&quot;:&quot;California&quot;,&quot;address.pincode&quot;:&quot;123&quot;&#125;)
+</code></pre>
+<h2 id="覆盖索引查询"><a href="#覆盖索引查询" class="headerlink" title="覆盖索引查询"></a>覆盖索引查询</h2><p>官方的MongoDB的文档中说明，覆盖查询是以下的查询：</p>
+<ul>
+<li>所有的查询字段是索引的一部分</li>
+<li>所有的查询返回字段在同一个索引中</li>
+</ul>
+<p>由于所有出现在查询中的字段是索引的一部分， MongoDB无需在整个数据文档中检索匹配查询条件和返回使用相同索引的查询结果。</p>
+<p>因为索引存在于RAM中，从索引中获取数据比通过扫描文档读取数据要快得多。</p>
+<p>我们在 users 集合中创建联合索引，字段为 gender 和 user_name :</p>
+<pre><code>&gt;db.users.ensureIndex(&#123;gender:1,user_name:1&#125;)
+</code></pre>
+<p>现在，该索引会覆盖以下查询：</p>
+<pre><code>&gt;db.users.find(&#123;gender:&quot;M&quot;&#125;,&#123;user_name:1,_id:0&#125;)
+</code></pre>
+<p>也就是说，对于上述查询，MongoDB的不会去数据库文件中查找。相反，它会从索引中提取数据，这是非常快速的数据查询。</p>
+<p>由于我们的索引中不包括 _id字段，_id在查询中会默认返回，我们可以在MongoDB的查询结果集中排除它。</p>
+<p>下面的实例没有排除_id，查询就不会被覆盖：</p>
+<pre><code>&gt;db.users.find(&#123;gender:&quot;M&quot;&#125;,&#123;user_name:1&#125;)
+</code></pre>
+<h2 id="索引限制"><a href="#索引限制" class="headerlink" title="索引限制"></a>索引限制</h2><p><strong>额外开销</strong></p>
+<p>每个索引占据一定的存储空间，在进行插入，更新和删除操作时也需要对索引进行操作。所以，如果你很少对集合进行读取操作，建议不使用索引。</p>
+<p><strong>内存(RAM)使用</strong></p>
+<p>由于索引是存储在内存(RAM)中,你应该确保该索引的大小不超过内存的限制。</p>
+<p>如果索引的大小大于内存的限制，MongoDB会删除一些索引，这将导致性能下降。</p>
+<p><strong>查询限制</strong></p>
+<p>索引不能被以下的查询使用：</p>
+<ul>
+<li>正则表达式及非操作符，如 $nin, $not, 等。</li>
+<li>算术运算符，如 $mod, 等。</li>
+<li>$where 子句</li>
+</ul>
+<p>所以，检测你的语句是否使用索引是一个好的习惯，可以用explain来查看。</p>
+<p><strong>索引键限制</strong></p>
+<p>从2.6版本开始，如果现有的索引字段的值超过索引键的限制，MongoDB中不会创建索引。</p>
+<p><strong>插入文档超过索引键限制</strong></p>
+<p>如果文档的索引字段值超过了索引键的限制，MongoDB不会将任何文档转换成索引的集合。与mongorestore和mongoimport工具类似。</p>
+<p><strong>最大范围</strong></p>
+<ul>
+<li>集合中索引不能超过64个</li>
+<li>索引名的长度不能超过125个字符</li>
+<li>一个复合索引最多可以有31个字段</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/nosql/mongodb/useindex/" data-id="clhlnylfs00efojup3fxl1m7z" data-title="MongoDB 索引的使用" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/nosql/mongodb/pagesort" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/nosql/mongodb/pagesort/" class="article-date">
@@ -143,316 +347,11 @@
 
 
   
-    <article id="post-blog/nosql/mongodb/zsgc" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/nosql/mongodb/zsgc/" class="article-date">
-  <time class="dt-published" datetime="2016-04-09T10:03:56.000Z" itemprop="datePublished">2016-04-09</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/nosql/">nosql</a>►<a class="article-category-link" href="/categories/nosql/MongoDB/">MongoDB</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/nosql/mongodb/zsgc/">MongoDB 文档的增删改查</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="插入文档"><a href="#插入文档" class="headerlink" title="插入文档"></a>插入文档</h2><p>MongoDB 使用 insert() 或 save() 方法向集合中插入文档，语法如下：</p>
-<pre><code>db.COLLECTION_NAME.insert(document)
-</code></pre>
-<p>插入文档你也可以使用 db.col.save(document) 命令。如果不指定 _id 字段save() 方法类似于insert() 方法。如果指定 _id 字段，则会更新该 _id的数据。</p>
-<p>示例：</p>
-<pre><code>&gt;db.col.insert(&#123;title: &#39;MongoDB 教程&#39;, 
-    description: &#39;MongoDB 是一个 Nosql 数据库&#39;,
-    url: &#39;http://www.iteedu.com&#39;,
-    tags: [&#39;mongodb&#39;, &#39;database&#39;, &#39;NoSQL&#39;],
-    likes: 100
-&#125;)
-</code></pre>
-<p>我们也可以将数据定义为一个变量再插入，如下所示：</p>
-<pre><code>&gt; document=(&#123;title: &#39;MongoDB 教程&#39;, 
-    description: &#39;MongoDB 是一个 Nosql 数据库&#39;,
-    url: &#39;http://www.iteedu.com&#39;,
-    tags: [&#39;mongodb&#39;, &#39;database&#39;, &#39;NoSQL&#39;],
-    likes: 100
-&#125;);
-&gt; db.col.insert(document)
-WriteResult(&#123; &quot;nInserted&quot; : 1 &#125;)
-&gt; 
-</code></pre>
-<h2 id="更新文档"><a href="#更新文档" class="headerlink" title="更新文档"></a>更新文档</h2><p>update() 方法用于更新已存在的文档。语法格式如下：</p>
-<pre><code>db.collection.update(
-   &lt; query&gt;,
-   &lt; update&gt;,
-   &#123;
-     upsert: &lt; boolean&gt;,
-     multi: &lt; boolean&gt;,
-     writeConcern: &lt; document&gt;
-   &#125;
-)
-</code></pre>
-<p><strong>参数说明：</strong></p>
-<ul>
-<li><strong>query</strong> : update的查询条件，类似sql update查询内where后面的。</li>
-<li><strong>update</strong> :update的对象和一些更新的操作符（如$,$inc…）等，也可以理解为sql update查询内set后面的</li>
-<li><strong>upsert</strong> : 可选，这个参数的意思是，如果不存在update的记录，是否插入objNew,true为插入，默认是false，不插入。</li>
-<li><strong>multi</strong> : 可选，mongodb 默认是false,只更新找到的第一条记录，如果这个参数为true,就把按条件查出来多条记录全部更新。</li>
-<li><strong>writeConcern</strong> :可选，抛出异常的级别。</li>
-</ul>
-<p>示例</p>
-<pre><code>&gt;db.col.update(&#123;&#39;title&#39;:&#39;MongoDB 教程&#39;&#125;,&#123;$set:&#123;&#39;title&#39;:&#39;MongoDB&#39;&#125;&#125;)
-WriteResult(&#123; &quot;nMatched&quot; : 1, &quot;nUpserted&quot; : 0, &quot;nModified&quot; : 1 &#125;)   # 输出信息
-</code></pre>
-<p>以上语句只会修改第一条发现的文档，如果你要修改多条相同的文档，则需要设置multi 参数为 true。</p>
-<pre><code>&gt;db.col.update(&#123;&#39;title&#39;:&#39;MongoDB 教程&#39;&#125;,&#123;$set:&#123;&#39;title&#39;:&#39;MongoDB&#39;&#125;&#125;,&#123;multi:true&#125;)
-</code></pre>
-<h2 id="save-方法"><a href="#save-方法" class="headerlink" title="save() 方法"></a>save() 方法</h2><p>save() 方法通过传入的文档来替换已有文档。语法格式如下：</p>
-<pre><code>db.collection.save(
-   &lt; document&gt;,
-   &#123;
-     writeConcern: &lt; document&gt;
-   &#125;
-)
-</code></pre>
-<p><strong>参数说明：</strong></p>
-<ul>
-<li><strong>document</strong> : 文档数据。</li>
-<li><strong>writeConcern</strong> :可选，抛出异常的级别。</li>
-</ul>
-<h2 id="删除文档"><a href="#删除文档" class="headerlink" title="删除文档"></a>删除文档</h2><p>remove() 方法的基本语法格式如下所示：</p>
-<pre><code>db.collection.remove(
-   &lt; query&gt;,
-   &#123;
-     justOne: &lt; boolean&gt;,
-     writeConcern: &lt; document&gt;
-   &#125;
-)
-</code></pre>
-<p><strong>参数说明：</strong></p>
-<ul>
-<li><strong>query</strong> :（可选）删除的文档的条件。</li>
-<li><strong>justOne</strong> : （可选）如果设为 true 或 1，则只删除一个文档。</li>
-<li><strong>writeConcern</strong> :（可选）抛出异常的级别。</li>
-</ul>
-<p>示例</p>
-<pre><code>&gt;db.col.remove(&#123;&#39;title&#39;:&#39;MongoDB 教程&#39;&#125;)
-WriteResult(&#123; &quot;nRemoved&quot; : 2 &#125;)           # 删除了两条数据
-&gt;db.col.find()
-……                                        # 没有数据
-</code></pre>
-<p>如果你想删除所有数据，可以使用以下方式（类似常规 SQL 的 truncate命令）：</p>
-<pre><code>&gt;db.col.remove(&#123;&#125;)
-</code></pre>
-<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><p>MongoDB 查询数据的语法格式如下：</p>
-<pre><code>&gt;db.COLLECTION_NAME.find()
-</code></pre>
-<p>find()方法以非结构化的方式来显示所有文档。如果你需要以易读的方式来读取数据，可以使用pretty() 方法，语法格式如下：</p>
-<pre><code>&gt;db.col.find().pretty()
-</code></pre>
-<p>除了 find() 方法之外，还有一个 findOne() 方法，它只返回一个文档。</p>
-<p>MongoDB 的 find() 方法可以传入多个键(key)，每个键(key)以逗号隔开，及常规SQL 的 AND 条件。语法格式如下：</p>
-<pre><code>&gt;db.col.find(&#123;key1:value1, key2:value2&#125;).pretty()
-</code></pre>
-<p>MongoDB OR 条件语句使用了关键字 $or,语法格式如下：</p>
-<pre><code>&gt;db.col.find(
-   &#123;
-      $or: [
-         &#123;key1: value1&#125;, &#123;key2:value2&#125;
-      ]
-   &#125;
-).pretty()
-</code></pre>
-<p>以下实例演示了 AND 和 OR 联合使用</p>
-<pre><code>&gt;db.col.find(&#123;&quot;likes&quot;: &#123;$gt:50&#125;, $or: [&#123;&quot;url&quot;: &quot;http://www.iteedu.com&quot;&#125;,&#123;&quot;title&quot;: &quot;MongoDB 教程&quot;&#125;]&#125;).pretty()
-</code></pre>
-<h2 id="条件操作符"><a href="#条件操作符" class="headerlink" title="条件操作符"></a>条件操作符</h2><p>条件操作符用于比较两个表达式并从mongoDB集合中获取数据。</p>
-<p>MongoDB中条件操作符有：</p>
-<ul>
-<li>(&gt;) 大于 - $gt</li>
-<li>(&lt;) 小于 - $lt</li>
-<li>(&gt;&#x3D;) 大于等于 - $gte</li>
-<li>(&lt;&#x3D; ) 小于等于 - $lte</li>
-</ul>
-<p><strong>MongoDB (&gt;) 大于操作符 - $gt</strong></p>
-<p>如果你想获取 “col” 集合中 “likes” 大于 100 的数据，你可以使用以下命令：</p>
-<pre><code>db.col.find(&#123;&quot;likes&quot; : &#123;$gt : 100&#125;&#125;)
-</code></pre>
-<p>类似于SQL语句：</p>
-<pre><code>Select * from col where likes &gt; 100;
-</code></pre>
-<p><strong>MongoDB（&gt;&#x3D;）大于等于操作符 - $gte</strong></p>
-<p>如果你想获取”col”集合中 “likes” 大于等于 100的数据，你可以使用以下命令：</p>
-<pre><code>db.col.find(&#123;likes : &#123;$gte : 100&#125;&#125;)
-</code></pre>
-<p>类似于SQL语句：</p>
-<pre><code>Select * from col where likes &gt;=100;
-</code></pre>
-<p><strong>MongoDB (&lt;) 小于操作符 - $lt</strong></p>
-<p>如果你想获取”col”集合中 “likes” 小于 150 的数据，你可以使用以下命令：</p>
-<pre><code>db.col.find(&#123;likes : &#123;$lt : 150&#125;&#125;)
-</code></pre>
-<p>类似于SQL语句：</p>
-<pre><code>Select * from col where likes &lt; 150;
-</code></pre>
-<p><strong>MongoDB (&lt;&#x3D;) 小于操作符 - $lte</strong></p>
-<p>如果你想获取”col”集合中 “likes” 小于等于 150的数据，你可以使用以下命令：</p>
-<pre><code>db.col.find(&#123;likes : &#123;$lte : 150&#125;&#125;)
-</code></pre>
-<p>类似于SQL语句：</p>
-<pre><code>Select * from col where likes &lt;= 150;
-</code></pre>
-<p><strong>MongoDB 使用 (&lt;) 和 (&gt;) 查询 - $lt 和 $gt</strong></p>
-<p>如果你想获取”col”集合中 “likes” 大于100，小于 200的数据，你可以使用以下命令：</p>
-<pre><code>db.col.find(&#123;likes : &#123;$lt :200, $gt : 100&#125;&#125;)
-</code></pre>
-<p>类似于SQL语句：</p>
-<pre><code>Select * from col where likes&gt;100 AND  likes&lt;200;
-</code></pre>
-<h2 id="type-操作符"><a href="#type-操作符" class="headerlink" title="$type 操作符"></a>$type 操作符</h2><p>$type操作符是基于BSON类型来检索集合中匹配的数据类型，并返回结果。</p>
-<p>MongoDB 中可以使用的类型如下表所示：</p>
-<table>
-<thead>
-<tr>
-<th><strong>类型</strong></th>
-<th><strong>数字</strong></th>
-<th><strong>备注</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Double</td>
-<td>1</td>
-<td>?</td>
-</tr>
-<tr>
-<td>String</td>
-<td>2</td>
-<td>?</td>
-</tr>
-<tr>
-<td>Object</td>
-<td>3</td>
-<td>?</td>
-</tr>
-<tr>
-<td>Array</td>
-<td>4</td>
-<td>?</td>
-</tr>
-<tr>
-<td>Binary data</td>
-<td>5</td>
-<td>?</td>
-</tr>
-<tr>
-<td>Undefined</td>
-<td>6</td>
-<td>已废弃。</td>
-</tr>
-<tr>
-<td>Object id</td>
-<td>7</td>
-<td>?</td>
-</tr>
-<tr>
-<td>Boolean</td>
-<td>8</td>
-<td>?</td>
-</tr>
-<tr>
-<td>Date</td>
-<td>9</td>
-<td>?</td>
-</tr>
-<tr>
-<td>Null</td>
-<td>10</td>
-<td>?</td>
-</tr>
-<tr>
-<td>Regular Expression</td>
-<td>11</td>
-<td>?</td>
-</tr>
-<tr>
-<td>JavaScript</td>
-<td>13</td>
-<td>?</td>
-</tr>
-<tr>
-<td>Symbol</td>
-<td>14</td>
-<td>?</td>
-</tr>
-<tr>
-<td>JavaScript (with scope)</td>
-<td>15</td>
-<td>?</td>
-</tr>
-<tr>
-<td>32-bit integer</td>
-<td>16</td>
-<td>?</td>
-</tr>
-<tr>
-<td>Timestamp</td>
-<td>17</td>
-<td>?</td>
-</tr>
-<tr>
-<td>64-bit integer</td>
-<td>18</td>
-<td>?</td>
-</tr>
-<tr>
-<td>Min key</td>
-<td>255</td>
-<td>Query with <code>-1</code>.</td>
-</tr>
-<tr>
-<td>Max key</td>
-<td>127</td>
-<td>?</td>
-</tr>
-</tbody></table>
-<p>示例：</p>
-<p>如果想获取 “col” 集合中 title 为 String 的数据，你可以使用以下命令：</p>
-<pre><code>db.col.find(&#123;&quot;title&quot; : &#123;$type : 2&#125;&#125;)
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/nosql/mongodb/zsgc/" data-id="clhlnylfq00e4ojupboi382yy" data-title="MongoDB 文档的增删改查" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/47/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="page-number" href="/page/47/">47</a><span class="page-number current">48</span><a class="page-number" href="/page/49/">49</a><a class="page-number" href="/page/50/">50</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/49/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/47/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="page-number" href="/page/47/">47</a><span class="page-number current">48</span><a class="page-number" href="/page/49/">49</a><a class="page-number" href="/page/50/">50</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/49/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -470,6 +369,10 @@ WriteResult(&#123; &quot;nRemoved&quot; : 2 &#125;)           # 删除了两条�
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -479,10 +382,6 @@ WriteResult(&#123; &quot;nRemoved&quot; : 2 &#125;)           # 删除了两条�
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -504,7 +403,7 @@ WriteResult(&#123; &quot;nRemoved&quot; : 2 &#125;)           # 删除了两条�
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

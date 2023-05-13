@@ -77,6 +77,207 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/plang/java/threadsafe/lockInterruptibly" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/plang/java/threadsafe/lockInterruptibly/" class="article-date">
+  <time class="dt-published" datetime="2015-12-23T03:18:54.000Z" itemprop="datePublished">2015-12-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/plang/java/threadsafe/lockInterruptibly/">JAVA同步之ReentrantLock可中断锁的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本本文是对ReentrantLock可中断锁的介绍。可中断锁是通过ReentrantLock提供的lockInterruptibly()方法实现的。</p>
+<h2 id="响应中断是什么意思"><a href="#响应中断是什么意思" class="headerlink" title="响应中断是什么意思?"></a>响应中断是什么意思?</h2><p>比如A、B两线程去竞争锁，A得到了锁，B等待，但是A有很多事情要处理，所以一直不返回。B可能就会等不及了，想中断自己，不再等待这个锁了，转而处理其他事情。在这种情况下，synchronized的做法是，B线程中断自己（或者别的线程中断它），我不去响应，继续让B线程等待，你再怎么中断，我全当耳边风。而lockInterruptibly()的做法是，B线程中断自己（或者别的线程中断它），ReentrantLock响应这个中断，不再让B等待这个锁的到来。有了这个机制，使用ReentrantLock时死锁了线程可以中断自己来解除死锁。</p>
+<h2 id="什么叫做中断自己？"><a href="#什么叫做中断自己？" class="headerlink" title="什么叫做中断自己？"></a>什么叫做中断自己？</h2><p>比如A、B两线程去竞争锁，它们肯定是被父线程创建并启动的，那父线程一定有它们的引用。线程都有interrupt()方法，假设父线程创建的线程B的引用是b，那b.interrupt()就是中断自己。</p>
+<h2 id="怎么中断自己"><a href="#怎么中断自己" class="headerlink" title="怎么中断自己"></a>怎么中断自己</h2><p>lock.lockInterruptibly()，这个方法会抛出异常InterruptedException。</p>
+<p>什么时候抛出异常呢？当调用interrupt()方法自我中断的时候。</p>
+<p>这时线程就进入了中断处理的过程，不会再等待锁了。</p>
+<p>至于异常处理是怎样的，有很多种选择呀。比如可以退出线程的run()方法使线程完结，也可以使线程处理另外的事情。</p>
+<h2 id="一个中断锁的例子"><a href="#一个中断锁的例子" class="headerlink" title="一个中断锁的例子"></a>一个中断锁的例子</h2><pre><code>import java.util.concurrent.locks.ReentrantLock;
+
+public class ReentrantLockSample &#123;
+
+    public static void main(String[] args) &#123;
+        testSynchronized();
+        testReentrantLock();
+    &#125;
+
+    public static void testReentrantLock() &#123;
+        final SampleSupport1 support = new SampleSupport1();
+        Thread first = new Thread(new Runnable() &#123;
+            public void run() &#123;
+                try &#123;
+                    support.doSomething();
+                &#125;
+                catch (InterruptedException e) &#123;
+                    e.printStackTrace();
+                &#125;
+            &#125;
+        &#125;,&quot;first&quot;);
+
+        Thread second = new Thread(new Runnable() &#123;
+            public void run() &#123;
+                try &#123;
+                    support.doSomething();
+                &#125;
+                catch (InterruptedException e) &#123;
+                    System.out.println(&quot;Second Thread Interrupted without executing counter++,beacuse it waits a long time.&quot;);
+                &#125;
+            &#125;
+        &#125;,&quot;second&quot;);
+
+        executeTest(first, second);
+    &#125;
+
+    public static void testSynchronized() &#123;
+        final SampleSupport2 support2 = new SampleSupport2();
+
+        Runnable runnable = new Runnable() &#123;
+            public void run() &#123;
+                support2.doSomething();
+            &#125;
+        &#125;;
+
+        Thread third = new Thread(runnable,&quot;third&quot;);
+        Thread fourth = new Thread(runnable,&quot;fourth&quot;);
+
+        executeTest(third, fourth);
+    &#125;
+
+    /**
+     * Make thread a run faster than thread b,
+     * then thread b will be interruted after about 1s.
+     * @param a
+     * @param b
+     */
+    public static void executeTest(Thread a, Thread b) &#123;
+        a.start();
+        try &#123;
+            Thread.sleep(100);
+            b.start(); 
+            Thread.sleep(1000);
+            b.interrupt(); 
+        &#125;
+        catch (InterruptedException e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;
+
+abstract class SampleSupport &#123;
+
+    protected int counter;
+
+    /**
+     * A simple countdown,it will stop after about 5s. 
+     */
+    public void startTheCountdown() &#123;
+        long currentTime = System.currentTimeMillis();
+        for (;;) &#123;
+            long diff = System.currentTimeMillis() - currentTime;
+            if (diff &gt; 5000) &#123;
+                break;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+class SampleSupport1 extends SampleSupport &#123;
+
+    private final ReentrantLock lock = new ReentrantLock();
+
+    public void doSomething() throws InterruptedException &#123;
+        lock.lockInterruptibly();
+//        try &#123;
+//            lock.lockInterruptibly();
+//        &#125; catch (InterruptedException e) &#123;
+//            //做一些其它的事，不结束线程
+//        &#125;
+        System.out.println(Thread.currentThread().getName() + &quot; will execute counter++.&quot;);
+        startTheCountdown();
+        try &#123;
+            counter++;
+        &#125;
+        finally &#123;
+            lock.unlock();
+        &#125;
+    &#125;
+&#125;
+
+class SampleSupport2 extends SampleSupport &#123;
+
+    public synchronized void doSomething() &#123;
+        System.out.println(Thread.currentThread().getName() + &quot; will execute counter++.&quot;);
+        startTheCountdown();
+        counter++;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="中断介绍"><a href="#中断介绍" class="headerlink" title="中断介绍"></a>中断介绍</h2><p>中断（Interrupt）一个线程意味着在该线程完成任务之前停止其正在进行的一切，有效地中止其当前的操作。线程是死亡、还是等待新的任务或是继续运行至下一步，就取决于这个程序。虽然初次看来它可能显得简单，但是，你必须进行一些预警以实现期望的结果。</p>
+<p>从上面的介绍知道，interrupt()并不会使线程停止运行，那如何停止线程呢？</p>
+<p>中断线程最好的，最受推荐的方式是，使用共享变量（shared<br>variable）发出信号，告诉线程必须停止正在运行的任务。线程必须周期性的核查这一变量（尤其在冗余操作期间），然后有秩序地中止任务。</p>
+<pre><code>class Example2 extends Thread &#123;
+    volatile boolean stop = false;
+
+    public static void main(String args[]) throws Exception &#123;
+        Example2 thread = new Example2();
+        System.out.println(&quot;Starting thread...&quot;);
+        thread.start();
+        Thread.sleep(3000);
+        System.out.println(&quot;Asking thread to stop...&quot;);
+
+        thread.stop = true;
+        Thread.sleep(3000);
+        System.out.println(&quot;Stopping application...&quot;);
+        //System.exit( 0 );
+    &#125;
+
+    public void run() &#123;
+        while (!stop) &#123;
+            System.out.println(&quot;Thread is running...&quot;);
+            long time = System.currentTimeMillis();
+            while ((System.currentTimeMillis() - time &lt; 1000) &amp;&amp; (!stop)) &#123;
+            &#125;
+        &#125;
+        System.out.println(&quot;Thread exiting under request...&quot;);
+    &#125;
+&#125;
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/threadsafe/lockInterruptibly/" data-id="clhlnylih00uyojupdfydd8re" data-title="JAVA同步之ReentrantLock可中断锁的使用" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/plang/java/threadsafe/reentrantlock" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/java/threadsafe/reentrantlock/" class="article-date">
@@ -145,138 +346,11 @@ finally &#123;
 
 
   
-    <article id="post-blog/plang/java/threadsafe/threadlocal" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/plang/java/threadsafe/threadlocal/" class="article-date">
-  <time class="dt-published" datetime="2015-12-22T10:23:16.000Z" itemprop="datePublished">2015-12-22</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/plang/java/threadsafe/threadlocal/">JAVA同步之ThreadLocal的使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>当多个线程可以访问一个对象的实例变量时，这个实例变量是线程不安全的。如果我们想保证变量的原子性可以用Synchonized来解决。如果我们想让每个线程都有自己的实例变量怎么办？</p>
-<p>比如一个Servlet中众多方法要使用数据库的查询内容，但每个请求的查询内容是不同的，这就要求方法在获取数据库查询内容时是指定线程查出来的。这时就要用到ThreadLocal。</p>
-<p>ThreadLocal的实现原理很简单，每个Thread都有一个MAP，叫做threadLocals。</p>
-<pre><code>public
-class Thread implements Runnable &#123;
-    ...
-    ThreadLocal.ThreadLocalMap threadLocals = null;
-    ...
-&#125;
-</code></pre>
-<p>ThreadLocal主要用两个方法：</p>
-<p>void set(Object obj) 设置当前线程的变量的副本的值。</p>
-<p>Object get() 返回当前线程的变量副本</p>
-<p>看一下具体实现：</p>
-<pre><code>    public T get() &#123;
-        Thread t = Thread.currentThread();
-        ThreadLocalMap map = getMap(t);
-        if (map != null) &#123;
-            ThreadLocalMap.Entry e = map.getEntry(this);
-            if (e != null)
-                return (T)e.value;
-        &#125;
-        return setInitialValue();
-    &#125;
-    public void set(T value) &#123;
-        Thread t = Thread.currentThread();
-        ThreadLocalMap map = getMap(t);
-        if (map != null)
-            map.set(this, value);
-        else
-            createMap(t, value);
-    &#125;
-</code></pre>
-<p>它设置的是当前线程中的threadLocals这个MAP，Map的key是ThreadLocal对象本身的实例。</p>
-<p>来一个例子：</p>
-<pre><code>    public class ThreadLocalDemo implements Runnable &#123;
-       private final static  ThreadLocal studentLocal = new ThreadLocal();  //ThreadLocal对象在这
-
-       public static void main(String[] agrs) &#123;
-           TreadLocalDemo td = new TreadLocalDemo();
-             Thread t1 = new Thread(td,&quot;a&quot;);
-             Thread t2 = new Thread(td,&quot;b&quot;);
-            t1.start();
-            t2.start();
-          &#125;
-
-        public void run() &#123;
-             accessStudent();
-        &#125;
-
-        public  void  accessStudent() &#123;
-            String currentThreadName = Thread.currentThread().getName();
-            System.out.println(currentThreadName+&quot; is running!&quot;);
-            Random random = new Random();
-            int age = random.nextInt(100);
-            System.out.println(&quot;thread &quot;+currentThreadName +&quot; set age to:&quot;+age);
-            Student student = getStudent();  //每个线程都独立维护一个Student变量
-            student.setAge(age);
-            System.out.println(&quot;thread &quot;+currentThreadName+&quot; first  read age is:&quot;+student.getAge());
-            try &#123;
-            Thread.sleep(5000);
-            &#125;
-            catch(InterruptedException ex) &#123;
-                ex.printStackTrace();
-            &#125;
-            System.out.println(&quot;thread &quot;+currentThreadName +&quot; second read age is:&quot;+student.getAge());
-
-        &#125;
-
-        protected Student getStudent() &#123;
-            Student student = (Student)studentLocal.get();  //从ThreadLocal对象中取
-            if(student == null) &#123;
-                student = new Student();
-                studentLocal.set(student);  //如果没有就创建一个
-            &#125;
-            return student;
-        &#125;
-
-        protected void setStudent(Student student) &#123;
-            studentLocal.set(student);  //放入ThreadLocal对象中
-        &#125;
-    &#125;
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/java/threadsafe/threadlocal/" data-id="clhlnylin00vlojup39yrhuv9" data-title="JAVA同步之ThreadLocal的使用" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/113/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/112/">112</a><a class="page-number" href="/page/113/">113</a><span class="page-number current">114</span><a class="page-number" href="/page/115/">115</a><a class="page-number" href="/page/116/">116</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/115/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/113/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/112/">112</a><a class="page-number" href="/page/113/">113</a><span class="page-number current">114</span><a class="page-number" href="/page/115/">115</a><a class="page-number" href="/page/116/">116</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/115/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -294,6 +368,10 @@ class Thread implements Runnable &#123;
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -303,10 +381,6 @@ class Thread implements Runnable &#123;
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -328,7 +402,7 @@ class Thread implements Runnable &#123;
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 

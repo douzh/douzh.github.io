@@ -77,6 +77,108 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-blog/database/article/memdb" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/database/article/memdb/" class="article-date">
+  <time class="dt-published" datetime="2015-09-14T09:52:17.000Z" itemprop="datePublished">2015-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/database/article/memdb/">主流内存数据库介绍</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><strong>什么是内存数据库</strong>?</p>
+<p>传统的数据库管理系统把所有数据都放在磁盘上进行管理，所以称做磁盘数据库（DRDB:Disk-Resident Database）。磁盘数据库需要频繁地访问磁盘来进行数据的操作，由于对磁盘读写数据的操作一方面要进行磁头的机械移动，另一方面受到系统调用（通常通过CPU中断完成，受到CPU时钟周期的制约）时间的影响，当数据量很大，操作频繁且复杂时，就会暴露出很多问题。</p>
+<p>近年来，内存容量不断提高，价格不断下跌，操作系统已经可以支持更大的地址空间（计算机进入了64位时代），同时对数据库系统实时响应能力要求日益提高，充分利用内存技术提升数据库性能成为一个热点。</p>
+<p>?在数据库技术中，目前主要有两种方法来使用大量的内存。一种是在传统的数据库中，增大缓冲池，将一个事务所涉及的数据都放在缓冲池中，组织成相应的数据结构来进行查询和更新处理，也就是常说的共享内存技术，这种方法优化的主要目标是最小化磁盘访问。另一种就是内存数据库(MMDB:Main Memory Database，也叫主存数据库)技术，就是干脆重新设计一种数据库管理系统，对查询处理、并发控制与恢复的算法和数据结构进行重新设计，以更有效地使用CPU周期和内存，这种技术近乎把整个数据库放进内存中，因而会产生一些根本性的变化。</p>
+<p>内存数据库系统带来的优越性能不仅仅在于对内存读写比对磁盘读写快上，更重要的是，从根本上抛弃了磁盘数据管理的许多传统方式，基于全部数据都在内存中管理进行了新的体系结构的设计，并且在数据缓存、快速算法、并行操作方面也进行了相应的改进，从而使数据处理速度一般比传统数据库的数据处理速度快很多，一般都在10倍以上，理想情况甚至可以达到1000倍。</p>
+<p>Oracle TimesTen</p>
+<p>不开源，商业使用付费</p>
+<p>1. 符合RDBMS标准的独立内存数据库服务。</p>
+<p>2.支持SQL访问，支持ODBC&amp;JDBC。</p>
+<p>3.本身不支持与非Oracle数据库的互操作。</p>
+<p>4.高可靠性，支持完整日志，支持镜像复制功能。</p>
+<p>5.目前不支持存储过程和触发器。</p>
+<p>6.内存结构简单，并没有数据库缓冲区、保存池或丢弃池的概念。</p>
+<p>7.目前支持散列索引和T树索引，前者仅支持余键-值查找，速度非常快，执行过程与底层表的数量无关，具有较高的读取扩展性和很好的并发性；T树索引读取效率很高，但是，在繁重写操作时，并发性较差。</p>
+<p>ASE-IMDB</p>
+<p>不开源、商业使用付费</p>
+<p>1.被整合到Sysbase ASE平台中（TimesTen则为一个独立的数据库）。</p>
+<p>2. 基于经典ASE数据库模板创建。</p>
+<p>3. 采用复制技术实现读取其他数据源的数据。</p>
+<p>4. 完全支持ASE本身的SQL语法、安全性和加密。</p>
+<p>IBM SolidDB</p>
+<p>不开源、商业使用付费</p>
+<p>1.可以提供超快的速度和超高的可用性，可以提供每秒数万至数十万事务的吞吐率，并且始终可以获得微秒级的响应时间。</p>
+<p>2.抛弃大数据块结构，表行和索引节点独立地存储在内存中，可以直接添加索引，而不必重新组织大块结构。</p>
+<p>3.放弃使用大块索引，以精简结构、增加索引层数、将索引节点最小化，从而避免节点内处理的成本。</p>
+<p>4.使用一种称作trie（前缀树）的索引方式，更适合现代处理器缓存，通过有效促进缓存的使用来提高处理器的效率，从而实现性能的最大化。</p>
+<p>5.使用一种获得专利的检查点方法来加快数据处理，查询事务的延时通常是10到20微秒，更新事务的延时通常小于100微秒。</p>
+<p>VoltDB</p>
+<p>开源版本免费 商业版本需付费</p>
+<p>1.基于存储过程的事务提交方式：用户通过写存储过程完成应用程序的逻辑，作为一个先置条件将存储过程提交到VoltDB，运行时，用户程序调用存储过程完成事务操作，所有事务的运行逻辑是由VoltDB在服务器进程中完成。</p>
+<p>2．基于Shared<br>Nothing结构的数据分布，整个数据库的数据分散到集群的多台机器上。</p>
+<p>3.基于哈希的数据分布策略，好处是数据分散的均匀，没有动态数据调整的烦恼；缺点是新增的机器需要停止服务后重新分布数据。哈希方法打乱了数据的连续性，使得VoltDB对于范围查询的处理能力显著下降。</p>
+<p>4.其事务并发控制需要依赖于集群内所有机器的时间一致，其数据分片规模是按照集群核数来划分，当整个系统压力比较大时，可以使事务的时延有效降低。</p>
+<p>eXtremeDB</p>
+<p>不开源的商业数据库，<br>测试版本在功能上与正式版没有区别，但是，对连接次数做了限制</p>
+<p>1.高性能和高效的存储效率，为了提高性能方便程序使用，eXtremeDB中的数据未做任何压缩。</p>
+<p>2.不仅开源建立完全运行在主内存的内存数据库，更可以建立磁盘&#x2F;内存混合介质的数据库。</p>
+<p>3.嵌入式数据库：其内核以链接库的形式包含在应用程序之中，开销只有50KB-130KB；避免了进程间的通信，从而剔除了进程间通信的开销和不确定性；其独特的数据格式方便程序直接使用，剔除了数据复制及数据翻译的开销，缩短了应用程序的代码执行路径。</p>
+<p>4.由应用定制的API，应用程序对eXtremeDB数据库的操作接口是根据应用数据库设计而自动产生，剔除了通用接口所必不可少的动态内存分配。</p>
+<p>5.其独特的体系结构，保证了数据管理的可预测性。</p>
+<p>SQLite</p>
+<p>开源，免费使用 商业目的的分发版免费</p>
+<p>1.需要专业支持则需要购买。</p>
+<ol start="2">
+<li>在并发（包括多进程和多线程）读写方面的性能一直不太理想。数据库可能会被写操作独占，从而导致其它读写操作阻塞或出错。</li>
+</ol>
+<p>3.32\64位主流操作系统均支持。</p>
+<p>4.不支持ODBC连接，需通过第三方驱动支持JDBC连接。</p>
+<p>5.支持SQL</p>
+<p>H2</p>
+<p>开源，免费使用 商业目的的分发版免费</p>
+<p>1.需要专业支持则需要购买。</p>
+<ol start="2">
+<li>并发性较好（在模拟器中有使用，支持50个并发查询没问题），数据量少的情况，查询速度很好。</li>
+</ol>
+<p>3.32\64位主流操作系统均支持，但需Java平台支持。</p>
+<p>4.支持ODBC&amp;JDBC</p>
+<p>5.支持SQL</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/database/article/memdb/" data-id="clhlnyle0004cojup10yh32gr" data-title="主流内存数据库介绍" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-blog/plang/java/lib/jacobcode" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/java/lib/jacobcode/" class="article-date">
@@ -126,102 +228,11 @@
 
 
   
-    <article id="post-blog/plang/java/features/annotation2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/blog/plang/java/features/annotation2/" class="article-date">
-  <time class="dt-published" datetime="2015-09-14T09:48:40.000Z" itemprop="datePublished">2015-09-14</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/blog/plang/java/features/annotation2/">【JAVA】annotation注释（二）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="annotation类型声明方式"><a href="#annotation类型声明方式" class="headerlink" title="annotation类型声明方式"></a>annotation类型声明方式</h2><p>通常，应用程序并不是必须定义annotation类型，但是定义annotation类型并非难事。Annotation类型声明于一般的接口声明极为类似，区别只在于它在interface关键字前面使用”@”符号。</p>
-<p>annotation类型的每个方法声明定义了一个annotation类型成员，但方法声明不必有参数或者异常声明；方法返回值的类型被限制在以下的范围：primitives、String、Class、enums、annotation和前面类型的数组；方法可以有默认值。</p>
-<p>下面是一个简单的annotation类型声明：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.annotation.*;</span><br><span class="line"></span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.FIELD)</span><br><span class="line">public @interface Column &#123;</span><br><span class="line">    boolean isKey() default false;//用于判定是否为数据库中的主键列</span><br><span class="line">    boolean canNull() default true;//用于插入时判定not null列是否有值</span><br><span class="line">    String value() default &quot;[ColumnName]&quot;;//数据库中对应的列名</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="修饰方法的annotation声明方式"><a href="#修饰方法的annotation声明方式" class="headerlink" title="修饰方法的annotation声明方式"></a>修饰方法的annotation声明方式</h2><p>annotation是一种修饰符，能够如其它修饰符（如public、static、final）一般使用。习惯用法是annotaions用在其它的修饰符前面。annotations由”@+annotation类型+带有括号的成员-值列表”组成。这些成员的值必须是编译时常量（即在运行时不变）。</p>
-<p>下面是一个使用了[Column] annotation的方法声明：\</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">//由于表名和属性名和数据库中的对应，可以不加注释</span><br><span class="line">@Table(CV.TN_CHARTYPE)</span><br><span class="line">public class CharType &#123;</span><br><span class="line">    @Column(isKey=true,value=CV.DB_ID)</span><br><span class="line">    private String id;</span><br><span class="line">    @Column(CV.CT_CN_NAME)</span><br><span class="line">    private String name;</span><br><span class="line">    @Column(CV.CT_CN_DESC)</span><br><span class="line">    private String describe;</span><br><span class="line">    public String getId() &#123;</span><br><span class="line">        return id;</span><br><span class="line">    &#125;</span><br><span class="line">    public void setId(String id) &#123;</span><br><span class="line">        this.id = id;</span><br><span class="line">    &#125;</span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    public String getDescribe() &#123;</span><br><span class="line">        return describe;</span><br><span class="line">    &#125;</span><br><span class="line">    public void setDescribe(String describe) &#123;</span><br><span class="line">        this.describe = describe;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="没有成员的annotation类型声明"><a href="#没有成员的annotation类型声明" class="headerlink" title="没有成员的annotation类型声明"></a>没有成员的annotation类型声明</h2><p>当声明一个没有成员的annotation类型声明时，可使用以下方式：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/**     </span><br><span class="line">* Indicates that the specification of the annotated API element     </span><br><span class="line">* is preliminary and subject to change.     </span><br><span class="line">*/    </span><br><span class="line">public @interface Preliminary &#123; &#125;</span><br></pre></td></tr></table></figure>
-
-<p>作为上面没有成员的annotation类型声明的简写方式：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Preliminary public class TimeTravel &#123; ... &#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="只有唯一一个成员annotations的声明"><a href="#只有唯一一个成员annotations的声明" class="headerlink" title="只有唯一一个成员annotations的声明"></a>只有唯一一个成员annotations的声明</h2><p>如果在annotations中只有唯一一个成员，则该成员应命名为value：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* Associates a copyright notice with the annotated API element.</span><br><span class="line">*/</span><br><span class="line">public @interface Copyright &#123;</span><br><span class="line">    String value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>更为方便的是对于具有唯一成员且成员名为value的annotation（如上文），在其使用时可以忽略掉成员名和赋值号（&#x3D;）：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Copyright(&quot;2002 Yoyodyne Propulsion Systems&quot;)</span><br><span class="line">public class OscillationOverthruster &#123; ... &#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="定义Annotation的例子"><a href="#定义Annotation的例子" class="headerlink" title="定义Annotation的例子"></a>定义Annotation的例子</h2><p>[使用annotation来描述那些被标注的成员是不稳定的，需要更改]</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.annotation.*;</span><br><span class="line">  </span><br><span class="line">  @Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">  public @interface Unstable &#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用Author这个annotation定义在程序中指出代码的作者</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public @interface Author &#123;</span><br><span class="line">      /** 返回作者名 */</span><br><span class="line">      String value();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<p>以下的example更加复杂。Reviews annotation类型只有一个成员，但是这个成员的类型是复杂的：由Review annotation组成的数组。Review annotation类型有3个成员：枚举类型成员grade、表示Review名称的字符串类型成员Reviewer、具有默认值的字符串类型成员Comment。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.annotation.*;</span><br><span class="line">          </span><br><span class="line">  /**</span><br><span class="line">  * Reviews annotation类型只有一个成员，</span><br><span class="line">  * 但是这个成员的类型是复杂的：由Review annotation组成的数组</span><br><span class="line">  */</span><br><span class="line">  @Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">  public @interface Reviews &#123;</span><br><span class="line">      Review[] value();</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  /**</span><br><span class="line">  * Review annotation类型有3个成员： </span><br><span class="line">  * 枚举类型成员grade、</span><br><span class="line">    * 表示Review名称的字符串类型成员Reviewer、</span><br><span class="line">    * 具有默认值的字符串类型成员Comment。</span><br><span class="line">  */</span><br><span class="line">  public @interface Review &#123;</span><br><span class="line">      // 内嵌的枚举类型</span><br><span class="line">      public static enum Grade &#123; EXCELLENT, SATISFACTORY, UNSATISFACTORY &#125;;</span><br><span class="line">  </span><br><span class="line">      // 下面的方法定义了annotation的成员</span><br><span class="line">      Grade grade();                </span><br><span class="line">      String reviewer();          </span><br><span class="line">      String comment() default &quot;&quot;;  </span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<p>最后，我们来定义一个annotation方法用于罗列出类运行中所有的unchecked异常。这个annotation类型将一个数组作为了唯一的成员。数组中的每个元素都是异常类。为了加强对未检查的异常（此类异常都是在运行时抛出）进行报告，我们可以在代码中对异常的类型进行限制：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public @interface UncheckedExceptions &#123;</span><br><span class="line">      Class&lt;? extends RuntimeException&gt;[] value();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="一个使用annotation的实例"><a href="#一个使用annotation的实例" class="headerlink" title="一个使用annotation的实例"></a>一个使用annotation的实例</h2><p>结合上面所讲的，我们在这里建立一个简单的基于annotation测试框架。首先我们需要一个annotation类型来表示某个方法是一个应该被测试工具运行的测试方法。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.annotation.*;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Indicates that the annotated method is a test method.</span><br><span class="line">     * This annotation should be used only on parameterless static methods.</span><br><span class="line">     */</span><br><span class="line">    @Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">    @Target(ElementType.METHOD)</span><br><span class="line">    public @interface Test &#123; &#125;</span><br></pre></td></tr></table></figure>
-
-<p>值得注意的是annotaion类型声明是可以标注自己的，这样的annotation被称为”meta-annotations”。</p>
-<p>在上面的代码中，@Retention(RetentionPolicy.RUNTIME)这个meta-annotation表示了此类型的annotation将被虚拟机保留使其能够在运行时通过反射被读取。而@Target(ElementType.METHOD)表示此类型的annotation只能用于修饰方法声明。</p>
-<p>下面是一个简单的程序，其中部分方法被上面的annotation所标注：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class Foo &#123;</span><br><span class="line">       @Test public static void m1() &#123; &#125;</span><br><span class="line">       public static void m2() &#123; &#125;</span><br><span class="line">       @Test public static void m3() &#123;</span><br><span class="line">           throw new RuntimeException(&quot;Boom&quot;);</span><br><span class="line">       &#125;</span><br><span class="line">       public static void m4() &#123; &#125;</span><br><span class="line">       @Test public static void m5() &#123; &#125;</span><br><span class="line">       public static void m6() &#123; &#125;</span><br><span class="line">       @Test public static void m7() &#123;</span><br><span class="line">           throw new RuntimeException(&quot;Crash&quot;);</span><br><span class="line">       &#125;</span><br><span class="line">       public static void m8() &#123; &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<p>测试</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.reflect.*;</span><br><span class="line"></span><br><span class="line">    public class RunTests &#123;</span><br><span class="line">       public static void main(String[] args) throws Exception &#123;</span><br><span class="line">          int passed = 0, failed = 0;</span><br><span class="line">          for (Method m : Class.forName(args[0]).getMethods()) &#123;</span><br><span class="line">             if (m.isAnnotationPresent(Test.class)) &#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                   m.invoke(null);</span><br><span class="line">                   passed++;</span><br><span class="line">                &#125; catch (Throwable ex) &#123;</span><br><span class="line">                   System.out.printf(&quot;Test %s failed: %s %n&quot;, m, ex.getCause());</span><br><span class="line">                   failed++;</span><br><span class="line">                &#125;</span><br><span class="line">             &#125;</span><br><span class="line">          &#125;</span><br><span class="line">          System.out.printf(&quot;Passed: %d, Failed %d%n&quot;, passed, failed);</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>这个程序从命令行参数中取出类名，并且遍历此类的所有方法，尝试调用其中被上面的测试annotation类型标注过的方法。在此过程中为了找出哪些方法被annotation类型标注过，需要使用反射的方式执行此查询。如果在调用方法时抛出异常，此方法被认为已经失败，并打印一个失败报告。最后，打印运行通过&#x2F;失败的方法数量。</p>
-<p>下面文字表示了如何运行这个基于annotation的测试工具：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ java RunTests Foo</span><br><span class="line">Test public static void Foo.m3() failed: java.lang.RuntimeException: Boom </span><br><span class="line">Test public static void Foo.m7() failed: java.lang.RuntimeException: Crash </span><br><span class="line">Passed: 2, Failed 2</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/java/features/annotation2/" data-id="clhlnylh500muojupbc0g9twj" data-title="【JAVA】annotation注释（二）" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/173/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/172/">172</a><a class="page-number" href="/page/173/">173</a><span class="page-number current">174</span><a class="page-number" href="/page/175/">175</a><a class="page-number" href="/page/176/">176</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/175/">下一页 &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/173/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/172/">172</a><a class="page-number" href="/page/173/">173</a><span class="page-number current">174</span><a class="page-number" href="/page/175/">175</a><a class="page-number" href="/page/176/">176</a><span class="space">&hellip;</span><a class="page-number" href="/page/185/">185</a><a class="extend next" rel="next" href="/page/175/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -239,6 +250,10 @@
           </li>
         
           <li>
+            <a href="/blog/arch/pn-cst-pmp-arch/">IT项目架构设计文档编写方法和要点</a>
+          </li>
+        
+          <li>
             <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
           </li>
         
@@ -248,10 +263,6 @@
         
           <li>
             <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
-          </li>
-        
-          <li>
-            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
           </li>
         
       </ul>
@@ -273,7 +284,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 14px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" style="font-size: 10px;">项目管理</a>
     </div>
   </div>
 
