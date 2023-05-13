@@ -3,10 +3,9 @@
 <head>
   <meta charset="utf-8">
   
-
   
   <title>OneKBase</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta property="og:type" content="website">
 <meta property="og:title" content="OneKBase">
 <meta property="og:url" content="http://www.onekbase.com/page/6/index.html">
@@ -15,17 +14,23 @@
 <meta property="article:author" content="证心">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="OneKBase" type="application/atom+xml">
+  
+    <link rel="shortcut icon" href="/favicon.png">
   
   
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
   
   
 <link rel="stylesheet" href="/css/style.css">
 
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
 <meta name="generator" content="Hexo 6.3.0"></head>
 
 <body>
@@ -39,35 +44,43 @@
         <a href="/" id="logo">OneKBase</a>
       </h1>
       
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">归一</a>
+        </h2>
+      
     </div>
     <div id="header-inner" class="inner">
       <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
         
-          <a class="main-nav-link" href="/">Home</a>
+          <a class="main-nav-link" href="/">首页</a>
         
-          <a class="main-nav-link" href="/archives">Archives</a>
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" target="_blank" rel="noopener" href="http://site.onekbase.com">ITEEDU</a>
+        
+          <a class="main-nav-link" href="/about/">关于</a>
         
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
       </div>
     </div>
   </div>
 </header>
+
       <div class="outer">
         <section id="main">
   
-    <article id="post-blog/plang/scala/implicit" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/plang/scala/implicit" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/scala/implicit/" class="article-date">
-  <time datetime="2017-08-10T02:51:47.000Z" itemprop="datePublished">2017-08-10</time>
+  <time class="dt-published" datetime="2017-08-10T02:51:47.000Z" itemprop="datePublished">2017-08-10</time>
 </a>
     
   <div class="article-category">
@@ -82,13 +95,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/plang/scala/implicit/">【scala】关键字implicit详解</a>
+      <a class="p-name article-title" href="/blog/plang/scala/implicit/">【scala】关键字implicit详解</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>掌握<code>implicit</code>的用法是阅读Spark源码的基础，也是学习Scala其它的开源框架的关键，<code>implicit</code> 可分为：</p>
 <p>隐式参数<br>隐式转换类型<br>隐式调用函数</p>
@@ -109,7 +122,8 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/scala/implicit/" data-id="clhlnylg900hcojup3c7c66g9" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/plang/scala/implicit/" data-id="clhlnylg900hcojup3c7c66g9" data-title="【scala】关键字implicit详解" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Scala/" rel="tag">Scala</a></li></ul>
@@ -120,11 +134,12 @@
 </article>
 
 
+
   
-    <article id="post-blog/bigdata/spark/sparkdiary/devenv" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/bigdata/spark/sparkdiary/devenv" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/bigdata/spark/sparkdiary/devenv/" class="article-date">
-  <time datetime="2017-07-07T11:45:20.000Z" itemprop="datePublished">2017-07-07</time>
+  <time class="dt-published" datetime="2017-07-07T11:45:20.000Z" itemprop="datePublished">2017-07-07</time>
 </a>
     
   <div class="article-category">
@@ -139,13 +154,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/bigdata/spark/sparkdiary/devenv/">搭建spark开发环境</a>
+      <a class="p-name article-title" href="/blog/bigdata/spark/sparkdiary/devenv/">搭建spark开发环境</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>##下载包</p>
 <p>IDE：<a target="_blank" rel="noopener" href="http://scala-ide.org/">http://scala-ide.org/</a></p>
@@ -188,7 +203,8 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/bigdata/spark/sparkdiary/devenv/" data-id="clhlnylgv00lcojupfnes6ixi" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/bigdata/spark/sparkdiary/devenv/" data-id="clhlnylgv00lcojupfnes6ixi" data-title="搭建spark开发环境" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
@@ -199,11 +215,12 @@
 </article>
 
 
+
   
-    <article id="post-blog/plang/java/features/java8/nashorn" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/plang/java/features/java8/nashorn" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/java/features/java8/nashorn/" class="article-date">
-  <time datetime="2017-06-13T09:41:16.000Z" itemprop="datePublished">2017-06-13</time>
+  <time class="dt-published" datetime="2017-06-13T09:41:16.000Z" itemprop="datePublished">2017-06-13</time>
 </a>
     
   <div class="article-category">
@@ -218,13 +235,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/plang/java/features/java8/nashorn/">(转)JAVA8之Nashorn脚本引擎</a>
+      <a class="p-name article-title" href="/blog/plang/java/features/java8/nashorn/">(转)JAVA8之Nashorn脚本引擎</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>本文为了解所有关于 Nashorn JavaScript 引擎易于理解的代码例子。 Nashorn JavaScript 引擎是Java SE 8的一部分，它与其它像Google V8 (它是Google Chrome 和Node.js的引擎)的独立引擎相互竞争。 Nashorn 扩展了Java在JVM上运行动态JavaScript脚本的能力。在接下来的大约15分钟里，您将学习如何在 JVM 上动态运行 JavaScript。 通过一些简短的代码示例演示最近 Nashorn 的语言特性。 学习 Java 与 JavaScript 的相互调用。最后包括如何在日常的 Java 业务中整合动态脚本。</p>
 <h2 id="使用Nashorn"><a href="#使用Nashorn" class="headerlink" title="使用Nashorn"></a>使用Nashorn</h2><p>Nashorn javascript 引擎要么在java程序中以编程的方式使用要么在命令行工具jjs使用，jjs在目录$JAVA_HOME&#x2F;bin中。如果你准备建立一个jjs的符号链接，如下：</p>
@@ -346,7 +363,8 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/nashorn/" data-id="clhlnylja00ytojup1yd55als" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/nashorn/" data-id="clhlnylja00ytojup1yd55als" data-title="(转)JAVA8之Nashorn脚本引擎" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li></ul>
@@ -357,11 +375,12 @@
 </article>
 
 
+
   
-    <article id="post-blog/plang/java/features/java8/optional" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/plang/java/features/java8/optional" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/java/features/java8/optional/" class="article-date">
-  <time datetime="2017-06-13T07:55:02.000Z" itemprop="datePublished">2017-06-13</time>
+  <time class="dt-published" datetime="2017-06-13T07:55:02.000Z" itemprop="datePublished">2017-06-13</time>
 </a>
     
   <div class="article-category">
@@ -376,13 +395,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/plang/java/features/java8/optional/">(转)JAVA8之Optional类深度解析</a>
+      <a class="p-name article-title" href="/blog/plang/java/features/java8/optional/">(转)JAVA8之Optional类深度解析</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>身为一名Java程序员，大家可能都有这样的经历：调用一个方法得到了返回值却不能直接将返回值作为参数去调用别的方法。我们首先要判断这个返回值是否为null，只有在非空的前提下才能将其作为其他方法的参数。这正是一些类似Guava的外部API试图解决的问题。一些JVM编程语言比如Scala、Ceylon等已经将对在核心API中解决了这个问题。</p>
 <p>新版本的Java，比如Java 8引入了一个新的Optional类。Optional类的Javadoc描述如下：</p>
@@ -442,7 +461,8 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/optional/" data-id="clhlnyljb00ywojupdzs87clm" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/optional/" data-id="clhlnyljb00ywojupdzs87clm" data-title="(转)JAVA8之Optional类深度解析" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li></ul>
@@ -453,11 +473,12 @@
 </article>
 
 
+
   
-    <article id="post-blog/plang/java/features/java8/base64" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/plang/java/features/java8/base64" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/java/features/java8/base64/" class="article-date">
-  <time datetime="2017-06-13T07:15:25.000Z" itemprop="datePublished">2017-06-13</time>
+  <time class="dt-published" datetime="2017-06-13T07:15:25.000Z" itemprop="datePublished">2017-06-13</time>
 </a>
     
   <div class="article-category">
@@ -472,13 +493,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/plang/java/features/java8/base64/">JAVA8之Base64</a>
+      <a class="p-name article-title" href="/blog/plang/java/features/java8/base64/">JAVA8之Base64</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>对Base64编码的支持已经被加入到Java 8官方库中，这样不需要使用第三方库就可以进行Base64编码，例子代码如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package com.javacodegeeks.java8.base64;</span><br><span class="line"></span><br><span class="line">import java.nio.charset.StandardCharsets;</span><br><span class="line">import java.util.Base64;</span><br><span class="line"></span><br><span class="line">public class Base64s &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        final String text = &quot;Base64 finally in Java 8!&quot;;</span><br><span class="line"></span><br><span class="line">        final String encoded = Base64</span><br><span class="line">            .getEncoder()</span><br><span class="line">            .encodeToString( text.getBytes( StandardCharsets.UTF_8 ) );</span><br><span class="line">        System.out.println( encoded );</span><br><span class="line"></span><br><span class="line">        final String decoded = new String( </span><br><span class="line">            Base64.getDecoder().decode( encoded ),</span><br><span class="line">            StandardCharsets.UTF_8 );</span><br><span class="line">        System.out.println( decoded );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -489,7 +510,8 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/base64/" data-id="clhlnylj700yeojupdcah2c1e" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/base64/" data-id="clhlnylj700yeojupdcah2c1e" data-title="JAVA8之Base64" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li></ul>
@@ -500,11 +522,12 @@
 </article>
 
 
+
   
-    <article id="post-blog/plang/java/features/java8/datetimeapi" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/plang/java/features/java8/datetimeapi" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/java/features/java8/datetimeapi/" class="article-date">
-  <time datetime="2017-06-13T07:11:12.000Z" itemprop="datePublished">2017-06-13</time>
+  <time class="dt-published" datetime="2017-06-13T07:11:12.000Z" itemprop="datePublished">2017-06-13</time>
 </a>
     
   <div class="article-category">
@@ -519,13 +542,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/plang/java/features/java8/datetimeapi/">JAVA8之Date Time API</a>
+      <a class="p-name article-title" href="/blog/plang/java/features/java8/datetimeapi/">JAVA8之Date Time API</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>Java 8引入了新的Date-Time API(JSR 310)来改进时间、日期的处理。时间和日期的管理一直是最令Java开发者痛苦的问题。java.util.Date和后来的java.util.Calendar一直没有解决这个问题（甚至令开发者更加迷茫）。</p>
 <p>因为上面这些原因，诞生了第三方库Joda-Time，可以替代Java的时间管理API。Java 8中新的时间和日期管理API深受Joda-Time影响，并吸收了很多Joda-Time的精华。新的java.time包包含了所有关于日期、时间、时区、Instant（跟日期类似但是精确到纳秒）、duration（持续时间）和时钟操作的类。新设计的API认真考虑了这些类的不变性（从java.util.Calendar吸取的教训），如果某个实例需要修改，则返回一个新的对象。</p>
@@ -554,7 +577,8 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/datetimeapi/" data-id="clhlnylj800ykojup64oh0e5h" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/datetimeapi/" data-id="clhlnylj800ykojup64oh0e5h" data-title="JAVA8之Date Time API" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li></ul>
@@ -565,11 +589,12 @@
 </article>
 
 
+
   
-    <article id="post-blog/plang/java/features/java8/steamapi" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/plang/java/features/java8/steamapi" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/java/features/java8/steamapi/" class="article-date">
-  <time datetime="2017-06-13T07:02:41.000Z" itemprop="datePublished">2017-06-13</time>
+  <time class="dt-published" datetime="2017-06-13T07:02:41.000Z" itemprop="datePublished">2017-06-13</time>
 </a>
     
   <div class="article-category">
@@ -584,13 +609,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/plang/java/features/java8/steamapi/">JAVA8之Streams API 详解</a>
+      <a class="p-name article-title" href="/blog/plang/java/features/java8/steamapi/">JAVA8之Streams API 详解</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>[TOC]</p>
 <h2 id="Stream-总览"><a href="#Stream-总览" class="headerlink" title="Stream 总览"></a>Stream 总览</h2><h3 id="什么是流"><a href="#什么是流" class="headerlink" title="什么是流"></a>什么是流</h3><p>Stream 不是集合元素，它不是数据结构并不保存数据，它是有关算法和计算的，它更像一个高级版本的 Iterator。原始版本的 Iterator，用户只能显式地一个一个遍历元素并对其执行某些操作；高级版本的 Stream，用户只要给出需要对其包含的元素执行什么操作，比如 “过滤掉长度大于 10 的字符串”、“获取每个字符串的首字母”等，Stream 会隐式地在内部进行遍历，做出相应的数据转换。</p>
@@ -815,7 +840,8 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/steamapi/" data-id="clhlnylmr01ttojupeb23886v" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/steamapi/" data-id="clhlnylmr01ttojupeb23886v" data-title="JAVA8之Streams API 详解" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li></ul>
@@ -826,11 +852,12 @@
 </article>
 
 
+
   
-    <article id="post-blog/plang/java/features/java8/method" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/plang/java/features/java8/method" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/java/features/java8/method/" class="article-date">
-  <time datetime="2017-06-13T05:29:37.000Z" itemprop="datePublished">2017-06-13</time>
+  <time class="dt-published" datetime="2017-06-13T05:29:37.000Z" itemprop="datePublished">2017-06-13</time>
 </a>
     
   <div class="article-category">
@@ -845,13 +872,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/plang/java/features/java8/method/">JAVA8之方法引用</a>
+      <a class="p-name article-title" href="/blog/plang/java/features/java8/method/">JAVA8之方法引用</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前两篇文章分别介绍了Java8的lambda表达式和默认方法和静态接口方法。今天我们继续学习Java8的新语言特性——方法引用(Method References)。</p>
 <p>在学习lambda表达式之后，我们通常使用lambda表达式来创建匿名方法。然而，有时候我们仅仅是调用了一个已存在的方法。如下:</p>
@@ -898,7 +925,8 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/method/" data-id="clhlnylja00yqojup0v2vglrm" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/method/" data-id="clhlnylja00yqojup0v2vglrm" data-title="JAVA8之方法引用" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li></ul>
@@ -909,11 +937,12 @@
 </article>
 
 
+
   
-    <article id="post-blog/plang/java/features/java8/defintf" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/plang/java/features/java8/defintf" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/java/features/java8/defintf/" class="article-date">
-  <time datetime="2017-06-13T03:34:22.000Z" itemprop="datePublished">2017-06-13</time>
+  <time class="dt-published" datetime="2017-06-13T03:34:22.000Z" itemprop="datePublished">2017-06-13</time>
 </a>
     
   <div class="article-category">
@@ -928,13 +957,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/plang/java/features/java8/defintf/">JAVA8之接口默认方法和静态方法</a>
+      <a class="p-name article-title" href="/blog/plang/java/features/java8/defintf/">JAVA8之接口默认方法和静态方法</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>Java 8使用两个新概念扩展了接口的含义：默认方法和静态方法。默认方法使得接口有点类似traits，不过要实现的目标不一样。默认方法使得开发者可以在 不破坏二进制兼容性的前提下，往现存接口中添加新的方法，即不强制那些实现了该接口的类也同时实现这个新加的方法。</p>
 <p>默认方法和抽象方法之间的区别在于抽象方法需要实现，而默认方法不需要。接口提供的默认方法会被接口的实现类继承或者覆写，例子代码如下：</p>
@@ -956,7 +985,8 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/defintf/" data-id="clhlnylj900ynojupe8f0di1h" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/defintf/" data-id="clhlnylj900ynojupe8f0di1h" data-title="JAVA8之接口默认方法和静态方法" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li></ul>
@@ -967,11 +997,12 @@
 </article>
 
 
+
   
-    <article id="post-blog/plang/java/features/java8/lambda" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/plang/java/features/java8/lambda" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/java/features/java8/lambda/" class="article-date">
-  <time datetime="2017-06-13T03:15:52.000Z" itemprop="datePublished">2017-06-13</time>
+  <time class="dt-published" datetime="2017-06-13T03:15:52.000Z" itemprop="datePublished">2017-06-13</time>
 </a>
     
   <div class="article-category">
@@ -986,13 +1017,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/plang/java/features/java8/lambda/">JAVA8之Lambda表达式</a>
+      <a class="p-name article-title" href="/blog/plang/java/features/java8/lambda/">JAVA8之Lambda表达式</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>Lambda表达式（也称为闭包）是Java 8中最大和最令人期待的语言改变。它允许我们将函数当成参数传递给某个方法，或者把代码本身当作数据处理：函数式开发者非常熟悉这些概念。</p>
 <p>很多JVM平台上的语言（Groovy、Scala等）从诞生之日就支持Lambda表达式，但是Java开发者没有选择，只能使用匿名内部类代替Lambda表达式。</p>
@@ -1020,7 +1051,8 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/lambda/" data-id="clhlnylj800yhojupct7n11lm" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/lambda/" data-id="clhlnylj800yhojupct7n11lm" data-title="JAVA8之Lambda表达式" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li></ul>
@@ -1031,12 +1063,13 @@
 </article>
 
 
+
   
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/5/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/7/">下一页 &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/5/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/7/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -1055,16 +1088,6 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII%E7%A0%81/" rel="tag">ASCII码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveMQ/" rel="tag">ActiveMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ajax/" rel="tag">Ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BAT%E8%84%9A%E6%9C%AC/" rel="tag">BAT脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAP/" rel="tag">CAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAS/" rel="tag">CAS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eclipse/" rel="tag">Eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/" rel="tag">Emacs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emmet/" rel="tag">Emmet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIT/" rel="tag">GIT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IPFS/" rel="tag">IPFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-IO/" rel="tag">JAVA IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/" rel="tag">JAVA NIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-WEB/" rel="tag">JAVA WEB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lisp/" rel="tag">Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/" rel="tag">Scala</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/" rel="tag">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-MVC/" rel="tag">Spring MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIM/" rel="tag">VIM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/archtype/" rel="tag">archtype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/azkaban/" rel="tag">azkaban</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jquery/" rel="tag">jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql-neo4j/" rel="tag">nosql neo4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openssl/" rel="tag">openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/" rel="tag">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webservice/" rel="tag">webservice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" rel="tag">一致性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" rel="tag">任务调度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" rel="tag">字符编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" rel="tag">字符集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A1%E8%AE%A1/" rel="tag">审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" rel="tag">尾递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" rel="tag">摘要算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" rel="tag">数字签名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" rel="tag">数字证书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" rel="tag">数据权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" rel="tag">树算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正规表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" rel="tag">知识体系</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E5%99%A8/" rel="tag">神器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">自制操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
       <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
@@ -1074,22 +1097,12 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2999/12/">十二月 2999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/02/">二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">九月 2009</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/blog/explain/">【置顶】特别说明</a>
+            <a href="/blog/explain/">【置顶】公告</a>
           </li>
         
           <li>
@@ -1120,34 +1133,40 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
+      
       &copy; 2023 证心<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
+
     </div>
     <nav id="mobile-nav">
   
-    <a href="/" class="mobile-nav-link">Home</a>
+    <a href="/" class="mobile-nav-link">首页</a>
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a target="_blank" rel="noopener" href="http://site.onekbase.com" class="mobile-nav-link">ITEEDU</a>
+  
+    <a href="/about/" class="mobile-nav-link">关于</a>
   
 </nav>
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
 
 
   
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script src="/fancybox/jquery.fancybox.min.js"></script>
 
 
 
 
 <script src="/js/script.js"></script>
+
 
 
 

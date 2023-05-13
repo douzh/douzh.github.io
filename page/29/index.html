@@ -3,10 +3,9 @@
 <head>
   <meta charset="utf-8">
   
-
   
   <title>OneKBase</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta property="og:type" content="website">
 <meta property="og:title" content="OneKBase">
 <meta property="og:url" content="http://www.onekbase.com/page/29/index.html">
@@ -15,17 +14,23 @@
 <meta property="article:author" content="证心">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="OneKBase" type="application/atom+xml">
+  
+    <link rel="shortcut icon" href="/favicon.png">
   
   
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
   
   
 <link rel="stylesheet" href="/css/style.css">
 
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
 <meta name="generator" content="Hexo 6.3.0"></head>
 
 <body>
@@ -39,35 +44,43 @@
         <a href="/" id="logo">OneKBase</a>
       </h1>
       
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">归一</a>
+        </h2>
+      
     </div>
     <div id="header-inner" class="inner">
       <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
         
-          <a class="main-nav-link" href="/">Home</a>
+          <a class="main-nav-link" href="/">首页</a>
         
-          <a class="main-nav-link" href="/archives">Archives</a>
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" target="_blank" rel="noopener" href="http://site.onekbase.com">ITEEDU</a>
+        
+          <a class="main-nav-link" href="/about/">关于</a>
         
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
       </div>
     </div>
   </div>
 </header>
+
       <div class="outer">
         <section id="main">
   
-    <article id="post-blog/plang/lisp/lispdiary/lispgkxx" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/plang/lisp/lispdiary/lispgkxx" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/lisp/lispdiary/lispgkxx/" class="article-date">
-  <time datetime="2015-10-21T04:15:29.000Z" itemprop="datePublished">2015-10-21</time>
+  <time class="dt-published" datetime="2015-10-21T04:15:29.000Z" itemprop="datePublished">2015-10-21</time>
 </a>
     
   <div class="article-category">
@@ -82,13 +95,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/plang/lisp/lispdiary/lispgkxx/">(转)Lisp概况与学习方法</a>
+      <a class="p-name article-title" href="/blog/plang/lisp/lispdiary/lispgkxx/">(转)Lisp概况与学习方法</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>Lisp名字来源于LISt Processor，也就是列表处理的意思。初学者第一眼见到Lisp往往印象最深的也就是里面成堆的括号。的确没错，括号就是该语言最显著的特点。整个语言的源代码也是以括号作为构造其语法树的依据。</p>
 <p>很多初学者有考古的爱好，听闻了传说中的7公理，所谓7个操作符可以构造一切，并且为止着迷。且不说这7公理是不是真的能构造出目前很多应用上所需要的一切，就算真的能，性能也必定很低，因为具备的材料太少，很多基础的东西也要从头开始构造。而精简的构造似乎并没有为实际应用带来多少好处，图灵机的构造比这几个公理更简单，但是你不会看到有多少人用图灵机编程。制造计算机系统就是一个寻找扩展性、成本、体积、功耗等等参考的平衡点的过程，不在那个平衡点则很容易被淘汰。</p>
@@ -123,7 +136,8 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/lisp/lispdiary/lispgkxx/" data-id="clhlnyli200ryojupcdyq9kaz" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/plang/lisp/lispdiary/lispgkxx/" data-id="clhlnyli200ryojupcdyq9kaz" data-title="(转)Lisp概况与学习方法" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lisp/" rel="tag">Lisp</a></li></ul>
@@ -134,11 +148,12 @@
 </article>
 
 
+
   
-    <article id="post-blog/plang/java/lib/logbacksyjj" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/plang/java/lib/logbacksyjj" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/java/lib/logbacksyjj/" class="article-date">
-  <time datetime="2015-10-20T10:07:56.000Z" itemprop="datePublished">2015-10-20</time>
+  <time class="dt-published" datetime="2015-10-20T10:07:56.000Z" itemprop="datePublished">2015-10-20</time>
 </a>
     
   <div class="article-category">
@@ -153,13 +168,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/plang/java/lib/logbacksyjj/">【JAVA】logback使用简介</a>
+      <a class="p-name article-title" href="/blog/plang/java/lib/logbacksyjj/">【JAVA】logback使用简介</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>不打log的程序员不是好程序员，log4j已经过时了，开发他的人又开发了logback。这里说一说怎么配制logback。</p>
 <p>一般的log接口都在用slf4j，这样以后改为其它log组件就不用改程序了，原理是log组件加个桥接的包,覆盖slf4j里的一些类，实现功能的嫁接。</p>
@@ -243,7 +258,8 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/java/lib/logbacksyjj/" data-id="clhlnylir00w5ojup9uqx8573" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/plang/java/lib/logbacksyjj/" data-id="clhlnylir00w5ojup9uqx8573" data-title="【JAVA】logback使用简介" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
@@ -254,11 +270,12 @@
 </article>
 
 
+
   
-    <article id="post-blog/plang/lisp/lispdiary/lispbz" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/plang/lisp/lispdiary/lispbz" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/plang/lisp/lispdiary/lispbz/" class="article-date">
-  <time datetime="2015-10-20T04:41:36.000Z" itemprop="datePublished">2015-10-20</time>
+  <time class="dt-published" datetime="2015-10-20T04:41:36.000Z" itemprop="datePublished">2015-10-20</time>
 </a>
     
   <div class="article-category">
@@ -273,13 +290,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/plang/lisp/lispdiary/lispbz/">(转)Lisp 的本质-深度好文</a>
+      <a class="p-name article-title" href="/blog/plang/lisp/lispdiary/lispbz/">(转)Lisp 的本质-深度好文</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>最初在web的某些角落偶然看到有人赞美Lisp时, 我那时已经是一个颇有经验的程序员。在我的履历上,掌握的语言范围相当广泛, 象C++, Java, C#主流语言等等都不在话下,我觉得我差不多知道所有的有关编程语言的事情。对待编程语言的问题上, 我觉得自己不太会遇到什么大问题。其实我大错特错了。</p>
 <p>我试着学了一下Lisp, 结果马上就撞了墙。我被那些范例代码吓坏了。我想很多初次接触Lisp语言的人, 一定也有过类似的感受。Lisp的语法太次了。一个语言的发明人, 居然不肯用心弄出一套漂亮的语法, 那谁还会愿意学它。反正, 我是确确实实被那些难看的无数的括号搞蒙了。</p>
@@ -449,7 +466,8 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/plang/lisp/lispdiary/lispbz/" data-id="clhlnyli100rvojupfqh1c8sn" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/plang/lisp/lispdiary/lispbz/" data-id="clhlnyli100rvojupfqh1c8sn" data-title="(转)Lisp 的本质-深度好文" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lisp/" rel="tag">Lisp</a></li></ul>
@@ -460,11 +478,12 @@
 </article>
 
 
+
   
-    <article id="post-blog/bigdata/hadoop/hadoopwebmanager" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/bigdata/hadoop/hadoopwebmanager" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/bigdata/hadoop/hadoopwebmanager/" class="article-date">
-  <time datetime="2015-10-18T09:36:00.000Z" itemprop="datePublished">2015-10-18</time>
+  <time class="dt-published" datetime="2015-10-18T09:36:00.000Z" itemprop="datePublished">2015-10-18</time>
 </a>
     
   <div class="article-category">
@@ -479,13 +498,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/bigdata/hadoop/hadoopwebmanager/">Hadoop WEB控制台的使用</a>
+      <a class="p-name article-title" href="/blog/bigdata/hadoop/hadoopwebmanager/">Hadoop WEB控制台的使用</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>hadoop提供了WEB服务可供使用者查看系统状态，主要有两个控制台：</p>
 <p>任务控制台：<a target="_blank" rel="noopener" href="http://hadoop-1:50030/jobtracker.jsp">http://hadoop-1:50030/jobtracker.jsp</a></p>
@@ -510,7 +529,8 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/bigdata/hadoop/hadoopwebmanager/" data-id="clhlnyldq002hojupa8uj6hyc" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/bigdata/hadoop/hadoopwebmanager/" data-id="clhlnyldq002hojupa8uj6hyc" data-title="Hadoop WEB控制台的使用" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
@@ -521,11 +541,12 @@
 </article>
 
 
+
   
-    <article id="post-blog/bigdata/hadoop/helloworld" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/bigdata/hadoop/helloworld" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/bigdata/hadoop/helloworld/" class="article-date">
-  <time datetime="2015-10-18T08:33:32.000Z" itemprop="datePublished">2015-10-18</time>
+  <time class="dt-published" datetime="2015-10-18T08:33:32.000Z" itemprop="datePublished">2015-10-18</time>
 </a>
     
   <div class="article-category">
@@ -540,13 +561,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/bigdata/hadoop/helloworld/">Hadoop的hello world程序</a>
+      <a class="p-name article-title" href="/blog/bigdata/hadoop/helloworld/">Hadoop的hello world程序</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>这里利用hadoop自带的hadoop-0.20.2-examples.jar做一个单词统计的测试，相当于编程时的Hello<br>World程序。</p>
 <p>注意切换目录，”hadoop@hadoop-1:~&#x2F;hadoop-0.20.2$“的格式为”用户@主机:目录$“，注意命令运行时的目录所在，可以通过CD命令切换目录。</p>
@@ -636,7 +657,8 @@ world   1
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/bigdata/hadoop/helloworld/" data-id="clhlnyldq002kojup0rpx0b18" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/bigdata/hadoop/helloworld/" data-id="clhlnyldq002kojup0rpx0b18" data-title="Hadoop的hello world程序" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
@@ -647,11 +669,12 @@ world   1
 </article>
 
 
+
   
-    <article id="post-blog/algorithm/other/monte-carlo-method" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/algorithm/other/monte-carlo-method" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/algorithm/other/monte-carlo-method/" class="article-date">
-  <time datetime="2015-10-14T09:58:58.000Z" itemprop="datePublished">2015-10-14</time>
+  <time class="dt-published" datetime="2015-10-14T09:58:58.000Z" itemprop="datePublished">2015-10-14</time>
 </a>
     
   <div class="article-category">
@@ -666,13 +689,13 @@ world   1
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/algorithm/other/monte-carlo-method/">蒙特卡罗方法入门</a>
+      <a class="p-name article-title" href="/blog/algorithm/other/monte-carlo-method/">蒙特卡罗方法入门</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>本文通过五个例子，介绍蒙特卡罗方法（Monte Carlo Method）。</p>
 <h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>蒙特卡罗方法是一种计算方法。原理是通过大量随机样本，去了解一个系统，进而得到所要计算的值。</p>
@@ -726,7 +749,8 @@ world   1
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/algorithm/other/monte-carlo-method/" data-id="clhlnyldi001eojupasic6b2h" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/algorithm/other/monte-carlo-method/" data-id="clhlnyldi001eojupasic6b2h" data-title="蒙特卡罗方法入门" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
@@ -737,11 +761,12 @@ world   1
 </article>
 
 
+
   
-    <article id="post-blog/tools/emacs/emacsdiary/emacsksrm" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/tools/emacs/emacsdiary/emacsksrm" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/tools/emacs/emacsdiary/emacsksrm/" class="article-date">
-  <time datetime="2015-10-14T07:57:22.000Z" itemprop="datePublished">2015-10-14</time>
+  <time class="dt-published" datetime="2015-10-14T07:57:22.000Z" itemprop="datePublished">2015-10-14</time>
 </a>
     
   <div class="article-category">
@@ -756,13 +781,13 @@ world   1
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/tools/emacs/emacsdiary/emacsksrm/">Emacs快速入门</a>
+      <a class="p-name article-title" href="/blog/tools/emacs/emacsdiary/emacsksrm/">Emacs快速入门</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>Emacs的基本编辑功能并不复杂，这里主要介绍Emacs的常用编辑功能。</p>
 <h2 id="控制键"><a href="#控制键" class="headerlink" title="控制键"></a>控制键</h2><p>Emacs 键盘命令通常包含 CONTROL 键（有时候以 CTRL 或 CTL 来标示）和META键（有时候用 EDIT 或 ALT<br>来标示）。为了避免每次都要写出全名，我们约定使用下述缩写：</p>
@@ -846,7 +871,8 @@ world   1
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/tools/emacs/emacsdiary/emacsksrm/" data-id="clhlnylix00x3ojup5aq91zlu" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/tools/emacs/emacsdiary/emacsksrm/" data-id="clhlnylix00x3ojup5aq91zlu" data-title="Emacs快速入门" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Emacs/" rel="tag">Emacs</a></li></ul>
@@ -857,11 +883,12 @@ world   1
 </article>
 
 
+
   
-    <article id="post-blog/basetech/math/xxds/jzcfbz" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/basetech/math/xxds/jzcfbz" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/basetech/math/xxds/jzcfbz/" class="article-date">
-  <time datetime="2015-10-12T10:22:39.000Z" itemprop="datePublished">2015-10-12</time>
+  <time class="dt-published" datetime="2015-10-12T10:22:39.000Z" itemprop="datePublished">2015-10-12</time>
 </a>
     
   </div>
@@ -872,13 +899,13 @@ world   1
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/basetech/math/xxds/jzcfbz/">矩阵乘法和矩阵的本质理解</a>
+      <a class="p-name article-title" href="/blog/basetech/math/xxds/jzcfbz/">矩阵乘法和矩阵的本质理解</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>大多数人在高中，或者大学低年级，都上过一门课《线性代数》。这门课其实是教矩阵。</p>
 <p>刚学的时候，还蛮简单的，矩阵加法就是相同位置的数字加一下。</p>
@@ -918,7 +945,8 @@ world   1
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/basetech/math/xxds/jzcfbz/" data-id="clhlnylgx00loojup3mv1433x" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/basetech/math/xxds/jzcfbz/" data-id="clhlnylgx00loojup3mv1433x" data-title="矩阵乘法和矩阵的本质理解" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
     </footer>
@@ -927,11 +955,12 @@ world   1
 </article>
 
 
+
   
-    <article id="post-blog/tools/vim/vimksrm" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/tools/vim/vimksrm" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/tools/vim/vimksrm/" class="article-date">
-  <time datetime="2015-10-10T05:57:57.000Z" itemprop="datePublished">2015-10-10</time>
+  <time class="dt-published" datetime="2015-10-10T05:57:57.000Z" itemprop="datePublished">2015-10-10</time>
 </a>
     
   <div class="article-category">
@@ -946,13 +975,13 @@ world   1
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/tools/vim/vimksrm/">Vim快速入门</a>
+      <a class="p-name article-title" href="/blog/tools/vim/vimksrm/">Vim快速入门</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <p>Vim的基本功能学习还是很容易的，主要掌握Vim的模式和几个快捷键就行了。分分钟的事，没有多难。</p>
 <h2 id="Vim模式"><a href="#Vim模式" class="headerlink" title="Vim模式"></a>Vim模式</h2><ul>
@@ -1014,7 +1043,8 @@ P    粘在前面
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/tools/vim/vimksrm/" data-id="clhlnylgp00k6ojupfn0yedoq" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/tools/vim/vimksrm/" data-id="clhlnylgp00k6ojupfn0yedoq" data-title="Vim快速入门" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VIM/" rel="tag">VIM</a></li></ul>
@@ -1025,11 +1055,12 @@ P    粘在前面
 </article>
 
 
+
   
-    <article id="post-blog/tools/vim/vimregzdpp" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-blog/tools/vim/vimregzdpp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/blog/tools/vim/vimregzdpp/" class="article-date">
-  <time datetime="2015-10-09T09:14:10.000Z" itemprop="datePublished">2015-10-09</time>
+  <time class="dt-published" datetime="2015-10-09T09:14:10.000Z" itemprop="datePublished">2015-10-09</time>
 </a>
     
   <div class="article-category">
@@ -1044,13 +1075,13 @@ P    粘在前面
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/tools/vim/vimregzdpp/">Vim正规表达式最短匹配</a>
+      <a class="p-name article-title" href="/blog/tools/vim/vimregzdpp/">Vim正规表达式最短匹配</a>
     </h1>
   
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <pre><code>&lt;pre class=&quot;hljs matlab&quot;&gt;&lt;code class=&quot;matlab&quot;&gt;k                上移；
 &lt;span class=&quot;hljs-built_in&quot;&gt;j&lt;/span&gt;                下移；
@@ -1077,7 +1108,8 @@ class=&quot;matlab&quot;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.onekbase.com/blog/tools/vim/vimregzdpp/" data-id="clhlnylgr00kiojup577z8wqm" class="article-share-link">Share</a>
+      <a data-url="http://www.onekbase.com/blog/tools/vim/vimregzdpp/" data-id="clhlnylgr00kiojup577z8wqm" data-title="Vim正规表达式最短匹配" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VIM/" rel="tag">VIM</a></li></ul>
@@ -1088,12 +1120,13 @@ class=&quot;matlab&quot;
 </article>
 
 
+
   
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/28/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/30/">下一页 &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/28/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/30/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -1112,16 +1145,6 @@ class=&quot;matlab&quot;
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII%E7%A0%81/" rel="tag">ASCII码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveMQ/" rel="tag">ActiveMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ajax/" rel="tag">Ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BAT%E8%84%9A%E6%9C%AC/" rel="tag">BAT脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAP/" rel="tag">CAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAS/" rel="tag">CAS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eclipse/" rel="tag">Eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/" rel="tag">Emacs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emmet/" rel="tag">Emmet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIT/" rel="tag">GIT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IPFS/" rel="tag">IPFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-IO/" rel="tag">JAVA IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/" rel="tag">JAVA NIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-WEB/" rel="tag">JAVA WEB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lisp/" rel="tag">Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/" rel="tag">Scala</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/" rel="tag">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-MVC/" rel="tag">Spring MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIM/" rel="tag">VIM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/archtype/" rel="tag">archtype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/azkaban/" rel="tag">azkaban</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jquery/" rel="tag">jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql-neo4j/" rel="tag">nosql neo4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openssl/" rel="tag">openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/" rel="tag">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webservice/" rel="tag">webservice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" rel="tag">一致性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" rel="tag">任务调度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" rel="tag">字符编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" rel="tag">字符集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A1%E8%AE%A1/" rel="tag">审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" rel="tag">尾递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" rel="tag">摘要算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" rel="tag">数字签名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" rel="tag">数字证书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" rel="tag">数据权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" rel="tag">树算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正规表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" rel="tag">知识体系</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E5%99%A8/" rel="tag">神器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">自制操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
       <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
@@ -1131,22 +1154,12 @@ class=&quot;matlab&quot;
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2999/12/">十二月 2999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/02/">二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">九月 2009</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/blog/explain/">【置顶】特别说明</a>
+            <a href="/blog/explain/">【置顶】公告</a>
           </li>
         
           <li>
@@ -1177,34 +1190,40 @@ class=&quot;matlab&quot;
   
   <div class="outer">
     <div id="footer-info" class="inner">
+      
       &copy; 2023 证心<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
+
     </div>
     <nav id="mobile-nav">
   
-    <a href="/" class="mobile-nav-link">Home</a>
+    <a href="/" class="mobile-nav-link">首页</a>
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a target="_blank" rel="noopener" href="http://site.onekbase.com" class="mobile-nav-link">ITEEDU</a>
+  
+    <a href="/about/" class="mobile-nav-link">关于</a>
   
 </nav>
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
 
 
   
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script src="/fancybox/jquery.fancybox.min.js"></script>
 
 
 
 
 <script src="/js/script.js"></script>
+
 
 
 
