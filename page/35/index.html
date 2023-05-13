@@ -1,22 +1,943 @@
-{% extends '_layout.swig' %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
 
-{% block title %}{{ title }}{%- if theme.index_with_subtitle and subtitle %} - {{ subtitle }}{%- endif %}{% endblock %}
+  
+  <title>OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="OneKBase">
+<meta property="og:url" content="http://www.onekbase.com/page/35/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="证心">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="OneKBase" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block page_class %}
-  {%- if is_home() %}page-home{% endif -%}
-{% endblock %}
+<meta name="generator" content="Hexo 6.3.0"></head>
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {%- for post in page.posts %}
-      {{ partial('_macro/post.swig', {is_index: true}) }}
-    {%- endfor %}
-  </section>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-blog/plang/java/base/ping" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/base/ping/" class="article-date">
+  <time datetime="2015-09-15T06:33:57.000Z" itemprop="datePublished">2015-09-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a>
+  </div>
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/base/ping/">使用java来实现ping功能</a>
+    </h1>
+  
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>为了使用java来实现ping的功能,有人推荐使用java的<br>Runtime.exec()方法来直接调用系统的Ping命令,也有人完成了纯Java实现Ping的程序，使用的是Java的NIO包(native<br>io,<br>高效IO包)。但是设备检测只是想测试一个远程主机是否可用。所以，可以使用以下三种方式来实现：</p>
+<p>1.Jdk1.5的InetAddresss方式自从Java 1.5，java.net包中就实现了ICMP<br>ping的功能。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String host =  &quot;192.168.1.181&quot;;</span><br><span class="line"> //超时应该在3钞以上</span><br><span class="line">int  timeOut =  3000 ; </span><br><span class="line">// 当返回值是true时，说明host是可用的，反正则不可。</span><br><span class="line">boolean status = InetAddress.getByName(host).isReachable(timeOut);</span><br></pre></td></tr></table></figure>
+
+<p>使用时应注意，如果远程服务器设置了防火墙或相关的配制，可能会影响到结果。另外，由于发送ICMP请求需要程序对系统有一定的权限，当这个权限无法满足时，<br>isReachable方法将试着连接远程主机的TCP端口 7(Echo).<br>经过测试,这种方法测试XP的远程主机很准确，可是，测试Linux的远程主机时却不准确，明明能ping通，却返回false。</p>
+<p>2.最简单的办法，直接调用CMD</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line">      Runtime.getRuntime().exec(&quot;cmd /c start ping 127.0.0.1&quot;);</span><br><span class="line">     &#125;catch (Exception ex)&#123;</span><br><span class="line">         System.out.println(ex.getMessage());</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+
+<p>ping的过程,可以显示在本地:使用流来读</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class Ping &#123;</span><br><span class="line">    public static void main(String args[]) &#123;</span><br><span class="line">        String line = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            Process pro = Runtime.getRuntime().exec(&quot;ping 127.0.0.1 &quot;);</span><br><span class="line">            BufferedReader buf = new BufferedReader(new InputStreamReader(pro</span><br><span class="line">                    .getInputStream()));</span><br><span class="line">            while ((line = buf.readLine()) != null)</span><br><span class="line">                System.out.println(line);</span><br><span class="line">        &#125; catch (Exception ex) &#123;</span><br><span class="line">            System.out.println(ex.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> </p>
+<p>3.Java调用控制台执行ping命令</p>
+<p>具体的思路是这样的：通过程序调用类似”ping 192.168.172.1 -n 10 -w <br>4”的命令，这命令会执行ping十次，如果通顺则会输出类似”来自192.168.172.1的回复：字节&#x3D;32<br>时间&#x3D;23ms <br>TTL&#x3D;62”的文本（具体数字根据实际情况会有变化），其中中文是根据环境本地化的，有些机器上的中文部分是英文，但不论是中英文环境，后面的”&#x3D;23ms <br>TTL&#x3D;62”字样总是固定的，它表明一次ping的结果是能通的。如果这个字样出现的次数等于10次即测试的次数，则说明192.168.172.1是百分之百能连通的。技术上：具体调用dos命令用Runtime.getRuntime().exec实现，查看字符串是否符合格式用正则表达式实现，其它不值得赘述，请看具体的程序：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">import java.io.BufferedReader;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStreamReader;</span><br><span class="line">import java.util.regex.Matcher;</span><br><span class="line">import java.util.regex.Pattern;</span><br><span class="line">public class Pinger &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 要ping的主机</span><br><span class="line">     */</span><br><span class="line">    private String remoteIpAddress;</span><br><span class="line">    /**</span><br><span class="line">     * 设置ping的次数</span><br><span class="line">     */</span><br><span class="line">    private final int pingTimes;</span><br><span class="line">    /**</span><br><span class="line">     * 设置超时</span><br><span class="line">     */</span><br><span class="line">    private int timeOut;</span><br><span class="line">    /**</span><br><span class="line">     * 构造函数</span><br><span class="line">     * </span><br><span class="line">     * @param remoteIpAddress</span><br><span class="line">     * @param pingTimes</span><br><span class="line">     * @param timeOut</span><br><span class="line">     */</span><br><span class="line">    public Pinger(String remoteIpAddress, int pingTimes, int timeOut) &#123;</span><br><span class="line">        super();</span><br><span class="line">        this.remoteIpAddress = remoteIpAddress;</span><br><span class="line">        this.pingTimes = pingTimes;</span><br><span class="line">        this.timeOut = timeOut;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 测试是否能ping通</span><br><span class="line">     * @param server</span><br><span class="line">     * @param timeout</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public boolean isReachable() &#123;</span><br><span class="line">        BufferedReader in = null;</span><br><span class="line">        Runtime r = Runtime.getRuntime();</span><br><span class="line">        // 将要执行的ping命令,此命令是windows格式的命令</span><br><span class="line">        String pingCommand = &quot;ping &quot; + remoteIpAddress + &quot; -n &quot; + pingTimes+ &quot; -w &quot; + timeOut;</span><br><span class="line">        try &#123;</span><br><span class="line">            // 执行命令并获取输出</span><br><span class="line">            System.out.println(pingCommand);</span><br><span class="line">            Process p = r.exec(pingCommand);</span><br><span class="line">            if (p == null) &#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">            in = new BufferedReader(new InputStreamReader(p.getInputStream()));</span><br><span class="line">            // 逐行检查输出,计算类似出现=23ms TTL=62字样的次数</span><br><span class="line">            int connectedCount = 0;</span><br><span class="line">            String line = null;</span><br><span class="line">            while ((line = in.readLine()) != null) &#123;</span><br><span class="line">                connectedCount += getCheckResult(line);</span><br><span class="line">            &#125;</span><br><span class="line">            // 如果出现类似=23ms TTL=62这样的字样,出现的次数=测试次数则返回真</span><br><span class="line">            return connectedCount == pingTimes;</span><br><span class="line">        &#125; catch (Exception ex) &#123;</span><br><span class="line">            ex.printStackTrace();</span><br><span class="line">            // 出现异常则返回假</span><br><span class="line">            return false;</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                in.close();</span><br><span class="line">            &#125; catch (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 若line含有=18ms TTL=16字样,说明已经ping通,返回1,否則返回0.</span><br><span class="line">     * @param line</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private static int getCheckResult(String line) &#123;</span><br><span class="line">        // System.out.println(&quot;控制台输出的结果为:&quot;+line);</span><br><span class="line">        Pattern pattern = Pattern.compile(&quot;(\\d+ms)(\\s+)(TTL=\\d+)&quot;,</span><br><span class="line">                Pattern.CASE_INSENSITIVE);</span><br><span class="line">        Matcher matcher = pattern.matcher(line);</span><br><span class="line">        while (matcher.find()) &#123;</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Pinger p = new Pinger(&quot;172.16.17.224&quot;, 1, 5000);</span><br><span class="line">        System.out.println(p.isReachable());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/base/ping/" data-id="clhlnylhv00qtojupc6zp5opm" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/java/threadsafe/volatile" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/threadsafe/volatile/" class="article-date">
+  <time datetime="2015-09-15T06:31:16.000Z" itemprop="datePublished">2015-09-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/threadsafe/volatile/">浅谈Java的volatile</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Java</strong> 语言中的 <strong>volatile</strong> 变量可以被看作是一种 “程度较轻的synchronized”；与 synchronized 块相比，volatile变量所需的编码较少，并且运行时开销也较少，但是它所能实现的功能也仅是synchronized 的一部分。</p>
+<p>我们知道，在Java中设置变量值的操作，除了long和double类型的变量外都是原子操作，也就是说，对于变量值的简单读写操作没有必要进行同步。</p>
+<p>这在JVM1.2之前，Java的内存模型实现总是从主存读取变量，是不需要进行特别的注意的。而随着JVM的成熟和优化，现在在多线程环境下volatile关键字的使用变得非常重要。</p>
+<p>在当前的Java内存模型下，线程可以把变量保存在本地内存（比如机器的寄存器）中，而不是直接在主存中进行读写。这就可能造成一个线程在主存中修改了一个变量的值，而另外一个线程还继续使用它在寄存器中的变量值的拷贝，造成数据的不一致。</p>
+<p>要解决这个问题，只需要像在本程序中的这样，把该变量声明为volatile（不稳定的）即可，这就指示JVM，这个变量是不稳定的，每次使用它都到主存中进行读取。一般说来，多任务环境下各任务间共享的标志都应该加volatile修饰。</p>
+<p>Volatile修饰的成员变量在每次被线程访问时，都强迫从共享内存中重读该成员变量的值。而且，当成员变量发生变化时，强迫线程将变化值回写到共享内存。这样在任何时刻，两个不同的线程总是看到某个成员变量的同一个值。</p>
+<p>Java语言规范中指出：为了获得最佳速度，允许线程保存共享成员变量的私有拷贝，而且只当线程进入或者离开同步代码块时才与共享成员变量的原始值对比。</p>
+<p>这样当多个线程同时与某个对象交互时，就必须要注意到要让线程及时的得到共享成员变量的变化。</p>
+<p>而volatile关键字就是提示VM：对于这个成员变量不能保存它的私有拷贝，而应直接与共享成员变量交互。</p>
+<p>使用建议：在两个或者更多的线程访问的成员变量上使用volatile。当要访问的变量已在synchronized代码块中，或者为常量时，不必使用。</p>
+<p>由于使用屏蔽掉了VM中必要的代码优化，所以在效率上比较低，因此一定在必要时才使用此关键字。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public class Counter &#123;</span><br><span class="line"></span><br><span class="line">    public static int count = 0;</span><br><span class="line">    public static void inc() &#123;</span><br><span class="line">        //这里延迟1毫秒，使得结果明显</span><br><span class="line">        try &#123;</span><br><span class="line">            Thread.sleep(1);</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //同时启动1000个线程，去进行i++计算，看看实际结果</span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; 1000; i++) &#123;</span><br><span class="line">            new Thread(new Runnable() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void run() &#123;</span><br><span class="line">                    Counter.inc();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).start();</span><br><span class="line">        &#125;</span><br><span class="line">        //这里每次运行的值都有可能不同,可能为1000</span><br><span class="line">        System.out.println(&quot;运行结果:Counter.count=&quot; + Counter.count);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果:Counter.count&#x3D;995</p>
+<p>实际运算结果每次可能都不一样，本机的结果为：运行结果:Counter.count&#x3D;995，可以看出，在多线程的环境下，Counter.count并没有期望结果是1000</p>
+<p>很多人以为，这个是多线程并发问题，只需要在变量count之前加上volatile就可以避免这个问题，那我们在修改代码看看，看看结果是不是符合我们的期望</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public class Counter &#123;</span><br><span class="line">    public volatile static int count = 0;</span><br><span class="line">    public static void inc() &#123;</span><br><span class="line"></span><br><span class="line">        //这里延迟1毫秒，使得结果明显</span><br><span class="line">        try &#123;</span><br><span class="line">            Thread.sleep(1);</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //同时启动1000个线程，去进行i++计算，看看实际结果</span><br><span class="line">        for (int i = 0; i &lt; 1000; i++) &#123;</span><br><span class="line">            new Thread(new Runnable() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void run() &#123;</span><br><span class="line">                    Counter.inc();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //这里每次运行的值都有可能不同,可能为1000</span><br><span class="line">        System.out.println(&quot;运行结果:Counter.count=&quot; + Counter.count);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果:Counter.count&#x3D;992</p>
+<p>运行结果还是没有我们期望的1000，下面我们分析一下原因</p>
+<p>在 java<br>垃圾回收整理一文中，描述了jvm运行时刻内存的分配。其中有一个内存区域是jvm虚拟机栈，每一个线程运行时都有一个线程栈，</p>
+<p>线程栈保存了线程运行时候变量值信息。当线程访问某一个对象时候值的时候，首先通过对象的引用找到对应在堆内存的变量的值，然后把堆内存</p>
+<p>变量的具体值load到线程本地内存中，建立一个变量副本，之后线程就不再和对象在堆内存变量值有任何关系，而是直接修改副本变量的值，</p>
+<p>在修改完之后的某一个时刻（线程退出之前），自动把线程变量副本的值回写到对象在堆中变量。这样在堆中的对象的值就产生变化了。下面一幅图</p>
+<p>描述这写交互</p>
+<p><a href="/images/java/counter.jpg"></a></p>
+<p>read and load 从主存复制变量到当前工作内存 use and assign执行代码，改变共享变量值 store and write 用工作内存数据刷新主存相关内容</p>
+<p>其中use and assign 可以多次出现</p>
+<p>但是这一些操作并不是原子性，也就是 在readload之后，如果主内存count变量发生修改之后，线程工作内存中的值由于已经加载，不会产生对应的变化，所以计算出来的结果会和预期不一样</p>
+<p>对于volatile修饰的变量，jvm虚拟机只是保证从主内存加载到线程工作内存的值是最新的</p>
+<p>例如假如线程1，线程2 在进行read,load操作中，发现主内存中count的值都是5，那么都会加载这个最新的值</p>
+<p>在线程1堆count进行修改之后，会write到主内存中，主内存中的count变量就会变为6</p>
+<p>线程2由于已经进行read,load操作，在进行运算之后，也会更新主内存count的变量值为6</p>
+<p>导致两个线程及时用volatile关键字修改之后，还是会存在并发的情况。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/threadsafe/volatile/" data-id="clhlnylip00vwojupd9d6hgyy" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/java/lib/xueqiuspider" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/lib/xueqiuspider/" class="article-date">
+  <time datetime="2015-09-14T10:07:02.000Z" itemprop="datePublished">2015-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/lib/xueqiuspider/">【JAVA】用HtmlUnit抓取雪球数据</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>htmlunit 是一款开源的java页面分析工具，读取页面后，可以有效的使用htmlunit分析页面上的内容。项目可以模拟浏览器运行，被誉为java浏览器的开源实现。这个没有界面的浏览器，运行速度也是非常迅速的。</p>
+<p>第一步：创建一个客户端</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WebClient client = HttpUtil.getClient();</span><br></pre></td></tr></table></figure>
+
+<p>第二步：登录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public static HtmlPage loginXueqiu(WebClient client) </span><br><span class="line">    throws IOException, MalformedURLException &#123;</span><br><span class="line">    HtmlPage page = (HtmlPage) client.getPage(&quot;http://xueqiu.com&quot;);</span><br><span class="line">    HtmlTextInput account = null;</span><br><span class="line">    HtmlForm loginForm = (HtmlForm) page.getElementById(&quot;form-login-index&quot;);</span><br><span class="line">    account = (HtmlTextInput) loginForm.getInputByName(&quot;username&quot;);</span><br><span class="line">    HtmlPasswordInput password = (HtmlPasswordInput) loginForm</span><br><span class="line">            .getInputByName(&quot;password&quot;);</span><br><span class="line">    DomNodeList btns = loginForm</span><br><span class="line">            .getElementsByTagName(&quot;button&quot;);</span><br><span class="line">    HtmlButton submit = (HtmlButton) btns.get(0);</span><br><span class="line">    account.setValueAttribute(&quot;xueqiuclient@126.com&quot;);</span><br><span class="line">    password.setValueAttribute(&quot;xueqiu&quot;);</span><br><span class="line">    return (HtmlPage) submit.click();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以获取股票列表为例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">private static List getStockList(WebClient client, String url) &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        Page p = client.getPage(url);</span><br><span class="line">        WebResponse wp = p.getWebResponse();</span><br><span class="line">        String sJson = wp.getContentAsString();</span><br><span class="line">        JSONObject.fromObject(sJson);</span><br><span class="line">        JSONObject json = JSONObject.fromObject(sJson);</span><br><span class="line">        JSONArray jarr = json.getJSONArray(&quot;data&quot;);</span><br><span class="line">        @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">        Iterator ite = jarr.iterator();</span><br><span class="line">        List lstStock = new ArrayList();</span><br><span class="line">        while (ite.hasNext()) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                JSONArray jstock = ite.next();</span><br><span class="line">                TStock stock = new TStock(jstock);</span><br><span class="line">                lstStock.add(stock);</span><br><span class="line">            &#125; catch (Exception e) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return lstStock;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        log.error(&quot;获取上证列表出错&quot;, e);</span><br><span class="line">        return new ArrayList();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中url是通过浏览器debug出来的，返回的是JSON数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 上证股票列表</span><br><span class="line"> */</span><br><span class="line">public static final String API_SHA=&quot;http://xueqiu.com/stock/quote_order.json?page=1&amp;size=2000&quot; +</span><br><span class="line">        &quot;&amp;order=asc&amp;exchange=CN&amp;stockType=sha&amp;orderBy=symbol&amp;column=symbol%2Cname&quot;;</span><br><span class="line">/**</span><br><span class="line"> * 深证股票列表</span><br><span class="line"> */</span><br><span class="line">public static final String API_SZA=&quot;http://xueqiu.com/stock/quote_order.json?page=1&amp;size=2000&quot; +</span><br><span class="line">        &quot;&amp;order=asc&amp;orderBy=symbol&amp;exchange=CN&amp;stockType=sza&amp;column=symbol%2Cname&quot;;</span><br><span class="line">/**</span><br><span class="line"> * 主要财务指标</span><br><span class="line"> */</span><br><span class="line">public static final String API_ZYCWZB=&quot;http://xueqiu.com/stock/f10/finmainindex.json?page=1&amp;size=40&amp;symbol=&quot;;</span><br><span class="line">/**</span><br><span class="line"> * 资产负债表</span><br><span class="line"> */</span><br><span class="line">public static final String API_BALSHEET=&quot;http://xueqiu.com/stock/f10/balsheet.json?page=1&amp;size=40&amp;symbol=&quot;;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/lib/xueqiuspider/" data-id="clhlnylis00w9ojup1pgi9xok" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/database/dbi/dbiusebase" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/database/dbi/dbiusebase/" class="article-date">
+  <time datetime="2015-09-14T09:54:29.000Z" itemprop="datePublished">2015-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/database/dbi/dbiusebase/">数据库索引使用基础知识</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="哪些列上可以创建索引"><a href="#哪些列上可以创建索引" class="headerlink" title="哪些列上可以创建索引"></a>哪些列上可以创建索引</h2><p>在经常需要<strong>搜索</strong>的列上，可以加快搜索的速度；</p>
+<p>在作为<strong>主键</strong>的列上，强制该列的唯一性和组织表中数据的排列结构；</p>
+<p>在经常用在<strong>连接</strong>的列上，这些列主要是一些外键，可以加快连接的速度；</p>
+<p>在经常需要<strong>根据范围进行搜索</strong>的列上创建索引，因为索引已经排序，其指定的范围是连续的；</p>
+<p>在经常需要<strong>排序</strong>的列上创建索引，因为索引已经排序，这样查询可以利用索引的排序，加快排序查询时间；</p>
+<p>在经常使用在WHERE子句中的列上面创建索引，加快条件的判断速度。</p>
+<h2 id="哪些列上不能创建索引"><a href="#哪些列上不能创建索引" class="headerlink" title="哪些列上不能创建索引"></a>哪些列上不能创建索引</h2><p>第一，对于那些在查询中<strong>很少使用或者参考的列</strong>不应该创建索引。</p>
+<p>这是因为，既然这些列很少使用到，因此有索引或者无索引，并不能提高查询速度。相反，由于增加了索引，反而降低了系统的维护速度和增大了空间需求。</p>
+<p>第二，对于那些只有<strong>很少数据值的列</strong>也不应该增加索引。这</p>
+<p>是因为，由于这些列的取值很少，例如人事表的性别列，在查询的结果中，结果集的数据行占了表中数据行的很大比例，即需要在表中搜索的数据行的比例很大。增加索引，并不能明显加快检索速度。</p>
+<p>第三，对于那些定义为text, image和bit数据类型的列不应该增加索引。</p>
+<p>这是因为，这些列的数据量要么相当大，要么取值很少。</p>
+<p>第四，当<strong>修改性能远远大于检索性能时，不应该创建索引</strong>。</p>
+<p>这是因为，修改性能和检索性能是互相矛盾的。当增加索引时，会提高检索性能，但是会降低修改性能。当减少索引时，会提高修改性能，降低检索性能。因此，当修改性能远远大于检索性能时，不应该创建索引。</p>
+<h2 id="索引没有使用可能是什么导致的"><a href="#索引没有使用可能是什么导致的" class="headerlink" title="索引没有使用可能是什么导致的"></a>索引没有使用可能是什么导致的</h2><p>单字段索引，查询中没有用到这个字段。</p>
+<p>复合索引，查询中没有复合索引的第一个字段。</p>
+<p>索引字段进行了函数操作。</p>
+<p>索引字段查询条件是like。</p>
+<p>索引字段值太少，如男、女，数据量很大。</p>
+<p>表中数据量很少。</p>
+<h2 id="索引有哪些类型"><a href="#索引有哪些类型" class="headerlink" title="索引有哪些类型"></a>索引有哪些类型</h2><p>1.直接创建索引和间接创建索引</p>
+<p>直接创建索引： CREATE INDEX mycolumn_index ON mytable (myclumn)</p>
+<p>间接创建索引：定义主键约束或者唯一性键约束，可以间接创建索引</p>
+<p>2.普通索引和唯一性索引</p>
+<p>普通索引：CREATE INDEX mycolumn_index ON mytable (myclumn)</p>
+<p>唯一性索引：保证在索引列中的全部数据是唯一的，对聚簇索引和非聚簇索引都可以使用</p>
+<p>CREATE UNIQUE COUSTERED INDEX myclumn_cindex ON mytable(mycolumn)</p>
+<p>3.单个索引和复合索引</p>
+<p>单个索引：即非复合索引</p>
+<p>复合索引：又叫组合索引，在索引建立语句中同时包含多个字段名，最多16个字段</p>
+<p>CREATE INDEX name_index ON username(firstname,lastname)</p>
+<p>4.聚簇索引和非聚簇索引(聚集索引，群集索引)</p>
+<p>聚簇索引：物理索引，与基表的物理顺序相同，数据值的顺序总是按照顺序排列</p>
+<p>CREATE CLUSTERED INDEX mycolumn_cindex ON mytable(mycolumn) WITH<br>ALLOW_DUP_ROW</p>
+<p>(允许有重复记录的聚簇索引)</p>
+<p>非聚簇索引：CREATE UNCLUSTERED INDEX mycolumn_cindex ON<br>mytable(mycolumn)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/database/dbi/dbiusebase/" data-id="clhlnyle00049ojupbwpk3ajq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/database/dbi/clusterdbi" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/database/dbi/clusterdbi/" class="article-date">
+  <time datetime="2015-09-14T09:53:51.000Z" itemprop="datePublished">2015-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/database/dbi/clusterdbi/">聚集索引(聚簇索引)的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文内容摘自互联网，出处不明</p>
+<h2 id="聚集索引"><a href="#聚集索引" class="headerlink" title="聚集索引"></a>聚集索引</h2><p>聚集索引中键值的逻辑顺序决定了表中相应行的物理顺序。</p>
+<p>聚集索引类似于电话簿，后者按姓氏排列数据。由于聚集索引规定数据在表中的物理存储顺序，因此一个表只能包含一个聚集索引。但该索引可以包含多个列（组合索引），就像电话簿按姓氏和名字进行组织一样。</p>
+<p>聚集索引对于那些经常要搜索范围值的列特别有效。使用聚集索引找到包含第一个值的行后，便可以确保包含后续索引值的行在物理相邻。</p>
+<p>例如，如果应用程序执行<br>的一个查询经常检索某一日期范围内的记录，则使用聚集索引可以迅速找到包含开始日期的行，然后检索表中所有相邻的行，直到到达结束日期。这样有助于提高此<br>类查询的性能。同样，如果对从表中检索的数据进行排序时经常要用到某一列，则可以将该表在该列上聚集（物理排序），避免每次查询该列时都进行排序，从而节<br>省成本。</p>
+<p>当索引值唯一时，使用聚集索引查找特定的行也很有效率。例如，使用唯一雇员<br>ID 列 emp_id 查找特定雇员的最快速的方法，是在 emp_id<br>列上创建聚集索引或 PRIMARY KEY 约束。</p>
+<h2 id="何时使用聚集索引"><a href="#何时使用聚集索引" class="headerlink" title="何时使用聚集索引"></a>何时使用聚集索引</h2><p>下面的表总结了何时使用聚集索引或非聚集索引（很重要）：</p>
+<hr>
+<pre><code>    动作描述        使用聚集索引   使用非聚集索引
+列经常被分组排序         应              应
+</code></pre>
+<p>   返回某范围内的数据        应             不应<br>    一个或极少不同值        不应            不应<br>     小数目的不同值          应             不应<br>     大数目的不同值         不应             应<br>      频繁更新的列          不应             应<br>         外键列              应              应<br>         主键列              应              应<br>     频繁修改索引列         不应             应</p>
+<hr>
+<p>事实上，我们可以通过前面聚集索引和非聚集索引的定义的例子来理解上表。如：返回某范围内的数据一项。比如您的某个表有一个时间列，恰好您把聚合索引建立在了该列，这时您查询2004年1月1日至2004年10月1日之间的全部数据时，这个速度就将是很快的，因为您的这本字典正文是按日期进行排序的，聚类索引只需要找到要检索的所有数据中的开头和结尾数据即可；而不像非聚集索引，必须先查到目录中查到每一项数据对应的页码，然后再根据页码查到具体内容。</p>
+<h2 id="结合实际，谈索引使用的误区"><a href="#结合实际，谈索引使用的误区" class="headerlink" title="结合实际，谈索引使用的误区"></a>结合实际，谈索引使用的误区</h2><p>理论的目的是应用。虽然我们刚才列出了何时应使用聚集索引或非聚集索引，但在实践中以上规则却很容易被忽视或不能根据实际情况进行综合分析。下面我们将根据在实践中遇到的实际问题来谈一下索引使用的误区，以便于大家掌握索引建立的方法。</p>
+<h3 id="1、主键就是聚集索引"><a href="#1、主键就是聚集索引" class="headerlink" title="1、主键就是聚集索引"></a>1、主键就是聚集索引</h3><p>这种想法笔者认为是极端错误的，是对聚集索引的一种浪费。虽然SQL<br>SERVER默认是在主键上建立聚集索引的。</p>
+<p>通常，我们会在每个表中都建立一个ID列，以区分每条数据，并且这个ID列是自动增大的，步长一般为1。我们的这个办公自动化的实例中的列Gid就是如此。此时，如果我们将这个列设为主键，SQL<br>SERVER会将此列默认为聚集索引。这样做有好处，就是可以让您的数据在数据库中按照ID进行物理排序，但笔者认为这样做意义不大。</p>
+<p>显而易见，聚集索引的优势是很明显的，而每个表中只能有一个聚集索引的规则，这使得聚集索引变得更加珍贵。</p>
+<p>从我们前面谈到的聚集索引的定义我们可以看出，使用聚集索引的最大好处就是能够根据查询要求，迅速缩小查询范围，避免全表扫描。在实际应用中，因为<br>ID号是自动生成的，我们并不知道每条记录的ID号，所以我们很难在实践中用ID号来进行查询。这就使让ID号这个主键作为聚集索引成为一种资源浪费。其次，让每个ID号都不同的字段作为聚集索引也不符合”大数目的不同值情况下不应建立聚合索引”规则；当然，这种情况只是针对用户经常修改记录内容，特别是索引项的时候会负作用，但对于查询速度并没有影响。</p>
+<p>在办公自动化系统中，无论是系统首页显示的需要用户签收的文件、会议还是用户进行文件查询等任何情况下进行数据查询都离不开字段的是”日期”还有用户本身的”用户名”。</p>
+<p>通常，办公自动化的首页会显示每个用户尚未签收的文件或会议。虽然我们的where语句可以仅仅限制当前用户尚未签收的情况，但如果您的系统已建立了很长时间，并且数据量很大，那么，每次每个用户打开首页的时候都进行一次全表扫描，这样做意义是不大的，绝大多数的用户1个月前的文件都已经浏览过了，这样做只能徒增数据库的开销而已。事实上，我们完全可以让用户打开系统首页时，数据库仅仅查询这个用户近3个月来未阅览的文件，通过”日期”这个字段来限制表扫描，提高查询速度。如果您的办公自动化系统已经建立的2年，那么您的首页显示速度理论上将是原来速度8倍，甚至更快。</p>
+<p>在这里之所以提到”理论上”三字，是因为如果您的聚集索引还是盲目地建在ID这个主键上时，您的查询速度是没有这么高的，即使您在”日期”这个字段上建立的索引（非聚合索引）。下面我们就来看一下在1000万条数据量的情况下各种查询的速度表现（3个月内的数据为25万条）：</p>
+<p>（1）仅在主键上建立聚集索引，并且不划分时间段：</p>
+<p>Select gid,fariqi,neibuyonghu,title from tgongwen<br>where fariqi&gt; dateadd(day,-90,getdate())</p>
+<p>用时：128470毫秒（即：128秒）</p>
+<p>（2）在主键上建立聚集索引，在fariq上建立非聚集索引：</p>
+<p>select gid,fariqi,neibuyonghu,title from Tgongwen<br>where fariqi&gt; dateadd(day,-90,getdate())</p>
+<p>用时：53763毫秒（54秒）</p>
+<p>（3）将聚合索引建立在日期列（fariqi）上：</p>
+<p>select gid,fariqi,neibuyonghu,title from Tgongwen<br>where fariqi&gt; dateadd(day,-90,getdate())</p>
+<p>用时：2423毫秒（2秒）</p>
+<p>虽然每条语句提取出来的都是25万条数据，各种情况的差异却是巨大的，特别是将聚集索引建立在日期列时的差异。事实上，如果您的数据库真的有1000<br>万容量的话，把主键建立在ID列上，就像以上的第1、2种情况，在网页上的表现就是超时，根本就无法显示。这也是我摒弃ID列作为聚集索引的一个最重要的因素。得出以上速度的方法是：在各个select语句前加：</p>
+<p>declare @d datetime<br>set @d&#x3D;getdate()</p>
+<p>并在select语句后加：</p>
+<p>select [语句执行花费时间(毫秒)]&#x3D;datediff(ms,@d,getdate())</p>
+<h3 id="2、只要建立索引就能显著提高查询速度"><a href="#2、只要建立索引就能显著提高查询速度" class="headerlink" title="2、只要建立索引就能显著提高查询速度"></a>2、只要建立索引就能显著提高查询速度</h3><p>事实上，我们可以发现上面的例子中，第2、3条语句完全相同，且建立索引的字段也相同；不同的仅是前者在fariqi字段上建立的是非聚合索引，后者在此字段上建立的是聚合索引，但查询速度却有着天壤之别。所以，并非是在任何字段上简单地建立索引就能提高查询速度。</p>
+<p>从建表的语句中，我们可以看到这个有着1000万数据的表中fariqi字段有5003个不同记录。在此字段上建立聚合索引是再合适不过了。在现实中，我们每天都会发几个文件，这几个文件的发文日期就相同，这完全符合建立聚集索引要求的：”既不能绝大多数都相同，又不能只有极少数相同”的规则。由此看来，我们建立”适当”的聚合索引对于我们提高查询速度是非常重要的。</p>
+<h3 id="3、把所有需要提高查询速度的字段都加进聚集索引，以提高查询速度"><a href="#3、把所有需要提高查询速度的字段都加进聚集索引，以提高查询速度" class="headerlink" title="3、把所有需要提高查询速度的字段都加进聚集索引，以提高查询速度"></a>3、把所有需要提高查询速度的字段都加进聚集索引，以提高查询速度</h3><p>上面已经谈到：在进行数据查询时都离不开字段的是”日期”还有用户本身的”用户名”。既然这两个字段都是如此的重要，我们可以把他们合并起来，建立一个复合索引（compound<br>index）。</p>
+<p>很多人认为只要把任何字段加进聚集索引，就能提高查询速度，也有人感到迷惑：如果把复合的聚集索引字段分开查询，那么查询速度会减慢吗？带着这个问题，我们来看一下以下的查询速度（结果集都是25万条数据）：（日期列fariqi首先排在复合聚集索引的起始列，用户名neibuyonghu排在后列）：</p>
+<p>（1）select gid,fariqi,neibuyonghu,title from Tgongwen where<br>fariqi&gt;&#39;&#39;2004-5-5&#39;&#39;</p>
+<p>查询速度：2513毫秒</p>
+<p>（2）select gid,fariqi,neibuyonghu,title from Tgongwen<br>where fariqi&gt;&#39;&#39;2004-5-5&#39;&#39; and neibuyonghu&#x3D;&#39;&#39;办公室&#39;&#39;</p>
+<p>查询速度：2516毫秒</p>
+<p>（3）select gid,fariqi,neibuyonghu,title from Tgongwen where<br>neibuyonghu&#x3D;&#39;&#39;办公室&#39;&#39;</p>
+<p>查询速度：60280毫秒</p>
+<p>从以上试验中，我们可以看到如果仅用聚集索引的起始列作为查询条件和同时用到复合聚集索引的全部列的查询速度是几乎一样的，甚至比用上全部的复合索引列还要略快（在查询结果集数目一样的情况下）；而如果仅用复合聚集索引的非起始列作为查询条件的话，这个索引是不起任何作用的。当然，语句1、2的查询速度一样是因为查询的条目数一样，如果复合索引的所有列都用上，而且查询结果少的话，这样就会形成”索引覆盖”，因而性能可以达到最优。同时，请记住：无论您是否经常使用聚合索引的其他列，但其前导列一定要是使用最频繁的列。\</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/database/dbi/clusterdbi/" data-id="clhlnyldz0044ojup0a79ayof" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/database/article/memdb" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/database/article/memdb/" class="article-date">
+  <time datetime="2015-09-14T09:52:17.000Z" itemprop="datePublished">2015-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/database/article/memdb/">主流内存数据库介绍</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>什么是内存数据库</strong>?</p>
+<p>传统的数据库管理系统把所有数据都放在磁盘上进行管理，所以称做磁盘数据库（DRDB:Disk-Resident Database）。磁盘数据库需要频繁地访问磁盘来进行数据的操作，由于对磁盘读写数据的操作一方面要进行磁头的机械移动，另一方面受到系统调用（通常通过CPU中断完成，受到CPU时钟周期的制约）时间的影响，当数据量很大，操作频繁且复杂时，就会暴露出很多问题。</p>
+<p>近年来，内存容量不断提高，价格不断下跌，操作系统已经可以支持更大的地址空间（计算机进入了64位时代），同时对数据库系统实时响应能力要求日益提高，充分利用内存技术提升数据库性能成为一个热点。</p>
+<p>?在数据库技术中，目前主要有两种方法来使用大量的内存。一种是在传统的数据库中，增大缓冲池，将一个事务所涉及的数据都放在缓冲池中，组织成相应的数据结构来进行查询和更新处理，也就是常说的共享内存技术，这种方法优化的主要目标是最小化磁盘访问。另一种就是内存数据库(MMDB:Main Memory Database，也叫主存数据库)技术，就是干脆重新设计一种数据库管理系统，对查询处理、并发控制与恢复的算法和数据结构进行重新设计，以更有效地使用CPU周期和内存，这种技术近乎把整个数据库放进内存中，因而会产生一些根本性的变化。</p>
+<p>内存数据库系统带来的优越性能不仅仅在于对内存读写比对磁盘读写快上，更重要的是，从根本上抛弃了磁盘数据管理的许多传统方式，基于全部数据都在内存中管理进行了新的体系结构的设计，并且在数据缓存、快速算法、并行操作方面也进行了相应的改进，从而使数据处理速度一般比传统数据库的数据处理速度快很多，一般都在10倍以上，理想情况甚至可以达到1000倍。</p>
+<p>Oracle TimesTen</p>
+<p>不开源，商业使用付费</p>
+<p>1. 符合RDBMS标准的独立内存数据库服务。</p>
+<p>2.支持SQL访问，支持ODBC&amp;JDBC。</p>
+<p>3.本身不支持与非Oracle数据库的互操作。</p>
+<p>4.高可靠性，支持完整日志，支持镜像复制功能。</p>
+<p>5.目前不支持存储过程和触发器。</p>
+<p>6.内存结构简单，并没有数据库缓冲区、保存池或丢弃池的概念。</p>
+<p>7.目前支持散列索引和T树索引，前者仅支持余键-值查找，速度非常快，执行过程与底层表的数量无关，具有较高的读取扩展性和很好的并发性；T树索引读取效率很高，但是，在繁重写操作时，并发性较差。</p>
+<p>ASE-IMDB</p>
+<p>不开源、商业使用付费</p>
+<p>1.被整合到Sysbase ASE平台中（TimesTen则为一个独立的数据库）。</p>
+<p>2. 基于经典ASE数据库模板创建。</p>
+<p>3. 采用复制技术实现读取其他数据源的数据。</p>
+<p>4. 完全支持ASE本身的SQL语法、安全性和加密。</p>
+<p>IBM SolidDB</p>
+<p>不开源、商业使用付费</p>
+<p>1.可以提供超快的速度和超高的可用性，可以提供每秒数万至数十万事务的吞吐率，并且始终可以获得微秒级的响应时间。</p>
+<p>2.抛弃大数据块结构，表行和索引节点独立地存储在内存中，可以直接添加索引，而不必重新组织大块结构。</p>
+<p>3.放弃使用大块索引，以精简结构、增加索引层数、将索引节点最小化，从而避免节点内处理的成本。</p>
+<p>4.使用一种称作trie（前缀树）的索引方式，更适合现代处理器缓存，通过有效促进缓存的使用来提高处理器的效率，从而实现性能的最大化。</p>
+<p>5.使用一种获得专利的检查点方法来加快数据处理，查询事务的延时通常是10到20微秒，更新事务的延时通常小于100微秒。</p>
+<p>VoltDB</p>
+<p>开源版本免费 商业版本需付费</p>
+<p>1.基于存储过程的事务提交方式：用户通过写存储过程完成应用程序的逻辑，作为一个先置条件将存储过程提交到VoltDB，运行时，用户程序调用存储过程完成事务操作，所有事务的运行逻辑是由VoltDB在服务器进程中完成。</p>
+<p>2．基于Shared<br>Nothing结构的数据分布，整个数据库的数据分散到集群的多台机器上。</p>
+<p>3.基于哈希的数据分布策略，好处是数据分散的均匀，没有动态数据调整的烦恼；缺点是新增的机器需要停止服务后重新分布数据。哈希方法打乱了数据的连续性，使得VoltDB对于范围查询的处理能力显著下降。</p>
+<p>4.其事务并发控制需要依赖于集群内所有机器的时间一致，其数据分片规模是按照集群核数来划分，当整个系统压力比较大时，可以使事务的时延有效降低。</p>
+<p>eXtremeDB</p>
+<p>不开源的商业数据库，<br>测试版本在功能上与正式版没有区别，但是，对连接次数做了限制</p>
+<p>1.高性能和高效的存储效率，为了提高性能方便程序使用，eXtremeDB中的数据未做任何压缩。</p>
+<p>2.不仅开源建立完全运行在主内存的内存数据库，更可以建立磁盘&#x2F;内存混合介质的数据库。</p>
+<p>3.嵌入式数据库：其内核以链接库的形式包含在应用程序之中，开销只有50KB-130KB；避免了进程间的通信，从而剔除了进程间通信的开销和不确定性；其独特的数据格式方便程序直接使用，剔除了数据复制及数据翻译的开销，缩短了应用程序的代码执行路径。</p>
+<p>4.由应用定制的API，应用程序对eXtremeDB数据库的操作接口是根据应用数据库设计而自动产生，剔除了通用接口所必不可少的动态内存分配。</p>
+<p>5.其独特的体系结构，保证了数据管理的可预测性。</p>
+<p>SQLite</p>
+<p>开源，免费使用 商业目的的分发版免费</p>
+<p>1.需要专业支持则需要购买。</p>
+<ol start="2">
+<li>在并发（包括多进程和多线程）读写方面的性能一直不太理想。数据库可能会被写操作独占，从而导致其它读写操作阻塞或出错。</li>
+</ol>
+<p>3.32\64位主流操作系统均支持。</p>
+<p>4.不支持ODBC连接，需通过第三方驱动支持JDBC连接。</p>
+<p>5.支持SQL</p>
+<p>H2</p>
+<p>开源，免费使用 商业目的的分发版免费</p>
+<p>1.需要专业支持则需要购买。</p>
+<ol start="2">
+<li>并发性较好（在模拟器中有使用，支持50个并发查询没问题），数据量少的情况，查询速度很好。</li>
+</ol>
+<p>3.32\64位主流操作系统均支持，但需Java平台支持。</p>
+<p>4.支持ODBC&amp;JDBC</p>
+<p>5.支持SQL</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/database/article/memdb/" data-id="clhlnyle0004cojup10yh32gr" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/java/lib/jacobcode" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/lib/jacobcode/" class="article-date">
+  <time datetime="2015-09-14T09:49:48.000Z" itemprop="datePublished">2015-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/lib/jacobcode/">【JAVA】jacob操作word接口api</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="jacobbase.php">JACOB使用简介</a></p>
+<p>测试源码包：</p>
+<p>链接: <a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1mg9tsZA">http://pan.baidu.com/s/1mg9tsZA</a></p>
+<p>密码: ej9u</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br><span class="line">566</span><br><span class="line">567</span><br><span class="line">568</span><br><span class="line">569</span><br><span class="line">570</span><br><span class="line">571</span><br><span class="line">572</span><br><span class="line">573</span><br><span class="line">574</span><br><span class="line">575</span><br><span class="line">576</span><br><span class="line">577</span><br><span class="line">578</span><br><span class="line">579</span><br><span class="line">580</span><br><span class="line">581</span><br><span class="line">582</span><br><span class="line">583</span><br><span class="line">584</span><br><span class="line">585</span><br><span class="line">586</span><br><span class="line">587</span><br><span class="line">588</span><br><span class="line">589</span><br><span class="line">590</span><br><span class="line">591</span><br><span class="line">592</span><br><span class="line">593</span><br><span class="line">594</span><br><span class="line">595</span><br><span class="line">596</span><br><span class="line">597</span><br><span class="line">598</span><br><span class="line">599</span><br><span class="line">600</span><br><span class="line">601</span><br><span class="line">602</span><br><span class="line">603</span><br><span class="line">604</span><br><span class="line">605</span><br><span class="line">606</span><br><span class="line">607</span><br><span class="line">608</span><br><span class="line">609</span><br><span class="line">610</span><br><span class="line">611</span><br><span class="line">612</span><br><span class="line">613</span><br><span class="line">614</span><br><span class="line">615</span><br><span class="line">616</span><br><span class="line">617</span><br><span class="line">618</span><br><span class="line">619</span><br><span class="line">620</span><br><span class="line">621</span><br><span class="line">622</span><br><span class="line">623</span><br><span class="line">624</span><br><span class="line">625</span><br><span class="line">626</span><br><span class="line">627</span><br><span class="line">628</span><br><span class="line">629</span><br><span class="line">630</span><br><span class="line">631</span><br><span class="line">632</span><br><span class="line">633</span><br><span class="line">634</span><br><span class="line">635</span><br><span class="line">636</span><br><span class="line">637</span><br><span class="line">638</span><br><span class="line">639</span><br><span class="line">640</span><br><span class="line">641</span><br><span class="line">642</span><br><span class="line">643</span><br><span class="line">644</span><br><span class="line">645</span><br><span class="line">646</span><br><span class="line">647</span><br><span class="line">648</span><br><span class="line">649</span><br><span class="line">650</span><br><span class="line">651</span><br><span class="line">652</span><br><span class="line">653</span><br><span class="line">654</span><br><span class="line">655</span><br><span class="line">656</span><br><span class="line">657</span><br><span class="line">658</span><br><span class="line">659</span><br><span class="line">660</span><br><span class="line">661</span><br><span class="line">662</span><br><span class="line">663</span><br><span class="line">664</span><br><span class="line">665</span><br><span class="line">666</span><br><span class="line">667</span><br><span class="line">668</span><br><span class="line">669</span><br><span class="line">670</span><br><span class="line">671</span><br><span class="line">672</span><br><span class="line">673</span><br><span class="line">674</span><br><span class="line">675</span><br><span class="line">676</span><br><span class="line">677</span><br><span class="line">678</span><br><span class="line">679</span><br><span class="line">680</span><br><span class="line">681</span><br><span class="line">682</span><br><span class="line">683</span><br><span class="line">684</span><br><span class="line">685</span><br><span class="line">686</span><br><span class="line">687</span><br><span class="line">688</span><br><span class="line">689</span><br><span class="line">690</span><br><span class="line">691</span><br><span class="line">692</span><br><span class="line">693</span><br><span class="line">694</span><br><span class="line">695</span><br><span class="line">696</span><br><span class="line">697</span><br><span class="line">698</span><br><span class="line">699</span><br><span class="line">700</span><br><span class="line">701</span><br><span class="line">702</span><br><span class="line">703</span><br><span class="line">704</span><br><span class="line">705</span><br><span class="line">706</span><br><span class="line">707</span><br><span class="line">708</span><br><span class="line">709</span><br><span class="line">710</span><br><span class="line">711</span><br><span class="line">712</span><br><span class="line">713</span><br><span class="line">714</span><br><span class="line">715</span><br><span class="line">716</span><br><span class="line">717</span><br><span class="line">718</span><br><span class="line">719</span><br><span class="line">720</span><br><span class="line">721</span><br><span class="line">722</span><br><span class="line">723</span><br><span class="line">724</span><br><span class="line">725</span><br><span class="line">726</span><br><span class="line">727</span><br><span class="line">728</span><br><span class="line">729</span><br><span class="line">730</span><br><span class="line">731</span><br><span class="line">732</span><br><span class="line">733</span><br><span class="line">734</span><br><span class="line">735</span><br><span class="line">736</span><br><span class="line">737</span><br><span class="line">738</span><br><span class="line">739</span><br><span class="line">740</span><br><span class="line">741</span><br><span class="line">742</span><br><span class="line">743</span><br><span class="line">744</span><br><span class="line">745</span><br><span class="line">746</span><br><span class="line">747</span><br><span class="line">748</span><br><span class="line">749</span><br><span class="line">750</span><br><span class="line">751</span><br><span class="line">752</span><br><span class="line">753</span><br><span class="line">754</span><br><span class="line">755</span><br><span class="line">756</span><br><span class="line">757</span><br><span class="line">758</span><br><span class="line">759</span><br><span class="line">760</span><br></pre></td><td class="code"><pre><span class="line">import com.jacob.activeX.ActiveXComponent;</span><br><span class="line">import com.jacob.com.ComThread;</span><br><span class="line">import com.jacob.com.Dispatch;</span><br><span class="line">import com.jacob.com.Variant;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">public class MSWordManager &#123;</span><br><span class="line">    // word文档</span><br><span class="line">    private Dispatch doc;</span><br><span class="line">    // word运行程序对象</span><br><span class="line">    private ActiveXComponent word;</span><br><span class="line">    // 所有word文档集合</span><br><span class="line">    private Dispatch documents;</span><br><span class="line">    // 选定的范围或插入点</span><br><span class="line">    private Dispatch selection;</span><br><span class="line"></span><br><span class="line">    private boolean saveOnExit = true;</span><br><span class="line"></span><br><span class="line">    public MSWordManager() &#123;</span><br><span class="line">        if (word == null) &#123;</span><br><span class="line">            word = new ActiveXComponent(&quot;Word.Application&quot;);</span><br><span class="line">            word.setProperty(&quot;Visible&quot;, new Variant(false));</span><br><span class="line">        &#125;</span><br><span class="line">        if (documents == null)</span><br><span class="line">            documents = word.getProperty(&quot;Documents&quot;).toDispatch();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置退出时参数</span><br><span class="line">     * </span><br><span class="line">     * @param saveOnExit</span><br><span class="line">     *            boolean true-退出时保存文件，false-退出时不保存文件</span><br><span class="line">     */</span><br><span class="line">    public void setSaveOnExit(boolean saveOnExit) &#123;</span><br><span class="line">        this.saveOnExit = saveOnExit;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 创建一个新的word文档</span><br><span class="line">     * </span><br><span class="line">     */</span><br><span class="line">    public void createNewDocument() &#123;</span><br><span class="line">        doc = Dispatch.call(documents, &quot;Add&quot;).toDispatch();</span><br><span class="line">        selection = Dispatch.get(word, &quot;Selection&quot;).toDispatch();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 打开一个已存在的文档</span><br><span class="line">     * </span><br><span class="line">     * @param docPath</span><br><span class="line">     */</span><br><span class="line">    public void openDocument(String docPath) &#123;</span><br><span class="line">        closeDocument();</span><br><span class="line">        doc = Dispatch.call(documents, &quot;Open&quot;, docPath).toDispatch();</span><br><span class="line">        selection = Dispatch.get(word, &quot;Selection&quot;).toDispatch();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 把选定的内容或插入点向上移动</span><br><span class="line">     * </span><br><span class="line">     * @param pos</span><br><span class="line">     *            移动的距离</span><br><span class="line">     */</span><br><span class="line">    public void moveUp(int pos) &#123;</span><br><span class="line">        if (selection == null)</span><br><span class="line">            selection = Dispatch.get(word, &quot;Selection&quot;).toDispatch();</span><br><span class="line">        for (int i = 0; i &lt; pos; i++)</span><br><span class="line">            Dispatch.call(selection, &quot;MoveUp&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 把选定的内容或者插入点向下移动</span><br><span class="line">     * </span><br><span class="line">     * @param pos</span><br><span class="line">     *            移动的距离</span><br><span class="line">     */</span><br><span class="line">    public void moveDown(int pos) &#123;</span><br><span class="line">        if (selection == null)</span><br><span class="line">            selection = Dispatch.get(word, &quot;Selection&quot;).toDispatch();</span><br><span class="line">        for (int i = 0; i &lt; pos; i++)</span><br><span class="line">            Dispatch.call(selection, &quot;MoveDown&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 把选定的内容或者插入点向左移动</span><br><span class="line">     * </span><br><span class="line">     * @param pos</span><br><span class="line">     *            移动的距离</span><br><span class="line">     */</span><br><span class="line">    public void moveLeft(int pos) &#123;</span><br><span class="line">        if (selection == null)</span><br><span class="line">            selection = Dispatch.get(word, &quot;Selection&quot;).toDispatch();</span><br><span class="line">        for (int i = 0; i &lt; pos; i++) &#123;</span><br><span class="line">            Dispatch.call(selection, &quot;MoveLeft&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 把选定的内容或者插入点向右移动</span><br><span class="line">     * </span><br><span class="line">     * @param pos</span><br><span class="line">     *            移动的距离</span><br><span class="line">     */</span><br><span class="line">    public void moveRight(int pos) &#123;</span><br><span class="line">        if (selection == null)</span><br><span class="line">            selection = Dispatch.get(word, &quot;Selection&quot;).toDispatch();</span><br><span class="line">        for (int i = 0; i &lt; pos; i++)</span><br><span class="line">            Dispatch.call(selection, &quot;MoveRight&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 把插入点移动到文件首位置</span><br><span class="line">     * </span><br><span class="line">     */</span><br><span class="line">    public void moveStart() &#123;</span><br><span class="line">        if (selection == null)</span><br><span class="line">            selection = Dispatch.get(word, &quot;Selection&quot;).toDispatch();</span><br><span class="line">        Dispatch.call(selection, &quot;HomeKey&quot;, new Variant(6));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 从选定内容或插入点开始查找文本</span><br><span class="line">     * </span><br><span class="line">     * @param toFindText</span><br><span class="line">     *            要查找的文本</span><br><span class="line">     * @return boolean true-查找到并选中该文本，false-未查找到文本</span><br><span class="line">     */</span><br><span class="line">    public boolean find(String toFindText) &#123;</span><br><span class="line">        if (toFindText == null || toFindText.equals(&quot;&quot;))</span><br><span class="line">            return false;</span><br><span class="line">        // 从selection所在位置开始查询</span><br><span class="line">        Dispatch find = ActiveXComponent.call(selection, &quot;Find&quot;).toDispatch();</span><br><span class="line">        // 设置要查找的内容</span><br><span class="line">        Dispatch.put(find, &quot;Text&quot;, toFindText);</span><br><span class="line">        // 向前查找</span><br><span class="line">        Dispatch.put(find, &quot;Forward&quot;, &quot;True&quot;);</span><br><span class="line">        // 设置格式</span><br><span class="line">        Dispatch.put(find, &quot;Format&quot;, &quot;True&quot;);</span><br><span class="line">        // 大小写匹配</span><br><span class="line">        Dispatch.put(find, &quot;MatchCase&quot;, &quot;True&quot;);</span><br><span class="line">        // 全字匹配</span><br><span class="line">        Dispatch.put(find, &quot;MatchWholeWord&quot;, &quot;True&quot;);</span><br><span class="line">        // 查找并选中</span><br><span class="line">        return Dispatch.call(find, &quot;Execute&quot;).getBoolean();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 把选定选定内容设定为替换文本</span><br><span class="line">     * </span><br><span class="line">     * @param toFindText</span><br><span class="line">     *            查找字符串</span><br><span class="line">     * @param newText</span><br><span class="line">     *            要替换的内容</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public boolean replaceText(String toFindText, String newText) &#123;</span><br><span class="line">        if (!find(toFindText))</span><br><span class="line">            return false;</span><br><span class="line">        Dispatch.put(selection, &quot;Text&quot;, newText);</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 全局替换文本</span><br><span class="line">     * </span><br><span class="line">     * @param toFindText</span><br><span class="line">     *            查找字符串</span><br><span class="line">     * @param newText</span><br><span class="line">     *            要替换的内容</span><br><span class="line">     */</span><br><span class="line">    public void replaceAllText(String toFindText, String newText) &#123;</span><br><span class="line">        while (find(toFindText)) &#123;</span><br><span class="line">            Dispatch.put(selection, &quot;Text&quot;, newText);</span><br><span class="line">            Dispatch.call(selection, &quot;MoveRight&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在当前插入点插入字符串</span><br><span class="line">     * </span><br><span class="line">     * @param newText</span><br><span class="line">     *            要插入的新字符串</span><br><span class="line">     */</span><br><span class="line">    public void insertText(String newText) &#123;</span><br><span class="line">        Dispatch.put(selection, &quot;Text&quot;, newText);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * </span><br><span class="line">     * @param toFindText</span><br><span class="line">     *            要查找的字符串</span><br><span class="line">     * @param imagePath</span><br><span class="line">     *            图片路径</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public boolean replaceImage(String toFindText, String imagePath) &#123;</span><br><span class="line">        if (!find(toFindText))</span><br><span class="line">            return false;</span><br><span class="line">        Dispatch.call(Dispatch.get(selection, &quot;InLineShapes&quot;).toDispatch(),</span><br><span class="line">                &quot;AddPicture&quot;, imagePath);</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 全局替换图片</span><br><span class="line">     * </span><br><span class="line">     * @param toFindText</span><br><span class="line">     *            查找字符串</span><br><span class="line">     * @param imagePath</span><br><span class="line">     *            图片路径</span><br><span class="line">     */</span><br><span class="line">    public void replaceAllImage(String toFindText, String imagePath) &#123;</span><br><span class="line">        while (find(toFindText)) &#123;</span><br><span class="line">            Dispatch.call(Dispatch.get(selection, &quot;InLineShapes&quot;).toDispatch(),</span><br><span class="line">                    &quot;AddPicture&quot;, imagePath);</span><br><span class="line">            Dispatch.call(selection, &quot;MoveRight&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在当前插入点插入图片</span><br><span class="line">     * </span><br><span class="line">     * @param imagePath</span><br><span class="line">     *            图片路径</span><br><span class="line">     */</span><br><span class="line">    public void insertImage(String imagePath) &#123;</span><br><span class="line">        Dispatch.call(Dispatch.get(selection, &quot;InLineShapes&quot;).toDispatch(),</span><br><span class="line">                &quot;AddPicture&quot;, imagePath);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 合并单元格</span><br><span class="line">     * </span><br><span class="line">     * @param tableIndex</span><br><span class="line">     * @param fstCellRowIdx</span><br><span class="line">     * @param fstCellColIdx</span><br><span class="line">     * @param secCellRowIdx</span><br><span class="line">     * @param secCellColIdx</span><br><span class="line">     */</span><br><span class="line">    public void mergeCell(int tableIndex, int fstCellRowIdx, int fstCellColIdx,</span><br><span class="line">            int secCellRowIdx, int secCellColIdx) &#123;</span><br><span class="line">        // 所有表格</span><br><span class="line">        Dispatch tables = Dispatch.get(doc, &quot;Tables&quot;).toDispatch();</span><br><span class="line">        // 要填充的表格</span><br><span class="line">        Dispatch table = Dispatch.call(tables, &quot;Item&quot;, new Variant(tableIndex))</span><br><span class="line">                .toDispatch();</span><br><span class="line">        Dispatch fstCell = Dispatch.call(table, &quot;Cell&quot;,</span><br><span class="line">                new Variant(fstCellRowIdx), new Variant(fstCellColIdx))</span><br><span class="line">                .toDispatch();</span><br><span class="line">        Dispatch secCell = Dispatch.call(table, &quot;Cell&quot;,</span><br><span class="line">                new Variant(secCellRowIdx), new Variant(secCellColIdx))</span><br><span class="line">                .toDispatch();</span><br><span class="line">        Dispatch.call(fstCell, &quot;Merge&quot;, secCell);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在指定的单元格里填写数据</span><br><span class="line">     * </span><br><span class="line">     * @param tableIndex</span><br><span class="line">     * @param cellRowIdx</span><br><span class="line">     * @param cellColIdx</span><br><span class="line">     * @param txt</span><br><span class="line">     */</span><br><span class="line">    public void putTxtToCell(int tableIndex, int cellRowIdx, int cellColIdx,</span><br><span class="line">            String txt) &#123;</span><br><span class="line">        // 所有表格</span><br><span class="line">        Dispatch tables = Dispatch.get(doc, &quot;Tables&quot;).toDispatch();</span><br><span class="line">        // 要填充的表格</span><br><span class="line">        Dispatch table = Dispatch.call(tables, &quot;Item&quot;, new Variant(tableIndex))</span><br><span class="line">                .toDispatch();</span><br><span class="line">        Dispatch cell = Dispatch.call(table, &quot;Cell&quot;, new Variant(cellRowIdx),</span><br><span class="line">                new Variant(cellColIdx)).toDispatch();</span><br><span class="line">        Dispatch.call(cell, &quot;Select&quot;);</span><br><span class="line">        Dispatch.put(selection, &quot;Text&quot;, txt);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在当前文档拷贝剪贴板数据</span><br><span class="line">     * </span><br><span class="line">     * @param pos</span><br><span class="line">     */</span><br><span class="line">    public void pasteExcelSheet(String pos) &#123;</span><br><span class="line">        moveStart();</span><br><span class="line">        if (this.find(pos)) &#123;</span><br><span class="line">            Dispatch textRange = Dispatch.get(selection, &quot;Range&quot;).toDispatch();</span><br><span class="line">            Dispatch.call(textRange, &quot;Paste&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在当前文档指定的位置拷贝表格</span><br><span class="line">     * </span><br><span class="line">     * @param pos</span><br><span class="line">     *            当前文档指定的位置</span><br><span class="line">     * @param tableIndex</span><br><span class="line">     *            被拷贝的表格在word文档中所处的位置</span><br><span class="line">     */</span><br><span class="line">    public void copyTable(String pos, int tableIndex) &#123;</span><br><span class="line">        // 所有表格</span><br><span class="line">        Dispatch tables = Dispatch.get(doc, &quot;Tables&quot;).toDispatch();</span><br><span class="line">        // 要填充的表格</span><br><span class="line">        Dispatch table = Dispatch.call(tables, &quot;Item&quot;, new Variant(tableIndex))</span><br><span class="line">                .toDispatch();</span><br><span class="line">        Dispatch range = Dispatch.get(table, &quot;Range&quot;).toDispatch();</span><br><span class="line">        Dispatch.call(range, &quot;Copy&quot;);</span><br><span class="line">        if (this.find(pos)) &#123;</span><br><span class="line">            Dispatch textRange = Dispatch.get(selection, &quot;Range&quot;).toDispatch();</span><br><span class="line">            Dispatch.call(textRange, &quot;Paste&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在当前文档指定的位置拷贝来自另一个文档中的表格</span><br><span class="line">     * </span><br><span class="line">     * @param anotherDocPath</span><br><span class="line">     *            另一个文档的磁盘路径</span><br><span class="line">     * @param tableIndex</span><br><span class="line">     *            被拷贝的表格在另一格文档中的位置</span><br><span class="line">     * @param pos</span><br><span class="line">     *            当前文档指定的位置</span><br><span class="line">     */</span><br><span class="line">    public void copyTableFromAnotherDoc(String anotherDocPath, int tableIndex,</span><br><span class="line">            String pos) &#123;</span><br><span class="line">        Dispatch doc2 = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            doc2 = Dispatch.call(documents, &quot;Open&quot;, anotherDocPath)</span><br><span class="line">                    .toDispatch();</span><br><span class="line">            // 所有表格</span><br><span class="line">            Dispatch tables = Dispatch.get(doc2, &quot;Tables&quot;).toDispatch();</span><br><span class="line">            // 要填充的表格</span><br><span class="line">            Dispatch table = Dispatch.call(tables, &quot;Item&quot;,</span><br><span class="line">                    new Variant(tableIndex)).toDispatch();</span><br><span class="line">            Dispatch range = Dispatch.get(table, &quot;Range&quot;).toDispatch();</span><br><span class="line">            Dispatch.call(range, &quot;Copy&quot;);</span><br><span class="line">            if (this.find(pos)) &#123;</span><br><span class="line">                Dispatch textRange = Dispatch.get(selection, &quot;Range&quot;)</span><br><span class="line">                        .toDispatch();</span><br><span class="line">                Dispatch.call(textRange, &quot;Paste&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            if (doc2 != null) &#123;</span><br><span class="line">                Dispatch.call(doc2, &quot;Close&quot;, new Variant(saveOnExit));</span><br><span class="line">                doc2 = null;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在当前文档指定的位置拷贝来自另一个文档中的图片</span><br><span class="line">     * </span><br><span class="line">     * @param anotherDocPath</span><br><span class="line">     *            另一个文档的磁盘路径</span><br><span class="line">     * @param shapeIndex</span><br><span class="line">     *            被拷贝的图片在另一格文档中的位置</span><br><span class="line">     * @param pos</span><br><span class="line">     *            当前文档指定的位置</span><br><span class="line">     */</span><br><span class="line">    public void copyImageFromAnotherDoc(String anotherDocPath, int shapeIndex,</span><br><span class="line">            String pos) &#123;</span><br><span class="line">        Dispatch doc2 = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            doc2 = Dispatch.call(documents, &quot;Open&quot;, anotherDocPath)</span><br><span class="line">                    .toDispatch();</span><br><span class="line">            Dispatch shapes = Dispatch.get(doc2, &quot;InLineShapes&quot;).toDispatch();</span><br><span class="line">            Dispatch shape = Dispatch.call(shapes, &quot;Item&quot;,</span><br><span class="line">                    new Variant(shapeIndex)).toDispatch();</span><br><span class="line">            Dispatch imageRange = Dispatch.get(shape, &quot;Range&quot;).toDispatch();</span><br><span class="line">            Dispatch.call(imageRange, &quot;Copy&quot;);</span><br><span class="line">            if (this.find(pos)) &#123;</span><br><span class="line">                Dispatch textRange = Dispatch.get(selection, &quot;Range&quot;)</span><br><span class="line">                        .toDispatch();</span><br><span class="line">                Dispatch.call(textRange, &quot;Paste&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            if (doc2 != null) &#123;</span><br><span class="line">                Dispatch.call(doc2, &quot;Close&quot;, new Variant(saveOnExit));</span><br><span class="line">                doc2 = null;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 创建表格</span><br><span class="line">     * </span><br><span class="line">     * @param pos</span><br><span class="line">     *            位置</span><br><span class="line">     * @param cols</span><br><span class="line">     *            列数</span><br><span class="line">     * @param rows</span><br><span class="line">     *            行数</span><br><span class="line">     */</span><br><span class="line">    public void createTable(String pos, int numCols, int numRows) &#123;</span><br><span class="line">        if (find(pos)) &#123;</span><br><span class="line">            Dispatch tables = Dispatch.get(doc, &quot;Tables&quot;).toDispatch();</span><br><span class="line">            Dispatch range = Dispatch.get(selection, &quot;Range&quot;).toDispatch();</span><br><span class="line">            Dispatch newTable = Dispatch.call(tables, &quot;Add&quot;, range,</span><br><span class="line">                    new Variant(numRows), new Variant(numCols)).toDispatch();</span><br><span class="line">            Dispatch.call(selection, &quot;MoveRight&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在指定行前面增加行</span><br><span class="line">     * </span><br><span class="line">     * @param tableIndex</span><br><span class="line">     *            word文件中的第N张表(从1开始)</span><br><span class="line">     * @param rowIndex</span><br><span class="line">     *            指定行的序号(从1开始)</span><br><span class="line">     */</span><br><span class="line">    public void addTableRow(int tableIndex, int rowIndex) &#123;</span><br><span class="line">        // 所有表格</span><br><span class="line">        Dispatch tables = Dispatch.get(doc, &quot;Tables&quot;).toDispatch();</span><br><span class="line">        // 要填充的表格</span><br><span class="line">        Dispatch table = Dispatch.call(tables, &quot;Item&quot;, new Variant(tableIndex))</span><br><span class="line">                .toDispatch();</span><br><span class="line">        // 表格的所有行</span><br><span class="line">        Dispatch rows = Dispatch.get(table, &quot;Rows&quot;).toDispatch();</span><br><span class="line">        Dispatch row = Dispatch.call(rows, &quot;Item&quot;, new Variant(rowIndex))</span><br><span class="line">                .toDispatch();</span><br><span class="line">        Dispatch.call(rows, &quot;Add&quot;, new Variant(row));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在第1行前增加一行</span><br><span class="line">     * </span><br><span class="line">     * @param tableIndex</span><br><span class="line">     *            word文档中的第N张表(从1开始)</span><br><span class="line">     */</span><br><span class="line">    public void addFirstTableRow(int tableIndex) &#123;</span><br><span class="line">        // 所有表格</span><br><span class="line">        Dispatch tables = Dispatch.get(doc, &quot;Tables&quot;).toDispatch();</span><br><span class="line">        // 要填充的表格</span><br><span class="line">        Dispatch table = Dispatch.call(tables, &quot;Item&quot;, new Variant(tableIndex))</span><br><span class="line">                .toDispatch();</span><br><span class="line">        // 表格的所有行</span><br><span class="line">        Dispatch rows = Dispatch.get(table, &quot;Rows&quot;).toDispatch();</span><br><span class="line">        Dispatch row = Dispatch.get(rows, &quot;First&quot;).toDispatch();</span><br><span class="line">        Dispatch.call(rows, &quot;Add&quot;, new Variant(row));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在最后1行前增加一行</span><br><span class="line">     * </span><br><span class="line">     * @param tableIndex</span><br><span class="line">     *            word文档中的第N张表(从1开始)</span><br><span class="line">     */</span><br><span class="line">    public void addLastTableRow(int tableIndex) &#123;</span><br><span class="line">        // 所有表格</span><br><span class="line">        Dispatch tables = Dispatch.get(doc, &quot;Tables&quot;).toDispatch();</span><br><span class="line">        // 要填充的表格</span><br><span class="line">        Dispatch table = Dispatch.call(tables, &quot;Item&quot;, new Variant(tableIndex))</span><br><span class="line">                .toDispatch();</span><br><span class="line">        // 表格的所有行</span><br><span class="line">        Dispatch rows = Dispatch.get(table, &quot;Rows&quot;).toDispatch();</span><br><span class="line">        Dispatch row = Dispatch.get(rows, &quot;Last&quot;).toDispatch();</span><br><span class="line">        Dispatch.call(rows, &quot;Add&quot;, new Variant(row));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 增加一行</span><br><span class="line">     * </span><br><span class="line">     * @param tableIndex</span><br><span class="line">     *            word文档中的第N张表(从1开始)</span><br><span class="line">     */</span><br><span class="line">    public void addRow(int tableIndex) &#123;</span><br><span class="line">        Dispatch tables = Dispatch.get(doc, &quot;Tables&quot;).toDispatch();</span><br><span class="line">        // 要填充的表格</span><br><span class="line">        Dispatch table = Dispatch.call(tables, &quot;Item&quot;, new Variant(tableIndex))</span><br><span class="line">                .toDispatch();</span><br><span class="line">        // 表格的所有行</span><br><span class="line">        Dispatch rows = Dispatch.get(table, &quot;Rows&quot;).toDispatch();</span><br><span class="line">        Dispatch.call(rows, &quot;Add&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 增加一列</span><br><span class="line">     * </span><br><span class="line">     * @param tableIndex</span><br><span class="line">     *            word文档中的第N张表(从1开始)</span><br><span class="line">     */</span><br><span class="line">    public void addCol(int tableIndex) &#123;</span><br><span class="line">        // 所有表格</span><br><span class="line">        Dispatch tables = Dispatch.get(doc, &quot;Tables&quot;).toDispatch();</span><br><span class="line">        // 要填充的表格</span><br><span class="line">        Dispatch table = Dispatch.call(tables, &quot;Item&quot;, new Variant(tableIndex))</span><br><span class="line">                .toDispatch();</span><br><span class="line">        // 表格的所有行</span><br><span class="line">        Dispatch cols = Dispatch.get(table, &quot;Columns&quot;).toDispatch();</span><br><span class="line">        Dispatch.call(cols, &quot;Add&quot;).toDispatch();</span><br><span class="line">        Dispatch.call(cols, &quot;AutoFit&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在指定列前面增加表格的列</span><br><span class="line">     * </span><br><span class="line">     * @param tableIndex</span><br><span class="line">     *            word文档中的第N张表(从1开始)</span><br><span class="line">     * @param colIndex</span><br><span class="line">     *            制定列的序号 (从1开始)</span><br><span class="line">     */</span><br><span class="line">    public void addTableCol(int tableIndex, int colIndex) &#123;</span><br><span class="line">        // 所有表格</span><br><span class="line">        Dispatch tables = Dispatch.get(doc, &quot;Tables&quot;).toDispatch();</span><br><span class="line">        // 要填充的表格</span><br><span class="line">        Dispatch table = Dispatch.call(tables, &quot;Item&quot;, new Variant(tableIndex))</span><br><span class="line">                .toDispatch();</span><br><span class="line">        // 表格的所有行</span><br><span class="line">        Dispatch cols = Dispatch.get(table, &quot;Columns&quot;).toDispatch();</span><br><span class="line">        System.out.println(Dispatch.get(cols, &quot;Count&quot;));</span><br><span class="line">        Dispatch col = Dispatch.call(cols, &quot;Item&quot;, new Variant(colIndex))</span><br><span class="line">                .toDispatch();</span><br><span class="line">        // Dispatch col = Dispatch.get(cols, &quot;First&quot;).toDispatch();</span><br><span class="line">        Dispatch.call(cols, &quot;Add&quot;, col).toDispatch();</span><br><span class="line">        Dispatch.call(cols, &quot;AutoFit&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在第1列前增加一列</span><br><span class="line">     * </span><br><span class="line">     * @param tableIndex</span><br><span class="line">     *            word文档中的第N张表(从1开始)</span><br><span class="line">     */</span><br><span class="line">    public void addFirstTableCol(int tableIndex) &#123;</span><br><span class="line">        Dispatch tables = Dispatch.get(doc, &quot;Tables&quot;).toDispatch();</span><br><span class="line">        // 要填充的表格</span><br><span class="line">        Dispatch table = Dispatch.call(tables, &quot;Item&quot;, new Variant(tableIndex))</span><br><span class="line">                .toDispatch();</span><br><span class="line">        // 表格的所有行</span><br><span class="line">        Dispatch cols = Dispatch.get(table, &quot;Columns&quot;).toDispatch();</span><br><span class="line">        Dispatch col = Dispatch.get(cols, &quot;First&quot;).toDispatch();</span><br><span class="line">        Dispatch.call(cols, &quot;Add&quot;, col).toDispatch();</span><br><span class="line">        Dispatch.call(cols, &quot;AutoFit&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在最后一列前增加一列</span><br><span class="line">     * </span><br><span class="line">     * @param tableIndex</span><br><span class="line">     *            word文档中的第N张表(从1开始)</span><br><span class="line">     */</span><br><span class="line">    public void addLastTableCol(int tableIndex) &#123;</span><br><span class="line">        Dispatch tables = Dispatch.get(doc, &quot;Tables&quot;).toDispatch();</span><br><span class="line">        // 要填充的表格</span><br><span class="line">        Dispatch table = Dispatch.call(tables, &quot;Item&quot;, new Variant(tableIndex))</span><br><span class="line">                .toDispatch();</span><br><span class="line">        // 表格的所有行</span><br><span class="line">        Dispatch cols = Dispatch.get(table, &quot;Columns&quot;).toDispatch();</span><br><span class="line">        Dispatch col = Dispatch.get(cols, &quot;Last&quot;).toDispatch();</span><br><span class="line">        Dispatch.call(cols, &quot;Add&quot;, col).toDispatch();</span><br><span class="line">        Dispatch.call(cols, &quot;AutoFit&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 自动调整表格</span><br><span class="line">     * </span><br><span class="line">     */</span><br><span class="line">    public void autoFitTable() &#123;</span><br><span class="line">        Dispatch tables = Dispatch.get(doc, &quot;Tables&quot;).toDispatch();</span><br><span class="line">        int count = Dispatch.get(tables, &quot;Count&quot;).getInt();</span><br><span class="line">        for (int i = 0; i &lt; count; i++) &#123;</span><br><span class="line">            Dispatch table = Dispatch.call(tables, &quot;Item&quot;, new Variant(i + 1))</span><br><span class="line">                    .toDispatch();</span><br><span class="line">            Dispatch cols = Dispatch.get(table, &quot;Columns&quot;).toDispatch();</span><br><span class="line">            Dispatch.call(cols, &quot;AutoFit&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 调用word里的宏以调整表格的宽度,其中宏保存在document下</span><br><span class="line">     * </span><br><span class="line">     */</span><br><span class="line">    public void callWordMacro() &#123;</span><br><span class="line">        Dispatch tables = Dispatch.get(doc, &quot;Tables&quot;).toDispatch();</span><br><span class="line">        int count = Dispatch.get(tables, &quot;Count&quot;).getInt();</span><br><span class="line">        Variant vMacroName = new Variant(&quot;Normal.NewMacros.tableFit&quot;);</span><br><span class="line">        Variant vParam = new Variant(&quot;param1&quot;);</span><br><span class="line">        Variant para[] = new Variant[] &#123; vMacroName &#125;;</span><br><span class="line">        for (int i = 0; i &lt; count; i++) &#123;</span><br><span class="line">            Dispatch table = Dispatch.call(tables, &quot;Item&quot;, new Variant(i + 1))</span><br><span class="line">                    .toDispatch();</span><br><span class="line">            Dispatch.call(table, &quot;Select&quot;);</span><br><span class="line">            Dispatch.call(word, &quot;Run&quot;, &quot;tableFitContent&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置当前选定内容的字体</span><br><span class="line">     * </span><br><span class="line">     * @param boldSize</span><br><span class="line">     * @param italicSize</span><br><span class="line">     * @param underLineSize</span><br><span class="line">     *            下划线</span><br><span class="line">     * @param colorSize</span><br><span class="line">     *            字体颜色</span><br><span class="line">     * @param size</span><br><span class="line">     *            字体大小</span><br><span class="line">     * @param name</span><br><span class="line">     *            字体名称</span><br><span class="line">     */</span><br><span class="line">    public void setFont(boolean bold, boolean italic, boolean underLine,</span><br><span class="line">            String colorSize, String size, String name) &#123;</span><br><span class="line">        Dispatch font = Dispatch.get(selection, &quot;Font&quot;).toDispatch();</span><br><span class="line">        Dispatch.put(font, &quot;Name&quot;, new Variant(name));</span><br><span class="line">        Dispatch.put(font, &quot;Bold&quot;, new Variant(bold));</span><br><span class="line">        Dispatch.put(font, &quot;Italic&quot;, new Variant(italic));</span><br><span class="line">        Dispatch.put(font, &quot;Underline&quot;, new Variant(underLine));</span><br><span class="line">        Dispatch.put(font, &quot;Color&quot;, colorSize);</span><br><span class="line">        Dispatch.put(font, &quot;Size&quot;, size);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 文件保存或另存为</span><br><span class="line">     * </span><br><span class="line">     * @param savePath</span><br><span class="line">     *            保存或另存为路径</span><br><span class="line">     */</span><br><span class="line">    public void save(String savePath) &#123;</span><br><span class="line">        Dispatch.call(Dispatch.call(word, &quot;WordBasic&quot;).getDispatch(),</span><br><span class="line">                &quot;FileSaveAs&quot;, savePath);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 关闭当前word文档</span><br><span class="line">     * </span><br><span class="line">     */</span><br><span class="line">    public void closeDocument() &#123;</span><br><span class="line">        if (doc != null) &#123;</span><br><span class="line">            Dispatch.call(doc, &quot;Save&quot;);</span><br><span class="line">            Dispatch.call(doc, &quot;Close&quot;, new Variant(saveOnExit));</span><br><span class="line">            doc = null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 关闭全部应用</span><br><span class="line">     * </span><br><span class="line">     */</span><br><span class="line">    public void close() &#123;</span><br><span class="line">        closeDocument();</span><br><span class="line">        if (word != null) &#123;</span><br><span class="line">            Dispatch.call(word, &quot;Quit&quot;);</span><br><span class="line">            word = null;</span><br><span class="line">        &#125;</span><br><span class="line">        selection = null;</span><br><span class="line">        documents = null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 打印当前word文档</span><br><span class="line">     * </span><br><span class="line">     */</span><br><span class="line">    public void printFile() &#123;</span><br><span class="line">        if (doc != null) &#123;</span><br><span class="line">            Dispatch.call(doc, &quot;PrintOut&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 删除书签</span><br><span class="line">     * </span><br><span class="line">     * @param mark</span><br><span class="line">     *            书签名</span><br><span class="line">     * @param info</span><br><span class="line">     *            可替换</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public boolean deleteBookMark(String markKey, String info) throws Exception &#123;</span><br><span class="line">        Dispatch activeDocument = word.getProperty(&quot;ActiveDocument&quot;)</span><br><span class="line">                .toDispatch();</span><br><span class="line">        Dispatch bookMarks = ActiveXComponent.call(activeDocument, &quot;Bookmarks&quot;)</span><br><span class="line">                .toDispatch();</span><br><span class="line">        boolean isExists = ActiveXComponent.call(bookMarks, &quot;Exists&quot;, markKey)</span><br><span class="line">                .getBoolean();</span><br><span class="line">        if (isExists) &#123;</span><br><span class="line"></span><br><span class="line">            Dispatch n = Dispatch.call(bookMarks, &quot;Item&quot;, markKey).toDispatch();</span><br><span class="line">            Dispatch.call(n, &quot;Delete&quot;);</span><br><span class="line"></span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 根据书签插入数据</span><br><span class="line">     * </span><br><span class="line">     * @param bookMarkKey</span><br><span class="line">     *            书签名</span><br><span class="line">     * @param info</span><br><span class="line">     *            插入的数据</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line"></span><br><span class="line">    public boolean setBookMarkValue(String bookMarkKey, String info)</span><br><span class="line">            throws Exception &#123;</span><br><span class="line">        Dispatch activeDocument = word.getProperty(&quot;ActiveDocument&quot;)</span><br><span class="line">                .toDispatch();</span><br><span class="line">        Dispatch bookMarks = ActiveXComponent.call(activeDocument, &quot;Bookmarks&quot;)</span><br><span class="line">                .toDispatch();</span><br><span class="line">        boolean bookMarkExist = ActiveXComponent.call(bookMarks, &quot;Exists&quot;,</span><br><span class="line">                bookMarkKey).getBoolean();</span><br><span class="line">        if (bookMarkExist) &#123;</span><br><span class="line"></span><br><span class="line">            Dispatch rangeItem = Dispatch.call(bookMarks, &quot;Item&quot;, bookMarkKey)</span><br><span class="line">                    .toDispatch();</span><br><span class="line">            Dispatch range = Dispatch.call(rangeItem, &quot;Range&quot;).toDispatch();</span><br><span class="line">            Dispatch.put(range, &quot;Text&quot;, new Variant(info));</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * html另存为word</span><br><span class="line">     * </span><br><span class="line">     * @param htmlPath</span><br><span class="line">     * @param docPath</span><br><span class="line">     */</span><br><span class="line">    public static void htmlToWord(String htmlPath, String docPath) &#123;</span><br><span class="line">        ActiveXComponent app = new ActiveXComponent(&quot;Word.Application&quot;); // 启动word</span><br><span class="line">        try &#123;</span><br><span class="line">            app.setProperty(&quot;Visible&quot;, new Variant(false));</span><br><span class="line">            Dispatch docs = app.getProperty(&quot;Documents&quot;).toDispatch();</span><br><span class="line">            Dispatch doc = Dispatch.invoke(</span><br><span class="line">                    docs,</span><br><span class="line">                    &quot;Open&quot;,</span><br><span class="line">                    Dispatch.Method,</span><br><span class="line">                    new Object[] &#123; htmlPath, new Variant(false),</span><br><span class="line">                            new Variant(true) &#125;, new int[1]).toDispatch();</span><br><span class="line">            Dispatch.invoke(doc, &quot;SaveAs&quot;, Dispatch.Method, new Object[] &#123;</span><br><span class="line">                    docPath, new Variant(1) &#125;, new int[1]);</span><br><span class="line">            Variant f = new Variant(false);</span><br><span class="line">            Dispatch.call(doc, &quot;Close&quot;, f);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            app.invoke(&quot;Quit&quot;, new Variant[] &#123;&#125;);</span><br><span class="line">            ComThread.Release();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String args[]) &#123;</span><br><span class="line">        MSWordManager msWordManager = new MSWordManager();</span><br><span class="line">        try &#123;</span><br><span class="line">            msWordManager.openDocument(&quot;D:\\a.doc&quot;);</span><br><span class="line">            msWordManager.callWordMacro();</span><br><span class="line"></span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        msWordManager.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/lib/jacobcode/" data-id="clhlnyliq00w2ojup6xorcd9j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/java/features/annotation2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/features/annotation2/" class="article-date">
+  <time datetime="2015-09-14T09:48:40.000Z" itemprop="datePublished">2015-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/features/annotation2/">【JAVA】annotation注释（二）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="annotation类型声明方式"><a href="#annotation类型声明方式" class="headerlink" title="annotation类型声明方式"></a>annotation类型声明方式</h2><p>通常，应用程序并不是必须定义annotation类型，但是定义annotation类型并非难事。Annotation类型声明于一般的接口声明极为类似，区别只在于它在interface关键字前面使用”@”符号。</p>
+<p>annotation类型的每个方法声明定义了一个annotation类型成员，但方法声明不必有参数或者异常声明；方法返回值的类型被限制在以下的范围：primitives、String、Class、enums、annotation和前面类型的数组；方法可以有默认值。</p>
+<p>下面是一个简单的annotation类型声明：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.annotation.*;</span><br><span class="line"></span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.FIELD)</span><br><span class="line">public @interface Column &#123;</span><br><span class="line">    boolean isKey() default false;//用于判定是否为数据库中的主键列</span><br><span class="line">    boolean canNull() default true;//用于插入时判定not null列是否有值</span><br><span class="line">    String value() default &quot;[ColumnName]&quot;;//数据库中对应的列名</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="修饰方法的annotation声明方式"><a href="#修饰方法的annotation声明方式" class="headerlink" title="修饰方法的annotation声明方式"></a>修饰方法的annotation声明方式</h2><p>annotation是一种修饰符，能够如其它修饰符（如public、static、final）一般使用。习惯用法是annotaions用在其它的修饰符前面。annotations由”@+annotation类型+带有括号的成员-值列表”组成。这些成员的值必须是编译时常量（即在运行时不变）。</p>
+<p>下面是一个使用了[Column] annotation的方法声明：\</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">//由于表名和属性名和数据库中的对应，可以不加注释</span><br><span class="line">@Table(CV.TN_CHARTYPE)</span><br><span class="line">public class CharType &#123;</span><br><span class="line">    @Column(isKey=true,value=CV.DB_ID)</span><br><span class="line">    private String id;</span><br><span class="line">    @Column(CV.CT_CN_NAME)</span><br><span class="line">    private String name;</span><br><span class="line">    @Column(CV.CT_CN_DESC)</span><br><span class="line">    private String describe;</span><br><span class="line">    public String getId() &#123;</span><br><span class="line">        return id;</span><br><span class="line">    &#125;</span><br><span class="line">    public void setId(String id) &#123;</span><br><span class="line">        this.id = id;</span><br><span class="line">    &#125;</span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    public String getDescribe() &#123;</span><br><span class="line">        return describe;</span><br><span class="line">    &#125;</span><br><span class="line">    public void setDescribe(String describe) &#123;</span><br><span class="line">        this.describe = describe;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="没有成员的annotation类型声明"><a href="#没有成员的annotation类型声明" class="headerlink" title="没有成员的annotation类型声明"></a>没有成员的annotation类型声明</h2><p>当声明一个没有成员的annotation类型声明时，可使用以下方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/**     </span><br><span class="line">* Indicates that the specification of the annotated API element     </span><br><span class="line">* is preliminary and subject to change.     </span><br><span class="line">*/    </span><br><span class="line">public @interface Preliminary &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>作为上面没有成员的annotation类型声明的简写方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Preliminary public class TimeTravel &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="只有唯一一个成员annotations的声明"><a href="#只有唯一一个成员annotations的声明" class="headerlink" title="只有唯一一个成员annotations的声明"></a>只有唯一一个成员annotations的声明</h2><p>如果在annotations中只有唯一一个成员，则该成员应命名为value：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* Associates a copyright notice with the annotated API element.</span><br><span class="line">*/</span><br><span class="line">public @interface Copyright &#123;</span><br><span class="line">    String value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>更为方便的是对于具有唯一成员且成员名为value的annotation（如上文），在其使用时可以忽略掉成员名和赋值号（&#x3D;）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Copyright(&quot;2002 Yoyodyne Propulsion Systems&quot;)</span><br><span class="line">public class OscillationOverthruster &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="定义Annotation的例子"><a href="#定义Annotation的例子" class="headerlink" title="定义Annotation的例子"></a>定义Annotation的例子</h2><p>[使用annotation来描述那些被标注的成员是不稳定的，需要更改]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.annotation.*;</span><br><span class="line">  </span><br><span class="line">  @Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">  public @interface Unstable &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用Author这个annotation定义在程序中指出代码的作者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public @interface Author &#123;</span><br><span class="line">      /** 返回作者名 */</span><br><span class="line">      String value();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>以下的example更加复杂。Reviews annotation类型只有一个成员，但是这个成员的类型是复杂的：由Review annotation组成的数组。Review annotation类型有3个成员：枚举类型成员grade、表示Review名称的字符串类型成员Reviewer、具有默认值的字符串类型成员Comment。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.annotation.*;</span><br><span class="line">          </span><br><span class="line">  /**</span><br><span class="line">  * Reviews annotation类型只有一个成员，</span><br><span class="line">  * 但是这个成员的类型是复杂的：由Review annotation组成的数组</span><br><span class="line">  */</span><br><span class="line">  @Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">  public @interface Reviews &#123;</span><br><span class="line">      Review[] value();</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  /**</span><br><span class="line">  * Review annotation类型有3个成员： </span><br><span class="line">  * 枚举类型成员grade、</span><br><span class="line">    * 表示Review名称的字符串类型成员Reviewer、</span><br><span class="line">    * 具有默认值的字符串类型成员Comment。</span><br><span class="line">  */</span><br><span class="line">  public @interface Review &#123;</span><br><span class="line">      // 内嵌的枚举类型</span><br><span class="line">      public static enum Grade &#123; EXCELLENT, SATISFACTORY, UNSATISFACTORY &#125;;</span><br><span class="line">  </span><br><span class="line">      // 下面的方法定义了annotation的成员</span><br><span class="line">      Grade grade();                </span><br><span class="line">      String reviewer();          </span><br><span class="line">      String comment() default &quot;&quot;;  </span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后，我们来定义一个annotation方法用于罗列出类运行中所有的unchecked异常。这个annotation类型将一个数组作为了唯一的成员。数组中的每个元素都是异常类。为了加强对未检查的异常（此类异常都是在运行时抛出）进行报告，我们可以在代码中对异常的类型进行限制：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public @interface UncheckedExceptions &#123;</span><br><span class="line">      Class&lt;? extends RuntimeException&gt;[] value();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="一个使用annotation的实例"><a href="#一个使用annotation的实例" class="headerlink" title="一个使用annotation的实例"></a>一个使用annotation的实例</h2><p>结合上面所讲的，我们在这里建立一个简单的基于annotation测试框架。首先我们需要一个annotation类型来表示某个方法是一个应该被测试工具运行的测试方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.annotation.*;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Indicates that the annotated method is a test method.</span><br><span class="line">     * This annotation should be used only on parameterless static methods.</span><br><span class="line">     */</span><br><span class="line">    @Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">    @Target(ElementType.METHOD)</span><br><span class="line">    public @interface Test &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>值得注意的是annotaion类型声明是可以标注自己的，这样的annotation被称为”meta-annotations”。</p>
+<p>在上面的代码中，@Retention(RetentionPolicy.RUNTIME)这个meta-annotation表示了此类型的annotation将被虚拟机保留使其能够在运行时通过反射被读取。而@Target(ElementType.METHOD)表示此类型的annotation只能用于修饰方法声明。</p>
+<p>下面是一个简单的程序，其中部分方法被上面的annotation所标注：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class Foo &#123;</span><br><span class="line">       @Test public static void m1() &#123; &#125;</span><br><span class="line">       public static void m2() &#123; &#125;</span><br><span class="line">       @Test public static void m3() &#123;</span><br><span class="line">           throw new RuntimeException(&quot;Boom&quot;);</span><br><span class="line">       &#125;</span><br><span class="line">       public static void m4() &#123; &#125;</span><br><span class="line">       @Test public static void m5() &#123; &#125;</span><br><span class="line">       public static void m6() &#123; &#125;</span><br><span class="line">       @Test public static void m7() &#123;</span><br><span class="line">           throw new RuntimeException(&quot;Crash&quot;);</span><br><span class="line">       &#125;</span><br><span class="line">       public static void m8() &#123; &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.reflect.*;</span><br><span class="line"></span><br><span class="line">    public class RunTests &#123;</span><br><span class="line">       public static void main(String[] args) throws Exception &#123;</span><br><span class="line">          int passed = 0, failed = 0;</span><br><span class="line">          for (Method m : Class.forName(args[0]).getMethods()) &#123;</span><br><span class="line">             if (m.isAnnotationPresent(Test.class)) &#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                   m.invoke(null);</span><br><span class="line">                   passed++;</span><br><span class="line">                &#125; catch (Throwable ex) &#123;</span><br><span class="line">                   System.out.printf(&quot;Test %s failed: %s %n&quot;, m, ex.getCause());</span><br><span class="line">                   failed++;</span><br><span class="line">                &#125;</span><br><span class="line">             &#125;</span><br><span class="line">          &#125;</span><br><span class="line">          System.out.printf(&quot;Passed: %d, Failed %d%n&quot;, passed, failed);</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个程序从命令行参数中取出类名，并且遍历此类的所有方法，尝试调用其中被上面的测试annotation类型标注过的方法。在此过程中为了找出哪些方法被annotation类型标注过，需要使用反射的方式执行此查询。如果在调用方法时抛出异常，此方法被认为已经失败，并打印一个失败报告。最后，打印运行通过&#x2F;失败的方法数量。</p>
+<p>下面文字表示了如何运行这个基于annotation的测试工具：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ java RunTests Foo</span><br><span class="line">Test public static void Foo.m3() failed: java.lang.RuntimeException: Boom </span><br><span class="line">Test public static void Foo.m7() failed: java.lang.RuntimeException: Crash </span><br><span class="line">Passed: 2, Failed 2</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/features/annotation2/" data-id="clhlnylh500muojupbc0g9twj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/java/features/annotation1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/features/annotation1/" class="article-date">
+  <time datetime="2015-09-14T09:48:40.000Z" itemprop="datePublished">2015-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/features/annotation1/">【JAVA】annotation注释（一）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Annotation究竟是什么？"><a href="#Annotation究竟是什么？" class="headerlink" title="Annotation究竟是什么？ "></a>Annotation究竟是什么？ </h2><p>Annotation提供了一条与程序元素关联任何信息或者任何元数据（metadata）的途径。从某些方面看，annotation就像修饰符一样被使用，并应用于包、类型、构造方法、方法、成员变量、参数、本地变量的声明中。这些信息被存储在annotation的”name&#x3D;value”结构对中。</p>
+<p>annotation类型是一种接口，能够通过java反射API的方式提供对其信息的访问。</p>
+<p>annotation能被用来为某个程序元素（类、方法、成员变量等）关联任何的信息。需要注意的是，这里存在着一个基本的潜规则：annotaion不能影响程序代码的执行，无论增加、删除annotation，代码都始终如一的执行。另外，尽管一些annotation通过java的反射api方法在运行时被访问，而java语言解释器在工作时忽略了这些annotation。正是由于java虚拟机忽略了annotation，导致了annotation类型在代码中是”不起作用”的；只有通过某种配套的工具才会对annotation类型中的信息进行访问和处理。本文中将涵盖标准的annotation和meta-annotation类型，陪伴这些annotation类型的工具是java编译器（当然要以某种特殊的方式处理它们）。</p>
+<p>由于上述原因，annotation在使用时十分简便。一个本地变量可以被一个以NonNull命名的annotation类型所标注，来作为对这个本地变量不能被赋予null值的断言。而我们可以编写与之配套的一个annotation代码分析工具，使用它来对具有前面变量的代码进行解析，并且尝试验证这个断言。当然这些代码并不必自己编写。在JDK安装后，在JDK&#x2F;bin目录中可以找到名为”apt”的工具，它提供了处理annotation的框架：它启动后扫描源代码中的annotation，并调用我们定义好的annotation处理器完成我们所要完成的工作（比如验证前面例子中的断言）。说到这里，annotation的强大功能似乎可以替代XDoclet这类的工具了，随着我们的深入，大家会更加坚信这一点。</p>
+<h2 id="为什么使用Annotation"><a href="#为什么使用Annotation" class="headerlink" title="为什么使用Annotation?"></a>为什么使用Annotation?</h2><p>在JAVA应用中，我们常遇到一些需要使用模版代码。例如，为了编写一个JAX-RPC web service，我们必须提供一对接口和实现作为模版代码。如果使用annotation对远程访问的方法代码进行修饰的话，这个模版就能够使用工具自动生成。</p>
+<p>另外，一些API需要使用与程序代码同时维护的附属文件。例如，JavaBeans需要一个BeanInfo Class与一个Bean同时使用&#x2F;维护，而EJB则同样需要一个部署描述符。此时在程序中使用annotation来维护这些附属文件的信息将十分便利而且减少了错误。</p>
+<h2 id="Annotation的概念和语法"><a href="#Annotation的概念和语法" class="headerlink" title="Annotation的概念和语法"></a>Annotation的概念和语法</h2><p>首先，关键的概念是理解annotation是与一个程序元素相关联信息或者元数据的标注。它从不影响java程序的执行，但是对例如编译器警告或者像文档生成器等辅助工具产生影响。</p>
+<p>下面是常用的annotation列表，我们应该注意在annotation和annotation类型之间的不同：</p>
+<p>A.annotation：</p>
+<p>annotation<br>使用了在java5.0所带来的新语法，它的行为十分类似public、final这样的修饰符。每个annotation具有一个名字和成员个数&gt;&#x3D;0。每个annotation的成员具有被称为name&#x3D;value对的名字和值（就像javabean一样），name&#x3D;value装载了annotation的信息。</p>
+<p>B.annotation类型：</p>
+<p>annotation类型定义了annotation的名字、类型、成员默认值。一个annotation类型可以说是一个特殊的java接口，它的成员变量是受限制的，而声明annotation类型时需要使用新语法。当我们通过java反射api访问annotation时，返回值将是一个实现了该annotation类型接口的对象，通过访问这个对象我们能方便的访问到其annotation成员。后面的章节将提到在java5.0的java.lang包里包含的3个标准annotation类型。</p>
+<p>C.annotation成员：</p>
+<p>annotation的成员在annotation类型中以无参数的方法的形式被声明。其方法名和返回值定义了该成员的名字和类型。在此有一个特定的默认语法：允许声明任何annotation成员的默认值：一个annotation可以将name&#x3D;value对作为没有定义默认值的annotation成员的值，当然也可以使用name&#x3D;value对来覆盖其它成员默认值。这一点有些近似类的继承特性，父类的构造函数可以作为子类的默认构造函数，但是也可以被子类覆盖。</p>
+<p>D.marker annotation类型：</p>
+<p>一个没有成员定义的annotation类型被称为marker annotation。这种annotation类型仅使用自身的存在与否来为我们提供信息。如后面要说的Override。</p>
+<p>E.meta-annotation：</p>
+<p>meta-annotation也称为元annotation，它是被用来声明annotation类型的annotation。Java5.0提供了一些标准的元-annotation类型。下面介绍的target、retention就是meta-annotation。</p>
+<p>F.target：</p>
+<p>annotation的target是一个被标注的程序元素。target说明了annotation所修饰的对象范围：annotation可被用于packages、types（类、接口、枚举、annotation类型）、类型成员（方法、构造方法、成员变量、枚举值）、方法参数和本地变量（如循环变量、catch参数）。在annotation类型的声明中使用了target可更加明晰其修饰的目标。</p>
+<p>G.retention：</p>
+<p>annotation的retention定义了该annotation被保留的时间长短：某些annotation仅出现在源代码中，而被编译器丢弃；而另一些却被编译在class文件中；编译在class文件中的annotation可能会被虚拟机忽略，而另一些在class被装载时将被读取（请注意并不影响class的执行，因为annotation与class在使用上是被分离的）。使用这个meta-annotation可以对annotation的”生命周期”限制。</p>
+<p>H.metadata：</p>
+<p>由于metadata被广泛使用于各种计算机开发过程中，所以当我们在这里谈论的metadata即元数据通常指被annotation装载的信息或者annotation本身。</p>
+<h2 id="Annotation工作方式"><a href="#Annotation工作方式" class="headerlink" title="Annotation工作方式"></a>Annotation工作方式</h2><p>在5.0版之前的Java平台已经具有了一些ad hoc annotation机制。比如，使用transient修饰符来标识一个成员变量在序列化子系统中应被忽略。而@deprecated这个javadoctag也是一个ad hoc annotation用来说明一个方法已过时。从Java5.0版发布以来，5.0平台提供了一个正式的annotation功能：允许开发者定义、使用自己的annoatation类型。此功能由一个定义annotation类型的语法和一个描述annotation声明的语法，读取annotaion的API，一个使用annotation修饰的class文件，一个annotation处理工具（apt）组成。</p>
+<p>annotation并不直接影响代码语义，但是它能够工作的方式被看作类似程序的工具或者类库，它会反过来对正在运行的程序语义有所影响。annotation可以从源文件、class文件或者以在运行时反射的多种方式被读取。</p>
+<p>当然annotation在某种程度上使javadoctag更加完整。一般情况下，如果这个标记对java文档产生影响或者用于生成java文档的话，它应该作为一个javadoc tag；否则将作为一个annotation。</p>
+<h2 id="Annotation与反射"><a href="#Annotation与反射" class="headerlink" title="Annotation与反射"></a>Annotation与反射</h2><p>在java5.0中Java.lang.reflect提供的反射API被扩充了读取运行时annotation的能力。让我们回顾一下前面所讲的：一个annotation类型被定义为runtimeretention后，它才是在运行时可见，当class文件被装载时被保存在class文件中的annotation才会被虚拟机读取。那么reflect是如何帮助我们访问class中的annotation呢？</p>
+<p>下文将在java.lang.reflect用于annotation的新特性，其中java.lang.reflect.AnnotatedElement是重要的接口，它代表了提供查询annotation能力的程序成员。这个接口被java.lang.Package、java.lang.Class实现，并间接地被Method类、Constructor类、java.lang.reflect的Field类实现。而annotation中的方法参数可以通过Method类、Constructor类的getParameterAnnotations()方法获得。</p>
+<p>isAnnotationPresent ()方法对于检查markerannotation是十分有用的，因为markerannotation没有成员变量，所以我们只要知道class的方法是否使用了annotation修饰就可以了。而当处理具有成员的annotation时，我们通过使用getAnnotation()方法来获得annotation的成员信息（成员名称、成员值）。这里我们看到了一套优美的java annotation系统：如果annotation存在，那么实现了相应的annotation类型接口的对象将被getAnnotation()方法返回，接着调用定义在annotation类型中的成员方法 可以方便地获得任何成员值。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/features/annotation1/" data-id="clhlnylh600mxojupa8q01h07" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/java/features/annotation3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/features/annotation3/" class="article-date">
+  <time datetime="2015-09-14T09:48:40.000Z" itemprop="datePublished">2015-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/features/annotation3/">【JAVA】annotation注释（三）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="内建Annotation"><a href="#内建Annotation" class="headerlink" title="内建Annotation"></a>内建Annotation</h2><p>Java5.0版在java语法中经常用到的内建Annotation：</p>
+<ol>
+<li>@Deprecated用于修饰已经过时的方法；</li>
+<li>@Override用于修饰此方法覆盖了父类的方法（而非重载）；</li>
+<li>@SuppressWarnings用于通知java编译器禁止特定的编译警告。</li>
+</ol>
+<p>下面代码展示了内建Annotation类型的用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public class UsingBuiltInAnnotation &#123;</span><br><span class="line">        //食物类</span><br><span class="line">        class Food&#123;&#125;</span><br><span class="line">        //干草类</span><br><span class="line">        class Hay extends Food&#123;&#125;</span><br><span class="line">        //动物类</span><br><span class="line">        class Animal&#123;</span><br><span class="line">                Food getFood()&#123;</span><br><span class="line">                        return null;</span><br><span class="line">                &#125;</span><br><span class="line">                //使用Annotation声明Deprecated方法</span><br><span class="line">                @Deprecated</span><br><span class="line">                void deprecatedMethod()&#123;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //马类-继承动物类</span><br><span class="line">        class Horse extends Animal&#123;</span><br><span class="line">                //使用Annotation声明覆盖方法</span><br><span class="line">                @Override</span><br><span class="line">                Hay getFood()&#123;</span><br><span class="line">                        return new Hay();</span><br><span class="line">                &#125;</span><br><span class="line">                //使用Annotation声明禁止警告</span><br><span class="line">                @SuppressWarnings(&#123;&quot;deprecation&quot;,&quot;unchecked&quot;&#125;)</span><br><span class="line">                void callDeprecatedMethod(List horseGroup)&#123;</span><br><span class="line">                        Animal an=new Animal();</span><br><span class="line">                        an.deprecatedMethod();</span><br><span class="line">                        horseGroup.add(an);</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用标准Annotation"><a href="#使用标准Annotation" class="headerlink" title="使用标准Annotation"></a>使用标准Annotation</h2><p>java5.0在java.lang包中定义了3种标准的annotation类型：</p>
+<h2 id="A-Override："><a href="#A-Override：" class="headerlink" title="A.Override："></a>A.Override：</h2><p>java.lang.Override 是一个marker<br>annotation类型，它被用作标注方法。它说明了被标注的方法重载了父类的方法，起到了断言的作用。如果我们使用了这种annotation在一个没有覆盖父类方法的方法时，java编译器将以一个编译错误来警示。<br>这个annotaton常常在我们试图覆盖父类方法而确又写错了方法名时发挥威力。<br>使用方法极其简单：在使用此annotation时只要在被修饰的方法前面加上@Override。<br>下面的代码是一个使用@Override修饰一个企图重载父类的toString方法，而又存在拼写错误的sample：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">  public String toString() &#123;   </span><br><span class="line">      return &quot;[&quot; + super.toString() + &quot;]&quot;;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="B-Deprecated："><a href="#B-Deprecated：" class="headerlink" title="B.Deprecated："></a>B.Deprecated：</h2><p>同样Deprecated也是一个marker<br>annotation。当一个类型或者类型成员使用@Deprecated修饰的话，编译器将不鼓励使用这个被标注的程序元素。而且这种修饰具有一定的<br>“延续性”：如果我们在代码中通过继承或者覆盖的方式使用了这个过时的类型或者成员，虽然继承或者覆盖后的类型或者成员并不是被声明为<br>@Deprecated，但编译器仍然要报警。</p>
+<p>值得注意，@Deprecated这个annotation类型和javadoc中的<br>@deprecated这个tag是有区别的：前者是java编译器识别的，而后者是被javadoc工具所识别用来生成文档（包含程序成员为什么已经过时、它应当如何被禁止或者替代的描述）。</p>
+<p>在java5.0，java编译器仍然象其从前版本那样寻找@deprecated这个javadoc<br>tag，并使用它们产生警告信息。但是这种状况将在后续版本中改变，我们应在现在就开始使用@Deprecated来修饰过时的方法而不是<br>@deprecated javadoc tag。</p>
+<p>下面是一段使用@Deprecated的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * 这里是javadoc的@deprecated声明.</span><br><span class="line">  * @deprecated No one has players for this format any more.  Use VHS instead.</span><br><span class="line">  */</span><br><span class="line">  @Deprecated public class Betamax &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="C-SuppressWarnings："><a href="#C-SuppressWarnings：" class="headerlink" title="C.SuppressWarnings："></a>C.SuppressWarnings：</h2><p>@SuppressWarnings<br>被用于有选择的关闭编译器对类、方法、成员变量、变量初始化的警告。在java5.0，sun提供的javac编译器为我们提供了-Xlint选项来使编译器对合法的程序代码提出警告，此种警告从某种程度上代表了程序错误。例如当我们使用一个generic<br>collection类而又没有提供它的类型时，编译器将提示出&quot;unchecked<br>warning&quot;的警告。</p>
+<p>通常当这种情况发生时，我们就需要查找引起警告的代码。如果它真的表示错误，我们就需要纠正它。例如如果警告信息表明我们代码中的switch语句没有覆盖所有可能的case，那么我们就应增加一个默认的case来避免这种警告。</p>
+<p>相仿，有时我们无法避免这种警告，例如，我们使用必须和非generic的旧代码交互的generic<br>collection类时，我们不能避免这个unchecked<br>warning。此时@SuppressWarning就要派上用场了，在调用的方法前增加@SuppressWarnings修饰，告诉编译器停止对此方法的警告。</p>
+<p>SuppressWarning不是一个marker<br>annotation。它有一个类型为String[]的成员，这个成员的值为被禁止的警告名。对于javac编译器来讲，被-Xlint选项有效的警告名也同样对@SuppressWarings有效，同时编译器忽略掉无法识别的警告名。</p>
+<p>annotation语法允许在annotation名后跟括号，括号中是使用逗号分割的name&#x3D;value对用于为annotation的成员赋值：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@SuppressWarnings(value=&#123;&quot;unchecked&quot;,&quot;fallthrough&quot;&#125;)</span><br><span class="line">public void lintTrap() &#123; /* sloppy method body omitted */ &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中SuppressWarnings<br>annotation类型只定义了一个单一的成员，所以只有一个简单的value&#x3D;{...}作为name&#x3D;value对。又由于成员值是一个数组，故使用大括号来声明数组值。</p>
+<p>注意：我们可以在下面的情况中缩写annotation：当annotation只有单一成员，并成员命名为&quot;value&#x3D;&quot;。这时可以省去&quot;value&#x3D;&quot;。比如将上面的SuppressWarnings<br>annotation进行缩写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@SuppressWarnings(&#123;&quot;unchecked&quot;,&quot;fallthrough&quot;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>如果SuppressWarnings所声明的被禁止警告个数为一个时，可以省去大括号：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@SuppressWarnings(&quot;unchecked&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="开发者自定义Annotation"><a href="#开发者自定义Annotation" class="headerlink" title="开发者自定义Annotation"></a>开发者自定义Annotation</h2><p>由开发者自定义Annotation类型。<br>下面是一个使用annotation进行方法测试的sample：<br>AnnotationDefineForTestFunction类型定义如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.annotation.*;</span><br><span class="line">//加载在VM中，在运行时进行映射</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">//限定此annotation只能标示方法</span><br><span class="line">@Target(ElementType.METHOD)</span><br><span class="line">public @interface AnnotationDefineForTestFunction&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试annotation的代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.reflect.*;</span><br><span class="line"></span><br><span class="line">public class UsingAnnotation &#123;</span><br><span class="line">        @AnnotationDefineForTestFunction public static void method01()&#123;&#125;</span><br><span class="line">        </span><br><span class="line">        public static void method02()&#123;&#125;</span><br><span class="line">        </span><br><span class="line">        @AnnotationDefineForTestFunction public static void method03()&#123;</span><br><span class="line">                throw new RuntimeException(&quot;method03&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        public static void method04()&#123;</span><br><span class="line">                throw new RuntimeException(&quot;method04&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        public static void main(String[] argv) throws Exception&#123;</span><br><span class="line">                int passed = 0, failed = 0;</span><br><span class="line">                //被检测的类名</span><br><span class="line">                String className=&quot;com.bjinfotech.practice.annotation.UsingAnnotation&quot;;</span><br><span class="line">                //逐个检查此类的方法，当其方法使用annotation声明时调用此方法</span><br><span class="line">            for (Method m : Class.forName(className).getMethods()) &#123;</span><br><span class="line">               if (m.isAnnotationPresent(AnnotationDefineForTestFunction.class)) &#123;</span><br><span class="line">                  try &#123;</span><br><span class="line">                     m.invoke(null);</span><br><span class="line">                     passed++;</span><br><span class="line">                  &#125; catch (Throwable ex) &#123;</span><br><span class="line">                     System.out.printf(&quot;测试 %s 失败: %s %n&quot;, m, ex.getCause());</span><br><span class="line">                     failed++;</span><br><span class="line">                  &#125;</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.printf(&quot;测试结果： 通过: %d, 失败： %d%n&quot;, passed, failed);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用第三方开发的Annotation类型"><a href="#使用第三方开发的Annotation类型" class="headerlink" title="使用第三方开发的Annotation类型"></a>使用第三方开发的Annotation类型</h2><p>这也是开发人员所常常用到的一种方式。比如我们在使用Hibernate3.0时就可以利用Annotation生成数据表映射配置文件，而不必使用Xdoclet。\</p>
+<h2 id="Meta-Annotation"><a href="#Meta-Annotation" class="headerlink" title="Meta-Annotation"></a>Meta-Annotation</h2><p>Annotation<br>类型可以被它们自己所标注。Java5.0定义了4个标准的meta-annotation类型，它们被用来提供对其它annotation类型作说明。这些类型和它们所支持的类在java.lang.annotation包中可以找到。如果需要更详细的信息可以参考jdk5.0手册。</p>
+<h2 id="1．再谈Target"><a href="#1．再谈Target" class="headerlink" title="1．再谈Target"></a>1．再谈Target</h2><p>作为meta-annotation类型的Target,它描述了annotation所修饰的程序成员的类型。当一个annotation类型没有<br>Target时，它将被作为普通的annotation看待。当将它修饰一个特定的程序成员时，它将发挥其应用的作用，例如：Override用于修饰方法时，增加了@Target这个meta-annotation就使编译器对annotation作检查，从而去掉修饰错误类型的Override。</p>
+<p>Target<br>meta-annotation类型有唯一的value作为成员。这个成员的类型是java.lang.annotation.ElementType[]类型的，ElementType类型是可以被标注的程序成员的枚举类型。</p>
+<h2 id="2．Retention的用法"><a href="#2．Retention的用法" class="headerlink" title="2．Retention的用法"></a>2．Retention的用法</h2><p>我们在文章的开头曾经提到过Retention，但是没有详细讲解。Retention描述了annotation是否被编译器丢弃或者保留在class文件；如果保留在class文件中，是否在class文件被装载时被虚拟机读取。默认情况下，annotation被保存在class文件中，但在运行时并不能被反射访问。Retention具有三个取值：source、class、runtime，这些取值来自<br>java.lang.annotation.RetentionPolicy的枚举类型值。</p>
+<p>Retention<br>meta-annotation类型有唯一的value作为成员，它的取值来自java.lang.annotation.RetentionPolicy的枚举类型值。</p>
+<h2 id="3．Documented"><a href="#3．Documented" class="headerlink" title="3．Documented"></a>3．Documented</h2><p>Documented是一个meta-annotation类型，用于描述其它类型的annotation应该被作为被标注的程序成员的公共API，因此可以被例如javadoc此类的工具文档化。</p>
+<p>Documented是一个marker annotation，没有成员。</p>
+<h2 id="4．Inherited"><a href="#4．Inherited" class="headerlink" title="4．Inherited"></a>4．Inherited</h2><p>@Inherited meta-annotation也是一个marker<br>annotation，它阐述了某个被标注的类型是被继承的。如果一个使用了@Inherited修饰的annotation类型被用于一个class，则这个annotation将被用于该class的子类。</p>
+<p>注意：@Inherited<br>annotation类型是被标注过的class的子类所继承。类并不从它所实现的接口继承annotation，方法并不从它所重载的方法继承annotation。</p>
+<p>值得思考的是，当@Inherited<br>annotation类型标注的annotation的Retention是RetentionPolicy.RUNTIME，则反射API增强了这种继承性。如果我们使用java.lang.reflect去查询一个@Inherited<br>annotation类型的annotation时，反射代码检查将展开工作：检查class和其父类，直到发现指定的annotation类型被发现，或者到达类继承结构的顶层。\</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/features/annotation3/" data-id="clhlnylh600n1ojuph9pl4yc9" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/34/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="page-number" href="/page/34/">34</a><span class="page-number current">35</span><a class="page-number" href="/page/36/">36</a><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/36/">下一页 &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII%E7%A0%81/" rel="tag">ASCII码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveMQ/" rel="tag">ActiveMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ajax/" rel="tag">Ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BAT%E8%84%9A%E6%9C%AC/" rel="tag">BAT脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAP/" rel="tag">CAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAS/" rel="tag">CAS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eclipse/" rel="tag">Eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/" rel="tag">Emacs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emmet/" rel="tag">Emmet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIT/" rel="tag">GIT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IPFS/" rel="tag">IPFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-IO/" rel="tag">JAVA IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/" rel="tag">JAVA NIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-WEB/" rel="tag">JAVA WEB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lisp/" rel="tag">Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/" rel="tag">Scala</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/" rel="tag">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-MVC/" rel="tag">Spring MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIM/" rel="tag">VIM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/archtype/" rel="tag">archtype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/azkaban/" rel="tag">azkaban</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jquery/" rel="tag">jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql-neo4j/" rel="tag">nosql neo4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openssl/" rel="tag">openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/" rel="tag">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webservice/" rel="tag">webservice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" rel="tag">一致性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" rel="tag">任务调度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" rel="tag">字符编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" rel="tag">字符集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A1%E8%AE%A1/" rel="tag">审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" rel="tag">尾递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" rel="tag">摘要算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" rel="tag">数字签名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" rel="tag">数字证书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" rel="tag">数据权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" rel="tag">树算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正规表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" rel="tag">知识体系</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E5%99%A8/" rel="tag">神器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">自制操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2999/12/">十二月 2999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/02/">二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">九月 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】特别说明</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 证心<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

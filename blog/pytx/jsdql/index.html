@@ -1,22 +1,268 @@
-{% extends '_layout.swig' %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
+  
+  <title>技术的囚笼 | OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="技术的囚笼公司和个人会因为已经熟悉了某种技术而对有替代性的更先进技术有抗拒心理，当转换成本越大时这种倾向越明显。 天下大势，浩浩汤汤，顺之者昌，逆之者亡。 我写这篇文章只表述个人对未来技术的一些看法，可能会戳中某些人的痛点，你可以想想自己有没有被学过的技术困住。 MVC还是那个MVC吗？MVC是个老话题，百说不厌。过去的MVC就不说了，我想说说新趋势。 我们看到网页内容可以分为三个阶段，数据获取、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="技术的囚笼">
+<meta property="og:url" content="http://www.onekbase.com/blog/pytx/jsdql/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:description" content="技术的囚笼公司和个人会因为已经熟悉了某种技术而对有替代性的更先进技术有抗拒心理，当转换成本越大时这种倾向越明显。 天下大势，浩浩汤汤，顺之者昌，逆之者亡。 我写这篇文章只表述个人对未来技术的一些看法，可能会戳中某些人的痛点，你可以想想自己有没有被学过的技术困住。 MVC还是那个MVC吗？MVC是个老话题，百说不厌。过去的MVC就不说了，我想说说新趋势。 我们看到网页内容可以分为三个阶段，数据获取、">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-11-30T06:07:03.000Z">
+<meta property="article:modified_time" content="2019-07-01T15:10:14.000Z">
+<meta property="article:author" content="证心">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="OneKBase" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<meta name="generator" content="Hexo 6.3.0"></head>
 
-{% block content %}
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-blog/pytx/jsdql" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/pytx/jsdql/" class="article-date">
+  <time datetime="2015-11-30T06:07:03.000Z" itemprop="datePublished">2015-11-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      技术的囚笼
+    </h1>
+  
 
-  <div id="posts" class="posts-expand">
-    {{ partial('_macro/post.swig', {post: page}) }}
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="技术的囚笼"><a href="#技术的囚笼" class="headerlink" title="技术的囚笼"></a>技术的囚笼</h2><p>公司和个人会因为已经熟悉了某种技术而对有替代性的更先进技术有抗拒心理，当转换成本越大时这种倾向越明显。</p>
+<p>天下大势，浩浩汤汤，顺之者昌，逆之者亡。</p>
+<p>我写这篇文章只表述个人对未来技术的一些看法，可能会戳中某些人的痛点，你可以想想自己有没有被学过的技术困住。</p>
+<h2 id="MVC还是那个MVC吗？"><a href="#MVC还是那个MVC吗？" class="headerlink" title="MVC还是那个MVC吗？"></a>MVC还是那个MVC吗？</h2><p>MVC是个老话题，百说不厌。过去的MVC就不说了，我想说说新趋势。</p>
+<p>我们看到网页内容可以分为三个阶段，数据获取、数据装载、数据渲染。</p>
+<p>这个过程已经发生了翻天覆地的变化。过去网页在服务器上生成，服务器返回一个网页，浏览器再把网页渲染成我们看到的内容。</p>
+<p>现在服务器已经不再生成网页了，更倾向于提供数据接口，只保留了数据获取阶段，其它两个阶段都放浏览器端做了。</p>
+<p>过程是这样的，加载的页面会加载js组件，js组件会从服务器接口获取数据，装载数据，渲染现在已经不止浏览器对HTML渲染了，还可以把数据渲染到canvas上，可以看一下百度的echarts，也可以看一些webgl的例子。</p>
+<p>这样有很多好处。</p>
+<p>服务器端技术已经不受具体限制了，只要接口返回指定格式的数据就行。所以可以用各种语言和框架编程，不用担心技术过时或受技术交替的冲击。</p>
+<p>前端的显示也可以赶上多变的技术，更炫的效果还是要用canvas做渲染。webgl的和种框架可以做出很炫的3D动画，所以想像已经不受技术的限制了。有了新渲染框架和数据对接一下就OK了。</p>
+<p>将来的前端会桌面化，加载一次，以后交互都只是数据更新。话说已经有好多这种例子了。</p>
+<p>所以最先死的是各种P：jsp、php、asp等，还有各种基于P的标签组件技术。</p>
+<h2 id="语言的大一统"><a href="#语言的大一统" class="headerlink" title="语言的大一统"></a>语言的大一统</h2><p>语言有两个端，C和LISP。</p>
+<p>我是用JAVA的，JAVA好不好用？真心的不好用，当然和C++比还是有优势的。但用JAVA的地方太多了，所以一时也死不了。</p>
+<p>将来的语言会怎么发展？</p>
+<p>我觉得各种语言会死掉，但各种语言的虚拟机还会活很长时间。因为在各种虚拟机上会出现很多LISP方言，可以复用现有的库。但这已经不是原来的语言了，一个语言最重要的是语言的语法，语法都不一样了，就不能算一种语言了。</p>
+<p>漫长的混乱之后，可能各种虚拟机也都消失了。LISP方言也有了统一的标准。这时我们发现我们在用一种20世纪60年代的编程语言，多么的可笑。</p>
+<h2 id="LISP不是一种语言"><a href="#LISP不是一种语言" class="headerlink" title="LISP不是一种语言"></a>LISP不是一种语言</h2><p>LISP语言并不是一种语言，而是一种语法。列表形式的语法可以做到代码即数据，数据即代码。从而实现LISP的宏功能，让每个人都可以定义自己的语言。</p>
+<p>用列表做语法的都可以认为是LISP方言，实现了LISP宏的都可以认为是完备的LISP方言。</p>
+<p>自己的才是最好的，这一点对开发人员体现优为重要。</p>
+<p>LISP语法实在太简单了，有点编程基础的人都可以写一个简单的LISP解析器。</p>
+<p>LISP成为大一统的原因很简单：至简则至快，至快则至强，至强则无敌。</p>
+<p>“天下武功无坚不破,唯快不破”，这在IT领域也是至理名言。以至于《黑客与画家》的作者把LISP当作他创业成功的秘密武器。</p>
+<p>其实这很好理解：</p>
+<p>同样的时间做更多的事意味着成本低。</p>
+<p>更短的时间做更多的事意味着对手不可能超过你。</p>
+<p>快意味着：更便宜、客户更满意、对手有你就有、你有对手没有的。这就是技术壁垒。</p>
+<p>ASM、C、LISP，我们画了一个圈，又回到了原点。最终还是这三个古老的语言取得了胜利。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/pytx/jsdql/" data-id="clhlnyldc000rojup88dz5k04" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/blog/plang/java/base/javanetpgm/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          JAVA网络编程概要
+        
+      </div>
+    </a>
+  
+  
+    <a href="/blog/javaweb/verificationcode/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">如何给java web应用添加登录验证码</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII%E7%A0%81/" rel="tag">ASCII码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveMQ/" rel="tag">ActiveMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ajax/" rel="tag">Ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BAT%E8%84%9A%E6%9C%AC/" rel="tag">BAT脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAP/" rel="tag">CAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAS/" rel="tag">CAS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eclipse/" rel="tag">Eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/" rel="tag">Emacs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emmet/" rel="tag">Emmet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIT/" rel="tag">GIT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IPFS/" rel="tag">IPFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-IO/" rel="tag">JAVA IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/" rel="tag">JAVA NIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-WEB/" rel="tag">JAVA WEB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lisp/" rel="tag">Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/" rel="tag">Scala</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/" rel="tag">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-MVC/" rel="tag">Spring MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIM/" rel="tag">VIM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/archtype/" rel="tag">archtype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/azkaban/" rel="tag">azkaban</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jquery/" rel="tag">jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql-neo4j/" rel="tag">nosql neo4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openssl/" rel="tag">openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/" rel="tag">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webservice/" rel="tag">webservice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" rel="tag">一致性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" rel="tag">任务调度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" rel="tag">字符编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" rel="tag">字符集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A1%E8%AE%A1/" rel="tag">审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" rel="tag">尾递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" rel="tag">摘要算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" rel="tag">数字签名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" rel="tag">数字证书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" rel="tag">数据权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" rel="tag">树算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正规表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" rel="tag">知识体系</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E5%99%A8/" rel="tag">神器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">自制操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
+    </div>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2999/12/">十二月 2999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/02/">二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">九月 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】特别说明</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 证心<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

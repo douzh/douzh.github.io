@@ -1,22 +1,964 @@
-{% extends '_layout.swig' %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
 
-{% block title %}{{ title }}{%- if theme.index_with_subtitle and subtitle %} - {{ subtitle }}{%- endif %}{% endblock %}
+  
+  <title>OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="OneKBase">
+<meta property="og:url" content="http://www.onekbase.com/page/4/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="证心">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="OneKBase" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block page_class %}
-  {%- if is_home() %}page-home{% endif -%}
-{% endblock %}
+<meta name="generator" content="Hexo 6.3.0"></head>
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {%- for post in page.posts %}
-      {{ partial('_macro/post.swig', {is_index: true}) }}
-    {%- endfor %}
-  </section>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-blog/plang/java/base/namespace" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/base/namespace/" class="article-date">
+  <time datetime="2018-12-31T04:32:55.000Z" itemprop="datePublished">2018-12-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a>
+  </div>
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/base/namespace/">【JAVA】JAVA的命名空间</a>
+    </h1>
+  
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>先来看一段代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public class Main &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		Object o=new C();</span><br><span class="line">		System.out.println(((C)o).name);</span><br><span class="line">		System.out.println(((B)o).name);</span><br><span class="line">		System.out.println(((A)o).name);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class A &#123;</span><br><span class="line">	String name=&quot;this is A&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class B extends A&#123;</span><br><span class="line">	String name=&quot;this is B&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class C extends B&#123;</span><br><span class="line">	String name=&quot;this is C&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">this is C</span><br><span class="line">this is B</span><br><span class="line">this is A</span><br></pre></td></tr></table></figure>
+
+<p>我们知道，同一个命名空间（作用域）是不能有同一个名字的。</p>
+<p>JAVA和python、javascritpt这些语言不一样，构造器会从父类一直执行到子类。</p>
+<p>从上面的代码看出，在继承链上的每个类都有自己的命名空间，也就是一个java对象是一串空间，python的是一个空间。</p>
+<p>再看一下方法的命名空间：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">package test;</span><br><span class="line"></span><br><span class="line">public class Main &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		Object o=new C();</span><br><span class="line">		((C)o).print();</span><br><span class="line">		((B)o).print();</span><br><span class="line">		((A)o).print();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class A &#123;</span><br><span class="line">	String name=&quot;this is A&quot;;</span><br><span class="line">	public void print() &#123;</span><br><span class="line">		System.out.println(name);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class B extends A&#123;</span><br><span class="line">	String name=&quot;this is B&quot;;</span><br><span class="line">	public void print() &#123;</span><br><span class="line">		System.out.println(name);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class C extends B&#123;</span><br><span class="line">	String name=&quot;this is C&quot;;</span><br><span class="line">	public void print() &#123;</span><br><span class="line">		System.out.println(name);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">this is C</span><br><span class="line">this is C</span><br><span class="line">this is C</span><br></pre></td></tr></table></figure>
+
+<p>可见，通过实例访问父类被覆盖的方法是行不通的，我想到的只能是通过反射。</p>
+<p>类是方法的命名空间，方法的查找都是从子类向上查找的，所以直接访问父类的是行不通的。</p>
+<p>JAVA实例命名空间是个串，类的命名空间也是个串，实例命名空间是构造器执行是创建的，类命名空间是类加载时创建的。</p>
+<p>实例可以调用类命名空间的方法是因为实例和类空间有关联，可以看看其它语言的apply方法，本质上都是过程式的调用。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/base/namespace/" data-id="clhlnylht00qdojupdpke0scy" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/crypto/bouncycastle" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/crypto/bouncycastle/" class="article-date">
+  <time datetime="2018-12-18T06:01:59.000Z" itemprop="datePublished">2018-12-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/crypto/bouncycastle/">【密码术】bouncycastle 轻量级密码术包</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="http://www.bouncycastle.org/">bouncycastle官网</a></p>
+<p>bouncy castle（轻量级密码术包）是一种用于 Java 平台的开放源码的轻量级密码术包；它支持大量的密码术算法，并提供JCE 1.2.1的实现。</p>
+<p>用他主要是支持国密SM2的密码术，支持椭圆加密算法(ECC)。</p>
+<p>API接口由以下组成：</p>
+<p>A lightweight cryptography API for Java and C#.</p>
+<p>A provider for the Java Cryptography Extension (JCE) and the Java Cryptography Architecture (JCA).</p>
+<p>A provider for the Java Secure Socket Extension (JSSE).</p>
+<p>A clean room implementation of the JCE 1.2.1.</p>
+<p>A library for reading and writing encoded ASN.1 objects.</p>
+<p>Lightweight APIs for TLS (RFC 2246, RFC 4346) and DTLS (RFC 6347&#x2F; RFC 4347).</p>
+<p>Generators for Version 1 and Version 3 X.509 certificates, Version 2 CRLs, and PKCS12 files.</p>
+<p>Generators for Version 2 X.509 attribute certificates.</p>
+<p>Generators&#x2F;Processors for S&#x2F;MIME and CMS (PKCS7&#x2F;RFC 3852).</p>
+<p>Generators&#x2F;Processors for OCSP (RFC 2560).</p>
+<p>Generators&#x2F;Processors for TSP (RFC 3161 &amp; RFC 5544).</p>
+<p>Generators&#x2F;Processors for CMP and CRMF (RFC 4210 &amp; RFC 4211).</p>
+<p>Generators&#x2F;Processors for OpenPGP (RFC 4880).</p>
+<p>Generators&#x2F;Processors for Extended Access Control (EAC).</p>
+<p>Generators&#x2F;Processors for Data Validation and Certification Server (DVCS) - RFC 3029.</p>
+<p>Generators&#x2F;Processors for DNS-based Authentication of Named Entities (DANE).</p>
+<p>Generators&#x2F;Processors for RFC 7030 Enrollment over Secure Transport (EST).</p>
+<p>A signed jar version suitable for JDK 1.4-1.7 and the Sun JCE.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/crypto/bouncycastle/" data-id="clhlnylf000a8ojup5gtifstr" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/blockchain/pythondemo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/blockchain/pythondemo/" class="article-date">
+  <time datetime="2018-11-08T13:12:27.000Z" itemprop="datePublished">2018-11-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/blockchain/pythondemo/">区块链python示例</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在开始之前，我们需要做些准备工作，搞清楚一些问题。</p>
+<p>什么是区块链？区块链是由不可变的、有顺序记录的区块组成。他们可以包含交易数据、文件数据或者其他你想要记录的数据。不过最重要的是这些区块通过哈希表链接在一起。</p>
+<p>什么是散列？散列函数是一个输入值函数，从该输入创建一个确定输入值的输出值。</p>
+<p>这篇文章适合谁，首先Python程序员，你只要能轻松地读写一些基本的Python代码就可以了；第二是HTTP程序员，因为我们接下来讲到的区块链，是构建在HTTP上面的，这需要你起码要了解HTTP请求的工作原理。</p>
+<p>我需要做什么？首先要确保安装了Python 3.6以上的环境和Flask，此外还需要安装一个碉堡的Requests库。版本信息如下：</p>
+<p><code>pip install Flask==0.12.2 requests==2.18.4</code></p>
+<h2 id="第一步：创建区块链"><a href="#第一步：创建区块链" class="headerlink" title="第一步：创建区块链"></a>第一步：创建区块链</h2><p>打开你常用的编辑器，我个人比较喜欢PyCharm。创建一个新的文件，命名为 blockchain.py。整个项目，我们都只会用到这一个文件。有不清楚的地方，可以参考源代码。</p>
+<p>表示一个区块链</p>
+<p>我们将创建一个 Blockchain 类，它的构造函数里创建了一个初始为空的列表（用于存储我们的区块链），和一个存储交易的列表。下边是这个类的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class Blockchain(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.chain = []</span><br><span class="line">        self.current_transactions = []</span><br><span class="line"></span><br><span class="line">    def new_block(self):</span><br><span class="line">        # Creates a new Block and adds it to the chain</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">    def new_transaction(self):</span><br><span class="line">        # Adds a new transaction to the list of transactions</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def hash(block):</span><br><span class="line">        # Hashes a Block</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">    @property</span><br><span class="line">    def last_block(self):</span><br><span class="line">        # Returns the last Block in the chain</span><br><span class="line">        pass</span><br></pre></td></tr></table></figure>
+
+<p>Blockchain参数的作用是管理区块链，也用于存储交易信息和添加区块的方式。</p>
+<h3 id="区块到底长什么样？"><a href="#区块到底长什么样？" class="headerlink" title="区块到底长什么样？"></a>区块到底长什么样？</h3><p>每一个区块包含一个索引、一个时间戳、一个交易列表、一个证明（之后更多）和前一个区块的哈希值。</p>
+<p>以下是一个区块的例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">block = &#123;</span><br><span class="line">    &#x27;index&#x27;: 1,</span><br><span class="line">    &#x27;timestamp&#x27;: 1506057125.900785,</span><br><span class="line">    &#x27;transactions&#x27;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &#x27;sender&#x27;: &quot;8527147fe1f5426f9dd545de4b27ee00&quot;,</span><br><span class="line">            &#x27;recipient&#x27;: &quot;a77f5cdfa2934df3954a5c7c7da5df1f&quot;,</span><br><span class="line">            &#x27;amount&#x27;: 5,</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    &#x27;proof&#x27;: 324984774000,</span><br><span class="line">    &#x27;previous_hash&#x27;: &quot;2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>到这里，区块链的原理就很容易理解了：每一个区块包含它自己本身的一些变量，以及前一个区块的哈希值。这一点非常重要，因为哈希值保证了区块链不可篡改的特性。如果一个区块受到攻击哈希值变了，那么后面的所有区块的哈希值都会为之改变。</p>
+<p>你可能想，我还是不太理解。没关系，先接着往下看。</p>
+<h3 id="在区块上添加交易"><a href="#在区块上添加交易" class="headerlink" title="在区块上添加交易"></a>在区块上添加交易</h3><p>那么，我们怎么在区块上添加交易呢？可以使用new_transaction()参数。使用方法简单、直接，如下面代码所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class Blockchain(object):</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    def new_transaction(self, sender, recipient, amount):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Creates a new transaction to go into the next mined Block</span><br><span class="line"></span><br><span class="line">        :param sender: &lt;str&gt; Address of the Sender</span><br><span class="line">        :param recipient: &lt;str&gt; Address of the Recipient</span><br><span class="line">        :param amount: &lt;int&gt; Amount</span><br><span class="line">        :return: &lt;int&gt; The index of the Block that will hold this transaction</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        self.current_transactions.append(&#123;</span><br><span class="line">            &#x27;sender&#x27;: sender,</span><br><span class="line">            &#x27;recipient&#x27;: recipient,</span><br><span class="line">            &#x27;amount&#x27;: amount,</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        return self.last_block[&#x27;index&#x27;] + 1</span><br></pre></td></tr></table></figure>
+
+<p>在 new_transaction() 添加交易信息到列表中后，它会返回下一个将被开采区块的索引号，交易信息将被打包到这个区块上。这对稍后提交交易的用户有用。</p>
+<h3 id="创建新区块"><a href="#创建新区块" class="headerlink" title="创建新区块"></a>创建新区块</h3><p>在区块链创建完成后，我们需要创建一个创世区块（也就是区块链上的第一个区块）。当然，创世区块也需要被证明，这需要通过PoW的挖矿机制。后边我们会更多的介绍挖矿，这儿就不做过多的介绍了。</p>
+<p>除了在构造函数中创建创始区块，我们还需要用new_block()、new_transaction() 和 hash()参数对其进行完善。代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line">import json</span><br><span class="line">from time import time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Blockchain(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.current_transactions = []</span><br><span class="line">        self.chain = []</span><br><span class="line"></span><br><span class="line">        # Create the genesis block</span><br><span class="line">        self.new_block(previous_hash=1, proof=100)</span><br><span class="line"></span><br><span class="line">    def new_block(self, proof, previous_hash=None):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Create a new Block in the Blockchain</span><br><span class="line">        :param proof: &lt;int&gt; The proof given by the Proof of Work algorithm</span><br><span class="line">        :param previous_hash: (Optional) &lt;str&gt; Hash of previous Block</span><br><span class="line">        :return: &lt;dict&gt; New Block</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        block = &#123;</span><br><span class="line">            &#x27;index&#x27;: len(self.chain) + 1,</span><br><span class="line">            &#x27;timestamp&#x27;: time(),</span><br><span class="line">            &#x27;transactions&#x27;: self.current_transactions,</span><br><span class="line">            &#x27;proof&#x27;: proof,</span><br><span class="line">            &#x27;previous_hash&#x27;: previous_hash or self.hash(self.chain[-1]),</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # Reset the current list of transactions</span><br><span class="line">        self.current_transactions = []</span><br><span class="line"></span><br><span class="line">        self.chain.append(block)</span><br><span class="line">        return block</span><br><span class="line"></span><br><span class="line">    def new_transaction(self, sender, recipient, amount):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Creates a new transaction to go into the next mined Block</span><br><span class="line">        :param sender: &lt;str&gt; Address of the Sender</span><br><span class="line">        :param recipient: &lt;str&gt; Address of the Recipient</span><br><span class="line">        :param amount: &lt;int&gt; Amount</span><br><span class="line">        :return: &lt;int&gt; The index of the Block that will hold this transaction</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        self.current_transactions.append(&#123;</span><br><span class="line">            &#x27;sender&#x27;: sender,</span><br><span class="line">            &#x27;recipient&#x27;: recipient,</span><br><span class="line">            &#x27;amount&#x27;: amount,</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        return self.last_block[&#x27;index&#x27;] + 1</span><br><span class="line"></span><br><span class="line">    @property</span><br><span class="line">    def last_block(self):</span><br><span class="line">        return self.chain[-1]</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def hash(block):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Creates a SHA-256 hash of a Block</span><br><span class="line">        :param block: &lt;dict&gt; Block</span><br><span class="line">        :return: &lt;str&gt;</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        # We must make sure that the Dictionary is Ordered, or we&#x27;ll have inconsistent hashes</span><br><span class="line">        block_string = json.dumps(block, sort_keys=True).encode()</span><br><span class="line">        return hashlib.sha256(block_string).hexdigest()</span><br></pre></td></tr></table></figure>
+
+<p>为了方便大家理解，我在上面代码中加了一些注释。到这里，我们就已经对区块链属性有一个全面的了解了。不过我们还是要知道，区块链是怎么创建、怎么开发，以及跟矿工有什么关系。</p>
+<h3 id="关于工作量证明-PoW）"><a href="#关于工作量证明-PoW）" class="headerlink" title="关于工作量证明(PoW）"></a>关于工作量证明(PoW）</h3><p>工作证明算法（PoW）的作用，是对区块链上创建或开发新的区块的证明。其背后的核心是：找到一串解决某个数学问题的数字，这个数字必须符合两个条件：第一，难找；第二，很容易被验证（而且是很容易被任何人验证）。</p>
+<p>我们来举个非常简单的例子来帮助大家理解。</p>
+<p>我们来看一下这个例子，某个整数 x 乘以另外一个数 y ，得到的结果的哈希值必须是以 0 结尾。可以简单表示为：hash(x * y) &#x3D; ac23dc…0。所以，我们的目标是找到满足这个条件的一个 y 值。为了方便理解，我们暂定x&#x3D;5。下面我们就用Python来做这样一个运算：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from hashlib import sha256</span><br><span class="line">x = 5</span><br><span class="line">y = 0  # We don&#x27;t know what y should be yet...</span><br><span class="line">while sha256(f&#x27;&#123;x*y&#125;&#x27;.encode()).hexdigest()[-1] != &quot;0&quot;:</span><br><span class="line">    y += 1</span><br><span class="line">print(f&#x27;The solution is y = &#123;y&#125;&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>最终，计算结果是 y&#x3D;21。因此，生成的以 0 结尾的哈希值是：</p>
+<p><code>hash(5 * 21) = 1253e9373e...5e3600155e860</code></p>
+<p>在比特币中，PoW算法被称为Hashcash，原理跟上面例子差不多。矿工们为了能创建一个新区块，铆足劲儿做着上面的数学题（只有胜出者才能添加区块）。一般而言，证明的难度取决于字符串中搜索的字符数量，先找到正确数字的旷工就能够在每笔交易中获得比特币作为奖励。</p>
+<p>系统能够很容易验证他们的解决方案。</p>
+<h3 id="实现基本的工作量证明"><a href="#实现基本的工作量证明" class="headerlink" title="实现基本的工作量证明"></a>实现基本的工作量证明</h3><p>下面在我们刚刚创建好的区块链上，来实现一个相似的工作量证明算法。规则与上边那个简单的例子相似：</p>
+<p>找到一个数字 p ，它和前边一个区块的解决数字进行散列，生成前4位为 0 的哈希值。</p>
+<p>下面是具体的Python代码实现：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line">import json</span><br><span class="line"></span><br><span class="line">from time import time</span><br><span class="line">from uuid import uuid4</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Blockchain(object):</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    def proof_of_work(self, last_proof):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Simple Proof of Work Algorithm:</span><br><span class="line">         - Find a number p&#x27; such that hash(pp&#x27;) contains leading 4 zeroes, where p is the previous p&#x27;</span><br><span class="line">         - p is the previous proof, and p&#x27; is the new proof</span><br><span class="line">        :param last_proof: &lt;int&gt;</span><br><span class="line">        :return: &lt;int&gt;</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        proof = 0</span><br><span class="line">        while self.valid_proof(last_proof, proof) is False:</span><br><span class="line">            proof += 1</span><br><span class="line"></span><br><span class="line">        return proof</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def valid_proof(last_proof, proof):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Validates the Proof: Does hash(last_proof, proof) contain 4 leading zeroes?</span><br><span class="line">        :param last_proof: &lt;int&gt; Previous Proof</span><br><span class="line">        :param proof: &lt;int&gt; Current Proof</span><br><span class="line">        :return: &lt;bool&gt; True if correct, False if not.</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        guess = f&#x27;&#123;last_proof&#125;&#123;proof&#125;&#x27;.encode()</span><br><span class="line">        guess_hash = hashlib.sha256(guess).hexdigest()</span><br><span class="line">        return guess_hash[:4] == &quot;0000&quot;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以通过修改哈希值前 0 的数量，来调整算法的难度，一般来说，4位已经是足够了。每在哈希值前多加一个0，计算所花费的时间将呈指数倍增加。</p>
+<p>到这儿，我们的类基本写好了。下面，我们准备通过 HTTP 请求与其交互。</p>
+<h2 id="第二步：创建-API"><a href="#第二步：创建-API" class="headerlink" title="第二步：创建 API"></a>第二步：创建 API</h2><p>我们打算使用 Python 的 Flask 框架，它是一个轻型框架，可以很容易实现端点到Python函数的映射。这样，我们就可以使用 HTTP 请求通过网页访问我们的区块链了。</p>
+<p>我们用以下三个方法创建：</p>
+<p>&#x2F;transactions&#x2F;new 为一个区块创建一个新的交易；<br>&#x2F;mine 告诉我们的服务器开采一个新的区块；<br>&#x2F;chain 返回完整的 Blockchain 类。</p>
+<h3 id="搭建-Flask-框架"><a href="#搭建-Flask-框架" class="headerlink" title="搭建 Flask 框架"></a>搭建 Flask 框架</h3><p>我们的服务器会在区块链网络中形成单个节点。下面来创建一些样板代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line">import json</span><br><span class="line">from textwrap import dedent</span><br><span class="line">from time import time</span><br><span class="line">from uuid import uuid4</span><br><span class="line"></span><br><span class="line">from flask import Flask</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Blockchain(object):</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Instantiate our Node</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"># Generate a globally unique address for this node</span><br><span class="line">node_identifier = str(uuid4()).replace(&#x27;-&#x27;, &#x27;&#x27;)</span><br><span class="line"></span><br><span class="line"># Instantiate the Blockchain</span><br><span class="line">blockchain = Blockchain()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/mine&#x27;, methods=[&#x27;GET&#x27;])</span><br><span class="line">def mine():</span><br><span class="line">    return &quot;We&#x27;ll mine a new Block&quot;</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/transactions/new&#x27;, methods=[&#x27;POST&#x27;])</span><br><span class="line">def new_transaction():</span><br><span class="line">    return &quot;We&#x27;ll add a new transaction&quot;</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/chain&#x27;, methods=[&#x27;GET&#x27;])</span><br><span class="line">def full_chain():</span><br><span class="line">    response = &#123;</span><br><span class="line">        &#x27;chain&#x27;: blockchain.chain,</span><br><span class="line">        &#x27;length&#x27;: len(blockchain.chain),</span><br><span class="line">    &#125;</span><br><span class="line">    return jsonify(response), 200</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run(host=&#x27;0.0.0.0&#x27;, port=5000)</span><br></pre></td></tr></table></figure>
+
+<p>我们来简单的解释一下上边的代码：</p>
+<p>第15行： 实例化我们的节点；加载 Flask 框架。<br>第18行：为我们的节点创建一个随机名称。<br>第21行：实例化 Blockchain 类。<br>第24-26行：创建 &#x2F;mine 端点，这是一个GET请求。<br>第28-30行：创建 &#x2F;transactions&#x2F;new 端点，这是一个 POST 请求，我们将用它来发送数据。<br>第32-38行：创建 &#x2F;chain 端点，它是用来返回整个 Blockchain 类。<br>第40-41行：设置服务器运行端口为 5000。</p>
+<h3 id="交易节点"><a href="#交易节点" class="headerlink" title="交易节点"></a>交易节点</h3><p>交易的请求是什么形式呢？下面我们看看用户发送到服务器的一段请求代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"> &quot;sender&quot;: &quot;my address&quot;,</span><br><span class="line"> &quot;recipient&quot;: &quot;someone else&#x27;s address&quot;,</span><br><span class="line"> &quot;amount&quot;: 5</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为我们已经写好了将交易打包到区块上的代码，剩下的部分就简单了。只需要调用这个方法，从而实现添加交易的功能。下面是具体代码实现：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line">import json</span><br><span class="line">from textwrap import dedent</span><br><span class="line">from time import time</span><br><span class="line">from uuid import uuid4</span><br><span class="line"></span><br><span class="line">from flask import Flask, jsonify, request</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/transactions/new&#x27;, methods=[&#x27;POST&#x27;])</span><br><span class="line">def new_transaction():</span><br><span class="line">    values = request.get_json()</span><br><span class="line"></span><br><span class="line">    # Check that the required fields are in the POST&#x27;ed data</span><br><span class="line">    required = [&#x27;sender&#x27;, &#x27;recipient&#x27;, &#x27;amount&#x27;]</span><br><span class="line">    if not all(k in values for k in required):</span><br><span class="line">        return &#x27;Missing values&#x27;, 400</span><br><span class="line"></span><br><span class="line">    # Create a new Transaction</span><br><span class="line">    index = blockchain.new_transaction(values[&#x27;sender&#x27;], values[&#x27;recipient&#x27;], values[&#x27;amount&#x27;])</span><br><span class="line"></span><br><span class="line">    response = &#123;&#x27;message&#x27;: f&#x27;Transaction will be added to Block &#123;index&#125;&#x27;&#125;</span><br><span class="line">    return jsonify(response), 201</span><br></pre></td></tr></table></figure>
+
+<h3 id="挖矿节点"><a href="#挖矿节点" class="headerlink" title="挖矿节点"></a>挖矿节点</h3><p>挖矿节点是整个过程中最有趣的部分，它必须要达到三个目的：</p>
+<p>计算工作量证明；<br>通过打包交易奖励矿工一个币；<br>通过将新块添加到链中来伪造新块。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line">import json</span><br><span class="line"></span><br><span class="line">from time import time</span><br><span class="line">from uuid import uuid4</span><br><span class="line"></span><br><span class="line">from flask import Flask, jsonify, request</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/mine&#x27;, methods=[&#x27;GET&#x27;])</span><br><span class="line">def mine():</span><br><span class="line">    # We run the proof of work algorithm to get the next proof...</span><br><span class="line">    last_block = blockchain.last_block</span><br><span class="line">    last_proof = last_block[&#x27;proof&#x27;]</span><br><span class="line">    proof = blockchain.proof_of_work(last_proof)</span><br><span class="line"></span><br><span class="line">    # We must receive a reward for finding the proof.</span><br><span class="line">    # The sender is &quot;0&quot; to signify that this node has mined a new coin.</span><br><span class="line">    blockchain.new_transaction(</span><br><span class="line">        sender=&quot;0&quot;,</span><br><span class="line">        recipient=node_identifier,</span><br><span class="line">        amount=1,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    # Forge the new Block by adding it to the chain</span><br><span class="line">    previous_hash = blockchain.hash(last_block)</span><br><span class="line">    block = blockchain.new_block(proof, previous_hash)</span><br><span class="line"></span><br><span class="line">    response = &#123;</span><br><span class="line">        &#x27;message&#x27;: &quot;New Block Forged&quot;,</span><br><span class="line">        &#x27;index&#x27;: block[&#x27;index&#x27;],</span><br><span class="line">        &#x27;transactions&#x27;: block[&#x27;transactions&#x27;],</span><br><span class="line">        &#x27;proof&#x27;: block[&#x27;proof&#x27;],</span><br><span class="line">        &#x27;previous_hash&#x27;: block[&#x27;previous_hash&#x27;],</span><br><span class="line">    &#125;</span><br><span class="line">    return jsonify(response), 200</span><br></pre></td></tr></table></figure>
+
+<p>这儿要注意一下，开采区块的接收者是我们节点的地址。在这里完成的大部分工作只是与Blockchain类中的方法进行交互。下面可以开始与我们的区块链交互啦。</p>
+<h3 id="第三步：实现与-Blockchain-类交互"><a href="#第三步：实现与-Blockchain-类交互" class="headerlink" title="第三步：实现与 Blockchain 类交互"></a>第三步：实现与 Blockchain 类交互</h3><p>你可以使用普通的 cURL 或者 Postman 通过网络和刚才生成的 API 进行交互。</p>
+<p>启动服务器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ python blockchain.py</span><br><span class="line">* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)</span><br></pre></td></tr></table></figure>
+<p>通过向以下地址发送请求，我们可以尝试一下挖矿。</p>
+<p><code>http://localhost:5000/mine</code></p>
+<p>下面我们通过向下面链接发送post请求，来创建一个新的交易：<br><code>http://localhost:5000/transactions/new</code></p>
+<p>请求中要包含我们的交易结构。</p>
+<p>如果你用的是cURL，则可以通过下面代码来实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ curl -X POST -H &quot;Content-Type: application/json&quot; -d &#x27;&#123;</span><br><span class="line"> &quot;sender&quot;: &quot;d4ee26eee15148ee92c6cd394edd974e&quot;,</span><br><span class="line"> &quot;recipient&quot;: &quot;someone-other-address&quot;,</span><br><span class="line"> &quot;amount&quot;: 5</span><br><span class="line">&#125;&#x27; &quot;http://localhost:5000/transactions/new&quot;</span><br></pre></td></tr></table></figure>
+<p>完成上面步骤之后，需要重启下服务器。这时候，我挖出了2个区块，获得了3个币的奖励。这里，我们还可以像以下地址发送请求，来对整条链进行检查。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;chain&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;index&quot;: 1,</span><br><span class="line">      &quot;previous_hash&quot;: 1,</span><br><span class="line">      &quot;proof&quot;: 100,</span><br><span class="line">      &quot;timestamp&quot;: 1506280650.770839,</span><br><span class="line">      &quot;transactions&quot;: []</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;index&quot;: 2,</span><br><span class="line">      &quot;previous_hash&quot;: &quot;c099bc...bfb7&quot;,</span><br><span class="line">      &quot;proof&quot;: 35293,</span><br><span class="line">      &quot;timestamp&quot;: 1506280664.717925,</span><br><span class="line">      &quot;transactions&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;amount&quot;: 1,</span><br><span class="line">          &quot;recipient&quot;: &quot;8bbcb347e0634905b0cac7955bae152b&quot;,</span><br><span class="line">          &quot;sender&quot;: &quot;0&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;index&quot;: 3,</span><br><span class="line">      &quot;previous_hash&quot;: &quot;eff91a...10f2&quot;,</span><br><span class="line">      &quot;proof&quot;: 35089,</span><br><span class="line">      &quot;timestamp&quot;: 1506280666.1086972,</span><br><span class="line">      &quot;transactions&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;amount&quot;: 1,</span><br><span class="line">          &quot;recipient&quot;: &quot;8bbcb347e0634905b0cac7955bae152b&quot;,</span><br><span class="line">          &quot;sender&quot;: &quot;0&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;length&quot;: 3</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="第四步：形成共识"><a href="#第四步：形成共识" class="headerlink" title="第四步：形成共识"></a>第四步：形成共识</h2><p>终于写到共识了，共识机制是我认为区块链中最有意思的部分。 在上面的步骤中，我们已经创建完成了一个简单的区块链，并且能够实现交易、挖矿等基本功能。 不过，区块链上的节点应该是分散的。 如果它们是分散的，我们究竟如何确保它们记录的都是同一条链？ 这就叫共识问题。如果我们的网络中需要多个节点，我们必须实现共识算法。</p>
+<h3 id="注册新节点"><a href="#注册新节点" class="headerlink" title="注册新节点"></a>注册新节点</h3><p>在我们实现共识算法之前，需要解决一个问题：在同一个网络上，让其中一个节点知道它的相邻节点有哪些。每一个节点需要网络上的其他节点进行注册。因此，我们将需要更多的节点：</p>
+<p>&#x2F;nodes&#x2F;register 接受URL形式的新节点列表。<br>&#x2F;nodes&#x2F;resolve 实现我们的共识算法，它可以解决任何争议，保证节点具有正确的链。</p>
+<p>下面，我们需要修改Blockchain类的结构，以及找到注册节点实现的方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">from urllib.parse import urlparse</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Blockchain(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        ...</span><br><span class="line">        self.nodes = set()</span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line">    def register_node(self, address):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Add a new node to the list of nodes</span><br><span class="line">        :param address: &lt;str&gt; Address of node. Eg. &#x27;http://192.168.0.5:5000&#x27;</span><br><span class="line">        :return: None</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        parsed_url = urlparse(address)</span><br><span class="line">        self.nodes.add(parsed_url.netloc)</span><br></pre></td></tr></table></figure>
+
+<p>这儿需要注意一下，set（）函数用来保存节点列表。 它是确保添加的新节点具有幂等性的方法，意思是无论我们使用这个方法添加特定节点多少次，它都只会出现一次。</p>
+<h3 id="实现共识算法"><a href="#实现共识算法" class="headerlink" title="实现共识算法"></a>实现共识算法</h3><p>先前提到的，当某个节点与另一个节点的记录不一致时，会「打架」。为了解决这个冲突，我们需要制定一个规则，即最长而有效的链是最有权威性的。换句话说，网络上最长的链就是事实。使用这个算法，我们就可以在我们的网络上达成共识。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Blockchain(object)</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    def valid_chain(self, chain):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Determine if a given blockchain is valid</span><br><span class="line">        :param chain: &lt;list&gt; A blockchain</span><br><span class="line">        :return: &lt;bool&gt; True if valid, False if not</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        last_block = chain[0]</span><br><span class="line">        current_index = 1</span><br><span class="line"></span><br><span class="line">        while current_index &lt; len(chain):</span><br><span class="line">            block = chain[current_index]</span><br><span class="line">            print(f&#x27;&#123;last_block&#125;&#x27;)</span><br><span class="line">            print(f&#x27;&#123;block&#125;&#x27;)</span><br><span class="line">            print(&quot;\n-----------\n&quot;)</span><br><span class="line">            # Check that the hash of the block is correct</span><br><span class="line">            if block[&#x27;previous_hash&#x27;] != self.hash(last_block):</span><br><span class="line">                return False</span><br><span class="line"></span><br><span class="line">            # Check that the Proof of Work is correct</span><br><span class="line">            if not self.valid_proof(last_block[&#x27;proof&#x27;], block[&#x27;proof&#x27;]):</span><br><span class="line">                return False</span><br><span class="line"></span><br><span class="line">            last_block = block</span><br><span class="line">            current_index += 1</span><br><span class="line"></span><br><span class="line">        return True</span><br><span class="line"></span><br><span class="line">    def resolve_conflicts(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        This is our Consensus Algorithm, it resolves conflicts</span><br><span class="line">        by replacing our chain with the longest one in the network.</span><br><span class="line">        :return: &lt;bool&gt; True if our chain was replaced, False if not</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        neighbours = self.nodes</span><br><span class="line">        new_chain = None</span><br><span class="line"></span><br><span class="line">        # We&#x27;re only looking for chains longer than ours</span><br><span class="line">        max_length = len(self.chain)</span><br><span class="line"></span><br><span class="line">        # Grab and verify the chains from all the nodes in our network</span><br><span class="line">        for node in neighbours:</span><br><span class="line">            response = requests.get(f&#x27;http://&#123;node&#125;/chain&#x27;)</span><br><span class="line"></span><br><span class="line">            if response.status_code == 200:</span><br><span class="line">                length = response.json()[&#x27;length&#x27;]</span><br><span class="line">                chain = response.json()[&#x27;chain&#x27;]</span><br><span class="line"></span><br><span class="line">                # Check if the length is longer and the chain is valid</span><br><span class="line">                if length &gt; max_length and self.valid_chain(chain):</span><br><span class="line">                    max_length = length</span><br><span class="line">                    new_chain = chain</span><br><span class="line"></span><br><span class="line">        # Replace our chain if we discovered a new, valid chain longer than ours</span><br><span class="line">        if new_chain:</span><br><span class="line">            self.chain = new_chain</span><br><span class="line">            return True</span><br><span class="line"></span><br><span class="line">        return False</span><br></pre></td></tr></table></figure>
+
+<p>其中，valid_chain() 方法是负责校验这一条链是否是有效的，怎么校验呢？遍历每一个区块，验证它们的哈希值和工作量证明。</p>
+<p>resolve_conflicts() 是遍历我们所有相邻节点的方法，会下载它们的链，然后使用上述方法去验证它们。如果找到一个有效的链，其长度大于我们的链，就将我们的链条替换为该链。</p>
+<p>下面我们在API中，注册两个节点，一个用于添加相邻节点，另一个用于解决冲突：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&#x27;/nodes/register&#x27;, methods=[&#x27;POST&#x27;])</span><br><span class="line">def register_nodes():</span><br><span class="line">    values = request.get_json()</span><br><span class="line"></span><br><span class="line">    nodes = values.get(&#x27;nodes&#x27;)</span><br><span class="line">    if nodes is None:</span><br><span class="line">        return &quot;Error: Please supply a valid list of nodes&quot;, 400</span><br><span class="line"></span><br><span class="line">    for node in nodes:</span><br><span class="line">        blockchain.register_node(node)</span><br><span class="line"></span><br><span class="line">    response = &#123;</span><br><span class="line">        &#x27;message&#x27;: &#x27;New nodes have been added&#x27;,</span><br><span class="line">        &#x27;total_nodes&#x27;: list(blockchain.nodes),</span><br><span class="line">    &#125;</span><br><span class="line">    return jsonify(response), 201</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/nodes/resolve&#x27;, methods=[&#x27;GET&#x27;])</span><br><span class="line">def consensus():</span><br><span class="line">    replaced = blockchain.resolve_conflicts()</span><br><span class="line"></span><br><span class="line">    if replaced:</span><br><span class="line">        response = &#123;</span><br><span class="line">            &#x27;message&#x27;: &#x27;Our chain was replaced&#x27;,</span><br><span class="line">            &#x27;new_chain&#x27;: blockchain.chain</span><br><span class="line">        &#125;</span><br><span class="line">    else:</span><br><span class="line">        response = &#123;</span><br><span class="line">            &#x27;message&#x27;: &#x27;Our chain is authoritative&#x27;,</span><br><span class="line">            &#x27;chain&#x27;: blockchain.chain</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    return jsonify(response), 200</span><br></pre></td></tr></table></figure>
+
+<p>此时，你可以使用不同机器（或使用同一台机器的不同端口）启动不同的节点。 我是使用的同一台机器，在另外一个端口上创建了另一个节点，并将其注册到当前节点。 因此，我有两个节点：http：&#x2F;&#x2F; localhost：5000 和 http：&#x2F;&#x2F; localhost：5001。</p>
+<p>完整代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line">import json</span><br><span class="line">from textwrap import dedent</span><br><span class="line">from time import time</span><br><span class="line">from uuid import uuid4</span><br><span class="line">from urllib.parse import urlparse</span><br><span class="line">from flask import Flask, jsonify, request</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Blockchain(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.chain = []</span><br><span class="line">        self.current_transactions = []</span><br><span class="line"></span><br><span class="line">        self.nodes = set()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        # Create the genesis block</span><br><span class="line">        self.new_block(previous_hash=1, proof=100)</span><br><span class="line"></span><br><span class="line">    def new_block(self, proof, previous_hash=None):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Create a new Block in the Blockchain</span><br><span class="line">        :param proof: &lt;int&gt; The proof given by the Proof of Work algorithm</span><br><span class="line">        :param previous_hash: (Optional) &lt;str&gt; Hash of previous Block</span><br><span class="line">        :return: &lt;dict&gt; New Block</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        block = &#123;</span><br><span class="line">            &#x27;index&#x27;: len(self.chain) + 1,</span><br><span class="line">            &#x27;timestamp&#x27;: time(),</span><br><span class="line">            &#x27;transactions&#x27;: self.current_transactions,</span><br><span class="line">            &#x27;proof&#x27;: proof,</span><br><span class="line">            &#x27;previous_hash&#x27;: previous_hash or self.hash(self.chain[-1]),</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # Reset the current list of transactions</span><br><span class="line">        self.current_transactions = []</span><br><span class="line"></span><br><span class="line">        self.chain.append(block)</span><br><span class="line">        return block</span><br><span class="line"></span><br><span class="line">    def new_transaction(self, sender, recipient, amount):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Creates a new transaction to go into the next mined Block</span><br><span class="line"></span><br><span class="line">        :param sender: &lt;str&gt; Address of the Sender</span><br><span class="line">        :param recipient: &lt;str&gt; Address of the Recipient</span><br><span class="line">        :param amount: &lt;int&gt; Amount</span><br><span class="line">        :return: &lt;int&gt; The index of the Block that will hold this transaction</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        self.current_transactions.append(&#123;</span><br><span class="line">            &#x27;sender&#x27;: sender,</span><br><span class="line">            &#x27;recipient&#x27;: recipient,</span><br><span class="line">            &#x27;amount&#x27;: amount,</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        return self.last_block[&#x27;index&#x27;] + 1</span><br><span class="line"></span><br><span class="line">    @property</span><br><span class="line">    def last_block(self):</span><br><span class="line">        return self.chain[-1]</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def hash(block):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Creates a SHA-256 hash of a Block</span><br><span class="line">        :param block: &lt;dict&gt; Block</span><br><span class="line">        :return: &lt;str&gt;</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        # We must make sure that the Dictionary is Ordered, or we&#x27;ll have inconsistent hashes</span><br><span class="line">        block_string = json.dumps(block, sort_keys=True).encode()</span><br><span class="line">        return hashlib.sha256(block_string).hexdigest()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    def proof_of_work(self, last_proof):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Simple Proof of Work Algorithm:</span><br><span class="line">         - Find a number p&#x27; such that hash(pp&#x27;) contains leading 4 zeroes, where p is the previous p&#x27;</span><br><span class="line">         - p is the previous proof, and p&#x27; is the new proof</span><br><span class="line">        :param last_proof: &lt;int&gt;</span><br><span class="line">        :return: &lt;int&gt;</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        proof = 0</span><br><span class="line">        while self.valid_proof(last_proof, proof) is False:</span><br><span class="line">            proof += 1</span><br><span class="line"></span><br><span class="line">        return proof</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def valid_proof(last_proof, proof):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Validates the Proof: Does hash(last_proof, proof) contain 4 leading zeroes?</span><br><span class="line">        :param last_proof: &lt;int&gt; Previous Proof</span><br><span class="line">        :param proof: &lt;int&gt; Current Proof</span><br><span class="line">        :return: &lt;bool&gt; True if correct, False if not.</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        guess = f&#x27;&#123;last_proof&#125;&#123;proof&#125;&#x27;.encode()</span><br><span class="line">        guess_hash = hashlib.sha256(guess).hexdigest()</span><br><span class="line">        return guess_hash[:4] == &quot;0000&quot;</span><br><span class="line">    </span><br><span class="line">    def register_node(self, address):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Add a new node to the list of nodes</span><br><span class="line">        :param address: &lt;str&gt; Address of node. Eg. &#x27;http://192.168.0.5:5000&#x27;</span><br><span class="line">        :return: None</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        parsed_url = urlparse(address)</span><br><span class="line">        self.nodes.add(parsed_url.netloc)</span><br><span class="line"></span><br><span class="line">    def valid_chain(self, chain):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Determine if a given blockchain is valid</span><br><span class="line">        :param chain: &lt;list&gt; A blockchain</span><br><span class="line">        :return: &lt;bool&gt; True if valid, False if not</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        last_block = chain[0]</span><br><span class="line">        current_index = 1</span><br><span class="line"></span><br><span class="line">        while current_index &lt; len(chain):</span><br><span class="line">            block = chain[current_index]</span><br><span class="line">            print(f&#x27;&#123;last_block&#125;&#x27;)</span><br><span class="line">            print(f&#x27;&#123;block&#125;&#x27;)</span><br><span class="line">            print(&quot;\n-----------\n&quot;)</span><br><span class="line">            # Check that the hash of the block is correct</span><br><span class="line">            if block[&#x27;previous_hash&#x27;] != self.hash(last_block):</span><br><span class="line">                return False</span><br><span class="line"></span><br><span class="line">            # Check that the Proof of Work is correct</span><br><span class="line">            if not self.valid_proof(last_block[&#x27;proof&#x27;], block[&#x27;proof&#x27;]):</span><br><span class="line">                return False</span><br><span class="line"></span><br><span class="line">            last_block = block</span><br><span class="line">            current_index += 1</span><br><span class="line"></span><br><span class="line">        return True</span><br><span class="line"></span><br><span class="line">    def resolve_conflicts(self):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        This is our Consensus Algorithm, it resolves conflicts</span><br><span class="line">        by replacing our chain with the longest one in the network.</span><br><span class="line">        :return: &lt;bool&gt; True if our chain was replaced, False if not</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">        neighbours = self.nodes</span><br><span class="line">        new_chain = None</span><br><span class="line"></span><br><span class="line">        # We&#x27;re only looking for chains longer than ours</span><br><span class="line">        max_length = len(self.chain)</span><br><span class="line"></span><br><span class="line">        # Grab and verify the chains from all the nodes in our network</span><br><span class="line">        for node in neighbours:</span><br><span class="line">            response = requests.get(f&#x27;http://&#123;node&#125;/chain&#x27;)</span><br><span class="line"></span><br><span class="line">            if response.status_code == 200:</span><br><span class="line">                length = response.json()[&#x27;length&#x27;]</span><br><span class="line">                chain = response.json()[&#x27;chain&#x27;]</span><br><span class="line"></span><br><span class="line">                # Check if the length is longer and the chain is valid</span><br><span class="line">                if length &gt; max_length and self.valid_chain(chain):</span><br><span class="line">                    max_length = length</span><br><span class="line">                    new_chain = chain</span><br><span class="line"></span><br><span class="line">        # Replace our chain if we discovered a new, valid chain longer than ours</span><br><span class="line">        if new_chain:</span><br><span class="line">            self.chain = new_chain</span><br><span class="line">            return True</span><br><span class="line"></span><br><span class="line">        return False</span><br><span class="line"></span><br><span class="line"># Instantiate our Node</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"># Generate a globally unique address for this node</span><br><span class="line">node_identifier = str(uuid4()).replace(&#x27;-&#x27;, &#x27;&#x27;)</span><br><span class="line"></span><br><span class="line"># Instantiate the Blockchain</span><br><span class="line">blockchain = Blockchain()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/mine&#x27;, methods=[&#x27;GET&#x27;])</span><br><span class="line">def mine():</span><br><span class="line">    # We run the proof of work algorithm to get the next proof...</span><br><span class="line">    last_block = blockchain.last_block</span><br><span class="line">    last_proof = last_block[&#x27;proof&#x27;]</span><br><span class="line">    proof = blockchain.proof_of_work(last_proof)</span><br><span class="line"></span><br><span class="line">    # We must receive a reward for finding the proof.</span><br><span class="line">    # The sender is &quot;0&quot; to signify that this node has mined a new coin.</span><br><span class="line">    blockchain.new_transaction(</span><br><span class="line">        sender=&quot;0&quot;,</span><br><span class="line">        recipient=node_identifier,</span><br><span class="line">        amount=1,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    # Forge the new Block by adding it to the chain</span><br><span class="line">    previous_hash = blockchain.hash(last_block)</span><br><span class="line">    block = blockchain.new_block(proof, previous_hash)</span><br><span class="line"></span><br><span class="line">    response = &#123;</span><br><span class="line">        &#x27;message&#x27;: &quot;New Block Forged&quot;,</span><br><span class="line">        &#x27;index&#x27;: block[&#x27;index&#x27;],</span><br><span class="line">        &#x27;transactions&#x27;: block[&#x27;transactions&#x27;],</span><br><span class="line">        &#x27;proof&#x27;: block[&#x27;proof&#x27;],</span><br><span class="line">        &#x27;previous_hash&#x27;: block[&#x27;previous_hash&#x27;],</span><br><span class="line">    &#125;</span><br><span class="line">    return jsonify(response), 200</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/transactions/new&#x27;, methods=[&#x27;POST&#x27;])</span><br><span class="line">def new_transaction():</span><br><span class="line">    values = request.get_json()</span><br><span class="line"></span><br><span class="line">    # Check that the required fields are in the POST&#x27;ed data</span><br><span class="line">    required = [&#x27;sender&#x27;, &#x27;recipient&#x27;, &#x27;amount&#x27;]</span><br><span class="line">    if not all(k in values for k in required):</span><br><span class="line">        return &#x27;Missing values&#x27;, 400</span><br><span class="line"></span><br><span class="line">    # Create a new Transaction</span><br><span class="line">    index = blockchain.new_transaction(values[&#x27;sender&#x27;], values[&#x27;recipient&#x27;], values[&#x27;amount&#x27;])</span><br><span class="line"></span><br><span class="line">    response = &#123;&#x27;message&#x27;: f&#x27;Transaction will be added to Block &#123;index&#125;&#x27;&#125;</span><br><span class="line">    return jsonify(response), 201</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/chain&#x27;, methods=[&#x27;GET&#x27;])</span><br><span class="line">def full_chain():</span><br><span class="line">    response = &#123;</span><br><span class="line">        &#x27;chain&#x27;: blockchain.chain,</span><br><span class="line">        &#x27;length&#x27;: len(blockchain.chain),</span><br><span class="line">    &#125;</span><br><span class="line">    return jsonify(response), 200</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/nodes/register&#x27;, methods=[&#x27;POST&#x27;])</span><br><span class="line">def register_nodes():</span><br><span class="line">    values = request.get_json()</span><br><span class="line"></span><br><span class="line">    nodes = values.get(&#x27;nodes&#x27;)</span><br><span class="line">    if nodes is None:</span><br><span class="line">        return &quot;Error: Please supply a valid list of nodes&quot;, 400</span><br><span class="line"></span><br><span class="line">    for node in nodes:</span><br><span class="line">        blockchain.register_node(node)</span><br><span class="line"></span><br><span class="line">    response = &#123;</span><br><span class="line">        &#x27;message&#x27;: &#x27;New nodes have been added&#x27;,</span><br><span class="line">        &#x27;total_nodes&#x27;: list(blockchain.nodes),</span><br><span class="line">    &#125;</span><br><span class="line">    return jsonify(response), 201</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/nodes/resolve&#x27;, methods=[&#x27;GET&#x27;])</span><br><span class="line">def consensus():</span><br><span class="line">    replaced = blockchain.resolve_conflicts()</span><br><span class="line"></span><br><span class="line">    if replaced:</span><br><span class="line">        response = &#123;</span><br><span class="line">            &#x27;message&#x27;: &#x27;Our chain was replaced&#x27;,</span><br><span class="line">            &#x27;new_chain&#x27;: blockchain.chain</span><br><span class="line">        &#125;</span><br><span class="line">    else:</span><br><span class="line">        response = &#123;</span><br><span class="line">            &#x27;message&#x27;: &#x27;Our chain is authoritative&#x27;,</span><br><span class="line">            &#x27;chain&#x27;: blockchain.chain</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    return jsonify(response), 200</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    app.run(host=&#x27;0.0.0.0&#x27;, port=5000)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后，我在第二个节点上挖出了一些新的区块，以确保第二个节点的链条比第一个节点的链条更长。 之后，我在第一个节点上调用 GET &#x2F; nodes &#x2F; resolve，使其中链通过共识算法被第二个节点的链条取代。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/blockchain/pythondemo/" data-id="clhlnylee005xojuphsnt4lz0" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/scala/fold" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/scala/fold/" class="article-date">
+  <time datetime="2018-11-06T07:30:13.000Z" itemprop="datePublished">2018-11-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/scala/fold/">【scala】fold算子示例：字每记数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>对一个字符串中的字母统计数量：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val rs=&quot;abadcds&quot;.foldLeft(Map[Char, Int]())((m, c) =&gt; m + (c -&gt; (m.getOrElse(c, 0)+1) ))</span><br><span class="line">print(rs)</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Map(s -&gt; 1, a -&gt; 2, b -&gt; 1, c -&gt; 1, d -&gt; 2)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/scala/fold/" data-id="clhlnylg900hgojupb7oc3gg8" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Scala/" rel="tag">Scala</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/blockchain/ipfsinstall" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/blockchain/ipfsinstall/" class="article-date">
+  <time datetime="2018-10-13T14:48:05.000Z" itemprop="datePublished">2018-10-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/blockchain/ipfsinstall/">IPFS 入门笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##IPFS 是什么</p>
+<p>IPFS（InterPlanetary File System，星际文件系统）是永久的、去中心化保存和共享文件的方法，这是一种内容可寻址、版本化、点对点超媒体的分布式协议。</p>
+<ul>
+<li>内容可寻址：通过文件内容生成唯一哈希值来标识文件，而不是通过文件保存位置来标识。相同内容的文件在系统中只会存在一份，节约存储空间</li>
+<li>版本化：可追溯文件修改历史</li>
+<li>点对点超媒体：P2P 保存各种各样类型的数据</li>
+<li>可以把 IPFS 想象成所有文件数据是在同一个 BitTorrent 群并且通过同一个 Git 仓库存取。</li>
+</ul>
+<p>总之，它集一些成功系统（分布式哈希表、BitTorrent、Git、自认证文件系统）的优势于一身，是一套很厉害的文件存取系统。</p>
+<p>##IPFS 使用场景</p>
+<p>IPFS 的发明者 Juan Benet（<a href="mailto:&#x6a;&#x75;&#97;&#x6e;&#x40;&#98;&#101;&#x6e;&#101;&#x74;&#x2e;&#x61;&#105;">&#x6a;&#x75;&#97;&#x6e;&#x40;&#98;&#101;&#x6e;&#101;&#x74;&#x2e;&#x61;&#105;</a>）在 IPFS 技术白皮书中假设了一些使用场景：</p>
+<ul>
+<li>在 &#x2F;ipfs 和 &#x2F;ipns 下挂载全球文件系统</li>
+<li>挂载的个人同步文件夹，拥有版本功能</li>
+<li>文件加密，数据共享系统</li>
+<li>可用于所有软件的带版本的包管理器（已经实现了：<a target="_blank" rel="noopener" href="https://github.com/whyrusleeping/gx%EF%BC%89">https://github.com/whyrusleeping/gx）</a></li>
+<li>可以作为虚机的根文件系统</li>
+<li>可以作为数据库：应用可以直接操作 Merkle DAG，拥有 IPFS 提供的版本化、缓存以及分布式特性</li>
+<li>可以做（加密）通讯平台</li>
+<li>各种类型的 CDN</li>
+<li>永久的 Web，不存在不能访问的链接</li>
+</ul>
+<p>##安装与初始化</p>
+<p>下载 go-ipfs 解压（下面的示例我是在 Windows 10 上做的，解压目录为 D:\go-ipfs），然后到解压目录执行命令 ipfs init，将在用户 home（~）下建立 .ipfs 目录存放数据，默认最大存储 10G。init 命令可以带参，比如修改最大存储、目录等，具体参考 ipfs init help。</p>
+<p>继续执行命令 ipfs daemon 启动节点服务器：</p>
+<ul>
+<li>加入 IPFS 网络</li>
+<li>本地 HTTP 服务器，默认 8080 端口</li>
+<li>处理后续 ipfs 的客户端命令</li>
+</ul>
+<p>新开一个命令行，执行命令 ipfs id 以查看当前节点标识:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;ID&quot;: &quot;QmSYF1HZxhPUWWGrz5bMn16tdD73AeMVhp7pNSHkVCMF7R&quot;,</span><br><span class="line">    &quot;PublicKey&quot;: &quot;....&quot;,</span><br><span class="line">    &quot;Addresses&quot;: [</span><br><span class="line">      &quot;/ip4/169.254.40.215/tcp/4001/ipfs/...&quot;,</span><br><span class="line">      ....</span><br><span class="line">    ],</span><br><span class="line">    &quot;AgentVersion&quot;: &quot;go-ipfs/0.4.12/&quot;,</span><br><span class="line">    &quot;ProtocolVersion&quot;: &quot;ipfs/0.1.0&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>浏览器访问 <a target="_blank" rel="noopener" href="http://localhost:5001/webui">http://localhost:5001/webui</a> 进入管理界面，查看系统状态、管理文件以及配置系统。</p>
+<p>##配置</p>
+<p>除了使用 Web 管理界面修改配置外，也可以直接用命令行 ipfs config show &gt; ipfs.conf 先导出当前配置（JSON 格式，配置项不多且含义明显），改完后使用 ipfs config replace ipfs.conf 更新配置，重启服务器就生效了。当然，修改配置也可以直接用 ipfs config edit。</p>
+<p>服务器最终使用的配置文件保存在 ~&#x2F;.ipfs&#x2F;config 中，对比刚刚导出的文件我们发现导出的文件只比这个 config 少了一项 Identity.PrivKey，即节点初始化时自动生成的 RSA 私钥。</p>
+<p>##密钥对</p>
+<p>节点初始化时会自动生成 RSA 密钥对，并且私钥没有设置密码。</p>
+<p>公钥通过多重哈希得到节点 id（即上面的 QmSYF1HZxhPUWWGrz5bMn16tdD73AeMVhp7pNSHkVCMF7R），节点服务器启动后会和其他节点交互公钥，后续通讯时使用对方公钥加密数据，通过多重哈希对方公钥、对比对方节点 id 来确认是否正在和正确的节点交互。</p>
+<p>私钥用来解密接收到的数据，也用于 ipns 来绑定文件名。整个过程没有引入证书，仅是使用了 PKI 机制。</p>
+<p>总之，我觉得可以暂时不用关心密钥对，可能只有在一些使用场景下面才需要吧。</p>
+<p>##添加文件</p>
+<p>我当前目录结构是这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">D:\GO-IPFS</span><br><span class="line">│  build-log</span><br><span class="line">│  config</span><br><span class="line">│  install.sh</span><br><span class="line">│  ipfs.conf</span><br><span class="line">│  ipfs.exe</span><br><span class="line">│  LICENSE</span><br><span class="line">│  README.md</span><br><span class="line">│</span><br><span class="line">└─b3log</span><br><span class="line">    └─hacpai</span><br><span class="line">            README.md</span><br></pre></td></tr></table></figure>
+<p>我准备添加的目录是 b3log，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">D:\go-ipfs&gt;ipfs add -r b3log</span><br><span class="line"> 94 B / 94 B [=============================================================================================] 100.00% 0s</span><br><span class="line">added Qmco94dYP733XwrUqFUhDtDG8RsqmGQ6UDPvnmH4Pvy2rv b3log/hacpai/README.md</span><br><span class="line">added Qmbkno2HVZdW7XfwsVjmuu9VDKBByczFR8qwsBXMjMrjPQ b3log/hacpai</span><br><span class="line">added QmPxebZuW2pgfzj5JWq22KUzxStmqQ6i7YUK9Sq9xepXT9 b3log</span><br></pre></td></tr></table></figure>
+
+<p>这样我们使用 ipfs cat &#x2F;ipfs&#x2F;Qmco94dYP733XwrUqFUhDtDG8RsqmGQ6UDPvnmH4Pvy2rv 就可以查看 README.md 了。在其他节点上也可以，只要记住这个文件的哈希值就行了。我们可以在自己的 HTTP 网关上试试（注意我的端口改成了 5002，你的默认应该是 8080）.</p>
+<p>当然也可以用 ipfs 官方的 HTTP 网关：</p>
+<p><a target="_blank" rel="noopener" href="https://ipfs.io/ipfs/Qmco94dYP733XwrUqFUhDtDG8RsqmGQ6UDPvnmH4Pvy2rv">https://ipfs.io/ipfs/Qmco94dYP733XwrUqFUhDtDG8RsqmGQ6UDPvnmH4Pvy2rv</a></p>
+<p>##获取文件</p>
+<p><code>ipfs get /ipns/QmSYF1HZxhPUWWGrz5bMn16tdD73AeMVhp7pNSHkVCMF7R</code></p>
+<p>将获取刚才我们发布的 b3log 目录。</p>
+<p>##Pin</p>
+<p>IPFS 的本意是让用户觉得所有文件都是在本地的，没有“从远程服务器上下载文件”。Pin 是将文件长期保留在本地，不被垃圾回收。</p>
+<p>执行 ipfs pin ls 可以查看哪些文件在本地是持久化的，通过 add 添加的文件默认就是 pin 过的。</p>
+<p>##绑定节点名</p>
+<p>每次修改文件后 add 都会返回不同的哈希，这对于网站来说就没法固定访问地址了，所以我们需要通过 ipns 来“绑定”节点名。</p>
+<p>上面 b3log 目录的哈希值是 QmPxebZuW2pgfzj5JWq22KUzxStmqQ6i7YUK9Sq9xepXT9，我们将整个目录作为节点根目录发布：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">D:\go-ipfs&gt;ipfs name publish QmPxebZuW2pgfzj5JWq22KUzxStmqQ6i7YUK9Sq9xepXT9</span><br><span class="line">Published to QmSYF1HZxhPUWWGrz5bMn16tdD73AeMVhp7pNSHkVCMF7R: /ipfs/QmPxebZuW2pgfzj5JWq22KUzxStmqQ6i7YUK9Sq9xepXT9</span><br></pre></td></tr></table></figure>
+
+<p>然后我们就可以通过 ipns 访问了，注意是 ipns：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">D:\go-ipfs&gt;ipfs cat /ipns/QmSYF1HZxhPUWWGrz5bMn16tdD73AeMVhp7pNSHkVCMF7R/hacpai/README.md</span><br><span class="line">The piper will lead us to reason.</span><br><span class="line"></span><br><span class="line">欢迎访问黑客与画家的社区 https://hacpai.com</span><br></pre></td></tr></table></figure>
+
+<p>以后每次更新文件都再 publish 一下就行了。目前（v0.4.12）使用 ipns 访问会很慢，据说 v0.4.14 会解决。</p>
+<p>##DNS 解析</p>
+<p>IPFS 允许用户使用现有的域名系统，这样就能用一个好记的地址来访问文件了，比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">D:\go-ipfs&gt;ipfs cat /ipns/ipfs.b3log.org/hacpai/README.md</span><br><span class="line">The piper will lead us to reason.</span><br><span class="line"></span><br><span class="line">欢迎访问黑客与画家的社区 https://hacpai.com</span><br></pre></td></tr></table></figure>
+<p>只需要在 DNS 解析加入一条 TXT 记录：</p>
+<table>
+<thead>
+<tr>
+<th>记录类型</th>
+<th>主机记录</th>
+<th>记录值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TXT</td>
+<td>ipfs</td>
+<td>dnslink&#x3D;&#x2F;ipns&#x2F;QmSYF1HZxhPUWWGrz5bMn16tdD73AeMVhp7pNSHkVCMF7R</td>
+</tr>
+</tbody></table>
+<p>##总结</p>
+<ul>
+<li>IPFS 是永久的、去中心化保存和共享文件的方法，这是一种内容可寻址、版本化、点对点超媒体的分布式协议</li>
+<li>我们可以用它来存取文件，数据永不丢失</li>
+<li>应用可以用它来做数据库，自动拥有版本化、缓存及分布式特性</li>
+<li>官方参考实现使用 golang 编写，JavaScript、Python、C 等语言在陆续开发中</li>
+<li>总之，IPFS 是一套非常厉害的文件系统</li>
+</ul>
+<p>转自：<a target="_blank" rel="noopener" href="https://blog.csdn.net/dl88250/article/details/78579080#t1">https://blog.csdn.net/dl88250/article/details/78579080#t1</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/blockchain/ipfsinstall/" data-id="clhlnyled005uojup76y63tlz" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IPFS/" rel="tag">IPFS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/bigdata/spark/sparkdiary/aggregate" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/bigdata/spark/sparkdiary/aggregate/" class="article-date">
+  <time datetime="2018-09-20T09:10:03.000Z" itemprop="datePublished">2018-09-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>►<a class="article-category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/bigdata/spark/sparkdiary/aggregate/">Spark操作：Aggregate和AggregateByKey</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Aggregate"><a href="#Aggregate" class="headerlink" title="Aggregate"></a>Aggregate</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line"></span><br><span class="line">object AggregateTest &#123;</span><br><span class="line"></span><br><span class="line">  def main(args:Array[String]) = &#123;</span><br><span class="line"></span><br><span class="line">    // 设置运行环境</span><br><span class="line">    val conf = new SparkConf().setAppName(&quot;Aggregate Test&quot;)</span><br><span class="line">    val sc = new SparkContext(conf)</span><br><span class="line"></span><br><span class="line">    var data = List(2,5,8,1,2,6,9,4,3,5)</span><br><span class="line">    var res = data.par.aggregate((0,0))(</span><br><span class="line">      // seqOp</span><br><span class="line">      (acc, number) =&gt; (acc._1+number, acc._2+1),</span><br><span class="line">      // combOp</span><br><span class="line">      (par1, par2) =&gt; (par1._1+par2._1, par1._2+par2._2)</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    println(res)</span><br><span class="line"></span><br><span class="line">    sc.stop</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>acc即(0,0)，number即data，seqOp将data的值累加到Tuple的第一个元素，将data的个数累加到Tuple的第二个元素。由于没有分区，所以combOp是不起作用的，这个例子里面即使分区了，combOp起作用了，结果也是一样的。</p>
+<p>运行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(45,10)</span><br></pre></td></tr></table></figure>
+
+<h2 id="AggregateByKey"><a href="#AggregateByKey" class="headerlink" title="AggregateByKey"></a>AggregateByKey</h2><p>AggregateByKey和Aggregate差不多，也是聚合，不过它是根据Key的值来聚合。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.rdd.RDD</span><br><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">  * Created by Administrator on 2017/6/13.</span><br><span class="line">  */</span><br><span class="line">object AggregateByKeyTest &#123;</span><br><span class="line"></span><br><span class="line">  def main(args:Array[String]) = &#123;</span><br><span class="line"></span><br><span class="line">    // 设置运行环境</span><br><span class="line">    val conf = new SparkConf().setAppName(&quot;AggregateByKey Test&quot;)</span><br><span class="line">    val sc = new SparkContext(conf)</span><br><span class="line"></span><br><span class="line">    val data = List((1,3),(1,2),(1,4),(2,3),(3,6),(3,8))</span><br><span class="line">    val rdd = sc.parallelize(data)</span><br><span class="line"></span><br><span class="line">    val res : RDD[(Int,Int)] = rdd.aggregateByKey(0)(</span><br><span class="line">      // seqOp</span><br><span class="line">      math.max(_,_),</span><br><span class="line">      // combOp</span><br><span class="line">      _+_</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    res.collect.foreach(println)</span><br><span class="line">    sc.stop</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根据Key值的不同，可以分为3个组：</p>
+<p>(1)  (1,3),(1,2),(1,4)；<br>(2)  (2,3)；<br>(3)  (3,6),(3,8)。</p>
+<p>这3个组分别进行seqOp，也就是(K,V)里面的V和0进行math.max()运算，运算结果和下一个V继续运算，以第一个组为例，运算过程是这样的：</p>
+<p>0, 3 &#x3D;&gt; 3<br>3, 2 &#x3D;&gt; 3<br>3, 4 &#x3D;&gt; 4</p>
+<p>所以最终结果是(1,4)。combOp是对把各分区的V加起来，由于这里并没有分区，所以实际上是不起作用的。</p>
+<p>运行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(2,3)</span><br><span class="line">(1,4)</span><br><span class="line">(3,8)</span><br></pre></td></tr></table></figure>
+
+<p>如果生成RDD时分成3个区：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val rdd = sc.parallelize(data,3)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果就变成了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(3,8)</span><br><span class="line">(1,7)</span><br><span class="line">(2,3)</span><br></pre></td></tr></table></figure>
+
+<p>这是因为一个分区返回(1,3)，另一个分区返回(1,4)，combOp将这两个V加起来，就得到了(1,7)。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/bigdata/spark/sparkdiary/aggregate/" data-id="clhlnylgv00l8ojup7915fkab" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/bigdata/spark/sparkdiary/flatmap" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/bigdata/spark/sparkdiary/flatmap/" class="article-date">
+  <time datetime="2018-09-18T14:05:25.000Z" itemprop="datePublished">2018-09-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>►<a class="article-category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/bigdata/spark/sparkdiary/flatmap/">Spark中map和flatMap的区别详解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用时map会将一个长度为N的RDD转换为另一个长度为N的RDD；而flatMap会将一个长度为N的RDD转换成一个N个元素的集合，然后再把这N个元素合成到一个单个RDD的结果集。</p>
+<p>比如一个包含三行内容的数据文件“README.md”。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a b c</span><br><span class="line"></span><br><span class="line">d</span><br></pre></td></tr></table></figure>
+<p>经过以下转换过程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val textFile = sc.textFile(&quot;README.md&quot;)</span><br><span class="line">textFile.flatMap(_.split(&quot; &quot;))</span><br></pre></td></tr></table></figure>
+<p>其实就是经历了以下转换</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&quot;a b c&quot;, &quot;&quot;, &quot;d&quot;] =&gt; [[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;],[],[&quot;d&quot;]] =&gt; [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>在这个示例中，flatMap就把包含多行数据的RDD，即[“a b c”, “”, “d”] ，转换为了一个包含多个单词的集合。实际上，flatMap相对于map多了的是[[“a”,”b”,”c”],[],[“d”]] &#x3D;&gt; [“a”,”b”,”c”,”d”]这一步。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/bigdata/spark/sparkdiary/flatmap/" data-id="clhlnylgw00lgojup0oi3ea5t" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/crypto/hash" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/crypto/hash/" class="article-date">
+  <time datetime="2018-09-14T02:50:22.000Z" itemprop="datePublished">2018-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/crypto/hash/">摘要（Hash）算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>消息摘要算法的主要特征是加密过程不需要密钥，并且经过加密的数据无法被解密，只有输入相同的明文数据经过相同的消息摘要算法才能得到相同的密文。</p>
+<p>消息摘要算法不存在密钥的管理与分发问题，适合于分布式网络上使用。</p>
+<p>数据摘要算法具有不可逆性, 其主要功能有数据签名, 数据完整性校验等. 下面介绍常见的数据摘要算法:</p>
+<h2 id="CRC8、CRC16、CRC32"><a href="#CRC8、CRC16、CRC32" class="headerlink" title="CRC8、CRC16、CRC32"></a>CRC8、CRC16、CRC32</h2><p>CRC（Cyclic Redundancy Check，循环冗余校验）算法出现时间较长，应用广泛，尤其是通讯领域；</p>
+<p>它产生一个4字节（32位）的校验值，一般是以8位十六进制数，如FA 12 CD 45等。</p>
+<p>CRC算法的优点在于简便、速度快，严格的来说，CRC更应该被称为数据校验算法，但其功能与数据摘要算法类似，因此也作为测试的可选算法。</p>
+<h2 id="MD2-、MD4、MD5"><a href="#MD2-、MD4、MD5" class="headerlink" title="MD2 、MD4、MD5"></a>MD2 、MD4、MD5</h2><p>Message-Digest Algorithm</p>
+<p>创建者：Ron Rivest（RSA公司）在1992年提出；<br>长度：16Byte （128bit），一般用32位16进制数据表示；<br>用途：数据完整性校验、数据摘要、数据加密；</p>
+<p> 性能：<br> MD2：  速度慢－安全性高<br> MD4:   速度很快－安全性下降<br> MD5:   比MD4更快更安全</p>
+<p> 使用场景：<br> 网络数据大文件传输－数据完整性校验<br> 计算机系统－用户密码加密</p>
+<h2 id="SHA1、SHA256、SHA384、SHA512"><a href="#SHA1、SHA256、SHA384、SHA512" class="headerlink" title="SHA1、SHA256、SHA384、SHA512"></a>SHA1、SHA256、SHA384、SHA512</h2><p>标准制订者：SHA（Secure Hash Algorithm）美国国家标准技术研究院（NIST）制定；</p>
+<p>算法：SHA1、SHA256、SHA512<br>速度：相对MD5-较慢－更安全</p>
+<p>目前SHA1的应用较为广泛，主要应用于CA和数字证书中，另外在目前互联网中流行的BT软件中，也是使用SHA1来进行文件校验的。</p>
+<h2 id="RIPEMD、PANAMA、TIGER、ADLER32-等"><a href="#RIPEMD、PANAMA、TIGER、ADLER32-等" class="headerlink" title="RIPEMD、PANAMA、TIGER、ADLER32 等"></a>RIPEMD、PANAMA、TIGER、ADLER32 等</h2><p>RIPEMD是Hans Dobbertin等3人在对MD4，MD5缺陷分析基础上，于1996年提出来的，有4个标准128、160、256和320，其对应输出长度分别为16字节、20字节、32字节和40字节。</p>
+<p>TIGER由Ross在1995年提出。Tiger号称是最快的Hash算法，专门为64位机器做了优化。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/crypto/hash/" data-id="clhlnylf100aiojupbknqe9li" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" rel="tag">摘要算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/crypto/cert" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/crypto/cert/" class="article-date">
+  <time datetime="2018-09-10T14:41:11.000Z" itemprop="datePublished">2018-09-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/crypto/cert/">数字证书的原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="证书"><a href="#证书" class="headerlink" title="证书"></a>证书</h2><p>证书实际上就是对公钥进行数字签名，它是对公钥合法性提供证明的技术。</p>
+<p>考虑这样一种场景：我们对签名进行验证时，需要用到公钥。如果公钥也是伪造的，那怎么办？</p>
+<p>如果公钥是假的，验证数字签名那就无从谈起，根本不可能从数字签名确定对方的合法性。</p>
+<p>这时候证书就派上用场了。</p>
+<p>证书一般包含：公钥（记住证书中是带有公钥的），公钥的数字签名，公钥拥有者的信息<br>若证书验证成功，这表示该公钥是合法，可信的。</p>
+<p>接下来又有问题了：验证证书中的数字签名需要另一个公钥，那么这个公钥的合法性又该如何保证？该问题可以无限循环下去，岂不是到不了头了？这已经是个社会学问题了。</p>
+<p>我们为什么把钱存进银行？因为我们相信银行，它是一个可信的机构（虽然也有破产的风险）。跟银行一样，我们需要一个可信的机构来颁发证书和提供公钥，只要是它提供的公钥，我们就相信是合法的。</p>
+<p>这种机构称为认证机构(Certification Authority， CA)。CA就是能够认定”公钥确实属于此人”，并能生成公钥的数字签名的组织或机构。CA有国际性组织和政府设立的组织，也有通过提供认证服务来盈利的组织。</p>
+<h2 id="如何生成证书？"><a href="#如何生成证书？" class="headerlink" title="如何生成证书？"></a>如何生成证书？</h2><ol>
+<li>服务器将公钥A给CA（公钥是服务器的）</li>
+<li>CA用自己的私钥B给公钥A加密，生成数字签名A</li>
+<li>CA把公钥A，数字签名A，附加一些服务器信息整合在一起，生成证书，发回给服务器。</li>
+</ol>
+<p>注：私钥B是用于加密公钥A的，私钥B和公钥A并不是配对的。</p>
+<h2 id="如何验证证书？"><a href="#如何验证证书？" class="headerlink" title="如何验证证书？"></a>如何验证证书？</h2><ol>
+<li>客户端得到证书</li>
+<li>客户端得到证书的公钥B（通过CA或其它途径）</li>
+<li>客户端用公钥B对证书中的数字签名解密，得到哈希值</li>
+<li>客户端对公钥进行哈希值计算</li>
+<li>两个哈希值对比，如果相同，则证书合法。</li>
+</ol>
+<p>注：公钥B和上述的私钥B是配对的，分别用于对证书的验证（解密）和生成（加密）。</p>
+<h2 id="证书作废"><a href="#证书作废" class="headerlink" title="证书作废"></a>证书作废</h2><p>当用户私钥丢失、被盗时，认证机构需要对证书进行作废(revoke)。要作废证书，认证机构需要制作一张证书作废清单(Certificate Revocation List)，简称CRL</p>
+<p>假设我们有Bob的证书，该证书有合法的认证机构签名，而且在有效期内，但仅凭这些还不能说明该证书一定有效，还需要查询认证机构最新的CRL，并确认该证书是否有效。</p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>下面用两个使用场景来帮助大家理解证书的作用。</p>
+<p>客户端在发送或接收消息之前，要验证服务器的合法性(这个服务器是真实的服务器，还是伪造者，我们不知道)</p>
+<p>场景1</p>
+<ol>
+<li>服务器生成公钥和私钥密码对</li>
+<li>服务器把公钥给CA。CA生成证书，发送给客户端</li>
+<li>客户端验证证书，取得公钥：此刻证明公钥是合法的</li>
+<li>客户端用公钥加密消息，发送给服务器</li>
+<li>服务器用私钥解密消息（消息加密发送，具有保密性）</li>
+</ol>
+<p>场景2</p>
+<ol>
+<li>服务器生成公钥和私钥密码对</li>
+<li>服务器生成消息，用私钥对消息进行数字签名</li>
+<li>服务器把公钥给CA。CA生成证书</li>
+<li>服务器将消息，数字签名，证书一起发送给客户端</li>
+<li>客户端验证证书，取得公钥：此刻证明公钥是合法的</li>
+<li>客户端用公钥验证数字签名，检查消息的完整性和服务器的合法性</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/crypto/cert/" data-id="clhlnylf000abojup11yia3xc" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" rel="tag">数字证书</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/crypto/signature" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/crypto/signature/" class="article-date">
+  <time datetime="2018-09-10T14:00:05.000Z" itemprop="datePublished">2018-09-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/crypto/signature/">数字签名原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>签名的作用无非就是证明某个文件上的内容确实是我写的&#x2F;我认同的，别人不能冒充我的签名（不可伪造），我也不能否认上面的签名是我的（不可抵赖）。</p>
+<p>我们知道，手写签名之所以不能伪造，是因为每一个人的笔迹都是独一无二的，即使模仿，也可以通过专家鉴定分别出来。而不可抵赖，是因为每个人的笔迹都有固定特征，这些特征是很难摆脱的。</p>
+<p>正是这两点特性使得手写签名在日常生活中被广泛承认，比如签合同、借条等等。</p>
+<p>而数字签名，它的作用跟手写签名其实是一样的，用来证明某个消息或者文件是本人发出&#x2F;认同的。我国在2005年就已经施行《电子签名法》，确立了电子签名（包括但不限于数字签名）的法律效力。</p>
+<p>那么数字签名又是靠什么保证不可伪造和不可抵赖两个特性呢？</p>
+<p>答案是利用公钥加密系统。常用的签名算法有</p>
+<ol>
+<li>RSA，基于大整数分解问题</li>
+<li>DSA，基于离散对数问题</li>
+<li>ECDSA，属于DSA的一个变种，基于椭圆曲线上的离散对数问题</li>
+</ol>
+<p>其中RSA是实现数字签名最简单的公钥加密方法。</p>
+<h2 id="RSA签名"><a href="#RSA签名" class="headerlink" title="RSA签名"></a>RSA签名</h2><p>RSA是一个非常神奇的加密算法，它具有一个离散对数和椭圆曲线加密都没有的特性：</p>
+<p><code>既可以用公钥加密然后私钥解密，也可以用私钥加密然后公钥解密（对称性）。</code></p>
+<p>公钥加密然后私钥解密，可以用于通信中拥有公钥的一方向拥有私钥的另一方传递机密信息，不被第三方窃听。</p>
+<p>那么私钥加密然后公钥解密是用在什么场合呢？就是数字签名。</p>
+<p>因为RSA中的每一个公钥都有唯一的私钥与之对应，任一公钥只能解开对应私钥加密的内容。换句话说，其它私钥加密的内容，这个公钥是解不开的。</p>
+<p>这样，如果你生成了一对RSA密钥，你把公钥公布出去，并告诉全世界人这个公钥是你的。之后你只要在发送的消息，比如“123456”，后面加上用私钥加密过的密文，其他人拿公钥解密，看解密得到的内容是不是“123456”就可以知道这个“123456”是不是你发的。</p>
+<p>其他人因为没有对应的私钥，所以没法生成公钥可以解密的密文，所以是不可伪造的。<br>又因为公钥对应的私钥只有一个，所以只要能成功解密，那么发消息的一定是你，不会是其他人，所以是不可抵赖的。</p>
+<p>当然，在数字签名的过程中，我们不需要对“123456”保密，所以加密、解密这样的名词在这个场景中并不准确，用签名和解签会更合适。</p>
+<p>实际应用中，由于直接对原消息进行签名有安全性问题，而且原消息往往比较大，直接使用RSA算法进行签名速度会比较慢，所以我们一般对消息计算其摘要（使用SHA-256等安全的摘要算法），然后对摘要进行签名。只要使用的摘要算法是安全的（MD5、SHA-1已经不安全了），那么这种方式的数字签名就是安全的。</p>
+<p>一个具体的RSA签名过程如下：</p>
+<ol>
+<li>小明对外发布公钥，并声明对应的私钥在自己手上</li>
+<li>小明对消息M计算摘要，得到摘要D</li>
+<li>小明使用私钥对D进行签名，得到签名S</li>
+<li>将M和S一起发送出去</li>
+</ol>
+<p>验证过程如下：</p>
+<ol>
+<li>接收者首先对M使用跟小明一样的摘要算法计算摘要，得到D</li>
+<li>使用小明公钥对S进行解签，得到D’</li>
+<li>如果D和D’相同，那么证明M确实是小明发出的，并且没有被篡改过</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/crypto/signature/" data-id="clhlnylf700awojupaqa60mim" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" rel="tag">数字签名</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/5/">下一页 &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII%E7%A0%81/" rel="tag">ASCII码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveMQ/" rel="tag">ActiveMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ajax/" rel="tag">Ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BAT%E8%84%9A%E6%9C%AC/" rel="tag">BAT脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAP/" rel="tag">CAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAS/" rel="tag">CAS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eclipse/" rel="tag">Eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/" rel="tag">Emacs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emmet/" rel="tag">Emmet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIT/" rel="tag">GIT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IPFS/" rel="tag">IPFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-IO/" rel="tag">JAVA IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/" rel="tag">JAVA NIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-WEB/" rel="tag">JAVA WEB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lisp/" rel="tag">Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/" rel="tag">Scala</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/" rel="tag">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-MVC/" rel="tag">Spring MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIM/" rel="tag">VIM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/archtype/" rel="tag">archtype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/azkaban/" rel="tag">azkaban</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jquery/" rel="tag">jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql-neo4j/" rel="tag">nosql neo4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openssl/" rel="tag">openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/" rel="tag">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webservice/" rel="tag">webservice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" rel="tag">一致性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" rel="tag">任务调度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" rel="tag">字符编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" rel="tag">字符集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A1%E8%AE%A1/" rel="tag">审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" rel="tag">尾递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" rel="tag">摘要算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" rel="tag">数字签名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" rel="tag">数字证书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" rel="tag">数据权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" rel="tag">树算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正规表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" rel="tag">知识体系</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E5%99%A8/" rel="tag">神器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">自制操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2999/12/">十二月 2999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/02/">二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">九月 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】特别说明</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 证心<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

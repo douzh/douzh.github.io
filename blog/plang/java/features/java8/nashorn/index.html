@@ -1,22 +1,362 @@
-{% extends '_layout.swig' %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
+  
+  <title>(转)JAVA8之Nashorn脚本引擎 | OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文为了解所有关于 Nashorn JavaScript 引擎易于理解的代码例子。 Nashorn JavaScript 引擎是Java SE 8的一部分，它与其它像Google V8 (它是Google Chrome 和Node.js的引擎)的独立引擎相互竞争。 Nashorn 扩展了Java在JVM上运行动态JavaScript脚本的能力。在接下来的大约15分钟里，您将学习如何在 JVM 上动">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(转)JAVA8之Nashorn脚本引擎">
+<meta property="og:url" content="http://www.onekbase.com/blog/plang/java/features/java8/nashorn/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:description" content="本文为了解所有关于 Nashorn JavaScript 引擎易于理解的代码例子。 Nashorn JavaScript 引擎是Java SE 8的一部分，它与其它像Google V8 (它是Google Chrome 和Node.js的引擎)的独立引擎相互竞争。 Nashorn 扩展了Java在JVM上运行动态JavaScript脚本的能力。在接下来的大约15分钟里，您将学习如何在 JVM 上动">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-06-13T09:41:16.000Z">
+<meta property="article:modified_time" content="2021-07-25T09:52:25.905Z">
+<meta property="article:author" content="证心">
+<meta property="article:tag" content="JAVA8">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="OneKBase" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<meta name="generator" content="Hexo 6.3.0"></head>
 
-{% block content %}
-
-  <div id="posts" class="posts-expand">
-    {{ partial('_macro/post.swig', {post: page}) }}
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-blog/plang/java/features/java8/nashorn" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/features/java8/nashorn/" class="article-date">
+  <time datetime="2017-06-13T09:41:16.000Z" itemprop="datePublished">2017-06-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a>
   </div>
 
-{% endblock %}
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      (转)JAVA8之Nashorn脚本引擎
+    </h1>
+  
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文为了解所有关于 Nashorn JavaScript 引擎易于理解的代码例子。 Nashorn JavaScript 引擎是Java SE 8的一部分，它与其它像Google V8 (它是Google Chrome 和Node.js的引擎)的独立引擎相互竞争。 Nashorn 扩展了Java在JVM上运行动态JavaScript脚本的能力。在接下来的大约15分钟里，您将学习如何在 JVM 上动态运行 JavaScript。 通过一些简短的代码示例演示最近 Nashorn 的语言特性。 学习 Java 与 JavaScript 的相互调用。最后包括如何在日常的 Java 业务中整合动态脚本。</p>
+<h2 id="使用Nashorn"><a href="#使用Nashorn" class="headerlink" title="使用Nashorn"></a>使用Nashorn</h2><p>Nashorn javascript 引擎要么在java程序中以编程的方式使用要么在命令行工具jjs使用，jjs在目录$JAVA_HOME&#x2F;bin中。如果你准备建立一个jjs的符号链接，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cd /usr/bin</span><br><span class="line">$ ln -s $JAVA_HOME/bin/jjs jjs</span><br><span class="line">$ jjs</span><br><span class="line">jjs&gt; print(&#x27;Hello World&#x27;);</span><br></pre></td></tr></table></figure>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+<p>本教程关注的是在java代码中使用 nashorn ，所以我们现在跳过jjs。用java代码来一个简单的  HelloWorld示例，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ScriptEngine engine = new ScriptEngineManager().getEngineByName(&quot;nashorn&quot;);</span><br><span class="line">engine.eval(&quot;print(&#x27;Hello World!&#x27;);&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>为了在java中执行JavaScript代码，首先使用原先Rhino (旧版Java中来自Mozilla的引擎)中的包javax.script来创建一个nashorn脚本引擎。.既可以向上面那样把JavaScript代码作为一个字符串来直接执行，也可放入一个js脚本文件中，如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ScriptEngine engine = new ScriptEngineManager().getEngineByName(&quot;nashorn&quot;);</span><br><span class="line">engine.eval(new FileReader(&quot;script.js&quot;));</span><br></pre></td></tr></table></figure>
+
+<p>Nashorn javascript是基于 ECMAScript 5.1 ，但nashorn后续版本将支持 ECMAScript 6:当前Nashorn的策略是遵循ECMAScript规范。 当我们发布JDK 8时，我们将实现ECMAScript 5.1标准。后续的 Nashorn的版本将实现 ECMAScript Edition 6标准。</p>
+<p>Nashorn定义了很多语言和扩展了 ECMAScript标准的API 。接下来我们看看java与JavaScript的通信。</p>
+<h2 id="Java调用Javascript-函数"><a href="#Java调用Javascript-函数" class="headerlink" title="Java调用Javascript 函数"></a>Java调用Javascript 函数</h2><p>Nashorn 支持java代码直接调用定义在脚本文件中JavaScript函数。你可以把java对象作为函数的参数且在调用函数的java方法中接收返回的数据。</p>
+<p>如下的JavaScript代码将会在java端调用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var fun1 = function(name) &#123;</span><br><span class="line">    print(&#x27;Hi there from Javascript, &#x27; + name);</span><br><span class="line">    return &quot;greetings from javascript&quot;;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line">var fun2 = function (object) &#123;</span><br><span class="line">    print(&quot;JS Class Definition: &quot; + Object.prototype.toString.call(object));</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>为了调用函数，你首先得把脚本引擎转换为 Invocable。NashornScriptEngine 实现了 Invocable 接口且定义一个调用JavaScript函数的方法 invokeFunction ，传入函数名即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ScriptEngine engine = new ScriptEngineManager().getEngineByName(&quot;nashorn&quot;);</span><br><span class="line">engine.eval(new FileReader(&quot;script.js&quot;));</span><br><span class="line"> </span><br><span class="line">Invocable invocable = (Invocable) engine;</span><br><span class="line"> </span><br><span class="line">Object result = invocable.invokeFunction(&quot;fun1&quot;, &quot;Peter Parker&quot;);</span><br><span class="line">System.out.println(result);</span><br><span class="line">System.out.println(result.getClass());</span><br><span class="line"> </span><br><span class="line">// Hi there from Javascript, Peter Parker</span><br><span class="line">// greetings from javascript</span><br><span class="line">// class java.lang.String</span><br></pre></td></tr></table></figure>
+
+<p>上述代码的执行将在控制台打印三行信息。调用 print 函数将输出内容通过管道送到 System.out 控制台，因此我们首先看到的是 JavaScript打印的信息。<br>现在我们通过传递任意的 Java 对象去调用第二个函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">invocable.invokeFunction(&quot;fun2&quot;, new Date());</span><br><span class="line">// [object java.util.Date]</span><br><span class="line"> </span><br><span class="line">invocable.invokeFunction(&quot;fun2&quot;, LocalDateTime.now());</span><br><span class="line">// [object java.time.LocalDateTime]</span><br><span class="line"> </span><br><span class="line">invocable.invokeFunction(&quot;fun2&quot;, new Person());</span><br><span class="line">// [object com.winterbe.java8.Person]</span><br></pre></td></tr></table></figure>
+
+<p>你可以传递任意 Java 对象而不会在 JavaScript 这边丢失类型信息。因为脚本本身是在 JVM 虚拟机中执行的，我们可以完全利用 nashorn 引擎的 Java API 和外部库的强大功能。<br>在 JavaScript 端调用 Java 方法</p>
+<p>在 JavaScript 中调用 Java 方法很简单。首先我们定义一个静态的 Java 方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static String fun1(String name) &#123;</span><br><span class="line">    System.out.format(&quot;Hi there from Java, %s&quot;, name);</span><br><span class="line">    return &quot;greetings from java&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JavaScript 可通过 Java.type API 来引用 Java 类。这跟在 Java 类中引入其他类是类似的。当定义了 Java 类型后我们可直接调用其静态方法 fun1() 并打印结果到 sout。因为方法是静态的，所以我们无需创建类实例。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var MyJavaClass = Java.type(&#x27;my.package.MyJavaClass&#x27;);</span><br><span class="line"> </span><br><span class="line">var result = MyJavaClass.fun1(&#x27;John Doe&#x27;);</span><br><span class="line">print(result);</span><br><span class="line"> </span><br><span class="line">// Hi there from Java, John Doe</span><br><span class="line">// greetings from java</span><br></pre></td></tr></table></figure>
+
+<p>当调用java 方法时，Nashorn怎样处理原生JavaScript类型与java类型转换？让我们用一个简单的例子来发现。下面的java方法简单打印实际的类方法参数的类型:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">static void fun2(Object object) &#123;</span><br><span class="line">    System.out.println(object.getClass());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了解引擎如何处理类型转换，我使用不同JavaScript类型来调用java方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">MyJavaClass.fun2(123);</span><br><span class="line">// class java.lang.Integer</span><br><span class="line"> </span><br><span class="line">MyJavaClass.fun2(49.99);</span><br><span class="line">// class java.lang.Double</span><br><span class="line"> </span><br><span class="line">MyJavaClass.fun2(true);</span><br><span class="line">// class java.lang.Boolean</span><br><span class="line"> </span><br><span class="line">MyJavaClass.fun2(&quot;hi there&quot;)</span><br><span class="line">// class java.lang.String</span><br><span class="line"> </span><br><span class="line">MyJavaClass.fun2(new Number(23));</span><br><span class="line">// class jdk.nashorn.internal.objects.NativeNumber</span><br><span class="line"> </span><br><span class="line">MyJavaClass.fun2(new Date());</span><br><span class="line">// class jdk.nashorn.internal.objects.NativeDate</span><br><span class="line"> </span><br><span class="line">MyJavaClass.fun2(new RegExp());</span><br><span class="line">// class jdk.nashorn.internal.objects.NativeRegExp</span><br><span class="line"> </span><br><span class="line">MyJavaClass.fun2(&#123;foo: &#x27;bar&#x27;&#125;);</span><br><span class="line">// class jdk.nashorn.internal.scripts.JO4</span><br></pre></td></tr></table></figure>
+
+<p>原始的javascript 类型被转换为适当的 java 包装器类。而不是本地javascript对象内部适配器类。请记住，这些类来自于jdk.nashorn.internal，所以你不应该在客户端使用这些类:Anything marked internal will likely change out from underneath you.<br>ScriptObjectMirror</p>
+<p>当使用ScriptObjectMirror把本地JavaScript对象传入时，实际上是有一个java对象表示JavaScript 对象。 ScriptObjectMirror 实现了接口与jdk.nashorn.api内部的映射。这个包下的类目的就是用于客户端代码使用。</p>
+<p>下一个示例更改参数类型Object为ScriptObjectMirror，因此我们能获取到传入JavaScript中对象的一些信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static void fun3(ScriptObjectMirror mirror) &#123;</span><br><span class="line">    System.out.println(mirror.getClassName() + &quot;: &quot; +</span><br><span class="line">        Arrays.toString(mirror.getOwnKeys(true)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当我们把传递对象hash到方法中，在Java端就能访问这些属性：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MyJavaClass.fun3(&#123;</span><br><span class="line">    foo: &#x27;bar&#x27;,</span><br><span class="line">    bar: &#x27;foo&#x27;</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line">// Object: [foo, bar]</span><br></pre></td></tr></table></figure>
+
+<p>我们也可以在Java端调用JavaScript对象中的函数。我们首先定义一个JavaScript类型 Person，包含属性 firstName 、lastName 和函数getFullName。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function Person(firstName, lastName) &#123;</span><br><span class="line">    this.firstName = firstName;</span><br><span class="line">    this.lastName = lastName;</span><br><span class="line">    this.getFullName = function() &#123;</span><br><span class="line">        return this.firstName + &quot; &quot; + this.lastName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>javascript 函数getFullName 能被 ScriptObjectMirror 的callMember()调用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">static void fun4(ScriptObjectMirror person) &#123;</span><br><span class="line">    System.out.println(&quot;Full Name is: &quot; + person.callMember(&quot;getFullName&quot;));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当我们传入一个新的person给java 方法时，我们能在控制台看到预期结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var person1 = new Person(&quot;Peter&quot;, &quot;Parker&quot;);</span><br><span class="line">MyJavaClass.fun4(person1);</span><br><span class="line"> </span><br><span class="line">// Full Name is: Peter Parker</span><br></pre></td></tr></table></figure>
+
+<h2 id="语言扩展"><a href="#语言扩展" class="headerlink" title="语言扩展"></a>语言扩展</h2><p>Nashorn 定义一系列的语言和扩展了 ECMAScript 标准的API。 让我们直接进入最新的功能：</p>
+<h3 id="类型数组"><a href="#类型数组" class="headerlink" title="类型数组"></a>类型数组</h3><p>原始javascript 数组时无类型的。 Nashorn 运行你在JavaScript中使用java数组：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">var IntArray = Java.type(&quot;int[]&quot;);</span><br><span class="line"> </span><br><span class="line">var array = new IntArray(5);</span><br><span class="line">array[0] = 5;</span><br><span class="line">array[1] = 4;</span><br><span class="line">array[2] = 3;</span><br><span class="line">array[3] = 2;</span><br><span class="line">array[4] = 1;</span><br><span class="line"> </span><br><span class="line">try &#123;</span><br><span class="line">    array[5] = 23;</span><br><span class="line">&#125; catch (e) &#123;</span><br><span class="line">    print(e.message);  // Array index out of range: 5</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">array[0] = &quot;17&quot;;</span><br><span class="line">print(array[0]);  // 17</span><br><span class="line"> </span><br><span class="line">array[0] = &quot;wrong type&quot;;</span><br><span class="line">print(array[0]);  // 0</span><br><span class="line"> </span><br><span class="line">array[0] = &quot;17.3&quot;;</span><br><span class="line">print(array[0]);  // 17</span><br></pre></td></tr></table></figure>
+
+<p>int[] 数组的行为像一个真正的 java int 数组。 但当我们试图添加非整数的值的数组时，Nashorn 会执行隐式类型转换。 字符串会自动转换为int，这相当方便。</p>
+<h3 id="集合与For-Each"><a href="#集合与For-Each" class="headerlink" title="集合与For Each"></a>集合与For Each</h3><p>我们可以使用java的集合来代替数组。首先定义使用 Java.type定义一个java类型，而后根据需要创建一个实例。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var ArrayList = Java.type(&#x27;java.util.ArrayList&#x27;);</span><br><span class="line">var list = new ArrayList();</span><br><span class="line">list.add(&#x27;a&#x27;);</span><br><span class="line">list.add(&#x27;b&#x27;);</span><br><span class="line">list.add(&#x27;c&#x27;);</span><br><span class="line"> </span><br><span class="line">for each (var el in list) print(el);  // a, b, c</span><br></pre></td></tr></table></figure>
+
+<p>为了遍历集合和数组中的元素，Nashorn 引入了 for each 语句。这就像是 Java 的 for 循环一样。这里是一个对集合元素进行遍历的例子，使用的是 :</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var map = new java.util.HashMap();</span><br><span class="line">map.put(&#x27;foo&#x27;, &#x27;val1&#x27;);</span><br><span class="line">map.put(&#x27;bar&#x27;, &#x27;val2&#x27;);</span><br><span class="line"> </span><br><span class="line">for each (var e in map.keySet()) print(e);  // foo, bar</span><br><span class="line"> </span><br><span class="line">for each (var e in map.values()) print(e);  // val1, val2</span><br></pre></td></tr></table></figure>
+
+<h3 id="Lambda-表达式和-Streams"><a href="#Lambda-表达式和-Streams" class="headerlink" title="Lambda 表达式和 Streams"></a>Lambda 表达式和 Streams</h3><p>似乎大家都比较喜欢 Lambda 和 Streams —— Nashorn 也是！虽然 ECMAScript 5.1 中缺少 Java 8 Lambda 表达式中的紧缩箭头的语法，但我们可以在接受 Lambda 表达式的地方使用函数来替代。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var list2 = new java.util.ArrayList();</span><br><span class="line">list2.add(&quot;ddd2&quot;);</span><br><span class="line">list2.add(&quot;aaa2&quot;);</span><br><span class="line">list2.add(&quot;bbb1&quot;);</span><br><span class="line">list2.add(&quot;aaa1&quot;);</span><br><span class="line">list2.add(&quot;bbb3&quot;);</span><br><span class="line">list2.add(&quot;ccc&quot;);</span><br><span class="line">list2.add(&quot;bbb2&quot;);</span><br><span class="line">list2.add(&quot;ddd1&quot;);</span><br><span class="line"> </span><br><span class="line">list2</span><br><span class="line">    .stream()</span><br><span class="line">    .filter(function(el) &#123;</span><br><span class="line">        return el.startsWith(&quot;aaa&quot;);</span><br><span class="line">    &#125;)</span><br><span class="line">    .sorted()</span><br><span class="line">    .forEach(function(el) &#123;</span><br><span class="line">        print(el);</span><br><span class="line">    &#125;);</span><br><span class="line">    // aaa1, aaa2</span><br></pre></td></tr></table></figure>
+
+<h3 id="扩展类"><a href="#扩展类" class="headerlink" title="扩展类"></a>扩展类</h3><p>Java 的类型可以简单的通过 Java.extend 进行扩展，在下个例子你将在脚本中创建一个多线程示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var Runnable = Java.type(&#x27;java.lang.Runnable&#x27;);</span><br><span class="line">var Printer = Java.extend(Runnable, &#123;</span><br><span class="line">    run: function() &#123;</span><br><span class="line">        print(&#x27;printed from a separate thread&#x27;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line">var Thread = Java.type(&#x27;java.lang.Thread&#x27;);</span><br><span class="line">new Thread(new Printer()).start();</span><br><span class="line"> </span><br><span class="line">new Thread(function() &#123;</span><br><span class="line">    print(&#x27;printed from another thread&#x27;);</span><br><span class="line">&#125;).start();</span><br><span class="line"> </span><br><span class="line">// printed from a separate thread</span><br><span class="line">// printed from another thread</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数重载"><a href="#参数重载" class="headerlink" title="参数重载"></a>参数重载</h3><p>方法和函数可以使用点符号或方括号来进行调用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var System = Java.type(&#x27;java.lang.System&#x27;);</span><br><span class="line">System.out.println(10);              // 10</span><br><span class="line">System.out[&quot;println&quot;](11.0);         // 11.0</span><br><span class="line">System.out[&quot;println(double)&quot;](12);   // 12.0</span><br></pre></td></tr></table></figure>
+
+<p>在使用重载的参数来调用方法时可以传递可选参数来确定具体调用了哪个方法，如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">println(double)。</span><br><span class="line">Java Beans</span><br></pre></td></tr></table></figure>
+
+<p>我们不需要常规的用 getter 或者 setter 来访问类成员属性，可直接用属性名简单访问 Java Bean 中的属性。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var Date = Java.type(&#x27;java.util.Date&#x27;);</span><br><span class="line">var date = new Date();</span><br><span class="line">date.year += 1900;</span><br><span class="line">print(date.year);  // 2014</span><br></pre></td></tr></table></figure>
+
+<h3 id="函数语法"><a href="#函数语法" class="headerlink" title="函数语法"></a>函数语法</h3><p>如果只是简单的一行函数我们可以不用大括号：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">function sqr(x) x * x;</span><br><span class="line">print(sqr(3));    // 9</span><br></pre></td></tr></table></figure>
+
+<h3 id="属性绑定"><a href="#属性绑定" class="headerlink" title="属性绑定"></a>属性绑定</h3><p>来自不同对象的属性可以绑定在一起：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var o1 = &#123;&#125;;</span><br><span class="line">var o2 = &#123; foo: &#x27;bar&#x27;&#125;;</span><br><span class="line"> </span><br><span class="line">Object.bindProperties(o1, o2);</span><br><span class="line"> </span><br><span class="line">print(o1.foo);    // bar</span><br><span class="line">o1.foo = &#x27;BAM&#x27;;</span><br><span class="line">print(o2.foo);    // BAM</span><br></pre></td></tr></table></figure>
+
+<h3 id="字符串处理"><a href="#字符串处理" class="headerlink" title="字符串处理"></a>字符串处理</h3><p>我喜欢字符串裁剪.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(&quot;   hehe&quot;.trimLeft());            // hehe</span><br><span class="line">print(&quot;hehe    &quot;.trimRight() + &quot;he&quot;);   // hehehe</span><br></pre></td></tr></table></figure>
+
+<h3 id="在哪里"><a href="#在哪里" class="headerlink" title="在哪里"></a>在哪里</h3><p>以防忘记你在哪里:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(__FILE__, __LINE__, __DIR__);</span><br></pre></td></tr></table></figure>
+
+<h3 id="Import-的范围"><a href="#Import-的范围" class="headerlink" title="Import 的范围"></a>Import 的范围</h3><p>有时，这在一次性导入多个java 包时非常有用。我们可以使用JavaImporter并结合with，在with块范围内引用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var imports = new JavaImporter(java.io, java.lang);</span><br><span class="line">with (imports) &#123;</span><br><span class="line">    var file = new File(__FILE__);</span><br><span class="line">    System.out.println(file.getAbsolutePath());</span><br><span class="line">    // /path/to/my/script.js</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="数组转换"><a href="#数组转换" class="headerlink" title="数组转换"></a>数组转换</h3><p>有些包时可以直接使用而不必利用 Java.type 或JavaImporter引入，如 java.util:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var list = new java.util.ArrayList();</span><br><span class="line">list.add(&quot;s1&quot;);</span><br><span class="line">list.add(&quot;s2&quot;);</span><br><span class="line">list.add(&quot;s3&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>如下的代码演示了将java list转换为JavaScript的数组：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var jsArray = Java.from(list);</span><br><span class="line">print(jsArray);                                  // s1,s2,s3</span><br><span class="line">print(Object.prototype.toString.call(jsArray));  // [object Array]</span><br></pre></td></tr></table></figure>
+
+<p>其他的方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var javaArray = Java.to([3, 5, 7, 11], &quot;int[]&quot;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="调用父类函数"><a href="#调用父类函数" class="headerlink" title="调用父类函数"></a>调用父类函数</h3><p>在 JavaScript 中访问重载的成员会有一点点尴尬，因为 ECMAScript 没有类似 Java 的 super 关键字一样的东西。所幸的是 Nashorn 有办法解决。</p>
+<p>首先我们在 Java 代码中定义一个超类：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class SuperRunner implements Runnable &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        System.out.println(&quot;super run&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们在 JavaScript 中重载 SuperRunner 。创建一个新的 Runner 实例时请注意 Nashorn 的扩展语法：其重载成员的语法是参考 Java 的匿名对象的做法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var SuperRunner = Java.type(&#x27;com.winterbe.java8.SuperRunner&#x27;);</span><br><span class="line">var Runner = Java.extend(SuperRunner);</span><br><span class="line"> </span><br><span class="line">var runner = new Runner() &#123;</span><br><span class="line">    run: function() &#123;</span><br><span class="line">        Java.super(runner).run();</span><br><span class="line">        print(&#x27;on my run&#x27;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">runner.run();</span><br><span class="line"> </span><br><span class="line">// super run</span><br><span class="line">// on my run</span><br></pre></td></tr></table></figure>
+
+<p>我们使用Java.super调用了重载方法 SuperRunner.run()。在JavaScript中执行其它脚本是十分容易的。我们可以load函数载入本地或远程的脚本。<br>在我的很多web前端中都使用了 Underscore.js ，因此在Nashorn中我们可以重用 Underscore：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">load(&#x27;http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js&#x27;);</span><br><span class="line"> </span><br><span class="line">var odds = _.filter([1, 2, 3, 4, 5, 6], function (num) &#123;</span><br><span class="line">    return num % 2 == 1;</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line">print(odds);  // 1, 3, 5</span><br></pre></td></tr></table></figure>
+
+<p>扩展脚本的执行是在同一个 JavaScript 上下文中，因此我们可以直接访问 underscore 变量。记住脚本的加载可能会因为变量名的重叠导致代码出问题。我们可以通过将加载的脚本文件放置到一个新的全局上下文来解决这个问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loadWithNewGlobal(&#x27;script.js&#x27;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="命令行脚本"><a href="#命令行脚本" class="headerlink" title="命令行脚本"></a>命令行脚本</h3><p>如果你对用 Java 编写命令行脚本很感兴趣的话，可以试试 Nake 。Nake 是一个为 Java 8 Nashorn 准备的简单 Make 工具。你可以在 Nakefile 文件中定义任务，然后使用 nake — myTask 来运行任务。任务使用 JavaScript 编写并通过 Nashorn 脚本模式运行，因此你可以让你的终端应用完全利用 Java 8 API 和其他 Java 库强大的功能。</p>
+<p>对 Java 开发者而言，编写命令行脚本从来没有如此简单过。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/features/java8/nashorn/" data-id="clhlnylja00ytojup1yd55als" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/blog/bigdata/spark/sparkdiary/devenv/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          搭建spark开发环境
+        
+      </div>
+    </a>
+  
+  
+    <a href="/blog/plang/java/features/java8/optional/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">(转)JAVA8之Optional类深度解析</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII%E7%A0%81/" rel="tag">ASCII码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveMQ/" rel="tag">ActiveMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ajax/" rel="tag">Ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BAT%E8%84%9A%E6%9C%AC/" rel="tag">BAT脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAP/" rel="tag">CAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAS/" rel="tag">CAS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eclipse/" rel="tag">Eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/" rel="tag">Emacs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emmet/" rel="tag">Emmet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIT/" rel="tag">GIT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IPFS/" rel="tag">IPFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-IO/" rel="tag">JAVA IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/" rel="tag">JAVA NIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-WEB/" rel="tag">JAVA WEB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lisp/" rel="tag">Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/" rel="tag">Scala</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/" rel="tag">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-MVC/" rel="tag">Spring MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIM/" rel="tag">VIM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/archtype/" rel="tag">archtype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/azkaban/" rel="tag">azkaban</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jquery/" rel="tag">jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql-neo4j/" rel="tag">nosql neo4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openssl/" rel="tag">openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/" rel="tag">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webservice/" rel="tag">webservice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" rel="tag">一致性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" rel="tag">任务调度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" rel="tag">字符编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" rel="tag">字符集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A1%E8%AE%A1/" rel="tag">审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" rel="tag">尾递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" rel="tag">摘要算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" rel="tag">数字签名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" rel="tag">数字证书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" rel="tag">数据权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" rel="tag">树算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正规表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" rel="tag">知识体系</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E5%99%A8/" rel="tag">神器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">自制操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2999/12/">十二月 2999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/02/">二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">九月 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】特别说明</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 证心<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,22 +1,1529 @@
-{% extends '_layout.swig' %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
 
-{% block title %}{{ title }}{%- if theme.index_with_subtitle and subtitle %} - {{ subtitle }}{%- endif %}{% endblock %}
+  
+  <title>OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="OneKBase">
+<meta property="og:url" content="http://www.onekbase.com/page/8/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="证心">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="OneKBase" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block page_class %}
-  {%- if is_home() %}page-home{% endif -%}
-{% endblock %}
+<meta name="generator" content="Hexo 6.3.0"></head>
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {%- for post in page.posts %}
-      {{ partial('_macro/post.swig', {is_index: true}) }}
-    {%- endfor %}
-  </section>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-blog/arch/rproxy/httpparse" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/rproxy/httpparse/" class="article-date">
+  <time datetime="2017-03-07T09:03:08.000Z" itemprop="datePublished">2017-03-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a>
+  </div>
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/rproxy/httpparse/">反向代理之http请求分析</a>
+    </h1>
+  
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>主要分析http请求内容，分析对象：</p>
+<pre><code>HttpServletRequest request
+</code></pre>
+<p>取出所有请求头和参数：</p>
+<pre><code>Map&lt;String, String&gt; headers=new HashMap&lt;String, String&gt;();
+for (Enumeration&lt;String&gt; e = request.getHeaderNames(); e
+        .hasMoreElements();) &#123;
+    String name = e.nextElement().toString();
+    headers.put(name, request.getHeader(name));
+&#125;
+Map&lt;String, String&gt; param=new HashMap&lt;String, String&gt;();
+for(Enumeration&lt;String&gt; e=request.getParameterNames();e
+        .hasMoreElements();)&#123;
+    String name = e.nextElement().toString();
+    param.put(name, request.getParameter(name));
+&#125;
+</code></pre>
+<p>取出所有请求体：</p>
+<pre><code>byte[] data=IOUtils.readBytesFromStream(request.getInputStream());
+String strData=new String(data,&quot;utf-8&quot;);
+</code></pre>
+<p>取参数<code>request.getParameter(name)</code>和取请求体<code>IOUtils.readBytesFromStream(request.getInputStream())</code>不能同时用，因为两个操作都会读InputStream，但InputStream只能读一次，第二次读返回为空。</p>
+<p>但<code>IOUtils.readBytesFromStream(request.getInputStream())</code>不影响请求头的读取。</p>
+<h2 id="普通请求代码"><a href="#普通请求代码" class="headerlink" title="普通请求代码"></a>普通请求代码</h2><pre><code>String strUrl = &quot;http://localhost:8080/front_new/rproxy/123/456&quot;;
+Map&lt;String, String&gt; requestParams = new HashMap&lt;String, String&gt;();
+Map&lt;String, Object&gt; head = new HashMap&lt;String, Object&gt;();
+head.put(&quot;headkey1&quot;, &quot;headkey1value&quot;);
+String jsonHead = JSONObject.toJSONString(head);
+Map&lt;String, Object&gt; content = new HashMap&lt;String, Object&gt;();
+content.put(&quot;contentKey1&quot;, &quot;contentKey1value&quot;);
+content.put(&quot;contentKey2&quot;, &quot;contentKey3value&quot;);
+String jsonContent = JSONObject.toJSONString(content);
+requestParams.put(&quot;jsonHead&quot;, jsonHead);
+requestParams.put(&quot;jsonContent&quot;, jsonContent);
+PostMethod postMethod = null;
+HttpClient httpClient = new HttpClient();
+// 设置超时时间
+httpClient.getHttpConnectionManager().getParams()
+        .setConnectionTimeout(30000);
+httpClient.getHttpConnectionManager().getParams().setSoTimeout(30000);
+postMethod = new PostMethod(strUrl);
+int i = 0;
+NameValuePair[] nvps = new NameValuePair[requestParams.size()];
+for (String strKey : requestParams.keySet()) &#123;
+    NameValuePair nvp = new NameValuePair();
+    nvp.setName(strKey);
+    nvp.setValue(requestParams.get(strKey));
+    nvps[i] = nvp;
+    i++;
+&#125;
+postMethod.setRequestBody(nvps);
+httpClient.executeMethod(postMethod);
+String resultStr = postMethod.getResponseBodyAsString();
+System.err.println(resultStr);
+</code></pre>
+<p>请求头：</p>
+<pre><code>&#123;Host=localhost:8080,
+Content-Length=157,
+User-Agent=Jakarta Commons-HttpClient/3.1,
+Content-Type=application/x-www-form-urlencoded&#125;
+</code></pre>
+<p>请求内容：</p>
+<pre><code>&#123; jsonHead =&#123; &quot;headkey1&quot; : &quot;headkey1value&quot; &#125;,
+ jsonContent =&#123; &quot;contentKey1&quot; : &quot;contentKey1value&quot;,
+ &quot;contentKey2&quot; : &quot;contentKey3value&quot; &#125;&#125;
+</code></pre>
+<p>请求流内容：</p>
+<pre><code>jsonHead=%7B%22headkey1%22%3A%22headkey1value%22%7D&amp;jsonContent=%7B%22contentKey1%22%3A%22contentKey1value%22%2C%22contentKey2%22%3A%22contentKey3value%22%7D
+</code></pre>
+<h2 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h2><pre><code>DefaultHttpClient httpclient = new DefaultHttpClient();
+// 设置超时时间
+HttpPost httppost = new HttpPost(
+        &quot;http://localhost:8080/front_new/rproxy/123/456&quot;);
+FileBody bin = new FileBody(new File(&quot;F:/aaa.txt&quot;));
+FileBody bin2 = new FileBody(new File(&quot;F:/bbb.txt&quot;));
+StringBody comment = new StringBody(&quot;adfadsfasdf&quot;);
+MultipartEntity reqEntity = new MultipartEntity();
+reqEntity.addPart(&quot;file1&quot;, bin);// file1为请求后台的File upload;属性
+reqEntity.addPart(&quot;file2&quot;, bin2);// file2为请求后台的File upload;属性
+reqEntity.addPart(&quot;filename1&quot;, comment);// filename1为请求后台的普通参数;属性
+httppost.setEntity(reqEntity);
+HttpResponse response = httpclient.execute(httppost);
+</code></pre>
+<p>header:</p>
+<pre><code>&#123;Host=localhost:8080,
+Content-Length=686,
+User-Agent=Apache-HttpClient/4.5.2 (Java/1.7.0_67),
+Connection=keep-alive,
+Content-Type=multipart/form-data;
+boundary=uj-cDkEsr2eER-jIpm2EaVBmVST_Mtte1AJR;
+charset=US-ASCII&#125;
+</code></pre>
+<p>请求参数为空。</p>
+<p>请求体为：</p>
+<pre><code>--aKJdjfxWzYZm2BpDBoDCod15aGKE0a_r96-V
+Content-Disposition: form-data; name=&quot;file1&quot;; filename=&quot;aaa.txt&quot;
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: binary
+
+ 这是测试文件。
+这是测试文件。
+这是测试文件。
+--aKJdjfxWzYZm2BpDBoDCod15aGKE0a_r96-V
+Content-Disposition: form-data; name=&quot;file2&quot;; filename=&quot;bbb.txt&quot;
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: binary
+
+ 这是测试文件。
+这是测试文件。
+这是测试文件。
+--aKJdjfxWzYZm2BpDBoDCod15aGKE0a_r96-V
+Content-Disposition: form-data; name=&quot;filename1&quot;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+
+adfadsfasdf
+--aKJdjfxWzYZm2BpDBoDCod15aGKE0a_r96-V--
+</code></pre>
+<p>两个文件都为utf-8编码，内容都为</p>
+<pre><code>这是测试文件。
+这是测试文件。
+这是测试文件。
+</code></pre>
+<h2 id="Content-Type"><a href="#Content-Type" class="headerlink" title="Content-Type"></a>Content-Type</h2><p>普通请求为</p>
+<pre><code>application/x-www-form-urlencoded
+</code></pre>
+<p>一般的表示提交，数据为key&#x3D;value形式数据。</p>
+<p>可以用<code>request.getParameter(name)</code>取出参数。</p>
+<p>文件上传为</p>
+<pre><code>multipart/form-data
+</code></pre>
+<p>不能用<code>request.getParameter(name)</code>取出参数。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/rproxy/httpparse/" data-id="clhlnylfd00bvojup2ppp1pv0" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/lisp/pcldiary/chapter9" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/lisp/pcldiary/chapter9/" class="article-date">
+  <time datetime="2017-03-06T13:45:14.000Z" itemprop="datePublished">2017-03-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/lisp/pcldiary/chapter9/">第9章建立单元测试框架-实用Common Lisp编程笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>测试框架设计目地是尽可能简单的增加新测试、运行多个测试套件、跟踪测试的失败。</p>
+<pre><code>CL-USER&gt; (defun test-+()
+       (and
+        (= (+ 1 2) 3)
+        (= (+ 1 2 3) 6)
+        (= (+ -1 -3) -4)))
+TEST-+
+CL-USER&gt; (test-+)
+T
+CL-USER&gt; 
+</code></pre>
+<p>不知道每个用例的运行情况。</p>
+<h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><pre><code>CL-USER&gt; (defun test-+()
+        (format t &quot;~:[fail~;pass~] ... ~a~%&quot; (= (+ 1 2) 3) &#39;(= (+ 1 2) 3))
+        (format t &quot;~:[fail~;pass~] ... ~a~%&quot;  (= (+ 1 2 3) 6) &#39;(= (+ 1 2 3) 6))
+        (format t &quot;~:[fail~;pass~] ... ~a~%&quot;  (= (+ -1 -3) -4) &#39;(= (+ -1 -3) -4)))
+TEST-+
+CL-USER&gt; (test-+)
+pass ... (= (+ 1 2) 3)
+pass ... (= (+ 1 2 3) 6)
+pass ... (= (+ -1 -3) -4)
+NIL
+CL-USER&gt; 
+</code></pre>
+<h2 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h2><p>重构去除重复</p>
+<pre><code>CL-USER&gt; (defun report-result (result form)
+        (format t &quot;~:[fail~;pass~] ... ~a~%&quot; result form))
+REPORT-RESULT
+CL-USER&gt; (defun test-+()
+        (report-result (= (+ 1 2) 3) &#39;(= (+ 1 2) 3))
+        (report-result  (= (+ 1 2 3) 6) &#39;(= (+ 1 2 3) 6))
+        (report-result  (= (+ -1 -3) -4) &#39;(= (+ -1 -3) -4)))
+TEST-+
+CL-USER&gt; (test-+)
+pass ... (= (+ 1 2) 3)
+pass ... (= (+ 1 2 3) 6)
+pass ... (= (+ -1 -3) -4)
+NIL
+CL-USER&gt; 
+</code></pre>
+<p>用宏再次去重</p>
+<pre><code>CL-USER&gt; (defmacro check (form)
+       `(report-result ,form &#39;,form))
+CHECK
+CL-USER&gt; (defun test-+()
+        (check (= (+ 1 2) 3))
+        (check  (= (+ 1 2 3) 6))
+        (check  (= (+ -1 -3) -4)))
+TEST-+
+CL-USER&gt; (test-+)
+pass ... (= (+ 1 2) 3)
+pass ... (= (+ 1 2 3) 6)
+pass ... (= (+ -1 -3) -4)
+NIL
+CL-USER&gt; 
+</code></pre>
+<p>check去重</p>
+<pre><code>CL-USER&gt; (defmacro check (&amp;body forms)
+       `(progn
+          ,@(loop for f in forms collect `(report-result ,f &#39;,f))))
+CHECK
+CL-USER&gt; (defun test-+()
+           (check 
+             (= (+ 1 2) 3)
+             (= (+ 1 2 3) 6)
+             (= (+ -1 -3) -4)))
+TEST-+
+CL-USER&gt; (test-+)
+pass ... (= (+ 1 2) 3)
+pass ... (= (+ 1 2 3) 6)
+pass ... (= (+ -1 -3) -4)
+NIL
+CL-USER&gt;
+</code></pre>
+<h2 id="修复返回值"><a href="#修复返回值" class="headerlink" title="修复返回值"></a>修复返回值</h2><p>默认返回值为nil，修改为全通过为t，只要有一个不通过为nil的返回形式。</p>
+<p>第一步：每个单元测试返回测试结果</p>
+<pre><code>(defun report-result (result form)
+        (format t &quot;~:[fail~;pass~] ... ~a~%&quot; result form) result)
+</code></pre>
+<p>第二步：创建没有拦截的AND宏</p>
+<pre><code>(defmacro combine-results (&amp;body forms)
+       (with-gensyms (result)
+         `(let ((,result t))
+        ,@(loop for f in forms collect `(unless ,f (setf ,result nil)))
+        ,result)))
+</code></pre>
+<p>第三步：替换progn</p>
+<pre><code>(defmacro check (&amp;body forms)
+       `(combine-results
+          ,@(loop for f in forms collect `(report-result ,f &#39;,f))))
+</code></pre>
+<p>测试</p>
+<pre><code>CL-USER&gt; (test-+)
+pass ... (= (+ 1 2) 3)
+pass ... (= (+ 1 2 3) 6)
+pass ... (= (+ -1 -3) -4)
+T
+CL-USER&gt; (defun test-+()
+        (check (= (+ 1 2) 3)
+        (= (+ 1 2 3) 6)
+         (= (+ -1 -3) -5)))
+TEST-+
+CL-USER&gt; (test-+)
+pass ... (= (+ 1 2) 3)
+pass ... (= (+ 1 2 3) 6)
+fail ... (= (+ -1 -3) -5)
+NIL
+CL-USER&gt; 
+</code></pre>
+<h2 id="更好的结果输出"><a href="#更好的结果输出" class="headerlink" title="更好的结果输出"></a>更好的结果输出</h2><pre><code>CL-USER&gt; (defun test-* ()
+       (check
+         (= (* 2 2) 4)
+         (= (* 3 5) 15)))
+TEST-*
+CL-USER&gt; (defun test-arithmetic ()
+       (combine-results
+         (test-+)
+         (test-*)))
+TEST-ARITHMETIC
+CL-USER&gt; (test-arithmetic)
+pass ... (= (+ 1 2) 3)
+pass ... (= (+ 1 2 3) 6)
+pass ... (= (+ -1 -3) -4)
+pass ... (= (* 2 2) 4)
+pass ... (= (* 3 5) 15)
+T
+CL-USER&gt; 
+</code></pre>
+<p>输出测试方法名</p>
+<pre><code>(defvar *test-name* nil)
+
+(defun report-result (result form)
+        (format t &quot;~:[fail~;pass~] ...~a: ~a~%&quot; result *test-name* form))
+        
+(defun test-* ()
+       (let ((*test-name* &#39;test-*))
+         (check
+         (= (* 2 2) 4)
+         (= (* 3 5) 15))))
+         
+(defun test-+()
+        (let ((*test-name* &#39;test-+))
+          (check 
+                 (= (+ 1 2) 3)
+                 (= (+ 1 2 3) 6)
+                 (= (+ -1 -3) -4))))
+</code></pre>
+<p>测试</p>
+<pre><code>CL-USER&gt; (test-arithmetic)
+pass ...TEST-+: (= (+ 1 2) 3)
+pass ...TEST-+: (= (+ 1 2 3) 6)
+pass ...TEST-+: (= (+ -1 -3) -4)
+pass ...TEST-*: (= (* 2 2) 4)
+pass ...TEST-*: (= (* 3 5) 15)
+NIL
+</code></pre>
+<h2 id="抽象诞生"><a href="#抽象诞生" class="headerlink" title="抽象诞生"></a>抽象诞生</h2><p>抽象函数定义</p>
+<pre><code>(defmacro deftest (name parameters &amp;body body)
+       `(defun ,name ,parameters
+          (let ((*test-name* &#39;,name))
+        ,@body)))
+</code></pre>
+<p>新测试方法</p>
+<pre><code>(deftest test-* ()
+       (check
+         (= (* 2 2) 4)
+         (= (* 3 5) 15)))
+</code></pre>
+<h2 id="测试层次体系"><a href="#测试层次体系" class="headerlink" title="测试层次体系"></a>测试层次体系</h2><pre><code>(defmacro deftest (name parameters &amp;body body)
+       `(defun ,name ,parameters
+          (let ((*test-name* (append *test-name* (list &#39;,name))))
+        ,@body)))
+        
+(deftest test-* ()
+   (check
+     (= (* 2 2) 4)
+     (= (* 3 5) 15)))
+             
+(deftest test-+()
+    (check (= (+ 1 2) 3)
+        (= (+ 1 2 3) 6)
+        (= (+ -1 -3) -5)))
+             
+(deftest test-arithmetic ()
+   (combine-results
+     (test-+)
+     (test-*)))
+</code></pre>
+<p>所有用deftest定义的测试用例都会输出方法名</p>
+<p>测试</p>
+<pre><code>CL-USER&gt; (test-arithmetic)
+pass ...(TEST-ARITHMETIC TEST-+): (= (+ 1 2) 3)
+pass ...(TEST-ARITHMETIC TEST-+): (= (+ 1 2 3) 6)
+fail ...(TEST-ARITHMETIC TEST-+): (= (+ -1 -3) -5)
+pass ...(TEST-ARITHMETIC TEST-*): (= (* 2 2) 4)
+pass ...(TEST-ARITHMETIC TEST-*): (= (* 3 5) 15)
+NIL
+CL-USER&gt; 
+</code></pre>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><pre><code>(defvar *test-name* nil)
+
+(defun report-result (result form)
+            (format t &quot;~:[fail~;pass~] ...~a: ~a~%&quot; result *test-name* form))
+            
+(defmacro deftest (name parameters &amp;body body)
+   `(defun ,name ,parameters
+      (let ((*test-name* (append *test-name* (list &#39;,name))))
+    ,@body)))
+        
+(defmacro with-gensyms ((&amp;rest names) &amp;body body)
+   `(let ,(loop for n in names collect `(,n (gensym)))
+      ,@body))
+          
+(defmacro combine-results (&amp;body forms)
+   (with-gensyms (result)
+         `(let ((,result t))
+        ,@(loop for f in forms collect `(unless ,f (setf ,result nil)))
+        ,result)))
+            
+ (defmacro check (&amp;body forms)
+       `(combine-results
+              ,@(loop for f in forms collect `(report-result ,f &#39;,f))))
+</code></pre>
+<p>测试</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">deftest</span> test-* ()</span><br><span class="line">	   (<span class="name">check</span></span><br><span class="line">	     (<span class="name">=</span> (<span class="name">*</span> <span class="number">2</span> <span class="number">2</span>) <span class="number">4</span>)</span><br><span class="line">	     (<span class="name">=</span> (<span class="name">*</span> <span class="number">3</span> <span class="number">5</span>) <span class="number">15</span>)))</span><br><span class="line">    	     </span><br><span class="line">(<span class="name">deftest</span> test-+()</span><br><span class="line">    (<span class="name">check</span> (<span class="name">=</span> (<span class="name">+</span> <span class="number">1</span> <span class="number">2</span>) <span class="number">3</span>)</span><br><span class="line">	    (<span class="name">=</span> (<span class="name">+</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span>) <span class="number">6</span>)</span><br><span class="line">	     (<span class="name">=</span> (<span class="name">+</span> <span class="number">-1</span> <span class="number">-3</span>) <span class="number">-5</span>)))</span><br><span class="line">    	     </span><br><span class="line">(<span class="name">deftest</span> test-arithmetic ()</span><br><span class="line">       (<span class="name">combine-results</span></span><br><span class="line">         (<span class="name">test-+</span>)</span><br><span class="line">         (<span class="name">test-*</span>)))</span><br></pre></td></tr></table></figure>
+
+<p>测试</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CL-USER&gt; (<span class="name">test-arithmetic</span>)</span><br><span class="line">pass ...(<span class="name">TEST-ARITHMETIC</span> TEST-+): (<span class="name">=</span> (<span class="name">+</span> <span class="number">1</span> <span class="number">2</span>) <span class="number">3</span>)</span><br><span class="line">pass ...(<span class="name">TEST-ARITHMETIC</span> TEST-+): (<span class="name">=</span> (<span class="name">+</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span>) <span class="number">6</span>)</span><br><span class="line">fail ...(<span class="name">TEST-ARITHMETIC</span> TEST-+): (<span class="name">=</span> (<span class="name">+</span> <span class="number">-1</span> <span class="number">-3</span>) <span class="number">-5</span>)</span><br><span class="line">pass ...(<span class="name">TEST-ARITHMETIC</span> TEST-*): (<span class="name">=</span> (<span class="name">*</span> <span class="number">2</span> <span class="number">2</span>) <span class="number">4</span>)</span><br><span class="line">pass ...(<span class="name">TEST-ARITHMETIC</span> TEST-*): (<span class="name">=</span> (<span class="name">*</span> <span class="number">3</span> <span class="number">5</span>) <span class="number">15</span>)</span><br><span class="line">NIL</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/lisp/pcldiary/chapter9/" data-id="clhlnylj600ybojup8wfxfdqj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/rproxy/transws" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/rproxy/transws/" class="article-date">
+  <time datetime="2017-03-04T08:11:00.000Z" itemprop="datePublished">2017-03-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/rproxy/transws/">反向代理之如何转发webservice请求</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>添加拦截器拦截所有webservice请求：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;filter&gt;</span><br><span class="line">  &lt;filter-name&gt;WsTransFilter&lt;/filter-name&gt;</span><br><span class="line">  &lt;filter-class&gt;com.nfbank.rproxy.filter.WsTransFilter&lt;/filter-class&gt;</span><br><span class="line">&lt;/filter&gt;</span><br><span class="line">&lt;filter-mapping&gt;</span><br><span class="line">  &lt;filter-name&gt;WsTransFilter&lt;/filter-name&gt;</span><br><span class="line">  &lt;url-pattern&gt;/webservice/*&lt;/url-pattern&gt;</span><br><span class="line">&lt;/filter-mapping&gt;</span><br></pre></td></tr></table></figure>
+
+<p>转发请求到对应地址：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.Enumeration;</span><br><span class="line"></span><br><span class="line">import javax.servlet.Filter;</span><br><span class="line">import javax.servlet.FilterChain;</span><br><span class="line">import javax.servlet.FilterConfig;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.ServletRequest;</span><br><span class="line">import javax.servlet.ServletResponse;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line"></span><br><span class="line">import org.apache.cxf.helpers.IOUtils;</span><br><span class="line">import org.apache.http.Header;</span><br><span class="line">import org.apache.http.client.methods.CloseableHttpResponse;</span><br><span class="line">import org.apache.http.client.methods.HttpPost;</span><br><span class="line">import org.apache.http.entity.InputStreamEntity;</span><br><span class="line">import org.apache.http.impl.client.CloseableHttpClient;</span><br><span class="line">import org.apache.http.impl.client.HttpClients;</span><br><span class="line"></span><br><span class="line">public class WsTransFilter implements Filter &#123;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void doFilter(ServletRequest req, ServletResponse resp,</span><br><span class="line">			FilterChain chain) throws IOException, ServletException &#123;</span><br><span class="line">		HttpServletRequest request = (HttpServletRequest) req;</span><br><span class="line">		HttpServletResponse response = (HttpServletResponse) resp;</span><br><span class="line"></span><br><span class="line">		try &#123;</span><br><span class="line">			CloseableHttpClient httpClient = HttpClients.createDefault();</span><br><span class="line">			HttpPost httpPost = new HttpPost(&quot;这里是服务的地址&quot;);</span><br><span class="line">			InputStreamEntity entity = new InputStreamEntity(</span><br><span class="line">					request.getInputStream());</span><br><span class="line">			httpPost.setEntity(entity);</span><br><span class="line">			for (Enumeration&lt;String&gt; e = request.getHeaderNames(); e</span><br><span class="line">					.hasMoreElements();) &#123;</span><br><span class="line">				String name = e.nextElement().toString();</span><br><span class="line">				if (&quot;Content-Length&quot;.equals(name)) &#123;</span><br><span class="line">					continue;</span><br><span class="line">				&#125;</span><br><span class="line">				httpPost.setHeader(name, request.getHeader(name));</span><br><span class="line">			&#125;</span><br><span class="line">			CloseableHttpResponse httpResponse = httpClient.execute(httpPost);</span><br><span class="line">			for (Header h : httpResponse.getAllHeaders()) &#123;</span><br><span class="line">				response.setHeader(h.getName(), h.getValue());</span><br><span class="line">			&#125;</span><br><span class="line">			IOUtils.copyAndCloseInput(httpResponse.getEntity().getContent(),</span><br><span class="line">					response.getOutputStream());</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			response.setContentType(&quot;text/xml;charset=UTF-8&quot;);</span><br><span class="line">			String result = &quot;&lt;soap:Envelope xmlns:soap=\&quot;http://schemas.xmlsoap.org/soap/envelope/\&quot;&gt;&quot;</span><br><span class="line">					+ &quot;&lt;soap:Body&gt;&lt;soap:Fault&gt;&lt;faultcode&gt;&quot;</span><br><span class="line">					+ &quot;9999&quot;</span><br><span class="line">					+ &quot;&lt;/faultcode&gt;&quot;</span><br><span class="line">					+ &quot;&lt;faultstring&gt;&quot;</span><br><span class="line">					+ &quot;失败:&quot;</span><br><span class="line">					+ e.getMessage()</span><br><span class="line">					+ &quot;&lt;/faultstring&gt;&lt;/soap:Fault&gt;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;&quot;;</span><br><span class="line">			response.getWriter().print(result);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void init(FilterConfig filterConfig) throws ServletException &#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void destroy() &#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/rproxy/transws/" data-id="clhlnylff00c8ojupckahgq4h" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/rproxy/httpcallws" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/rproxy/httpcallws/" class="article-date">
+  <time datetime="2017-03-04T06:44:51.000Z" itemprop="datePublished">2017-03-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/rproxy/httpcallws/">如何用HttpClient和xml报文调用webservice服务</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>依赖jar包：</p>
+<p>httpclient-4.5.2.jar</p>
+<p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">package com.iteedu.demo.webservicesdk;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">import org.apache.http.HttpEntity;</span><br><span class="line">import org.apache.http.HttpStatus;</span><br><span class="line">import org.apache.http.client.ClientProtocolException;</span><br><span class="line">import org.apache.http.client.config.RequestConfig;</span><br><span class="line">import org.apache.http.client.methods.CloseableHttpResponse;</span><br><span class="line">import org.apache.http.client.methods.HttpPost;</span><br><span class="line">import org.apache.http.entity.StringEntity;</span><br><span class="line">import org.apache.http.impl.client.CloseableHttpClient;</span><br><span class="line">import org.apache.http.impl.client.HttpClients;</span><br><span class="line">import org.apache.http.util.EntityUtils;</span><br><span class="line"></span><br><span class="line">public class HelloWorldHttpClient &#123;</span><br><span class="line">	public static void main(String[] args) throws ClientProtocolException,</span><br><span class="line">			IOException &#123;</span><br><span class="line">		RequestConfig requestConfig = RequestConfig.custom()</span><br><span class="line">				.setConnectionRequestTimeout(30).setConnectTimeout(30)</span><br><span class="line">				.setSocketTimeout(30).build();</span><br><span class="line">		CloseableHttpClient httpClient = HttpClients.custom()</span><br><span class="line">				.setDefaultRequestConfig(requestConfig).build();</span><br><span class="line">		HttpPost httpPost = new HttpPost(&quot;http://localhost:8080/helloWorld&quot;);</span><br><span class="line">		StringEntity entity = new StringEntity(getRequestXML(), &quot;UTF-8&quot;);</span><br><span class="line">		httpPost.setEntity(entity);</span><br><span class="line">		httpPost.setHeader(&quot;Content-Type&quot;, &quot;text/xml; charset=&quot; + &quot;UTF-8&quot;);</span><br><span class="line">		httpPost.setHeader(&quot;SOAPAction&quot;, &quot;&quot;);</span><br><span class="line">		CloseableHttpResponse httpResponse = httpClient.execute(httpPost);</span><br><span class="line"></span><br><span class="line">		String result = null;</span><br><span class="line">		int iCode = httpResponse.getStatusLine().getStatusCode();</span><br><span class="line">		if (HttpStatus.SC_OK == iCode) &#123;</span><br><span class="line">			HttpEntity httpEntity = httpResponse.getEntity();</span><br><span class="line">			result = EntityUtils.toString(httpEntity, &quot;UTF-8&quot;);</span><br><span class="line">		&#125; else &#123; // 如果返回非200，则手动关闭连接</span><br><span class="line">			httpPost.abort();</span><br><span class="line">			System.out.println(&quot;get status code &#123;&#125; from server:&quot;</span><br><span class="line">					+ httpResponse.getStatusLine().getStatusCode());</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(result);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static String getRequestXML() &#123;</span><br><span class="line">		StringBuilder sb = new StringBuilder(&quot;&lt;soapenv:Envelope&quot;);</span><br><span class="line">		sb.append(&quot; xmlns:soapenv=\&quot;http://schemas.xmlsoap.org/soap/envelope/\&quot;&quot;);</span><br><span class="line">		sb.append(&quot; xmlns:web=\&quot;http://webservicesdk.demo.iteedu.com/\&quot;&gt;&quot;);</span><br><span class="line">		sb.append(&quot;   &lt;soapenv:Header/&gt;&quot;);</span><br><span class="line">		sb.append(&quot;   &lt;soapenv:Body&gt;&quot;);</span><br><span class="line">		sb.append(&quot;      &lt;web:sayHiToUser&gt;&quot;);</span><br><span class="line">		sb.append(&quot;         &lt;arg0&gt;&quot;);</span><br><span class="line">		sb.append(&quot;         &lt;name&gt;assd&lt;/name&gt;&lt;/arg0&gt;&quot;);</span><br><span class="line">		sb.append(&quot;      &lt;/web:sayHiToUser&gt;&quot;);</span><br><span class="line">		sb.append(&quot;   &lt;/soapenv:Body&gt;&quot;);</span><br><span class="line">		sb.append(&quot;&lt;/soapenv:Envelope&gt;&quot;);</span><br><span class="line">		return sb.toString();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/rproxy/httpcallws/" data-id="clhlnylfc00bqojuperho9qs1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webservice/" rel="tag">webservice</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/lisp/pcldiary/chapter8" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/lisp/pcldiary/chapter8/" class="article-date">
+  <time datetime="2017-02-09T08:36:44.000Z" itemprop="datePublished">2017-02-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/lisp/pcldiary/chapter8/">第8章如何自定义宏-实用Common Lisp编程笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="DEFMACRO"><a href="#DEFMACRO" class="headerlink" title="DEFMACRO"></a>DEFMACRO</h2><p>格式：</p>
+<pre><code>(defmacro name (parameter*)
+       body-form*)
+   
+</code></pre>
+<h2 id="do-primes"><a href="#do-primes" class="headerlink" title="do-primes"></a>do-primes</h2><p>素数迭代宏的实现</p>
+<p>两个工具函数</p>
+<p>一个数是否是素数</p>
+<pre><code>(defun primep (number)
+       (when (&gt; number 1)
+         (loop for fac from 2 to (isqrt number) never (zerop (mod number fac)))))
+
+CL-USER&gt; (primep 17)
+T
+CL-USER&gt; (primep 10)
+NIL
+CL-USER&gt; 
+</code></pre>
+<p>找一下数的下一个素数</p>
+<pre><code> (defun next-primep (number)
+       (loop for n from number when (primep n) return n))
+       
+CL-USER&gt; (next-primep 10)
+11
+CL-USER&gt; (next-primep 20)
+23
+CL-USER&gt; 
+</code></pre>
+<p>do-primes定义</p>
+<pre><code>(defmacro do-primes (var-and-range &amp;rest body)
+       (let ((var (first var-and-range))
+         (start (second var-and-range))
+         (end (third var-and-range)))
+         `(do ((,var (next-primep ,start) (next-primep (+ 1 ,var))))
+          ((&gt; ,var ,end))
+        ,@body)))
+        
+</code></pre>
+<p>测试</p>
+<pre><code>CL-USER&gt; (do-primes (p 0 19) (format t &quot;~d &quot; p))
+2 3 5 7 11 13 17 19 
+NIL
+</code></pre>
+<p>宏展开式</p>
+<pre><code>CL-USER&gt; (macroexpand-1 `(do-primes (p 0 19) (format t &quot;~d &quot; p)))
+(DO ((P (NEXT-PRIMEP 0) (NEXT-PRIMEP (+ 1 P)))) ((&gt; P 19)) (FORMAT T &quot;~d &quot; P))
+T
+</code></pre>
+<p>slime宏展开快捷键</p>
+<p>光标移动到源码的开括号上，C-c RET，调用slime的slime-macroexpand-1，后者调用macroexpand-1，结果输出到一缓冲区</p>
+<h2 id="堵住漏洞"><a href="#堵住漏洞" class="headerlink" title="堵住漏洞"></a>堵住漏洞</h2><pre><code>(defmacro do-primes ((var start end) &amp;rest body)
+             `(do ((,var (next-primep ,start) (next-primep (+ 1 ,var))))
+              ((&gt; ,var ,end))
+            ,@body))
+
+CL-USER&gt; (do-primes (p 0 19) (format t &quot;~d &quot; p))
+2 3 5 7 11 13 17 19 
+NIL
+</code></pre>
+<p>多次求值漏洞</p>
+<pre><code>(do-primes (p 0 (random 100))
+       (format t &quot;~d &quot; p))
+       
+(DO ((P (NEXT-PRIMEP 0) (NEXT-PRIMEP (+ 1 P))))
+    ((&gt; P (RANDOM 100)))
+  (FORMAT T &quot;~d &quot; P))
+</code></pre>
+<p>循环结束条件每次迭代会随机一次，需求应该是在第一次进入迭代时产生一次做结束值。</p>
+<pre><code>(defmacro do-primes ((var start end) &amp;rest body)
+             `(do ((,var (next-primep ,start) (next-primep (+ 1 ,var)))
+                (ending-value ,end))
+                ((&gt; ,var ending-value))
+            ,@body))
+</code></pre>
+<p>新定义变量代替入参解决多次求值问题。</p>
+<p>参数漏洞</p>
+<p>新定义变量引入新问题，宏参会宏体同名变量互相影响。</p>
+<pre><code>(do-primes (ending-value 0 10)
+       (print ending-value))
+       
+(DO ((ENDING-VALUE (NEXT-PRIMEP 0) (NEXT-PRIMEP (+ 1 ENDING-VALUE)))
+     (ENDING-VALUE 10))
+    ((&gt; ENDING-VALUE ENDING-VALUE))
+  (PRINT ENDING-VALUE))
+</code></pre>
+<p>gensym解决变量名冲突问题</p>
+<pre><code>(defmacro do-primes ((var start end) &amp;rest body)
+       (let ((ending-value-name (gensym)))
+         `(do ((,var (next-primep ,start) (next-primep (+ 1 ,var)))
+                    (,ending-value-name ,end))
+                    ((&gt; ,var ,ending-value-name))
+                ,@body)))
+</code></pre>
+<p>宏展开</p>
+<pre><code>(DO ((P (NEXT-PRIMEP 0) (NEXT-PRIMEP (+ 1 P)))
+     (#:G780 19))
+    ((&gt; P #:G780))
+  (FORMAT T &quot;~d &quot; P))
+</code></pre>
+<p>漏洞处理总结：</p>
+<p>除非有特殊理由，否则需要将展开式中的任何子形式放在一个位置上，使其求值顺序与宏调用的子形式相同。</p>
+<p>除非有特殊理由，否则需要确保子形式仅被求值一次，方法是在展开式中创建变量来持有求值参数形式所得到的值，然后在展开式中所有需要用到该值的地方使用这个变量。</p>
+<p>在宏展开期使用GENSYM来创建展开式中用到的变量名。</p>
+<h2 id="用于编写宏的宏"><a href="#用于编写宏的宏" class="headerlink" title="用于编写宏的宏"></a>用于编写宏的宏</h2><p>简化GENSYM的宏</p>
+<pre><code>(defmacro with-gensyms ((&amp;rest names) &amp;body body)
+       `(let ,(loop for n in names collect `(,n (gensym)))
+          ,@body))
+      
+</code></pre>
+<p>应用</p>
+<pre><code>(defmacro do-primes ((var start end) &amp;rest body)
+           (with-gensyms (ending-value-name)
+             `(do ((,var (next-primep ,start) (next-primep (+ 1 ,var)))
+                        (,ending-value-name ,end))
+                        ((&gt; ,var ,ending-value-name))
+                    ,@body)))
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/lisp/pcldiary/chapter8/" data-id="clhlnylj500y8ojup2tbj4c0e" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/lisp/pcldiary/chapter7" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/lisp/pcldiary/chapter7/" class="article-date">
+  <time datetime="2017-02-09T08:35:55.000Z" itemprop="datePublished">2017-02-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/lisp/pcldiary/chapter7/">第7章标准控制结构-实用Common Lisp编程笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="if"><a href="#if" class="headerlink" title="if"></a>if</h2><pre><code>(if condtion then-form [else-form])
+</code></pre>
+<p>then-form和else-form只能是单一lisp表达式。</p>
+<p>示例：</p>
+<pre><code>CL-USER&gt; (if (&gt; 2 3) &quot;then-form&quot; &quot;else-form&quot;)
+&quot;else-form&quot;
+CL-USER&gt; (if (&gt; 2 3) &quot;then-form&quot;)
+NIL
+CL-USER&gt; (if (&gt; 3 2) &quot;then-form&quot; &quot;else-form&quot;)
+&quot;then-form&quot;
+CL-USER&gt;
+</code></pre>
+<h2 id="progn"><a href="#progn" class="headerlink" title="progn"></a>progn</h2><p>顺序执行任意数量的宏，返回最后一个形式的值。</p>
+<pre><code>(when (判断条件)
+  (语句1)
+  (语句2))
+
+CL-USER&gt; (when T &quot;a&quot; &quot;b&quot;)
+&quot;b&quot;
+CL-USER&gt; (when NIL &quot;a&quot; &quot;b&quot;)
+NIL
+</code></pre>
+<h2 id="WHEN宏"><a href="#WHEN宏" class="headerlink" title="WHEN宏"></a>WHEN宏</h2><pre><code>(defmacro when (condtion &amp;rest body)
+    `(if ,condtion (progn ,@body)))
+</code></pre>
+<h2 id="UNLESS宏"><a href="#UNLESS宏" class="headerlink" title="UNLESS宏"></a>UNLESS宏</h2><pre><code>(defmacro when (condtion &amp;rest body)
+    `(if （not ,condtion) (progn ,@body)))
+    
+    
+</code></pre>
+<h2 id="COND宏"><a href="#COND宏" class="headerlink" title="COND宏"></a>COND宏</h2><pre><code>(cond 
+    (test-1 form*)
+    ...
+    (test-n form*))
+
+CL-USER&gt; (COND (t &quot;a&quot; &quot;b&quot;)
+           (t &quot;c&quot; &quot;d&quot;))
+&quot;b&quot;
+</code></pre>
+<h2 id="AND-OR-NOT"><a href="#AND-OR-NOT" class="headerlink" title="AND OR NOT"></a>AND OR NOT</h2><pre><code>CL-USER&gt; (not nil)
+T
+CL-USER&gt; (not t)
+NIL
+CL-USER&gt; (and t nil)
+NIL
+CL-USER&gt; (or t nil)
+T
+</code></pre>
+<h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><p>lisp的25个操作符没有循环结构，所有循环结构都是基于TAGBODY和GO操作符上的宏。</p>
+<p>低层是一个强大的DO宏，dolist和dotimes是基于DO宏上的简便宏。</p>
+<p>非LISP语法的LOOP宏，类Algol语言。</p>
+<h2 id="dolist"><a href="#dolist" class="headerlink" title="dolist"></a>dolist</h2><pre><code>(dolist (var list-form)
+    body-form*)
+    
+CL-USER&gt; (dolist (x &#39;(1 2 3)) (print x))
+
+1 
+2 
+3 
+NIL
+</code></pre>
+<p>中断循环</p>
+<p>CL-USER&gt; (dolist (x ‘(1 2 3)) (print x) (if (evenp x) (return)))</p>
+<p>1<br>2<br>NIL</p>
+<h2 id="dotimes"><a href="#dotimes" class="headerlink" title="dotimes"></a>dotimes</h2><pre><code>(dotimes (var count-form)
+    body-form*)
+    
+CL-USER&gt; (dotimes (n 5)(print n) (prin1 (* n n)))
+
+0 0
+1 1
+2 4
+3 9
+4 16
+NIL
+</code></pre>
+<h2 id="do"><a href="#do" class="headerlink" title="do"></a>do</h2><pre><code>(do (variable-defination*)
+    (end-test-form result-form*)
+    statment*)
+</code></pre>
+<p>每个variable-defination的格式：</p>
+<p>(var init-form step-form)</p>
+<p>init-form:在循环开始时求值并赋给var，如果没有给出，则赋值为nil。</p>
+<p>step-form:在后续迭代开始前求值并赋给var,可选，如果没有变量值不变，<br>可在循环体中做修改。</p>
+<p>end-test-form:在每次迭代开始时以及所有所有循环变量指定新值后会被求值，只要值为nil，迭代继续。</p>
+<p>result-form: 当end-test-form值为真时会被求值，最后一个结果形式的值被当作DO表达式的值返回。<br>在迭代的每一步里step-form将在分配任何值给变量之前被求值。这意味着可以在步长形式里引用其它循环变量。如在下列循环中：</p>
+<pre><code>CL-USER&gt; (do ((n 0 (+ 1 n))
+          (cur 0 next)
+          (next 1 (+ cur next)))
+         ((= 10 n) cur))
+55
+</code></pre>
+<p>定义了三个variable-defination，n、cur、next，三个的步长(+ 1 n)、next、(+ cur next)都用旧值来求值。当所有步长被求值后变量才会赋新值。</p>
+<p>由于可以同时推进多个循环变量，往往不需要循环体。</p>
+<pre><code>CL-USER&gt; (do ((i 0 (+ 1 i)))
+         ((&gt;= i 4))
+       (print i))
+
+0 
+1 
+2 
+3 
+NIL
+</code></pre>
+<h2 id="LOOP"><a href="#LOOP" class="headerlink" title="LOOP"></a>LOOP</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/lisp/pcldiary/chapter7/" data-id="clhlnylj500y5ojupea7a8zol" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/lisp/pcldiary/chapter6" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/lisp/pcldiary/chapter6/" class="article-date">
+  <time datetime="2017-02-09T08:34:43.000Z" itemprop="datePublished">2017-02-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/lisp/pcldiary/chapter6/">第6章变量-实用Common Lisp编程笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="let"><a href="#let" class="headerlink" title="let"></a>let</h2><p>绑定的变量只能在body-form中生效。</p>
+<pre><code>(let (variable*)
+    body-form*)
+
+(let ((x 10) (y 20) z)
+    ...)
+</code></pre>
+<p>示例：</p>
+<pre><code>CL-USER&gt; (defun foo (x)
+       (format t &quot;Parameter: ~a~%&quot; x)
+       (let ((x 2))
+         (format t &quot;Outer LET: ~a~%&quot; x)
+         (let ((x 3))
+           (format t &quot;Inner LET: ~a~%&quot; x))
+         (format t &quot;Outer LET: ~a~%&quot; x))
+      (format t &quot;Parameter: ~a~%&quot; x)) 
+FOO
+CL-USER&gt; (foo 1)
+Parameter: 1
+Outer LET: 2
+Inner LET: 3
+Outer LET: 2
+Parameter: 1
+NIL
+CL-USER&gt; 
+</code></pre>
+<h2 id="let-1"><a href="#let-1" class="headerlink" title="let*"></a>let*</h2><p>每个变量的初始值都可以引用变量列表中早先引入的变量。</p>
+<pre><code>CL-USER&gt; (let* ((x 10)
+        (y (+ x 10)))
+       (list x y ))
+(10 20)
+CL-USER&gt; 
+</code></pre>
+<h2 id="词法变量和闭包"><a href="#词法变量和闭包" class="headerlink" title="词法变量和闭包"></a>词法变量和闭包</h2><p>词法变量一般在退出绑定代码块后会被释放，但如果被匿名函数携带返回，则不会被释放。</p>
+<pre><code>CL-USER&gt; (defparameter *fn* (let ((count 0))
+    #&#39;(lambda () (setf count (1+ count)))))
+*FN*
+CL-USER&gt; (funcall *fn*)
+1
+CL-USER&gt; (funcall *fn*)
+2
+CL-USER&gt; (funcall *fn*)
+3
+CL-USER&gt; 
+</code></pre>
+<h2 id="动态变量（全局变量）"><a href="#动态变量（全局变量）" class="headerlink" title="动态变量（全局变量）"></a>动态变量（全局变量）</h2><p>全局变量命名：<br>defvar和defparameter</p>
+<p>defparameter总是将值赋给变量。</p>
+<p>defvar只有当变量未定义时才有效。</p>
+<pre><code>CL-USER&gt; (defvar *count* 10)
+*COUNT*
+CL-USER&gt; *COUNT*
+10
+CL-USER&gt; (defvar *count* 11)
+*COUNT*
+CL-USER&gt; *COUNT*
+10
+CL-USER&gt; (defparameter *count* 11)
+*COUNT*
+CL-USER&gt; *COUNT*
+11
+CL-USER&gt; 
+</code></pre>
+<p>函数参数和LET</p>
+<p>示例1：</p>
+<pre><code>CL-USER&gt; (defparameter *count* 10)
+*COUNT*
+CL-USER&gt; *COUNT*
+10
+CL-USER&gt; (defun foo (*count*)
+       (format t &quot;~a~%&quot; *count*)
+       (setf *count* (+ 1 *count*))
+       (format t &quot;~a~%&quot; *count*)
+       (let ((*count* 100))
+         (format t &quot;~a~%&quot; *count*)
+         (setf *count* (+ 1 *count*))
+         (format t &quot;~a~%&quot; *count*))
+       (format t &quot;~a~%&quot; *count*))
+          
+FOO
+CL-USER&gt; (foo *count*)
+10
+11
+100
+101
+11
+NIL
+CL-USER&gt; *COUNT*
+10
+</code></pre>
+<p>示例2：</p>
+<pre><code>CL-USER&gt; *COUNT*
+10
+CL-USER&gt; (defun foo ()
+       (format t &quot;~a~%&quot; *count*)
+       (setf *count* (+ 1 *count*))
+       (format t &quot;~a~%&quot; *count*)
+       (let ((*count* 100))
+         (format t &quot;~a~%&quot; *count*)
+         (setf *count* (+ 1 *count*))
+         (format t &quot;~a~%&quot; *count*))
+       (format t &quot;~a~%&quot; *count*))
+          
+FOO
+CL-USER&gt; (foo)
+10
+11
+100
+101
+11
+NIL
+CL-USER&gt; *COUNT*
+11
+CL-USER&gt; 
+</code></pre>
+<p>闭包与动态变量</p>
+<pre><code>CL-USER&gt; *COUNT*
+11
+CL-USER&gt; (defparameter *fn* (let ((*count* 0))
+    #&#39;(lambda () (setf *count* (1+ *count*)))))
+*FN*
+CL-USER&gt; (funcall *fn*)
+12
+CL-USER&gt; (funcall *fn*)
+13
+CL-USER&gt;
+</code></pre>
+<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><p>defconstant</p>
+<h2 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h2><pre><code>(setf place value)
+</code></pre>
+<p>setf是宏，可以检查所赋值place上的形式，并展开成适当的低层操作修改那个位置。当位置是变量时，它展开成对SETQ的调用。</p>
+<p>SETF一次也可以对多个位置赋值：</p>
+<pre><code>(setf x 1 y 2)
+</code></pre>
+<p>setf返回最近被赋予的值，将x和y赋予同一个随机值：</p>
+<pre><code>(setf x (setf y (random 10)))
+</code></pre>
+<h2 id="广义赋值"><a href="#广义赋值" class="headerlink" title="广义赋值"></a>广义赋值</h2><p>对各种结构赋值为10</p>
+<pre><code>(setf x 10) 
+(setf (aref a 0) 10) ;array
+(setf (gethash &#39;key hash) 10) ;hash table
+(setf (field o) 10) ;slot named &#39;field&#39;
+</code></pre>
+<h2 id="其它修改位置的方式"><a href="#其它修改位置的方式" class="headerlink" title="其它修改位置的方式"></a>其它修改位置的方式</h2><pre><code>(incf x) 
+(setf x (+ x 1))
+(decf x)
+(setf x (- x 1))
+(incf x 10)
+(setf x (+ x 10))
+</code></pre>
+<p>一个例子：</p>
+<pre><code>(incf (aref *array* (random (length *array*))))
+
+(let ((tmp (ramdom (length *array*))))
+    (setf (aref *array* tmp) (1+ (aref *array* tmp))))
+</code></pre>
+<p>rotatef</p>
+<pre><code>(rotatef a b)
+(let ((tmp a)) (setf a b b tmp) nil)
+</code></pre>
+<p>shiftf</p>
+<pre><code>(shiftf a b 10)
+(let ((tmp a)) (setf a b b 10) tmp)
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/lisp/pcldiary/chapter6/" data-id="clhlnylj400y2ojupd6n2ffy8" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/tools/markdown/base" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/tools/markdown/base/" class="article-date">
+  <time datetime="2017-01-18T14:56:05.000Z" itemprop="datePublished">2017-01-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/tools/markdown/base/">Markdown基本语法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="标题设置"><a href="#标题设置" class="headerlink" title="标题设置"></a>标题设置</h3><p>在Markdown当中设置标题，有两种方式：</p>
+<p>第一种：通过在文字下方添加“&#x3D;”和“-”，他们分别表示一级标题和二级标题。<br>第二种：在文字开头加上 “#”，通过“#”数量表示几级标题。（一共只有1~6级标题，1级标题字体最大）</p>
+<p>###块注释（blockquote）</p>
+<p>通过在文字开头添加“&gt;”表示块注释。（当&gt;和文字之间添加五个blank时，块注释的文字会有变化。）</p>
+<h3 id="斜体"><a href="#斜体" class="headerlink" title="斜体"></a>斜体</h3><p>将需要设置为斜体的文字两端使用1个“*”或者“_”夹起来</p>
+<h3 id="粗体"><a href="#粗体" class="headerlink" title="粗体"></a>粗体</h3><p>将需要设置为斜体的文字两端使用2个“*”或者“_”夹起来</p>
+<h3 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h3><p>在文字开头添加(<em>, +, and -)实现无序列表。但是要注意在(</em>, +, and -)和文字之间需要添加空格。（建议：一个文档中只是用一种无序列表的表示方式）</p>
+<h3 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h3><p>使用数字后面跟上句号。（还要有空格）</p>
+<h3 id="链接（Links）"><a href="#链接（Links）" class="headerlink" title="链接（Links）"></a>链接（Links）</h3><p>Markdown中有两种方式，实现链接，分别为内联方式和引用方式。</p>
+<p>内联方式：</p>
+<pre><code>This is an [example link](http://example.com/).
+</code></pre>
+<p>引用方式：</p>
+<pre><code>I get 10 times more traffic from [Google][1] than from [Yahoo][2] or [MSN][3].
+[1]: http://google.com/        &quot;Google&quot;
+[2]: http://search.yahoo.com/  &quot;Yahoo Search&quot;
+[3]: http://search.msn.com/    &quot;MSN Search&quot;
+</code></pre>
+<h3 id="图片（Images）"><a href="#图片（Images）" class="headerlink" title="图片（Images）"></a>图片（Images）</h3><p>图片的处理方式和链接的处理方式，非常的类似。</p>
+<p>内联方式：</p>
+<pre><code>![alt text](/path/to/img.jpg &quot;Title&quot;)
+</code></pre>
+<p>引用方式：</p>
+<pre><code>![alt text][id]
+[id]: /path/to/img.jpg &quot;Title&quot;
+</code></pre>
+<h3 id="代码（HTML中所谓的Code）"><a href="#代码（HTML中所谓的Code）" class="headerlink" title="代码（HTML中所谓的Code）"></a>代码（HTML中所谓的Code）</h3><p>实现方式有两种：</p>
+<p>第一种：简单文字出现一个代码框。使用<code>&lt;blockquote&gt;</code>。（<code>不是单引号而是左上角的ESC下面~中的</code>）<br>第二种：大片文字需要实现代码框。使用Tab和四个空格。</p>
+<h3 id="脚注（footnote）"><a href="#脚注（footnote）" class="headerlink" title="脚注（footnote）"></a>脚注（footnote）</h3><p>实现方式如下：</p>
+<pre><code>hello[^hello]
+[^hello]: hi
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/tools/markdown/base/" data-id="clhlnylgd00i7ojup0mcfgned" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/java/base/javastring" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/base/javastring/" class="article-date">
+  <time datetime="2017-01-13T05:47:59.000Z" itemprop="datePublished">2017-01-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/base/javastring/">JAVA字符串转码String.getBytes()和new String()</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在Java中，String.getBytes(String decode)方法会根据指定的decode编码返回某字符串在该编码下的byte数组表示，如</p>
+<pre><code>byte[] b_gbk = &quot;中&quot;.getBytes(&quot;GBK&quot;);
+byte[] b_utf8 = &quot;中&quot;.getBytes(&quot;UTF-8&quot;);
+byte[] b_iso88591 = &quot;中&quot;.getBytes(&quot;ISO8859-1&quot;);
+</code></pre>
+<p>将分别返回“中”这个汉字在GBK、UTF-8和ISO8859-1编码下的byte数组表示，此时b_gbk的长度为2，b_utf8的长度为3，b_iso88591的长度为1。</p>
+<p>而与getBytes相对的，可以通过new String(byte[], decode)的方式来还原这个“中”字时，这个new String(byte[], decode)实际是使用decode指定的编码来将byte[]解析成字符串。</p>
+<pre><code>String s_gbk = new String(b_gbk,&quot;GBK&quot;);
+String s_utf8 = new String(b_utf8,&quot;UTF-8&quot;);
+String s_iso88591 = new String(b_iso88591,&quot;ISO8859-1&quot;);
+</code></pre>
+<p>通过打印s_gbk、s_utf8和s_iso88591，会发现，s_gbk和s_utf8都是“中”，而只有s_iso88591是一个不认识 的字符，为什么使用ISO8859-1编码再组合之后，无法还原“中”字呢，其实原因很简单，因为ISO8859-1编码的编码表中，根本就没有包含汉字 字符，当然也就无法通过”中”.getBytes(“ISO8859-1”);来得到正确的“中”字在ISO8859-1中的编码值了，所以再通过new String()来还原就无从谈起了。</p>
+<p>因此，通过String.getBytes(String decode)方法来得到byte[]时，一定要确定decode的编码表中确实存在String表示的码值，这样得到的byte[]数组才能正确被还原。</p>
+<p>有时候，为了让中文字符适应某些特殊要求（如http header头要求其内容必须为iso8859-1编码），可能会通过将中文字符按照字节方式来编码的情况，如</p>
+<pre><code>String s_iso88591 = new String(&quot;中&quot;.getBytes(&quot;UTF-8&quot;),&quot;ISO8859-1&quot;)
+</code></pre>
+<p>这样得到的s_iso8859-1字符串实际是三个在 ISO8859-1中的字符，在将这些字符传递到目的地后，目的地程序再通过相反的方式</p>
+<pre><code>String s_utf8 = new String(s_iso88591.getBytes(&quot;ISO8859-1&quot;),&quot;UTF-8&quot;)
+</code></pre>
+<p>来得到正确的中文汉字“中”。这样就既保证了遵守协 议规定、也支持中文。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/base/javastring/" data-id="clhlnylhr00ptojup0ukjd7fg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" rel="tag">字符编码</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/tools/pandoc/base" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/tools/pandoc/base/" class="article-date">
+  <time datetime="2017-01-08T14:28:57.000Z" itemprop="datePublished">2017-01-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/tools/pandoc/base/">文档转换神器Pandoc</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Pandoc是由John MacFarlane开发的标记语言转换工具，可实现不同标记语言间的格式转换，堪称该领域中的“瑞士军刀”。</p>
+<p>Pandoc使用Haskell语言编写，以命令行形式实现与用户的交互，可支持多种操作系统；Pandoc采用GNU GPL授权协议发布，属于自由软件。</p>
+<p>网站：</p>
+<p><a target="_blank" rel="noopener" href="http://www.pandoc.org/">http://www.pandoc.org/</a></p>
+<h2 id="处理文件类型"><a href="#处理文件类型" class="headerlink" title="处理文件类型"></a>处理文件类型</h2><p>输入文件类型：</p>
+<p>markdown, reStructuredText, textile, HTML, DocBook, LaTeX, MediaWiki markup, TWiki markup, OPML, Emacs Org-Mode, Txt2Tags, Microsoft Word docx, LibreOffice ODT, EPUB, Haddock markup</p>
+<p>输出文件类型：</p>
+<p>HTML formats: XHTML, HTML5, and HTML slide shows using Slidy, reveal.js, Slideous, S5, or DZSlides.</p>
+<p>Word formats: Microsoft Word docx, OpenOffice&#x2F;LibreOffice ODT, OpenDocument XML</p>
+<p>Ebooks: EPUB version 2 or 3, FictionBook2</p>
+<p>Documentation formats: DocBook, TEI Simple, GNU TexInfo, Groff man pages, Haddock markup<br>Page layout formats: InDesign ICML</p>
+<p>Outline formats: OPML</p>
+<p>TeX formats: LaTeX, ConTeXt, LaTeX Beamer slides</p>
+<p>PDF via LaTeX</p>
+<p>Lightweight markup formats: Markdown (including CommonMark), reStructuredText, AsciiDoc, MediaWiki markup, DokuWiki markup, Emacs Org-Mode, Textile</p>
+<p>Custom formats: custom writers can be written in lua.</p>
+<h2 id="pandoc命令"><a href="#pandoc命令" class="headerlink" title="pandoc命令"></a>pandoc命令</h2><p>读取文件（源文件）的格式</p>
+<pre><code>-f FORMAT, -r FORMAT  --from=FORMAT, --read=FORMAT
+</code></pre>
+<p>写入文件（目标文件的）格式</p>
+<pre><code>-t FORMAT, -w FORMAT  --to=FORMAT, --write=FORMAT
+</code></pre>
+<p>输出文件（目标文件）的文件名</p>
+<pre><code>-o FILENAME           --output=FILENAME
+</code></pre>
+<p>把demo.md输出成demo.html</p>
+<pre><code>pandoc -f markdown -t html -o demo.html demo.md
+</code></pre>
+<h2 id="pandoc命令帮助"><a href="#pandoc命令帮助" class="headerlink" title="pandoc命令帮助"></a>pandoc命令帮助</h2><pre><code>pandoc [OPTIONS] [FILES]
+  -f FORMAT, -r FORMAT  --from=FORMAT, --read=FORMAT                    
+  -t FORMAT, -w FORMAT  --to=FORMAT, --write=FORMAT                     
+  -o FILENAME           --output=FILENAME                               
+                        --data-dir=DIRECTORY                            
+  -R                    --parse-raw                                     
+  -S                    --smart                                         
+                        --old-dashes                                    
+                        --base-header-level=NUMBER                      
+                        --indented-code-classes=STRING                  
+  -F PROGRAM            --filter=PROGRAM                                
+                        --normalize                                     
+  -p                    --preserve-tabs                                 
+                        --tab-stop=NUMBER                               
+                        --track-changes=accept|reject|all               
+                        --file-scope                                    
+                        --extract-media=PATH                            
+  -s                    --standalone                                    
+                        --template=FILENAME                             
+  -M KEY[:VALUE]        --metadata=KEY[:VALUE]                          
+  -V KEY[:VALUE]        --variable=KEY[:VALUE]                          
+  -D FORMAT             --print-default-template=FORMAT                 
+                        --print-default-data-file=FILE                  
+                        --dpi=NUMBER                                    
+                        --no-wrap                                       
+                        --wrap=[auto|none|preserve]                     
+                        --columns=NUMBER                                
+                        --toc, --table-of-contents                      
+                        --toc-depth=NUMBER                              
+                        --no-highlight                                  
+                        --highlight-style=STYLE                         
+  -H FILENAME           --include-in-header=FILENAME                    
+  -B FILENAME           --include-before-body=FILENAME                  
+  -A FILENAME           --include-after-body=FILENAME                   
+                        --self-contained                                
+                        --html-q-tags                                   
+                        --ascii                                         
+                        --reference-links                               
+                        --reference-location=block|section|document     
+                        --atx-headers                                   
+                        --chapters                                      
+                        --top-level-division=[section|chapter|part]     
+  -N                    --number-sections                               
+                        --number-offset=NUMBERS                         
+                        --no-tex-ligatures                              
+                        --listings                                      
+  -i                    --incremental                                   
+                        --slide-level=NUMBER                            
+                        --section-divs                                  
+                        --default-image-extension=extension             
+                        --email-obfuscation=none|javascript|references  
+                        --id-prefix=STRING                              
+  -T STRING             --title-prefix=STRING                           
+  -c URL                --css=URL                                       
+                        --reference-odt=FILENAME                        
+                        --reference-docx=FILENAME                       
+                        --epub-stylesheet=FILENAME                      
+                        --epub-cover-image=FILENAME                     
+                        --epub-metadata=FILENAME                        
+                        --epub-embed-font=FILE                          
+                        --epub-chapter-level=NUMBER                     
+                        --latex-engine=PROGRAM                          
+                        --latex-engine-opt=STRING                       
+                        --bibliography=FILE                             
+                        --csl=FILE                                      
+                        --citation-abbreviations=FILE                   
+                        --natbib                                        
+                        --biblatex                                      
+  -m[URL]               --latexmathml[=URL], --asciimathml[=URL]        
+                        --mathml[=URL]                                  
+                        --mimetex[=URL]                                 
+                        --webtex[=URL]                                  
+                        --jsmath[=URL]                                  
+                        --mathjax[=URL]                                 
+                        --katex[=URL]                                   
+                        --katex-stylesheet=URL                          
+                        --gladtex                                       
+                        --trace                                         
+                        --dump-args                                     
+                        --ignore-args                                   
+                        --verbose                                       
+                        --bash-completion                               
+                        --list-input-formats                            
+                        --list-output-formats                           
+                        --list-extensions                               
+                        --list-highlight-languages                      
+                        --list-highlight-styles                         
+  -v                    --version                                       
+  -h                    --help                                          
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/tools/pandoc/base/" data-id="clhlnylgg00irojup91yq2ft5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A5%9E%E5%99%A8/" rel="tag">神器</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/7/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/9/">下一页 &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII%E7%A0%81/" rel="tag">ASCII码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveMQ/" rel="tag">ActiveMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ajax/" rel="tag">Ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BAT%E8%84%9A%E6%9C%AC/" rel="tag">BAT脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAP/" rel="tag">CAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAS/" rel="tag">CAS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eclipse/" rel="tag">Eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/" rel="tag">Emacs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emmet/" rel="tag">Emmet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIT/" rel="tag">GIT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IPFS/" rel="tag">IPFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-IO/" rel="tag">JAVA IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/" rel="tag">JAVA NIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-WEB/" rel="tag">JAVA WEB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lisp/" rel="tag">Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/" rel="tag">Scala</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/" rel="tag">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-MVC/" rel="tag">Spring MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIM/" rel="tag">VIM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/archtype/" rel="tag">archtype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/azkaban/" rel="tag">azkaban</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jquery/" rel="tag">jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql-neo4j/" rel="tag">nosql neo4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openssl/" rel="tag">openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/" rel="tag">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webservice/" rel="tag">webservice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" rel="tag">一致性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" rel="tag">任务调度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" rel="tag">字符编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" rel="tag">字符集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A1%E8%AE%A1/" rel="tag">审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" rel="tag">尾递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" rel="tag">摘要算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" rel="tag">数字签名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" rel="tag">数字证书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" rel="tag">数据权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" rel="tag">树算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正规表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" rel="tag">知识体系</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E5%99%A8/" rel="tag">神器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">自制操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2999/12/">十二月 2999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/02/">二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">九月 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】特别说明</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 证心<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

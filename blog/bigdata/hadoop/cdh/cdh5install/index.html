@@ -1,22 +1,425 @@
-{% extends '_layout.swig' %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
+  
+  <title>(转)离线安装Cloudera Manager 5和CDH5 | OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="关于CDH和Cloudera ManagerCDH (Cloudera’s Distribution, including Apache Hadoop)，是Hadoop众多分支中的一种，由Cloudera维护，基于稳定版本的Apache Hadoop构建，并集成了很多补丁，可直接用于生产环境。 Cloudera Manager则是为了便于在集群中进行Hadoop等大数据处理相关的服务安装和监控管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(转)离线安装Cloudera Manager 5和CDH5">
+<meta property="og:url" content="http://www.onekbase.com/blog/bigdata/hadoop/cdh/cdh5install/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:description" content="关于CDH和Cloudera ManagerCDH (Cloudera’s Distribution, including Apache Hadoop)，是Hadoop众多分支中的一种，由Cloudera维护，基于稳定版本的Apache Hadoop构建，并集成了很多补丁，可直接用于生产环境。 Cloudera Manager则是为了便于在集群中进行Hadoop等大数据处理相关的服务安装和监控管理">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.onekbase.com/images/hadoop/cdhinstall/1.png">
+<meta property="og:image" content="http://www.onekbase.com/images/hadoop/cdhinstall/2.png">
+<meta property="og:image" content="http://www.onekbase.com/images/hadoop/cdhinstall/3.png">
+<meta property="og:image" content="http://www.onekbase.com/images/hadoop/cdhinstall/4.png">
+<meta property="og:image" content="http://www.onekbase.com/images/hadoop/cdhinstall/5.png">
+<meta property="og:image" content="http://www.onekbase.com/images/hadoop/cdhinstall/6.png">
+<meta property="og:image" content="http://www.onekbase.com/images/hadoop/cdhinstall/7.png">
+<meta property="og:image" content="http://www.onekbase.com/images/hadoop/cdhinstall/8.png">
+<meta property="og:image" content="http://www.onekbase.com/images/hadoop/cdhinstall/9.png">
+<meta property="og:image" content="http://www.onekbase.com/images/hadoop/cdhinstall/10.png">
+<meta property="og:image" content="http://www.onekbase.com/images/hadoop/cdhinstall/11.png">
+<meta property="og:image" content="http://www.onekbase.com/images/hadoop/cdhinstall/12.png">
+<meta property="og:image" content="http://www.onekbase.com/images/hadoop/cdhinstall/13.png">
+<meta property="og:image" content="http://www.onekbase.com/images/hadoop/cdhinstall/14.png">
+<meta property="og:image" content="http://www.onekbase.com/images/hadoop/cdhinstall/15.png">
+<meta property="article:published_time" content="2017-06-12T08:18:03.000Z">
+<meta property="article:modified_time" content="2019-06-29T13:46:12.000Z">
+<meta property="article:author" content="证心">
+<meta property="article:tag" content="大数据">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.onekbase.com/images/hadoop/cdhinstall/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="OneKBase" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<meta name="generator" content="Hexo 6.3.0"></head>
 
-{% block content %}
-
-  <div id="posts" class="posts-expand">
-    {{ partial('_macro/post.swig', {post: page}) }}
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-blog/bigdata/hadoop/cdh/cdh5install" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/bigdata/hadoop/cdh/cdh5install/" class="article-date">
+  <time datetime="2017-06-12T08:18:03.000Z" itemprop="datePublished">2017-06-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
   </div>
 
-{% endblock %}
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      (转)离线安装Cloudera Manager 5和CDH5
+    </h1>
+  
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="关于CDH和Cloudera-Manager"><a href="#关于CDH和Cloudera-Manager" class="headerlink" title="关于CDH和Cloudera Manager"></a>关于CDH和Cloudera Manager</h2><p>CDH (Cloudera’s Distribution, including Apache Hadoop)，是Hadoop众多分支中的一种，由Cloudera维护，基于稳定版本的Apache Hadoop构建，并集成了很多补丁，可直接用于生产环境。</p>
+<p>Cloudera Manager则是为了便于在集群中进行Hadoop等大数据处理相关的服务安装和监控管理的组件，对集群中主机、Hadoop、Hive、Spark等服务的安装配置管理做了极大简化。</p>
+<h2 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h2><ul>
+<li>实验环境：Mac下VMware虚拟机</li>
+<li>操作系统：CentOS 6.5 x64 (至少内存2G以上，这里内存不够的同学建议还是整几台真机配置比较好，将CDH的所有组件全部安装会占用很多内存，我已开始设置的虚拟机内存是1G，安装过程中直接卡死了)</li>
+<li>Cloudera Manager：5.1.3</li>
+<li>CDH: 5.1.3</li>
+</ul>
+<h2 id="安装说明"><a href="#安装说明" class="headerlink" title="安装说明"></a>安装说明</h2><p>官方参考文档：</p>
+<p><a target="_blank" rel="noopener" href="http://www.cloudera.com/content/cloudera/en/documentation/cloudera-manager/v5-latest/Cloudera-Manager-Installation-Guide/cm5ig_install_path_C.html">http://www.cloudera.com/content/cloudera/en/documentation/cloudera-manager/v5-latest/Cloudera-Manager-Installation-Guide/cm5ig_install_path_C.html</a></p>
+<p>官方共给出了3中安装方式：</p>
+<p>第一种方法必须要求所有机器都能连网，由于最近各种国外的网站被墙的厉害，我尝试了几次各种超时错误，巨耽误时间不说，一旦失败，重装非常痛苦。</p>
+<p>第二种方法下载很多包。</p>
+<p>第三种方法对系统侵入性最小,最大优点可实现全离线安装，而且重装什么的都非常方便。后期的集群统一包升级也非常好。这也是我之所以选择离线安装的原因。</p>
+<h2 id="相关包的下载地址"><a href="#相关包的下载地址" class="headerlink" title="相关包的下载地址"></a>相关包的下载地址</h2><p>Cloudera Manager下载地址：<br><a target="_blank" rel="noopener" href="http://archive.cloudera.com/cm5/cm/5/cloudera-manager-el6-cm5.1.3_x86_64.tar.gz%EF%BC%8C">http://archive.cloudera.com/cm5/cm/5/cloudera-manager-el6-cm5.1.3_x86_64.tar.gz，</a><br>下载信息：<br><a target="_blank" rel="noopener" href="http://www.cloudera.com/content/cloudera/en/documentation/cloudera-manager/v5-latest/Cloudera-Manager-Version-and-Download-Information/Cloudera-Manager-Version-and-Download-Information.html#cmvd_topic_1">http://www.cloudera.com/content/cloudera/en/documentation/cloudera-manager/v5-latest/Cloudera-Manager-Version-and-Download-Information/Cloudera-Manager-Version-and-Download-Information.html#cmvd_topic_1</a></p>
+<p>CDH安装包地址：<a target="_blank" rel="noopener" href="http://archive.cloudera.com/cdh5/parcels/latest/%EF%BC%8C%E7%94%B1%E4%BA%8E%E6%88%91%E4%BB%AC%E7%9A%84%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%BACentOS6.5%EF%BC%8C%E9%9C%80%E8%A6%81%E4%B8%8B%E8%BD%BD%E4%BB%A5%E4%B8%8B%E6%96%87%E4%BB%B6%EF%BC%9A">http://archive.cloudera.com/cdh5/parcels/latest/，由于我们的操作系统为CentOS6.5，需要下载以下文件：</a></p>
+<ul>
+<li>CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel</li>
+<li>CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel.sha1</li>
+<li>manifest.json</li>
+</ul>
+<p>注意：与CDH4的不同，原来安装CDH4的时候还需要下载IMPALA、Cloudera Search(SOLR)，CDH5中将他们包含在一起了，所以只需要下载一个CDH5的包就可以了。</p>
+<h2 id="准备工作：系统环境搭建"><a href="#准备工作：系统环境搭建" class="headerlink" title="准备工作：系统环境搭建"></a>准备工作：系统环境搭建</h2><p>以下操作均用root用户操作。</p>
+<h3 id="1-网络配置-所有节点"><a href="#1-网络配置-所有节点" class="headerlink" title="1. 网络配置(所有节点)"></a>1. 网络配置(所有节点)</h3><p><code>vi /etc/sysconfig/network</code>修改hostname：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NETWORKING=yes</span><br><span class="line">HOSTNAME=n1</span><br></pre></td></tr></table></figure>
+<p>通过<code>service network restart</code>重启网络服务生效。</p>
+<p><code>vi /etc/hosts</code>,修改ip与主机名的对应关系</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.106   n1</span><br><span class="line">192.168.1.107   n2</span><br><span class="line">192.168.1.108   n3</span><br></pre></td></tr></table></figure>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+<p>注意：这里需要将每台机器的ip及主机名对应关系都写进去，本机的也要写进去，否则启动Agent的时候会提示hostname解析错误。</p>
+<h3 id="2-打通SSH，设置ssh无密码登陆（所有节点）"><a href="#2-打通SSH，设置ssh无密码登陆（所有节点）" class="headerlink" title="2.打通SSH，设置ssh无密码登陆（所有节点）"></a>2.打通SSH，设置ssh无密码登陆（所有节点）</h3><p>在主节点上执行<code>ssh-keygen -t rsa</code>一路回车，生成无密码的密钥对。</p>
+<p>将公钥添加到认证文件中：<code>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</code>，并设置authorized_keys的访问权限：<code>chmod 600 ~/.ssh/authorized_keys</code>。</p>
+<p>scp文件到所有datenode节点：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp ~/.ssh/authorized_keys root@n2:~/.ssh/</span><br></pre></td></tr></table></figure>
+
+<p>测试：在主节点上ssh n2，正常情况下，不需要密码就能直接登陆进去了。</p>
+<h3 id="3-安装Oracle的Java（所有节点）"><a href="#3-安装Oracle的Java（所有节点）" class="headerlink" title="3.安装Oracle的Java（所有节点）"></a>3.安装Oracle的Java（所有节点）</h3><p>CentOS，自带OpenJdk，不过运行CDH5需要使用Oracle的Jdk，需要Java 7的支持。</p>
+<p>卸载自带的OpenJdk，使用<code>rpm -qa | grep java</code>查询java相关的包，使用<code>rpm -e --nodeps 包名</code>卸载之。</p>
+<p>去Oracle的官网下载jdk的rpm安装包，并使用<code>rpm -ivh 包名</code>安装之。</p>
+<p>由于是rpm包并不需要我们来配置环境变量，我们只需要配置一个全局的JAVA_HOME变量即可，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;JAVA_HOME=/usr/java/latest/&quot; &gt;&gt; /etc/environment</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-安装配置MySql（主节点）"><a href="#4-安装配置MySql（主节点）" class="headerlink" title="4.安装配置MySql（主节点）"></a>4.安装配置MySql（主节点）</h3><p>通过<code>yum install mysql-server</code>安装mysql服务器。<code>chkconfig mysqld on</code>设置开机启动，并<code>service mysqld start</code>启动mysql服务，并根据提示设置root的初试密码：<code>mysqladmin -u root password &#39;xxxx&#39;</code>。</p>
+<p><code>mysql -uroot -pxxxx</code>进入mysql命令行，创建以下数据库：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#hive</span><br><span class="line">create database hive DEFAULT CHARSET utf8 COLLATE utf8_general_ci;</span><br><span class="line">#activity monitor</span><br><span class="line">create database amon DEFAULT CHARSET utf8 COLLATE utf8_general_ci;</span><br></pre></td></tr></table></figure>
+
+<p>设置root授权访问以上所有的数据库：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#授权root用户在主节点拥有所有数据库的访问权限</span><br><span class="line">grant all privileges on *.* to &#x27;root&#x27;@&#x27;n1&#x27; identified by &#x27;xxxx&#x27; with grant option;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+<p>官方MySql配置文档：</p>
+<p><a target="_blank" rel="noopener" href="http://www.cloudera.com/content/cloudera/en/documentation/cloudera-manager/v5-latest/Cloudera-Manager-Installation-Guide/cm5ig_mysql.html#cmig_topic_5_5">http://www.cloudera.com/content/cloudera/en/documentation/cloudera-manager/v5-latest/Cloudera-Manager-Installation-Guide/cm5ig_mysql.html#cmig_topic_5_5</a></p>
+<h3 id="5-关闭防火墙和SELinux"><a href="#5-关闭防火墙和SELinux" class="headerlink" title="5. 关闭防火墙和SELinux"></a>5. 关闭防火墙和SELinux</h3><p>注意： 需要在所有的节点上执行，因为涉及到的端口太多了，临时关闭防火墙是为了安装起来更方便，安装完毕后可以根据需要设置防火墙策略，保证集群安全。</p>
+<p>关闭防火墙：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service iptables stop （临时关闭）</span><br><span class="line">chkconfig iptables off （重启后生效）</span><br></pre></td></tr></table></figure>
+
+<p>关闭SELINUX（实际安装过程中发现没有关闭也是可以的，不知道会不会有问题，还需进一步进行验证）:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setenforce 0 （临时生效）</span><br><span class="line">修改 /etc/selinux/config 下的 SELINUX=disabled （重启后永久生效）</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-所有节点配置NTP服务"><a href="#6-所有节点配置NTP服务" class="headerlink" title="6. 所有节点配置NTP服务"></a>6. 所有节点配置NTP服务</h3><p>集群中所有主机必须保持时间同步，如果时间相差较大会引起各种问题。 具体思路如下：</p>
+<p>master节点作为ntp服务器与外界对时中心同步时间，随后对所有datanode节点提供时间同步服务。</p>
+<p>所有datanode节点以master节点为基础同步时间。</p>
+<p>所有节点安装相关组件：<code>yum install ntp</code>。完成后，配置开机启动：<code>chkconfig ntpd on</code>,检查是否设置成功：<code>chkconfig --list ntpd</code>其中2-5为on状态就代表成功。</p>
+<p>主节点配置</p>
+<p>在配置之前，先使用ntpdate手动同步一下时间，免得本机与对时中心时间差距太大，使得ntpd不能正常同步。这里选用65.55.56.206作为对时中心,<code>ntpdate -u 65.55.56.206</code>。</p>
+<p>ntp服务只有一个配置文件，配置好了就OK。 这里只给出有用的配置，不需要的配置都用#注掉，这里就不在给出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">driftfile /var/lib/ntp/drift</span><br><span class="line">restrict 127.0.0.1</span><br><span class="line">restrict -6 ::1</span><br><span class="line">restrict default nomodify notrap </span><br><span class="line">server 65.55.56.206 prefer</span><br><span class="line">includefile /etc/ntp/crypto/pw</span><br><span class="line">keys /etc/ntp/keys</span><br></pre></td></tr></table></figure>
+
+<p>配置文件完成，保存退出，启动服务，执行如下命令：<code>service ntpd start</code></p>
+<p>检查是否成功，用ntpstat命令查看同步状态，出现以下状态代表启动成功：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">synchronised to NTP server () at stratum 2</span><br><span class="line">time correct to within 74 ms</span><br><span class="line">polling server every 128 s</span><br></pre></td></tr></table></figure>
+
+<p>如果出现异常请等待几分钟，一般等待5-10分钟才能同步。</p>
+<p>配置ntp客户端（所有datanode节点）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">driftfile /var/lib/ntp/drift</span><br><span class="line">restrict 127.0.0.1</span><br><span class="line">restrict -6 ::1</span><br><span class="line">restrict default kod nomodify notrap nopeer noquery</span><br><span class="line">restrict -6 default kod nomodify notrap nopeer noquery</span><br><span class="line">#这里是主节点的主机名或者ip</span><br><span class="line">server n1</span><br><span class="line">includefile /etc/ntp/crypto/pw</span><br><span class="line">keys /etc/ntp/keys</span><br></pre></td></tr></table></figure>
+
+<p>ok保存退出，请求服务器前，请先使用ntpdate手动同步一下时间：<code>ntpdate -u n1</code> (主节点ntp服务器)</p>
+<p>这里可能出现同步失败的情况，请不要着急，一般是本地的ntp服务器还没有正常启动，一般需要等待5-10分钟才可以正常同步。启动服务：<code>service ntpd start</code></p>
+<p>因为是连接内网，这次启动等待的时间会比master节点快一些，但是也需要耐心等待一会儿。</p>
+<h2 id="正式开工"><a href="#正式开工" class="headerlink" title="正式开工"></a>正式开工</h2><p>安装Cloudera Manager Server 和Agent</p>
+<p><strong>主节点解压安装</strong></p>
+<p>cloudera manager的目录默认位置在&#x2F;opt下，解压：<code>tar xzvf cloudera-manager*.tar.gz</code>将解压后的cm-5.1.3和cloudera目录放到&#x2F;opt目录下。</p>
+<p><strong>为Cloudera Manager 5建立数据库</strong></p>
+<p>首先需要去MySql的官网下载JDBC驱动，<a target="_blank" rel="noopener" href="http://dev.mysql.com/downloads/connector/j/%E3%80%82">http://dev.mysql.com/downloads/connector/j/。</a></p>
+<p>解压后，找到mysql-connector-java-5.1.33-bin.jar，放到<code>/opt/cm-5.1.3/share/cmf/lib/</code>中。</p>
+<p>在主节点初始化CM5的数据库：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/opt/cm-5.1.3/share/cmf/schema/scm_prepare_database.sh mysql cm -hlocalhost -uroot -pxxxx --scm-host localhost scm scm scm</span><br></pre></td></tr></table></figure>
+
+<p><strong>Agent配置</strong></p>
+<p>修改<code>/opt/cm-5.1.3/etc/cloudera-scm-agent/config.ini</code>中的server_host为主节点的主机名。</p>
+<p><strong>同步Agent到其他节点</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp -r /opt/cm-5.1.3 root@n2:/opt/</span><br></pre></td></tr></table></figure>
+
+<p><strong>在所有节点创建cloudera-scm用户</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd --system --home=/opt/cm-5.1.3/run/cloudera-scm-server/ --no-create-home --shell=/bin/false --comment &quot;Cloudera SCM User&quot; cloudera-scm</span><br></pre></td></tr></table></figure>
+
+<p><strong>准备Parcels，用以安装CDH5</strong></p>
+<p>将CHD5相关的Parcel包放到主节点的<code>/opt/cloudera/parcel-repo/</code>目录中（parcel-repo需要手动创建）。</p>
+<p>相关的文件如下：</p>
+<ul>
+<li>CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel</li>
+<li>CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel.sha1</li>
+<li>manifest.json</li>
+</ul>
+<p>最后将CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel.sha1，重命名为CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel.sha，这点必须注意，否则，系统会重新下载CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel文件。</p>
+<p><strong>相关启动脚本</strong></p>
+<p>通过<code>/opt/cm-5.1.3/etc/init.d/cloudera-scm-server start</code>启动服务端。</p>
+<p>通过<code>/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent start</code>启动Agent服务。</p>
+<p>我们启动的其实是个service脚本，需要停止服务将以上的start参数改为stop就可以了，重启是restart。</p>
+<h2 id="CDH5的安装配置"><a href="#CDH5的安装配置" class="headerlink" title="CDH5的安装配置"></a>CDH5的安装配置</h2><p>Cloudera Manager Server和Agent都启动以后，就可以进行CDH5的安装配置了。</p>
+<p>这时可以通过浏览器访问主节点的7180端口测试一下了（由于CM Server的启动需要花点时间，这里可能要等待一会才能访问），默认的用户名和密码均为admin。</p>
+<p><img src="/images/hadoop/cdhinstall/1.png"></p>
+<p>免费版本的CM5已经没有原来50个节点数量的限制了。</p>
+<p><img src="/images/hadoop/cdhinstall/2.png"></p>
+<p>各个Agent节点正常启动后，可以在当前管理的主机列表中看到对应的节点。选择要安装的节点，点继续。</p>
+<p><img src="/images/hadoop/cdhinstall/3.png"></p>
+<p>接下来，出现以下包名，说明本地Parcel包配置无误，直接点继续就可以了。</p>
+<p><img src="/images/hadoop/cdhinstall/4.png"></p>
+<p>点击，继续，如果配置本地Parcel包无误，那么下图中的已下载，应该是瞬间就完成了，然后就是耐心等待分配过程就行了，大约10多分钟吧，取决于内网网速。</p>
+<p><img src="/images/hadoop/cdhinstall/5.png"></p>
+<p>接下来是服务器检查，可能会遇到以下问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cloudera 建议将 /proc/sys/vm/swappiness 设置为 0。当前设置为 60。使用 sysctl 命令在运行时更改该设置并编辑 /etc/sysctl.conf 以在重启后保存该设置。您可以继续进行安装，但可能会遇到问题，Cloudera Manager 报告您的主机由于交换运行状况不佳。以下主机受到影响：</span><br></pre></td></tr></table></figure>
+<p>通过<code>echo 0 &gt; /proc/sys/vm/swappiness</code>即可解决。</p>
+<p><img src="/images/hadoop/cdhinstall/6.png"></p>
+<p>接下来是选择安装服务：</p>
+<p><img src="/images/hadoop/cdhinstall/7.png"></p>
+<p>服务配置，一般情况下保持默认就可以了（Cloudera Manager会根据机器的配置自动进行配置，如果需要特殊调整，自行进行设置就可以了）：</p>
+<p><img src="/images/hadoop/cdhinstall/8.png"></p>
+<p>接下来是数据库的设置，检查通过后就可以进行下一步的操作了：</p>
+<p><img src="/images/hadoop/cdhinstall/9.png"></p>
+<p>下面是集群设置的审查页面，我这里都是保持默认配置的：</p>
+<p><img src="/images/hadoop/cdhinstall/10.png"></p>
+<p>终于到安装各个服务的地方了，注意，这里安装Hive的时候可能会报错，因为我们使用了MySql作为hive的元数据存储，hive默认没有带mysql的驱动，通过以下命令拷贝一个就行了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /opt/cm-5.1.3/share/cmf/lib/mysql-connector-java-5.1.33-bin.jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hive/lib/</span><br></pre></td></tr></table></figure>
+<p><img src="/images/hadoop/cdhinstall/11.png"></p>
+<p>服务的安装过程大约半小时内就可以完成：</p>
+<p><img src="/images/hadoop/cdhinstall/12.png"></p>
+<p>安装完成后，就可以进入集群界面看一下集群的当前状况了。</p>
+<p>这里可能会出现无法发出查询：对 Service Monitor 的请求超时的错误提示，如果各个组件安装没有问题，一般是因为服务器比较卡导致的，过一会刷新一下页面就好了：</p>
+<p><img src="/images/hadoop/cdhinstall/13.png"></p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>在集群的一台机器上执行以下模拟Pi的示例程序：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100</span><br></pre></td></tr></table></figure>
+
+<p>执行过程需要花一定的时间，通过YARN的后台也可以看到MapReduce的执行状态：</p>
+<p><img src="/images/hadoop/cdhinstall/14.png"></p>
+<p>MapReduce执行过程中终端的输出如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">Number of Maps  = 10</span><br><span class="line">Samples per Map = 100</span><br><span class="line">Wrote input for Map #0</span><br><span class="line">Wrote input for Map #1</span><br><span class="line">Wrote input for Map #2</span><br><span class="line">Wrote input for Map #3</span><br><span class="line">Wrote input for Map #4</span><br><span class="line">Wrote input for Map #5</span><br><span class="line">Wrote input for Map #6</span><br><span class="line">Wrote input for Map #7</span><br><span class="line">Wrote input for Map #8</span><br><span class="line">Wrote input for Map #9</span><br><span class="line">Starting Job</span><br><span class="line">14/10/13 01:15:34 INFO client.RMProxy: Connecting to ResourceManager at n1/192.168.1.161:8032</span><br><span class="line">14/10/13 01:15:36 INFO input.FileInputFormat: Total input paths to process : 10</span><br><span class="line">14/10/13 01:15:37 INFO mapreduce.JobSubmitter: number of splits:10</span><br><span class="line">14/10/13 01:15:39 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1413132307582_0001</span><br><span class="line">14/10/13 01:15:40 INFO impl.YarnClientImpl: Submitted application application_1413132307582_0001</span><br><span class="line">14/10/13 01:15:40 INFO mapreduce.Job: The url to track the job: http://n1:8088/proxy/application_1413132307582_0001/</span><br><span class="line">14/10/13 01:15:40 INFO mapreduce.Job: Running job: job_1413132307582_0001</span><br><span class="line">14/10/13 01:17:13 INFO mapreduce.Job: Job job_1413132307582_0001 running in uber mode : false</span><br><span class="line">14/10/13 01:17:13 INFO mapreduce.Job:  map 0% reduce 0%</span><br><span class="line">14/10/13 01:18:02 INFO mapreduce.Job:  map 10% reduce 0%</span><br><span class="line">14/10/13 01:18:25 INFO mapreduce.Job:  map 20% reduce 0%</span><br><span class="line">14/10/13 01:18:35 INFO mapreduce.Job:  map 30% reduce 0%</span><br><span class="line">14/10/13 01:18:45 INFO mapreduce.Job:  map 40% reduce 0%</span><br><span class="line">14/10/13 01:18:53 INFO mapreduce.Job:  map 50% reduce 0%</span><br><span class="line">14/10/13 01:19:01 INFO mapreduce.Job:  map 60% reduce 0%</span><br><span class="line">14/10/13 01:19:09 INFO mapreduce.Job:  map 70% reduce 0%</span><br><span class="line">14/10/13 01:19:17 INFO mapreduce.Job:  map 80% reduce 0%</span><br><span class="line">14/10/13 01:19:25 INFO mapreduce.Job:  map 90% reduce 0%</span><br><span class="line">14/10/13 01:19:33 INFO mapreduce.Job:  map 100% reduce 0%</span><br><span class="line">14/10/13 01:19:51 INFO mapreduce.Job:  map 100% reduce 100%</span><br><span class="line">14/10/13 01:19:53 INFO mapreduce.Job: Job job_1413132307582_0001 completed successfully</span><br><span class="line">14/10/13 01:19:56 INFO mapreduce.Job: Counters: 49</span><br><span class="line">    File System Counters</span><br><span class="line">        FILE: Number of bytes read=91</span><br><span class="line">        FILE: Number of bytes written=1027765</span><br><span class="line">        FILE: Number of read operations=0</span><br><span class="line">        FILE: Number of large read operations=0</span><br><span class="line">        FILE: Number of write operations=0</span><br><span class="line">        HDFS: Number of bytes read=2560</span><br><span class="line">        HDFS: Number of bytes written=215</span><br><span class="line">        HDFS: Number of read operations=43</span><br><span class="line">        HDFS: Number of large read operations=0</span><br><span class="line">        HDFS: Number of write operations=3</span><br><span class="line">    Job Counters</span><br><span class="line">        Launched map tasks=10</span><br><span class="line">        Launched reduce tasks=1</span><br><span class="line">        Data-local map tasks=10</span><br><span class="line">        Total time spent by all maps in occupied slots (ms)=118215</span><br><span class="line">        Total time spent by all reduces in occupied slots (ms)=11894</span><br><span class="line">        Total time spent by all map tasks (ms)=118215</span><br><span class="line">        Total time spent by all reduce tasks (ms)=11894</span><br><span class="line">        Total vcore-seconds taken by all map tasks=118215</span><br><span class="line">        Total vcore-seconds taken by all reduce tasks=11894</span><br><span class="line">        Total megabyte-seconds taken by all map tasks=121052160</span><br><span class="line">        Total megabyte-seconds taken by all reduce tasks=12179456</span><br><span class="line">    Map-Reduce Framework</span><br><span class="line">        Map input records=10</span><br><span class="line">        Map output records=20</span><br><span class="line">        Map output bytes=180</span><br><span class="line">        Map output materialized bytes=340</span><br><span class="line">        Input split bytes=1380</span><br><span class="line">        Combine input records=0</span><br><span class="line">        Combine output records=0</span><br><span class="line">        Reduce input groups=2</span><br><span class="line">        Reduce shuffle bytes=340</span><br><span class="line">        Reduce input records=20</span><br><span class="line">        Reduce output records=0</span><br><span class="line">        Spilled Records=40</span><br><span class="line">        Shuffled Maps =10</span><br><span class="line">        Failed Shuffles=0</span><br><span class="line">        Merged Map outputs=10</span><br><span class="line">        GC time elapsed (ms)=1269</span><br><span class="line">        CPU time spent (ms)=9530</span><br><span class="line">        Physical memory (bytes) snapshot=3792773120</span><br><span class="line">        Virtual memory (bytes) snapshot=16157274112</span><br><span class="line">        Total committed heap usage (bytes)=2856624128</span><br><span class="line">    Shuffle Errors</span><br><span class="line">        BAD_ID=0</span><br><span class="line">        CONNECTION=0</span><br><span class="line">        IO_ERROR=0</span><br><span class="line">        WRONG_LENGTH=0</span><br><span class="line">        WRONG_MAP=0</span><br><span class="line">        WRONG_REDUCE=0</span><br><span class="line">    File Input Format Counters</span><br><span class="line">        Bytes Read=1180</span><br><span class="line">    File Output Format Counters</span><br><span class="line">        Bytes Written=97</span><br><span class="line">Job Finished in 262.659 seconds</span><br><span class="line">Estimated value of Pi is 3.14800000000000000000</span><br></pre></td></tr></table></figure>
+
+<p>检查Hue</p>
+<p>首次登陆Hue会让设置一个初试的用户名和密码，设置好，登陆到后台，会做一次检查，一切正常后会提示：</p>
+<p><img src="/images/hadoop/cdhinstall/15.png"></p>
+<p>到这里表明我们的集群可以使用了。</p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>Agent启动后，安装阶段“当前管理的主机”中显示的节点不全，每次刷新显示的都不一样。</p>
+<p>Agent的错误日志表现如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[18/Nov/2014 21:12:56 +0000] 22681 MainThread agent ERROR Heartbeating to master:7182 failed.</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;/home/opt/cm-5.2.0/lib64/cmf/agent/src/cmf/agent.py&quot;, line 820, in send_heartbeat</span><br><span class="line">    response = self.requestor.request(&#x27;heartbeat&#x27;, dict(request=heartbeat))</span><br><span class="line">  File &quot;/home/opt/cm-5.2.0/lib64/cmf/agent/build/env/lib/python2.6/site-packages/avro-1.6.3-py2.6.egg/avro/ipc.py&quot;, line 139, in request</span><br><span class="line">    return self.issue_request(call_request, message_name, request_datum)</span><br><span class="line">  File &quot;/home/opt/cm-5.2.0/lib64/cmf/agent/build/env/lib/python2.6/site-packages/avro-1.6.3-py2.6.egg/avro/ipc.py&quot;, line 255, in issue_request</span><br><span class="line">    return self.read_call_response(message_name, buffer_decoder)</span><br><span class="line">  File &quot;/home/opt/cm-5.2.0/lib64/cmf/agent/build/env/lib/python2.6/site-packages/avro-1.6.3-py2.6.egg/avro/ipc.py&quot;, line 235, in read_call_response</span><br><span class="line">    raise self.read_error(writers_schema, readers_schema, decoder)</span><br><span class="line">  File &quot;/home/opt/cm-5.2.0/lib64/cmf/agent/build/env/lib/python2.6/site-packages/avro-1.6.3-py2.6.egg/avro/ipc.py&quot;, line 244, in read_error</span><br><span class="line">    return AvroRemoteException(datum_reader.read(decoder))</span><br><span class="line">  File &quot;/home/opt/cm-5.2.0/lib64/cmf/agent/build/env/lib/python2.6/site-packages/avro-1.6.3-py2.6.egg/avro/io.py&quot;, line 444, in read</span><br><span class="line">    return self.read_data(self.writers_schema, self.readers_schema, decoder)</span><br><span class="line">  File &quot;/home/opt/cm-5.2.0/lib64/cmf/agent/build/env/lib/python2.6/site-packages/avro-1.6.3-py2.6.egg/avro/io.py&quot;, line 448, in read_data</span><br><span class="line">    if not DatumReader.match_schemas(writers_schema, readers_schema):</span><br><span class="line">  File &quot;/home/opt/cm-5.2.0/lib64/cmf/agent/build/env/lib/python2.6/site-packages/avro-1.6.3-py2.6.egg/avro/io.py&quot;, line 379, in match_schemas</span><br><span class="line">    w_type = writers_schema.type</span><br><span class="line">AttributeError: &#x27;NoneType&#x27; object has no attribute &#x27;type&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>这是由于在主节点上启动了Agent后，又将Agent scp到了其他节点上导致的，首次启动Agent，它会生成一个uuid，路径为：<code>/opt/cm-5.1.3/lib/cloudera-scm-agent/uuid</code>,这样的话每台机器上的Agent的uuid都是一样的了，就会出现紊乱的情况。</p>
+<p><strong>解决方案：</strong></p>
+<p>删除<code>/opt/cm-5.1.3/lib/cloudera-scm-agent/</code>目录下的所有文件。</p>
+<p>清空主节点CM数据库。</p>
+<p><strong>最佳实践</strong></p>
+<p>在内网单独搭建yum的repo，然后CM的管理界面安装Agent，这样安装比较快，也不会出现什么问题。</p>
+<p>如果手动添加添加Agent的话，需要注意启动之前删除相关的标示文件，否则Server端在数据库中记录Agent的信息，还得清理数据库中的信息，就麻烦了。</p>
+<p>转自：<a target="_blank" rel="noopener" href="http://www.cnblogs.com/jasondan/p/4011153.html">http://www.cnblogs.com/jasondan/p/4011153.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/bigdata/hadoop/cdh/cdh5install/" data-id="clhlnylgu00l1ojupgqry9gfw" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/blog/bigdata/hadoop/cdh/cmarch/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          解析Cloudera Manager内部结构
+        
+      </div>
+    </a>
+  
+  
+    <a href="/blog/plang/java/base/exception/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">java 中的Exception RuntimeException 区别</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII%E7%A0%81/" rel="tag">ASCII码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveMQ/" rel="tag">ActiveMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ajax/" rel="tag">Ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BAT%E8%84%9A%E6%9C%AC/" rel="tag">BAT脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAP/" rel="tag">CAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAS/" rel="tag">CAS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eclipse/" rel="tag">Eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/" rel="tag">Emacs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emmet/" rel="tag">Emmet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIT/" rel="tag">GIT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IPFS/" rel="tag">IPFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-IO/" rel="tag">JAVA IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/" rel="tag">JAVA NIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-WEB/" rel="tag">JAVA WEB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lisp/" rel="tag">Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/" rel="tag">Scala</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/" rel="tag">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-MVC/" rel="tag">Spring MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIM/" rel="tag">VIM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/archtype/" rel="tag">archtype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/azkaban/" rel="tag">azkaban</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jquery/" rel="tag">jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql-neo4j/" rel="tag">nosql neo4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openssl/" rel="tag">openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/" rel="tag">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webservice/" rel="tag">webservice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" rel="tag">一致性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" rel="tag">任务调度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" rel="tag">字符编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" rel="tag">字符集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A1%E8%AE%A1/" rel="tag">审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" rel="tag">尾递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" rel="tag">摘要算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" rel="tag">数字签名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" rel="tag">数字证书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" rel="tag">数据权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" rel="tag">树算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正规表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" rel="tag">知识体系</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E5%99%A8/" rel="tag">神器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">自制操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2999/12/">十二月 2999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/02/">二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">九月 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】特别说明</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 证心<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

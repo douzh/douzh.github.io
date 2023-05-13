@@ -1,22 +1,1403 @@
-{% extends '_layout.swig' %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
 
-{% block title %}{{ title }}{%- if theme.index_with_subtitle and subtitle %} - {{ subtitle }}{%- endif %}{% endblock %}
+  
+  <title>OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="OneKBase">
+<meta property="og:url" content="http://www.onekbase.com/page/14/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="证心">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="OneKBase" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block page_class %}
-  {%- if is_home() %}page-home{% endif -%}
-{% endblock %}
+<meta name="generator" content="Hexo 6.3.0"></head>
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {%- for post in page.posts %}
-      {{ partial('_macro/post.swig', {is_index: true}) }}
-    {%- endfor %}
-  </section>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-blog/webtech/ws/cxfwebdemo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/webtech/ws/cxfwebdemo/" class="article-date">
+  <time datetime="2016-01-17T02:36:05.000Z" itemprop="datePublished">2016-01-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a>
+  </div>
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/webtech/ws/cxfwebdemo/">在web项目中用CXF搭建webservice服务</a>
+    </h1>
+  
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Apache CXF 是一个开放源代码框架，提供了用于方便地构建和开发 Web<br>服务的可靠基础架构。它允许创建高性能和可扩展的服务，您可以将这样的服务部署在<br>Tomcat 和基于 Spring 的轻量级容器中，以及部署在更高级的服务器上。</p>
+<p>下面是一个基于WEB集成spring和cxf的webservice示例,WEB的名称为wsweb：</p>
+<pre><code>package com.iteedu.webservice.demo;
+
+public class User &#123;
+
+    private String name;
+    public String getName()&#123;
+        return name;
+    &#125;
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+    
+&#125;
+
+
+package com.iteedu.webservice.demo;
+
+import java.util.List;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+
+@WebService
+public interface HelloWorld &#123;
+    String sayHi(@WebParam(name = &quot;text&quot;) String text);
+
+    String sayHiToUser(User user);
+
+    String[] SayHiToUserList(List&lt; User&gt; userList);
+&#125;
+
+package com.iteedu.webservice.demo;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public class HelloWorldImpl implements HelloWorld &#123;
+
+    Map&lt; Integer, User&gt; users = new LinkedHashMap&lt; Integer, User&gt;();
+
+    public String sayHi(String text) &#123;
+        return &quot;Hello &quot; + text;
+    &#125;
+
+    public String sayHiToUser(User user) &#123;
+        users.put(users.size() + 1, user);
+        return &quot;Hello &quot; + user.getName();
+    &#125;
+
+    public String[] SayHiToUserList(List&lt; User&gt; userList) &#123;
+        String[] result = new String[userList.size()];
+        int i = 0;
+        for (User u : userList) &#123;
+            result[i] = &quot;Hello &quot; + u.getName();
+            i++;
+        &#125;
+        return result;
+    &#125;
+&#125;
+</code></pre>
+<p>相关配制文件：</p>
+<p>web.xml</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;web-app version=&quot;3.0&quot; 
+    xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot; 
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; 
+    xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee 
+    http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot;&gt;
+  &lt;display-name&gt;&lt;/display-name&gt; 
+  &lt;welcome-file-list&gt;
+    &lt;welcome-file&gt;index.jsp&lt;/welcome-file&gt;
+  &lt;/welcome-file-list&gt;
+  &lt;context-param&gt;
+           &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+           &lt;param-value&gt;WEB-INF/classes/applicationContext.xml&lt;/param-value&gt;
+  &lt;/context-param&gt;
+
+   &lt;listener&gt;
+           &lt;listener-class&gt;
+                   org.springframework.web.context.ContextLoaderListener
+           &lt;/listener-class&gt;
+   &lt;/listener&gt;
+
+ 
+
+     &lt;servlet&gt;
+            &lt;servlet-name&gt;CXFServlet&lt;/servlet-name&gt;
+            &lt;display-name&gt;CXFServlet&lt;/display-name&gt;
+            &lt;servlet-class&gt;
+                   org.apache.cxf.transport.servlet.CXFServlet
+            &lt;/servlet-class&gt;
+            &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+      &lt;/servlet&gt;
+
+      &lt;servlet-mapping&gt;
+             &lt;servlet-name&gt;CXFServlet&lt;/servlet-name&gt;
+             &lt;url-pattern&gt;/webservice/*&lt;/url-pattern&gt;
+      &lt;/servlet-mapping&gt;
+&lt;/web-app&gt;
+</code></pre>
+<p>applicationContext.xml</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:jaxws=&quot;http://cxf.apache.org/jaxws&quot;
+    xsi:schemaLocation=&quot;
+      http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd&quot;&gt;
+
+    &lt;import resource=&quot;classpath:META-INF/cxf/cxf.xml&quot; /&gt;
+    &lt;import resource=&quot;classpath:META-INF/cxf/cxf-extension-soap.xml&quot; /&gt;
+    &lt;import resource=&quot;classpath:META-INF/cxf/cxf-servlet.xml&quot; /&gt;
+
+    &lt;jaxws:endpoint id=&quot;helloWorld&quot;
+        implementor=&quot;com.iteedu.webservice.demo.HelloWorldImpl&quot;
+        address=&quot;/helloWorld&quot; /&gt;
+&lt;/beans&gt;
+</code></pre>
+<p>启动web服务。</p>
+<p>访问 <a target="_blank" rel="noopener" href="http://localhost:8080/wsweb/webservice/helloWorld?wsdl">http://localhost:8080/wsweb/webservice/helloWorld?wsdl</a><br>查看是否显示wsdl。</p>
+<p>再写一个客户端访问一下：</p>
+<pre><code>package com.iteedu.webservice.demo;
+
+import java.util.Arrays;
+
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+
+public class HelloWorldClient &#123;
+    public static void main(String[] args) &#123;
+        JaxWsProxyFactoryBean svr = new JaxWsProxyFactoryBean();
+        svr.setServiceClass(HelloWorld.class);
+        svr.setAddress(&quot;http://localhost:8080/wsweb/webservice/helloWorld&quot;);
+        HelloWorld hw = (HelloWorld) svr.create();
+        System.out.println(hw.sayHi(&quot;abc&quot;));
+        User user = new User();
+        user.setName(&quot;Tony&quot;);
+        System.out.println(hw.sayHiToUser(user));
+        String[] rs2=hw.SayHiToUserList(Arrays.asList(new User[]&#123;user,user&#125;));
+        System.out.println(Arrays.toString(rs2));
+    &#125;
+&#125;
+</code></pre>
+<p>运行结果：</p>
+<pre><code>Hello abc
+Hello Tony
+[Hello Tony, Hello Tony]
+</code></pre>
+<p>其中接口类和参数类可以打成jar包分发到客户端。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/webtech/ws/cxfwebdemo/" data-id="clhlnylgb00huojup1v74b46g" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webservice/" rel="tag">webservice</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/webtech/ws/cxfdemo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/webtech/ws/cxfdemo/" class="article-date">
+  <time datetime="2016-01-16T10:37:58.000Z" itemprop="datePublished">2016-01-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/webtech/ws/cxfdemo/">用CXF搭建webservice示例</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Apache CXF 是一个开放源代码框架，提供了用于方便地构建和开发 Web<br>服务的可靠基础架构。它允许创建高性能和可扩展的服务，您可以将这样的服务部署在<br>Tomcat 和基于 Spring 的轻量级容器中，以及部署在更高级的服务器上。</p>
+<p>下面是一个不依赖于WEB容器，可以独立运行的webservice示例：</p>
+<pre><code>package com.iteedu.webservice.demo;
+
+public class User &#123;
+
+    private String name;
+    public String getName()&#123;
+        return name;
+    &#125;
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+    
+&#125;
+
+
+package com.iteedu.webservice.demo;
+
+import java.util.List;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+
+@WebService
+public interface HelloWorld &#123;
+    String sayHi(@WebParam(name = &quot;text&quot;) String text);
+
+    String sayHiToUser(User user);
+
+    String[] SayHiToUserList(List&lt; User&gt; userList);
+&#125;
+
+package com.iteedu.webservice.demo;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.jws.WebService;
+
+@WebService(endpointInterface = &quot;com.iteedu.webservice.demo.HelloWorld&quot;, serviceName = &quot;HelloWorld&quot;)
+public class HelloWorldImpl implements HelloWorld &#123;
+
+    Map&lt; Integer, User&gt; users = new LinkedHashMap&lt; Integer, User&gt;();
+
+    public String sayHi(String text) &#123;
+        return &quot;Hello &quot; + text;
+    &#125;
+
+    public String sayHiToUser(User user) &#123;
+        users.put(users.size() + 1, user);
+        return &quot;Hello &quot; + user.getName();
+    &#125;
+
+    public String[] SayHiToUserList(List&lt; User&gt; userList) &#123;
+        String[] result = new String[userList.size()];
+        int i = 0;
+        for (User u : userList) &#123;
+            result[i] = &quot;Hello &quot; + u.getName();
+            i++;
+        &#125;
+        return result;
+    &#125;
+&#125;
+
+package com.iteedu.webservice.demo;
+
+import javax.xml.ws.Endpoint;
+
+public class WebServiceApp &#123;
+    public static void main(String[] args) &#123;
+        System.out.println(&quot;web service start&quot;);
+        HelloWorldImpl implementor = new HelloWorldImpl();
+        String address = &quot;http://localhost:8080/helloWorld&quot;;
+        Endpoint.publish(address, implementor);
+        System.out.println(&quot;web service started&quot;);
+    &#125;
+&#125;
+</code></pre>
+<p>通过运行WebServiceApp可以启动webservice服务。</p>
+<p>访问 <a target="_blank" rel="noopener" href="http://localhost:8080/helloWorld?wsdl">http://localhost:8080/helloWorld?wsdl</a> 查看是否显示wsdl。</p>
+<p>再写一个客户端访问一下：</p>
+<pre><code>package com.iteedu.webservice.demo;
+
+import java.util.Arrays;
+
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+
+public class HelloWorldClient &#123;
+    public static void main(String[] args) &#123;
+        JaxWsProxyFactoryBean svr = new JaxWsProxyFactoryBean();
+        svr.setServiceClass(HelloWorld.class);
+        svr.setAddress(&quot;http://localhost:8080/helloWorld&quot;);
+        HelloWorld hw = (HelloWorld) svr.create();
+        System.out.println(hw.sayHi(&quot;abc&quot;));
+        User user = new User();
+        user.setName(&quot;Tony&quot;);
+        System.out.println(hw.sayHiToUser(user));
+        String[] rs2=hw.SayHiToUserList(Arrays.asList(new User[]&#123;user,user&#125;));
+        System.out.println(Arrays.toString(rs2));
+    &#125;
+&#125;
+</code></pre>
+<p>运行结果：</p>
+<pre><code>Hello abc
+Hello Tony
+[Hello Tony, Hello Tony]
+</code></pre>
+<p>其中接口类和参数类可以打成jar包分发到客户端。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/webtech/ws/cxfdemo/" data-id="clhlnylgb00hrojupehwu66zv" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webservice/" rel="tag">webservice</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/dp/interpreter" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/dp/interpreter/" class="article-date">
+  <time datetime="2016-01-14T08:12:18.000Z" itemprop="datePublished">2016-01-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/dp/interpreter/">解释器模式（Interpreter）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>解释器模式是我们暂时的最后一讲，一般主要应用在OOP开发中的编译器的开发中，所以适用面比较窄。</p>
+<p><img src="/images/design/dpinterpreter.png"></p>
+<p>Context类是一个上下文环境类，Plus和Minus分别是用来计算的实现，代码如下：</p>
+<pre><code>public interface Expression &#123;
+    public int interpret(Context context);
+&#125;
+
+public class Plus implements Expression &#123;
+
+    @Override
+    public int interpret(Context context) &#123;
+        return context.getNum1()+context.getNum2();
+    &#125;
+&#125;
+
+public class Minus implements Expression &#123;
+
+    @Override
+    public int interpret(Context context) &#123;
+        return context.getNum1()-context.getNum2();
+    &#125;
+&#125;
+
+public class Context &#123;
+    
+    private int num1;
+    private int num2;
+    
+    public Context(int num1, int num2) &#123;
+        this.num1 = num1;
+        this.num2 = num2;
+    &#125;
+    
+    public int getNum1() &#123;
+        return num1;
+    &#125;
+    public void setNum1(int num1) &#123;
+        this.num1 = num1;
+    &#125;
+    public int getNum2() &#123;
+        return num2;
+    &#125;
+    public void setNum2(int num2) &#123;
+        this.num2 = num2;
+    &#125;
+    
+    
+&#125;
+
+public class Test &#123;
+
+    public static void main(String[] args) &#123;
+
+        // 计算9+2-8的值
+        int result = new Minus().interpret((new Context(new Plus()
+                .interpret(new Context(9, 2)), 8)));
+        System.out.println(result);
+    &#125;
+&#125;
+</code></pre>
+<p>最后输出正确的结果：3。</p>
+<p>基本就这样，解释器模式用来做各种各样的解释器，如正则表达式等的解释器等等！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/dp/interpreter/" data-id="clhlnylep008bojup0109aosz" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/dp/mediator" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/dp/mediator/" class="article-date">
+  <time datetime="2016-01-14T08:04:58.000Z" itemprop="datePublished">2016-01-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/dp/mediator/">中介者模式（Mediator）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>中介者模式也是用来降低类类之间的耦合的，因为如果类类之间有依赖关系的话，不利于功能的拓展和维护，因为只要修改一个对象，其它关联的对象都得进行修改。如果使用中介者模式，只需关心和Mediator类的关系，具体类类之间的关系及调度交给Mediator就行，这有点像spring容器的作用。先看看图：</p>
+<p><img src="/images/design/dpmediator.png"></p>
+<p>User类统一接口，User1和User2分别是不同的对象，二者之间有关联，如果不采用中介者模式，则需要二者相互持有引用，这样二者的耦合度很高，为了解耦，引入了Mediator类，提供统一接口，MyMediator为其实现类，里面持有User1和User2的实例，用来实现对User1和User2的控制。这样User1和User2两个对象相互独立，他们只需要保持好和Mediator之间的关系就行，剩下的全由MyMediator类来维护！基本实现：</p>
+<pre><code>public interface Mediator &#123;
+    public void createMediator();
+    public void workAll();
+&#125;
+
+public class MyMediator implements Mediator &#123;
+
+    private User user1;
+    private User user2;
+    
+    public User getUser1() &#123;
+        return user1;
+    &#125;
+
+    public User getUser2() &#123;
+        return user2;
+    &#125;
+
+    @Override
+    public void createMediator() &#123;
+        user1 = new User1(this);
+        user2 = new User2(this);
+    &#125;
+
+    @Override
+    public void workAll() &#123;
+        user1.work();
+        user2.work();
+    &#125;
+&#125;
+
+public abstract class User &#123;
+    
+    private Mediator mediator;
+    
+    public Mediator getMediator()&#123;
+        return mediator;
+    &#125;
+    
+    public User(Mediator mediator) &#123;
+        this.mediator = mediator;
+    &#125;
+
+    public abstract void work();
+&#125;
+
+public class User1 extends User &#123;
+
+    public User1(Mediator mediator)&#123;
+        super(mediator);
+    &#125;
+    
+    @Override
+    public void work() &#123;
+        System.out.println(&quot;user1 exe!&quot;);
+    &#125;
+&#125;
+
+public class User2 extends User &#123;
+
+    public User2(Mediator mediator)&#123;
+        super(mediator);
+    &#125;
+    
+    @Override
+    public void work() &#123;
+        System.out.println(&quot;user2 exe!&quot;);
+    &#125;
+&#125;
+
+public class Test &#123;
+
+    public static void main(String[] args) &#123;
+        Mediator mediator = new MyMediator();
+        mediator.createMediator();
+        mediator.workAll();
+    &#125;
+&#125;
+</code></pre>
+<p>输出：</p>
+<pre><code>user1 exe!
+user2 exe!
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/dp/mediator/" data-id="clhlnyler008jojupdaan1d7a" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/dp/visitor" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/dp/visitor/" class="article-date">
+  <time datetime="2016-01-14T07:57:23.000Z" itemprop="datePublished">2016-01-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/dp/visitor/">访问者模式（Visitor）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>访问者模式把数据结构和作用于结构上的操作解耦合，使得操作集合可相对自由地演化。访问者模式适用于数据结构相对稳定算法又易变化的系统。因为访问者模式使得算法操作增加变得容易。若系统数据结构对象易于变化，经常有新的数据对象增加进来，则不适合使用访问者模式。访问者模式的优点是增加操作很容易，因为增加操作意味着增加新的访问者。访问者模式将有关行为集中到一个访问者对象中，其改变不影响系统数据结构。其缺点就是增加新的数据结构很困难。</p>
+<p>简单来说，访问者模式就是一种分离对象数据结构与行为的方法，通过这种分离，可达到为一个被访问者动态添加新的操作而无需做其它的修改的效果。简单关系图：</p>
+<p><img src="/images/design/dpvisitor.png"></p>
+<p>来看看原码：</p>
+<pre><code>public interface Visitor &#123;
+    public void visit(Subject sub);
+&#125;
+
+public class MyVisitor implements Visitor &#123;
+
+    @Override
+    public void visit(Subject sub) &#123;
+        System.out.println(&quot;visit the subject：&quot;+sub.getSubject());
+    &#125;
+&#125;
+
+public interface Subject &#123;
+    public void accept(Visitor visitor);
+    public String getSubject();
+&#125;
+
+public class MySubject implements Subject &#123;
+
+    @Override
+    public void accept(Visitor visitor) &#123;
+        visitor.visit(this);
+    &#125;
+
+    @Override
+    public String getSubject() &#123;
+        return &quot;love&quot;;
+    &#125;
+&#125;
+
+public class Test &#123;
+
+    public static void main(String[] args) &#123;
+        
+        Visitor visitor = new MyVisitor();
+        Subject sub = new MySubject();
+        sub.accept(visitor);    
+    &#125;
+&#125;
+</code></pre>
+<p>输出：visit the subject：love</p>
+<p>该模式适用场景：如果我们想为一个现有的类增加新功能，不得不考虑几个事情：1、新功能会不会与现有功能出现兼容性问题？2、以后会不会再需要添加？3、如果类不允许修改代码怎么办？面对这些问题，最好的解决方法就是使用访问者模式，访问者模式适用于数据结构相对稳定的系统，把数据结构和算法解耦</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/dp/visitor/" data-id="clhlnylew009gojup54ejd7r7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/dp/state" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/dp/state/" class="article-date">
+  <time datetime="2016-01-14T07:52:04.000Z" itemprop="datePublished">2016-01-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/dp/state/">状态模式（State）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>核心思想就是：当对象的状态改变时，同时改变其行为，很好理解！就拿QQ来说，有几种状态，在线、隐身、忙碌等，每个状态对应不同的操作，而且你的好友也能看到你的状态，所以，状态模式就两点：</p>
+<p>1、可以通过改变状态来获得不同的行为。<br>2、你的好友能同时看到你的变化。看图：</p>
+<p><img src="/images/design/dpstate.png"></p>
+<p>State类是个状态类，Context类可以实现切换，我们来看看代码：</p>
+<pre><code>public class State &#123;
+    
+    private String value;
+    
+    public String getValue() &#123;
+        return value;
+    &#125;
+
+    public void setValue(String value) &#123;
+        this.value = value;
+    &#125;
+
+    public void method1()&#123;
+        System.out.println(&quot;execute the first opt!&quot;);
+    &#125;
+    
+    public void method2()&#123;
+        System.out.println(&quot;execute the second opt!&quot;);
+    &#125;
+&#125;
+
+public class Context &#123;
+
+    private State state;
+
+    public Context(State state) &#123;
+        this.state = state;
+    &#125;
+
+    public State getState() &#123;
+        return state;
+    &#125;
+
+    public void setState(State state) &#123;
+        this.state = state;
+    &#125;
+
+    public void method() &#123;
+        if (state.getValue().equals(&quot;state1&quot;)) &#123;
+            state.method1();
+        &#125; else if (state.getValue().equals(&quot;state2&quot;)) &#123;
+            state.method2();
+        &#125;
+    &#125;
+&#125;
+
+public class Test &#123;
+
+    public static void main(String[] args) &#123;
+        
+        State state = new State();
+        Context context = new Context(state);
+        
+        //设置第一种状态
+        state.setValue(&quot;state1&quot;);
+        context.method();
+        
+        //设置第二种状态
+        state.setValue(&quot;state2&quot;);
+        context.method();
+    &#125;
+&#125;
+</code></pre>
+<p>输出：</p>
+<pre><code>execute the first opt!
+execute the second opt!
+</code></pre>
+<p>根据这个特性，状态模式在日常开发中用的挺多的，尤其是做网站的时候，我们有时希望根据对象的某一属性，区别开他们的一些功能，比如说简单的权限控制等。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/dp/state/" data-id="clhlnyleu0096ojupcqy87z7g" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/dp/command" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/dp/command/" class="article-date">
+  <time datetime="2016-01-13T10:11:57.000Z" itemprop="datePublished">2016-01-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/dp/command/">命令模式（Command）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>命令模式很好理解，举个例子，司令员下令让士兵去干件事情，从整个事情的角度来考虑，司令员的作用是，发出口令，口令经过传递，传到了士兵耳朵里，士兵去执行。这个过程好在，三者相互解耦，任何一方都不用去依赖其他人，只需要做好自己的事儿就行，司令员要的是结果，不会去关注到底士兵是怎么实现的。我们看看关系图：</p>
+<p><img src="/images/design/dpcommand.png"></p>
+<p>Invoker是调用者（司令员），Receiver是被调用者（士兵），MyCommand是命令，实现了Command接口，持有接收对象，看实现代码：</p>
+<pre><code>public interface Command &#123;
+    public void exe();
+&#125;
+
+public class MyCommand implements Command &#123;
+
+    private Receiver receiver;
+    
+    public MyCommand(Receiver receiver) &#123;
+        this.receiver = receiver;
+    &#125;
+
+    @Override
+    public void exe() &#123;
+        receiver.action();
+    &#125;
+&#125;
+
+public class Receiver &#123;
+    public void action()&#123;
+        System.out.println(&quot;command received!&quot;);
+    &#125;
+&#125;
+
+public class Invoker &#123;
+    
+    private Command command;
+    
+    public Invoker(Command command) &#123;
+        this.command = command;
+    &#125;
+
+    public void action()&#123;
+        command.exe();
+    &#125;
+&#125;
+
+public class Test &#123;
+
+    public static void main(String[] args) &#123;
+        Receiver receiver = new Receiver();
+        Command cmd = new MyCommand(receiver);
+        Invoker invoker = new Invoker(cmd);
+        invoker.action();
+    &#125;
+&#125;
+</code></pre>
+<p>输出：command received!</p>
+<p>这个很哈理解，命令模式的目的就是达到命令的发出者和执行者之间解耦，实现请求和执行分开，熟悉Struts的同学应该知道，Struts其实就是一种将请求和呈现分离的技术，其中必然涉及命令模式的思想！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/dp/command/" data-id="clhlnylem007nojup99uc9lfv" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/dp/chain" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/dp/chain/" class="article-date">
+  <time datetime="2016-01-13T09:59:37.000Z" itemprop="datePublished">2016-01-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/dp/chain/">责任链模式（Chain of Responsibility）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>接下来我们将要谈谈责任链模式，有多个对象，每个对象持有对下一个对象的引用，这样就会形成一条链，请求在这条链上传递，直到某一对象决定处理该请求。但是发出者并不清楚到底最终那个对象会处理该请求，所以，责任链模式可以实现，在隐瞒客户端的情况下，对系统进行动态的调整。先看看关系图：</p>
+<p><img src="/images/design/dpchain.png"></p>
+<p>Abstracthandler类提供了get和set方法，方便MyHandle类设置和修改引用对象，MyHandle类是核心，实例化后生成一系列相互持有的对象，构成一条链。</p>
+<pre><code>public interface Handler &#123;
+    public void operator();
+&#125;
+
+public abstract class AbstractHandler &#123;
+    
+    private Handler handler;
+
+    public Handler getHandler() &#123;
+        return handler;
+    &#125;
+
+    public void setHandler(Handler handler) &#123;
+        this.handler = handler;
+    &#125;
+    
+&#125;
+
+public class MyHandler extends AbstractHandler implements Handler &#123;
+
+    private String name;
+
+    public MyHandler(String name) &#123;
+        this.name = name;
+    &#125;
+
+    @Override
+    public void operator() &#123;
+        System.out.println(name+&quot;deal!&quot;);
+        if(getHandler()!=null)&#123;
+            getHandler().operator();
+        &#125;
+    &#125;
+&#125;
+
+public class Test &#123;
+
+    public static void main(String[] args) &#123;
+        MyHandler h1 = new MyHandler(&quot;h1&quot;);
+        MyHandler h2 = new MyHandler(&quot;h2&quot;);
+        MyHandler h3 = new MyHandler(&quot;h3&quot;);
+
+        h1.setHandler(h2);
+        h2.setHandler(h3);
+
+        h1.operator();
+    &#125;
+&#125;
+</code></pre>
+<p>输出：</p>
+<pre><code>h1deal!
+h2deal!
+h3deal!
+</code></pre>
+<p>此处强调一点就是，链接上的请求可以是一条链，可以是一个树，还可以是一个环，模式本身不约束这个，需要我们自己去实现，同时，在一个时刻，命令只允许由一个对象传给另一个对象，而不允许传给多个对象。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/dp/chain/" data-id="clhlnylem007kojup7lv5api7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/dp/iterator" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/dp/iterator/" class="article-date">
+  <time datetime="2016-01-13T09:44:48.000Z" itemprop="datePublished">2016-01-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/dp/iterator/">迭代子模式（Iterator）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>顾名思义，迭代器模式就是顺序访问聚集中的对象，一般来说，集合中非常常见，如果对集合类比较熟悉的话，理解本模式会十分轻松。这句话包含两层意思：一是需要遍历的对象，即聚集对象，二是迭代器对象，用于对聚集对象进行遍历访问。我们看下关系图：</p>
+<p><img src="/images/design/dpiterator.png"></p>
+<p>这个思路和我们常用的一模一样，MyCollection中定义了集合的一些操作，MyIterator中定义了一系列迭代操作，且持有Collection实例，我们来看看实现代码：</p>
+<pre><code>public interface Collection &#123;
+    
+    public Iterator iterator();
+    
+    /*取得集合元素*/
+    public Object get(int i);
+    
+    /*取得集合大小*/
+    public int size();
+&#125;
+
+public interface Iterator &#123;
+    //前移
+    public Object previous();
+    
+    //后移
+    public Object next();
+    public boolean hasNext();
+    
+    //取得第一个元素
+    public Object first();
+&#125;
+
+public class MyCollection implements Collection &#123;
+
+    public String string[] = &#123;&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;,&quot;E&quot;&#125;;
+    @Override
+    public Iterator iterator() &#123;
+        return new MyIterator(this);
+    &#125;
+
+    @Override
+    public Object get(int i) &#123;
+        return string[i];
+    &#125;
+
+    @Override
+    public int size() &#123;
+        return string.length;
+    &#125;
+&#125;
+
+public class MyIterator implements Iterator &#123;
+
+    private Collection collection;
+    private int pos = -1;
+    
+    public MyIterator(Collection collection)&#123;
+        this.collection = collection;
+    &#125;
+    
+    @Override
+    public Object previous() &#123;
+        if(pos &gt; 0)&#123;
+            pos--;
+        &#125;
+        return collection.get(pos);
+    &#125;
+
+    @Override
+    public Object next() &#123;
+        if(pos
+</code></pre>
+<p>输出：A B C D E</p>
+<p>此处我们貌似模拟了一个集合类的过程，感觉是不是很爽？其实JDK中各个类也都是这些基本的东西，加一些设计模式，再加一些优化放到一起的，只要我们把这些东西学会了，掌握好了，我们也可以写出自己的集合类，甚至框架！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/dp/iterator/" data-id="clhlnyleq008gojupbves74uv" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/dp/observer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/dp/observer/" class="article-date">
+  <time datetime="2016-01-13T09:39:06.000Z" itemprop="datePublished">2016-01-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/dp/observer/">观察者模式（Observer）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>包括这个模式在内的接下来的四个模式，都是类和类之间的关系，不涉及到继承，学的时候应该记得归纳，记得本文最开始的那个图。观察者模式很好理解，类似于邮件订阅和RSS订阅，当我们浏览一些博客或wiki时，经常会看到RSS图标，就这的意思是，当你订阅了该文章，如果后续有更新，会及时通知你。其实，简单来讲就一句话：当一个对象变化时，其它依赖该对象的对象都会收到通知，并且随着变化！对象之间是一种一对多的关系。先来看看关系图：</p>
+<p><img src="/images/design/dpobserver.png"></p>
+<p>我解释下这些类的作用：MySubject类就是我们的主对象，Observer1和Observer2是依赖于MySubject的对象，当MySubject变化时，Observer1和Observer2必然变化。AbstractSubject类中定义着需要监控的对象列表，可以对其进行修改：增加或删除被监控对象，且当MySubject变化时，负责通知在列表内存在的对象。我们看实现代码：</p>
+<pre><code>public interface Observer &#123;
+    public void update();
+&#125;
+
+public class Observer1 implements Observer &#123;
+
+    @Override
+    public void update() &#123;
+        System.out.println(&quot;observer1 has received!&quot;);
+    &#125;
+&#125;
+
+public class Observer2 implements Observer &#123;
+
+    @Override
+    public void update() &#123;
+        System.out.println(&quot;observer2 has received!&quot;);
+    &#125;
+
+&#125;
+
+public interface Subject &#123;
+    
+    /*增加观察者*/
+    public void add(Observer observer);
+    
+    /*删除观察者*/
+    public void del(Observer observer);
+    
+    /*通知所有的观察者*/
+    public void notifyObservers();
+    
+    /*自身的操作*/
+    public void operation();
+&#125;
+
+public abstract class AbstractSubject implements Subject &#123;
+
+    private Vector vector = new Vector();
+    @Override
+    public void add(Observer observer) &#123;
+        vector.add(observer);
+    &#125;
+
+    @Override
+    public void del(Observer observer) &#123;
+        vector.remove(observer);
+    &#125;
+
+    @Override
+    public void notifyObservers() &#123;
+        Enumeration enumo = vector.elements();
+        while(enumo.hasMoreElements())&#123;
+            enumo.nextElement().update();
+        &#125;
+    &#125;
+&#125;
+
+public class MySubject extends AbstractSubject &#123;
+
+    @Override
+    public void operation() &#123;
+        System.out.println(&quot;update self!&quot;);
+        notifyObservers();
+    &#125;
+
+&#125;
+
+public class ObserverTest &#123;
+
+    public static void main(String[] args) &#123;
+        Subject sub = new MySubject();
+        sub.add(new Observer1());
+        sub.add(new Observer2());
+        
+        sub.operation();
+    &#125;
+
+&#125;
+</code></pre>
+<p>输出：</p>
+<pre><code>update self!
+observer1 has received!
+observer2 has received!
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/dp/observer/" data-id="clhlnyles008rojup20we3nac" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/13/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/15/">下一页 &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII%E7%A0%81/" rel="tag">ASCII码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveMQ/" rel="tag">ActiveMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ajax/" rel="tag">Ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BAT%E8%84%9A%E6%9C%AC/" rel="tag">BAT脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAP/" rel="tag">CAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAS/" rel="tag">CAS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eclipse/" rel="tag">Eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/" rel="tag">Emacs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emmet/" rel="tag">Emmet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIT/" rel="tag">GIT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IPFS/" rel="tag">IPFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-IO/" rel="tag">JAVA IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/" rel="tag">JAVA NIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-WEB/" rel="tag">JAVA WEB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lisp/" rel="tag">Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/" rel="tag">Scala</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/" rel="tag">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-MVC/" rel="tag">Spring MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIM/" rel="tag">VIM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/archtype/" rel="tag">archtype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/azkaban/" rel="tag">azkaban</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jquery/" rel="tag">jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql-neo4j/" rel="tag">nosql neo4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openssl/" rel="tag">openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/" rel="tag">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webservice/" rel="tag">webservice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" rel="tag">一致性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" rel="tag">任务调度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" rel="tag">字符编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" rel="tag">字符集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A1%E8%AE%A1/" rel="tag">审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" rel="tag">尾递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" rel="tag">摘要算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" rel="tag">数字签名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" rel="tag">数字证书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" rel="tag">数据权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" rel="tag">树算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正规表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" rel="tag">知识体系</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E5%99%A8/" rel="tag">神器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">自制操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2999/12/">十二月 2999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/02/">二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">九月 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】特别说明</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 证心<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

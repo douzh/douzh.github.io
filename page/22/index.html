@@ -1,22 +1,1269 @@
-{% extends '_layout.swig' %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
 
-{% block title %}{{ title }}{%- if theme.index_with_subtitle and subtitle %} - {{ subtitle }}{%- endif %}{% endblock %}
+  
+  <title>OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="OneKBase">
+<meta property="og:url" content="http://www.onekbase.com/page/22/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="证心">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="OneKBase" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block page_class %}
-  {%- if is_home() %}page-home{% endif -%}
-{% endblock %}
+<meta name="generator" content="Hexo 6.3.0"></head>
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {%- for post in page.posts %}
-      {{ partial('_macro/post.swig', {is_index: true}) }}
-    {%- endfor %}
-  </section>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-blog/arch/view/logicview" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/view/logicview/" class="article-date">
+  <time datetime="2015-12-30T06:40:09.000Z" itemprop="datePublished">2015-12-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>
+  </div>
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/view/logicview/">4+1视图之逻辑视图（Logic View）</a>
+    </h1>
+  
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>逻辑视图（Logic View）</p>
+<p>逻辑试图主要是用来描述系统的功能需求，即系统提供给最终用户的服务.<br>在逻辑视图中，系统分解成一系列的功能抽象、功能分解与功能分析，这些主要来自问题领域（Problem<br>Definition)。<br>在面向对象技术中，通过抽象、封装、继承,可以用对象模型来代表逻辑视图，可以用类图（Class<br>Diagram）来描述逻辑视图。</p>
+<p>构件(Components)：类、类服务、参数化类、类层次</p>
+<p>连接件(Connectors)：关联、包含聚集、使用、继承、实例化</p>
+<p><img src="/images/arch/logicview.jpg"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/view/logicview/" data-id="clhlnylfy00fkojupfjqw6xzs" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/view/index" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/view/index/" class="article-date">
+  <time datetime="2015-12-29T09:02:27.000Z" itemprop="datePublished">2015-12-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/view/index/">架构设计之4+1视图</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>“4+1”视图是对逻辑架构进行描述，最早由 Philippe Kruchten<br>提出，他在1995年的《IEEE Software》上发表了题为《The 4+1 View Model of<br>Architecture》的论文，引起了业界的极大关注，并最终被 RUP<br>采纳，现在已经成为架构设计的结构标准。</p>
+<p>该模型五个主要的视图:</p>
+<ul>
+<li>逻辑视图（Logical<br>View），设计的对象模型（使用面向对象的设计方法时）。</li>
+<li>过程视图（Process View），捕捉设计的并发和同步特征。</li>
+<li>物理视图（Physical<br>View），描述了软件到硬件的映射，反映了分布式特性。</li>
+<li>开发视图（Development View），描述了在开发环境中软件的静态组织结构。</li>
+<li>用例视图（Use Case View)，4+1视图是用例驱动的，用例图是根本。</li>
+</ul>
+<p><img src="/images/arch/4p1view.jpg"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/view/index/" data-id="clhlnylfz00foojup89c9c8xe" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/java/threadsafe/submitfuture" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/threadsafe/submitfuture/" class="article-date">
+  <time datetime="2015-12-28T07:54:09.000Z" itemprop="datePublished">2015-12-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/threadsafe/submitfuture/">JAVA线程池submit和Future的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在Java5之后，任务分两类：一类是实现了<code>Runnable</code>接口的类，一类是实现了<code>Callable</code>接口的类。两者都可以被<code>ExecutorService</code>执行，但是<code>Runnable</code>任务没有返回值，而<code>Callable</code>任务有返回值。并且<code>Callable</code>的<code>call()</code>方法只能通过<code>ExecutorService</code>的<code>submit(Callable&lt;t&gt; task)</code> 方法来执行，并且返回一个<code>Future</code>，是表示任务等待完成的 <code>Future</code>。</p>
+<pre><code>public interface Callable&lt;v&gt;
+</code></pre>
+<p>返回结果并且可能抛出异常的任务。实现者定义了一个不带任何参数的叫做 <code>call</code> 的方法。</p>
+<p><code>Callable</code> 接口类似于 <code>Runnable</code>，两者都是为那些其实例可能被另一个线程执行的类设计的。但是 <code>Runnable</code> 不会返回结果，并且无法抛出经过检查的异常。</p>
+<p><code>Callable</code>中的<code>call()</code>方法类似<code>Runnable</code>的<code>run()</code>方法，就是前者有返回值，后者没有。</p>
+<p>当将一个<code>Callable</code>的对象传递给<code>ExecutorService</code>的<code>submit</code>方法，则该<code>call</code>方法自动在一个线程上执行，并且会返回执行结果<code>Future</code>对象。</p>
+<p>同样，将<code>Runnable</code>的对象传递给<code>ExecutorService</code>的<code>submit</code>方法，则该<code>run</code>方法自动在一个线程上执行，并且会返回执行结果<code>Future</code>对象，但是在该<code>Future</code>对象上调用get方法，将返回null。</p>
+<p>注意：<code>Future</code>的<code>get</code>方法是阻塞方法，它会一直等到线程返回结果才会继续执行。</p>
+<p>下面给个例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.concurrent.*;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">* Callable接口测试</span><br><span class="line">*/</span><br><span class="line">public class CallableDemo &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line">        List&lt;Future&lt;String&gt;&gt; resultList = new ArrayList&lt;Future&lt;String&gt;&gt;();</span><br><span class="line"></span><br><span class="line">        //创建10个任务并执行</span><br><span class="line">        for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">            //使用ExecutorService执行Callable类型的任务，并将结果保存在future变量中 </span><br><span class="line">            Future&lt; String&gt; future = executorService</span><br><span class="line">                    .submit(new TaskWithResult(i));</span><br><span class="line">            //将任务执行结果存储到List中</span><br><span class="line">            resultList.add(future);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //遍历任务的结果</span><br><span class="line">        for (Future&lt;String&gt; fs : resultList) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                System.out.println(fs.get()); //打印各个线程（任务）执行的结果 </span><br><span class="line">            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125; catch (ExecutionException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125; finally &#123;</span><br><span class="line">                //启动一次顺序关闭，执行以前提交的任务，但不接受新任务。如果已经关闭，则调用没有其他作用。</span><br><span class="line">                executorService.shutdown();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class TaskWithResult implements Callable&lt;String&gt; &#123;</span><br><span class="line">    private int id;</span><br><span class="line"></span><br><span class="line">    public TaskWithResult(int id) &#123;</span><br><span class="line">        this.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 任务的具体过程，一旦任务传给ExecutorService的submit方法，则该方法自动在一个线程上执行。 </span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     * @throws Exception</span><br><span class="line">     */</span><br><span class="line">    public String call() throws Exception &#123;</span><br><span class="line">        System.out.println(&quot;call()方法被自动调用,干活！！！             &quot;</span><br><span class="line">                + Thread.currentThread().getName());</span><br><span class="line">        //一个模拟耗时的操作</span><br><span class="line">        Thread.sleep(1000);</span><br><span class="line">        return &quot;call()方法被自动调用，任务的结果是：&quot; + id + &quot;    &quot;</span><br><span class="line">                + Thread.currentThread().getName();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/threadsafe/submitfuture/" data-id="clhlnylil00veojup3j31e4io" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/java/base/mstneworder" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/base/mstneworder/" class="article-date">
+  <time datetime="2015-12-28T05:56:22.000Z" itemprop="datePublished">2015-12-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/base/mstneworder/">放倒一片的JAVA基础面试题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <pre><code>public class Child extends Father&#123;
+    
+    static &#123;
+        System.out.println(&quot;child--&gt;static&quot;);
+    &#125;
+    
+    private int n = 20;
+    
+    &#123;
+        n = 30;
+    &#125;
+    
+    public int x = 200;
+    
+    public Child() &#123;
+        this(&quot;The other constructor&quot;);
+        System.out.println(&quot;child constructor body: &quot; + n);
+    &#125;
+    
+    public Child(String s) &#123;
+        System.out.println(s);
+    &#125;
+    
+    public void age() &#123;
+        System.out.println(&quot;age=&quot; + n);
+    &#125;
+    
+    public void printX() &#123;
+        System.out.println(&quot;x=&quot; + x);
+    &#125;
+    
+    public static void main(String[] args) &#123;
+        new Child().printX();
+    &#125;
+&#125;
+
+class Father &#123;
+    
+    static &#123;
+        System.out.println(&quot;super--&gt;static&quot;);
+    &#125;
+    
+    public static int n = 10;
+    public int x = 100;
+    
+    public Father() &#123;
+        System.out.println(&quot;super&#39;s x=&quot; + x);
+        age();
+    &#125;
+    
+    public void age()&#123;
+        System.out.println(&quot;nothing&quot;);
+    &#125;
+&#125;
+</code></pre>
+<p>(1).Child的main(...)方法内的new语句会触发JVM对类的加载。因为Child是继承自Father的，所以会先加载Father.class.加载过程会执行两步：</p>
+<p>(a).所有的static数据域初始化为默认值(0,false,null)，所以Father内的static的n首先默认值为0.</p>
+<p>(b).执行所有的static域的初始化语句或者初始化块（按出现的顺序），此时Father内static块的打印语句执行：super--&gt;static，并且static的n赋值语句n<br>&#x3D; 10执行。</p>
+<p>父类的方法表建立后算是父类加载完毕，接着会加载子类Child，执行的过程与父类类似。因为子类没有static的数据域，所以仅仅static的初始化块内的打印语句执行：child--&gt;static。</p>
+<p>这也解释了为什么static的初始化只有一次，因为它仅仅在类加载的时候执行而与实例化没有关系。</p>
+<p>(2).需要的类加载完毕之后new<br>Child()开始使用类构造器创建实例。我理解的构造器的执行有以下几步：</p>
+<p>(a)所有数据域初始化为默认值(0,false,null)。</p>
+<p>(b)如果有父类则先执行父类的构造器。</p>
+<p>(c)按声明出现的顺序执行所有数据域的初始化语句或者初始化块</p>
+<p>(d)如果构造器主体的第一句调用了另一个构造器，则执行第二个构造器的主体（非super）</p>
+<p>(e)执行构造器的主体部分</p>
+<p>现在对号入座看看此例的情况，首先Child的数据域初始化为默认值：n&#x3D;0,<br>x&#x3D;0.接着由于继承Father如果没有在构造器主体显示使用super(...)调用Father有参或者无参的构造器，则隐式的去调用无参的构造器。此时开始了Father构造器的执行过程：</p>
+<p>首先Father的所有数据域初始化为默认值：x&#x3D;0；接着是Father的父类Object的构造器执行；完毕后Fahter开始数据域的初始化语句的执行：x&#x3D;100；Father构造器主体没有调用自身的其他的构造器，第四步跳过；最后一步就是Father构造器的主体：先执行打印super&#39;s<br>x&#x3D;100，接着调用age().这里Father和Child的方法表内都有age()方法，但是因为要创建的是Child实例，所以JVM会动态的绑定到Child的age()方法，所以执行了System.out.println(&quot;age&#x3D;&quot;</p>
+<ul>
+<li>n);而此时n仅仅是默认值0，所以打印age&#x3D;0.</li>
+</ul>
+<p>父类的构造器调用完毕之后，继续Child构造器执行的第三步：数据域的初始化语句和初始化块，此时按照声明的顺序n&#x3D;20，接着在初始化块中n&#x3D;30，然后就是x&#x3D;200；Child的第四步满足条件，所以会执行Child(String<br>s)有参构造器的主体，打印The other<br>constructor；最后一步执行本构造器的主体，打印child constructor body:<br>30。</p>
+<p>至此实例化完毕，main函数内调用了实例的printX()方法执行System.out.println(&quot;x&#x3D;&quot;+x)语句。这里虽然Father和Child都有public的x。但是由于语句内没有显示使用super.x，则会隐式的使用this.x。这样打印x&#x3D;200.完整的执行结果如下：</p>
+<pre><code>super--&gt;static 
+child--&gt;static 
+super&#39;s x=100 
+age=0 
+The other constructor 
+child constructor body: 30 
+x=200
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/base/mstneworder/" data-id="clhlnylht00q8ojupb4hg1mnq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/java/threadsafe/mstgoogle" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/threadsafe/mstgoogle/" class="article-date">
+  <time datetime="2015-12-28T05:37:03.000Z" itemprop="datePublished">2015-12-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/threadsafe/mstgoogle/">疑似Google多线程面试题的Java实现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>疑似Google的多线程面试题:</p>
+<p>启动4个线程，向4个文件A，B，C，D里写入数据，每个线程只能写一个值。</p>
+<p>线程1：只写1</p>
+<p>线程2：只写2</p>
+<p>线程3：只写3</p>
+<p>线程4：只写4</p>
+<p>程序运行起来，4个文件的写入结果如下：</p>
+<p>A：12341234...</p>
+<p>B：23412341...</p>
+<p>C：34123412...</p>
+<p>D：41234123...</p>
+<p>自己写了一下，代码如下：</p>
+<pre><code>/**
+ * ThreadTest
+ * @author douzh
+ * @version 1.0
+ */
+public class FileWriter &#123;
+    static FileWrapper[] arrFile = &#123; new FileWrapper(1), new FileWrapper(2),
+            new FileWrapper(3), new FileWrapper(4) &#125;;
+
+    public static void main(String[] args) throws InterruptedException &#123;
+        Writer t1=new Writer(1,1, arrFile);
+        Writer t2=new Writer(2,2, arrFile);
+        Writer t3=new Writer(3,3, arrFile);
+        Writer t4=new Writer(4,4, arrFile);
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+        Thread.sleep(100);
+        for (int i = 0; i &lt; arrFile.length; i++) &#123;
+            System.out.println(arrFile[i].toString());
+        &#125;
+        t1.stop=true;
+        t2.stop=true;
+        t3.stop=true;
+        t4.stop=true;
+    &#125;
+&#125;
+
+class FileWrapper &#123;
+    /**一个门*/
+    public volatile int door = -1;
+    /**模拟文件 */
+    private StringBuilder file = new StringBuilder();
+
+    public FileWrapper(int door) &#123;
+        this.door = door;
+    &#125;
+
+    public void write(int i) &#123;
+        file.append(i);
+        door=door==4?1:++door;
+    &#125;
+    public String toString()&#123;
+        return file.toString();
+    &#125;
+&#125;
+
+class Writer extends Thread &#123;
+    /**控制线程停止*/
+    public volatile boolean stop=false;
+    /**线程能进的门*/
+    private int door=-1;
+    /**线程要写的内容*/
+    private int content = 0;
+    /**文件列表*/
+    FileWrapper[] arrFile = null;
+
+    public Writer(int i,int door, FileWrapper[] arrFile) &#123;
+        this.content = i;
+        this.door=door;
+        this.arrFile = arrFile;
+    &#125;
+    @Override
+    public void run() &#123;
+        while(!stop)&#123;
+            try &#123;
+                for (int i = 0; i &lt; arrFile.length; i++) &#123;
+                    if (arrFile[i].door != door) &#123;
+                        continue;
+                    &#125;
+                    arrFile[i].write(content);
+                &#125;
+            &#125; catch (Exception e) &#123;
+                continue;
+            &#125;
+        &#125;
+        System.out.println(Thread.currentThread().getName()+&quot;stop&quot;);
+    &#125;
+&#125;
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/threadsafe/mstgoogle/" data-id="clhlnylii00v0ojup8j6m6l7x" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/java/threadsafe/blockingqueue" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/threadsafe/blockingqueue/" class="article-date">
+  <time datetime="2015-12-25T09:39:55.000Z" itemprop="datePublished">2015-12-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/threadsafe/blockingqueue/">JAVA同步之线程安全队列Queue</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Java提供的线程安全的Queue可以分为阻塞队列和非阻塞队列，其中阻塞队列的典型例子是BlockingQueue，非阻塞队列的典型例子是ConcurrentLinkedQueue，在实际应用中要根据实际需要选用阻塞队列或者非阻塞队列。</p>
+<p>BlockingQueue是个接口，顾名思义，“阻塞队列”：可以提供阻塞功能的队列。具体实现类有以下三个：</p>
+<ul>
+<li>ArrayBlockingQueue，其构造函数必须带一个int参数来指明其大小</li>
+<li>LinkedBlockingQueue，若其构造函数带一个规定大小的参数，生成的BlockingQueue有大小限制，若不带大小参数，所生成的BlockingQueue的大小由Integer.MAX_VALUE来决定</li>
+<li>PriorityBlockingQueue，其所含对象的排序不是FIFO,而是依据对象的自然排序顺序或者是构造函数的Comparator决定的顺序</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>?功能</th>
+<th>可能报异常</th>
+<th>返回布尔值</th>
+<th>可能阻塞</th>
+<th>设定等待时间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>入队</td>
+<td>add(e)</td>
+<td>offer(e)</td>
+<td>put(e)</td>
+<td>offer(e, timeout, unit)</td>
+</tr>
+<tr>
+<td>出队</td>
+<td>remove()</td>
+<td>poll()</td>
+<td>take()</td>
+<td>poll(timeout, unit)</td>
+</tr>
+<tr>
+<td>查看</td>
+<td>element()</td>
+<td>peek()</td>
+<td>无</td>
+<td>无</td>
+</tr>
+</tbody></table>
+<p>从上表可以很明显看出每个方法的作用，这个不用多说。我想说的是：</p>
+<p>add(e) remove() element()方法不会阻塞线程。当不满足约束条件时，会抛出IllegalStateException<br>异常。例如：当队列被元素填满后，再调用add(e)，则会抛出异常。</p>
+<p>offer(e) poll() peek()方法即不会阻塞线程，也不会抛出异常。例如：当队列被元素填满后，再调用offer(e)，则不会插入元素，函数返回false。</p>
+<p>要想要实现阻塞功能，需要调用put(e) take()方法。当不满足约束条件时，会阻塞线程。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/threadsafe/blockingqueue/" data-id="clhlnylie00udojupdmpybpce" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/java/threadsafe/arrayblockqueue" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/threadsafe/arrayblockqueue/" class="article-date">
+  <time datetime="2015-12-25T06:21:40.000Z" itemprop="datePublished">2015-12-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/threadsafe/arrayblockqueue/">JAVA同步之ArrayBlockingQueue</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ArrayBlockingQueue内容是一个数组容器，通过一个ReentrantLock控制数据的插入与删除。下面看一下源码，很简单。</p>
+<h2 id="java-util-concurrent-ArrayBlockingQueue"><a href="#java-util-concurrent-ArrayBlockingQueue" class="headerlink" title="java.util.concurrent.ArrayBlockingQueue"></a>java.util.concurrent.ArrayBlockingQueue</h2><pre><code>public class ArrayBlockingQueue&lt; e&gt; extends AbstractQueue&lt; e&gt; implements BlockingQueue&lt; e&gt;, java.io.Serializable &#123;
+    ...
+    /** Main lock guarding all access */
+    private final ReentrantLock lock;
+
+    /** Condition for waiting takes */
+    private final Condition notEmpty;
+
+    /** Condition for waiting puts */
+    private final Condition notFull;
+
+    ...
+    public ArrayBlockingQueue(int capacity, boolean fair) &#123;
+        if (capacity &lt;= 0)
+            throw new IllegalArgumentException();
+        this.items = (E[]) new Object[capacity];
+        lock = new ReentrantLock(fair);
+        notEmpty = lock.newCondition();
+        notFull =  lock.newCondition();
+    &#125;
+
+    public void put(E e) throws InterruptedException &#123;
+        if (e == null) throw new NullPointerException();
+        final E[] items = this.items;
+        final ReentrantLock lock = this.lock;
+        lock.lockInterruptibly();
+        try &#123;
+            try &#123;
+                while (count == items.length)
+                    notFull.await();
+            &#125; catch (InterruptedException ie) &#123;
+                notFull.signal(); // propagate to non-interrupted thread
+                throw ie;
+            &#125;
+            insert(e);
+        &#125; finally &#123;
+            lock.unlock();
+        &#125;
+    &#125;
+
+    private void insert(E x) &#123;
+        items[putIndex] = x;
+        putIndex = inc(putIndex);
+        ++count;
+        notEmpty.signal();
+    &#125;
+
+    public E take() throws InterruptedException &#123;
+        final ReentrantLock lock = this.lock;
+        lock.lockInterruptibly();
+        try &#123;
+            try &#123;
+                while (count == 0)
+                    notEmpty.await();
+            &#125; catch (InterruptedException ie) &#123;
+                notEmpty.signal(); // propagate to non-interrupted thread
+                throw ie;
+            &#125;
+            E x = extract();
+            return x;
+        &#125; finally &#123;
+            lock.unlock();
+        &#125;
+    &#125;
+
+    private E extract() &#123;
+        final E[] items = this.items;
+        E x = items[takeIndex];
+        items[takeIndex] = null;
+        takeIndex = inc(takeIndex);
+        --count;
+        notFull.signal();
+        return x;
+    &#125;
+    ...
+&#125;
+</code></pre>
+<p>这里notEmpty和notFull作为lock的两个条件，分别负责管理想要加入元素的线程和想要取出元素的线程的wait和notify，通过await()、signal()、signalAll()方法，有效的分离了不同职责的线程。</p>
+<p>例如put()方法在元素个数达到最大限制时会使用notFull条件把试图继续插入元素的线程都扔到等待集中，而执行了take()方法时如果顺利进入extract()则会空出空间，这时notFull负责随机的通知被其扔到等待集中的线程执行插入元素的操作。这样的设计使得线程按照功能行为职责管理成为了现实。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/threadsafe/arrayblockqueue/" data-id="clhlnylic00u2ojupbtvm1euf" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/java/threadsafe/threadstatus" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/threadsafe/threadstatus/" class="article-date">
+  <time datetime="2015-12-25T05:59:47.000Z" itemprop="datePublished">2015-12-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/threadsafe/threadstatus/">JAVA同步之线程状态</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>新建状态（New）：新创建了一个线程对象。</li>
+</ol>
+<p>2.就绪状态（Runnable）：线程对象创建后，其他线程调用了该对象的start()方法。该状态的线程位于可运行线程池中，变得可运行，等待获取CPU的使用权。</p>
+<ol start="3">
+<li>运行状态（Running）：就绪状态的线程获取了CPU，执行程序代码。</li>
+</ol>
+<p>4.阻塞状态（Blocked）：阻塞状态是线程因为某种原因放弃CPU使用权，暂时停止运行。直到线程进入就绪状态，才有机会转到运行状态。阻塞的情况分三种：</p>
+<p>（一）、等待阻塞：运行的线程执行wait()方法，JVM会把该线程放入等待池中。</p>
+<p>（二）、同步阻塞：运行的线程在获取对象的同步锁时，若该同步锁被别的线程占用，则JVM会把该线程放入锁池中。</p>
+<p>（三）、其他阻塞：运行的线程执行sleep()或join()方法，或者发出了I&#x2F;O请求时，JVM会把该线程置为阻塞状态。当sleep()状态超时、join()等待线程终止或者超时、或者I&#x2F;O处理完毕时，线程重新转入就绪状态。</p>
+<p>5.死亡状态（Dead）：线程执行完了或者因异常退出了run()方法，该线程结束生命周期。</p>
+<p><img src="/images/java/threadstatus.jpg"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/threadsafe/threadstatus/" data-id="clhlnylip00vtojupbb0dg59p" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/java/threadsafe/lbqexample" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/threadsafe/lbqexample/" class="article-date">
+  <time datetime="2015-12-25T05:43:52.000Z" itemprop="datePublished">2015-12-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/threadsafe/lbqexample/">LinkedBlockingQueue生产消费模型简单实现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <pre><code>import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
+
+
+public class ModelSample &#123;
+    /** 线程池提交的任务数*/
+    private final int taskNum = Runtime.getRuntime().availableProcessors() + 1;
+    /** 用于多线程间存取产品的队列*/
+    private final LinkedBlockingQueue&lt; String&gt; queue = new LinkedBlockingQueue&lt; String&gt;(16);
+    /** 记录产量*/
+    private final AtomicLong output = new AtomicLong(0);
+    /** 记录销量*/
+    private final AtomicLong sales = new AtomicLong(0);
+    /** 简单的线程起步开关*/
+    private final CountDownLatch latch = new CountDownLatch(1);
+    /** 停产后是否售完队列内的产品的选项*/
+    private final boolean clear;
+    /** 用于提交任务的线程池*/
+    private final ExecutorService pool;
+    /** 简陋的命令发送器*/
+    private Scanner scanner;
+
+    public ModelSample(boolean clear) &#123;
+        this.pool = Executors.newCachedThreadPool();
+        this.clear = clear;
+    &#125;
+
+    /**
+     * 提交生产和消费任务给线程池,并在准备完毕后等待终止命令
+     */
+    public void service() &#123;
+        doService();
+        waitCommand();
+    &#125;
+    
+    /**
+     * 提交生产和消费任务给线程池,并在准备完毕后同时执行
+     */
+    private void doService() &#123;
+        for (int i = 0; i &lt; taskNum; i++) &#123;
+            if (i == 0) &#123;
+                pool.submit(new Worker(queue, output, latch));
+            &#125;
+            else &#123;
+                pool.submit(new Seller(queue, sales, latch, clear));
+            &#125;
+        &#125;
+        latch.countDown();//开闸放狗,线程池内的线程正式开始工作
+    &#125;
+
+    /**
+     * 接收来自终端输入的终止命令
+     */
+    private void waitCommand() &#123;
+        scanner = new Scanner(System.in);
+        while (!scanner.nextLine().equals(&quot;q&quot;)) &#123;
+            try &#123;
+                Thread.sleep(500);
+            &#125;
+            catch (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+        &#125;
+        scanner.close();
+        destory();
+    &#125;
+
+    /**
+     * 停止一切生产和销售的线程
+     */
+    private void destory() &#123;
+        pool.shutdownNow(); //不再接受新任务,同时试图中断池内正在执行的任务
+        while (clear &amp;&amp; queue.size() &gt; 0) &#123;
+            try &#123;
+                Thread.sleep(500);
+            &#125;
+            catch (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+        &#125;
+        System.out.println(&quot;Products:&quot; + output.get() + &quot;; Sales:&quot; + sales.get());
+    &#125;
+
+    public static void main(String[] args) &#123;
+        ModelSample model = new ModelSample(false);
+        model.service();
+    &#125;
+&#125;
+
+/**
+ * 生产者
+ */
+class Worker implements Runnable &#123;
+
+    /** 假想的产品*/
+    private static final String PRODUCT = &quot;Thinkpad&quot;;
+    private final LinkedBlockingQueue&lt; string&gt; queue;
+    private final CountDownLatch latch;
+    private final AtomicLong output;
+
+    public Worker(LinkedBlockingQueue&lt; String&gt; queue, AtomicLong output,CountDownLatch latch) &#123;
+        this.output = output;
+        this.queue = queue;
+        this.latch = latch;
+    &#125;
+
+    public void run() &#123;
+        try &#123;
+            latch.await(); // 放闸之前老实的等待着
+            for (;;) &#123;
+                doWork();
+                Thread.sleep(100);
+            &#125;
+        &#125;
+        catch (InterruptedException e) &#123;
+            System.out.println(&quot;Worker thread will be interrupted...&quot;);
+        &#125;
+    &#125;
+
+    private void doWork() throws InterruptedException &#123;
+        boolean success = queue.offer(PRODUCT, 100, TimeUnit.MILLISECONDS);
+        if (success) &#123;
+            output.incrementAndGet(); // 可以声明long型的参数获得返回值,作为日志的参数
+            // 可以在此处生成记录日志
+        &#125;
+    &#125;
+&#125;
+
+/**
+ * 消费者
+ */
+class Seller implements Runnable &#123;
+
+    private final LinkedBlockingQueue&lt; String&gt; queue;
+    private final AtomicLong sales;
+    private final CountDownLatch latch;
+    private final boolean clear;
+
+    public Seller(LinkedBlockingQueue&lt; String&gt; queue, AtomicLong sales, CountDownLatch latch, boolean clear) &#123;
+        this.queue = queue;
+        this.sales = sales;
+        this.latch = latch;
+        this.clear = clear;
+    &#125;
+
+    public void run() &#123;
+        try &#123;
+            latch.await(); // 放闸之前老实的等待着
+            for (;;) &#123;
+                sale();
+                Thread.sleep(500);
+            &#125;
+        &#125;
+        catch (InterruptedException e) &#123;
+            if(clear) &#123; // 响应中断请求后,如果有要求则销售完队列的产品后再终止线程
+                cleanWarehouse();
+            &#125;
+            else &#123;
+                System.out.println(&quot;Seller Thread will be interrupted...&quot;);
+            &#125;
+        &#125;
+    &#125;
+
+    private void sale() throws InterruptedException &#123;
+        String item = queue.poll(50, TimeUnit.MILLISECONDS);
+        if (item != null) &#123;
+            sales.incrementAndGet(); // 可以声明long型的参数获得返回值,作为日志的参数
+            // 可以在此处生成记录日志
+        &#125;
+    &#125;
+
+    /**
+     * 销售完队列剩余的产品
+     */
+    private void cleanWarehouse() &#123;
+        try &#123;
+            while (queue.size() &gt; 0) &#123;
+                sale();
+            &#125;
+        &#125;
+        catch (InterruptedException ex) &#123;
+            System.out.println(&quot;Seller Thread will be interrupted...&quot;);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>ModelSample是主控，负责生产消费的调度，Worker和Seller分别作为生产者和消费者，并均实现Runnable接口。ModelSample构造器内的参数clear主要是用于：当主控调用线程池的shutdownNow()方法时，会给池内的所有线程发送中断信号，使得线程的中断标志置位。这时候对应的Runnable的run()方法使用响应中断的LinkedBlockingQueue的方法(入队，出队)时就会抛出InterruptedException异常，生产者线程对这个异常的处理是记录信息后终止任务。而消费者线程是记录信息后终止任务，还是消费完队列内的产品再终止任务，则取决于这个选项值。</p>
+<p>多线程的一个难点在于适当得销毁线程，这里得益于LinkedBlockingQueue的入队和出队的操作均提供响应中断的API，使得控制起来相对的简单一点。在Worker和Seller中共享LinkedBlockingQueue的实例queue时，我没有使用put或者take在queue满和空状态时无限制的阻塞线程，而是使用offer(E<br>e, long timeout, TimeUnit unit)和poll(long timeout, TimeUnit<br>unit)在指定的timeout时间内满足条件时阻塞线程。主要因为在于：先中断生产线程的情况下，如果所有的消费线程之前均被扔到等待集，那么无法它们将被唤醒。而后两者在超时后将自行恢复可运行状态。</p>
+<p>再者看看queue的size()方法，这也是选择LinkedBlockingQueue而不选ArrayBlockingQueue作为阻塞队列的原因。因为前者使用的AtomicInteger的count.get()返回最新值，完全无锁；而后者则需要获取唯一的锁，在此期间无法进行任何出队，入队操作。而这个例子中clear&#x3D;&#x3D;true时，主线程和所有的消费线程均需要使用size()方法检查queue的元素个数。这类的非业务操作本就不该影响别的操作，所以这里LinkedBlockingQueue使用AtomicInteger计数无疑是个优秀的设计。</p>
+<p>另外编写这个例子时有点玩票的用了CountDownLatch，它的作用很简单。countDown()方法内部计数不为0时，执行了其await()方法的线程将会阻塞等待；一旦计数为0，这些线程将恢复可运行状态继续执行。这里用它就像一个发令枪，线程池submit任务的新线程在run内被阻塞，主线程一声令下countDown！这些生产消费线程均恢复执行状态。最后就是命令的实现过于简陋了，如果要响应其他的命令的话可以改造成响应事件处理的观察者模式，不过它不是演示的重点就从简了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/threadsafe/lbqexample/" data-id="clhlnylig00usojup1x2l3nug" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/java/threadsafe/concurrentlinkedqueue" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/java/threadsafe/concurrentlinkedqueue/" class="article-date">
+  <time datetime="2015-12-25T03:29:14.000Z" itemprop="datePublished">2015-12-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/java/threadsafe/concurrentlinkedqueue/">JAVA同步之ConcurrentLinkedQueue</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ConcurrentLinkedQueue充分使用了atomic包的实现打造了一个无锁得并发线程安全的队列。对比锁机制的实现，个人认为使用无锁机制的难点在于要充分考虑线程间的协调。简单的说就是多个线程对内部数据结构进行访问时，如果其中一个线程执行的中途因为一些原因出现故障，其他的线程能够检测并帮助完成剩下的操作。这就需要把对数据结构的操作过程精细的划分成多个状态或阶段，考虑每个阶段或状态多线程访问会出现的情况。上述的难点在此次分析的并发Queue的实现中有很好的说明。首先看看其部分源码：</p>
+<pre><code>public class ConcurrentLinkedQueue&lt; E&gt; extends AbstractQueue&lt; E&gt;
+        implements Queue&lt; E&gt;, java.io.Serializable &#123;
+    private static final long serialVersionUID = 196745693267521676L;
+
+    private static class Node&lt; E&gt; &#123;
+        private volatile E item;
+        private volatile Node&lt; E&gt; next;
+        private static final
+            AtomicReferenceFieldUpdater&lt; node node=&quot;&quot;&gt;
+            nextUpdater =
+            AtomicReferenceFieldUpdater.newUpdater
+            (Node.class, Node.class, &quot;next&quot;);
+        private static final
+            AtomicReferenceFieldUpdater&lt; node object=&quot;&quot;&gt;
+            itemUpdater =
+            AtomicReferenceFieldUpdater.newUpdater
+            (Node.class, Object.class, &quot;item&quot;);
+
+        Node(E x) &#123; item = x; &#125;
+
+        Node(E x, Node&lt; E&gt; n) &#123; item = x; next = n; &#125;
+
+        E getItem() &#123;
+            return item;
+        &#125;
+
+        boolean casItem(E cmp, E val) &#123;
+            return itemUpdater.compareAndSet(this, cmp, val);
+        &#125;
+
+        void setItem(E val) &#123;
+            itemUpdater.set(this, val);
+        &#125;
+
+        Node&lt; e&gt; getNext() &#123;
+            return next;
+        &#125;
+
+        boolean casNext(Node&lt; E&gt; cmp, Node&lt; E&gt; val) &#123;
+            return nextUpdater.compareAndSet(this, cmp, val);
+        &#125;
+
+        void setNext(Node&lt; E&gt; val) &#123;
+            nextUpdater.set(this, val);
+        &#125;
+
+    &#125;
+
+    private static final
+        AtomicReferenceFieldUpdater&lt; concurrentlinkedqueue node=&quot;&quot;&gt;
+        tailUpdater =
+        AtomicReferenceFieldUpdater.newUpdater
+        (ConcurrentLinkedQueue.class, Node.class, &quot;tail&quot;);
+    private static final
+        AtomicReferenceFieldUpdater&lt; concurrentlinkedqueue node=&quot;&quot;&gt;
+        headUpdater =
+        AtomicReferenceFieldUpdater.newUpdater
+        (ConcurrentLinkedQueue.class,  Node.class, &quot;head&quot;);
+
+    private boolean casTail(Node&lt; E&gt; cmp, Node&lt; E&gt; val) &#123;
+        return tailUpdater.compareAndSet(this, cmp, val);
+    &#125;
+
+    private boolean casHead(Node&lt; E&gt; cmp, Node &lt; e&gt; val) &#123;
+        return headUpdater.compareAndSet(this, cmp, val);
+    &#125;
+
+    private transient volatile Node &lt; e&gt; head = new Node&lt; E&gt;(null, null);
+
+    private transient volatile Node&lt; E&gt; tail = head;
+    ...
+&#125;
+</code></pre>
+<p>先看看其内部数据结构Node的实现。由于使用了原子字段更新器AtomicReferenceFieldUpdater&lt;t v&gt;（其中T表示持有字段的类的类型，V表示字段的类型），所以其对应的需要更新的字段要使用volatile进行声明。其newUpdater(Class&lt;u&gt; tclass, Class&lt; w&gt; vclass, String fieldName)方法实例化一个指定字段的更新器，参数分别表示：持有需要更新字段的类，字段的类，要更新的字段的名称。Node的内部变量item，next分别有对应自己的字段更新器，并且包含了对其原子性操作的方法compareAndSet(T obj, V expect, V update)，其中T是持有被设置字段的对象，后两者分别是期望值和新值。</p>
+<p>对于ConcurrentLinkedQueue自身也有两个volatile的线程共享变量：head，tail分别对应队列的头指针和尾指针。要保证这个队列的线程安全就是保证对这两个Node的引用的访问（更新，查看）的原子性和可见性，由于volatile本身能够保证可见性，所以就是对其修改的原子性要被保证。下面看看其对应的方法是如何完成的。</p>
+<pre><code>    public boolean offer(E e) &#123;
+        if (e == null) throw new NullPointerException();
+        Node&lt; e&gt; n = new Node&lt; e&gt;(e, null);
+        for (;;) &#123;
+            Node&lt; e&gt; t = tail;
+            Node&lt; e&gt; s = t.getNext();
+            if (t == tail) &#123; //------------------------------a
+                if (s == null) &#123; //---------------------------b
+                    if (t.casNext(s, n)) &#123; //-------------------c
+                        casTail(t, n); //------------------------d
+                        return true;
+                    &#125;
+                &#125; else &#123;
+                    casTail(t, s); //----------------------------e
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+</code></pre>
+<p>offer()方法都很熟悉了，就是入队的操作。涉及到改变尾指针的操作，所以要看这个方法实现是否保证了原子性。CAS操作配合循环是原子性操作的保证，这里也不例外。此方法的循环内首先获得尾指针和其next指向的对象，由于tail和Node的next均是volatile的，所以保证了获得的分别都是最新的值。</p>
+<p>代码a：t&#x3D;&#x3D;tail是最上层的协调，如果其他线程改变了tail的引用，则说明现在获得不是最新的尾指针需要重新循环获得最新的值。</p>
+<p>代码b：s&#x3D;&#x3D;null的判断。静止状态下tail的next一定是指向null的，但是多线程下的另一个状态就是中间态：tail的指向没有改变，但是其next已经指向新的结点，即完成tail引用改变前的状态，这时候s!&#x3D;null。这里就是协调的典型应用，直接进入代码e去协调参与中间态的线程去完成最后的更新，然后重新循环获得新的tail开始自己的新一次的入队尝试。另外值得注意的是a,b之间，其他的线程可能会改变tail的指向，使得协调的操作失败。从这个步骤可以看到无锁实现的复杂性。</p>
+<p>代码c：t.casNext(s, n)是入队的第一步，因为入队需要两步：更新Node的next，改变tail的指向。代码c之前可能发生tail引用指向的改变或者进入更新的中间态，这两种情况均会使得t指向的元素的next属性被原子的改变，不再指向null。这时代码c操作失败，重新进入循环。</p>
+<p>代码d：这是完成更新的最后一步了，就是更新tail的指向，最有意思的协调在这儿又有了体现。从代码看casTail(t, n)不管是否成功都会接着返回true标志着更新的成功。首先如果成功则表明本线程完成了两步的更新，返回true是理所当然的；如果casTail(t,n)不成功呢？要清楚的是完成代码c则代表着更新进入了中间态，代码d不成功则是tail的指向被其他线程改变。意味着对于其他的线程而言：它们得到的是中间态的更新，s!&#x3D;null，进入代码e帮助本线程执行最后一步并且先于本线程成功。这样本线程虽然代码d失败了，但是是由于别的线程的协助先完成了，所以返回true也就理所当然了。</p>
+<p>通过分析这个入队的操作，可以清晰的看到无锁实现的每个步骤和状态下多线程之间的协调和工作。理解了入队的整个过程，出队的操作poll()的实现也就变得简单了。基本上是大同小异的，无非就是同时牵涉到了head和tail的状态，在改变head的同时照顾到tail的协调，在此不多赘述。下面介绍一下其无锁下的查看访问，其内部不单单是查看更包含了线程间的协调，这是无锁实现的一个特点。不管是contains()，size()还是isEmpty()，只要获得了head后面第一个最新的Node就可以很轻松的实现，毕竟Node的getNext()和getItem()返回的都是对应的最新值。所以先看看这些方法内部的first()如何获得最新的第一个Node：</p>
+<pre><code>    Node&lt; e&gt; first() &#123;
+        for (;;) &#123;
+            Node&lt; e&gt; h = head;
+            Node&lt; e&gt; t = tail;
+            Node&lt; e&gt; first = h.getNext();
+            if (h == head) &#123; //---------------------------------------a
+                if (h == t) &#123; //-----------------------------------------b
+                    if (first == null) //----------------------------------c
+                        return null;
+                    else
+                        casTail(t, first); //--------------------------------d
+                &#125; else &#123;
+                    if (first.getItem() != null) //------------------------e
+                        return first;
+                    else // remove deleted node and continue
+                        casHead(h, first); //------------------------------f
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+</code></pre>
+<p>此方法在尝试获得最新的第一个非head结点的时候，在不同的阶段同样在协调着head和tail的更新任务，让人感觉无锁的世界没有纯粹的工作，呵呵。</p>
+<p>代码a：还是最上层的协调，head指向没改变的情况下才继续下面的操作。这时侯head只可能是静止的，因为poll()出队操作的步骤是反着的：首先更新head的指向进入中间态，然后更新原head的next的item为null。</p>
+<p>代码b：之所以h&#x3D;&#x3D;t的情况独立于其他的情况(在出队poll()方法中同样)，主要是因为first!&#x3D;null时可能对应着某一个更新的中间态，而产生中间态的的必要条件就是代码b成立。如果h&#x3D;&#x3D;t则表示当前线程获得的首尾指针指向同一个结点，当然代码b执行之后可能其他线程会进行head或者tail的更新。</p>
+<p>代码c：first&#x3D;&#x3D;null表明tail并没有进入更新的中间态而是处于静止状态，并且由于tail指向的是head的指向，所以返回null是唯一的选择。但是这美好的一切都是建立在代码b和代码c之间没有其他的线程更新tail。一旦有其他的线程执行了入队的操作并至少进入中间态的话，h&#x3D;&#x3D;t和first&#x3D;&#x3D;null都遗憾的成立，这就造成了取得幻象值，而实际上h.getNext()已经不再为null。个人认为代码c改成if((first<br>&#x3D; h.getNext()) &#x3D;&#x3D; null)更能提高命中率。</p>
+<p>代码d：只要first!&#x3D;null(不管是本人修改的代码还是源码)本线程则去尝试协调其他的线程先完成tail的更新，等待循环再次获取最新的head和tail。</p>
+<p>代码e：此处first一定不为null，tail更新与否不影响first的item的获取，但是head的更新会有影响。如果head正在被另一个线程更新并进入中间态，既是poll()内的else<br>if (casHead(h, first))<br>成功，但是并没有执行first.setItem(null)之前。此时代码e是满足的，返回的也是当前的first的，但是随后head全部更新成功则first的item为null。所以此处返回的first的item并不一定是item!&#x3D;null的结点，在使用此方法获得的结点的item时一定要再次的进行判断，这点在contains(…)等方法内都有体现。</p>
+<p>代码f：如果first的item&#x3D;&#x3D;null，则更新head的指向。直观上看似乎多余，因为出队的操作是先更新head的指向再更新item为null的。但是另一个方法remove(…)则仅仅更新item的值而不改变head的指向，所以针对这样的多线程调用，代码f变得非常的必需了。</p>
+<p>这样通过这两个方法的分析可以推及对ConcurrentLinkedQueue共享变量的其他操作的实现，这样的无锁的实现印象最深的就是要考虑线程间的协调。不像锁机制的实现虽然牺牲了一定的性能，但是至少操作这些非线程安全的共享变量时不用过多的考虑其他线程的操作。至此才算体会到无锁实现的复杂性，这或许就是有得必有失吧，呵呵。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/threadsafe/concurrentlinkedqueue/" data-id="clhlnylif00uhojupa2tv47ev" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/21/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/page/23/">23</a><a class="page-number" href="/page/24/">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/23/">下一页 &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII%E7%A0%81/" rel="tag">ASCII码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveMQ/" rel="tag">ActiveMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ajax/" rel="tag">Ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BAT%E8%84%9A%E6%9C%AC/" rel="tag">BAT脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAP/" rel="tag">CAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAS/" rel="tag">CAS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eclipse/" rel="tag">Eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/" rel="tag">Emacs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emmet/" rel="tag">Emmet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIT/" rel="tag">GIT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IPFS/" rel="tag">IPFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-IO/" rel="tag">JAVA IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/" rel="tag">JAVA NIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-WEB/" rel="tag">JAVA WEB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lisp/" rel="tag">Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/" rel="tag">Scala</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/" rel="tag">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-MVC/" rel="tag">Spring MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIM/" rel="tag">VIM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/archtype/" rel="tag">archtype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/azkaban/" rel="tag">azkaban</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jquery/" rel="tag">jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql-neo4j/" rel="tag">nosql neo4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openssl/" rel="tag">openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/" rel="tag">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webservice/" rel="tag">webservice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" rel="tag">一致性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" rel="tag">任务调度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" rel="tag">字符编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" rel="tag">字符集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A1%E8%AE%A1/" rel="tag">审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" rel="tag">尾递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" rel="tag">摘要算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" rel="tag">数字签名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" rel="tag">数字证书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" rel="tag">数据权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" rel="tag">树算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正规表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" rel="tag">知识体系</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E5%99%A8/" rel="tag">神器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">自制操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2999/12/">十二月 2999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/02/">二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">九月 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】特别说明</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 证心<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

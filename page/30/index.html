@@ -1,22 +1,2831 @@
-{% extends '_layout.swig' %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
 
-{% block title %}{{ title }}{%- if theme.index_with_subtitle and subtitle %} - {{ subtitle }}{%- endif %}{% endblock %}
+  
+  <title>OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="OneKBase">
+<meta property="og:url" content="http://www.onekbase.com/page/30/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="证心">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="OneKBase" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block page_class %}
-  {%- if is_home() %}page-home{% endif -%}
-{% endblock %}
+<meta name="generator" content="Hexo 6.3.0"></head>
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {%- for post in page.posts %}
-      {{ partial('_macro/post.swig', {is_index: true}) }}
-    {%- endfor %}
-  </section>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-blog/tools/vim/vimrm" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/tools/vim/vimrm/" class="article-date">
+  <time datetime="2015-10-09T08:25:37.000Z" itemprop="datePublished">2015-10-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>►<a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a>
+  </div>
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/tools/vim/vimrm/">Vim入门基础</a>
+    </h1>
+  
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>简介</li>
+</ol>
+<hr>
+<p>Vim（Vi[Improved]）编辑器是功能强大的跨平台文本文件编辑工具，继承自Unix系统的Vi编辑器，支持Linux&#x2F;Mac OSX&#x2F;Windows系统，利用它可以建立、修改文本文件。进入Vim编辑程序，可以在终端输入下面的命令：</p>
+<pre><code>$vim [filename]
+</code></pre>
+<p>其中<code>filename</code>是要编辑器的文件的路径名。如果文件不存在，它将为你建立一个新文件。Vim编辑程序有三种操作模式，分别称为<strong>编辑模式</strong>、<strong>插入模式</strong> 和<strong>命令模式</strong>，当运行Vim时，首先进入编辑模式。</p>
+<ol start="2">
+<li>编辑模式</li>
+</ol>
+<hr>
+<p>Vim编辑方式的主要用途是在被编辑的文件中移动光标的位置。一旦光标移到到所要的位置，就可以进行剪切和粘贴正文块，删除正文和插入新的正文。当完成所有的编辑工作后，需要保存编辑器结果，退出编辑程序回到终端，可以发出<code>ZZ</code>命令，连续按两次大写的<code>Z</code>键。</p>
+<h3 id="2-1-跳转"><a href="#2-1-跳转" class="headerlink" title="2.1 跳转"></a>2.1 跳转</h3><p>如果键盘上有上、下、左、右箭头的导航键，就由这些键来完成光标的移动。另外，可以用下面的键完成同样的<br><strong>按字符移动</strong> 功能：</p>
+<pre><code>k                上移；
+j                下移；
+h                左移；
+l                右移。
+</code></pre>
+<p>上面这４个键将光标位置每次移动一行或一个 <strong>字符</strong>。Vim还提供稍大范围移动光标的命令：</p>
+<pre><code>ctrl+f        在文件中前移一页（相当于 page down）；
+ctrl+b        在文件中后移一页（相当于 page up）；
+</code></pre>
+<p>更大范围的移动：</p>
+<pre><code>*          当光标停留在一个单词上，* 键会在文件内搜索该单词，并跳转到下一处；
+#          当光标停留在一个单词上，# 在文件内搜索该单词，并跳转到上一处；
+(/)        移动到 前/后 句 的开始；
+&#123;/&#125;        跳转到 当前/下一个 段落 的开始。
+g_         到本行最后一个不是 blank 字符的位置。
+fa         到下一个为 a 的字符处，你也可以fs到下一个为s的字符。
+t,         到逗号前的第一个字符。逗号可以变成其它字符。
+3fa        在当前行查找第三个出现的 a。
+F/T        和 f 和 t 一样，只不过是相反方向;
+gg         将光标定位到文件第一行起始位置；
+G          将光标定位到文件最后一行起始位置；
+NG或Ngg    将光标定位到第 N 行的起始位置。
+</code></pre>
+<p>在屏幕中找到需要的 <strong>一页</strong> 时，可以用下面的命令快速移动光标：</p>
+<pre><code>H                将光标移到屏幕上的起始行（或最上行）；
+M                将光标移到屏幕中间；
+L                将光标移到屏幕最后一行。
+</code></pre>
+<p>同样需要注意字母的大小写。<code>H</code> 和 <code>L</code> 命令还可以加数字。如 <code>2H</code>表示将光标移到屏幕的第２行，<code>3L</code> 表示将光标移到屏幕的倒数第3行。当将光标移到所要的行是，<strong>行内移动</strong> 光标可以用下面的命令来实现：</p>
+<pre><code>w                右移光标到下一个字的开头；
+e                右移光标到一个字的末尾；
+b                左移光标到前一个字的开头；
+0                数字０，左移光标到本行的开始；
+$                右移光标，到本行的末尾；
+^                移动光标，到本行的第一个非空字符。
+</code></pre>
+<h3 id="2-2-搜索匹配"><a href="#2-2-搜索匹配" class="headerlink" title="2.2 搜索匹配"></a>2.2 搜索匹配</h3><p>和许多先进的编辑器一样，Vim提供了强大的字符串搜索功能。要查找文件中指定字或短语出现的位置，可以用Vim直接进行搜索，而不必以手工方式进行。搜索方法是：键入字符<code>/</code>，后面跟以要搜索的字符串，然后按回车键。编辑程序执行正向搜索（即朝文件末尾方向），并在找到指定字符串后，将光标停到该字符串的开头；键入<code>n</code> 命令可以继续执行搜索，找出这一字符串下次出现的位置。用字符 <code>?</code> 取代<code>/</code> ，可以实现反向搜索（朝文件开头方向）。例如：</p>
+<pre><code>/str1                正向搜索字符串 str1；
+n                    继续搜索，找出 str1 字符串下次出现的位置；
+N                    继续搜索，找出 str1 字符串上一次出现的位置；
+?str2                反向搜索字符串 str2 。
+</code></pre>
+<p>无论搜索方向如何，当到达文件末尾或开头时，搜索工作会循环到文件的另一端并继续执行。</p>
+<p>Vim中执行搜索匹配最强大的地方是结合 <strong>正则表达式</strong>来搜索，后续将会介绍。</p>
+<h3 id="2-3-替换和删除"><a href="#2-3-替换和删除" class="headerlink" title="2.3 替换和删除"></a>2.3 替换和删除</h3><p>Vim常规的删除命令是 <code>d</code>、 <code>x</code> (前者删除 <code>行</code> ，后者删除 <code>字符</code>),结合Vim的其他特性可以实现基础的删除功能。将光标定位于文件内指定位置后，可以用其他字符来替换光标所指向的字符，或从当前光标位置删除一个或多个字符或一行、多行。例如：</p>
+<pre><code>rc                 用 c 替换光标所指向的当前字符；
+nrc                用 c 替换光标所指向的前 n 个字符；
+5rA                用 A 替换光标所指向的前 5 个字符；
+x                  删除光标所指向的当前字符；
+nx                 删除光标所指向的前 n 个字符；
+3x                 删除光标所指向的前 3 个字符；
+dw                 删除光标右侧的字；
+ndw                删除光标右侧的 n 个字；
+3dw                删除光标右侧的 3 个字；
+db                 删除光标左侧的字；
+ndb                删除光标左侧的 n 个字；
+5db                删除光标左侧的 5 个字；
+dd                 删除光标所在行，并去除空隙；
+ndd                删除（剪切） n 行内容，并去除空隙；
+3dd                删除（剪切） 3 行内容，并去除空隙；
+</code></pre>
+<p>其他常用的删除命令有：</p>
+<pre><code>d$                从当前光标起删除字符直到行的结束；
+d0                从当前光标起删除字符直到行的开始；
+J                 删除本行的回车符（CR），并和下一行合并。
+</code></pre>
+<p>Vim常规的替换命令有 <code>c</code> 和 <code>s</code>，结合Vim的其他特性可以实现基础的替换功能，不过替换命令执行以后，通常会由<strong>编辑模式</strong> 进入 <strong>插入模式</strong> ：</p>
+<pre><code>s                用输入的正文替换光标所指向的字符；
+S                删除当前行，并进入编辑模式；
+ns               用输入的正文替换光标右侧 n 个字符；
+nS               删除当前行在内的 n 行，并进入编辑模式；
+cw               用输入的正文替换光标右侧的字；
+cW               用输入的正文替换从光标到行尾的所有字符（同 c$ )；
+ncw              用输入的正文替换光标右侧的 n 个字；
+cb               用输入的正文替换光标左侧的字；
+ncb              用输入的正文替换光标左侧的 n 个字；
+cd               用输入的正文替换光标的所在行；
+ncd              用输入的正文替换光标下面的 n 行；
+c$               用输入的正文替换从光标开始到本行末尾的所有字符；
+c0               用输入的正文替换从本行开头到光标的所有字符。
+</code></pre>
+<h3 id="2-4-复制粘贴"><a href="#2-4-复制粘贴" class="headerlink" title="2.4 复制粘贴"></a>2.4 复制粘贴</h3><p>从正文中删除的内容（如字符、字或行）并没有真正丢失，而是被剪切并复制到了一个内存缓冲区中。用户可将其粘贴到正文中的指定位置。完成这一操作的命令是：</p>
+<pre><code>p               小写字母 p，将缓冲区的内容粘贴到光标的后面；
+P               大写字母 P，将缓冲区的内容粘贴到光标的前面。
+</code></pre>
+<p>如果缓冲区的内容是字符或字，直接粘贴在光标的前面或后面；如果缓冲区的内容为整行正文，执行上述粘贴命令将会粘贴在当前光标所在行的上一行或下一行。</p>
+<p>注意上述两个命令中字母的大小写。Vim 编辑器经常以一对大、小写字母（如 <code>p</code>和<code>P</code>）来提供一对相似的功能。通常，小写命令在光标的后面进行操作，大写命令在光标的前面进行操作。</p>
+<p>有时需要复制一段正文到新位置，同时保留原有位置的内容。这种情况下，首先应当把指定内容复制（而不是剪切）到内存缓冲区。完成这一操作的命令是：</p>
+<pre><code>yy              复制当前行到内存缓冲区；
+nyy             复制 n 行内容到内存缓冲区；
+5yy             复制 5 行内容到内存缓冲区；
+“+y             复制 1 行到操作系统的粘贴板；
+“+nyy           复制 n 行到操作系统的粘贴板。
+</code></pre>
+<h3 id="2-5-撤销和重复"><a href="#2-5-撤销和重复" class="headerlink" title="2.5 撤销和重复"></a>2.5 撤销和重复</h3><p>在编辑文档的过程中，为消除某个错误的编辑命令造成的后果，可以用撤消命令。另外，如果用户希望在新的光标位置重复前面执行过的编辑命令，可用重复命令。</p>
+<pre><code>u               撤消前一条命令的结果；
+.               重复最后一条修改正文的命令。
+</code></pre>
+<ol start="3">
+<li>插入模式</li>
+</ol>
+<hr>
+<h3 id="3-1-进入插入模式"><a href="#3-1-进入插入模式" class="headerlink" title="3.1 进入插入模式"></a>3.1 进入插入模式</h3><p>在编辑模式下正确定位光标之后，可用以下命令切换到插入模式：</p>
+<pre><code>i            在光标左侧插入正文
+a            在光标右侧插入正文
+o            在光标所在行的下一行增添新行
+O            在光标所在行的上一行增添新行
+I            在光标所在行的开头插入
+A            在光标所在行的末尾插入
+</code></pre>
+<h3 id="3-2-退出插入模式"><a href="#3-2-退出插入模式" class="headerlink" title="3.2 退出插入模式"></a>3.2 退出插入模式</h3><p>退出插入模式的方法是，按 <code>ESC</code> 键或组合键 <code>Ctrl+[</code>，退出插入模式之后，将会进入编辑模式 。</p>
+<ol start="4">
+<li>命令模式</li>
+</ol>
+<hr>
+<p>在Vim的命令模式下，可以使用复杂的命令。在编辑模式下键入 <code>:</code>，光标就跳到屏幕最后一行，并在那里显示冒号，此时已进入命令模式。命令模式又称<strong>末行模式</strong> ，用户输入的内容均显示在屏幕的最后一行，按回车键，Vim执行命令。</p>
+<h3 id="4-1-打开、保存、退出"><a href="#4-1-打开、保存、退出" class="headerlink" title="4.1 打开、保存、退出"></a>4.1 打开、保存、退出</h3><p>在已经启动的Vim中打开一个文件需要用 <strong><code>:e</code></strong> 命令：</p>
+<pre><code>:e path_to_file/filename
+</code></pre>
+<p>保存当前编辑的文件需要用 <strong><code>:w</code></strong> 命令（单词 <code>write</code> 的缩写）：</p>
+<pre><code>:w
+</code></pre>
+<p>将当前文件另存为 <code>file_temp</code> 则：</p>
+<pre><code>:w file_temp
+</code></pre>
+<p>在编辑模式下可以用 <code>ZZ</code>命令退出Vim编辑程序，该命令保存对正文所作的修改，覆盖原始文件。如果只需要退出编辑程序，而不打算保存编辑的内容，可用下面的命令：</p>
+<pre><code>: q                在未作修改的情况下退出；
+: q!               放弃所有修改，退出编辑程序。
+</code></pre>
+<p>保存并退出则可以讲两条命令结合起来使用（注意命令顺序，先保存，后退出）：</p>
+<pre><code>:wq
+</code></pre>
+<h3 id="4-2-行号与文件"><a href="#4-2-行号与文件" class="headerlink" title="4.2 行号与文件"></a>4.2 行号与文件</h3><p>编辑中的每一行正文都有自己的行号，用下列命令可以移动光标到指定行（效果与<strong>编辑模式</strong> 下的 <code>ngg</code> 或 <code>nG</code> 相同）：</p>
+<pre><code>: n             将光标移到第 n 行
+</code></pre>
+<p>命令模式下，可以规定命令操作的行号范围。数值用来指定绝对行号；字符“.”表示光标所在行的行号；字符符“$”表示正文最后一行的行号；简单的表达式，例如“.+5”表示当前行往下的第<br>5 行。例如：</p>
+<pre><code>:345                  将光标移到第 345 行
+:345w file            将第 345 行写入 file 文件
+:3,5w file            将第 3 行至第 5 行写入 file 文件
+:1,.w file            将第 1 行至当前行写入 file 文件
+:.,$w file            将当前行至最后一行写入 file 文件
+:.,.+5w file          从当前行开始将 6 行内容写入 file 文件
+:1,$w file            将所有内容写入 file 文件，相当于 :w file 命令
+</code></pre>
+<p>在命令模式下，允许从文件中读取正文，或将正文写入文件。例如：</p>
+<pre><code>:w                 将编辑的内容写入原始文件，用来保存编辑的中间结果
+:wq                将编辑的内容写入原始文件并退出编辑程序（相当于 ZZ 命令）
+:w file            将编辑的内容写入 file 文件，保持原有文件的内容不变
+:a,bw file         将第 a 行至第 b 行的内容写入 file 文件
+:r file            读取 file 文件的内容，插入当前光标所在行的后面
+:e file            编辑新文件 file 代替原有内容
+:f file            将当前文件重命名为 file
+:f                 打印当前文件名称和状态，如文件的行数、光标所在的行号等
+</code></pre>
+<h3 id="4-3-字符串搜索"><a href="#4-3-字符串搜索" class="headerlink" title="4.3 字符串搜索"></a>4.3 字符串搜索</h3><p>在 <strong>编辑模式</strong> 讲过字符串的搜索，此处的 <strong>命令模式</strong>也可以进行字符串搜索，给出一个字符串，可以通过搜索该字符串到达指定行。如果希望进行正向搜索，将待搜索的字符串置于两个<code>/</code> 之间；如果希望反向搜索，则将字符串放在两个 <code>?</code> 之间。例如：</p>
+<pre><code>:/str/                  正向搜索，将光标移到下一个包含字符串 str 的行
+:?str?                  反向搜索，将光标移到上一个包含字符串 str 的行
+:/str/w file            正向搜索，并将第一个包含字符串 str 的行写入 file 文件
+:/str1/,/str2/w file    正向搜索，并将包含字符串 str1 的行至包含字符串 str2 的行写
+</code></pre>
+<h3 id="4-4-Vim中的正则表达式"><a href="#4-4-Vim中的正则表达式" class="headerlink" title="4.4 Vim中的正则表达式"></a>4.4 Vim中的正则表达式</h3><p>当给Vim指定搜索字符串时，可以包含具有特殊含义的字符。包含这些特殊字符的搜索字符串称为正则表达式（Regular Expressions）。例如，要搜索一行正文，这行正文的开头包含 <code>struct</code>字。下面的命令做不到这一点：</p>
+<pre><code>:/struct/
+</code></pre>
+<p>因为它只找出在行中任意位置包含 <code>struct</code>的第一行，并不一定在行的开始包含<code>struct</code> 。解决问题的办法是在搜索字符串前面加上特殊字符^：</p>
+<pre><code>:/^struct/
+</code></pre>
+<p><code>^</code> 字符比较每行开头的字符串。所以上面的命令表示：找出以字符串 <code>struct</code>开头的行。也可以用类似办法在搜索字符串后面加上表示行的末尾的特殊字符 <code>$</code>来找出位于行末尾的字：</p>
+<pre><code>:/^struct/
+</code></pre>
+<p>下表给出大多数特殊字符和它们的含义：</p>
+<pre><code>^                放在字符串前面，匹配行首的字；
+$                放在字符串后面，匹配行尾的字；
+\&lt;               匹配一个字的字头；
+\&gt;               匹配一个字的字尾；
+.                匹配任何单个正文字符；
+[str]            匹配 str 中的任何单个字符；
+[^str]           匹配任何不在 str 中的单个字符；
+[a-b]            匹配 a 到 b 之间的任一字符；
+*                匹配前一个字符的 0 次或多次出现；
+\                转义后面的字符。
+</code></pre>
+<h3 id="4-5-正文替换"><a href="#4-5-正文替换" class="headerlink" title="4.5 正文替换"></a>4.5 正文替换</h3><p>利用 <code>:s</code> 命令可以实现字符串的替换。具体的用法包括：</p>
+<pre><code>:%s/str1/str2/        用字符串 str2 替换行中首次出现的字符串 str1
+:s/str1/str2/g        用字符串 str2 替换行中所有出现的字符串 str1
+:.,$ s/str1/str2/g    用字符串 str2 替换正文当前行到末尾所有出现的字符串 str1
+:1,$ s/str1/str2/g    用字符串 str2 替换正文中所有出现的字符串 str1
+:g/str1/s//str2/g     功能同上
+:m,ns/str1/str2/g     将从m行到n行的str1替换成str2
+</code></pre>
+<p>从上述替换命令可以看到：</p>
+<ol>
+<li><code>g</code>放在命令末尾，表示对搜索字符串的每次出现进行替换,不止匹配每行中的第一次出现；不加<code>g</code>，表示只对搜索字符串的首次出现进行替换；<code>g</code>放在命令开头，表示对正文中所有包含搜索字符串的行进行替换操作;\</li>
+<li><code>s</code> 表示后面跟着一串替换的命令；</li>
+<li><code>%</code> 表示替换范围是所有行，即全文。</li>
+</ol>
+<p>另外一个实用的命令，在Vim中统计当前文件中字符串 <code>str1</code><br>出现的次数，可用替换命令的变形：</p>
+<pre><code>:%s/str1/&amp;/gn
+</code></pre>
+<h3 id="4-6-删除正文"><a href="#4-6-删除正文" class="headerlink" title="4.6 删除正文"></a>4.6 删除正文</h3><p>在命令模式下，同样可以删除正文中的内容。例如：</p>
+<pre><code>:d                              删除光标所在行
+:3d                             删除 3 行
+:.,$d                           删除当前行至正文的末尾
+:/str1/,/str2/d                 删除从字符串 str1 到 str2 的所有行
+:g/^\(.*\)$\n\1$/d              删除连续相同的行，保留最后一行
+:g/\%(^\1$\n\)\@&lt;=\(.*\)$/d     删除连续相同的行，保留最开始一行
+:g/^\s*$\n\s*$/d                删除连续多个空行，只保留一行空行
+:5,20s/^#//g                    删除5到20行开头的 # 注释
+</code></pre>
+<p>总之，Vim的初级删除命令是用 <code>d</code> ，高级删除命令可以用 <strong>正则替换</strong>的方式执行。</p>
+<h3 id="4-7-恢复文件"><a href="#4-7-恢复文件" class="headerlink" title="4.7 恢复文件"></a>4.7 恢复文件</h3><p>Vim 在编辑某个文件时，会另外生成一个临时文件，这个文件的名称通常以 <code>.</code>开头，并以 <code>.swp</code> 结尾。Vim<br>在正常退出时，该文件被删除，若意外退出，而没有保存文件的最新修改内容，则可以使用恢复命令<code>:recover</code> 来恢复文件，也可以在启动Vim时用 <code>-r</code> 选项。</p>
+<h3 id="4-8-选项设置"><a href="#4-8-选项设置" class="headerlink" title="4.8 选项设置"></a>4.8 选项设置</h3><p>为控制不同的编辑功能，Vim 提供了很多内部选项。利用 <code>:set</code>命令可以设置选项。基本语法为：</p>
+<pre><code>:set option         设置选项 option
+</code></pre>
+<p>常见的功能选项包括：</p>
+<pre><code>autoindent        设置该选项，则正文自动缩进
+ignorecase        设置该选项，则忽略规则表达式中大小写字母的区别
+number            设置该选项，则显示正文行号
+ruler             设置该选项，则在屏幕底部显示光标所在行、列的位置
+tabstop           设置按 Tab 键跳过的空格数。例如 :set tabstop=n，n 默认值为 8
+mk                将选项保存在当前目录的 .exrc 文件中
+</code></pre>
+<h3 id="4-9-Shell切换"><a href="#4-9-Shell切换" class="headerlink" title="4.9 Shell切换"></a>4.9 Shell切换</h3><p>当处于编辑的对话过程中时，可能需要执行一些Linux命令。如果需要保存当前的结果，退出编辑程序，再执行所需的Linux命令，然后再回头继续编辑过程，就显得十分累赘。如果能在编辑的环境中运行Linux命令就要省事得多。在Vim中，可以用下面的命令来做到这一点：</p>
+<pre><code>:!shell_command   执行完 shell_command 后回到Vim
+</code></pre>
+<p>这称为Shell切换。它允许执行任何可以在标准的Shell提示符下执行的命令。当这条命令执行完毕，控制返回给编辑程序。又可以继续编辑对话过程。</p>
+<h3 id="4-10-分屏与标签页"><a href="#4-10-分屏与标签页" class="headerlink" title="4.10 分屏与标签页"></a>4.10 分屏与标签页</h3><h4 id="分屏"><a href="#分屏" class="headerlink" title="分屏"></a>分屏</h4><p>普通的Vim模式，打开一个Vim程序只能查看一个文件，如果想同时查看多个文件，就需要用到Vim分屏与标签页功能。</p>
+<p>Vim的分屏，主要有两种方式：上下分屏（水平分屏）和左右分屏（垂直分屏），在命令模式分别敲入以下命令即可：</p>
+<pre><code>:split（可用缩写 :sp）            上下分屏；
+:vsplit（可用缩写 :vsp）          左右分屏。
+</code></pre>
+<p>另外，也可以在终端里启动vim时就开启分屏操作：</p>
+<pre><code>vim -On file1 file2...   打开 file1 和 file2 ，垂直分屏
+vim -on file1 file2...   打开 file1 和 file2 ，水平分屏
+</code></pre>
+<p>理论上，一个Vim窗口，可以分为多个Vim屏幕，切换屏幕需要用键盘快捷键，命令分别有：</p>
+<pre><code>Ctrl+w+h            切换到当前分屏的左边一屏；
+Ctrl+w+l            切换到当前分屏的右边一屏；
+Ctrl+w+j            切换到当前分屏的下方一屏；
+Ctrl+w+k            切换到当前分屏的上方一屏。
+</code></pre>
+<p>即键盘上的<code>h,j,k,l</code>四个Vim专用方向键，配合<code>Ctrl</code>键和<code>w</code>键（<code>window</code>的缩写），就能跳转到目标分屏。另外，也可以直接按<code>Ctrl+w+w</code>来跳转分屏，不过跳转方向则是在当前Vim窗口所有分屏中，按照<code>逆时针</code>方向跳转。</p>
+<p>下面是改变尺寸的一些操作，主要是高度，对于宽度你可以使用 <code>[Ctrl+W &lt;]</code>或是 <code>[Ctrl+W &gt;]</code> ，但这可能需要最新的版本才支持。</p>
+<pre><code>Ctrl+W =            让所有的屏都有一样的高度；
+Ctrl+W +            增加高度；
+Ctrl+W -            减少高度。
+</code></pre>
+<h4 id="标签页"><a href="#标签页" class="headerlink" title="标签页"></a>标签页</h4><p>Vim的标签（Tab）页，类似浏览器的标签页，一个标签页打开一个Vim的窗口，一个Vim的窗口可以支持N个分屏。在Vim中新建一个标签的命令是：</p>
+<pre><code>:tabnew
+</code></pre>
+<p>如果要在新建标签页的同时打开一个文件，则可以在命令后面直接附带文件路径：</p>
+<pre><code>:tabnew filename
+</code></pre>
+<p>Vim中的每个标签页有一个唯一的数字序号，第一个标签页的序号是<code>0</code>，从左向右依次加一。关于标签页有一系列操作命令，简介如下：</p>
+<pre><code>:tN[ext]                跳转到上一个匹配的标签
+:tabN[ext]              跳到上一个标签页
+:tabc[lose]             关闭当前标签页
+:tabdo                  为每个标签页执行命令
+:tabe[dit]              在新标签页里编辑文件
+:tabf[ind]              寻找 &#39;path&#39; 里的文件，在新标签页里编辑之
+:tabfir[st]             转到第一个标签页
+:tabl[ast]              转到最后一个标签页
+:tabm[ove]  N           把标签页移到序号为N位置
+:tabnew [filename]      在新标签页里编辑文件
+:tabn[ext]              转到下一个标签页
+:tabo[nly]              关闭所有除了当前标签页以外的所有标签页
+:tabp[revious]          转到前一个标签页
+:tabr[ewind]            转到第一个标签页
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/tools/vim/vimrm/" data-id="clhlnylgs00kqojupa7r1a4yt" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VIM/" rel="tag">VIM</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/bigdata/hadoop/hadoopjg" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/bigdata/hadoop/hadoopjg/" class="article-date">
+  <time datetime="2015-10-07T02:16:05.000Z" itemprop="datePublished">2015-10-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/bigdata/hadoop/hadoopjg/">hadoop组织架构</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="hadoop架构图"><a href="#hadoop架构图" class="headerlink" title="hadoop架构图"></a>hadoop架构图</h2><p><img src="/images/hadoop/hadoopjg.png" alt="hadoop架构图"></p>
+<h2 id="hadoop的主从模式"><a href="#hadoop的主从模式" class="headerlink" title="hadoop的主从模式"></a>hadoop的主从模式</h2><p>对于Hadoop的集群来讲，可以分成两大类角色：Master和Salve。</p>
+<p>一个HDFS集群是由一个NameNode和若干个DataNode组成的。其中NameNode作为主服务器，管理文件系统的命名空间和客户端对文件系统的访问操作；集群中的DataNode管理存储的数据。</p>
+<p>MapReduce框架是由一个单独运行在主节点上的JobTracker和运行在每个从节点的TaskTracker共同组成的。主节点负责调度构成一个作业的所有任务，这些任务分布在不同的从节点上。主节点监控它们的执行情况，并且重新执行之前的失败任务；从节点仅负责由主节点指派的任务。当一个Job被提交时，JobTracker接收到提交作业和配置信息之后，就会将配置信息等分发给从节点，同时调度任务并监控TaskTracker的执行。</p>
+<p>HDFS和MapReduce共同组成了Hadoop分布式系统体系结构的核心。HDFS在集群上实现分布式文件系统，MapReduce在集群上实现了分布式计算和任务处理。HDFS在MapReduce任务处理过程中提供了文件操作和存储等支持，MapReduce在HDFS的基础上实现了任务的分发、跟踪、执行等工作，并收集结果，二者相互作用，完成了Hadoop分布式集群的主要任务。</p>
+<p>运行的主要功能：</p>
+<p>Master：Namenode、Secondary<br>Namenode、Jobtracker。管理服务（用浏览器观看管理界面），其它Hadoop工具。</p>
+<p>Slave：Tasktracker、Datanode</p>
+<h2 id="Namenode"><a href="#Namenode" class="headerlink" title="Namenode"></a>Namenode</h2><ul>
+<li>HDFS的守护程序</li>
+<li>纪录文件是如何分割成数据块的，以及这些数据块被存储到哪些节点上</li>
+<li>对内存和I&#x2F;O进行集中管理</li>
+<li>是个单点，发生故障将使集群崩溃</li>
+</ul>
+<h2 id="Secondary-Namenode"><a href="#Secondary-Namenode" class="headerlink" title="Secondary Namenode"></a>Secondary Namenode</h2><ul>
+<li>监控HDFS状态的辅助后台程序</li>
+<li>每个集群都有一个</li>
+<li>与NameNode进行通讯，定期保存HDFS元数据快照</li>
+<li>当NameNode故障可以作为备用NameNode使用</li>
+</ul>
+<h2 id="DataNode"><a href="#DataNode" class="headerlink" title="DataNode"></a>DataNode</h2><ul>
+<li>每台从服务器都运行一个</li>
+<li>负责把HDFS数据块读写到本地文件系统</li>
+</ul>
+<h2 id="JobTracker"><a href="#JobTracker" class="headerlink" title="JobTracker"></a>JobTracker</h2><ul>
+<li>用于处理作业（用户提交代码）的后台程序</li>
+<li>决定有哪些文件参与处理，然后切割task并分配节点</li>
+<li>监控task，重启失败的task（于不同的节点）</li>
+<li>每个集群只有唯一一个JobTracker，位于Master节点</li>
+</ul>
+<h2 id="TaskTracker"><a href="#TaskTracker" class="headerlink" title="TaskTracker"></a>TaskTracker</h2><ul>
+<li>位于slave节点上，与datanode结合（代码与数据一起的原则）</li>
+<li>管理各自节点上的task（由jobtracker分配）</li>
+<li>每个节点只有一个tasktracker，但一个tasktracker可以启动多个JVM，用于并行执行map或reduce任务</li>
+<li>与jobtracker交互</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/bigdata/hadoop/hadoopjg/" data-id="clhlnyldp002cojup78kh4usg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/bigdata/hadoop/install" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/bigdata/hadoop/install/" class="article-date">
+  <time datetime="2015-10-06T03:32:06.000Z" itemprop="datePublished">2015-10-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/bigdata/hadoop/install/">Hadoop的配制与安装</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="安装环境准备"><a href="#安装环境准备" class="headerlink" title="安装环境准备"></a>安装环境准备</h2><p>真正实现分布式的安装至少到3个Linux环境，这可以通过虚拟机在一台电脑上安装三个linux模拟。虚拟机可以用virtualbox、vmware等。</p>
+<p>hadoop是基于JAVA的，所以linux中要安装好JDK环境。可以参考<a href="/os/linux/install/jdktar.php">linux下如何用tar.gz包安装JDK</a></p>
+<p>三个linux环境要安装好ssh服务，可以实现免密码登录。可以参考<a href="/os/linux/ubuntu/sshmmmjr.php">Ubuntu Linux配制SSH免密码接入</a></p>
+<p>配制好ip和hostname，可以参考<a href="/os/linux/ubuntu/hostname.php">ubuntu如何查看修改主机名</a></p>
+<p>下面是我配制的linux的一些参数：</p>
+<p>系统:Ubuntu 14</p>
+<p>主机名：hadoop-1，hadoop-2,hadoop-2</p>
+<p>用户名统一为hadoop。</p>
+<h2 id="下载hadoop安装包"><a href="#下载hadoop安装包" class="headerlink" title="下载hadoop安装包"></a>下载hadoop安装包</h2><p>这里学习所用的hadoop版本为hadoop-0.20.2.tar.gz,可以从下面提供的链接下载。</p>
+<p>hadoop-0.20.2.tar.gz</p>
+<p><a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1sj661Il">http://pan.baidu.com/s/1sj661Il</a></p>
+<p>eukf</p>
+<p>把安装包放在主文件夹下，也就是&#x2F;home&#x2F;hadoop&#x2F;下。</p>
+<h2 id="修改配制文件"><a href="#修改配制文件" class="headerlink" title="修改配制文件"></a>修改配制文件</h2><p>解压安装包：</p>
+<pre><code>hadoop@hadoop-1:~$ tar -zxvf hadoop-0.20.2.tar.gz
+</code></pre>
+<p>修改配制文件，位置位于&#x2F;home&#x2F;hadoop&#x2F;hadoop-0.20.2&#x2F;conf&#x2F;</p>
+<h3 id="hadoop-env-sh"><a href="#hadoop-env-sh" class="headerlink" title="hadoop-env.sh"></a>hadoop-env.sh</h3><p>设置JAVA_HOME值，去掉前面的#号，把值设置成安装的JDK的位置。</p>
+<pre><code># The java implementation to use.  Required.
+export JAVA_HOME=/opt/java/jdk1.8.0_45/
+</code></pre>
+<h3 id="core-site-xml"><a href="#core-site-xml" class="headerlink" title="core-site.xml"></a>core-site.xml</h3><pre><code>&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;configuration.xsl&quot;?&gt;
+
+
+
+
+
+fs.default.name
+hdfs://hadoop-1:9000
+</code></pre>
+<p>添加NameNode的地址。</p>
+<h3 id="mapred-site-xml"><a href="#mapred-site-xml" class="headerlink" title="mapred-site.xml"></a>mapred-site.xml</h3><pre><code>&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;configuration.xsl&quot;?&gt;
+
+
+
+
+
+mapred.job.tracker
+hadoop-1:9001
+</code></pre>
+<p>设置jobtracker的地址。</p>
+<h3 id="hdfs-site-xml"><a href="#hdfs-site-xml" class="headerlink" title="hdfs-site.xml"></a>hdfs-site.xml</h3><pre><code>&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;configuration.xsl&quot;?&gt;
+
+
+
+
+
+dfs.replication
+2
+</code></pre>
+<p>设置HDFS的冗余数量，因为只有两个slave，所以最大就是2了。</p>
+<h3 id="master文件"><a href="#master文件" class="headerlink" title="master文件"></a>master文件</h3><pre><code>hadoop-1
+</code></pre>
+<h3 id="slaves文件"><a href="#slaves文件" class="headerlink" title="slaves文件"></a>slaves文件</h3><pre><code>hadoop-2
+hadoop-3
+</code></pre>
+<h2 id="向各节点复制"><a href="#向各节点复制" class="headerlink" title="向各节点复制"></a>向各节点复制</h2><pre><code>hadoop@hadoop-1:~$ scp -r ./hadoop-0.20.2 hadoop-2:/home/hadoop/
+hadoop@hadoop-1:~$ scp -r ./hadoop-0.20.2 hadoop-3:/home/hadoop/
+</code></pre>
+<p>好了，到这里就配制好了一个master，两个slave的分布式hadoop了。</p>
+<h2 id="启动hadoop"><a href="#启动hadoop" class="headerlink" title="启动hadoop"></a>启动hadoop</h2><p>用cd命令切换到hadoop-0.20.2目录。</p>
+<p>格式化分布式文件系统</p>
+<pre><code>hadoop@hadoop-1:~/hadoop-0.20.2$ bin/hadoop namenode -format
+</code></pre>
+<p>启动hadoop</p>
+<pre><code>hadoop@hadoop-1:~/hadoop-0.20.2$ bin/start-all.sh
+</code></pre>
+<h2 id="查看运行情况"><a href="#查看运行情况" class="headerlink" title="查看运行情况"></a>查看运行情况</h2><p>用JAVA的JPS命令查看进程情况，可以看出master上运行了namenode和jobtracker。</p>
+<pre><code>hadoop@hadoop-1:~/hadoop-0.20.2$ jps
+5379 NameNode
+5571 SecondaryNameNode
+5622 JobTracker
+14204 Jps
+hadoop@hadoop-1:~/hadoop-0.20.2$ 
+</code></pre>
+<p>slave上的进程情况，可以看到datanode和tasktracker在运行。</p>
+<pre><code>hadoop@hadoop-2:~$ jps
+22560 Jps
+5364 TaskTracker
+5294 DataNode
+hadoop@hadoop-2:~$ 
+</code></pre>
+<p>到这里hadoop就完成了安装，并成功启动了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/bigdata/hadoop/install/" data-id="clhlnylds002sojupe4g221o2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/os/linux/jdktar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/os/linux/jdktar/" class="article-date">
+  <time datetime="2015-10-06T02:43:27.000Z" itemprop="datePublished">2015-10-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>►<a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/os/linux/jdktar/">【Linux】如何用tar.gz包安装JDK</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="下载jdk安装包"><a href="#下载jdk安装包" class="headerlink" title="下载jdk安装包"></a>下载jdk安装包</h2><p>jdk-8u45-linux-x64.tar.gz</p>
+<p><a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1hq8kI4O">http://pan.baidu.com/s/1hq8kI4O</a></p>
+<p>qgeu</p>
+<h2 id="解压安装包"><a href="#解压安装包" class="headerlink" title="解压安装包"></a>解压安装包</h2><p>sudo <a href="/os/linux/cmd/tar.php">tar</a> -zxvf jdk-8u45-linux-x64.tar.gz -C<br>&#x2F;opt&#x2F;java&#x2F;</p>
+<p>这会将安装包解压到&#x2F;opt&#x2F;java&#x2F;目录下。</p>
+<h2 id="配置classpath"><a href="#配置classpath" class="headerlink" title="配置classpath"></a>配置classpath</h2><p>修改所有用户的环境变量：</p>
+<p>$ sudo vi &#x2F;etc&#x2F;profile 或者 $sudo gedit &#x2F;etc&#x2F;profile</p>
+<p>在文件最后添加</p>
+<pre><code>#set java environment
+export JAVA_HOME=/opt/java/jdk1.8.0_45
+export PATH=$PATH:$JAVA_HOME/bin
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export JAVA_HOME CLASSPATH PATH
+</code></pre>
+<p>完成后生产登录。</p>
+<p>在终端中查看是否安装成功：</p>
+<pre><code>hadoop@hadoop-1:~/hadoop-0.20.2$ java -version
+java version &quot;1.8.0_45&quot;
+Java(TM) SE Runtime Environment (build 1.8.0_45-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.45-b02, mixed mode)
+</code></pre>
+<p>通过查看版本看一下现在的java是不是我们安装的那个。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/os/linux/jdktar/" data-id="clhlnylfx00feojupgh8vauux" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/os/linux/cmd/tar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/os/linux/cmd/tar/" class="article-date">
+  <time datetime="2015-10-06T02:19:44.000Z" itemprop="datePublished">2015-10-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>►<a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/os/linux/cmd/tar/">【Linux】tar命令的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="语法："><a href="#语法：" class="headerlink" title="语法："></a>语法：</h2><p>tar [主选项+辅选项] 文件或者目录</p>
+<p>使用该命令时，主选项是必须要有的，它告诉tar要做什么事情，辅选项是辅助使用的，可以选用。</p>
+<h2 id="主选项："><a href="#主选项：" class="headerlink" title="主选项："></a>主选项：</h2><ul>
+<li>-c<br>：创建新的档案文件。如果用户想备份一个目录或是一些文件，就要选择这个选项。相当于打包</li>
+<li>-x ：从档案文件中释放文件。相当于拆包。</li>
+<li>-t ：列出档案文件的内容，查看已经备份了哪些文件。</li>
+</ul>
+<p>特别注意，在参数的下达中， c&#x2F;x&#x2F;t<br>仅能存在一个！不可同时存在！因为不可能同时压缩与解压缩。</p>
+<h2 id="辅助选项："><a href="#辅助选项：" class="headerlink" title="辅助选项："></a>辅助选项：</h2><ul>
+<li>-z ：是否同时具有 gzip 的属性？亦即是否需要用 gzip 压缩或解压？<br>一般格式为xx.tar.gz或xx. tgz</li>
+<li>-j ：是否同时具有 bzip2 的属性？亦即是否需要用 bzip2<br>压缩或解压？一般格式为xx.tar.bz2</li>
+<li>-v ：压缩的过程中显示文件！这个常用</li>
+<li>-f ：使用档名，请留意，在 f 之后要立即接档名喔！不要再加其他参数！</li>
+<li>-p ：使用原文件的原来属性（属性不会依据使用者而变）</li>
+<li>--exclude FILE：在压缩的过程中，不要将 FILE 打包！</li>
+</ul>
+<h2 id="范例："><a href="#范例：" class="headerlink" title="范例："></a>范例：</h2><p>范例一：将整个 &#x2F;etc 目录下的文件全部打包成为 &#x2F;tmp&#x2F;etc.tar</p>
+<pre><code>[root@linux ~]# tar -cvf /tmp/etc.tar /etc　　　　&lt;==仅打包，不压缩！
+
+[root@linux ~]# tar -zcvf /tmp/etc.tar.gz /etc　　&lt;==打包后，以 gzip 压缩
+
+[root@linux ~]# tar -jcvf /tmp/etc.tar.bz2 /etc　　&lt;==打包后，以 bzip2 压缩
+
+# 特别注意，在参数 f 之后的文件档名是自己取的，我们习惯上都用 .tar 来作为辨识。
+
+# 如果加 z 参数，则以 .tar.gz 或 .tgz 来代表 gzip 压缩过的 tar file ～
+
+# 如果加 j 参数，则以 .tar.bz2 来作为附档名啊～
+
+# 上述指令在执行的时候，会显示一个警告讯息：
+
+# 『tar: Removing leading `/&quot; from member names』那是关於绝对路径的特殊设定。
+</code></pre>
+<p>范例二：查阅上述 &#x2F;tmp&#x2F;etc.tar.gz 文件内有哪些文件？</p>
+<pre><code>[root@linux ~]# tar -ztvf /tmp/etc.tar.gz
+
+# 由於我们使用 gzip 压缩，所以要查阅该 tar file 内的文件时，
+
+# 就得要加上 z 这个参数了！这很重要的！
+</code></pre>
+<p>范例三：将 &#x2F;tmp&#x2F;etc.tar.gz 文件解压缩在 &#x2F;usr&#x2F;local&#x2F;src 底下</p>
+<pre><code>[root@linux ~]# cd /usr/local/src
+
+[root@linux src]# tar -zxvf /tmp/etc.tar.gz
+
+# 在预设的情况下，我们可以将压缩档在任何地方解开的！以这个范例来说
+
+# 我先将工作目录变换到 /usr/local/src 底下，并且解开 /tmp/etc.tar.gz
+
+# 则解开的目录会在 /usr/local/src/etc ，另外，如果您进入 /usr/local/src/etc
+
+# 则会发现，该目录下的文件属性与 /etc/ 可能会有所不同喔！
+</code></pre>
+<p>范例四：在 &#x2F;tmp 底下，我只想要将 &#x2F;tmp&#x2F;etc.tar.gz 内的 etc&#x2F;passwd<br>解开而已</p>
+<pre><code>[root@linux ~]# cd /tmp
+
+[root@linux tmp]# tar -zxvf /tmp/etc.tar.gz etc/passwd
+
+# 我可以透过 tar -ztvf 来查阅 tarfile 内的文件名称，如果单只要一个文件，
+
+# 就可以透过这个方式来下达！注意到！ etc.tar.gz 内的根目录 / 是被拿掉了！
+</code></pre>
+<p>范例五：我要备份 &#x2F;home, &#x2F;etc ，但不要 &#x2F;home&#x2F;dmtsai</p>
+<pre><code>[root@linux ~]# tar --exclude /home/dmtsai -zcvf myfile.tar.gz /home/* /etc
+</code></pre>
+<h2 id="tar命令的-C参数"><a href="#tar命令的-C参数" class="headerlink" title="tar命令的-C参数"></a>tar命令的-C参数</h2><p>-C dir参数的作用在于改变工作目录，其有效期为该命令中下一次-C<br>dir参数之前。</p>
+<pre><code>$ tar -cvf file2.tar /home/usr2/file2
+tar: Removing leading &#39;/&#39; from members names
+home/usr2/file2
+</code></pre>
+<p>该命令可以将&#x2F;home&#x2F;usr2&#x2F;file2文件打包到当前目录下的file2.tar中，需要注意的是：使用绝对路径标识的源文件，在用tar命令压缩后，文件名连同绝对路径（这里是home&#x2F;usr2&#x2F;，根目录&#39;&#x2F;&#39;被自动去掉了）一并被压缩进来。使用tar命令解压缩后会出现以下情况：</p>
+<pre><code>$ tar -xvf file2.tar
+$ ls
+…… …… home …… …… 
+</code></pre>
+<p>解压缩后的文件名不是想象中的file2，而是home&#x2F;usr2&#x2F;file2。</p>
+<pre><code>$ tar -cvf file2.tar -C /home/usr2 file2
+</code></pre>
+<p>该命令中的-C<br>dir参数，将tar的工作目录从当前目录改为&#x2F;home&#x2F;usr2，将file2文件（不带绝对路径）压缩到file2.tar中。</p>
+<p>使用tar的-C<br>dir参数，同样可以做到在当前目录&#x2F;home&#x2F;usr1下将文件解压缩到其他目录，例如：</p>
+<pre><code>$ tar -xvf file2.tar -C /home/usr2
+</code></pre>
+<p>而tar不用-C dir参数时是无法做到的：</p>
+<pre><code>$ tar -xvf file2.tar /home/usr2
+tar: /tmp/file: Not found in archive
+tar: Error exit delayed from previous errors
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/os/linux/cmd/tar/" data-id="clhlnylh200mgojupb3e04vwc" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/bigdata/hadoop/index" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/bigdata/hadoop/index/" class="article-date">
+  <time datetime="2015-10-05T08:12:07.000Z" itemprop="datePublished">2015-10-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/bigdata/hadoop/index/">Hadoop学习笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="hadoop的起源"><a href="#hadoop的起源" class="headerlink" title="hadoop的起源"></a>hadoop的起源</h2><p>Lucene，Doug Cutting开创的开源软件，用java书写代码，实现与Google类似的全文搜索功能，它提供了全文检索引擎的架构，包括完整的查询引擎和索引引擎</p>
+<p>2001年年底Lucene成为apache软件基金会jakarta的一个子项目。</p>
+<p>对于大数量的场景，Lucene面对与Google同样的困难。迫使Doug Cutting学习和模仿Google解决这些问题的办法。</p>
+<p>2003-2004年，Google公开了部分GFS和Mapreduce思想的细节，以此为基础Doug Cutting等人用了2年业余时间实现了DFS和Mapreduce机制。</p>
+<p>Hadoop于2005年秋天作为Lucene的子项目Nutch（一个微缩版的Lucene）的一部分正式引入Apache基金会。</p>
+<p>2006年3月份，Map-Reduce 和 Nutch Distributed File System (NDFS)分别被纳入称为 Hadoop 的项目中。</p>
+<p>hadoop山寨的google的三项主要技术：</p>
+<ul>
+<li>GFS：对应HDFS</li>
+<li>Mapreduce：名称都没变，也叫Mapreduce</li>
+<li>bigtable：对应Hbase</li>
+</ul>
+<h2 id="hadoop的家族"><a href="#hadoop的家族" class="headerlink" title="hadoop的家族"></a>hadoop的家族</h2><p><img src="/images/hadoop/hadoopjz.png" alt="hadoop的家族"></p>
+<p>Hive是一个建立在Hadoop基础之上的数据仓库，它提供了一些用于对Hadoop文件中的数据集进行数据整理、特殊查询和分析存储的工具。Hive提供的是一种结构化数据的机制，它支持类似于传统RDBMS中的SQL语言的查询语言，来帮助哪些熟悉SQL的用户查询Hadoop中的数据，该查询语言成为Hive<br>QL。与此同时，传统的MapReduce编程人员也可以在Mapper或Reducer中通过Hive QL查询数据。Hive编译器会把Hive QL编译成一组MapReduce任务，从而方便MapReduce编程人员进行Hadoop系统开发。</p>
+<p>HBase是一个分布式的、面向列的开源数据库，该技术来源于Google论文《Bigtable：一个结构化数据的分布式存储系统》。如同Bigtable利用了Google文件系统（Google File<br>System）提供的分布式数据存储方式一样，HBase在Hadoop之上提供了类似于Bigtable的能力。HBase不同于一般的关系数据库，原因有两个：其一，HBase是一个适合于非结构化数据存储的数据库；其二，HBase是基于列而不是基于行的模式。HBase和Bigtable使用相同<br>的数据模型。用户将数据存储在一个表里，一个数据行拥有一个可选择的键和任意数量的列。由于HBase表是疏松的，用户可以为行定义各种不同的列。</p>
+<p>HBase主要用于需要随机访问、实时读写的大数据（Big Data）。</p>
+<p>Pig是一个对大型数据集进行分析、评估的平台。Pig最突出的优势是它的结构能够经受住高度并行化的检验，这个特性使得它能够处理大型的数据集。目前，Pig的底层是一个编译器组成，它在运行的时候会产生一些MapReduce程序序列，Pig的语言层由一种叫做Pig<br>Latin的正文型语言组成。</p>
+<p>ZooKeeper是一个为分布式应用所研究的开源协调服务。它主要为用户提供同步、配置管理、分组和命名等服务，减轻分布式应用程序所承担的协调任务。ZooKeeper的文件系统使用了我们所熟悉的目录树结构。ZooKeeper是使用Java编写的，但是它支持Java和C两种编程语言。</p>
+<p>Sqoop:<br>是一个用来将Hadoop和关系型数据库中的数据相互转移的工具，可以将一个关系型数据库（MySQL ,Oracle<br>,Postgres等）中的数据导进到Hadoop的HDFS中，也可以将HDFS的数据导进到关系型数据库中。</p>
+<p>Mahout:是基于Hadoop的机器学习和数据挖掘的一个分布式框架。Mahout用MapReduce实现了部分数据挖掘算法，解决了并行挖掘的问题。</p>
+<p>Flume:<br>是一个分布的、可靠的、高可用的海量日志聚合的系统，可用于日志数据收集，日志数据处理，日志数据传输</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/bigdata/hadoop/index/" data-id="clhlnyldr002pojup9s9f39y1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/os/linux/sshmmmjr" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/os/linux/sshmmmjr/" class="article-date">
+  <time datetime="2015-10-01T09:57:10.000Z" itemprop="datePublished">2015-10-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>►<a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/os/linux/sshmmmjr/">Ubuntu Linux配制SSH免密码接入</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在学习hadoop过程中要配制SSH免密码接入，这里把配制过程和遇到的问题整理了一下。</p>
+<h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>可以通过<a href="/os/linux/ubuntu/cmd/scp.php">scp命令</a>在部署的linux间免密码传送文件。</p>
+<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>Ubuntu 14</p>
+<h3 id="环境检查"><a href="#环境检查" class="headerlink" title="环境检查"></a>环境检查</h3><p>SSH客户端一般linux都会安装，但SSH<br>SERVER不一定安装，要先检查一下有没有安装。</p>
+<p>测试ssh时使用ssh localhost 命令，出现错误提示connect to host localhost<br>port 22:Connection refused，说明可能没有安装SSH SERVER。</p>
+<p>运行 ps -e | grep ssh，查看是否有sshd进程。</p>
+<p>如果没有，说明server没启动，通过 &#x2F;etc&#x2F;init.d&#x2F;ssh -start<br>启动server进程，如果提示ssh不存在那么就是没安装server。</p>
+<p>通过 sudo apt-get install openssh-server命令安装。</p>
+<h3 id="生成SSH密钥对"><a href="#生成SSH密钥对" class="headerlink" title="生成SSH密钥对"></a>生成SSH密钥对</h3><p>执行ssh-keygen -t rsa命令，生成ssh所用的公钥和私钥。</p>
+<p>生成两个文件：id_rsa和id_rsa.pub。</p>
+<p>生成文件所在位置：&#x2F;home&#x2F;&#x2F;.ssh，这是一个隐藏目录，直接ls是看不到的，可以cd进去查看。</p>
+<p>每个linux用户都有一个自己的文件夹，为&#x2F;home&#x2F;，其中user为文件名，所以配制的ssh只是针对当前登录用户的。</p>
+<h3 id="分发SSH公钥"><a href="#分发SSH公钥" class="headerlink" title="分发SSH公钥"></a>分发SSH公钥</h3><p>在每个linux的.ssh文件夹里创建文件：authorized_keys，里面为刚才生成的每个linux用户的公钥。</p>
+<p>我的做法是用gedit创建文件：</p>
+<p>hadoop@hadoop-1:~$ gedit .ssh&#x2F;authorized_keys</p>
+<p>用gedit打开t每个linux的公钥文件：</p>
+<p>hadoop@hadoop-1:~$ gedit .ssh&#x2F;id_rsa.pub</p>
+<p>复制好一份，再复制到其它linux上。因为不会用vi什么的，linux一般都是用vi做这事的。</p>
+<p>下面是做好的文件：</p>
+<pre><code>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9cOV9golV2keSnmFrjeUd1IZqWGYquYNWu8eZXVA/+fKpgSdMjxHI4yXSsNazTvTJ5Jzr/b1mDOTQXs9gkutsudM+jrGtwfcl2X63PauLspszEYqqFK7apQULCc85QGLUr9enqiRLarnFGtKvCpleJa5TRzC+pCAKBjsTy9aKuVsYjq+/5F/oemI9uI5qGXrg9lfgPubeFPZ2cZgY6bquugEQL+YYb4VHUNMYMuAWyMAau4IDpvKcBLHBbSbGPqe8xnllIC512eMOJ7+057Gq9ZC4PNkCfZ86QL58WZUwPnpuywh634ukTjnKbsOLOXvGCHH1O7y5BDCWv8Ie7zKp hadoop@hadoop-1
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUuVG79a2WYtYU+b1BXvXgBQ7Bp7SkOtFGlNEpM4PZJgcZyGm9xIuFqRUQMkmHr/TE+FFNAJlX3y8ryyDQTnOz0RpbEsrsjYLquao70Nx5OgqjpyFLWgnkuh/wcCSq37lQtDMmYWOLgbTIob5BSV1CCFxKk2kCjR89Vc+K5Nuypy9Lv8SnuPCIOt5AoZQX2oRI/KBtHasJ2ekFDfoOdTc2VVXhWSxqKC92V2+mk6GJM0L9FOWv4zNTO7LpDhLKGh4ezECOieQ+v1KrdV6+9wFBQKZRvOM8T7/M6t27YzCcrz1hzM4lGaKEvtv11RBKs+bcq946cQjZV0JEMqfhzkEf hadoop@hadoop-1
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVyHyIusaehysmaCD5Tgt5oz82x5jFkOMnIsR7V03MoBr7200/qD6bPL7QiO17DNqTp6UhuyBtMrbYYWpgQoJlIfnPzE99dvCoLFy8lNwgS8m2RxARJU+XoP+1NsfgwYm2QkuLdgdSvQXcAfxp42ZZPv74KTUZy3wqR65KDkdX7qrA2/OvpU1rDVa02XRU5FH5N1MWFWIUeMmXMUw0JBOwF0kfj2/L4Rcp/vwJA9Jw9yUNS4OOhDKz1Hmd6d0BK+JMaihv6+mKmKtoaurdc21NOXse9OfJnIjHiLCfy/PsuOiLNxtciI6VdbPp/9n2p5QPd9ui3KgwbIA77vQz1ZiV hadoop@hadoop-1
+</code></pre>
+<h3 id="配制主机名和hosts文件"><a href="#配制主机名和hosts文件" class="headerlink" title="配制主机名和hosts文件"></a>配制主机名和hosts文件</h3><p>文件里的最后的hadoop@hadoop-1是”用户@主机名”，因为我是用虚拟机克隆了三个，所以是一样的。不过主机名要改成不一样的，否则用scp时指定主机名就冲突了。注意不是改公钥文件里的内容。</p>
+<p>修改主机名参考：<a href="/os/linux/ubuntu/hostname.php">Ubuntu如何查看修改主机名</a></p>
+<p>修改主机名用：sudo gedit &#x2F;etc&#x2F;hostname</p>
+<p>修改hosts文件用：sudo gedit &#x2F;etc&#x2F;hosts</p>
+<p>改后的hosts文件：</p>
+<pre><code>127.0.0.1 localhost
+127.0.1.1   ubuntu
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+192.168.163.136 hadoop-1
+192.168.163.137 hadoop-2
+192.168.163.138 hadoop-3
+</code></pre>
+<p>重启各linux后相互就可以通过主机名访问了。</p>
+<h3 id="第一次连接的问题"><a href="#第一次连接的问题" class="headerlink" title="第一次连接的问题"></a>第一次连接的问题</h3><p>都配制好了应该就可以用scp传送文件了，不过第一次会提示公钥没有记录在known_hosts文件里。要输入一次yes,以后再连接同一台机器就不会提示了。</p>
+<pre><code>hadoop@hadoop-3:~$ scp ./scptest hadoop-3:/home/hadoop/test
+The authenticity of host &#39;hadoop-3 (192.168.163.138)&#39; can&#39;t be established.
+ECDSA key fingerprint is 2a:1f:cf:e0:94:31:55:95:da:53:e8:27:a2:92:37:bb.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added &#39;hadoop-3,192.168.163.138&#39; (ECDSA) to the list of known hosts.
+scptest                                       100%    0     0.0KB/s   00:00    
+hadoop@hadoop-3:~$ 
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/os/linux/sshmmmjr/" data-id="clhlnylfx00f9ojupdqx565zm" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/os/linux/cmd/scp" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/os/linux/cmd/scp/" class="article-date">
+  <time datetime="2015-10-01T09:10:34.000Z" itemprop="datePublished">2015-10-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>►<a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/os/linux/cmd/scp/">【Linux】scp 远程传输命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>scp是linux下的远程拷贝</p>
+<p>命令：</p>
+<ul>
+<li>（1）将本地文件拷贝到远程：scp 文件名<br>用户名@计算机IP或者计算机名称:远程路径</li>
+<li>（2）从远程将文件拷回本地：scp 用户名@计算机IP或者计算机名称:文件名<br>本地路径</li>
+<li>（3）将本地目录拷贝到远程：scp -r 目录名<br>用户名@计算机IP或者计算机名称:远程路径</li>
+<li>（4）从远程将目录拷回本地：scp -r<br>用户名@计算机IP或者计算机名称:目录名 本地路径</li>
+</ul>
+<p>使用scp命令需要服务端linux提供ssh服务（linux默认是没有安装ssh服务的）</p>
+<p>1.是否安装ssh：可连接相应的ssh服务查看，sshhost；如出现：ssh: connect to<br>host *** port22:Connection refused，说明尚未安装ssh服务。</p>
+<p>2.安装ssh服务：sudo apt-get install openssh-server自动安装ssh服务。</p>
+<p>3.启动：sudo &#x2F;etc&#x2F;init.d&#x2F;ssh start</p>
+<p>4.停止：sudo &#x2F;etc&#x2F;init.d&#x2F;ssh stop</p>
+<p>5.配置：ssh默认的端口是22，可以修改配置文件更改端口，然后重启ssh服务即可。（注：配置文件&#x2F;etc&#x2F;ssh&#x2F;sshd_config）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/os/linux/cmd/scp/" data-id="clhlnylh300mjojup38tz8vdz" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/os/linux/hostname" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/os/linux/hostname/" class="article-date">
+  <time datetime="2015-10-01T03:18:25.000Z" itemprop="datePublished">2015-10-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>►<a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/os/linux/hostname/">ubuntu如何查看修改主机名</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1、查看主机名"><a href="#1、查看主机名" class="headerlink" title="1、查看主机名"></a>1、查看主机名</h3><p>在Ubuntu系统中，快速查看主机名有多种方法：</p>
+<p>其一，打开一个GNOME终端窗口，在命令提示符中可以看到主机名，主机名通常位于”@”符号后；</p>
+<p>其二，在终端窗口中输入命令：hostname或uname<br>–n，均可以查看到当前主机的主机名。</p>
+<h3 id="2、临时修改主机名"><a href="#2、临时修改主机名" class="headerlink" title="2、临时修改主机名"></a>2、临时修改主机名</h3><p>命令行下运行命令：”hostname 新主机名”</p>
+<p>其中”新主机名”可以用任何合法字符串来表示。不过采用这种方式，新主机名并不保存在系统中，重启系统后主机名将恢复为原先的主机名称。</p>
+<p>例子：hostname ubuntu-temp</p>
+<p>这样主机名字就临时被修改为ubuntu-temp，但是终端下不会立即显示生效后的主机名，重开一个终端窗口(通过ssh连接的终端需要重新连接才可以);</p>
+<h3 id="3、永久修改主机名"><a href="#3、永久修改主机名" class="headerlink" title="3、永久修改主机名"></a>3、永久修改主机名</h3><p>在Ubuntu系统中永久修改主机名也比较简单。主机名存放在&#x2F;etc&#x2F;hostname文件中，修改主机名时，编辑hostname文件，在文件中输入新的主机名并保存该文件即可。重启系统后，参照上面介绍的快速查看主机名的办法来确认主机名有没有修改成功。</p>
+<p>值的指出的是，在其它Linux发行版中，并非都存在&#x2F;etc&#x2F;hostname文件。如Fedora发行版将主机名存放在&#x2F;etc&#x2F;sysconfig&#x2F;network文件中。所以，修改主机名时应注意区分是哪种Linux发行版。</p>
+<h3 id="3、-x2F-etc-x2F-hostname与-x2F-etc-x2F-hosts的区别"><a href="#3、-x2F-etc-x2F-hostname与-x2F-etc-x2F-hosts的区别" class="headerlink" title="3、&#x2F;etc&#x2F;hostname与&#x2F;etc&#x2F;hosts的区别"></a>3、&#x2F;etc&#x2F;hostname与&#x2F;etc&#x2F;hosts的区别</h3><p>&#x2F;etc&#x2F;hostname中存放的是主机名，hostname文件的一个例子：</p>
+<p>pc-hadoop-1</p>
+<p>&#x2F;etc&#x2F;hosts存放的是域名与ip的对应关系，域名与主机名没有任何关系，你可以为任何一个IP指定任意一个名字，hostname文件的一个例子：</p>
+<p>127.0.0.1 localhost</p>
+<p>127.0.1.1 pc-hadoop-1</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/os/linux/hostname/" data-id="clhlnylfw00f6ojupdk8gc0mn" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/basetech/charset/ascii10" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/basetech/charset/ascii10/" class="article-date">
+  <time datetime="2015-09-30T03:15:41.000Z" itemprop="datePublished">2015-09-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a>►<a class="article-category-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/basetech/charset/ascii10/">ASCII码表相关</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="十进制ASCII码表"><a href="#十进制ASCII码表" class="headerlink" title="十进制ASCII码表"></a>十进制ASCII码表</h2><table>
+<thead>
+<tr>
+<th>ASCII值</th>
+<th>控制字符</th>
+<th>ASCII值</th>
+<th>控制字符</th>
+<th>ASCII值</th>
+<th>控制字符</th>
+<th>ASCII值</th>
+<th>控制字符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>NUT</td>
+<td>32</td>
+<td>(space)</td>
+<td>64</td>
+<td>@</td>
+<td>96</td>
+<td>、</td>
+</tr>
+<tr>
+<td>1</td>
+<td>SOH</td>
+<td>33</td>
+<td>！</td>
+<td>65</td>
+<td>A</td>
+<td>97</td>
+<td>a</td>
+</tr>
+<tr>
+<td>2</td>
+<td>STX</td>
+<td>34</td>
+<td>“</td>
+<td>66</td>
+<td>B</td>
+<td>98</td>
+<td>b</td>
+</tr>
+<tr>
+<td>3</td>
+<td>ETX</td>
+<td>35</td>
+<td>#</td>
+<td>67</td>
+<td>C</td>
+<td>99</td>
+<td>c</td>
+</tr>
+<tr>
+<td>4</td>
+<td>EOT</td>
+<td>36</td>
+<td>$</td>
+<td>68</td>
+<td>D</td>
+<td>100</td>
+<td>d</td>
+</tr>
+<tr>
+<td>5</td>
+<td>ENQ</td>
+<td>37</td>
+<td>%</td>
+<td>69</td>
+<td>E</td>
+<td>101</td>
+<td>e</td>
+</tr>
+<tr>
+<td>6</td>
+<td>ACK</td>
+<td>38</td>
+<td>&amp;</td>
+<td>70</td>
+<td>F</td>
+<td>102</td>
+<td>f</td>
+</tr>
+<tr>
+<td>7</td>
+<td>BEL</td>
+<td>39</td>
+<td>,</td>
+<td>71</td>
+<td>G</td>
+<td>103</td>
+<td>g</td>
+</tr>
+<tr>
+<td>8</td>
+<td>BS</td>
+<td>40</td>
+<td>(</td>
+<td>72</td>
+<td>H</td>
+<td>104</td>
+<td>h</td>
+</tr>
+<tr>
+<td>9</td>
+<td>HT</td>
+<td>41</td>
+<td>)</td>
+<td>73</td>
+<td>I</td>
+<td>105</td>
+<td>i</td>
+</tr>
+<tr>
+<td>10</td>
+<td>LF</td>
+<td>42</td>
+<td>*</td>
+<td>74</td>
+<td>J</td>
+<td>106</td>
+<td>j</td>
+</tr>
+<tr>
+<td>11</td>
+<td>VT</td>
+<td>43</td>
+<td>+</td>
+<td>75</td>
+<td>K</td>
+<td>107</td>
+<td>k</td>
+</tr>
+<tr>
+<td>12</td>
+<td>FF</td>
+<td>44</td>
+<td>,</td>
+<td>76</td>
+<td>L</td>
+<td>108</td>
+<td>l</td>
+</tr>
+<tr>
+<td>13</td>
+<td>CR</td>
+<td>45</td>
+<td>-</td>
+<td>77</td>
+<td>M</td>
+<td>109</td>
+<td>m</td>
+</tr>
+<tr>
+<td>14</td>
+<td>SO</td>
+<td>46</td>
+<td>.</td>
+<td>78</td>
+<td>N</td>
+<td>110</td>
+<td>n</td>
+</tr>
+<tr>
+<td>15</td>
+<td>SI</td>
+<td>47</td>
+<td>&#x2F;</td>
+<td>79</td>
+<td>O</td>
+<td>111</td>
+<td>o</td>
+</tr>
+<tr>
+<td>16</td>
+<td>DLE</td>
+<td>48</td>
+<td>0</td>
+<td>80</td>
+<td>P</td>
+<td>112</td>
+<td>p</td>
+</tr>
+<tr>
+<td>17</td>
+<td>DCI</td>
+<td>49</td>
+<td>1</td>
+<td>81</td>
+<td>Q</td>
+<td>113</td>
+<td>q</td>
+</tr>
+<tr>
+<td>18</td>
+<td>DC2</td>
+<td>50</td>
+<td>2</td>
+<td>82</td>
+<td>R</td>
+<td>114</td>
+<td>r</td>
+</tr>
+<tr>
+<td>19</td>
+<td>DC3</td>
+<td>51</td>
+<td>3</td>
+<td>83</td>
+<td>X</td>
+<td>115</td>
+<td>s</td>
+</tr>
+<tr>
+<td>20</td>
+<td>DC4</td>
+<td>52</td>
+<td>4</td>
+<td>84</td>
+<td>T</td>
+<td>116</td>
+<td>t</td>
+</tr>
+<tr>
+<td>21</td>
+<td>NAK</td>
+<td>53</td>
+<td>5</td>
+<td>85</td>
+<td>U</td>
+<td>117</td>
+<td>u</td>
+</tr>
+<tr>
+<td>22</td>
+<td>SYN</td>
+<td>54</td>
+<td>6</td>
+<td>86</td>
+<td>V</td>
+<td>118</td>
+<td>v</td>
+</tr>
+<tr>
+<td>23</td>
+<td>TB</td>
+<td>55</td>
+<td>7</td>
+<td>87</td>
+<td>W</td>
+<td>119</td>
+<td>w</td>
+</tr>
+<tr>
+<td>24</td>
+<td>CAN</td>
+<td>56</td>
+<td>8</td>
+<td>88</td>
+<td>X</td>
+<td>120</td>
+<td>x</td>
+</tr>
+<tr>
+<td>25</td>
+<td>EM</td>
+<td>57</td>
+<td>9</td>
+<td>89</td>
+<td>Y</td>
+<td>121</td>
+<td>y</td>
+</tr>
+<tr>
+<td>26</td>
+<td>SUB</td>
+<td>58</td>
+<td>:</td>
+<td>90</td>
+<td>Z</td>
+<td>122</td>
+<td>z</td>
+</tr>
+<tr>
+<td>27</td>
+<td>ESC</td>
+<td>59</td>
+<td>;</td>
+<td>91</td>
+<td>[</td>
+<td>123</td>
+<td>{</td>
+</tr>
+<tr>
+<td>28</td>
+<td>FS</td>
+<td>60</td>
+<td>&lt;</td>
+<td>92</td>
+<td>\</td>
+<td>124</td>
+<td>|</td>
+</tr>
+<tr>
+<td>29</td>
+<td>GS</td>
+<td>61</td>
+<td>&#x3D;</td>
+<td>93</td>
+<td>]</td>
+<td>125</td>
+<td>}</td>
+</tr>
+<tr>
+<td>30</td>
+<td>RS</td>
+<td>62</td>
+<td>&gt;</td>
+<td>94</td>
+<td>^</td>
+<td>126</td>
+<td>~</td>
+</tr>
+<tr>
+<td>31</td>
+<td>US</td>
+<td>63</td>
+<td>?</td>
+<td>95</td>
+<td>—</td>
+<td>127</td>
+<td>DEL</td>
+</tr>
+</tbody></table>
+<h2 id="ASCII中英文对照表"><a href="#ASCII中英文对照表" class="headerlink" title="ASCII中英文对照表"></a>ASCII中英文对照表</h2><table>
+<thead>
+<tr>
+<th>二进制</th>
+<th>十进制</th>
+<th>十六进制</th>
+<th>缩写&#x2F;全称</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>00000000</td>
+<td>0</td>
+<td>00</td>
+<td>NUL(null)</td>
+<td>空字符</td>
+</tr>
+<tr>
+<td>00000001</td>
+<td>1</td>
+<td>01</td>
+<td>SOH(start of handing)</td>
+<td>标题开始</td>
+</tr>
+<tr>
+<td>00000010</td>
+<td>2</td>
+<td>02</td>
+<td>STX(start of text)</td>
+<td>正文开始</td>
+</tr>
+<tr>
+<td>00000011</td>
+<td>3</td>
+<td>03</td>
+<td>ETX(end of text)</td>
+<td>正文结束</td>
+</tr>
+<tr>
+<td>00000100</td>
+<td>4</td>
+<td>04</td>
+<td>EOT(end of transmission)</td>
+<td>传输结束</td>
+</tr>
+<tr>
+<td>00000101</td>
+<td>5</td>
+<td>05</td>
+<td>ENQ(enquiry)</td>
+<td>请求</td>
+</tr>
+<tr>
+<td>00000110</td>
+<td>6</td>
+<td>06</td>
+<td>ACK(acknowledge)</td>
+<td>收到通知</td>
+</tr>
+<tr>
+<td>00000111</td>
+<td>7</td>
+<td>07</td>
+<td>BEL(bell)</td>
+<td>响铃</td>
+</tr>
+<tr>
+<td>00001000</td>
+<td>8</td>
+<td>08</td>
+<td>BS(backspace)</td>
+<td>退格</td>
+</tr>
+<tr>
+<td>00001001</td>
+<td>9</td>
+<td>09</td>
+<td>HT(horizontal tab)</td>
+<td>水平制表符</td>
+</tr>
+<tr>
+<td>00001010</td>
+<td>10</td>
+<td>0A</td>
+<td>LF(NL line feed, newline)</td>
+<td>换行键</td>
+</tr>
+<tr>
+<td>00001011</td>
+<td>11</td>
+<td>0B</td>
+<td>VT(vertical tab)</td>
+<td>垂直制表符</td>
+</tr>
+<tr>
+<td>00001100</td>
+<td>12</td>
+<td>0C</td>
+<td>FF(NP form feed, newpage)</td>
+<td>换页键</td>
+</tr>
+<tr>
+<td>00001101</td>
+<td>13</td>
+<td>0D</td>
+<td>CR(carriagereturn)</td>
+<td>回车键</td>
+</tr>
+<tr>
+<td>00001110</td>
+<td>14</td>
+<td>0E</td>
+<td>SO(shift out)</td>
+<td>不用切换</td>
+</tr>
+<tr>
+<td>00001111</td>
+<td>15</td>
+<td>0F</td>
+<td>SI(shift in)</td>
+<td>启用切换</td>
+</tr>
+<tr>
+<td>00010000</td>
+<td>16</td>
+<td>10</td>
+<td>DLE(data link escape)</td>
+<td>数据链路转义</td>
+</tr>
+<tr>
+<td>00010001</td>
+<td>17</td>
+<td>11</td>
+<td>DC1(device control 1)</td>
+<td>设备控制1</td>
+</tr>
+<tr>
+<td>00010010</td>
+<td>18</td>
+<td>12</td>
+<td>DC2(device control 2)</td>
+<td>设备控制2</td>
+</tr>
+<tr>
+<td>00010011</td>
+<td>19</td>
+<td>13</td>
+<td>DC3(device control 3)</td>
+<td>设备控制3</td>
+</tr>
+<tr>
+<td>00010100</td>
+<td>20</td>
+<td>14</td>
+<td>DC4(device control 4)</td>
+<td>设备控制4</td>
+</tr>
+<tr>
+<td>00010101</td>
+<td>21</td>
+<td>15</td>
+<td>NAK(negative acknowledge)</td>
+<td>拒绝接收</td>
+</tr>
+<tr>
+<td>00010110</td>
+<td>22</td>
+<td>16</td>
+<td>SYN(synchronous idle)</td>
+<td>同步空闲</td>
+</tr>
+<tr>
+<td>00010111</td>
+<td>23</td>
+<td>17</td>
+<td>ETB(endof trans. block)</td>
+<td>传输块结束</td>
+</tr>
+<tr>
+<td>00011000</td>
+<td>24</td>
+<td>18</td>
+<td>CAN(cancel)</td>
+<td>取消</td>
+</tr>
+<tr>
+<td>00011001</td>
+<td>25</td>
+<td>19</td>
+<td>EM(end of medium)</td>
+<td>介质中断</td>
+</tr>
+<tr>
+<td>00011010</td>
+<td>26</td>
+<td>1A</td>
+<td>SUB(substitute)</td>
+<td>替补</td>
+</tr>
+<tr>
+<td>00011011</td>
+<td>27</td>
+<td>1B</td>
+<td>ESC(escape)</td>
+<td>溢出</td>
+</tr>
+<tr>
+<td>00011100</td>
+<td>28</td>
+<td>1C</td>
+<td>FS (file separator)</td>
+<td>文件分割符</td>
+</tr>
+<tr>
+<td>00011101</td>
+<td>29</td>
+<td>1D</td>
+<td>GS(group separator)</td>
+<td>分组符</td>
+</tr>
+<tr>
+<td>00011110</td>
+<td>30</td>
+<td>1E</td>
+<td>RS(record separator)</td>
+<td>记录分离符</td>
+</tr>
+<tr>
+<td>00011111</td>
+<td>31</td>
+<td>1F</td>
+<td>US(unit separator)</td>
+<td>单元分隔符</td>
+</tr>
+<tr>
+<td>00100000</td>
+<td>32</td>
+<td>20</td>
+<td>空格</td>
+<td></td>
+</tr>
+<tr>
+<td>00100001</td>
+<td>33</td>
+<td>21</td>
+<td>!</td>
+<td></td>
+</tr>
+<tr>
+<td>00100010</td>
+<td>34</td>
+<td>22</td>
+<td>&quot;</td>
+<td></td>
+</tr>
+<tr>
+<td>00100011</td>
+<td>35</td>
+<td>23</td>
+<td>#</td>
+<td></td>
+</tr>
+<tr>
+<td>00100100</td>
+<td>36</td>
+<td>24</td>
+<td>$</td>
+<td></td>
+</tr>
+<tr>
+<td>00100101</td>
+<td>37</td>
+<td>25</td>
+<td>%</td>
+<td></td>
+</tr>
+<tr>
+<td>00100110</td>
+<td>38</td>
+<td>26</td>
+<td>&amp;</td>
+<td></td>
+</tr>
+<tr>
+<td>00100111</td>
+<td>39</td>
+<td>27</td>
+<td>&#39;</td>
+<td></td>
+</tr>
+<tr>
+<td>00101000</td>
+<td>40</td>
+<td>28</td>
+<td>(</td>
+<td></td>
+</tr>
+<tr>
+<td>00101001</td>
+<td>41</td>
+<td>29</td>
+<td>)</td>
+<td></td>
+</tr>
+<tr>
+<td>00101010</td>
+<td>42</td>
+<td>2A</td>
+<td>*</td>
+<td></td>
+</tr>
+<tr>
+<td>00101011</td>
+<td>43</td>
+<td>2B</td>
+<td>+</td>
+<td></td>
+</tr>
+<tr>
+<td>00101100</td>
+<td>44</td>
+<td>2C</td>
+<td>,</td>
+<td></td>
+</tr>
+<tr>
+<td>00101101</td>
+<td>45</td>
+<td>2D</td>
+<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td>00101110</td>
+<td>46</td>
+<td>2E</td>
+<td>.</td>
+<td></td>
+</tr>
+<tr>
+<td>00101111</td>
+<td>47</td>
+<td>2F</td>
+<td>&#x2F;</td>
+<td></td>
+</tr>
+<tr>
+<td>00110000</td>
+<td>48</td>
+<td>30</td>
+<td>0</td>
+<td></td>
+</tr>
+<tr>
+<td>00110001</td>
+<td>49</td>
+<td>31</td>
+<td>1</td>
+<td></td>
+</tr>
+<tr>
+<td>00110010</td>
+<td>50</td>
+<td>32</td>
+<td>2</td>
+<td></td>
+</tr>
+<tr>
+<td>00110011</td>
+<td>51</td>
+<td>33</td>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td>00110100</td>
+<td>52</td>
+<td>34</td>
+<td>4</td>
+<td></td>
+</tr>
+<tr>
+<td>00110101</td>
+<td>53</td>
+<td>35</td>
+<td>5</td>
+<td></td>
+</tr>
+<tr>
+<td>00110110</td>
+<td>54</td>
+<td>36</td>
+<td>6</td>
+<td></td>
+</tr>
+<tr>
+<td>00110111</td>
+<td>55</td>
+<td>37</td>
+<td>7</td>
+<td></td>
+</tr>
+<tr>
+<td>00111000</td>
+<td>56</td>
+<td>38</td>
+<td>8</td>
+<td></td>
+</tr>
+<tr>
+<td>00111001</td>
+<td>57</td>
+<td>39</td>
+<td>9</td>
+<td></td>
+</tr>
+<tr>
+<td>00111010</td>
+<td>58</td>
+<td>3A</td>
+<td>:</td>
+<td></td>
+</tr>
+<tr>
+<td>00111011</td>
+<td>59</td>
+<td>3B</td>
+<td>;</td>
+<td></td>
+</tr>
+<tr>
+<td>00111100</td>
+<td>60</td>
+<td>3C</td>
+<td>&lt;</td>
+<td></td>
+</tr>
+<tr>
+<td>00111101</td>
+<td>61</td>
+<td>3D</td>
+<td>&#x3D;</td>
+<td></td>
+</tr>
+<tr>
+<td>00111110</td>
+<td>62</td>
+<td>3E</td>
+<td>&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>00111111</td>
+<td>63</td>
+<td>3F</td>
+<td>?</td>
+<td></td>
+</tr>
+<tr>
+<td>01000000</td>
+<td>64</td>
+<td>40</td>
+<td>@</td>
+<td></td>
+</tr>
+<tr>
+<td>01000001</td>
+<td>65</td>
+<td>41</td>
+<td>A</td>
+<td></td>
+</tr>
+<tr>
+<td>01000010</td>
+<td>66</td>
+<td>42</td>
+<td>B</td>
+<td></td>
+</tr>
+<tr>
+<td>01000011</td>
+<td>67</td>
+<td>43</td>
+<td>C</td>
+<td></td>
+</tr>
+<tr>
+<td>01000100</td>
+<td>68</td>
+<td>44</td>
+<td>D</td>
+<td></td>
+</tr>
+<tr>
+<td>01000101</td>
+<td>69</td>
+<td>45</td>
+<td>E</td>
+<td></td>
+</tr>
+<tr>
+<td>01000110</td>
+<td>70</td>
+<td>46</td>
+<td>F</td>
+<td></td>
+</tr>
+<tr>
+<td>01000111</td>
+<td>71</td>
+<td>47</td>
+<td>G</td>
+<td></td>
+</tr>
+<tr>
+<td>01001000</td>
+<td>72</td>
+<td>48</td>
+<td>H</td>
+<td></td>
+</tr>
+<tr>
+<td>01001001</td>
+<td>73</td>
+<td>49?</td>
+<td>I</td>
+<td></td>
+</tr>
+<tr>
+<td>01001010</td>
+<td>74</td>
+<td>4A</td>
+<td>J</td>
+<td></td>
+</tr>
+<tr>
+<td>01001011</td>
+<td>75</td>
+<td>4B</td>
+<td>K</td>
+<td></td>
+</tr>
+<tr>
+<td>01001100</td>
+<td>76</td>
+<td>4C</td>
+<td>L</td>
+<td></td>
+</tr>
+<tr>
+<td>01001101</td>
+<td>77</td>
+<td>4D</td>
+<td>M</td>
+<td></td>
+</tr>
+<tr>
+<td>01001110</td>
+<td>78</td>
+<td>4E</td>
+<td>N</td>
+<td></td>
+</tr>
+<tr>
+<td>01001111</td>
+<td>79</td>
+<td>4F</td>
+<td>O</td>
+<td></td>
+</tr>
+<tr>
+<td>01010000</td>
+<td>80</td>
+<td>50</td>
+<td>P</td>
+<td></td>
+</tr>
+<tr>
+<td>01010001</td>
+<td>81</td>
+<td>51</td>
+<td>Q</td>
+<td></td>
+</tr>
+<tr>
+<td>01010010</td>
+<td>82</td>
+<td>52</td>
+<td>R</td>
+<td></td>
+</tr>
+<tr>
+<td>01010011</td>
+<td>83</td>
+<td>53</td>
+<td>S</td>
+<td></td>
+</tr>
+<tr>
+<td>01010100</td>
+<td>84</td>
+<td>54</td>
+<td>T</td>
+<td></td>
+</tr>
+<tr>
+<td>01010101</td>
+<td>85</td>
+<td>55</td>
+<td>U</td>
+<td></td>
+</tr>
+<tr>
+<td>01010110</td>
+<td>86</td>
+<td>56</td>
+<td>V</td>
+<td></td>
+</tr>
+<tr>
+<td>01010111</td>
+<td>87</td>
+<td>57</td>
+<td>W</td>
+<td></td>
+</tr>
+<tr>
+<td>01011000</td>
+<td>88</td>
+<td>58?</td>
+<td>X</td>
+<td></td>
+</tr>
+<tr>
+<td>01011001</td>
+<td>89</td>
+<td>59</td>
+<td>Y</td>
+<td></td>
+</tr>
+<tr>
+<td>01011010</td>
+<td>90</td>
+<td>5A</td>
+<td>Z</td>
+<td></td>
+</tr>
+<tr>
+<td>01011011</td>
+<td>91</td>
+<td>5B</td>
+<td>[</td>
+<td></td>
+</tr>
+<tr>
+<td>01011100</td>
+<td>92</td>
+<td>5C</td>
+<td>\</td>
+<td></td>
+</tr>
+<tr>
+<td>01011101</td>
+<td>93</td>
+<td>5D</td>
+<td>]</td>
+<td></td>
+</tr>
+<tr>
+<td>01011110</td>
+<td>94</td>
+<td>5E</td>
+<td>^</td>
+<td></td>
+</tr>
+<tr>
+<td>01011111</td>
+<td>95</td>
+<td>5F</td>
+<td>_</td>
+<td></td>
+</tr>
+<tr>
+<td>01100000</td>
+<td>96</td>
+<td>60</td>
+<td>`</td>
+<td></td>
+</tr>
+<tr>
+<td>01100001</td>
+<td>97</td>
+<td>61</td>
+<td>a</td>
+<td></td>
+</tr>
+<tr>
+<td>01100010</td>
+<td>98</td>
+<td>62</td>
+<td>b</td>
+<td></td>
+</tr>
+<tr>
+<td>01100011</td>
+<td>99</td>
+<td>63</td>
+<td>c</td>
+<td></td>
+</tr>
+<tr>
+<td>01100100</td>
+<td>100</td>
+<td>64</td>
+<td>d</td>
+<td></td>
+</tr>
+<tr>
+<td>01100101</td>
+<td>101</td>
+<td>65</td>
+<td>e</td>
+<td></td>
+</tr>
+<tr>
+<td>01100110</td>
+<td>102</td>
+<td>66</td>
+<td>f</td>
+<td></td>
+</tr>
+<tr>
+<td>01100111</td>
+<td>103</td>
+<td>67</td>
+<td>g</td>
+<td></td>
+</tr>
+<tr>
+<td>01101000</td>
+<td>104</td>
+<td>68</td>
+<td>h</td>
+<td></td>
+</tr>
+<tr>
+<td>01101001</td>
+<td>105</td>
+<td>69</td>
+<td>i</td>
+<td></td>
+</tr>
+<tr>
+<td>01101010</td>
+<td>106</td>
+<td>6A</td>
+<td>j</td>
+<td></td>
+</tr>
+<tr>
+<td>01101011</td>
+<td>107</td>
+<td>6B</td>
+<td>k</td>
+<td></td>
+</tr>
+<tr>
+<td>01101100</td>
+<td>108</td>
+<td>6C</td>
+<td>l</td>
+<td></td>
+</tr>
+<tr>
+<td>01101101</td>
+<td>109</td>
+<td>6D</td>
+<td>m</td>
+<td></td>
+</tr>
+<tr>
+<td>01101110</td>
+<td>110</td>
+<td>6E</td>
+<td>n</td>
+<td></td>
+</tr>
+<tr>
+<td>01101111</td>
+<td>111</td>
+<td>6F</td>
+<td>o</td>
+<td></td>
+</tr>
+<tr>
+<td>01110000</td>
+<td>112</td>
+<td>70</td>
+<td>p</td>
+<td></td>
+</tr>
+<tr>
+<td>01110001</td>
+<td>113</td>
+<td>71</td>
+<td>q</td>
+<td></td>
+</tr>
+<tr>
+<td>01110010</td>
+<td>114</td>
+<td>72</td>
+<td>r</td>
+<td></td>
+</tr>
+<tr>
+<td>01110011</td>
+<td>115</td>
+<td>73</td>
+<td>s</td>
+<td></td>
+</tr>
+<tr>
+<td>01110100</td>
+<td>116</td>
+<td>74</td>
+<td>t</td>
+<td></td>
+</tr>
+<tr>
+<td>01110101</td>
+<td>117</td>
+<td>75</td>
+<td>u</td>
+<td></td>
+</tr>
+<tr>
+<td>01110110</td>
+<td>118</td>
+<td>76</td>
+<td>v</td>
+<td></td>
+</tr>
+<tr>
+<td>01110111?</td>
+<td>119</td>
+<td>77</td>
+<td>w</td>
+<td></td>
+</tr>
+<tr>
+<td>01111000</td>
+<td>120</td>
+<td>78</td>
+<td>x</td>
+<td></td>
+</tr>
+<tr>
+<td>01111001</td>
+<td>121</td>
+<td>79</td>
+<td>y</td>
+<td></td>
+</tr>
+<tr>
+<td>01111010</td>
+<td>122</td>
+<td>7A</td>
+<td>z</td>
+<td></td>
+</tr>
+<tr>
+<td>01111011</td>
+<td>123</td>
+<td>7B</td>
+<td>{</td>
+<td></td>
+</tr>
+<tr>
+<td>01111100</td>
+<td>124</td>
+<td>7C</td>
+<td>|</td>
+<td></td>
+</tr>
+<tr>
+<td>01111101</td>
+<td>125</td>
+<td>7D</td>
+<td>}</td>
+<td></td>
+</tr>
+<tr>
+<td>01111110</td>
+<td>126</td>
+<td>7E</td>
+<td>~</td>
+<td></td>
+</tr>
+<tr>
+<td>01111111</td>
+<td>127</td>
+<td>7F</td>
+<td>DEL</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="键盘常用ASCII码"><a href="#键盘常用ASCII码" class="headerlink" title="键盘常用ASCII码"></a>键盘常用ASCII码</h2><table>
+<thead>
+<tr>
+<th>键值名称</th>
+<th>定义</th>
+<th>键值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ESC键</td>
+<td>VK_ESCAPE</td>
+<td>27</td>
+</tr>
+<tr>
+<td>回车键</td>
+<td>VK_RETURN</td>
+<td>13</td>
+</tr>
+<tr>
+<td>TAB键</td>
+<td>VK_TAB</td>
+<td>9</td>
+</tr>
+<tr>
+<td>Caps Lock键</td>
+<td>VK_CAPITAL</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Shift键</td>
+<td>VK_SHIFT</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Ctrl键</td>
+<td>VK_CONTROL</td>
+<td>17</td>
+</tr>
+<tr>
+<td>Alt键</td>
+<td>VK_MENU</td>
+<td>18</td>
+</tr>
+<tr>
+<td>空格键</td>
+<td>VK_SPACE</td>
+<td>32</td>
+</tr>
+<tr>
+<td>退格键</td>
+<td>VK_BACK</td>
+<td>8</td>
+</tr>
+<tr>
+<td>左徽标键</td>
+<td>VK_LWIN</td>
+<td>91</td>
+</tr>
+<tr>
+<td>右徽标键</td>
+<td>VK_LWIN</td>
+<td>92</td>
+</tr>
+<tr>
+<td>鼠标右键快捷键</td>
+<td>VK_APPS</td>
+<td>93</td>
+</tr>
+<tr>
+<td>Insert键</td>
+<td>VK_INSERT</td>
+<td>45</td>
+</tr>
+<tr>
+<td>Home键</td>
+<td>VK_HOME</td>
+<td>36</td>
+</tr>
+<tr>
+<td>Page Up</td>
+<td>VK_PRIOR</td>
+<td>33</td>
+</tr>
+<tr>
+<td>PageDown</td>
+<td>VK_NEXT</td>
+<td>34</td>
+</tr>
+<tr>
+<td>End键</td>
+<td>VK_END</td>
+<td>35</td>
+</tr>
+<tr>
+<td>Delete键</td>
+<td>VK_DELETE</td>
+<td>46</td>
+</tr>
+<tr>
+<td>方向键(←)</td>
+<td>VK_LEFT</td>
+<td>37</td>
+</tr>
+<tr>
+<td>方向键(↑)</td>
+<td>VK_UP</td>
+<td>38</td>
+</tr>
+<tr>
+<td>方向键(→)</td>
+<td>VK_RIGHT</td>
+<td>39</td>
+</tr>
+<tr>
+<td>方向键(↓)</td>
+<td>VK_DOWN</td>
+<td>40</td>
+</tr>
+<tr>
+<td>F1键</td>
+<td>VK_F1</td>
+<td>112</td>
+</tr>
+<tr>
+<td>F2键</td>
+<td>VK_F2</td>
+<td>113</td>
+</tr>
+<tr>
+<td>F3键</td>
+<td>VK_F3</td>
+<td>114</td>
+</tr>
+<tr>
+<td>F4键</td>
+<td>VK_F4</td>
+<td>115</td>
+</tr>
+<tr>
+<td>F5键</td>
+<td>VK_F5</td>
+<td>116</td>
+</tr>
+<tr>
+<td>F6键</td>
+<td>VK_F6</td>
+<td>117</td>
+</tr>
+<tr>
+<td>F7键</td>
+<td>VK_F7</td>
+<td>118</td>
+</tr>
+<tr>
+<td>F8键</td>
+<td>VK_F8</td>
+<td>119</td>
+</tr>
+<tr>
+<td>F9键</td>
+<td>VK_F9</td>
+<td>120</td>
+</tr>
+<tr>
+<td>F10键</td>
+<td>VK_F10</td>
+<td>121</td>
+</tr>
+<tr>
+<td>F11键</td>
+<td>VK_F11</td>
+<td>122</td>
+</tr>
+<tr>
+<td>F12键</td>
+<td>VK_F12</td>
+<td>123</td>
+</tr>
+<tr>
+<td>Num Lock键</td>
+<td>VK_NUMLOCK</td>
+<td>144</td>
+</tr>
+<tr>
+<td>小键盘0</td>
+<td>VK_NUMPAD0</td>
+<td>96</td>
+</tr>
+<tr>
+<td>小键盘1</td>
+<td>VK_NUMPAD0</td>
+<td>97</td>
+</tr>
+<tr>
+<td>小键盘2</td>
+<td>VK_NUMPAD0</td>
+<td>98</td>
+</tr>
+<tr>
+<td>小键盘3</td>
+<td>VK_NUMPAD0</td>
+<td>99</td>
+</tr>
+<tr>
+<td>小键盘4</td>
+<td>VK_NUMPAD0</td>
+<td>100</td>
+</tr>
+<tr>
+<td>小键盘5</td>
+<td>VK_NUMPAD0</td>
+<td>101</td>
+</tr>
+<tr>
+<td>小键盘6</td>
+<td>VK_NUMPAD0</td>
+<td>102</td>
+</tr>
+<tr>
+<td>小键盘7</td>
+<td>VK_NUMPAD0</td>
+<td>103</td>
+</tr>
+<tr>
+<td>小键盘8</td>
+<td>VK_NUMPAD0</td>
+<td>104</td>
+</tr>
+<tr>
+<td>小键盘9</td>
+<td>VK_NUMPAD0</td>
+<td>105</td>
+</tr>
+<tr>
+<td>小键盘.</td>
+<td>VK_DECIMAL</td>
+<td>110</td>
+</tr>
+<tr>
+<td>小键盘*</td>
+<td>VK_MULTIPLY</td>
+<td>106</td>
+</tr>
+<tr>
+<td>小键盘+</td>
+<td>VK_MULTIPLY</td>
+<td>107</td>
+</tr>
+<tr>
+<td>小键盘-</td>
+<td>VK_SUBTRACT</td>
+<td>109</td>
+</tr>
+<tr>
+<td>小键盘&#x2F;</td>
+<td>VK_DIVIDE</td>
+<td>111</td>
+</tr>
+<tr>
+<td>Pause Break键</td>
+<td>VK_PAUSE</td>
+<td>19</td>
+</tr>
+<tr>
+<td>Scroll Lock键</td>
+<td>VK_SCROLL</td>
+<td>145</td>
+</tr>
+</tbody></table>
+<h2 id="ASCII码表-控制字符功能表"><a href="#ASCII码表-控制字符功能表" class="headerlink" title="ASCII码表:控制字符功能表"></a>ASCII码表:控制字符功能表</h2><table>
+<thead>
+<tr>
+<th>英</th>
+<th>中</th>
+<th>英</th>
+<th>中</th>
+<th>英</th>
+<th>中</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NUL</td>
+<td>空字符</td>
+<td>VT</td>
+<td>垂直制表符</td>
+<td>SYN</td>
+<td>同步空闲</td>
+</tr>
+<tr>
+<td>SOH</td>
+<td>标题开始</td>
+<td>FF</td>
+<td>换页键</td>
+<td>ETB</td>
+<td>传输块结束</td>
+</tr>
+<tr>
+<td>STX</td>
+<td>正文开始</td>
+<td>CR</td>
+<td>回车键</td>
+<td>CAN</td>
+<td>取消</td>
+</tr>
+<tr>
+<td>ETX</td>
+<td>正文结束</td>
+<td>SO</td>
+<td>不用切换</td>
+<td>EM</td>
+<td>介质中断</td>
+</tr>
+<tr>
+<td>EOY</td>
+<td>传输结束</td>
+<td>SI</td>
+<td>启用切换</td>
+<td>SUB</td>
+<td>替补</td>
+</tr>
+<tr>
+<td>ENQ</td>
+<td>请求</td>
+<td>DLE</td>
+<td>数据链路转义</td>
+<td>ESC</td>
+<td>溢出</td>
+</tr>
+<tr>
+<td>ACK</td>
+<td>收到通知</td>
+<td>DC1</td>
+<td>设备控制1</td>
+<td>FS</td>
+<td>文件分割符</td>
+</tr>
+<tr>
+<td>BEL</td>
+<td>响铃</td>
+<td>DC2</td>
+<td>设备控制2</td>
+<td>GS</td>
+<td>分组符</td>
+</tr>
+<tr>
+<td>BS</td>
+<td>退格</td>
+<td>DC3</td>
+<td>设备控制3</td>
+<td>RS</td>
+<td>记录分隔符</td>
+</tr>
+<tr>
+<td>HT</td>
+<td>水平制表符</td>
+<td>DC4</td>
+<td>设备控制4</td>
+<td>US</td>
+<td>单元分隔符</td>
+</tr>
+<tr>
+<td>LF</td>
+<td>换行建</td>
+<td>NAK</td>
+<td>拒接接收</td>
+<td>DEL</td>
+<td>删除</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/basetech/charset/ascii10/" data-id="clhlnylef0064ojup4853fbji" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ASCII%E7%A0%81/" rel="tag">ASCII码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" rel="tag">字符集</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/29/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/31/">下一页 &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII%E7%A0%81/" rel="tag">ASCII码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveMQ/" rel="tag">ActiveMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ajax/" rel="tag">Ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BAT%E8%84%9A%E6%9C%AC/" rel="tag">BAT脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAP/" rel="tag">CAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAS/" rel="tag">CAS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eclipse/" rel="tag">Eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/" rel="tag">Emacs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emmet/" rel="tag">Emmet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIT/" rel="tag">GIT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IPFS/" rel="tag">IPFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-IO/" rel="tag">JAVA IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/" rel="tag">JAVA NIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-WEB/" rel="tag">JAVA WEB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lisp/" rel="tag">Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/" rel="tag">Scala</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/" rel="tag">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-MVC/" rel="tag">Spring MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIM/" rel="tag">VIM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/archtype/" rel="tag">archtype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/azkaban/" rel="tag">azkaban</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jquery/" rel="tag">jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql-neo4j/" rel="tag">nosql neo4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openssl/" rel="tag">openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/" rel="tag">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webservice/" rel="tag">webservice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" rel="tag">一致性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" rel="tag">任务调度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" rel="tag">字符编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" rel="tag">字符集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A1%E8%AE%A1/" rel="tag">审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" rel="tag">尾递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" rel="tag">摘要算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" rel="tag">数字签名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" rel="tag">数字证书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" rel="tag">数据权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" rel="tag">树算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正规表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" rel="tag">知识体系</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E5%99%A8/" rel="tag">神器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">自制操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2999/12/">十二月 2999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/02/">二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">九月 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】特别说明</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 证心<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,22 +1,918 @@
-{% extends '_layout.swig' %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
 
-{% block title %}{{ title }}{%- if theme.index_with_subtitle and subtitle %} - {{ subtitle }}{%- endif %}{% endblock %}
+  
+  <title>OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="OneKBase">
+<meta property="og:url" content="http://www.onekbase.com/page/3/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="证心">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="OneKBase" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block page_class %}
-  {%- if is_home() %}page-home{% endif -%}
-{% endblock %}
+<meta name="generator" content="Hexo 6.3.0"></head>
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {%- for post in page.posts %}
-      {{ partial('_macro/post.swig', {is_index: true}) }}
-    {%- endfor %}
-  </section>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-blog/arch/crypto/openssleckey" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/crypto/openssleckey/" class="article-date">
+  <time datetime="2019-02-14T09:59:24.000Z" itemprop="datePublished">2019-02-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a>
+  </div>
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/crypto/openssleckey/">【密码术】openssl椭圆曲线密钥对生成</a>
+    </h1>
+  
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先要查看支持哪些椭圆曲线：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl ecparam -list_curves</span><br></pre></td></tr></table></figure>
+
+<p>比方说比特币用的<code>secp256k1</code>就支持。</p>
+<h3 id="生成私钥"><a href="#生成私钥" class="headerlink" title="生成私钥"></a>生成私钥</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl ecparam -genkey -name secp256k1 -out priv.key</span><br></pre></td></tr></table></figure>
+
+<p>文件内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN EC PARAMETERS-----</span><br><span class="line">BgUrgQQACg==</span><br><span class="line">-----END EC PARAMETERS-----</span><br><span class="line">-----BEGIN EC PRIVATE KEY-----</span><br><span class="line">MHQCAQEEIENdSGdz4PmGgMrYi+2l0THNMlod3hPkjvWBwwjgcMF2oAcGBSuBBAAK</span><br><span class="line">oUQDQgAEXmPFJ8ek49mva3huqmLLAIJMI0PjtNGmVPRw3mQwfVjDRW0VlFhQmsqX</span><br><span class="line">qkD1iDnzgsDtYaIIv7lmTY2APgBwAg==</span><br><span class="line">-----END EC PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
+<p><code>BgUrgQQACg==</code>是椭圆曲线的关键参数，对应<code>secp256k1</code>标识。</p>
+<p>用<code>secp256k1</code>生成私钥每次私钥是不同的，但<code>EC PARAMETERS</code>都是相同的。</p>
+<p>只有用不同的name指定不同曲线<code>EC PARAMETERS</code>才会不同。</p>
+<p>因为私钥可以生成公钥，要用到曲线，所以要将曲线的标识写到密钥文件里。</p>
+<h3 id="生成公钥"><a href="#生成公钥" class="headerlink" title="生成公钥"></a>生成公钥</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl ec -in priv.key -pubout -out pub.key</span><br></pre></td></tr></table></figure>
+
+<p>文件内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEXmPFJ8ek49mva3huqmLLAIJMI0PjtNGm</span><br><span class="line">VPRw3mQwfVjDRW0VlFhQmsqXqkD1iDnzgsDtYaIIv7lmTY2APgBwAg==</span><br></pre></td></tr></table></figure>
+
+<p>生成的应该是非压缩格式的公钥。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/crypto/openssleckey/" data-id="clhlnylf700asojupevjk7t8b" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openssl/" rel="tag">openssl</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/crypto/jcajce" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/crypto/jcajce/" class="article-date">
+  <time datetime="2019-01-25T09:11:04.000Z" itemprop="datePublished">2019-01-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/crypto/jcajce/">【密码术】JAVA安全体系JCA和JCE介绍</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="JCE和JCA"><a href="#JCE和JCA" class="headerlink" title="JCE和JCA"></a>JCE和JCA</h3><p>JCE(Java Cryptography Extension)，在早期JDK版本中，由于受美国的密码出口条例约束，Java中涉及加解密功能的API被限制出口，所以Java中安全组件被分成了两部分: 不含加密功能的JCA（Java Cryptography Architecture ）和含加密功能的JCE（Java Cryptography Extension）。</p>
+<p>在JDK1.1-1.3版本期间，JCE属于扩展包，仅供美国和加拿大的用户下载，JDK1.4+版本后，随JDK核心包一起分发。</p>
+<p>JCE的API都在javax.crypto包下，核心功能包括：加解密、密钥生成（对称）、MAC生成、密钥协商，下面我们就详细介绍下这些功能。</p>
+<h3 id="加解密"><a href="#加解密" class="headerlink" title="加解密"></a>加解密</h3><p>加解密功能由Cipher组件提供，其也是JCE中最核心的组件。</p>
+<p>Cipher的几个知识点：</p>
+<ol>
+<li>Cipher在使用时需以参数方式指定transformation</li>
+<li>transformation的格式为algorithm&#x2F;mode&#x2F;padding，其中algorithm为必输项，如: DES&#x2F;CBC&#x2F;PKCS5Padding</li>
+<li>缺省的mode为ECB，缺省的padding为PKCS5Padding</li>
+<li>在block算法与流加密模式组合时, 需在mode后面指定每次处理的bit数, 如DES&#x2F;CFB8&#x2F;NoPadding, 如未指定则使用缺省值, SunJCE缺省值为64bits</li>
+<li>Cipher有4种操作模式: ENCRYPT_MODE(加密), DECRYPT_MODE(解密), WRAP_MODE(导出Key), UNWRAP_MODE(导入Key)，初始化时需指定某种操作模式</li>
+</ol>
+<p>一般情况下，不要选择DES算法，推荐使用AES算法。一般认为128bits的密钥已足够安全，如果可以请选择256bits的密钥。</p>
+<p>密钥长度是在生成密钥时指定的，如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">KeyGenerator generator = KeyGenerator.getInstance(&quot;AES/CBC/PKCS5PADDING&quot;);</span><br><span class="line">generator.init(256);</span><br><span class="line">SecretKey key = generator.generateKey();</span><br></pre></td></tr></table></figure>
+
+<p>加解密示例代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public static final String encrypt(String plainText) &#123;</span><br><span class="line">	Key secretKey = getKey();</span><br><span class="line">	try &#123;</span><br><span class="line">		Cipher cipher = Cipher.getInstance(&quot;DES/ECB/PKCS5Padding&quot;);</span><br><span class="line">		cipher.init(Cipher.ENCRYPT_MODE, secretKey);</span><br><span class="line">		byte[] p = plainText.getBytes(&quot;UTF-8&quot;);</span><br><span class="line">		byte[] result = cipher.doFinal(p);</span><br><span class="line">		BASE64Encoder encoder = new BASE64Encoder();</span><br><span class="line">		String encoded = encoder.encode(result);</span><br><span class="line">		return encoded;</span><br><span class="line">	&#125; catch (Exception e) &#123;</span><br><span class="line">		throw new RuntimeException(e);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static final String decrypt(String cipherText) &#123;</span><br><span class="line">	Key secretKey = getKey();</span><br><span class="line">	try &#123;</span><br><span class="line">		Cipher cipher = Cipher.getInstance(&quot;DES/ECB/PKCS5Padding&quot;);</span><br><span class="line">		cipher.init(Cipher.DECRYPT_MODE, secretKey);</span><br><span class="line">		BASE64Decoder decoder = new BASE64Decoder();</span><br><span class="line">		byte[] c = decoder.decodeBuffer(cipherText);</span><br><span class="line">		byte[] result = cipher.doFinal(c);</span><br><span class="line">		String plainText = new String(result, &quot;UTF-8&quot;);</span><br><span class="line">		return plainText;</span><br><span class="line">	&#125; catch (Exception e) &#123;</span><br><span class="line">		throw new RuntimeException(e);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="密钥生成"><a href="#密钥生成" class="headerlink" title="密钥生成"></a>密钥生成</h3><p>非对称密钥的生成请参考java.security.KeyPairGenerator，样例代码请参考JCA中的示例，对称密钥生成的示例代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">KeyGenerator gen = KeyGenerator.getInstance(&quot;DES&quot;);</span><br><span class="line">gen.init(56, new SecureRandom());</span><br><span class="line">Key key= gen.generateKey();</span><br></pre></td></tr></table></figure>
+
+<h3 id="MAC生成"><a href="#MAC生成" class="headerlink" title="MAC生成"></a>MAC生成</h3><p>MAC技术用于确认数据的完整性，Mac要求通讯双方共享一个secret key，示例代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Key key = KeyGeneratorDemo.generateMac();</span><br><span class="line">Mac mac = Mac.getInstance(&quot;HmacSHA256&quot;);</span><br><span class="line">mac.init(key);</span><br><span class="line">String msg = &quot;测试&quot;;</span><br><span class="line">byte[] result = mac.doFinal(msg.getBytes(&quot;UTF-8&quot;));</span><br><span class="line">BASE64Encoder encoder = new BASE64Encoder();</span><br><span class="line">System.out.println(encoder.encode(result));</span><br></pre></td></tr></table></figure>
+<p>MAC优于数据摘要的地方在于：MAC双方要共享一个密钥，所以其也有互相认证的功能，可有效防止数据摘要中明文和数据摘要被同时替换而无法发现的问题。</p>
+<h3 id="密钥协商"><a href="#密钥协商" class="headerlink" title="密钥协商"></a>密钥协商</h3><p>密钥协商就是在通讯多方间不直接交换通讯密钥的情况下而选择一个大家达成一致的密钥(session key)，这个session key是对称密钥。</p>
+<p>密钥协商可以通过2种途径实现：</p>
+<ol>
+<li>通过KeyAgreement组件完成，常用算法包括DH（Diffie-Hellman），ECDH（Elliptic Curve Diffie-Hellman），ECMQV（Elliptic Curve Menezes-Qu-Vanstone）等。</li>
+<li>通过数字信封完成，常用算法包括RSA等。</li>
+</ol>
+<p>通过KeyAgreement使用DH算法协商密钥步骤：</p>
+<ol>
+<li>DH算法由PKCS#3定义，DH算法需在多方间交换公钥，大素数p，私钥的基数g，和私钥的长度l。设协商密钥的双方为Alice和Bob，则协商共涉及5个阶段:</li>
+<li>Alice生成DH公私密钥对</li>
+<li>Alice将公钥和算法参数p，g和l发送给Bob</li>
+<li>Bob根据算法参数生成自己的公私密钥对，并将公钥发送给Alice</li>
+<li>Alice使用自己的私钥和Bob的公钥通过KeyAgreement得到通讯密钥</li>
+<li>Bob使用自己的私钥和Alice的公钥通过KeyAgreement得到与Alice相同的通讯密钥</li>
+</ol>
+<p>通过数字信封使用RSA算法协商密钥</p>
+<p>数字信封的原理就是利用通讯对方的公钥加密目标密钥（session key，对称密钥），使用目标密钥对报文进行加密，然后将密钥密文与报文密文一起发送给接收方。接收方首先使用自己的私钥对密钥报文进行解密，这样就得到了协商后的密钥，再使用解密后的密钥解密报文，这样就得到了业务数据。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>JCE中最常用和最核心的功能就是加解密，此功能由Cipher组件提供，在使用Cipher前需对加密算法及参数先做出选择：</p>
+<ol>
+<li>算法选择</li>
+</ol>
+<p>对称算法一般速度较快，非对称算法速度较慢；对称算法的密钥管理比较困难，非对称算法密钥管理简单；非对称算法一般用于认证和加密会话密钥，通讯双方大部分也就是在开启会话时使用一次，对称算法一般用来加密双方之间的报文&#x2F;交换的数据，使用频度较高。</p>
+<ol start="2">
+<li>块&#x2F;流模式选择</li>
+</ol>
+<p>块（Block）模式加密以块为基本单位，适用于明文长度已知的情形；流（Stream）模式以bit或byte为加解密单位, 适用于明文长度未知、内容较大的情形，如加密一个套接字管道或文件读写流等，一般仅适用于硬件实现。块模式下不同算法的块大小可能不一样，一般都是2的次方数，大部分长度为64bits，整个明文长度不是块长度整倍数时，需在最后一个Block进行补长（Padding）</p>
+<ol start="3">
+<li>反馈模式选择</li>
+</ol>
+<p>使用块算法加密，如果明文有大量重复的内容，则对块加密后得到的密文也会存在大量的重复，这对密文分析、破解提供了极大的便利，为消除这方面的威胁，有个思路就是对不同块密文再进行运算，这样就极大去除了块密文与块明文几间的特征关联，这种做法称为块反馈模式。常见的反馈模式有：ECB、CBC、CFB、OFB等。对于第1个block，因没有其它块密文可供运算，有的模式引入了初始矢量（Initialization Vector，IV，由用户指定）作为第1个block内容，这样就进一步解决了第1个block密文的脆弱性。注意：尽量不要使用ECB模式。</p>
+<ol start="4">
+<li>补长方案选择</li>
+</ol>
+<p>JCE中支持的补长方案包括：NoPadding、PKCS5Padding、ISO10126Padding、OAEPWithAndPadding和SSL3Padding，NoPadding即不补长，其中最常用的就是PKCS5Padding和ISO10126Padding。</p>
+<ol start="7">
+<li>密钥的选择</li>
+</ol>
+<p>密钥可以使用KeyGenerator&#x2F;KeyPairGenerator生成，也可以由外部导入，还可以有密钥参数构造KeySpec再转换为Key。</p>
+<ol start="6">
+<li>密钥长度选择</li>
+</ol>
+<p>对于对称加密算法，128bits的密钥足够安全，条件许可请选择256bits，注意密钥长度大于128bits需单独下载并安装jurisdiction policy files；对于非对称加密算法，1024bits的密钥足够安全。</p>
+<p>最后，如选用基于口令的算法或在用户输入密码时，请避免使用String来引用，使用char[]，用完立刻置空char[]，避免内存攻击，如heap dump分析等。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/crypto/jcajce/" data-id="clhlnylf600apojup171ccyr1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" rel="tag">数字签名</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/crypto/javasha256" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/crypto/javasha256/" class="article-date">
+  <time datetime="2019-01-25T07:43:24.000Z" itemprop="datePublished">2019-01-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/crypto/javasha256/">【密码术】SHA256的JAVA示例</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>java本身支持很多加密术，SHA256就是其中之一，下面是下示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">private static byte[] sha256(String input) &#123;</span><br><span class="line">	return hash(input.getBytes());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static byte[] hash(byte[] input) &#123;</span><br><span class="line">	return hash(input, 0, input.length);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static byte[] hash(byte[] input, int offset, int length) &#123;</span><br><span class="line">	MessageDigest digest = newDigest();</span><br><span class="line">	digest.update(input, offset, length);</span><br><span class="line">	return digest.digest();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static MessageDigest newDigest() &#123;</span><br><span class="line">	try &#123;</span><br><span class="line">		return MessageDigest.getInstance(&quot;SHA-256&quot;);</span><br><span class="line">	&#125; catch (NoSuchAlgorithmException e) &#123;</span><br><span class="line">		throw new RuntimeException(e);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/crypto/javasha256/" data-id="clhlnylf500amojuphupvggz9" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/crypto/ecckey" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/crypto/ecckey/" class="article-date">
+  <time datetime="2019-01-22T09:43:27.000Z" itemprop="datePublished">2019-01-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/crypto/ecckey/">【密码术】ECC椭圆曲线密钥对生成</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这里用的是bouncy castle（轻量级密码术包）是一种用于 Java 平台的开放源码的轻量级密码术包。</p>
+<p>这里先给出一些数学上的定义名词，因为代码中会有对应的变量名。</p>
+<h4 id="六个参量"><a href="#六个参量" class="headerlink" title="六个参量"></a>六个参量</h4><p>有限域Fp，这个域只有有限个元素。</p>
+<p>Fp中只有p（p为素数）个元素0,1,2 …… p-2,p-1；<br>Fp 的加法（a+b）法则是 a+b≡c (mod p)；<br>Fp 的乘法(a×b)法则是  a×b≡c (mod p)；<br>Fp 的除法(a÷b)法则是  a&#x2F;b≡c (mod p)；</p>
+<p>密码学中，描述Fp上的一条椭圆曲线，常用到六个参量：</p>
+<p>T&#x3D;(p,a,b,G,n,h)。</p>
+<p>p 、a 、b 用来确定Fp上的一条椭圆曲线，G为基点，n为点G的阶，h 是椭圆曲线上所有点的个数m与n相除的整数部分。</p>
+<h3 id="G点"><a href="#G点" class="headerlink" title="G点"></a>G点</h3><p>如果椭圆曲线上一点P，存在最小的正整数n，使得数乘nP&#x3D;O∞，则将n称为P的阶，在有限域上定义的椭圆曲线上所有的点的阶n都是存在的。</p>
+<p>K&#x3D;kG  [其中 K,G为Ep(a,b)上的点，k为小于n（n是点G的阶）的整数]</p>
+<p>不难发现，给定k和G，根据加法法则，计算K很容易；但给定K和G，求k就相对困难了。</p>
+<p>这就是椭圆曲线加密算法采用的难题。我们把点G称为基点（base point）。</p>
+<p>其中小k为私钥，一般为一个大随机数。</p>
+<p>K为公钥，因为是个坐标点，所以有非压缩方式和压缩方式，压缩方式就是取x坐标，y在用时再计算出来。</p>
+<h3 id="创建曲线"><a href="#创建曲线" class="headerlink" title="创建曲线"></a>创建曲线</h3><p>首先要获取一个曲线参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static X9ECParameters CURVE_PARAMS = CustomNamedCurves.getByName(&quot;secp256k1&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>有很多内置参数，只要调用名称就可以了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">defineCurve(&quot;curve25519&quot;, curve25519);</span><br><span class="line"></span><br><span class="line">defineCurveWithOID(&quot;secp192k1&quot;, SECObjectIdentifiers.secp192k1, secp192k1);</span><br><span class="line">defineCurveWithOID(&quot;secp192r1&quot;, SECObjectIdentifiers.secp192r1, secp192r1);</span><br><span class="line">defineCurveWithOID(&quot;secp224k1&quot;, SECObjectIdentifiers.secp224k1, secp224k1);</span><br><span class="line">defineCurveWithOID(&quot;secp224r1&quot;, SECObjectIdentifiers.secp224r1, secp224r1);</span><br><span class="line">defineCurveWithOID(&quot;secp256k1&quot;, SECObjectIdentifiers.secp256k1, secp256k1);</span><br><span class="line">defineCurveWithOID(&quot;secp256r1&quot;, SECObjectIdentifiers.secp256r1, secp256r1);</span><br><span class="line">defineCurveWithOID(&quot;secp384r1&quot;, SECObjectIdentifiers.secp384r1, secp384r1);</span><br><span class="line">defineCurveWithOID(&quot;secp521r1&quot;, SECObjectIdentifiers.secp521r1, secp521r1);</span><br><span class="line"></span><br><span class="line">defineCurveAlias(&quot;P-192&quot;, SECObjectIdentifiers.secp192r1);</span><br><span class="line">defineCurveAlias(&quot;P-224&quot;, SECObjectIdentifiers.secp224r1);</span><br><span class="line">defineCurveAlias(&quot;P-256&quot;, SECObjectIdentifiers.secp256r1);</span><br><span class="line">defineCurveAlias(&quot;P-384&quot;, SECObjectIdentifiers.secp384r1);</span><br><span class="line">defineCurveAlias(&quot;P-521&quot;, SECObjectIdentifiers.secp521r1);</span><br></pre></td></tr></table></figure>
+
+<p>再创建Fp上的一条椭圆曲线对象：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">static ECDomainParameters CURVE = new ECDomainParameters(CURVE_PARAMS.getCurve(), CURVE_PARAMS.getG(),</span><br><span class="line">			CURVE_PARAMS.getN(), CURVE_PARAMS.getH());</span><br></pre></td></tr></table></figure>
+
+<p>如果想用自己的参数创建一条可以这样做：</p>
+<p>设置好六个参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public BigInteger p;</span><br><span class="line">public BigInteger a;</span><br><span class="line">public BigInteger b;</span><br><span class="line">public BigInteger n;</span><br><span class="line">public BigInteger gx;</span><br><span class="line">public BigInteger gy;</span><br></pre></td></tr></table></figure>
+<p>用如下代码创建</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ECCurve fp = new ECCurve.Fp(p, a, b);</span><br><span class="line">ECPoint g = fp.createPoint(gx, gy);</span><br><span class="line">ECDomainParameters curve = new ECDomainParameters(fp, g, n);</span><br></pre></td></tr></table></figure>
+
+<h3 id="随机生成密钥"><a href="#随机生成密钥" class="headerlink" title="随机生成密钥"></a>随机生成密钥</h3><p>首先要创建一个密钥生成器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ECKeyGenerationParameters genparam = new ECKeyGenerationParameters(this.ecc_bc_spec, new SecureRandom());</span><br><span class="line">ecKeyPairGenerator = new ECKeyPairGenerator();</span><br><span class="line">ecKeyPairGenerator.init(genparam);</span><br></pre></td></tr></table></figure>
+
+<p>生成密钥：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">AsymmetricCipherKeyPair keyPair = this.ecKeyPairGenerator.generateKeyPair();</span><br><span class="line">ECPrivateKeyParameters priKey = (ECPrivateKeyParameters) keyPair.getPrivate();</span><br><span class="line">ECPublicKeyParameters pubKey = (ECPublicKeyParameters) keyPair.getPublic();</span><br><span class="line"></span><br><span class="line">BigInteger priv = priKey.getD();</span><br><span class="line">ECPoint point = pubKey.getQ().normalize();</span><br><span class="line">BigInteger pubx = point.getXCoord().toBigInteger();</span><br><span class="line">BigInteger puby = point.getYCoord().toBigInteger();</span><br></pre></td></tr></table></figure>
+
+<p>这里priv为私钥，pubx和puby为公钥，可以编码成字符串保存。</p>
+<h3 id="密钥生成过程"><a href="#密钥生成过程" class="headerlink" title="密钥生成过程"></a>密钥生成过程</h3><p>下面是<code>generateKeyPair</code>的源码，可以看出私钥是随机生成一个不大于n的随机数，公钥是私钥和曲线上的G点相乘得到的点：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public AsymmetricCipherKeyPair generateKeyPair()</span><br><span class="line">&#123;</span><br><span class="line">    BigInteger n = params.getN();</span><br><span class="line">    int nBitLength = n.bitLength();</span><br><span class="line">    int minWeight = nBitLength &gt;&gt;&gt; 2;</span><br><span class="line"></span><br><span class="line">    BigInteger d;</span><br><span class="line">    for (;;)</span><br><span class="line">    &#123;</span><br><span class="line">        d = new BigInteger(nBitLength, random);</span><br><span class="line"></span><br><span class="line">        if (d.compareTo(TWO) &lt; 0  || (d.compareTo(n) &gt;= 0))</span><br><span class="line">        &#123;</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line">        if (WNafUtil.getNafWeight(d) &lt; minWeight)</span><br><span class="line">        &#123;</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ECPoint Q = createBasePointMultiplier().multiply(params.getG(), d);</span><br><span class="line"></span><br><span class="line">    return new AsymmetricCipherKeyPair(</span><br><span class="line">        new ECPublicKeyParameters(Q, params),</span><br><span class="line">        new ECPrivateKeyParameters(d, params));</span><br><span class="line">&#125;</span><br><span class="line">protected ECMultiplier createBasePointMultiplier()</span><br><span class="line">&#123;</span><br><span class="line">    return new FixedPointCombMultiplier();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用私钥求公钥是非常简单的，只要做个multiply就可以了。</p>
+<h3 id="用种子生成密钥对"><a href="#用种子生成密钥对" class="headerlink" title="用种子生成密钥对"></a>用种子生成密钥对</h3><p>私钥可以用一个字符串加工得到byte数组，再由数组构建BigInteger，这样的私钥是伪随机的，但容易记，因为有种子就可以再次生成。</p>
+<p>请参考比特币bip32协议。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/crypto/ecckey/" data-id="clhlnylf100aeojupffwj1qvi" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/plang/scala/regexset" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/plang/scala/regexset/" class="article-date">
+  <time datetime="2019-01-18T09:51:54.000Z" itemprop="datePublished">2019-01-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/plang/scala/regexset/">【scala】用正则提取变量</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>很有意思的变量赋值方式，把正则匹配的组赋给变量。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val p=&quot;(.*)=&#x27;(.*)&#x27;&quot;.r</span><br><span class="line">val p(a,b)=(&quot;abc=&#x27;ddd&#x27;&quot;)</span><br><span class="line">print(a)</span><br><span class="line">print(b)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/scala/regexset/" data-id="clhlnylga00hkojup13yqc87i" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Scala/" rel="tag">Scala</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/os/linux/cmd/top" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/os/linux/cmd/top/" class="article-date">
+  <time datetime="2019-01-18T06:50:29.000Z" itemprop="datePublished">2019-01-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>►<a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/os/linux/cmd/top/">【Linux】top命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>top使用方法：</p>
+<p>使用格式：</p>
+<p>top [-] [d] [p] [q] [c] [C] [S] [s] [n]</p>
+<p>参数说明：</p>
+<p>d：指定每两次屏幕信息刷新之间的时间间隔。当然用户可以使用s交互命令来改变之。<br>p:通过指定监控进程ID来仅仅监控某个进程的状态。<br>q:该选项将使top没有任何延迟的进行刷新。如果调用程序有超级用户权限，那么top将以尽可能高的优先级运行。<br>S：指定累计模式。<br>s：使top命令在安全模式中运行。这将去除交互命令所带来的潜在危险。<br>i：使top不显示任何闲置或者僵死进程。<br>c:显示整个命令行而不只是显示命令名。</p>
+<p>VIRT：virtual memory usage 虚拟内存<br>1、进程“需要的”虚拟内存大小，包括进程使用的库、代码、数据等<br>2、假如进程申请100m的内存，但实际只使用了10m，那么它会增长100m，而不是实际的使用量</p>
+<p>RES：resident memory usage 常驻内存<br>1、进程当前使用的内存大小，但不包括swap out<br>2、包含其他进程的共享<br>3、如果申请100m的内存，实际使用10m，它只增长10m，与VIRT相反<br>4、关于库占用内存的情况，它只统计加载的库文件所占内存大小</p>
+<p>SHR：shared memory 共享内存<br>1、除了自身进程的共享内存，也包括其他进程的共享内存<br>2、虽然进程只使用了几个共享库的函数，但它包含了整个共享库的大小<br>3、计算某个进程所占的物理内存大小公式：RES – SHR<br>4、swap out后，它将会降下来</p>
+<p>DATA<br>1、数据占用的内存。如果top没有显示，按f键可以显示出来。<br>2、真正的该程序要求的数据空间，是真正在运行中要使用的。</p>
+<p>top 运行中可以通过 top 的内部命令对进程的显示方式进行控制。内部命令如下：<br>s – 改变画面更新频率<br>l – 关闭或开启第一部分第一行 top 信息的表示<br>t – 关闭或开启第一部分第二行 Tasks 和第三行 Cpus 信息的表示<br>m – 关闭或开启第一部分第四行 Mem 和 第五行 Swap 信息的表示<br>N – 以 PID 的大小的顺序排列表示进程列表<br>P – 以 CPU 占用率大小的顺序排列进程列表<br>M – 以内存占用率大小的顺序排列进程列表<br>h – 显示帮助<br>n – 设置在进程列表所显示进程的数量<br>q – 退出 top<br>s – 改变画面更新周期</p>
+<p>序号 列名 含义<br>a PID 进程id<br>b PPID 父进程id<br>c RUSER Real user name<br>d UID 进程所有者的用户id<br>e USER 进程所有者的用户名<br>f GROUP 进程所有者的组名<br>g TTY 启动进程的终端名。不是从终端启动的进程则显示为 ?<br>h PR 优先级<br>i NI nice值。负值表示高优先级，正值表示低优先级<br>j P 最后使用的CPU，仅在多CPU环境下有意义<br>k %CPU 上次更新到现在的CPU时间占用百分比<br>l TIME 进程使用的CPU时间总计，单位秒<br>m TIME+ 进程使用的CPU时间总计，单位1&#x2F;100秒<br>n %MEM 进程使用的物理内存百分比<br>o VIRT 进程使用的虚拟内存总量，单位kb。VIRT&#x3D;SWAP+RES<br>p SWAP 进程使用的虚拟内存中，被换出的大小，单位kb。<br>q RES 进程使用的、未被换出的物理内存大小，单位kb。RES&#x3D;CODE+DATA<br>r CODE 可执行代码占用的物理内存大小，单位kb<br>s DATA 可执行代码以外的部分(数据段+栈)占用的物理内存大小，单位kb<br>t SHR 共享内存大小，单位kb<br>u nFLT 页面错误次数<br>v nDRT 最后一次写入到现在，被修改过的页面数。<br>w S 进程状态。（D&#x3D;不可中断的睡眠状态，R&#x3D;运行，S&#x3D;睡眠，T&#x3D;跟踪&#x2F;停止，Z&#x3D;僵尸进程）<br>x COMMAND 命令名&#x2F;命令行<br>y WCHAN 若该进程在睡眠，则显示睡眠中的系统函数名<br>z Flags 任务标志，参考 sched.h</p>
+<p>默认情况下仅显示比较重要的 PID、USER、PR、NI、VIRT、RES、SHR、S、%CPU、%MEM、TIME+、COMMAND 列。可以通过下面的快捷键来更改显示内容。</p>
+<p>通过 f 键可以选择显示的内容。</p>
+<p>按 f 键之后会显示列的列表，按 a-z 即可显示或隐藏对应的列，最后按回车键确定。</p>
+<p>按 o 键可以改变列的显示顺序。按小写的 a-z 可以将相应的列向右移动，而大写的 A-Z 可以将相应的列向左移动。最后按回车键确定。</p>
+<p>按大写的 F 或 O 键，然后按 a-z 可以将进程按照相应的列进行排序。而大写的 R 键可以将当前的排序倒转。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/os/linux/cmd/top/" data-id="clhlnylh400mqojupdv475n0t" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/jms/activemqdemo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/jms/activemqdemo/" class="article-date">
+  <time datetime="2019-01-08T05:57:29.000Z" itemprop="datePublished">2019-01-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/jms/activemqdemo/">【JMS】ActiveMQ示例</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="ActiveMQ安装"><a href="#ActiveMQ安装" class="headerlink" title="ActiveMQ安装"></a>ActiveMQ安装</h3><p>到官网<a target="_blank" rel="noopener" href="http://activemq.apache.org下载安装包./">http://activemq.apache.org下载安装包。</a></p>
+<p>解压到指定目录，window启动用<code>bin\activemq start</code>,linux用<code>./activemq start</code>。</p>
+<h3 id="示例看点"><a href="#示例看点" class="headerlink" title="示例看点"></a>示例看点</h3><p>在网上找了个示例测试了一下，示例还是有点看点的。</p>
+<p>多线程的使用、ThreadLocal的使用、AtomicInteger的使用。</p>
+<p>运行时还发现一个问题，当producter运行时运行comsumer每个线程都可以消息消息，但停了producter后再运行comsumer只有一个会消费消息。</p>
+<h3 id="Producter"><a href="#Producter" class="headerlink" title="Producter"></a>Producter</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">package com.iteedu.test.activemq;</span><br><span class="line"></span><br><span class="line">import java.util.concurrent.atomic.AtomicInteger;</span><br><span class="line"></span><br><span class="line">import javax.jms.Connection;</span><br><span class="line">import javax.jms.ConnectionFactory;</span><br><span class="line">import javax.jms.JMSException;</span><br><span class="line">import javax.jms.MessageProducer;</span><br><span class="line">import javax.jms.Queue;</span><br><span class="line">import javax.jms.Session;</span><br><span class="line">import javax.jms.TextMessage;</span><br><span class="line"></span><br><span class="line">import org.apache.activemq.ActiveMQConnection;</span><br><span class="line">import org.apache.activemq.ActiveMQConnectionFactory;</span><br><span class="line"></span><br><span class="line">public class Producter &#123;</span><br><span class="line"></span><br><span class="line">    //ActiveMq 的默认用户名</span><br><span class="line">    private static final String USERNAME = ActiveMQConnection.DEFAULT_USER;</span><br><span class="line">    //ActiveMq 的默认登录密码</span><br><span class="line">    private static final String PASSWORD = ActiveMQConnection.DEFAULT_PASSWORD;</span><br><span class="line">    //ActiveMQ 的链接地址</span><br><span class="line">    private static final String BROKEN_URL = ActiveMQConnection.DEFAULT_BROKER_URL;</span><br><span class="line"></span><br><span class="line">    AtomicInteger count = new AtomicInteger(0);</span><br><span class="line">    //链接工厂</span><br><span class="line">    ConnectionFactory connectionFactory;</span><br><span class="line">    //链接对象</span><br><span class="line">    Connection connection;</span><br><span class="line">    //事务管理</span><br><span class="line">    Session session;</span><br><span class="line">    ThreadLocal&lt;MessageProducer&gt; threadLocal = new ThreadLocal&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    public void init()&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            //创建一个链接工厂</span><br><span class="line">            connectionFactory = new ActiveMQConnectionFactory(USERNAME,PASSWORD,BROKEN_URL);</span><br><span class="line">            //从工厂中创建一个链接</span><br><span class="line">            connection  = connectionFactory.createConnection();</span><br><span class="line">            //开启链接</span><br><span class="line">            connection.start();</span><br><span class="line">            //创建一个事务（这里通过参数可以设置事务的级别）</span><br><span class="line">            session = connection.createSession(true,Session.SESSION_TRANSACTED);</span><br><span class="line">        &#125; catch (JMSException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void sendMessage(String disname)&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            //创建一个消息队列</span><br><span class="line">            Queue queue = session.createQueue(disname);</span><br><span class="line">            //消息生产者</span><br><span class="line">            MessageProducer messageProducer = null;</span><br><span class="line">            if(threadLocal.get()!=null)&#123;</span><br><span class="line">                messageProducer = threadLocal.get();</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                messageProducer = session.createProducer(queue);</span><br><span class="line">                threadLocal.set(messageProducer);</span><br><span class="line">            &#125;</span><br><span class="line">           while(true)&#123;</span><br><span class="line">                Thread.sleep(1000);</span><br><span class="line">                int num = count.getAndIncrement();</span><br><span class="line">                //创建一条消息</span><br><span class="line">                TextMessage msg = session.createTextMessage(Thread.currentThread().getName()+</span><br><span class="line">                        &quot;productor:this is a message,count:&quot;+num);</span><br><span class="line">                System.out.println(Thread.currentThread().getName()+</span><br><span class="line">                        &quot;productor:this is a message,count:&quot;+num);</span><br><span class="line">                //发送消息</span><br><span class="line">                messageProducer.send(msg);</span><br><span class="line">                //提交事务</span><br><span class="line">                session.commit();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (JMSException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="TestProducter"><a href="#TestProducter" class="headerlink" title="TestProducter"></a>TestProducter</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">package com.iteedu.test.activemq;</span><br><span class="line"></span><br><span class="line">public class TestProducter &#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        Producter producter = new Producter();</span><br><span class="line">        producter.init();</span><br><span class="line">        TestProducter testMq = new TestProducter();</span><br><span class="line">        try &#123;</span><br><span class="line">            Thread.sleep(1000);</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        //Thread 1</span><br><span class="line">        new Thread(testMq.new ProductorMq(producter)).start();</span><br><span class="line">        //Thread 2</span><br><span class="line">        new Thread(testMq.new ProductorMq(producter)).start();</span><br><span class="line">        //Thread 3</span><br><span class="line">        new Thread(testMq.new ProductorMq(producter)).start();</span><br><span class="line">        //Thread 4</span><br><span class="line">        new Thread(testMq.new ProductorMq(producter)).start();</span><br><span class="line">        //Thread 5</span><br><span class="line">        new Thread(testMq.new ProductorMq(producter)).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private class ProductorMq implements Runnable&#123;</span><br><span class="line">        Producter producter;</span><br><span class="line">        public ProductorMq(Producter producter)&#123;</span><br><span class="line">            this.producter = producter;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            while(true)&#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    producter.sendMessage(&quot;com.iteedu&quot;);</span><br><span class="line">                    Thread.sleep(10000);</span><br><span class="line">                &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Comsumer"><a href="#Comsumer" class="headerlink" title="Comsumer"></a>Comsumer</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">package com.iteedu.test.activemq;</span><br><span class="line"></span><br><span class="line">import java.util.concurrent.atomic.AtomicInteger;</span><br><span class="line"></span><br><span class="line">import javax.jms.Connection;</span><br><span class="line">import javax.jms.ConnectionFactory;</span><br><span class="line">import javax.jms.JMSException;</span><br><span class="line">import javax.jms.MessageConsumer;</span><br><span class="line">import javax.jms.Queue;</span><br><span class="line">import javax.jms.Session;</span><br><span class="line">import javax.jms.TextMessage;</span><br><span class="line"></span><br><span class="line">import org.apache.activemq.ActiveMQConnection;</span><br><span class="line">import org.apache.activemq.ActiveMQConnectionFactory;</span><br><span class="line"></span><br><span class="line">public class Comsumer &#123;</span><br><span class="line"></span><br><span class="line">    private static final String USERNAME = ActiveMQConnection.DEFAULT_USER;</span><br><span class="line"></span><br><span class="line">    private static final String PASSWORD = ActiveMQConnection.DEFAULT_PASSWORD;</span><br><span class="line"></span><br><span class="line">    private static final String BROKEN_URL = ActiveMQConnection.DEFAULT_BROKER_URL;</span><br><span class="line"></span><br><span class="line">    ConnectionFactory connectionFactory;</span><br><span class="line"></span><br><span class="line">    Connection connection;</span><br><span class="line"></span><br><span class="line">    Session session;</span><br><span class="line"></span><br><span class="line">    ThreadLocal&lt;MessageConsumer&gt; threadLocal = new ThreadLocal&lt;&gt;();</span><br><span class="line">    AtomicInteger count = new AtomicInteger();</span><br><span class="line"></span><br><span class="line">    public void init()&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            connectionFactory = new ActiveMQConnectionFactory(USERNAME,PASSWORD,BROKEN_URL);</span><br><span class="line">            connection  = connectionFactory.createConnection();</span><br><span class="line">            connection.start();</span><br><span class="line">            session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);</span><br><span class="line">        &#125; catch (JMSException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public void getMessage(String disname)&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            Queue queue = session.createQueue(disname);</span><br><span class="line">            MessageConsumer consumer = null;</span><br><span class="line"></span><br><span class="line">            if(threadLocal.get()!=null)&#123;</span><br><span class="line">                consumer = threadLocal.get();</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                consumer = session.createConsumer(queue);</span><br><span class="line">                threadLocal.set(consumer);</span><br><span class="line">            &#125;</span><br><span class="line">            while(true)&#123;</span><br><span class="line">                Thread.sleep(1000);</span><br><span class="line">                TextMessage msg = (TextMessage) consumer.receive();</span><br><span class="line">                if(msg!=null) &#123;</span><br><span class="line">                    msg.acknowledge();</span><br><span class="line">                    System.out.println(Thread.currentThread().getName()+&quot;: Consumer:我是消费者，我正在消费Msg&quot;+msg.getText()+&quot;---&gt;&quot;+count.getAndIncrement());</span><br><span class="line">                &#125;else &#123;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (JMSException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="TestConsumer"><a href="#TestConsumer" class="headerlink" title="TestConsumer"></a>TestConsumer</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">package com.iteedu.test.activemq;</span><br><span class="line"></span><br><span class="line">public class TestConsumer &#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        Comsumer comsumer = new Comsumer();</span><br><span class="line">        comsumer.init();</span><br><span class="line">        TestConsumer testConsumer = new TestConsumer();</span><br><span class="line">        new Thread(testConsumer.new ConsumerMq(comsumer)).start();</span><br><span class="line">        new Thread(testConsumer.new ConsumerMq(comsumer)).start();</span><br><span class="line">        new Thread(testConsumer.new ConsumerMq(comsumer)).start();</span><br><span class="line">        new Thread(testConsumer.new ConsumerMq(comsumer)).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private class ConsumerMq implements Runnable&#123;</span><br><span class="line">        Comsumer comsumer;</span><br><span class="line">        public ConsumerMq(Comsumer comsumer)&#123;</span><br><span class="line">            this.comsumer = comsumer;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            while(true)&#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    comsumer.getMessage(&quot;com.iteedu&quot;);</span><br><span class="line">                    Thread.sleep(10000);</span><br><span class="line">                &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/jms/activemqdemo/" data-id="clhlnylew009jojupg2sxdbz4" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ActiveMQ/" rel="tag">ActiveMQ</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/jms/activemqsenior" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/jms/activemqsenior/" class="article-date">
+  <time datetime="2019-01-08T02:15:15.000Z" itemprop="datePublished">2019-01-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/jms/activemqsenior/">【JMS】ActiveMQ高级特性</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="异步发送消息"><a href="#异步发送消息" class="headerlink" title="异步发送消息"></a>异步发送消息</h3><p>ActiveMQ支持生产者以同步或异步模式发送消息。使用不同的模式对 send方法的反应时间有巨大的影响，反映时间是衡量ActiveMQ 吞吐量的重要因素，使用异步发送可以提高系统的性能。</p>
+<p>在默认大多数情况下，AcitveMQ是以异步模式发送消息。例外的情况：在没有使用事务的情况下，生产者以 PERSISTENT传送模式发送消息。在这种情况下，send方法都是同步的，并且一直阻塞直到 ActiveMQ发回确认消息：消息已经存储在持久性数据存储中。这种确认机制保证消息不会丢失，但会造成生产者阻塞从而影响反应时间。</p>
+<p>高性能的程序一般都能容忍在故障情况下丢失少量数据。如果编写这样的程序，可以通过使用异步发送来提高吞吐量（甚至在使用PERSISTENT 传送模式的情况下）。</p>
+<p>使用 Connection URI 配置异步发送:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cf = new ActiveMQConnectionFactory(&quot;tcp://locahost:61616?jms.useAsyncSend=true&quot;);</span><br></pre></td></tr></table></figure>
+<p>在 ConnectionFactory 层面配置异步发送:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((ActiveMQConnectionFactory)connectionFactory).setUseAsyncSend(true);</span><br></pre></td></tr></table></figure>
+<p>在 Connection 层面配置异步发送，此层面的设置将覆盖ConnectionFactory层面的设置:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((ActiveMQConnection)connection).setUseAsyncSend(true);</span><br></pre></td></tr></table></figure>
+<h3 id="消费者特色"><a href="#消费者特色" class="headerlink" title="消费者特色"></a>消费者特色</h3><h4 id="消费者异步分派"><a href="#消费者异步分派" class="headerlink" title="消费者异步分派"></a>消费者异步分派</h4><p>在 ActiveMQ4 中，支持 ActiveMQ 以同步或异步模式向消费者分派消息。这样的意义：可以以异步模式向处理消息慢的消费者分配消息；以同步模式向处理消息快的消费者分配消息。</p>
+<p>ActiveMQ默认以同步模式分派消息，这样的设置可以提高性能。但是对于处理消息慢的消费者，需要以异步模式分派。</p>
+<p>在 ConnectionFactory 层面配置同步分派:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((ActiveMQConnectionFactory)connectionFactory).setDispatchAsync(false);</span><br></pre></td></tr></table></figure>
+<p>在 Connection 层面配置同步分派，此层面的设置将覆盖ConnectionFactory层面的设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((ActiveMQConnection)connection).setDispatchAsync(false);</span><br></pre></td></tr></table></figure>
+
+<p>在消费者层面以 Destination URI配置同步分派，此层面的设置将覆盖ConnectionFactory 和 Connection 层面的设置:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">queue = new ActiveMQQueue(&quot;TEST.QUEUE?consumer.dispatchAsync=false&quot;);</span><br><span class="line">consumer = session.createConsumer(queue);</span><br></pre></td></tr></table></figure>
+
+<h4 id="消费者优先级"><a href="#消费者优先级" class="headerlink" title="消费者优先级"></a>消费者优先级</h4><p>在 ActveMQ 分布式环境中，在有消费者存在的情况下，如果更希望ActveMQ 发送消息给消费者而不是其他的 ActveMQ 到ActveMQ 的传送，可以如下设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">queue = new ActiveMQQueue(&quot;TEST.QUEUE?consumer.prority=10&quot;);</span><br><span class="line">consumer = session.createConsumer(queue);</span><br></pre></td></tr></table></figure>
+
+<h4 id="独占的消费者"><a href="#独占的消费者" class="headerlink" title="独占的消费者"></a>独占的消费者</h4><p>ActiveMQ维护队列消息的顺序并顺序把消息分派给消费者。但是如果建立了多个Session 和 MessageConsumer，那么同一时刻多个线程同时从一个队列中接收消息时就并不能保证处理时有序。</p>
+<p>有时候有序处理消息是非常重要的。ActiveMQ4 支持独占的消费。ActiveMQ 挑选一个MessageConsumer， 并把一个队列中所有消息按顺序分派给它。 如果消费者发生故障，那么 ActiveMQ 将自动故障转移并选择另一个消费者。可以如下设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">queue = new ActiveMQQueue(&quot;TEST.QUEUE?consumer.exclusive=true&quot;);</span><br><span class="line">consumer = session.createConsumer(queue);</span><br></pre></td></tr></table></figure>
+
+<h4 id="再次传送策略"><a href="#再次传送策略" class="headerlink" title="再次传送策略"></a>再次传送策略</h4><p>在以下三种情况中，消息会被再次传送给消费者：</p>
+<p>1．在使用事务的 Session 中，调用 rollback()方法；<br>2．在使用事务的 Session 中，调用 commit()方法之前就关闭了 Session;<br>3．在 Session中使用 CLIENT_ACKNOWLEDGE 签收模式，并且调用了 recover()方法。</p>
+<p>可以通过设置 ActiveMQConnectionFactory和 ActiveMQConnection 来定制想要的再次传送策略。</p>
+<h3 id="目标特色"><a href="#目标特色" class="headerlink" title="目标特色"></a>目标特色</h3><h4 id="复合目标"><a href="#复合目标" class="headerlink" title="复合目标"></a>复合目标</h4><p>在 1.1 版本之后，ActiveMQ支持混合目标技术。它允许在一个 JMS 目标中使用一组JMS 目标。</p>
+<p>例如可以利用混合目标在同一操作中用向 12 个队列发送同一条消息或者在同一操作中向一个主题和一个队列发送同一条消息。</p>
+<p>在混合目标中，通过“,”来分隔不同的目标。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// send to 3 queues as one logical operation</span><br><span class="line">Queue queue = new ActiveMQQueue(&quot;FOO.A,FOO.B,FOO.C&quot;);</span><br><span class="line">producer.send(queue, someMessage);</span><br></pre></td></tr></table></figure>
+<p>如果在一个目标中混合不同类别的目标， 可以通过使用 “queue:&#x2F;&#x2F;” 和 “topic:&#x2F;&#x2F;”<br>前缀来识别不同的目标。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// send to queues and topic one logical operation</span><br><span class="line">Queue queue = new ActiveMQQueue(&quot;FOO.A,topic://NOTIFY.FOO.A&quot;);</span><br><span class="line">producer.send(queue, someMessage);</span><br></pre></td></tr></table></figure>
+<h4 id="消息预取"><a href="#消息预取" class="headerlink" title="消息预取"></a>消息预取</h4><p>ActiveMQ的目标之一就是高性能的数据传送，所以 ActiveMQ 使用“预取限制”来控制有多少消息能及时的传送给任何地方的消费者。</p>
+<p>一旦预取数量达到限制，那么就不会有消息被分派给这个消费者直到它发回签收消息（用来标识所有的消息已经被处理）。</p>
+<p>可以为每个消费者指定消息预取。如果有大量的消息并且希望更高的性能，那么可以为这个消费者增大预取值。如果有少量的消息并且每条消息的处理都要花费很长的时间，那么可以设置预取值为 1，这样同一时间，ActiveMQ 只会为这个消费者分派一条消息。</p>
+<p>在 ConnectionFactory 层面为所有消费者配置预取值:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp://localhost:61616?jms.prefetchPolicy.all=50</span><br></pre></td></tr></table></figure>
+<p>在 ConnectionFactory 层面为队列消费者配置预取值:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp://localhost:61616?jms.prefetchPolicy.queuePrefetch=1</span><br></pre></td></tr></table></figure>
+<p>使用“目标选项”为一个消费者配置预取值:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">queue = new ActiveMQQueue(&quot;TEST.QUEUE?consumer.prefetchSize=10&quot;);</span><br><span class="line">consumer = session.createConsumer(queue);</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置连接URL"><a href="#配置连接URL" class="headerlink" title="配置连接URL"></a>配置连接URL</h4><p>ActiveMQ支持通过 Configuration URI 明确的配置连接属性。</p>
+<p>例如：当要设置异步发送时，可以通过在Configuration URI 中使用jms.$PROPER<br>TY 来设置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp://localhost:61616?jms.useAsyncSend=true</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/jms/activemqsenior/" data-id="clhlnyley009uojup1b22h65u" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ActiveMQ/" rel="tag">ActiveMQ</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/jms/activemq" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/jms/activemq/" class="article-date">
+  <time datetime="2019-01-07T09:46:34.000Z" itemprop="datePublished">2019-01-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/jms/activemq/">【JMS】ActiveMQ使用指南</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="ActiveMQ"><a href="#ActiveMQ" class="headerlink" title="ActiveMQ"></a>ActiveMQ</h3><p>ActiveMQ是JMS的一种实现，是比较流行的一款，特性及优势：</p>
+<p>1、实现 JMS1.1 规范，支持 J2EE1.4以上<br>2、可运行于任何 jvm和大部分 web 容器（ActiveMQ works great in any JVM）<br>3、支持多种语言客户端（java, C, C++, AJAX, ACTIONSCRIPT 等等）<br>4、支持多种协议（stomp，openwire，REST）<br>5、良好的 spring 支持（ActiveMQ has great Spring Support）<br>6、速度很快，JBossMQ的十倍（ActiveMQ is very fast; often 10x faster than JBossMQ.）<br>7、与 OpenJMS、JbossMQ等开源jms provider 相比，ActiveMQ有 Apache 的支<br>持，持续发展的优势明显。</p>
+<h3 id="编程模板"><a href="#编程模板" class="headerlink" title="编程模板"></a>编程模板</h3><p>要初始化 JMS，则需要使用连接工厂。客户端通过创建ConnectionFactory 建立到<br>ActveMQ 的连接。</p>
+<h4 id="ActiveMQConnectionFactory"><a href="#ActiveMQConnectionFactory" class="headerlink" title="ActiveMQConnectionFactory"></a>ActiveMQConnectionFactory</h4><p>构造方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ActiveMQConnectionFactory();</span><br><span class="line">ActiveMQConnectionFactory(String brokerURL);</span><br><span class="line">ActiveMQConnectionFactory(String userName, String password, String brokerURL) ;</span><br><span class="line">ActiveMQConnectionFactory(String userName, String password, URI brokerURL) ;</span><br><span class="line">ActiveMQConnectionFactory(URI brokerURL);</span><br></pre></td></tr></table></figure>
+<p>其中 brokerURL 为 ActiveMQ 服务地址和端口。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(&quot;tcp://192.168.0.135:61616&quot;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Connection"><a href="#Connection" class="headerlink" title="Connection"></a>Connection</h4><p>在成功创建正确的 ConnectionFactory后，下一步将是创建一个连接，它是 JMS 定<br>义的一个接口。</p>
+<p>ConnectionFactory负责返回可以与底层消息传递系统进行通信的 Connection 实现。通常客户端只使用单一连接。根据JMS 文档，Connection的目的是“利用 JMS 提供者封装开放的连接”，以及表示“客户端与提供者服务例程之间的开放TCP&#x2F;IP 套接字”。</p>
+<p>该文档还指出 Connection 应该是进行客户端身份验证的地方，除了其他一些事项外，客户端还可以指定惟一标志符。</p>
+<p>当一个 Connection 被创建时， 它的传输默认是关闭的， 必须使用 start 方法开启。</p>
+<p>一个 Connection 可以建立一个或多个的Session。</p>
+<p>当一个程序执行完成后，必须关闭之前创建的Connection，否则ActiveMQ不能释放资源，关闭一个Connection 同样也关闭了Session，MessageProducer 和MessageConsumer。</p>
+<p>Connection 支持并发。</p>
+<p>ActiveMQConnectionFactory 方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Connection createConnection()；</span><br><span class="line">Connection createConnection(String userName, String password);</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Connection connection = connectionFactory.createConnection();</span><br><span class="line">connection.start();</span><br></pre></td></tr></table></figure>
+
+<h4 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h4><p>一旦从 ConnectionFactory 中获得一个Connection，就必须从 Connection中创建一个或者多个 Session。Session 是一个发送或接收消息的线程，可以使用Session创建 MessageProducer，MessageConsumer和 Message。</p>
+<p>Session 可以被事务化，也可以不被事务化，通常，可以通过向 Connection 上的适<br>当创建方法传递一个布尔参数对此进行设置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Session createSession(boolean transacted, int acknowledgeMode);</span><br></pre></td></tr></table></figure>
+<p>其中 transacted 为使用事务标识，acknowledgeMode 为签收模式。<br>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE); </span><br></pre></td></tr></table></figure>
+
+<h4 id="Destination"><a href="#Destination" class="headerlink" title="Destination"></a>Destination</h4><p>Destination 是一个客户端用来指定生产消息目标和消费消息来源的对象。</p>
+<p>在 PTP 模式中，Destination 被称作Queue 即队列；在 Pub&#x2F;Sub 模式，Destinatio<br>n 被称作 Topic 即主题。在程序中可以使用多个Queue 和 Topic。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Queue createQueue(String queueName);</span><br><span class="line">TemporaryQueue createTemporaryQueue();</span><br><span class="line">Topic createTopic(String topicName);</span><br><span class="line">TemporaryTopic createTemporaryTopic();</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Destination destination = session.createQueue(&quot;TEST.FOO&quot;);</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Destination destination = session.createTopic(&quot;TEST.FOO&quot;);</span><br></pre></td></tr></table></figure>
+<h4 id="MessageProducer"><a href="#MessageProducer" class="headerlink" title="MessageProducer"></a>MessageProducer</h4><p>MessageProducer 是一个由 Session创建的对象，用来向 Destination发送消息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MessageProducer createProducer(Destination destination);</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MessageProducer producer = session.createProducer(destination);</span><br></pre></td></tr></table></figure>
+<p>发送消息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void send(Destination destination, Message message);</span><br><span class="line">void send(Destination destination, Message message, int deliveryMode, int priority,long timeToLive);</span><br><span class="line">void send(Message message);</span><br><span class="line">void send(Message message, int deliveryMode, int priority, long timeToLive);</span><br></pre></td></tr></table></figure>
+<p>其中 deliveryMode 为传送模式，priority 为消息优先级，timeToLive 为消息过期时间。</p>
+<h4 id="MessageConsumer"><a href="#MessageConsumer" class="headerlink" title="MessageConsumer"></a>MessageConsumer</h4><p>MessageConsumer 是一个由 Session创建的对象，用来从 Destination接收消息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MessageConsumer createConsumer(Destination destination);</span><br><span class="line">MessageConsumer createConsumer(Destination destination, String messageSelector);</span><br><span class="line">MessageConsumer createConsumer(Destination destination, String messageSelector, boolean noLocal);</span><br><span class="line">TopicSubscriber createDurableSubscriber(Topic topic, String name);</span><br><span class="line">TopicSubscriber createDurableSubscriber(Topic topic, String name, String</span><br><span class="line"> messageSelector, boolean noLocal);</span><br></pre></td></tr></table></figure>
+<p>其中 messageSelector 为消息选择器；noLocal 标志默认为 false，当设置为true时限制消费者只能接收和自己相同的连接（Connection）所发布的消息，此标志只适用于主题，不适用于队列；name标识订阅主题所对应的订阅名称，持久订阅时需要设置此参数。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MessageConsumer consumer = session.createConsumer(destination);</span><br></pre></td></tr></table></figure>
+
+<h4 id="消息的同步和异步接收"><a href="#消息的同步和异步接收" class="headerlink" title="消息的同步和异步接收"></a>消息的同步和异步接收</h4><p>消息的同步接收是指客户端主动去接收消息，客户端可以采用MessageConsumer的 receive 方法去接收下一个消息。</p>
+<p>消息的异步接收是指当消息到达时，ActiveMQ 主动通知客户端。客户端可以通过注册一个实现 MessageListener 接口的对象到MessageConsumer。MessageListener只有一个必须实现的方法 —— onMessage，它只接收一个参数，即 Message。在为每个发送到 Destination 的消息实现 onMessage时，将调用该方法。</p>
+<p>Message receive()<br>Message receive(long timeout)<br>Message receiveNoWait()</p>
+<p>其中 timeout 为等待时间，单位为毫秒。</p>
+<p>或者实现 MessageListener 接口，每当消息到达时，ActiveMQ 会调用 MessageListener中的 onMessage 函数。</p>
+<h4 id="消息选择器"><a href="#消息选择器" class="headerlink" title="消息选择器"></a>消息选择器</h4><p>JMS 提供了一种机制，使用它，消息服务可根据消息选择器中的标准来执行消息过滤。生产者可在消息中放入应用程序特有的属性，而消费者可使用基于这些属性的选择标准来表明对消息是否感兴趣。这就简化了客户端的工作，并避免了向不需要这些消息的消费者传送消息的开销。然而，它也使得处理选择标准的消息服务增加了一些额外开销。</p>
+<p>消息选择器是用于MessageConsumer的过滤器，可以用来过滤传入消息的属性和消息头部分（但不过滤消息体），并确定是否将实际消费该消息。按照 JMS 文档的说法，消息选择器是一些字符串，它们基于某种语法，而这种语法是SQL-92的子集。可以将消息选择器作为MessageConsumer 创建的一部分。</p>
+<h4 id="Message"><a href="#Message" class="headerlink" title="Message"></a>Message</h4><p>JMS 程序的最终目的是生产和消费的消息能被其他程序使用，JMS的 Message是一个既简单又不乏灵活性的基本格式，允许创建不同平台上符合非 JMS 程序格式的消息。Message 由以下几部分组成：消息头，属性和消息体。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">BlobMessage createBlobMessage(File file)</span><br><span class="line">BlobMessage createBlobMessage(InputStream in)</span><br><span class="line">BlobMessage createBlobMessage(URL url)</span><br><span class="line">BlobMessage createBlobMessage(URL url, boolean deletedByBroker)</span><br><span class="line">BytesMessage createBytesMessage()</span><br><span class="line">MapMessage createMapMessage()</span><br><span class="line">Message createMessage()</span><br><span class="line">ObjectMessage createObjectMessage()</span><br><span class="line">ObjectMessage createObjectMessage(Serializable object)</span><br><span class="line">TextMessage createTextMessage()</span><br><span class="line">TextMessage createTextMessage(String text)</span><br></pre></td></tr></table></figure>
+
+<p>例如：</p>
+<p>下例演示创建并发送一个 TextMessage到一个队列：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TextMessage message = queueSession.createTextMessage();</span><br><span class="line">message.setText(msg_text); // msg_text is a String</span><br><span class="line">queueSender.send(message);</span><br></pre></td></tr></table></figure>
+<p>下例演示接收消息并转换为合适的消息类型：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Message m = queueReceiver.receive();</span><br><span class="line">if (m instanceof TextMessage) &#123;</span><br><span class="line"> TextMessage message = (TextMessage) m;</span><br><span class="line"> System.out.println(&quot;Reading message: &quot; + message.getText());</span><br><span class="line">&#125; else &#123;</span><br><span class="line"> // Handle error</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/jms/activemq/" data-id="clhlnylex009mojup16v67q69" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ActiveMQ/" rel="tag">ActiveMQ</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-blog/arch/jms/jms" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/arch/jms/jms/" class="article-date">
+  <time datetime="2019-01-03T07:43:20.000Z" itemprop="datePublished">2019-01-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a>►<a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/arch/jms/jms/">【JMS】JMS概述</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当前，CORBA、DCOM、RMI等RPC中间件技术已广泛应用于各个领域。但是面对规模和复杂度都越来越高的分布式系统，这些技术也显示出其局限性：</p>
+<p>（1）同步通信：客户发出调用后，必须等待服务对象完成处理并返回结果后才能继续执行；<br>（2）客户和服务对象的生命周期紧密耦合：客户进程和服务对象进程 都必须正常运行；如果由于服务对象崩溃或者网络故障导致客户的请求不可达，客户会接收到异常；<br>（3）点对点通信：客户的一次调用只发送给某个单独的目标对象。</p>
+<p>面向消息的中间件（Message Oriented Middleware，MOM）较好的解决了以上问题。发送者将消息发送给消息服务器，消息服务器将消息存放在若干队列中，在合适的时候再将消息转发给接收者。</p>
+<p>这种模式下， 发送和接收是异步的， 发送者无需等待；二者的生命周期未必相同：发送消息的时候接收者不一定运行，接收消息的时候发送者也不一定运行； 一对多通信：对于一个消息可以有多个接收者。</p>
+<p>已有的 MOM 系统包括IBM 的MQSeries、Microsoft 的 MSMQ和BEA 的 MessageQ等。由于没有一个通用的标准，这些系统很难实现互操作和无缝连接。</p>
+<h3 id="JMS"><a href="#JMS" class="headerlink" title="JMS"></a>JMS</h3><p>[Java Message Service（JMS）]是 SUN 提出的旨在统一各种 MOM 系统接口的规范，它包含点对点（Point to Point，PTP）和发布&#x2F;订阅（Publish&#x2F;Subscribe，pub&#x2F;sub）两种消息模型，提供可靠消息传输、事务和消息过滤等机制。</p>
+<h3 id="JMS规范"><a href="#JMS规范" class="headerlink" title="JMS规范"></a>JMS规范</h3><p>JAVA 消息服务(JMS)定义了 Java 中访问消息中间件的接口。JMS 只是接口，并没有给予实现，实现 JMS 接口的消息中间件称为 JMS Provider，例如 ActiveMQ。</p>
+<h3 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h3><ol>
+<li>JMS Provider：实现 JMS 接口的消息中间件；</li>
+<li>PTP：Point to Point，即点对点的消息模型；</li>
+<li>Pub&#x2F;Sub：Publish&#x2F;Subscribe，即发布&#x2F;订阅的消息模型；</li>
+<li>Queue：队列目标；</li>
+<li>Topic：主题目标；</li>
+<li>ConnectionFactory：连接工厂，JMS 用它创建连接；</li>
+<li>Connection：JMS 客户端到 JMS Provider 的连接；</li>
+<li>Destination：消息的目的地；</li>
+<li>Session：会话，一个发送或接收消息的线程； MessageProducer：由 Session 对象创建的用来发送消息的对象；</li>
+<li>MessageConsumer：由 Session 对象创建的用来接收消息的对象;</li>
+<li>Acknowledge：签收；</li>
+<li>Transaction：事务。</li>
+</ol>
+<h3 id="JMS-编程模型"><a href="#JMS-编程模型" class="headerlink" title="JMS 编程模型"></a>JMS 编程模型</h3><p>在JMS编程模型中， JMS客户端（组件或应用程序） 通过JMS消息服务交换消息。消息生产者将消息发送至消息服务，消息消费者则从消息服务接收这些消息。这些消息传送操作是使用一组实现 JMS 应用编程接口 (API) 的对象（由 JMS Provide 提供）来执行的。</p>
+<p>在JMS编程模型中，JMS客户端使用 <code>ConnectionFactory</code> 对象创建一个连接，向消息服务发送消息以及从消息服务接收消息均是通过此连接来进行。Connection 是客户端与消息服务的活动连接。创建连接时，将分配通信资源以及验证客户端。这是一个相当重要的对象，大多数客户端均使用一个连接来进行所有的消息传送。</p>
+<p>连接用于创建会话。<code>Session</code> 是一个用于生成和使用消息的单线程上下文。它用于创建发送的生产者和接收消息的消费者，并为所发送的消息定义发送顺序。会话通过大量确认选项或通过事务来支持可靠传送。</p>
+<p>客户端使用 <code>MessageProducer</code> 向指定的物理目标（在 API 中表示为目标身份对象）发送消息。生产者可指定一个默认传送模式（持久性消息与非持久性消息）、优先级和有效期值，以控制生产者向物理目标发送的所有消息。</p>
+<p>同样，客户端使用 <code>MessageConsumer</code> 对象从指定的物理目标（在 API 中表示为目标对象）接收消息。消费者可使用消息选择器，借助它，消息服务可以只向消费者发送与选择标准匹配的那些消息。</p>
+<p>消费者可以支持同步或异步消息接收。异步使用可通过向消费者注册 <code>MessageListener</code> 来实现。当会话线程调用 <code>MessageListener</code> 对象的 <code>onMessage</code> 方法时，客户端将使用消息。</p>
+<h3 id="JMS-编程域"><a href="#JMS-编程域" class="headerlink" title="JMS 编程域"></a>JMS 编程域</h3><p>JMS 支持两种截然不同的消息传送模型：PTP（即点对点模型）和Pub&#x2F;Sub（即发布&#x2F;订阅模型），分别称作：PTP Domain 和Pub&#x2F;Sub Domain。</p>
+<p>PTP（使用Queue即队列目标）消息从一个生产者传送至一个消费者。在此传送模型中，目标是一个队列。消息首先被传送至队列目标，然后根据队列传送策略，从该队列将消息传送至向此队列进行注册的某一个消费者，一次只传送一条消息。可以向队列目标发送消息的生产者的数量没有限制，但每条消息只能发送至、并由一个消费者成功使用。如果没有已经向队列目标注册的消费者，队列将保留它收到的消息，并在某个消费者向该队列进行注册时将消息传送给该消费者。</p>
+<p>Pub&#x2F;Sub（使用 Topic即主题目标）消息从一个生产者传送至任意数量的消费者。在此传送模型中，目标是一个主题。消息首先被传送至主题目标，然后传送至所有已订阅此主题的活动消费者。可以向主题目标发送消息的生产者的数量没有限制，并且每个消息可以发送至任意数量的订阅消费者。主题目标也支持持久订阅的概念。持久订阅表示消费者已向主题目标进行注册，但在消息传送时此消费者可以处于非活动状态。当此消费者再次处于活动状态时，它将接收此信息。如果没有已经向主题目标注册的消费者，主题不保留其接收到的消息，除非有非活动消费者注册了持久订阅。</p>
+<p>简单说就是，同一目标可以有多个生产者，也可以有多个消息者。一个消息，PTP模式被一个消费都消费之后目标会删除消息，其它消费者就消费不到了；PS模式一个消息被消费后不会消失，其它消息者还可以消费。</p>
+<h3 id="开发-JSM-的步骤"><a href="#开发-JSM-的步骤" class="headerlink" title="开发 JSM 的步骤"></a>开发 JSM 的步骤</h3><p>广义上说，一个 JMS 应用是几个JMS 客户端交换消息，开发 JMS 客户端应用由以<br>下几步构成：</p>
+<ol>
+<li>得到 ConnectionFactory 对象；</li>
+<li>用 ConnectionFactory 创建 Connection 对象；</li>
+<li>用 Connection 对象创建一个或多个JMS Session；</li>
+<li>得到目标队列或主题对象，即Destination 对象；</li>
+<li>用 Session 和 Destination 创建MessageProducer 和 MessageConsumer；</li>
+<li>通知 Connection 开始传送消息。</li>
+</ol>
+<h3 id="JMS支持并发"><a href="#JMS支持并发" class="headerlink" title="JMS支持并发"></a>JMS支持并发</h3><p>JMS对象并不是所有对象都支持并发。</p>
+<p>支持并发：Destination、ConnectionFactory、Connection</p>
+<p>不支持并发：Session、MessageProducer、MessageConsumer</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/jms/jms/" data-id="clhlnylex009qojuphq2g4w90" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/4/">下一页 &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/" rel="tag">AOP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASCII%E7%A0%81/" rel="tag">ASCII码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ActiveMQ/" rel="tag">ActiveMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ajax/" rel="tag">Ajax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/BAT%E8%84%9A%E6%9C%AC/" rel="tag">BAT脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAP/" rel="tag">CAP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CAS/" rel="tag">CAS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eclipse/" rel="tag">Eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emacs/" rel="tag">Emacs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Emmet/" rel="tag">Emmet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GIT/" rel="tag">GIT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HttpClient/" rel="tag">HttpClient</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IPFS/" rel="tag">IPFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-IO/" rel="tag">JAVA IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-NIO/" rel="tag">JAVA NIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA-WEB/" rel="tag">JAVA WEB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA8/" rel="tag">JAVA8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lisp/" rel="tag">Lisp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQL/" rel="tag">SQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scala/" rel="tag">Scala</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/" rel="tag">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-MVC/" rel="tag">Spring MVC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VIM/" rel="tag">VIM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WEB%E5%BC%80%E5%8F%91/" rel="tag">WEB开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/" rel="tag">XML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/archtype/" rel="tag">archtype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/azkaban/" rel="tag">azkaban</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hive/" rel="tag">hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jquery/" rel="tag">jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql-neo4j/" rel="tag">nosql neo4j</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openssl/" rel="tag">openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/" rel="tag">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spark/" rel="tag">spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webservice/" rel="tag">webservice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" rel="tag">一致性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" rel="tag">任务调度</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag">区块链</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag">大数据</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" rel="tag">字符编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" rel="tag">字符集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%A1%E8%AE%A1/" rel="tag">审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" rel="tag">密码术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" rel="tag">尾递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" rel="tag">摘要算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" rel="tag">数字签名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" rel="tag">数字证书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" rel="tag">数据权限</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" rel="tag">树算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正规表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" rel="tag">知识体系</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E5%99%A8/" rel="tag">神器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">自制操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%81/" rel="tag">锁</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2999/12/">十二月 2999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">九月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/02/">二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">九月 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】特别说明</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 证心<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
