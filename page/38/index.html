@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="OneKBase">
+<meta property="og:url" content="http://www.onekbase.com/page/38/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="证心">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">归一</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" target="_blank" rel="noopener" href="http://site.onekbase.com">ITEEDU</a>
+        
+          <a class="main-nav-link" href="/about/">关于</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-blog/plang/lisp/pcldiary/chapter8" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/plang/lisp/pcldiary/chapter8/" class="article-date">
+  <time class="dt-published" datetime="2017-02-09T08:36:44.000Z" itemprop="datePublished">2017-02-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/plang/lisp/pcldiary/chapter8/">第8章如何自定义宏-实用Common Lisp编程笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="DEFMACRO"><a href="#DEFMACRO" class="headerlink" title="DEFMACRO"></a>DEFMACRO</h2><p>格式：</p>
+<pre><code>(defmacro name (parameter*)
+       body-form*)
+   
+</code></pre>
+<h2 id="do-primes"><a href="#do-primes" class="headerlink" title="do-primes"></a>do-primes</h2><p>素数迭代宏的实现</p>
+<p>两个工具函数</p>
+<p>一个数是否是素数</p>
+<pre><code>(defun primep (number)
+       (when (&gt; number 1)
+         (loop for fac from 2 to (isqrt number) never (zerop (mod number fac)))))
+
+CL-USER&gt; (primep 17)
+T
+CL-USER&gt; (primep 10)
+NIL
+CL-USER&gt; 
+</code></pre>
+<p>找一下数的下一个素数</p>
+<pre><code> (defun next-primep (number)
+       (loop for n from number when (primep n) return n))
+       
+CL-USER&gt; (next-primep 10)
+11
+CL-USER&gt; (next-primep 20)
+23
+CL-USER&gt; 
+</code></pre>
+<p>do-primes定义</p>
+<pre><code>(defmacro do-primes (var-and-range &amp;rest body)
+       (let ((var (first var-and-range))
+         (start (second var-and-range))
+         (end (third var-and-range)))
+         `(do ((,var (next-primep ,start) (next-primep (+ 1 ,var))))
+          ((&gt; ,var ,end))
+        ,@body)))
+        
+</code></pre>
+<p>测试</p>
+<pre><code>CL-USER&gt; (do-primes (p 0 19) (format t &quot;~d &quot; p))
+2 3 5 7 11 13 17 19 
+NIL
+</code></pre>
+<p>宏展开式</p>
+<pre><code>CL-USER&gt; (macroexpand-1 `(do-primes (p 0 19) (format t &quot;~d &quot; p)))
+(DO ((P (NEXT-PRIMEP 0) (NEXT-PRIMEP (+ 1 P)))) ((&gt; P 19)) (FORMAT T &quot;~d &quot; P))
+T
+</code></pre>
+<p>slime宏展开快捷键</p>
+<p>光标移动到源码的开括号上，C-c RET，调用slime的slime-macroexpand-1，后者调用macroexpand-1，结果输出到一缓冲区</p>
+<h2 id="堵住漏洞"><a href="#堵住漏洞" class="headerlink" title="堵住漏洞"></a>堵住漏洞</h2><pre><code>(defmacro do-primes ((var start end) &amp;rest body)
+             `(do ((,var (next-primep ,start) (next-primep (+ 1 ,var))))
+              ((&gt; ,var ,end))
+            ,@body))
+
+CL-USER&gt; (do-primes (p 0 19) (format t &quot;~d &quot; p))
+2 3 5 7 11 13 17 19 
+NIL
+</code></pre>
+<p>多次求值漏洞</p>
+<pre><code>(do-primes (p 0 (random 100))
+       (format t &quot;~d &quot; p))
+       
+(DO ((P (NEXT-PRIMEP 0) (NEXT-PRIMEP (+ 1 P))))
+    ((&gt; P (RANDOM 100)))
+  (FORMAT T &quot;~d &quot; P))
+</code></pre>
+<p>循环结束条件每次迭代会随机一次，需求应该是在第一次进入迭代时产生一次做结束值。</p>
+<pre><code>(defmacro do-primes ((var start end) &amp;rest body)
+             `(do ((,var (next-primep ,start) (next-primep (+ 1 ,var)))
+                (ending-value ,end))
+                ((&gt; ,var ending-value))
+            ,@body))
+</code></pre>
+<p>新定义变量代替入参解决多次求值问题。</p>
+<p>参数漏洞</p>
+<p>新定义变量引入新问题，宏参会宏体同名变量互相影响。</p>
+<pre><code>(do-primes (ending-value 0 10)
+       (print ending-value))
+       
+(DO ((ENDING-VALUE (NEXT-PRIMEP 0) (NEXT-PRIMEP (+ 1 ENDING-VALUE)))
+     (ENDING-VALUE 10))
+    ((&gt; ENDING-VALUE ENDING-VALUE))
+  (PRINT ENDING-VALUE))
+</code></pre>
+<p>gensym解决变量名冲突问题</p>
+<pre><code>(defmacro do-primes ((var start end) &amp;rest body)
+       (let ((ending-value-name (gensym)))
+         `(do ((,var (next-primep ,start) (next-primep (+ 1 ,var)))
+                    (,ending-value-name ,end))
+                    ((&gt; ,var ,ending-value-name))
+                ,@body)))
+</code></pre>
+<p>宏展开</p>
+<pre><code>(DO ((P (NEXT-PRIMEP 0) (NEXT-PRIMEP (+ 1 P)))
+     (#:G780 19))
+    ((&gt; P #:G780))
+  (FORMAT T &quot;~d &quot; P))
+</code></pre>
+<p>漏洞处理总结：</p>
+<p>除非有特殊理由，否则需要将展开式中的任何子形式放在一个位置上，使其求值顺序与宏调用的子形式相同。</p>
+<p>除非有特殊理由，否则需要确保子形式仅被求值一次，方法是在展开式中创建变量来持有求值参数形式所得到的值，然后在展开式中所有需要用到该值的地方使用这个变量。</p>
+<p>在宏展开期使用GENSYM来创建展开式中用到的变量名。</p>
+<h2 id="用于编写宏的宏"><a href="#用于编写宏的宏" class="headerlink" title="用于编写宏的宏"></a>用于编写宏的宏</h2><p>简化GENSYM的宏</p>
+<pre><code>(defmacro with-gensyms ((&amp;rest names) &amp;body body)
+       `(let ,(loop for n in names collect `(,n (gensym)))
+          ,@body))
+      
+</code></pre>
+<p>应用</p>
+<pre><code>(defmacro do-primes ((var start end) &amp;rest body)
+           (with-gensyms (ending-value-name)
+             `(do ((,var (next-primep ,start) (next-primep (+ 1 ,var)))
+                        (,ending-value-name ,end))
+                        ((&gt; ,var ,ending-value-name))
+                    ,@body)))
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/lisp/pcldiary/chapter8/" data-id="clhlnylj500y8ojup2tbj4c0e" data-title="第8章如何自定义宏-实用Common Lisp编程笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-blog/plang/lisp/pcldiary/chapter7" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/plang/lisp/pcldiary/chapter7/" class="article-date">
+  <time class="dt-published" datetime="2017-02-09T08:35:55.000Z" itemprop="datePublished">2017-02-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/plang/lisp/pcldiary/chapter7/">第7章标准控制结构-实用Common Lisp编程笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="if"><a href="#if" class="headerlink" title="if"></a>if</h2><pre><code>(if condtion then-form [else-form])
+</code></pre>
+<p>then-form和else-form只能是单一lisp表达式。</p>
+<p>示例：</p>
+<pre><code>CL-USER&gt; (if (&gt; 2 3) &quot;then-form&quot; &quot;else-form&quot;)
+&quot;else-form&quot;
+CL-USER&gt; (if (&gt; 2 3) &quot;then-form&quot;)
+NIL
+CL-USER&gt; (if (&gt; 3 2) &quot;then-form&quot; &quot;else-form&quot;)
+&quot;then-form&quot;
+CL-USER&gt;
+</code></pre>
+<h2 id="progn"><a href="#progn" class="headerlink" title="progn"></a>progn</h2><p>顺序执行任意数量的宏，返回最后一个形式的值。</p>
+<pre><code>(when (判断条件)
+  (语句1)
+  (语句2))
+
+CL-USER&gt; (when T &quot;a&quot; &quot;b&quot;)
+&quot;b&quot;
+CL-USER&gt; (when NIL &quot;a&quot; &quot;b&quot;)
+NIL
+</code></pre>
+<h2 id="WHEN宏"><a href="#WHEN宏" class="headerlink" title="WHEN宏"></a>WHEN宏</h2><pre><code>(defmacro when (condtion &amp;rest body)
+    `(if ,condtion (progn ,@body)))
+</code></pre>
+<h2 id="UNLESS宏"><a href="#UNLESS宏" class="headerlink" title="UNLESS宏"></a>UNLESS宏</h2><pre><code>(defmacro when (condtion &amp;rest body)
+    `(if （not ,condtion) (progn ,@body)))
+    
+    
+</code></pre>
+<h2 id="COND宏"><a href="#COND宏" class="headerlink" title="COND宏"></a>COND宏</h2><pre><code>(cond 
+    (test-1 form*)
+    ...
+    (test-n form*))
+
+CL-USER&gt; (COND (t &quot;a&quot; &quot;b&quot;)
+           (t &quot;c&quot; &quot;d&quot;))
+&quot;b&quot;
+</code></pre>
+<h2 id="AND-OR-NOT"><a href="#AND-OR-NOT" class="headerlink" title="AND OR NOT"></a>AND OR NOT</h2><pre><code>CL-USER&gt; (not nil)
+T
+CL-USER&gt; (not t)
+NIL
+CL-USER&gt; (and t nil)
+NIL
+CL-USER&gt; (or t nil)
+T
+</code></pre>
+<h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><p>lisp的25个操作符没有循环结构，所有循环结构都是基于TAGBODY和GO操作符上的宏。</p>
+<p>低层是一个强大的DO宏，dolist和dotimes是基于DO宏上的简便宏。</p>
+<p>非LISP语法的LOOP宏，类Algol语言。</p>
+<h2 id="dolist"><a href="#dolist" class="headerlink" title="dolist"></a>dolist</h2><pre><code>(dolist (var list-form)
+    body-form*)
+    
+CL-USER&gt; (dolist (x &#39;(1 2 3)) (print x))
+
+1 
+2 
+3 
+NIL
+</code></pre>
+<p>中断循环</p>
+<p>CL-USER&gt; (dolist (x ‘(1 2 3)) (print x) (if (evenp x) (return)))</p>
+<p>1<br>2<br>NIL</p>
+<h2 id="dotimes"><a href="#dotimes" class="headerlink" title="dotimes"></a>dotimes</h2><pre><code>(dotimes (var count-form)
+    body-form*)
+    
+CL-USER&gt; (dotimes (n 5)(print n) (prin1 (* n n)))
+
+0 0
+1 1
+2 4
+3 9
+4 16
+NIL
+</code></pre>
+<h2 id="do"><a href="#do" class="headerlink" title="do"></a>do</h2><pre><code>(do (variable-defination*)
+    (end-test-form result-form*)
+    statment*)
+</code></pre>
+<p>每个variable-defination的格式：</p>
+<p>(var init-form step-form)</p>
+<p>init-form:在循环开始时求值并赋给var，如果没有给出，则赋值为nil。</p>
+<p>step-form:在后续迭代开始前求值并赋给var,可选，如果没有变量值不变，<br>可在循环体中做修改。</p>
+<p>end-test-form:在每次迭代开始时以及所有所有循环变量指定新值后会被求值，只要值为nil，迭代继续。</p>
+<p>result-form: 当end-test-form值为真时会被求值，最后一个结果形式的值被当作DO表达式的值返回。<br>在迭代的每一步里step-form将在分配任何值给变量之前被求值。这意味着可以在步长形式里引用其它循环变量。如在下列循环中：</p>
+<pre><code>CL-USER&gt; (do ((n 0 (+ 1 n))
+          (cur 0 next)
+          (next 1 (+ cur next)))
+         ((= 10 n) cur))
+55
+</code></pre>
+<p>定义了三个variable-defination，n、cur、next，三个的步长(+ 1 n)、next、(+ cur next)都用旧值来求值。当所有步长被求值后变量才会赋新值。</p>
+<p>由于可以同时推进多个循环变量，往往不需要循环体。</p>
+<pre><code>CL-USER&gt; (do ((i 0 (+ 1 i)))
+         ((&gt;= i 4))
+       (print i))
+
+0 
+1 
+2 
+3 
+NIL
+</code></pre>
+<h2 id="LOOP"><a href="#LOOP" class="headerlink" title="LOOP"></a>LOOP</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/lisp/pcldiary/chapter7/" data-id="clhlnylj500y5ojupea7a8zol" data-title="第7章标准控制结构-实用Common Lisp编程笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Common-Lisp/" rel="tag">Common Lisp</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/37/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="page-number" href="/page/37/">37</a><span class="page-number current">38</span><a class="page-number" href="/page/39/">39</a><a class="page-number" href="/page/40/">40</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/39/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】公告</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 证心<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a target="_blank" rel="noopener" href="http://site.onekbase.com" class="mobile-nav-link">ITEEDU</a>
+  
+    <a href="/about/" class="mobile-nav-link">关于</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

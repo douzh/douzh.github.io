@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="OneKBase">
+<meta property="og:url" content="http://www.onekbase.com/page/110/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="证心">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">归一</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" target="_blank" rel="noopener" href="http://site.onekbase.com">ITEEDU</a>
+        
+          <a class="main-nav-link" href="/about/">关于</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-blog/plang/java/threadsafe/lbqexample" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/plang/java/threadsafe/lbqexample/" class="article-date">
+  <time class="dt-published" datetime="2015-12-25T05:43:52.000Z" itemprop="datePublished">2015-12-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/plang/java/threadsafe/lbqexample/">LinkedBlockingQueue生产消费模型简单实现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <pre><code>import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
+
+
+public class ModelSample &#123;
+    /** 线程池提交的任务数*/
+    private final int taskNum = Runtime.getRuntime().availableProcessors() + 1;
+    /** 用于多线程间存取产品的队列*/
+    private final LinkedBlockingQueue&lt; String&gt; queue = new LinkedBlockingQueue&lt; String&gt;(16);
+    /** 记录产量*/
+    private final AtomicLong output = new AtomicLong(0);
+    /** 记录销量*/
+    private final AtomicLong sales = new AtomicLong(0);
+    /** 简单的线程起步开关*/
+    private final CountDownLatch latch = new CountDownLatch(1);
+    /** 停产后是否售完队列内的产品的选项*/
+    private final boolean clear;
+    /** 用于提交任务的线程池*/
+    private final ExecutorService pool;
+    /** 简陋的命令发送器*/
+    private Scanner scanner;
+
+    public ModelSample(boolean clear) &#123;
+        this.pool = Executors.newCachedThreadPool();
+        this.clear = clear;
+    &#125;
+
+    /**
+     * 提交生产和消费任务给线程池,并在准备完毕后等待终止命令
+     */
+    public void service() &#123;
+        doService();
+        waitCommand();
+    &#125;
+    
+    /**
+     * 提交生产和消费任务给线程池,并在准备完毕后同时执行
+     */
+    private void doService() &#123;
+        for (int i = 0; i &lt; taskNum; i++) &#123;
+            if (i == 0) &#123;
+                pool.submit(new Worker(queue, output, latch));
+            &#125;
+            else &#123;
+                pool.submit(new Seller(queue, sales, latch, clear));
+            &#125;
+        &#125;
+        latch.countDown();//开闸放狗,线程池内的线程正式开始工作
+    &#125;
+
+    /**
+     * 接收来自终端输入的终止命令
+     */
+    private void waitCommand() &#123;
+        scanner = new Scanner(System.in);
+        while (!scanner.nextLine().equals(&quot;q&quot;)) &#123;
+            try &#123;
+                Thread.sleep(500);
+            &#125;
+            catch (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+        &#125;
+        scanner.close();
+        destory();
+    &#125;
+
+    /**
+     * 停止一切生产和销售的线程
+     */
+    private void destory() &#123;
+        pool.shutdownNow(); //不再接受新任务,同时试图中断池内正在执行的任务
+        while (clear &amp;&amp; queue.size() &gt; 0) &#123;
+            try &#123;
+                Thread.sleep(500);
+            &#125;
+            catch (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+        &#125;
+        System.out.println(&quot;Products:&quot; + output.get() + &quot;; Sales:&quot; + sales.get());
+    &#125;
+
+    public static void main(String[] args) &#123;
+        ModelSample model = new ModelSample(false);
+        model.service();
+    &#125;
+&#125;
+
+/**
+ * 生产者
+ */
+class Worker implements Runnable &#123;
+
+    /** 假想的产品*/
+    private static final String PRODUCT = &quot;Thinkpad&quot;;
+    private final LinkedBlockingQueue&lt; string&gt; queue;
+    private final CountDownLatch latch;
+    private final AtomicLong output;
+
+    public Worker(LinkedBlockingQueue&lt; String&gt; queue, AtomicLong output,CountDownLatch latch) &#123;
+        this.output = output;
+        this.queue = queue;
+        this.latch = latch;
+    &#125;
+
+    public void run() &#123;
+        try &#123;
+            latch.await(); // 放闸之前老实的等待着
+            for (;;) &#123;
+                doWork();
+                Thread.sleep(100);
+            &#125;
+        &#125;
+        catch (InterruptedException e) &#123;
+            System.out.println(&quot;Worker thread will be interrupted...&quot;);
+        &#125;
+    &#125;
+
+    private void doWork() throws InterruptedException &#123;
+        boolean success = queue.offer(PRODUCT, 100, TimeUnit.MILLISECONDS);
+        if (success) &#123;
+            output.incrementAndGet(); // 可以声明long型的参数获得返回值,作为日志的参数
+            // 可以在此处生成记录日志
+        &#125;
+    &#125;
+&#125;
+
+/**
+ * 消费者
+ */
+class Seller implements Runnable &#123;
+
+    private final LinkedBlockingQueue&lt; String&gt; queue;
+    private final AtomicLong sales;
+    private final CountDownLatch latch;
+    private final boolean clear;
+
+    public Seller(LinkedBlockingQueue&lt; String&gt; queue, AtomicLong sales, CountDownLatch latch, boolean clear) &#123;
+        this.queue = queue;
+        this.sales = sales;
+        this.latch = latch;
+        this.clear = clear;
+    &#125;
+
+    public void run() &#123;
+        try &#123;
+            latch.await(); // 放闸之前老实的等待着
+            for (;;) &#123;
+                sale();
+                Thread.sleep(500);
+            &#125;
+        &#125;
+        catch (InterruptedException e) &#123;
+            if(clear) &#123; // 响应中断请求后,如果有要求则销售完队列的产品后再终止线程
+                cleanWarehouse();
+            &#125;
+            else &#123;
+                System.out.println(&quot;Seller Thread will be interrupted...&quot;);
+            &#125;
+        &#125;
+    &#125;
+
+    private void sale() throws InterruptedException &#123;
+        String item = queue.poll(50, TimeUnit.MILLISECONDS);
+        if (item != null) &#123;
+            sales.incrementAndGet(); // 可以声明long型的参数获得返回值,作为日志的参数
+            // 可以在此处生成记录日志
+        &#125;
+    &#125;
+
+    /**
+     * 销售完队列剩余的产品
+     */
+    private void cleanWarehouse() &#123;
+        try &#123;
+            while (queue.size() &gt; 0) &#123;
+                sale();
+            &#125;
+        &#125;
+        catch (InterruptedException ex) &#123;
+            System.out.println(&quot;Seller Thread will be interrupted...&quot;);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>ModelSample是主控，负责生产消费的调度，Worker和Seller分别作为生产者和消费者，并均实现Runnable接口。ModelSample构造器内的参数clear主要是用于：当主控调用线程池的shutdownNow()方法时，会给池内的所有线程发送中断信号，使得线程的中断标志置位。这时候对应的Runnable的run()方法使用响应中断的LinkedBlockingQueue的方法(入队，出队)时就会抛出InterruptedException异常，生产者线程对这个异常的处理是记录信息后终止任务。而消费者线程是记录信息后终止任务，还是消费完队列内的产品再终止任务，则取决于这个选项值。</p>
+<p>多线程的一个难点在于适当得销毁线程，这里得益于LinkedBlockingQueue的入队和出队的操作均提供响应中断的API，使得控制起来相对的简单一点。在Worker和Seller中共享LinkedBlockingQueue的实例queue时，我没有使用put或者take在queue满和空状态时无限制的阻塞线程，而是使用offer(E<br>e, long timeout, TimeUnit unit)和poll(long timeout, TimeUnit<br>unit)在指定的timeout时间内满足条件时阻塞线程。主要因为在于：先中断生产线程的情况下，如果所有的消费线程之前均被扔到等待集，那么无法它们将被唤醒。而后两者在超时后将自行恢复可运行状态。</p>
+<p>再者看看queue的size()方法，这也是选择LinkedBlockingQueue而不选ArrayBlockingQueue作为阻塞队列的原因。因为前者使用的AtomicInteger的count.get()返回最新值，完全无锁；而后者则需要获取唯一的锁，在此期间无法进行任何出队，入队操作。而这个例子中clear&#x3D;&#x3D;true时，主线程和所有的消费线程均需要使用size()方法检查queue的元素个数。这类的非业务操作本就不该影响别的操作，所以这里LinkedBlockingQueue使用AtomicInteger计数无疑是个优秀的设计。</p>
+<p>另外编写这个例子时有点玩票的用了CountDownLatch，它的作用很简单。countDown()方法内部计数不为0时，执行了其await()方法的线程将会阻塞等待；一旦计数为0，这些线程将恢复可运行状态继续执行。这里用它就像一个发令枪，线程池submit任务的新线程在run内被阻塞，主线程一声令下countDown！这些生产消费线程均恢复执行状态。最后就是命令的实现过于简陋了，如果要响应其他的命令的话可以改造成响应事件处理的观察者模式，不过它不是演示的重点就从简了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/threadsafe/lbqexample/" data-id="clhlnylig00usojup1x2l3nug" data-title="LinkedBlockingQueue生产消费模型简单实现" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-blog/plang/java/threadsafe/concurrentlinkedqueue" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/plang/java/threadsafe/concurrentlinkedqueue/" class="article-date">
+  <time class="dt-published" datetime="2015-12-25T03:29:14.000Z" itemprop="datePublished">2015-12-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/plang/java/threadsafe/concurrentlinkedqueue/">JAVA同步之ConcurrentLinkedQueue</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>ConcurrentLinkedQueue充分使用了atomic包的实现打造了一个无锁得并发线程安全的队列。对比锁机制的实现，个人认为使用无锁机制的难点在于要充分考虑线程间的协调。简单的说就是多个线程对内部数据结构进行访问时，如果其中一个线程执行的中途因为一些原因出现故障，其他的线程能够检测并帮助完成剩下的操作。这就需要把对数据结构的操作过程精细的划分成多个状态或阶段，考虑每个阶段或状态多线程访问会出现的情况。上述的难点在此次分析的并发Queue的实现中有很好的说明。首先看看其部分源码：</p>
+<pre><code>public class ConcurrentLinkedQueue&lt; E&gt; extends AbstractQueue&lt; E&gt;
+        implements Queue&lt; E&gt;, java.io.Serializable &#123;
+    private static final long serialVersionUID = 196745693267521676L;
+
+    private static class Node&lt; E&gt; &#123;
+        private volatile E item;
+        private volatile Node&lt; E&gt; next;
+        private static final
+            AtomicReferenceFieldUpdater&lt; node node=&quot;&quot;&gt;
+            nextUpdater =
+            AtomicReferenceFieldUpdater.newUpdater
+            (Node.class, Node.class, &quot;next&quot;);
+        private static final
+            AtomicReferenceFieldUpdater&lt; node object=&quot;&quot;&gt;
+            itemUpdater =
+            AtomicReferenceFieldUpdater.newUpdater
+            (Node.class, Object.class, &quot;item&quot;);
+
+        Node(E x) &#123; item = x; &#125;
+
+        Node(E x, Node&lt; E&gt; n) &#123; item = x; next = n; &#125;
+
+        E getItem() &#123;
+            return item;
+        &#125;
+
+        boolean casItem(E cmp, E val) &#123;
+            return itemUpdater.compareAndSet(this, cmp, val);
+        &#125;
+
+        void setItem(E val) &#123;
+            itemUpdater.set(this, val);
+        &#125;
+
+        Node&lt; e&gt; getNext() &#123;
+            return next;
+        &#125;
+
+        boolean casNext(Node&lt; E&gt; cmp, Node&lt; E&gt; val) &#123;
+            return nextUpdater.compareAndSet(this, cmp, val);
+        &#125;
+
+        void setNext(Node&lt; E&gt; val) &#123;
+            nextUpdater.set(this, val);
+        &#125;
+
+    &#125;
+
+    private static final
+        AtomicReferenceFieldUpdater&lt; concurrentlinkedqueue node=&quot;&quot;&gt;
+        tailUpdater =
+        AtomicReferenceFieldUpdater.newUpdater
+        (ConcurrentLinkedQueue.class, Node.class, &quot;tail&quot;);
+    private static final
+        AtomicReferenceFieldUpdater&lt; concurrentlinkedqueue node=&quot;&quot;&gt;
+        headUpdater =
+        AtomicReferenceFieldUpdater.newUpdater
+        (ConcurrentLinkedQueue.class,  Node.class, &quot;head&quot;);
+
+    private boolean casTail(Node&lt; E&gt; cmp, Node&lt; E&gt; val) &#123;
+        return tailUpdater.compareAndSet(this, cmp, val);
+    &#125;
+
+    private boolean casHead(Node&lt; E&gt; cmp, Node &lt; e&gt; val) &#123;
+        return headUpdater.compareAndSet(this, cmp, val);
+    &#125;
+
+    private transient volatile Node &lt; e&gt; head = new Node&lt; E&gt;(null, null);
+
+    private transient volatile Node&lt; E&gt; tail = head;
+    ...
+&#125;
+</code></pre>
+<p>先看看其内部数据结构Node的实现。由于使用了原子字段更新器AtomicReferenceFieldUpdater&lt;t v&gt;（其中T表示持有字段的类的类型，V表示字段的类型），所以其对应的需要更新的字段要使用volatile进行声明。其newUpdater(Class&lt;u&gt; tclass, Class&lt; w&gt; vclass, String fieldName)方法实例化一个指定字段的更新器，参数分别表示：持有需要更新字段的类，字段的类，要更新的字段的名称。Node的内部变量item，next分别有对应自己的字段更新器，并且包含了对其原子性操作的方法compareAndSet(T obj, V expect, V update)，其中T是持有被设置字段的对象，后两者分别是期望值和新值。</p>
+<p>对于ConcurrentLinkedQueue自身也有两个volatile的线程共享变量：head，tail分别对应队列的头指针和尾指针。要保证这个队列的线程安全就是保证对这两个Node的引用的访问（更新，查看）的原子性和可见性，由于volatile本身能够保证可见性，所以就是对其修改的原子性要被保证。下面看看其对应的方法是如何完成的。</p>
+<pre><code>    public boolean offer(E e) &#123;
+        if (e == null) throw new NullPointerException();
+        Node&lt; e&gt; n = new Node&lt; e&gt;(e, null);
+        for (;;) &#123;
+            Node&lt; e&gt; t = tail;
+            Node&lt; e&gt; s = t.getNext();
+            if (t == tail) &#123; //------------------------------a
+                if (s == null) &#123; //---------------------------b
+                    if (t.casNext(s, n)) &#123; //-------------------c
+                        casTail(t, n); //------------------------d
+                        return true;
+                    &#125;
+                &#125; else &#123;
+                    casTail(t, s); //----------------------------e
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+</code></pre>
+<p>offer()方法都很熟悉了，就是入队的操作。涉及到改变尾指针的操作，所以要看这个方法实现是否保证了原子性。CAS操作配合循环是原子性操作的保证，这里也不例外。此方法的循环内首先获得尾指针和其next指向的对象，由于tail和Node的next均是volatile的，所以保证了获得的分别都是最新的值。</p>
+<p>代码a：t&#x3D;&#x3D;tail是最上层的协调，如果其他线程改变了tail的引用，则说明现在获得不是最新的尾指针需要重新循环获得最新的值。</p>
+<p>代码b：s&#x3D;&#x3D;null的判断。静止状态下tail的next一定是指向null的，但是多线程下的另一个状态就是中间态：tail的指向没有改变，但是其next已经指向新的结点，即完成tail引用改变前的状态，这时候s!&#x3D;null。这里就是协调的典型应用，直接进入代码e去协调参与中间态的线程去完成最后的更新，然后重新循环获得新的tail开始自己的新一次的入队尝试。另外值得注意的是a,b之间，其他的线程可能会改变tail的指向，使得协调的操作失败。从这个步骤可以看到无锁实现的复杂性。</p>
+<p>代码c：t.casNext(s, n)是入队的第一步，因为入队需要两步：更新Node的next，改变tail的指向。代码c之前可能发生tail引用指向的改变或者进入更新的中间态，这两种情况均会使得t指向的元素的next属性被原子的改变，不再指向null。这时代码c操作失败，重新进入循环。</p>
+<p>代码d：这是完成更新的最后一步了，就是更新tail的指向，最有意思的协调在这儿又有了体现。从代码看casTail(t, n)不管是否成功都会接着返回true标志着更新的成功。首先如果成功则表明本线程完成了两步的更新，返回true是理所当然的；如果casTail(t,n)不成功呢？要清楚的是完成代码c则代表着更新进入了中间态，代码d不成功则是tail的指向被其他线程改变。意味着对于其他的线程而言：它们得到的是中间态的更新，s!&#x3D;null，进入代码e帮助本线程执行最后一步并且先于本线程成功。这样本线程虽然代码d失败了，但是是由于别的线程的协助先完成了，所以返回true也就理所当然了。</p>
+<p>通过分析这个入队的操作，可以清晰的看到无锁实现的每个步骤和状态下多线程之间的协调和工作。理解了入队的整个过程，出队的操作poll()的实现也就变得简单了。基本上是大同小异的，无非就是同时牵涉到了head和tail的状态，在改变head的同时照顾到tail的协调，在此不多赘述。下面介绍一下其无锁下的查看访问，其内部不单单是查看更包含了线程间的协调，这是无锁实现的一个特点。不管是contains()，size()还是isEmpty()，只要获得了head后面第一个最新的Node就可以很轻松的实现，毕竟Node的getNext()和getItem()返回的都是对应的最新值。所以先看看这些方法内部的first()如何获得最新的第一个Node：</p>
+<pre><code>    Node&lt; e&gt; first() &#123;
+        for (;;) &#123;
+            Node&lt; e&gt; h = head;
+            Node&lt; e&gt; t = tail;
+            Node&lt; e&gt; first = h.getNext();
+            if (h == head) &#123; //---------------------------------------a
+                if (h == t) &#123; //-----------------------------------------b
+                    if (first == null) //----------------------------------c
+                        return null;
+                    else
+                        casTail(t, first); //--------------------------------d
+                &#125; else &#123;
+                    if (first.getItem() != null) //------------------------e
+                        return first;
+                    else // remove deleted node and continue
+                        casHead(h, first); //------------------------------f
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+</code></pre>
+<p>此方法在尝试获得最新的第一个非head结点的时候，在不同的阶段同样在协调着head和tail的更新任务，让人感觉无锁的世界没有纯粹的工作，呵呵。</p>
+<p>代码a：还是最上层的协调，head指向没改变的情况下才继续下面的操作。这时侯head只可能是静止的，因为poll()出队操作的步骤是反着的：首先更新head的指向进入中间态，然后更新原head的next的item为null。</p>
+<p>代码b：之所以h&#x3D;&#x3D;t的情况独立于其他的情况(在出队poll()方法中同样)，主要是因为first!&#x3D;null时可能对应着某一个更新的中间态，而产生中间态的的必要条件就是代码b成立。如果h&#x3D;&#x3D;t则表示当前线程获得的首尾指针指向同一个结点，当然代码b执行之后可能其他线程会进行head或者tail的更新。</p>
+<p>代码c：first&#x3D;&#x3D;null表明tail并没有进入更新的中间态而是处于静止状态，并且由于tail指向的是head的指向，所以返回null是唯一的选择。但是这美好的一切都是建立在代码b和代码c之间没有其他的线程更新tail。一旦有其他的线程执行了入队的操作并至少进入中间态的话，h&#x3D;&#x3D;t和first&#x3D;&#x3D;null都遗憾的成立，这就造成了取得幻象值，而实际上h.getNext()已经不再为null。个人认为代码c改成if((first<br>&#x3D; h.getNext()) &#x3D;&#x3D; null)更能提高命中率。</p>
+<p>代码d：只要first!&#x3D;null(不管是本人修改的代码还是源码)本线程则去尝试协调其他的线程先完成tail的更新，等待循环再次获取最新的head和tail。</p>
+<p>代码e：此处first一定不为null，tail更新与否不影响first的item的获取，但是head的更新会有影响。如果head正在被另一个线程更新并进入中间态，既是poll()内的else<br>if (casHead(h, first))<br>成功，但是并没有执行first.setItem(null)之前。此时代码e是满足的，返回的也是当前的first的，但是随后head全部更新成功则first的item为null。所以此处返回的first的item并不一定是item!&#x3D;null的结点，在使用此方法获得的结点的item时一定要再次的进行判断，这点在contains(…)等方法内都有体现。</p>
+<p>代码f：如果first的item&#x3D;&#x3D;null，则更新head的指向。直观上看似乎多余，因为出队的操作是先更新head的指向再更新item为null的。但是另一个方法remove(…)则仅仅更新item的值而不改变head的指向，所以针对这样的多线程调用，代码f变得非常的必需了。</p>
+<p>这样通过这两个方法的分析可以推及对ConcurrentLinkedQueue共享变量的其他操作的实现，这样的无锁的实现印象最深的就是要考虑线程间的协调。不像锁机制的实现虽然牺牲了一定的性能，但是至少操作这些非线程安全的共享变量时不用过多的考虑其他线程的操作。至此才算体会到无锁实现的复杂性，这或许就是有得必有失吧，呵呵。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/threadsafe/concurrentlinkedqueue/" data-id="clhlnylif00uhojupa2tv47ev" data-title="JAVA同步之ConcurrentLinkedQueue" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" rel="tag">线程安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/109/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/108/">108</a><a class="page-number" href="/page/109/">109</a><span class="page-number current">110</span><a class="page-number" href="/page/111/">111</a><a class="page-number" href="/page/112/">112</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/111/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】公告</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 证心<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a target="_blank" rel="noopener" href="http://site.onekbase.com" class="mobile-nav-link">ITEEDU</a>
+  
+    <a href="/about/" class="mobile-nav-link">关于</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

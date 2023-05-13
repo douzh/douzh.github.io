@@ -404,8 +404,10 @@ initVcode();
     <title>【置顶】公告</title>
     <url>/blog/explain/</url>
     <content><![CDATA[<p>原域名iteedu.com忘续费没了，新申请了个onekbase.com</p>
-<p>历史网站内容静态化后放在了site.onekbase.com子域名下</p>
+<p>历史网站内容静态化后放在了<a href="http://site.onekbase.com/">site.onekbase.com</a>子域名下</p>
 <p>以后可能发视频比较多一些，可以关注OneKBase(微信公众号 和 bilibili)</p>
+<p><a href="https://space.bilibili.com/505668382/channel/collectiondetail?sid=912428">B站:Springcloud手把手培训教程</a></p>
+<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzIzNTEwNDM5Mg==&action=getalbum&album_id=2698316403698860035#wechat_redirect">微信:Springcloud手把手培训教程</a></p>
 ]]></content>
   </entry>
   <entry>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="OneKBase">
+<meta property="og:url" content="http://www.onekbase.com/page/175/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="证心">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">归一</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" target="_blank" rel="noopener" href="http://site.onekbase.com">ITEEDU</a>
+        
+          <a class="main-nav-link" href="/about/">关于</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-blog/plang/java/features/annotation1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/plang/java/features/annotation1/" class="article-date">
+  <time class="dt-published" datetime="2015-09-14T09:48:40.000Z" itemprop="datePublished">2015-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/plang/java/features/annotation1/">【JAVA】annotation注释（一）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Annotation究竟是什么？"><a href="#Annotation究竟是什么？" class="headerlink" title="Annotation究竟是什么？ "></a>Annotation究竟是什么？ </h2><p>Annotation提供了一条与程序元素关联任何信息或者任何元数据（metadata）的途径。从某些方面看，annotation就像修饰符一样被使用，并应用于包、类型、构造方法、方法、成员变量、参数、本地变量的声明中。这些信息被存储在annotation的”name&#x3D;value”结构对中。</p>
+<p>annotation类型是一种接口，能够通过java反射API的方式提供对其信息的访问。</p>
+<p>annotation能被用来为某个程序元素（类、方法、成员变量等）关联任何的信息。需要注意的是，这里存在着一个基本的潜规则：annotaion不能影响程序代码的执行，无论增加、删除annotation，代码都始终如一的执行。另外，尽管一些annotation通过java的反射api方法在运行时被访问，而java语言解释器在工作时忽略了这些annotation。正是由于java虚拟机忽略了annotation，导致了annotation类型在代码中是”不起作用”的；只有通过某种配套的工具才会对annotation类型中的信息进行访问和处理。本文中将涵盖标准的annotation和meta-annotation类型，陪伴这些annotation类型的工具是java编译器（当然要以某种特殊的方式处理它们）。</p>
+<p>由于上述原因，annotation在使用时十分简便。一个本地变量可以被一个以NonNull命名的annotation类型所标注，来作为对这个本地变量不能被赋予null值的断言。而我们可以编写与之配套的一个annotation代码分析工具，使用它来对具有前面变量的代码进行解析，并且尝试验证这个断言。当然这些代码并不必自己编写。在JDK安装后，在JDK&#x2F;bin目录中可以找到名为”apt”的工具，它提供了处理annotation的框架：它启动后扫描源代码中的annotation，并调用我们定义好的annotation处理器完成我们所要完成的工作（比如验证前面例子中的断言）。说到这里，annotation的强大功能似乎可以替代XDoclet这类的工具了，随着我们的深入，大家会更加坚信这一点。</p>
+<h2 id="为什么使用Annotation"><a href="#为什么使用Annotation" class="headerlink" title="为什么使用Annotation?"></a>为什么使用Annotation?</h2><p>在JAVA应用中，我们常遇到一些需要使用模版代码。例如，为了编写一个JAX-RPC web service，我们必须提供一对接口和实现作为模版代码。如果使用annotation对远程访问的方法代码进行修饰的话，这个模版就能够使用工具自动生成。</p>
+<p>另外，一些API需要使用与程序代码同时维护的附属文件。例如，JavaBeans需要一个BeanInfo Class与一个Bean同时使用&#x2F;维护，而EJB则同样需要一个部署描述符。此时在程序中使用annotation来维护这些附属文件的信息将十分便利而且减少了错误。</p>
+<h2 id="Annotation的概念和语法"><a href="#Annotation的概念和语法" class="headerlink" title="Annotation的概念和语法"></a>Annotation的概念和语法</h2><p>首先，关键的概念是理解annotation是与一个程序元素相关联信息或者元数据的标注。它从不影响java程序的执行，但是对例如编译器警告或者像文档生成器等辅助工具产生影响。</p>
+<p>下面是常用的annotation列表，我们应该注意在annotation和annotation类型之间的不同：</p>
+<p>A.annotation：</p>
+<p>annotation<br>使用了在java5.0所带来的新语法，它的行为十分类似public、final这样的修饰符。每个annotation具有一个名字和成员个数&gt;&#x3D;0。每个annotation的成员具有被称为name&#x3D;value对的名字和值（就像javabean一样），name&#x3D;value装载了annotation的信息。</p>
+<p>B.annotation类型：</p>
+<p>annotation类型定义了annotation的名字、类型、成员默认值。一个annotation类型可以说是一个特殊的java接口，它的成员变量是受限制的，而声明annotation类型时需要使用新语法。当我们通过java反射api访问annotation时，返回值将是一个实现了该annotation类型接口的对象，通过访问这个对象我们能方便的访问到其annotation成员。后面的章节将提到在java5.0的java.lang包里包含的3个标准annotation类型。</p>
+<p>C.annotation成员：</p>
+<p>annotation的成员在annotation类型中以无参数的方法的形式被声明。其方法名和返回值定义了该成员的名字和类型。在此有一个特定的默认语法：允许声明任何annotation成员的默认值：一个annotation可以将name&#x3D;value对作为没有定义默认值的annotation成员的值，当然也可以使用name&#x3D;value对来覆盖其它成员默认值。这一点有些近似类的继承特性，父类的构造函数可以作为子类的默认构造函数，但是也可以被子类覆盖。</p>
+<p>D.marker annotation类型：</p>
+<p>一个没有成员定义的annotation类型被称为marker annotation。这种annotation类型仅使用自身的存在与否来为我们提供信息。如后面要说的Override。</p>
+<p>E.meta-annotation：</p>
+<p>meta-annotation也称为元annotation，它是被用来声明annotation类型的annotation。Java5.0提供了一些标准的元-annotation类型。下面介绍的target、retention就是meta-annotation。</p>
+<p>F.target：</p>
+<p>annotation的target是一个被标注的程序元素。target说明了annotation所修饰的对象范围：annotation可被用于packages、types（类、接口、枚举、annotation类型）、类型成员（方法、构造方法、成员变量、枚举值）、方法参数和本地变量（如循环变量、catch参数）。在annotation类型的声明中使用了target可更加明晰其修饰的目标。</p>
+<p>G.retention：</p>
+<p>annotation的retention定义了该annotation被保留的时间长短：某些annotation仅出现在源代码中，而被编译器丢弃；而另一些却被编译在class文件中；编译在class文件中的annotation可能会被虚拟机忽略，而另一些在class被装载时将被读取（请注意并不影响class的执行，因为annotation与class在使用上是被分离的）。使用这个meta-annotation可以对annotation的”生命周期”限制。</p>
+<p>H.metadata：</p>
+<p>由于metadata被广泛使用于各种计算机开发过程中，所以当我们在这里谈论的metadata即元数据通常指被annotation装载的信息或者annotation本身。</p>
+<h2 id="Annotation工作方式"><a href="#Annotation工作方式" class="headerlink" title="Annotation工作方式"></a>Annotation工作方式</h2><p>在5.0版之前的Java平台已经具有了一些ad hoc annotation机制。比如，使用transient修饰符来标识一个成员变量在序列化子系统中应被忽略。而@deprecated这个javadoctag也是一个ad hoc annotation用来说明一个方法已过时。从Java5.0版发布以来，5.0平台提供了一个正式的annotation功能：允许开发者定义、使用自己的annoatation类型。此功能由一个定义annotation类型的语法和一个描述annotation声明的语法，读取annotaion的API，一个使用annotation修饰的class文件，一个annotation处理工具（apt）组成。</p>
+<p>annotation并不直接影响代码语义，但是它能够工作的方式被看作类似程序的工具或者类库，它会反过来对正在运行的程序语义有所影响。annotation可以从源文件、class文件或者以在运行时反射的多种方式被读取。</p>
+<p>当然annotation在某种程度上使javadoctag更加完整。一般情况下，如果这个标记对java文档产生影响或者用于生成java文档的话，它应该作为一个javadoc tag；否则将作为一个annotation。</p>
+<h2 id="Annotation与反射"><a href="#Annotation与反射" class="headerlink" title="Annotation与反射"></a>Annotation与反射</h2><p>在java5.0中Java.lang.reflect提供的反射API被扩充了读取运行时annotation的能力。让我们回顾一下前面所讲的：一个annotation类型被定义为runtimeretention后，它才是在运行时可见，当class文件被装载时被保存在class文件中的annotation才会被虚拟机读取。那么reflect是如何帮助我们访问class中的annotation呢？</p>
+<p>下文将在java.lang.reflect用于annotation的新特性，其中java.lang.reflect.AnnotatedElement是重要的接口，它代表了提供查询annotation能力的程序成员。这个接口被java.lang.Package、java.lang.Class实现，并间接地被Method类、Constructor类、java.lang.reflect的Field类实现。而annotation中的方法参数可以通过Method类、Constructor类的getParameterAnnotations()方法获得。</p>
+<p>isAnnotationPresent ()方法对于检查markerannotation是十分有用的，因为markerannotation没有成员变量，所以我们只要知道class的方法是否使用了annotation修饰就可以了。而当处理具有成员的annotation时，我们通过使用getAnnotation()方法来获得annotation的成员信息（成员名称、成员值）。这里我们看到了一套优美的java annotation系统：如果annotation存在，那么实现了相应的annotation类型接口的对象将被getAnnotation()方法返回，接着调用定义在annotation类型中的成员方法 可以方便地获得任何成员值。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/features/annotation1/" data-id="clhlnylh600mxojupa8q01h07" data-title="【JAVA】annotation注释（一）" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-blog/plang/java/features/annotation3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/plang/java/features/annotation3/" class="article-date">
+  <time class="dt-published" datetime="2015-09-14T09:48:40.000Z" itemprop="datePublished">2015-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/plang/java/features/annotation3/">【JAVA】annotation注释（三）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="内建Annotation"><a href="#内建Annotation" class="headerlink" title="内建Annotation"></a>内建Annotation</h2><p>Java5.0版在java语法中经常用到的内建Annotation：</p>
+<ol>
+<li>@Deprecated用于修饰已经过时的方法；</li>
+<li>@Override用于修饰此方法覆盖了父类的方法（而非重载）；</li>
+<li>@SuppressWarnings用于通知java编译器禁止特定的编译警告。</li>
+</ol>
+<p>下面代码展示了内建Annotation类型的用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public class UsingBuiltInAnnotation &#123;</span><br><span class="line">        //食物类</span><br><span class="line">        class Food&#123;&#125;</span><br><span class="line">        //干草类</span><br><span class="line">        class Hay extends Food&#123;&#125;</span><br><span class="line">        //动物类</span><br><span class="line">        class Animal&#123;</span><br><span class="line">                Food getFood()&#123;</span><br><span class="line">                        return null;</span><br><span class="line">                &#125;</span><br><span class="line">                //使用Annotation声明Deprecated方法</span><br><span class="line">                @Deprecated</span><br><span class="line">                void deprecatedMethod()&#123;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //马类-继承动物类</span><br><span class="line">        class Horse extends Animal&#123;</span><br><span class="line">                //使用Annotation声明覆盖方法</span><br><span class="line">                @Override</span><br><span class="line">                Hay getFood()&#123;</span><br><span class="line">                        return new Hay();</span><br><span class="line">                &#125;</span><br><span class="line">                //使用Annotation声明禁止警告</span><br><span class="line">                @SuppressWarnings(&#123;&quot;deprecation&quot;,&quot;unchecked&quot;&#125;)</span><br><span class="line">                void callDeprecatedMethod(List horseGroup)&#123;</span><br><span class="line">                        Animal an=new Animal();</span><br><span class="line">                        an.deprecatedMethod();</span><br><span class="line">                        horseGroup.add(an);</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用标准Annotation"><a href="#使用标准Annotation" class="headerlink" title="使用标准Annotation"></a>使用标准Annotation</h2><p>java5.0在java.lang包中定义了3种标准的annotation类型：</p>
+<h2 id="A-Override："><a href="#A-Override：" class="headerlink" title="A.Override："></a>A.Override：</h2><p>java.lang.Override 是一个marker<br>annotation类型，它被用作标注方法。它说明了被标注的方法重载了父类的方法，起到了断言的作用。如果我们使用了这种annotation在一个没有覆盖父类方法的方法时，java编译器将以一个编译错误来警示。<br>这个annotaton常常在我们试图覆盖父类方法而确又写错了方法名时发挥威力。<br>使用方法极其简单：在使用此annotation时只要在被修饰的方法前面加上@Override。<br>下面的代码是一个使用@Override修饰一个企图重载父类的toString方法，而又存在拼写错误的sample：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">  public String toString() &#123;   </span><br><span class="line">      return &quot;[&quot; + super.toString() + &quot;]&quot;;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="B-Deprecated："><a href="#B-Deprecated：" class="headerlink" title="B.Deprecated："></a>B.Deprecated：</h2><p>同样Deprecated也是一个marker<br>annotation。当一个类型或者类型成员使用@Deprecated修饰的话，编译器将不鼓励使用这个被标注的程序元素。而且这种修饰具有一定的<br>“延续性”：如果我们在代码中通过继承或者覆盖的方式使用了这个过时的类型或者成员，虽然继承或者覆盖后的类型或者成员并不是被声明为<br>@Deprecated，但编译器仍然要报警。</p>
+<p>值得注意，@Deprecated这个annotation类型和javadoc中的<br>@deprecated这个tag是有区别的：前者是java编译器识别的，而后者是被javadoc工具所识别用来生成文档（包含程序成员为什么已经过时、它应当如何被禁止或者替代的描述）。</p>
+<p>在java5.0，java编译器仍然象其从前版本那样寻找@deprecated这个javadoc<br>tag，并使用它们产生警告信息。但是这种状况将在后续版本中改变，我们应在现在就开始使用@Deprecated来修饰过时的方法而不是<br>@deprecated javadoc tag。</p>
+<p>下面是一段使用@Deprecated的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * 这里是javadoc的@deprecated声明.</span><br><span class="line">  * @deprecated No one has players for this format any more.  Use VHS instead.</span><br><span class="line">  */</span><br><span class="line">  @Deprecated public class Betamax &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="C-SuppressWarnings："><a href="#C-SuppressWarnings：" class="headerlink" title="C.SuppressWarnings："></a>C.SuppressWarnings：</h2><p>@SuppressWarnings<br>被用于有选择的关闭编译器对类、方法、成员变量、变量初始化的警告。在java5.0，sun提供的javac编译器为我们提供了-Xlint选项来使编译器对合法的程序代码提出警告，此种警告从某种程度上代表了程序错误。例如当我们使用一个generic<br>collection类而又没有提供它的类型时，编译器将提示出&quot;unchecked<br>warning&quot;的警告。</p>
+<p>通常当这种情况发生时，我们就需要查找引起警告的代码。如果它真的表示错误，我们就需要纠正它。例如如果警告信息表明我们代码中的switch语句没有覆盖所有可能的case，那么我们就应增加一个默认的case来避免这种警告。</p>
+<p>相仿，有时我们无法避免这种警告，例如，我们使用必须和非generic的旧代码交互的generic<br>collection类时，我们不能避免这个unchecked<br>warning。此时@SuppressWarning就要派上用场了，在调用的方法前增加@SuppressWarnings修饰，告诉编译器停止对此方法的警告。</p>
+<p>SuppressWarning不是一个marker<br>annotation。它有一个类型为String[]的成员，这个成员的值为被禁止的警告名。对于javac编译器来讲，被-Xlint选项有效的警告名也同样对@SuppressWarings有效，同时编译器忽略掉无法识别的警告名。</p>
+<p>annotation语法允许在annotation名后跟括号，括号中是使用逗号分割的name&#x3D;value对用于为annotation的成员赋值：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@SuppressWarnings(value=&#123;&quot;unchecked&quot;,&quot;fallthrough&quot;&#125;)</span><br><span class="line">public void lintTrap() &#123; /* sloppy method body omitted */ &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中SuppressWarnings<br>annotation类型只定义了一个单一的成员，所以只有一个简单的value&#x3D;{...}作为name&#x3D;value对。又由于成员值是一个数组，故使用大括号来声明数组值。</p>
+<p>注意：我们可以在下面的情况中缩写annotation：当annotation只有单一成员，并成员命名为&quot;value&#x3D;&quot;。这时可以省去&quot;value&#x3D;&quot;。比如将上面的SuppressWarnings<br>annotation进行缩写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@SuppressWarnings(&#123;&quot;unchecked&quot;,&quot;fallthrough&quot;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>如果SuppressWarnings所声明的被禁止警告个数为一个时，可以省去大括号：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@SuppressWarnings(&quot;unchecked&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="开发者自定义Annotation"><a href="#开发者自定义Annotation" class="headerlink" title="开发者自定义Annotation"></a>开发者自定义Annotation</h2><p>由开发者自定义Annotation类型。<br>下面是一个使用annotation进行方法测试的sample：<br>AnnotationDefineForTestFunction类型定义如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.annotation.*;</span><br><span class="line">//加载在VM中，在运行时进行映射</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">//限定此annotation只能标示方法</span><br><span class="line">@Target(ElementType.METHOD)</span><br><span class="line">public @interface AnnotationDefineForTestFunction&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试annotation的代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.reflect.*;</span><br><span class="line"></span><br><span class="line">public class UsingAnnotation &#123;</span><br><span class="line">        @AnnotationDefineForTestFunction public static void method01()&#123;&#125;</span><br><span class="line">        </span><br><span class="line">        public static void method02()&#123;&#125;</span><br><span class="line">        </span><br><span class="line">        @AnnotationDefineForTestFunction public static void method03()&#123;</span><br><span class="line">                throw new RuntimeException(&quot;method03&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        public static void method04()&#123;</span><br><span class="line">                throw new RuntimeException(&quot;method04&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        public static void main(String[] argv) throws Exception&#123;</span><br><span class="line">                int passed = 0, failed = 0;</span><br><span class="line">                //被检测的类名</span><br><span class="line">                String className=&quot;com.bjinfotech.practice.annotation.UsingAnnotation&quot;;</span><br><span class="line">                //逐个检查此类的方法，当其方法使用annotation声明时调用此方法</span><br><span class="line">            for (Method m : Class.forName(className).getMethods()) &#123;</span><br><span class="line">               if (m.isAnnotationPresent(AnnotationDefineForTestFunction.class)) &#123;</span><br><span class="line">                  try &#123;</span><br><span class="line">                     m.invoke(null);</span><br><span class="line">                     passed++;</span><br><span class="line">                  &#125; catch (Throwable ex) &#123;</span><br><span class="line">                     System.out.printf(&quot;测试 %s 失败: %s %n&quot;, m, ex.getCause());</span><br><span class="line">                     failed++;</span><br><span class="line">                  &#125;</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.printf(&quot;测试结果： 通过: %d, 失败： %d%n&quot;, passed, failed);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用第三方开发的Annotation类型"><a href="#使用第三方开发的Annotation类型" class="headerlink" title="使用第三方开发的Annotation类型"></a>使用第三方开发的Annotation类型</h2><p>这也是开发人员所常常用到的一种方式。比如我们在使用Hibernate3.0时就可以利用Annotation生成数据表映射配置文件，而不必使用Xdoclet。\</p>
+<h2 id="Meta-Annotation"><a href="#Meta-Annotation" class="headerlink" title="Meta-Annotation"></a>Meta-Annotation</h2><p>Annotation<br>类型可以被它们自己所标注。Java5.0定义了4个标准的meta-annotation类型，它们被用来提供对其它annotation类型作说明。这些类型和它们所支持的类在java.lang.annotation包中可以找到。如果需要更详细的信息可以参考jdk5.0手册。</p>
+<h2 id="1．再谈Target"><a href="#1．再谈Target" class="headerlink" title="1．再谈Target"></a>1．再谈Target</h2><p>作为meta-annotation类型的Target,它描述了annotation所修饰的程序成员的类型。当一个annotation类型没有<br>Target时，它将被作为普通的annotation看待。当将它修饰一个特定的程序成员时，它将发挥其应用的作用，例如：Override用于修饰方法时，增加了@Target这个meta-annotation就使编译器对annotation作检查，从而去掉修饰错误类型的Override。</p>
+<p>Target<br>meta-annotation类型有唯一的value作为成员。这个成员的类型是java.lang.annotation.ElementType[]类型的，ElementType类型是可以被标注的程序成员的枚举类型。</p>
+<h2 id="2．Retention的用法"><a href="#2．Retention的用法" class="headerlink" title="2．Retention的用法"></a>2．Retention的用法</h2><p>我们在文章的开头曾经提到过Retention，但是没有详细讲解。Retention描述了annotation是否被编译器丢弃或者保留在class文件；如果保留在class文件中，是否在class文件被装载时被虚拟机读取。默认情况下，annotation被保存在class文件中，但在运行时并不能被反射访问。Retention具有三个取值：source、class、runtime，这些取值来自<br>java.lang.annotation.RetentionPolicy的枚举类型值。</p>
+<p>Retention<br>meta-annotation类型有唯一的value作为成员，它的取值来自java.lang.annotation.RetentionPolicy的枚举类型值。</p>
+<h2 id="3．Documented"><a href="#3．Documented" class="headerlink" title="3．Documented"></a>3．Documented</h2><p>Documented是一个meta-annotation类型，用于描述其它类型的annotation应该被作为被标注的程序成员的公共API，因此可以被例如javadoc此类的工具文档化。</p>
+<p>Documented是一个marker annotation，没有成员。</p>
+<h2 id="4．Inherited"><a href="#4．Inherited" class="headerlink" title="4．Inherited"></a>4．Inherited</h2><p>@Inherited meta-annotation也是一个marker<br>annotation，它阐述了某个被标注的类型是被继承的。如果一个使用了@Inherited修饰的annotation类型被用于一个class，则这个annotation将被用于该class的子类。</p>
+<p>注意：@Inherited<br>annotation类型是被标注过的class的子类所继承。类并不从它所实现的接口继承annotation，方法并不从它所重载的方法继承annotation。</p>
+<p>值得思考的是，当@Inherited<br>annotation类型标注的annotation的Retention是RetentionPolicy.RUNTIME，则反射API增强了这种继承性。如果我们使用java.lang.reflect去查询一个@Inherited<br>annotation类型的annotation时，反射代码检查将展开工作：检查class和其父类，直到发现指定的annotation类型被发现，或者到达类继承结构的顶层。\</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/features/annotation3/" data-id="clhlnylh600n1ojuph9pl4yc9" data-title="【JAVA】annotation注释（三）" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/174/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/173/">173</a><a class="page-number" href="/page/174/">174</a><span class="page-number current">175</span><a class="page-number" href="/page/176/">176</a><a class="page-number" href="/page/177/">177</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/176/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】公告</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 证心<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a target="_blank" rel="noopener" href="http://site.onekbase.com" class="mobile-nav-link">ITEEDU</a>
+  
+    <a href="/about/" class="mobile-nav-link">关于</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

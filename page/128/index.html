@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="OneKBase">
+<meta property="og:url" content="http://www.onekbase.com/page/128/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="证心">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">归一</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" target="_blank" rel="noopener" href="http://site.onekbase.com">ITEEDU</a>
+        
+          <a class="main-nav-link" href="/about/">关于</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-blog/tools/emacs/emacsdiary/cua-mode" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/tools/emacs/emacsdiary/cua-mode/" class="article-date">
+  <time class="dt-published" datetime="2015-12-04T10:21:57.000Z" itemprop="datePublished">2015-12-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>►<a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/tools/emacs/emacsdiary/cua-mode/">Emacs可视化列模式cua-mode</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>除了emacs本身支持的列模式外，emacs还可以通过cua-mode支持一种可视化的列模式。在cua-mode下，按[C-return]会进入cua rectangle模式。在这个模式下可以通过鼠标点击确认起点，然后通过光标键来选中一个rect范围，这个rect会用另外的颜色显示出来。</p>
+<p>之后我们<br>就可以很方便地对这个rect进行操作。比如[M-up],[M-down],[M-left],[M-right]可以移动这个rect，[C-<br>return]可以取消这个rect，[C-space]可以退出cua-rect模式并激活普通模式下的选择。</p>
+<p>直接输入字符: 在每行前(或后)都插入这个字符</p>
+<ul>
+<li>[M-a]: 将rect中的文字左对齐</li>
+<li>[M-b]: 用空格(tabs或者spaces)替换所有rect中的字符</li>
+<li>[M-c]: 去掉所有行左侧的空格</li>
+<li>[M-f]: 用单个字符替换所有rect中的字符(提示输入一个字符)</li>
+<li>[M-i]: 对每行中第一个找到的数字进行加1操作(自动把0x开头的当作十六进制数字)</li>
+<li>[M-k]: 剪切rect</li>
+<li>[M-l]: 把rect中的内容全部转换为小写</li>
+<li>[M-m]: 拷贝rect</li>
+<li>[M-n]: 用一串自增的数字替换rect中的每一行(这个功能可以用来给每行编号)<br>### 非常好用的功能</li>
+<li>[M-o]: rect的内容右移，选中的rect用空格填充</li>
+<li>[M-r]: 用字符串替换符满足正则表达式的字符串</li>
+<li>[M-R]: 上下反转</li>
+<li>[M-s]: 把rect中的每一行替换为一个字符串(提示输入)</li>
+<li>[M-t]: 把rect整个替换为一个字符串(提示输入)</li>
+<li>[M-u]: 把rect中的内容全部转换为大写</li>
+<li>[M-|]: 对rect执行一个shell命令</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/tools/emacs/emacsdiary/cua-mode/" data-id="clhlnylit00wgojupebsj228o" data-title="Emacs可视化列模式cua-mode" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Emacs/" rel="tag">Emacs</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-blog/plang/java/analyzer/matuse2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/plang/java/analyzer/matuse2/" class="article-date">
+  <time class="dt-published" datetime="2015-12-04T06:11:58.000Z" itemprop="datePublished">2015-12-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/plang/java/analyzer/matuse2/">【JAVA】使用 Eclipse Memory Analyzer 进行堆转储文件分析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述 "></a>概述 </h2><p>对于大型 JAVA应用程序来说，再精细的测试也难以堵住所有的漏洞，即便我们在测试阶段进行了大量卓有成效的工作，很多问题还是会在生产环境下暴露出来，并且很难在测试环境中进行重现。JVM<br>能够记录下问题发生时系统的部分运行状态，并将其存储在堆转储 (Heap Dump)文件中，从而为我们分析和诊断问题提供了重要的依据。</p>
+<p>通常内存泄露分析被认为是一件很有难度的工作，一般由团队中的资深人士进行。不过，今天我们要介绍的MAT（Eclipse Memory Analyzer）被认为是一个”傻瓜式”的堆转储文件分析工具，你只需要轻轻点击一下鼠标就可以生成一个专业的分析报告。和其他内存泄露分析工具相比，MAT的使用非常容易，基本可以实现一键到位，即使是新手也能够很快上手使用。</p>
+<p>MAT的使用是如此容易，你是不是也很有兴趣来亲自感受下呢，那么第一步我们先来安装MAT。</p>
+<h2 id="准备环境和测试数据"><a href="#准备环境和测试数据" class="headerlink" title="准备环境和测试数据 "></a>准备环境和测试数据 </h2><p>我们使用的是 Eclipse Memory Analyzer V0.8，Sun JDK 6</p>
+<h3 id="安装-MAT"><a href="#安装-MAT" class="headerlink" title="安装 MAT"></a>安装 MAT</h3><p>和其他插件的安装非常类似，MAT支持两种安装方式，一种是”单机版”的，也就是说用户不必安装 Eclipse IDE环境，MAT 作为一个独立的 Eclipse RCP应用运行；另一种是”集成版”的，也就是说 MAT 也可以作为 Eclipse IDE的一部分，和现有的开发平台集成。</p>
+<p>集成版的安装需要借助 Update Manager。</p>
+<p>如图 1 所示，首先通过 Help -&gt; Software Updates...启动软件更新管理向导。</p>
+<h5 id="图-1-安装插件第一步"><a href="#图-1-安装插件第一步" class="headerlink" title="图 1. 安装插件第一步"></a>图 1. 安装插件第一步</h5><p><img src="/images/janalyzer/image001.jpg" alt="图 1. 安装插件第一步">{width&#x3D;”282”}</p>
+<p>选择”Available Software”然后按如图 2 所示的方式添加 MAT 的更新地址<br><a target="_blank" rel="noopener" href="http://download.eclipse.org/technology/mat/0.8/update-site/">http://download.eclipse.org/technology/mat/0.8/update-site/</a>。</p>
+<h5 id="图-2-安装插件第二步"><a href="#图-2-安装插件第二步" class="headerlink" title="图 2. 安装插件第二步"></a>图 2. 安装插件第二步</h5><p><img src="/images/janalyzer/image002.jpg" alt="图 2. 安装插件第二步">{width&#x3D;”576”}</p>
+<p>如图 3 所示，接下来选择你想要安装的 MAT 的功能点，需要注意的是 Memory Analyzer (Chart)这个功能是一个可选的安装项目，它主要用来生成相关的报表，不过如果需要用到这个功能，你还需要额外的安装<br>BIRT Chart Engine。</p>
+<h5 id="图-3-安装插件第三步"><a href="#图-3-安装插件第三步" class="headerlink" title="图 3. 安装插件第三步"></a>图 3. 安装插件第三步</h5><p><img src="/images/janalyzer/image003.jpg" alt="图 3. 安装插件第三步">{width&#x3D;”575”}</p>
+<p>插件安装完毕，你还需要重新启动 Eclipse 的工作平台。</p>
+<p>比较而言，单机版的安装方式非常简单，用户只需要下载相应的安装包，然后解压缩即可运行，这也是被普遍采用的一种安装方式。在下面的例子里，我们使用的也是单机版的<br>MAT。具体的下载要求和地址可参见其产品下载页面：<a target="_blank" rel="noopener" href="http://www.eclipse.org/mat/downloads.php">http://www.eclipse.org/mat/downloads.php</a>。</p>
+<p>另外，如果你需要用 MAT 来分析 IBM JVM 生成的 dump文件的话，还需要额外安装 IBM Diagnostic Tool Framework，具体的下载和安装配置步骤请参见：<a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/java/jdk/tools/dtfj.html">http://www.ibm.com/developerworks/java/jdk/tools/dtfj.html</a></p>
+<h3 id="配置环境参数"><a href="#配置环境参数" class="headerlink" title="配置环境参数"></a>配置环境参数</h3><p>安装完成之后，为了更有效率的使用MAT，我们还需要做一些配置工作。因为通常而言，分析一个堆转储文件需要消耗很多的堆空间，为了保证分析的效率和性能，在有条件的情况下，我们会建议分配给MAT 尽可能多的内存资源。你可以采用如下两种方式来分配内存更多的内存资源给MAT。</p>
+<p>一种是修改启动参数 MemoryAnalyzer.exe -vmargs -Xmx4g</p>
+<p>另一种是编辑文件 MemoryAnalyzer.ini，在里面添加类似信息 -vmargs –Xmx4g。</p>
+<p>至此，MAT 就已经成功地安装配置好了，开始进入实战吧。</p>
+<h3 id="获得堆转储文件"><a href="#获得堆转储文件" class="headerlink" title="获得堆转储文件"></a>获得堆转储文件</h3><p>巧妇难为无米之炊，我们首先需要获得一个堆转储文件。为了方便，本文采用的是Sun JDK 6。通常来说，只要你设置了如下所示的 JVM 参数：</p>
+<p>-XX:+HeapDumpOnOutOfMemoryError</p>
+<p>JVM就会在发生内存泄露时抓拍下当时的内存状态，也就是我们想要的堆转储文件。</p>
+<p>如果你不想等到发生崩溃性的错误时才获得堆转储文件，也可以通过设置如下 JVM参数来按需获取堆转储文件。</p>
+<p>-XX:+HeapDumpOnCtrlBreak</p>
+<p>除此之外，还有很多的工具，例如<br><a target="_blank" rel="noopener" href="http://java.sun.com/j2se/1.5.0/docs/tooldocs/share/jmap.html">JMap</a>，JConsole都可以帮助我们得到一个堆转储文件。本文实例就是使用 JMap 直接获取了Eclipse Galileo 进程的堆转储文件。您可以使用如下命令：</p>
+<p>JMap -dump:format&#x3D;b,file&#x3D;&lt;dumpfile&gt; &lt;pid&gt;</p>
+<p>不过，您需要了解到，不同厂家的 JVM所生成的堆转储文件在数据存储格式以及数据存储内容上有很多区别， MAT不是一个万能工具，它并不能处理所有类型的堆存储文件。但是比较主流的厂家和格式，例如Sun, HP, SAP 所采用的 HPROF 二进制堆存储文件，以及 IBM 的 PHD堆存储文件等都能被很好的解析（您需要安装额外的插件，请参考<a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/java/jdk/tools/dtfj.html">相关说明</a>，本文不作详细解释）。</p>
+<p>万事俱备，接下来，我们就可以开始体验一键式的堆存储分析功能了。</p>
+<h2 id="生成分析报告"><a href="#生成分析报告" class="headerlink" title="生成分析报告 "></a>生成分析报告 </h2><p>首先，启动前面安装配置好的 Memory Analyzer tool , 然后选择菜单项 File-Open Heap Dump来加载需要分析的堆转储文件。文件加载完成后，你可以看到如图 4所示的界面：</p>
+<h5 id="图-4-概览"><a href="#图-4-概览" class="headerlink" title="图 4. 概览"></a>图 4. 概览</h5><p><img src="/images/janalyzer/image004.jpg" alt="图 4. 概览">{width&#x3D;”576”}</p>
+<p>通过上面的概览，我们对内存占用情况有了一个总体的了解。先检查一下 MAT生成的一系列文件。</p>
+<h5 id="图-5-文件列表"><a href="#图-5-文件列表" class="headerlink" title="图 5. 文件列表"></a>图 5. 文件列表</h5><p><img src="/images/janalyzer/image005.jpg" alt="图 5. 文件列表">{width&#x3D;”331”}</p>
+<p>可以看到 MAT 工具提供了一个很贴心的功能，将报告的内容压缩打包到一个 zip文件，并把它存放到原始堆转储文件的存放目录下，这样如果您需要和同事一起分析这个内存问题的话，只需要把这个小小的zip 包发给他就可以了，不需要把整个堆文件发给他。并且整个报告是一个 HTML<br>格式的文件，用浏览器就可以轻松打开。</p>
+<p>接下来我们就可以来看看生成的报告都包括什么内容，能不能帮我们找到问题所在吧。您可以点击工具栏上的Leak Suspects 菜单项来生成内存泄露分析报告，也可以直接点击饼图下方的Reports-&gt;Leak Suspects 链接来生成报告。</p>
+<h5 id="图-6-工具栏菜单"><a href="#图-6-工具栏菜单" class="headerlink" title="图 6. 工具栏菜单"></a>图 6. 工具栏菜单</h5><p><img src="/images/janalyzer/image006.jpg" alt="图 6. 工具栏菜单">{width&#x3D;”301”}</p>
+<h2 id="分析三步曲"><a href="#分析三步曲" class="headerlink" title="分析三步曲 "></a>分析三步曲 </h2><p>通常我们都会采用下面的”三步曲”来分析内存泄露问题：</p>
+<p>首先，对问题发生时刻的系统内存状态获取一个整体印象。</p>
+<p>第二步，找到最有可能导致内存泄露的元凶，通常也就是消耗内存最多的对象</p>
+<p>接下来，进一步去查看这个内存消耗大户的具体情况，看看是否有什么异常的行为。</p>
+<p>下面将用一个基本的例子来展示如何采用”三步曲”来查看生产的分析报告。</p>
+<h3 id="查看报告之一：内存消耗的整体状况"><a href="#查看报告之一：内存消耗的整体状况" class="headerlink" title="查看报告之一：内存消耗的整体状况"></a>查看报告之一：内存消耗的整体状况</h3><h5 id="图-7-内存泄露分析报告"><a href="#图-7-内存泄露分析报告" class="headerlink" title="图 7. 内存泄露分析报告"></a>图 7. 内存泄露分析报告</h5><p><img src="/images/janalyzer/image007.jpg" alt="图 7. 内存泄露分析报告">{width&#x3D;”576”}</p>
+<p>如图 7所示，在报告上最醒目的就是一张简洁明了的饼图，从图上我们可以清晰地看到一个可疑对象消耗了系统99% 的内存。</p>
+<p>在图的下方还有对这个可疑对象的进一步描述。我们可以看到内存是由java.util.Vector 的实例消耗的，com.ibm.oti.vm.BootstrapClassLoader负责这个对象的加载。这段描述非常短，但我相信您已经可以从中找到很多线索了，比如是哪个类占用了绝大多数的内存，它属于哪个组件等等。</p>
+<p>接下来，我们应该进一步去分析问题，为什么一个 Vector 会占据了系统 99%的内存，谁阻止了垃圾回收机制对它的回收。</p>
+<h3 id="查看报告之二：分析问题的所在"><a href="#查看报告之二：分析问题的所在" class="headerlink" title="查看报告之二：分析问题的所在"></a>查看报告之二：分析问题的所在</h3><p>首先我们简单回顾下 JAVA的内存回收机制，内存空间中垃圾回收的工作由垃圾回收器 (Garbage Collector,GC)完成的，它的核心思想是：对虚拟机可用内存空间，即堆空间中的对象进行识别，如果对象正在被引用，那么称其为存活对象，反之，如果对象不再被引用，则为垃圾对象，可以回收其占据的空间，用于再分配。</p>
+<p>在垃圾回收机制中有一组元素被称为根元素集合，它们是一组被虚拟机直接引用的对象，比如，正在运行的线程对象，系统调用栈里面的对象以及被system class loader所加载的那些对象。堆空间中的每个对象都是由一个根元素为起点被层层调用的。因此，一个对象还被某一个存活的根元素所引用，就会被认为是存活对象，不能被回收，进行内存释放。因此，我们可以通过分析一个对象到根元素的引用路径来分析为什么该对象不能被顺利回收。如果说一个对象已经不被任何程序逻辑所需要但是还存在被根元素引用的情况，我们可以说这里存在内存泄露。</p>
+<p>现在，让我们开始真正的寻找内存泄露之旅，点击”Details “链接，可以看到如图8 所示对可疑对象 1 的详细分析报告。</p>
+<h5 id="图-8-可疑对象-1-的详细分析报告"><a href="#图-8-可疑对象-1-的详细分析报告" class="headerlink" title="图 8. 可疑对象 1 的详细分析报告"></a>图 8. 可疑对象 1 的详细分析报告</h5><p><img src="/images/janalyzer/image008.jpg" alt="图 8. 可疑对象 1的详细分析报告">{width&#x3D;”557”}</p>
+<ol>
+<li>我们查看下从 GC 根元素到内存消耗聚集点的最短路径：</li>
+</ol>
+<h5 id="图-9-从根元素到内存消耗聚集点的最短路径"><a href="#图-9-从根元素到内存消耗聚集点的最短路径" class="headerlink" title="图 9. 从根元素到内存消耗聚集点的最短路径"></a>图 9. 从根元素到内存消耗聚集点的最短路径</h5><p><img src="/images/janalyzer/image009.jpg" alt="图 9.从根元素到内存消耗聚集点的最短路径">{width&#x3D;”576”}</p>
+<p>我们可以很清楚的看到整个引用链，内存聚集点是一个拥有大量对象的集合，如果你对代码比较熟悉的话，相信这些信息应该能给你提供一些找到内存泄露的思路了。</p>
+<p>接下来，我们再继续看看，这个对象集合里到底存放了什么，为什么会消耗掉如此多的内存。</p>
+<h5 id="图-10-内存消耗聚集对象信息"><a href="#图-10-内存消耗聚集对象信息" class="headerlink" title="图 10. 内存消耗聚集对象信息"></a>图 10. 内存消耗聚集对象信息</h5><p><img src="/images/janalyzer/image010.jpg" alt="图 10.内存消耗聚集对象信息">{width&#x3D;”509”}</p>
+<p>在这张图上，我们可以清楚的看到，这个对象集合中保存了大量 Person对象的引用，就是它导致的内存泄露。</p>
+<p>至此，我们已经拥有了足够的信息去寻找泄露点，回到代码，我们发现，是下面的代码导致了内存泄露<br>:</p>
+<h5 id="清单-1-内存泄漏的代码段"><a href="#清单-1-内存泄漏的代码段" class="headerlink" title="清单 1. 内存泄漏的代码段"></a>清单 1. 内存泄漏的代码段</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">while (1&lt;2) </span><br><span class="line">&#123; </span><br><span class="line">           </span><br><span class="line">    Person person = new Person(&quot;name&quot;,&quot;address&quot;,i); </span><br><span class="line">    v.add(person); </span><br><span class="line">    person = null; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结 "></a>总结 </h2><p>从上面的例子我们可以看到用 MAT来进行堆转储文件分析，寻找内存泄露非常简单，尤其是对于新手而言，这是一个很好的辅助分析工具。但是，MAT绝对不仅仅是一个”傻瓜式”内存分析工具，它还提供很多高级功能，比如 MAT支持用 OQL（Object Query Language）对 heap dump中的对象进行查询，支持对线程的分析等，有关这些功能的使用可以参考 MAT的帮助文档。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/analyzer/matuse2/" data-id="clhlnyli000rnojupf2xac29x" data-title="【JAVA】使用 Eclipse Memory Analyzer 进行堆转储文件分析" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/127/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/126/">126</a><a class="page-number" href="/page/127/">127</a><span class="page-number current">128</span><a class="page-number" href="/page/129/">129</a><a class="page-number" href="/page/130/">130</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/129/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】公告</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 证心<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a target="_blank" rel="noopener" href="http://site.onekbase.com" class="mobile-nav-link">ITEEDU</a>
+  
+    <a href="/about/" class="mobile-nav-link">关于</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

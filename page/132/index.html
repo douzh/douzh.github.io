@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="OneKBase">
+<meta property="og:url" content="http://www.onekbase.com/page/132/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="证心">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">归一</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" target="_blank" rel="noopener" href="http://site.onekbase.com">ITEEDU</a>
+        
+          <a class="main-nav-link" href="/about/">关于</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-blog/pytx/jsdql" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/pytx/jsdql/" class="article-date">
+  <time class="dt-published" datetime="2015-11-30T06:07:03.000Z" itemprop="datePublished">2015-11-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/pytx/jsdql/">技术的囚笼</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="技术的囚笼"><a href="#技术的囚笼" class="headerlink" title="技术的囚笼"></a>技术的囚笼</h2><p>公司和个人会因为已经熟悉了某种技术而对有替代性的更先进技术有抗拒心理，当转换成本越大时这种倾向越明显。</p>
+<p>天下大势，浩浩汤汤，顺之者昌，逆之者亡。</p>
+<p>我写这篇文章只表述个人对未来技术的一些看法，可能会戳中某些人的痛点，你可以想想自己有没有被学过的技术困住。</p>
+<h2 id="MVC还是那个MVC吗？"><a href="#MVC还是那个MVC吗？" class="headerlink" title="MVC还是那个MVC吗？"></a>MVC还是那个MVC吗？</h2><p>MVC是个老话题，百说不厌。过去的MVC就不说了，我想说说新趋势。</p>
+<p>我们看到网页内容可以分为三个阶段，数据获取、数据装载、数据渲染。</p>
+<p>这个过程已经发生了翻天覆地的变化。过去网页在服务器上生成，服务器返回一个网页，浏览器再把网页渲染成我们看到的内容。</p>
+<p>现在服务器已经不再生成网页了，更倾向于提供数据接口，只保留了数据获取阶段，其它两个阶段都放浏览器端做了。</p>
+<p>过程是这样的，加载的页面会加载js组件，js组件会从服务器接口获取数据，装载数据，渲染现在已经不止浏览器对HTML渲染了，还可以把数据渲染到canvas上，可以看一下百度的echarts，也可以看一些webgl的例子。</p>
+<p>这样有很多好处。</p>
+<p>服务器端技术已经不受具体限制了，只要接口返回指定格式的数据就行。所以可以用各种语言和框架编程，不用担心技术过时或受技术交替的冲击。</p>
+<p>前端的显示也可以赶上多变的技术，更炫的效果还是要用canvas做渲染。webgl的和种框架可以做出很炫的3D动画，所以想像已经不受技术的限制了。有了新渲染框架和数据对接一下就OK了。</p>
+<p>将来的前端会桌面化，加载一次，以后交互都只是数据更新。话说已经有好多这种例子了。</p>
+<p>所以最先死的是各种P：jsp、php、asp等，还有各种基于P的标签组件技术。</p>
+<h2 id="语言的大一统"><a href="#语言的大一统" class="headerlink" title="语言的大一统"></a>语言的大一统</h2><p>语言有两个端，C和LISP。</p>
+<p>我是用JAVA的，JAVA好不好用？真心的不好用，当然和C++比还是有优势的。但用JAVA的地方太多了，所以一时也死不了。</p>
+<p>将来的语言会怎么发展？</p>
+<p>我觉得各种语言会死掉，但各种语言的虚拟机还会活很长时间。因为在各种虚拟机上会出现很多LISP方言，可以复用现有的库。但这已经不是原来的语言了，一个语言最重要的是语言的语法，语法都不一样了，就不能算一种语言了。</p>
+<p>漫长的混乱之后，可能各种虚拟机也都消失了。LISP方言也有了统一的标准。这时我们发现我们在用一种20世纪60年代的编程语言，多么的可笑。</p>
+<h2 id="LISP不是一种语言"><a href="#LISP不是一种语言" class="headerlink" title="LISP不是一种语言"></a>LISP不是一种语言</h2><p>LISP语言并不是一种语言，而是一种语法。列表形式的语法可以做到代码即数据，数据即代码。从而实现LISP的宏功能，让每个人都可以定义自己的语言。</p>
+<p>用列表做语法的都可以认为是LISP方言，实现了LISP宏的都可以认为是完备的LISP方言。</p>
+<p>自己的才是最好的，这一点对开发人员体现优为重要。</p>
+<p>LISP语法实在太简单了，有点编程基础的人都可以写一个简单的LISP解析器。</p>
+<p>LISP成为大一统的原因很简单：至简则至快，至快则至强，至强则无敌。</p>
+<p>“天下武功无坚不破,唯快不破”，这在IT领域也是至理名言。以至于《黑客与画家》的作者把LISP当作他创业成功的秘密武器。</p>
+<p>其实这很好理解：</p>
+<p>同样的时间做更多的事意味着成本低。</p>
+<p>更短的时间做更多的事意味着对手不可能超过你。</p>
+<p>快意味着：更便宜、客户更满意、对手有你就有、你有对手没有的。这就是技术壁垒。</p>
+<p>ASM、C、LISP，我们画了一个圈，又回到了原点。最终还是这三个古老的语言取得了胜利。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/pytx/jsdql/" data-id="clhlnyldc000rojup88dz5k04" data-title="技术的囚笼" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-blog/javaweb/verificationcode" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/javaweb/verificationcode/" class="article-date">
+  <time class="dt-published" datetime="2015-11-24T03:08:43.000Z" itemprop="datePublished">2015-11-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/javaweb/verificationcode/">如何给java web应用添加登录验证码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>这片文章主要讲如何时在java web项目中如何给登录添加验证码功能。</p>
+<h2 id="添加验证码主要工作："><a href="#添加验证码主要工作：" class="headerlink" title="添加验证码主要工作："></a>添加验证码主要工作：</h2><p>做一个验证码图片的生成类，在网上有很多，copy一个很方便。</p>
+<p>做一个验证码的图片接口，通过链接可以访问，返回一张图片。</p>
+<p>做一个filter，对登录请求进行拦截，判断验证码是否正确。</p>
+<p>登录页面加上一个IMG节点，通过js设置其显示验证码。</p>
+<h2 id="做一个验证码图片生成类："><a href="#做一个验证码图片生成类：" class="headerlink" title="做一个验证码图片生成类："></a>做一个验证码图片生成类：</h2><p>直接在网上复制了一个，还挺好用的。</p>
+<pre><code>import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.Random;
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
+
+/**
+ * 验证码相关
+ * VerificationCodeUtil
+ * @author douzh
+ * @version 1.0
+ *
+ */
+
+public class VerificationCodeUtil &#123;
+    public static String VCODE_SESSION_KEY=&quot;Verification_Code_Key&quot;;
+    private ByteArrayInputStream image;//图像 
+
+    private String str;//验证码 
+
+    private VerificationCodeUtil() &#123;
+        init();//初始化属性 
+    &#125;
+
+    /*
+     * 取得RandomNumUtil实例
+     */
+    public static VerificationCodeUtil Instance() &#123;
+        return new VerificationCodeUtil();
+    &#125;
+
+    /*
+     * 取得验证码图片
+     */
+    public ByteArrayInputStream getImage() &#123;
+        return this.image;
+    &#125;
+
+    /*
+     * 取得图片的验证码
+     */
+    public String getString() &#123;
+        return this.str;
+    &#125;
+
+    private void init() &#123;
+        // 在内存中创建图象 
+        int width = 85, height = 30;
+        BufferedImage image = new BufferedImage(width, height,
+                BufferedImage.TYPE_INT_RGB);
+        // 获取图形上下文 
+        Graphics g = image.getGraphics();
+        // 生成随机类 
+        Random random = new Random();
+        // 设定背景色 
+        g.setColor(getRandColor(200, 250));
+        g.fillRect(0, 0, width, height);
+        // 设定字体 
+        g.setFont(new Font(&quot;Times New Roman&quot;, Font.PLAIN, 25));
+        // 随机产生155条干扰线，使图象中的认证码不易被其它程序探测到 
+        g.setColor(getRandColor(160, 200));
+        for (int i = 0; i &lt; 155; i++) &#123;
+            int x = random.nextInt(width);
+            int y = random.nextInt(height);
+            int xl = random.nextInt(12);
+            int yl = random.nextInt(12);
+            g.drawLine(x, y, x + xl, y + yl);
+        &#125;
+        // 取随机产生的认证码(6位数字) 
+        String sRand = &quot;&quot;;
+        for (int i = 0; i &lt; 6; i++) &#123;
+            String rand = String.valueOf(random.nextInt(10));
+            sRand += rand;
+            // 将认证码显示到图象中 
+            g.setColor(new Color(20 + random.nextInt(110), 20 + random
+                    .nextInt(110), 20 + random.nextInt(110)));
+            // 调用函数出来的颜色相同，可能是因为种子太接近，所以只能直接生成 
+            g.drawString(rand, 13 * i + 6, 25);
+        &#125;
+        //赋值验证码
+        this.str = sRand;
+
+        //图象生效 
+        g.dispose();
+        ByteArrayInputStream input = null;
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        try &#123;
+            ImageOutputStream imageOut = ImageIO
+                    .createImageOutputStream(output);
+            ImageIO.write(image, &quot;JPEG&quot;, imageOut);
+            imageOut.close();
+            input = new ByteArrayInputStream(output.toByteArray());
+        &#125; catch (Exception e) &#123;
+            System.out.println(&quot;验证码图片产生出现错误：&quot; + e.toString());
+        &#125;
+
+        this.image = input;/* 赋值图像 */
+    &#125;
+
+    /*
+     * 给定范围获得随机颜色
+     */
+    private Color getRandColor(int fc, int bc) &#123;
+        Random random = new Random();
+        if (fc &gt; 255)
+            fc = 255;
+        if (bc &gt; 255)
+            bc = 255;
+        int r = fc + random.nextInt(bc - fc);
+        int g = fc + random.nextInt(bc - fc);
+        int b = fc + random.nextInt(bc - fc);
+        return new Color(r, g, b);
+    &#125;
+&#125;
+</code></pre>
+<h2 id="做一个返回验证码的接口："><a href="#做一个返回验证码的接口：" class="headerlink" title="做一个返回验证码的接口："></a>做一个返回验证码的接口：</h2><pre><code>    public void getVcImage() &#123;
+        try &#123;
+            VerificationCodeUtil vc = VerificationCodeUtil.Instance();
+            InputStream s = vc.getImage();
+            this.getHttpRequest()
+                    .getSession()
+                    .setAttribute(VerificationCodeUtil.VCODE_SESSION_KEY,
+                        vc.getString());
+            ServletOutputStream outputStream = getHttpResponse()
+                    .getOutputStream();
+            if (s != null) &#123;
+                IOUtils.copy(s, outputStream);
+                IOUtils.closeQuietly(s);
+                IOUtils.closeQuietly(outputStream);
+            &#125;
+        &#125; catch (Exception e) &#123;
+            logger.error(&quot;获取验证码出错&quot;, e);
+            writJsonResult(new ErrorPojo(&quot;syserror&quot;, &quot;获取验证码出错！&quot;));
+        &#125;
+        return;
+    &#125;
+</code></pre>
+<p>注意，要把验证码对应的字符串放到session里，以供验证对比用。IOUtils是用的org.apache.commons.io里的类。</p>
+<p>现在就可以通过浏览器访问接口返回一张验证码图片了。</p>
+<h2 id="拦截登录请求的filter"><a href="#拦截登录请求的filter" class="headerlink" title="拦截登录请求的filter"></a>拦截登录请求的filter</h2><p>先写一个处理验证码的Filter类</p>
+<pre><code>/**
+ * 过滤验证码
+ * VCodeFilter
+ * @version 1.0
+ *
+ */
+public class VCodeFilter extends BaseLogic implements Filter &#123;
+
+    @Override
+    public void destroy() &#123;
+
+    &#125;
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException &#123;
+        HttpServletRequest servletRequest = null;
+        try &#123;
+            servletRequest = (HttpServletRequest) request;
+            HttpServletResponse servletResponse = (HttpServletResponse) response;
+            String action = servletRequest.getQueryString();
+            if (StringUtils.isNotBlank(action)
+                    &amp;&amp; action.startsWith(&quot;action=login&quot;)) &#123;
+                String vcode = request.getParameter(&quot;j_vcode&quot;);
+                if(StringUtils.isBlank(vcode))&#123;
+                    writeResult(&quot;请先填写验证码&quot;,servletResponse);
+                    return;
+                &#125;
+                String vcode2 = (String) servletRequest.getSession()
+                        .getAttribute(VerificationCodeUtil.VCODE_SESSION_KEY);
+                if(StringUtils.isBlank(vcode2))&#123;
+                    writeResult(&quot;验证码已经过期，重新获取&quot;,servletResponse);
+                    return;
+                &#125;
+                if(!vcode2.equals(vcode))&#123;
+                    writeResult(&quot;验证码填写不正确，请重新填写&quot;,servletResponse);
+                    return;
+                &#125;
+            &#125;
+            chain.doFilter(servletRequest, servletResponse);
+        &#125; catch (Exception e) &#123;
+            logger.error(&quot;查看出现异常时候的方法&quot; + servletRequest.getMethod());
+        &#125;
+
+    &#125;
+    /**
+     * 向response管道写数据
+     * 
+     * @param data 输出的数据
+     */
+    protected void writeResult(String data,HttpServletResponse resp) &#123;
+        try &#123;
+            resp.setCharacterEncoding(&quot;UTF-8&quot;);
+            resp.getWriter().write(data);
+            resp.getWriter().flush();
+            resp.getWriter().close();
+        &#125; catch (IOException e) &#123;
+            logger.error(&quot;接口输出内容出错&quot;, e);
+        &#125;
+    &#125;
+    @Override
+    public void init(FilterConfig config) throws ServletException &#123;
+    &#125;
+&#125;
+</code></pre>
+<p>添加对于filter配制。</p>
+<pre><code>    &lt;filter&gt;
+        &lt;filter-name&gt;VCodeFilter&lt;/filter-name&gt;
+        &lt;filter-class&gt;
+            com.xxxx.support.VCodeFilter
+        &lt;/filter-class&gt;
+    &lt;/filter&gt;
+
+    &lt;filter-mapping&gt;
+        &lt;filter-name&gt;VCodeFilter&lt;/filter-name&gt;
+        &lt;url-pattern&gt;/login.do&lt;/url-pattern&gt;
+    &lt;/filter-mapping&gt;
+</code></pre>
+<p>这样所有的登录请求先要过验证码这一关。</p>
+<h2 id="登录界面的验证码"><a href="#登录界面的验证码" class="headerlink" title="登录界面的验证码"></a>登录界面的验证码</h2><p>添加一个img节点：</p>
+<p>用js初始化节点。</p>
+<pre><code>function initVcode()&#123;
+$(&quot;#vcode&quot;).attr(&#39;src&#39;,contextPath+&quot;/paramsApi.do?action=getVcImage&amp;time=&quot;+new Date().getTime()); ;
+&#125;;
+initVcode();
+</code></pre>
+<p>参数加个时间戳是为了防止浏览器缓存验证码图片。</p>
+<h2 id="之后呢"><a href="#之后呢" class="headerlink" title="之后呢"></a>之后呢</h2><p>要有一个input让用户输入验证码，提交登录信息时也把这项提交上，filter就会处理带验证吗的请求了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/javaweb/verificationcode/" data-id="clhlnylcy0001ojup1qd6hkdv" data-title="如何给java web应用添加登录验证码" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/131/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/130/">130</a><a class="page-number" href="/page/131/">131</a><span class="page-number current">132</span><a class="page-number" href="/page/133/">133</a><a class="page-number" href="/page/134/">134</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/133/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】公告</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 证心<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a target="_blank" rel="noopener" href="http://site.onekbase.com" class="mobile-nav-link">ITEEDU</a>
+  
+    <a href="/about/" class="mobile-nav-link">关于</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

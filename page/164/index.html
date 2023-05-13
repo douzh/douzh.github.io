@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="OneKBase">
+<meta property="og:url" content="http://www.onekbase.com/page/164/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="证心">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">归一</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" target="_blank" rel="noopener" href="http://site.onekbase.com">ITEEDU</a>
+        
+          <a class="main-nav-link" href="/about/">关于</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-blog/tools/regex/regexrule" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/tools/regex/regexrule/" class="article-date">
+  <time class="dt-published" datetime="2015-09-15T10:21:19.000Z" itemprop="datePublished">2015-09-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/tools/regex/regexrule/">正则表达式规则</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>正则表达式（regular expression）就是用一个”字符串”来描述一个特征，然后去验证另一个”字符串”是否符合这个特征。比如表达式”ab+” 描述的特征是”一个 ‘a’ 和 任意个 ‘b’ “，那么 ‘ab’, ‘abb’,’abbbbbbbbbb’ 都符合这个特征。</p>
+<p>正则表达式可以用来：（1）验证字符串是否符合指定特征，比如验证是否是合法的邮件地址。（2）用来查找字符串，从一个长的文本中查找符合指定特征的字符串，比查找固定字符串更加灵活方便。（3）用来替换，比普通的替换更强大。</p>
+<p>正则表达式学习起来其实是很简单的，不多的几个较为抽象的概念也很容易理解。之所以很多人感觉正则表达式比较复杂，一方面是因为大多数的文档没有做到由浅入深地讲解，概念上没有注意先后顺序，给读者的理解带来困难；另一方面，各种引擎自带的文档一般都要介绍它特有的功能，然而这部分特有的功能并不是我们首先要理解的。</p>
+<p>文章中的每一个举例，都可以点击进入到测试页面进行测试。闲话少说，开始。</p>
+<h2 id="正则表达式规则"><a href="#正则表达式规则" class="headerlink" title="正则表达式规则"></a>正则表达式规则</h2><h2 id="普通字符"><a href="#普通字符" class="headerlink" title="普通字符"></a>普通字符</h2><p>字母、数字、汉字、下划线、以及后边章节中没有特殊定义的标点符号，都是”普通字符”。表达式中的普通字符，在匹配一个字符串的时候，匹配与之相同的一个字符。</p>
+<p>举例1：表达式 “c”，在匹配字符串 “abcde”时，匹配结果是：成功；匹配到的内容是：”c”；匹配到的位置是：开始于2，结束于3。（注：下标从0开始还是从1开始，因当前编程语言的不同而可能不同）</p>
+<p>举例2：表达式 “bcd”，在匹配字符串 “abcde”时，匹配结果是：成功；匹配到的内容是：”bcd”；匹配到的位置是：开始于1，结束于4。</p>
+<h2 id="简单的转义字符"><a href="#简单的转义字符" class="headerlink" title="简单的转义字符"></a>简单的转义字符</h2><p>一些不便书写的字符，采用在前面加 “&quot;的方法。这些字符其实我们都已经熟知了。</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>可匹配</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\r, \n</td>
+<td>代表回车和换行符</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>制表符</td>
+</tr>
+<tr>
+<td>\</td>
+<td>代表 “” 本身</td>
+</tr>
+</tbody></table>
+<p>还有其他一些在后边章节中有特殊用处的标点符号，在前面加 “”后，就代表该符号本身。比如：^, $ 都有特殊意义，如果要想匹配字符串中”^“ 和 “$“ 字符，则表达式就需要写成 “^“ 和 “$“。</p>
+<p>  表达式|  可匹配<br>  ——|- ———————<br>  ^    |  匹配 ^ 符号本身<br>  $    |  匹配 $ 符号本身<br>  .     |  匹配小数点（.）本身</p>
+<p>这些转义字符的匹配方法与 “普通字符”是类似的。也是匹配与之相同的一个字符。</p>
+<p>举例1：表达式 “$d”，在匹配字符串 “abc$de”时，匹配结果是：成功；匹配到的内容是：”$d”；匹配到的位置是：开始于3，结束于5。</p>
+<h2 id="能够与-‘多种字符’-匹配的表达式"><a href="#能够与-‘多种字符’-匹配的表达式" class="headerlink" title="能够与 ‘多种字符’ 匹配的表达式"></a>能够与 ‘多种字符’ 匹配的表达式</h2><p>正则表达式中的一些表示方法，可以匹配 ‘多种字符’其中的任意一个字符。比如，表达式 “d”可以匹配任意一个数字。虽然可以匹配其中任意字符，但是只能是一个，不是多个。这就好比玩扑克牌时候，大小王可以代替任意一张牌，但是只能代替一张牌。</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>可匹配</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\d</td>
+<td>任意一个数字，0~9 中的任意一个</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>任意一个字母或数字或下划线，也就是 A~Z,a~z,0~9,_ 中任意一个</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>包括空格、制表符、换页符等空白字符的其中任意一个</td>
+</tr>
+<tr>
+<td>.</td>
+<td>小数点可以匹配除了换行符（n）以外的任意一个字符</td>
+</tr>
+</tbody></table>
+<p>举例1：表达式 “dd”，在匹配 “abc123″时，匹配的结果是：成功；匹配到的内容是：”12″；匹配到的位置是：开始于3，结束于5。</p>
+<p>举例2：表达式 “a.d”，在匹配 “aaa100″时，匹配的结果是：成功；匹配到的内容是：”aa1″；匹配到的位置是：开始于1，结束于4。</p>
+<h2 id="自定义能够匹配-‘多种字符’-的表达式"><a href="#自定义能够匹配-‘多种字符’-的表达式" class="headerlink" title="自定义能够匹配 ‘多种字符’ 的表达式"></a>自定义能够匹配 ‘多种字符’ 的表达式</h2><p>使用方括号 [ ] 包含一系列字符，能够匹配其中任意一个字符。用 [^ ]包含一系列字符，则能够匹配其中字符之外的任意一个字符。同样的道理，虽然可以匹配其中任意一个，但是只能是一个，不是多个。</p>
+<hr>
+<p>  表达式         可匹配<br>  [ab5@]       匹配 “a” 或 “b” 或 “5″ 或 “@”<br>  [^abc]      匹配 “a”,”b”,”c” 之外的任意一个字符<br>  [f-k]        匹配 “f”<del>“k” 之间的任意一个字母<br>  [^A-F0-3]   匹配 “A”</del>“F”,”0″~”3″ 之外的任意一个字符</p>
+<hr>
+<p>举例1：表达式 “[bcd][bcd]“ 匹配 “abc123″时，匹配的结果是：成功；匹配到的内容是：”bc”；匹配到的位置是：开始于1，结束于3。</p>
+<p>举例2：表达式 “[^abc]“ 匹配 “abc123″时，匹配的结果是：成功；匹配到的内容是：”1″；匹配到的位置是：开始于3，结束于4。</p>
+<h2 id="修饰匹配次数的特殊符号"><a href="#修饰匹配次数的特殊符号" class="headerlink" title="修饰匹配次数的特殊符号"></a>修饰匹配次数的特殊符号</h2><p>前面章节中讲到的表达式，无论是只能匹配一种字符的表达式，还是可以匹配多种字符其中任意一个的表达式，都只能匹配一次。如果使用表达式再加上修饰匹配次数的特殊符号，那么不用重复书写表达式就可以重复匹配。</p>
+<p>使用方法是：”次数修饰”放在”被修饰的表达式”后边。比如：”[bcd][bcd]“可以写成 “[bcd]{2}”。</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>{n}</td>
+<td>表达式重复n次，比如： “w{2}” 相当于 “ww”； “a{5}” 相当于 “aaaaa”</td>
+</tr>
+<tr>
+<td>{m,n}</td>
+<td>表达式至少重复m次，最多重复n次，比如： “ba{1,3}”可以匹配 “ba”或”baa”或”baaa”</td>
+</tr>
+<tr>
+<td>{m,}</td>
+<td>表达式至少重复m次，比如： “wd{2,}”可以匹配 “a12″,”_456″,”M12344″…</td>
+</tr>
+<tr>
+<td>?</td>
+<td>匹配表达式0次或者1次，相当于 {0,1}，比如： “a[cd]?”可以匹配 “a”,”ac”,”ad”</td>
+</tr>
+<tr>
+<td>+</td>
+<td>表达式至少出现1次，相当于 {1,}，比如： “a+b”可以匹配 “ab”,”aab”,”aaab”…</td>
+</tr>
+<tr>
+<td>*</td>
+<td>表达式不出现或出现任意次，相当于 {0,}，比如： “^*b”可以匹配 “b”,”^^^b”…</td>
+</tr>
+</tbody></table>
+<p>举例1：表达式 “d+.?d*“ 在匹配 “It costs $12.5″时，匹配的结果是：成功；匹配到的内容是：”12.5″；匹配到的位置是：开始于10，结束于14。</p>
+<p>举例2：表达式 “go{2,8}gle” 在匹配 “Ads by goooooogle”时，匹配的结果是：成功；匹配到的内容是：”goooooogle”；匹配到的位置是：开始于7，结束于17。</p>
+<h2 id="其他一些代表抽象意义的特殊符号"><a href="#其他一些代表抽象意义的特殊符号" class="headerlink" title="其他一些代表抽象意义的特殊符号"></a>其他一些代表抽象意义的特殊符号</h2><p>一些符号在表达式中代表抽象的特殊意义：</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>^</td>
+<td>与字符串开始的地方匹配，不匹配任何字符</td>
+</tr>
+<tr>
+<td>$</td>
+<td>与字符串结束的地方匹配，不匹配任何字符</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>匹配一个单词边界，也就是单词和空格之间的位置，不匹配任何字符</td>
+</tr>
+</tbody></table>
+<p>进一步的文字说明仍然比较抽象，因此，举例帮助大家理解。</p>
+<p>举例1：表达式 “^aaa” 在匹配 “xxx aaa xxx” 时，匹配结果是：失败。因为”^“ 要求与字符串开始的地方匹配，因此，只有当 “aaa”位于字符串的开头的时候，”^aaa” 才能匹配， 比如：”aaa xxx xxx”。</p>
+<p>举例2：表达式 “aaa$“ 在匹配 “xxx aaa xxx” 时，匹配结果是：失败。因为”$“ 要求与字符串结束的地方匹配，因此，只有当 “aaa”<br>位于字符串的结尾的时候，”aaa$“ 才能匹配， 比如：”xxx xxx aaa”。</p>
+<p>举例3：表达式 “.b.” 在匹配 “@@@abc”时，匹配结果是：成功；匹配到的内容是：”@a”；匹配到的位置是：开始于2，结束于4。</p>
+<p>进一步说明：”b” 与 “^“ 和 “$“类似，本身不匹配任何字符，但是它要求它在匹配结果中所处位置的左右两边，其中一边是<br>“w” 范围，另一边是 非”w” 的范围。</p>
+<p>举例4：表达式 “bendb” 在匹配 “weekend,endfor,end”时，匹配结果是：成功；匹配到的内容是：”end”；匹配到的位置是：开始于15，结束于18。</p>
+<p>一些符号可以影响表达式内部的子表达式之间的关系：</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>|</td>
+<td>左右两边表达式之间 “或” 关系，匹配左边或者右边</td>
+</tr>
+<tr>
+<td>( )</td>
+<td>(1). 在被修饰匹配次数的时候，括号中的表达式可以作为整体被修饰(2). 取匹配结果的时候，括号中的表达式匹配到的内容可以被单独得到</td>
+</tr>
+</tbody></table>
+<p>举例5：表达式 “Tom|Jack” 在匹配字符串 “I’m Tom, he is Jack”时，匹配结果是：成功；匹配到的内容是：”Tom”；匹配到的位置是：开始于4，结束于7。匹配下一个时，匹配结果是：成功；匹配到的内容是：”Jack”；匹配到的位置时：开始于15，结束于19。</p>
+<p>举例6：表达式 “(gos*)+” 在匹配 “Let’s go go go!”时，匹配结果是：成功；匹配到内容是：”go go go”；匹配到的位置是：开始于6，结束于14。</p>
+<p>举例7：表达式 “￥(d+.?d*)” 在匹配 “＄10.9,￥20.5″时，匹配的结果是：成功；匹配到的内容是：”￥20.5″；匹配到的位置是：开始于6，结束于10。单独获取括号范围匹配到的内容是：”20.5″。</p>
+<h2 id="正则表达式中的一些高级规则"><a href="#正则表达式中的一些高级规则" class="headerlink" title="正则表达式中的一些高级规则"></a>正则表达式中的一些高级规则</h2><h2 id="匹配次数中的贪婪与非贪婪"><a href="#匹配次数中的贪婪与非贪婪" class="headerlink" title="匹配次数中的贪婪与非贪婪"></a>匹配次数中的贪婪与非贪婪</h2><p>在使用修饰匹配次数的特殊符号时，有几种表示方法可以使同一个表达式能够匹配不同的次数，比如：”{m,n}”,”{m,}”, “?”, “*“,”+”，具体匹配的次数随被匹配的字符串而定。这种重复匹配不定次数的表达式在匹配过程中，总是尽可能多的匹配。比如，针对文本”dxxxdxxxd”，举例如下：</p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>匹配结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(d)(w+)</td>
+<td>“w+” 将匹配第一个 “d” 之后的所有字符 “xxxdxxxd”</td>
+</tr>
+<tr>
+<td>(d)(w+)(d)</td>
+<td>“w+” 将匹配第一个 “d” 和最后一个 “d” 之间的所有字符 “xxxdxxx”。虽然 “w+” 也能够匹配上最后一个 “d”，但是为了使整个表达式匹配成功，”w+” 可以 “让出” 它本来能够匹配的最后一个 “d”</td>
+</tr>
+</tbody></table>
+<p>由此可见，”w+”在匹配的时候，总是尽可能多的匹配符合它规则的字符。虽然第二个举例中，它没有匹配最后一个”d”，但那也是为了让整个表达式能够匹配成功。同理，带 “*“ 和 “{m,n}”的表达式都是尽可能地多匹配，带 “?”的表达式在可匹配可不匹配的时候，也是尽可能的 “要匹配”。这种匹配原则就叫作 “贪婪” 模式 。</p>
+<p>非贪婪模式：</p>
+<p>在修饰匹配次数的特殊符号后再加上一个 “?”号，则可以使匹配次数不定的表达式尽可能少的匹配，使可匹配可不匹配的表达式，尽可能的”不匹配”。这种匹配原则叫作 “非贪婪” 模式，也叫作 “勉强”模式。如果少匹配就会导致整个表达式匹配失败的时候，与贪婪模式类似，非贪婪模式会最小限度的再匹配一些，以使整个表达式匹配成功。举例如下，针对文本”dxxxdxxxd” 举例：</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>匹配结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(d)(w+?)</td>
+<td>“w+?” 将尽可能少的匹配第一个 “d” 之后的字符，结果是：”w+?” 只匹配了一个 “x”</td>
+</tr>
+<tr>
+<td>(d)(w+?)(d)</td>
+<td>为了让整个表达式匹配成功，”w+?” 不得不匹配 “xxx” 才可以让后边的 “d” 匹配，从而使整个表达式匹配成功。因此，结果是：”w+?” 匹配 “xxx”</td>
+</tr>
+</tbody></table>
+<p>更多的情况，举例如下：</p>
+<p>举例1：表达式 “(.*)” 与字符串 “aa bb” 匹配时，匹配的结果是：成功；匹配到的内容是 “aa bb” 整个字符串， 表达式中的 “” 将与字符串中最后一个 “” 匹配。</p>
+<p>举例2：相比之下，表达式 “(.*?)” 匹配举例1中同样的字符串时，将只得到 “aa”， 再次匹配下一个时，可以得到第二个 “bb”。</p>
+<h2 id="反向引用-1-2…"><a href="#反向引用-1-2…" class="headerlink" title="反向引用 1, 2…"></a>反向引用 1, 2…</h2><p>表达式在匹配时，表达式引擎会将小括号 “( )”包含的表达式所匹配到的字符串记录下来。在获取匹配结果的时候，小括号包含的表达式所匹配到的字符串可以单独获取。这一点，在前面的举例中，已经多次展示了。在实际应用场合中，当用某种边界来查找，而所要获取的内容又不包含边界时，必须使用小括号来指定所要的范围。比如前面的”(.*?)”。</p>
+<p>其实，”小括号包含的表达式所匹配到的字符串”不仅是在匹配结束后才可以使用，在匹配过程中也可以使用。表达式后边的部分，可以引用前面”括号内的子匹配已经匹配到的字符串”。引用方法是 “” 加上一个数字。”1″引用第1对括号内匹配到的字符串，”2″引用第2对括号内匹配到的字符串……以此类推，如果一对括号内包含另一对括号，则外层的括号先排序号。换句话说，哪一对的左括号”(“ 在前，那这一对就先排序号。</p>
+<p>举例如下：</p>
+<p>举例1：表达式 “(‘|“)(.*?)(1)” 在匹配 “ ‘Hello’, “World” “时，匹配结果是：成功；匹配到的内容是：” ‘Hello’”。再次匹配下一个时，可以匹配到 “ “World” “。</p>
+<p>举例2：表达式 “(w)1{4,}” 在匹配 “aa bbbb abcdefg ccccc 111121111 999999999″ 时，匹配结果是：成功；匹配到的内容是”ccccc”。再次匹配下一个时，将得到 999999999。这个表达式要求 “w”范围的字符至少重复5次， 注意与 “w{5,}” 之间的区别。</p>
+<p>举例3：表达式 “&lt;(w+)s*(w+(&#x3D;(‘|“).*?4)?s*)*&gt;.*?” 在匹配 “&quot; 时，匹配结果是成功。如果 “” 与 “”不配对，则会匹配失败；如果改成其他配对，也可以匹配成功。</p>
+<h2 id="预搜索，不匹配；反向预搜索，不匹配"><a href="#预搜索，不匹配；反向预搜索，不匹配" class="headerlink" title="预搜索，不匹配；反向预搜索，不匹配"></a>预搜索，不匹配；反向预搜索，不匹配</h2><p>前面的章节中，我讲到了几个代表抽象意义的特殊符号：”^“，”$“，”b”。它们都有一个共同点，那就是：它们本身不匹配任何字符，只是对”字符串的两头” 或者 “字符之间的缝隙”附加了一个条件。理解到这个概念以后，本节将继续介绍另外一种对 “两头” 或者”缝隙” 附加条件的，更加灵活的表示方法。</p>
+<p>正向预搜索：”(?&#x3D;xxxxx)”，”(?!xxxxx)”</p>
+<p>格式：”(?&#x3D;xxxxx)”，在被匹配的字符串中，它对所处的 “缝隙” 或者 “两头”附加的条件是：所在缝隙的右侧，必须能够匹配上 xxxxx这部分的表达式。因为它只是在此作为这个缝隙上附加的条件，所以它并不影响后边的表达式去真正匹配这个缝隙之后的字符。这就类似”b”，本身不匹配任何字符。”b”只是将所在缝隙之前、之后的字符取来进行了一下判断，不会影响后边的表达式来真正的匹配。</p>
+<p>举例1：表达式 “Windows (?&#x3D;NT|XP)” 在匹配 “Windows 98, Windows NT,Windows 2000″ 时，将只匹配 “Windows NT” 中的 “Windows “，其他的 “Windows” 字样则不被匹配。</p>
+<p>举例2：表达式 “(w)((?&#x3D;111)(1))+” 在匹配字符串 “aaa ffffff 999999999″时，将可以匹配6个”f”的前4个，可以匹配9个”9″的前7个。这个表达式可以读解成：重复4次以上的字母数字，则匹配其剩下最后2位之前的部分。当然，这个表达式可以不这样写，在此的目的是作为演示之用。</p>
+<p>格式：”(?!xxxxx)”，所在缝隙的右侧，必须不能匹配 xxxxx 这部分表达式。</p>
+<p>举例3：表达式 “((?!bstopb).)+” 在匹配 “fdjka ljfdl stop fjdsla fdj”时，将从头一直匹配到 “stop” 之前的位置，如果字符串中没有”stop”，则匹配整个字符串。</p>
+<p>举例4：表达式 “do(?!w)” 在匹配字符串 “done, do, dog” 时，只能匹配”do”。在本条举例中，”do” 后边使用 “(?!w)” 和使用 “b” 效果是一样的。</p>
+<p>反向预搜索：”(?&lt;&#x3D;xxxxx)”，”(?</p>
+<p>这两种格式的概念和正向预搜索是类似的，反向预搜索要求的条件是：所在缝隙的”左侧”，两种格式分别要求必须能够匹配和必须不能够匹配指定表达式，而不是去判断右侧。与”正向预搜索”一样的是：它们都是对所在缝隙的一种附加条件，本身都不匹配任何字符。</p>
+<p>举例5：表达式 “(?&lt;&#x3D;d{4})d+(?&#x3D;d{4})” 在匹配 “1234567890123456″时，将匹配除了前4个数字和后4个数字之外的中间8个数字。由于 JScript.RegExp不支持反向预搜索，因此，本条举例不能够进行演示。很多其他的引擎可以支持反向预搜索，比如：Java1.4 以上的 java.util.regex 包，.NET 中System.Text.RegularExpressions命名空间，以及本站推荐的最简单易用的 DEELX 正则引擎。</p>
+<h2 id="其他通用规则"><a href="#其他通用规则" class="headerlink" title="其他通用规则"></a>其他通用规则</h2><p>还有一些在各个正则表达式引擎之间比较通用的规则，在前面的讲解过程中没有提到。</p>
+<p>表达式中，可以使用 “xXX” 和 “uXXXX” 表示一个字符（”X”表示一个十六进制数）</p>
+<table>
+<thead>
+<tr>
+<th>形式</th>
+<th>字符范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xXX</td>
+<td>编号在 0 ~ 255 范围的字符，比如： 空格可以使用 “x20″ 表示</td>
+</tr>
+<tr>
+<td>uXXXX</td>
+<td>任何字符可以使用 “u” 再加上其编号的4位十六进制数表示，比如： “u4E2D”</td>
+</tr>
+</tbody></table>
+<p>在表达式 “s”，”d”，”w”，”b”表示特殊意义的同时，对应的大写字母表示相反的意义</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>可匹配</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>S</td>
+<td>匹配所有非空白字符（”s” 可匹配各个空白字符）</td>
+</tr>
+<tr>
+<td>D</td>
+<td>匹配所有的非数字字符</td>
+</tr>
+<tr>
+<td>W</td>
+<td>匹配所有的字母、数字、下划线以外的字符</td>
+</tr>
+<tr>
+<td>B</td>
+<td>匹配非单词边界，即左右两边都是 “w” 范围或者左右两边都不是 “w” 范围时的字符缝隙</td>
+</tr>
+</tbody></table>
+<p>在表达式中有特殊意义，需要添加 “” 才能匹配该字符本身的字符汇总</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>^</td>
+<td>匹配输入字符串的开始位置。要匹配 “^“ 字符本身，请使用 “^“</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配输入字符串的结尾位置。要匹配 “$“ 字符本身，请使用 “$“</td>
+</tr>
+<tr>
+<td>( )</td>
+<td>标记一个子表达式的开始和结束位置。要匹配小括号，请使用 “(“ 和 “)”</td>
+</tr>
+<tr>
+<td>[ ]</td>
+<td>用来自定义能够匹配 ‘多种字符’ 的表达式。要匹配中括号，请使用 “[&quot; 和 &quot;]“</td>
+</tr>
+<tr>
+<td>{ }</td>
+<td>修饰匹配次数的符号。要匹配大括号，请使用 “{“ 和 “}”</td>
+</tr>
+<tr>
+<td>.</td>
+<td>匹配除了换行符（n）以外的任意一个字符。要匹配小数点本身，请使用 “.”</td>
+</tr>
+<tr>
+<td>?</td>
+<td>修饰匹配次数为 0 次或 1 次。要匹配 “?” 字符本身，请使用 “?”</td>
+</tr>
+<tr>
+<td>+</td>
+<td>修饰匹配次数为至少 1 次。要匹配 “+” 字符本身，请使用 “+”</td>
+</tr>
+<tr>
+<td>*</td>
+<td>修饰匹配次数为 0 次或任意次。要匹配 “*“ 字符本身，请使用 “*“</td>
+</tr>
+<tr>
+<td>|</td>
+<td>左右两边表达式之间 “或” 关系。匹配 “|” 本身，请使用 “|”</td>
+</tr>
+</tbody></table>
+<p>括号 “( )” 内的子表达式，如果希望匹配结果不进行记录供以后使用，可以使用”(?:xxxxx)” 格式</p>
+<p>举例1：表达式 “(?:(w)1)+” 匹配 “a bbccdd efg” 时，结果是 “bbccdd”。括号”(?:)” 范围的匹配结果不进行记录，因此 “(w)” 使用 “1″ 来引用。</p>
+<p>常用的表达式属性设置简介：Ignorecase，Singleline，Multiline，Global</p>
+<p>  表达式属性  | 说明<br>    ——-|—-<br>  Ignorecase  | 默认情况下，表达式中的字母是要区分大小写的。配置为 Ignorecase 可使匹配时不区分大小写。有的表达式引擎，把 “大小写” 概念延伸至 UNICODE 范围的大小写。<br>  Singleline |  默认情况下，小数点 “.” 匹配除了换行符（n）以外的字符。配置为 Singleline 可使小数点可匹配包括换行符在内的所有字符。<br>  Multiline  |  默认情况下，表达式 “^“ 和 “$“ 只匹配字符串的开始 ① 和结尾 ④ 位置。如：①xxxxxxxxx②n③xxxxxxxxx④配置为 Multiline 可以使 “^“ 匹配 ① 外，还可以匹配换行符之后，下一行开始前 ③ 的位置，使 “$“ 匹配 ④ 外，还可以匹配换行符之前，一行结束 ② 的位置。<br>  Global     |  主要在将表达式用来替换时起作用，配置为 Global 表示替换所有的匹配。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/tools/regex/regexrule/" data-id="clhlnylgg00iuojupbokc96nu" data-title="正则表达式规则" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正规表达式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A5%9E%E5%99%A8/" rel="tag">神器</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-blog/arch/uml/classdiagram" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/arch/uml/classdiagram/" class="article-date">
+  <time class="dt-published" datetime="2015-09-15T07:30:53.000Z" itemprop="datePublished">2015-09-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/arch/uml/classdiagram/">UML中类与类的关系，关联和依赖的区别</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>类与类之间存在以下关系:</p>
+<p><strong>泛化(Generalization)：</strong></p>
+<p>在有接口时，可以分为”继承（extends）”和”实现（implements）”。</p>
+<p><strong>关联(Association)：</strong></p>
+<p>关联是一种结构关系，表现为一个对象能够获得另一个对象的实例引用并调用它的服务（即使用它）。</p>
+<p>关联是类之间的词法连接，使一个类知道另一个类的公开属性和操作。关联有单向和双向之分。</p>
+<p>是关联不是依赖的情况，一个类把另一个类做为属性，但没调用其任何属性和方法。如一个导航类有很多相似类引用，只供导航之用，本身不调用任何一个。</p>
+<p>总之，一个类中把另一个类或其集合做为属性，关联关系就成成立。</p>
+<p><strong>依赖(Dependency)：</strong></p>
+<p>依赖是一种使用关系，表现为一个对象仅仅是调用了另一个对象的服务。</p>
+<p>依赖性总是单向的，显示一个依赖于另一个类的定义。</p>
+<p>如果两个元素其中一个的定义发生改变则会引起另一个元素发生变化则称这两个元素之间存在依赖关系，对于类来说，依赖可能存在于下列几种情况中：一个类要发送消息给另一个类；一个类将另一个类作为其数据的一部分；一个类的操作中将另一个类作为其参数。如果一个类改变了接口，则任何发送给该类的消息可能不再有效了。</p>
+<p>是依赖不是关联的情况，类实例做参数、方法中创建类实例等。</p>
+<p>总之，一个类主动修改了会造成另一个类被动修改，要不然会报错或功能实现不了，这就是有依赖关系。</p>
+<p><strong>关联的种类</strong></p>
+<p>聚合(Aggregation,空心菱形)</p>
+<p>这是一种松散的对象间的关系.举个例子:计算机和他的外围设备就是一例。用来表示拥有关系或者整体与部分的关系。</p>
+<ol>
+<li>聚合有时能够不依赖部分而存在，有时又不能。</li>
+<li>部分可以独立于聚合而存在。</li>
+<li>如果有一部分遗失，聚合会给人一种不完全的感觉。</li>
+<li>部分的所有权可以由几个聚合来共享，比如共享打印机。</li>
+</ol>
+<p>组合(Composite,实心菱形)</p>
+<p>这是一种非常强的对象间的关系,举个例子,树和它的树叶之间的关系。在一个合成里，部分与整体的生命周期都是一样的。一个合成的新对象完全拥有对其组成部分的支配权，包括他们的创建和毁灭。</p>
+<ol>
+<li>部分某一时刻只能属于某一个组成。</li>
+<li>组成唯一的负责处理它的所有部分–这就意味着负责他们的创建与销毁。</li>
+<li>倘若对于部分的职责由其他对象来承担的话，组成也就可以放松这些职责。</li>
+<li>如果组成销毁的话，它必须销毁所有的部分，或者把负责他们的权利转移给其他对象。</li>
+</ol>
+<p><strong>总结</strong></p>
+<p>广义上说泛化和关联也是依赖的一种，因为类名的变化会引起泛化和关联的变化。</p>
+<p>关联和依赖的四种对应关系。</p>
+<p>1、无关联，无依赖</p>
+<p>它们是无关的对象类。</p>
+<p>4、有关联，有依赖</p>
+<p>当然，这是最简单，也是最直接的实现了，它的意思也表达的最清楚。依赖的实施直接通过本身的关联引用进行。这时，对象间的耦合关系确实比较强了，看需要是否解耦或不变。</p>
+<p>2、有关联，无依赖</p>
+<p>一般用来为其它对象类导航到关联端对象的桥梁。关联对象之间除了相互存储引用外，没有进一步的行为。</p>
+<p>3、无关联，有依赖</p>
+<p>这是我们常常希望实现的松耦合关系的情景，对象之间没有直接的关联关系存在，所以它们没有直接存储对方的引用，使程序的可以更灵活地变动。但是为了获得对象的引用以便实施依赖行为，比如调用，发消息，访问等依赖操作，可以通过间接关联来定位对方。一般情况下，设计者会为依赖关系提供一个存取方法（如Spring的依赖注入）获取对象引用。</p>
+<h2 id="泛化-Generalization"><a href="#泛化-Generalization" class="headerlink" title="泛化(Generalization)"></a>泛化(Generalization)</h2><p>[泛化]</p>
+<p>表示类与类之间的继承关系，接口与接口之间的继承关系，或类对接口的实现关系。一般化的关系是从子类指向父类的，与继承或实现的方法相反。</p>
+<p>[具体表现]</p>
+<p>父类 父类实例＝new 子类()</p>
+<p>[UML图](图1.1)</p>
+<p><a href="/blog/uploads/2012/10/fh.jpg"><img src="/images/design/fh.jpg" title="fh">{.alignnone .wp-image-96 width&#x3D;”229”<br>height&#x3D;”144”}</a></p>
+<p>图1.1 Animal类与Tiger类,Dog类的泛化关系</p>
+<h2 id="依赖-Dependency"><a href="#依赖-Dependency" class="headerlink" title="依赖(Dependency)"></a>依赖(Dependency)</h2><p>[依赖]</p>
+<p>对于两个相对独立的对象，当一个对象负责构造另一个对象的实例，或者依赖另一个对象的服务时，这两个对象之间主要体现为依赖关系。</p>
+<p>[具体表现]</p>
+<p>依赖关系表现在局部变量，方法的参数，以及对静态方法的调用</p>
+<p>[现实例子]</p>
+<p>比如说你要去拧螺丝，你是不是要借助(也就是依赖)螺丝刀(Screwdriver)来帮助你完成拧螺丝(screw)的工作</p>
+<p>[UML表现](图1.2)</p>
+<p><a href="/blog/uploads/2012/10/yl.jpg"><img src="/images/design/yl.jpg" title="yl">{.alignnone .size-full .wp-image-99<br>width&#x3D;”272” height&#x3D;”82”}</a></p>
+<p>图1.2 Person类与Screwdriver类的依赖关系</p>
+<h2 id="关联-Association"><a href="#关联-Association" class="headerlink" title="关联(Association)"></a>关联(Association)</h2><p>[关联]</p>
+<p>对于两个相对独立的对象，当一个对象的实例与另一个对象的一些特定实例存在固定的对应关系时，这两个对象之间为关联关系。</p>
+<p>[具体表现]</p>
+<p>关联关系是使用实例变量来实现</p>
+<p>[现实例子]</p>
+<p>比如客户和订单，每个订单对应特定的客户，每个客户对应一些特定的订单；再例如公司和员工，每个公司对应一些特定的员工，每个员工对应一特定的公司</p>
+<p>[UML图] (图1.3)</p>
+<p><a href="/blog/uploads/2012/10/gl.jpg"><img src="/images/design/gl.jpg" title="gl">{.alignnone .size-full .wp-image-97<br>width&#x3D;”291” height&#x3D;”57”}</a></p>
+<p>图1.3 公司和员工的关联关系</p>
+<h3 id="聚合（Aggregation）"><a href="#聚合（Aggregation）" class="headerlink" title="聚合（Aggregation）"></a>聚合（Aggregation）</h3><p>[聚合]</p>
+<p>当对象A被加入到对象B中，成为对象B的组成部分时，对象B和对象A之间为聚集关系。聚合是关联关系的一种，是较强的关联关系，强调的是整体与部分之间的关系。</p>
+<p>[具体表现]</p>
+<p>与关联关系一样，聚合关系也是通过实例变量来实现这样关系的。关联关系和聚合关系来语法上是没办法区分的，从语义上才能更好的区分两者的区别。</p>
+<p>[关联与聚合的区别]</p>
+<p>(1)关联关系所涉及的两个对象是处在同一个层次上的。比如人和自行车就是一种关联关系，而不是聚合关系，因为人不是由自行车组成的。</p>
+<p>聚合关系涉及的两个对象处于不平等的层次上，一个代表整体，一个代表部分。比如电脑和它的显示器、键盘、主板以及内存就是聚集关系，因为主板是电脑的组成部分。</p>
+<p>(2)对于具有聚集关系（尤其是强聚集关系）的两个对象，整体对象会制约它的组成对象的生命周期。部分类的对象不能单独存在，它的生命周期依赖于整<br>体类的对象的生命周期，当整体消失，部分也就随之消失。比如张三的电脑被偷了，那么电脑的所有组件也不存在了，除非张三事先把一些电脑的组件（比如硬盘和<br>内存）拆了下来。</p>
+<p>[UML图](图1.4)</p>
+<p><a href="/blog/uploads/2012/10/jh.jpg"><img src="/images/design/jh.jpg" title="jh">{.alignnone .wp-image-98 width&#x3D;”298”<br>height&#x3D;”178”}</a></p>
+<p>图1.4 电脑和组件的聚合关系</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/arch/uml/classdiagram/" data-id="clhlnylfc00btojup8rhq767q" data-title="UML中类与类的关系，关联和依赖的区别" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/163/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/162/">162</a><a class="page-number" href="/page/163/">163</a><span class="page-number current">164</span><a class="page-number" href="/page/165/">165</a><a class="page-number" href="/page/166/">166</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/165/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】公告</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 证心<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a target="_blank" rel="noopener" href="http://site.onekbase.com" class="mobile-nav-link">ITEEDU</a>
+  
+    <a href="/about/" class="mobile-nav-link">关于</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

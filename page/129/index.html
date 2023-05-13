@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>OneKBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="OneKBase">
+<meta property="og:url" content="http://www.onekbase.com/page/129/index.html">
+<meta property="og:site_name" content="OneKBase">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="证心">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">OneKBase</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">归一</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" target="_blank" rel="noopener" href="http://site.onekbase.com">ITEEDU</a>
+        
+          <a class="main-nav-link" href="/about/">关于</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.onekbase.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-blog/plang/java/analyzer/matuse" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/plang/java/analyzer/matuse/" class="article-date">
+  <time class="dt-published" datetime="2015-12-03T06:36:48.000Z" itemprop="datePublished">2015-12-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/plang/java/analyzer/matuse/">【JAVA】使用Eclipse Memory Analyzer分析Tomcat内存溢出</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本文用MAT(Eclipse Memory Analyzer)分析Tomcat内存溢出原因。</p>
+<p>关于如何获取JAVA堆日志可以参考<a href="/plang/java/analyzer/getthreadheap.php">获取JAVA线程和堆信息</a></p>
+<h2 id="MAT安装与介绍"><a href="#MAT安装与介绍" class="headerlink" title="MAT安装与介绍"></a>MAT安装与介绍</h2><p>下载地址：<a target="_blank" rel="noopener" href="http://www.eclipse.org/mat/downloads.php%E3%80%82">http://www.eclipse.org/mat/downloads.php。</a></p>
+<p>通过MAT打开dump出来的内存文件，打开后如下图：</p>
+<p><img src="/images/janalyzer/matindex.png"></p>
+<p>从上图可以看到它的大部分功能。</p>
+<ul>
+<li>Histogram可以列出内存中的对象，对象的个数以及大小。</li>
+<li>Dominator Tree可以列出那个线程，以及线程下面的那些对象占用的空间。</li>
+<li>Top consumers通过图形列出最大的object。</li>
+<li>Leak Suspects通过MA自动分析泄漏的原因。</li>
+</ul>
+<h2 id="Histogram界面"><a href="#Histogram界面" class="headerlink" title="Histogram界面"></a>Histogram界面</h2><p>Objects:类的对象的数量。</p>
+<p>Shallow<br>size：就是对象本身占用内存的大小，不包含对其他对象的引用，也就是对象头加成员变量（不是成员变量的值）的总和。</p>
+<p>Retained size：是该对象自己的shallow<br>size，加上从该对象能直接或间接访问到对象的shallow<br>size之和。换句话说，retained size是该对象被GC之后所能回收到内存的总和。</p>
+<p>我们发现ThreadLocal和bingo.persister.dao.Daos类的对象占用了很多空间。</p>
+<p><img src="/images/janalyzer/mathistogram.png"></p>
+<h2 id="Dominator-Tree界面"><a href="#Dominator-Tree界面" class="headerlink" title="Dominator Tree界面"></a>Dominator Tree界面</h2><p>我们发现quartz的定时器的工作线程（10个）占了很多的内存空间</p>
+<p><img src="/images/janalyzer/matdominator.png"></p>
+<h2 id="Top-consumers界面"><a href="#Top-consumers界面" class="headerlink" title="Top consumers界面"></a>Top consumers界面</h2><p>这里显示了内存中最大的对象有哪些，他们对应的类是哪些，类加载器classloader是哪些。</p>
+<p>有些时候，我们在这里就可以看到代码泄露的位置。</p>
+<p><img src="/images/janalyzer/matconsumers.png"></p>
+<h2 id="Leak-Suspects界面"><a href="#Leak-Suspects界面" class="headerlink" title="Leak Suspects界面"></a>Leak Suspects界面</h2><p>从那个饼图，该图深色区域被怀疑有内存泄漏，可以发现整个heap才250M内存，深色区域就占了34%。后面的描述，告诉我们quartz线程占用了大量内存，并指出system<br>class<br>loader加载的&quot;java.lang.ThreadLocal&quot;实例的内存中聚集（消耗空间），并建议用关键字&quot;java.lang.ThreadLocal$ThreadLocalMap$Entry[]&quot;进行检查。所以，MAT通过简单的报告就说明了问题所在。</p>
+<p><img src="/images/janalyzer/matsuspects.png"></p>
+<p>通过Leak Suspects的Problem Suspect 1点击【Details<br>?】，如下图如下图所示的上下文菜单中选择 List objects -&gt; with outgoning<br>references, 查看ThreadLocal都应用了些什么对象。</p>
+<p><img src="/images/janalyzer/matsuspects2.png"></p>
+<p>现在看到ThreadLocal中引用的对象如下图：是dao对象</p>
+<p><img src="/images/janalyzer/matdao.png"></p>
+<p>下面继续查看dao的gc ROOT,如下图所示的上下文菜单中选择 Path To GC Roots<br>-&gt; exclude weak references,<br>过滤掉弱引用，因为在这里弱引用不是引起问题的关键。</p>
+<p><img src="/images/janalyzer/matdao2.png"></p>
+<p>从下图中，可以看到在org.quartz.simpl.SimpleThreadPool中保存了daos的引用。所以可以得出是是因为定时器在运行的过程中持有大量的Daos对象应起了内存泄露。为什么会有那么多的Daos呢,Daos不是一个无状态的单例的、可以重用的吗？继续查看spring配置文件发现Daos的bean配置成scope&#x3D;&quot;prototype&quot;，导致定时任务又是每次调用都生产新的Daos实例。由于是Daos是无状态的，修改为单例的，问题解决。</p>
+<p><img src="/images/janalyzer/matdao3.png"></p>
+<p>以上是通过MAT分析Tomcat应用程序，找到内存泄露的原因，并解决。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/analyzer/matuse/" data-id="clhlnylhz00rgojupf8wp9juw" data-title="【JAVA】使用Eclipse Memory Analyzer分析Tomcat内存溢出" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-blog/plang/java/analyzer/dtatools" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/plang/java/analyzer/dtatools/" class="article-date">
+  <time class="dt-published" datetime="2015-12-03T05:49:50.000Z" itemprop="datePublished">2015-12-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>►<a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/plang/java/analyzer/dtatools/">【JAVA】线程日志分析之TDA</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="java-thread-日志分析工具"><a href="#java-thread-日志分析工具" class="headerlink" title="java thread 日志分析工具"></a>java thread 日志分析工具</h2><p>这里用的是tda(Thread Dump Analyzer)，可以到网上下载到，是个免费的软件。</p>
+<p>这个软件可以分析导出的java线程日志，至于如何获取java线程日志，可以看”<a href="%E8%8E%B7%E5%8F%96JAVA%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%A0%86%E4%BF%A1%E6%81%AF">获取JAVA线程和堆信息</a>“。</p>
+<p><img src="/images/janalyzer/tda.gif">\</p>
+<h2 id="各种JAVA线程状态的说明"><a href="#各种JAVA线程状态的说明" class="headerlink" title="各种JAVA线程状态的说明"></a>各种JAVA线程状态的说明</h2><p>先看一下线程的各种状态的状态图：</p>
+<p><img src="/images/janalyzer/threadstat.gif">\</p>
+<p><img src="/"></p>
+<p>下面是日志里线程状态的一些解释。</p>
+<h2 id="waiting-for-monitor-entry"><a href="#waiting-for-monitor-entry" class="headerlink" title="waiting for monitor entry"></a>waiting for monitor entry</h2><p>意味着它 在等待进入一个临界区 ，所以它在”Entry<br>Set”队列中等待。此时线程状态一般都是 Blocked</p>
+<p>如果大量线程在 “waiting for monitor entry”：</p>
+<p>可能是一个全局锁阻塞住了大量线程。</p>
+<p>如果短时间内打印的 thread dump 文件反映，随着时间流逝，waiting for<br>monitor entry 的线程越来越多，没有减少的趋势，可能意味着<br>某些线程在临界区里呆的时间太长了，以至于越来越多新线程迟迟无法进入临界区。</p>
+<p>java.lang.Thread.State: BLOCKED (on object monitor)</p>
+<h2 id="waiting-on-condition"><a href="#waiting-on-condition" class="headerlink" title="waiting on condition"></a>waiting on condition</h2><p>说明它<br>在等待另一个条件的发生，来把自己唤醒，或者干脆它是调用了sleep(N)。此时线程状态大致为以下几种</p>
+<p>java.lang.Thread.State: WAITING (parking)：一直等那个条件发生；</p>
+<p>java.lang.Thread.State: TIMED_WAITING<br>(parking或sleeping)：定时的，那个条件不到来，也将定时唤醒自己。</p>
+<p>如果大量线程在 “ waiting on condition “：</p>
+<p>可能是它们又跑去获取第三方资源，<br>尤其是第三方网络资源，迟迟获取不到Response，导致大量线程进入等待状态。</p>
+<p>所以如果你发现有大量的线程都处在 Wait on<br>condition，从线程堆栈看，正等待网络读写<br>，这可能是一个网络瓶颈的征兆，因为网络阻塞导致线程无法执行。</p>
+<h2 id="in-Object-wait"><a href="#in-Object-wait" class="headerlink" title="in Object.wait()"></a>in Object.wait()</h2><p>说明它 获得了监视器之后，又调用了 java.lang.Object.wait() 方法。</p>
+<p>每个 Monitor在某个时刻，只能被一个线程拥有，该线程就是 “Active<br>Thread”，而其它线程都是 “Waiting Thread”，分别在两个队列 “ Entry Set”和<br>“Wait Set”里面等候。在 “Entry Set”中等待的线程状态是 “Waiting for<br>monitor entry”，而在 “Wait Set”中等待的线程状态是 “in Object.wait()”。</p>
+<p>当线程获得了<br>Monitor，如果发现线程继续运行的条件没有满足，它则调用对象（一般就是被<br>synchronized 的对象）的 wait() 方法，放弃了 Monitor，进入 “Wait<br>Set”队列。此时线程状态大致为以下几种：</p>
+<p>java.lang.Thread.State: TIMED_WAITING (on object monitor)；</p>
+<p>java.lang.Thread.State: WAITING (on object monitor)；</p>
+<h2 id="示范一"><a href="#示范一" class="headerlink" title="示范一"></a>示范一</h2><p>下面这个线程在等待这个锁 0x00000000fe7e3b50，等待进入临界区：</p>
+<pre><code>&quot;RMI TCP Connection(64896)-172.16.52.118&quot; daemon prio=10 tid=0x00000000405a6000 nid=0x68fe waiting for monitor entry [0x00007f2be65a3000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+at com.xyz.goods.service.impl.GoodsServiceImpl. findChanellGoodsCountWithCache(GoodsServiceImpl.java:1734)
+-  waiting to lock &lt;0x00000000fe7e3b50&gt; (a java.lang.String)
+</code></pre>
+<p>那么谁持有这个锁呢？</p>
+<p>是另一个先调用了 findChanellGoodsCountWithCache 函数的线程：</p>
+<pre><code>&quot;RMI TCP Connection(64878)-172.16.52.117&quot; daemon prio=10 tid=0x0000000040822000 nid=0x6841 runnable [0x00007f2be76b3000]
+   java.lang.Thread.State: RUNNABLE
+at java.net.SocketInputStream.socketRead0(Native Method)
+at java.net.SocketInputStream.read(SocketInputStream.java:129)
+at java.io.BufferedInputStream.fill(BufferedInputStream.java:218)
+at java.io.BufferedInputStream.read1(BufferedInputStream.java:258)
+at java.io.BufferedInputStream.read(BufferedInputStream.java:317)
+- locked &lt;0x00000000af4ed638&gt; (a java.io.BufferedInputStream)
+at org.bson.io.Bits.readFully(Bits.java:35)
+at org.bson.io.Bits.readFully(Bits.java:28)
+at com.mongodb.Response.(Response.java:35)
+at com.mongodb.DBPort.go(DBPort.java:110)
+- locked &lt;0x00000000af442d48&gt; (a com.mongodb.DBPort)
+at com.mongodb.DBPort.go(DBPort.java:75)
+- locked &lt;0x00000000af442d48&gt; (a com.mongodb.DBPort)
+at com.mongodb.DBPort.call(DBPort.java:65)
+at com.mongodb.DBTCPConnector.call(DBTCPConnector.java:202)
+at com.mongodb.DBApiLayer$MyCollection.__find(DBApiLayer.java:296)
+at com.mongodb.DB.command(DB.java:152)
+at com.mongodb.DBCollection.getCount(DBCollection.java:760)
+at com.mongodb.DBCollection.getCount(DBCollection.java:731)
+at com.mongodb.DBCollection.count(DBCollection.java:697)
+at com.xyz.goods.manager.MongodbManager.count(MongodbManager.java:202)
+at com.xyz.goods.service.impl.GoodsServiceImpl.findChanellGoodsCount(GoodsServiceImpl.java:1787)
+at com.xyz.goods.service.impl.GoodsServiceImpl. findChanellGoodsCountWithCache(GoodsServiceImpl.java:1739)
+-  locked &lt;0x00000000fe7e3b50&gt; (a java.lang.String)
+</code></pre>
+<h2 id="示范二"><a href="#示范二" class="headerlink" title="示范二"></a>示范二</h2><p>等待另一个条件发生来将自己唤醒：</p>
+<pre><code>&quot;RMI TCP Connection(idle)&quot; daemon prio=10 tid=0x00007fd50834e800 nid=0x56b2  waiting on condition [0x00007fd4f1a59000]
+   java.lang.Thread.State:  TIMED_WAITING (parking)
+at sun.misc.Unsafe.park(Native Method)
+-  parking to wait for  &lt;0x00000000acd84de8&gt; (a java.util.concurrent.SynchronousQueue$TransferStack)
+at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:198)
+at java.util.concurrent.SynchronousQueue$TransferStack.awaitFulfill(SynchronousQueue.java:424)
+at java.util.concurrent.SynchronousQueue$TransferStack.transfer(SynchronousQueue.java:323)
+at java.util.concurrent.SynchronousQueue.poll(SynchronousQueue.java:874)
+at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:945)
+at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:907)
+at java.lang.Thread.run(Thread.java:662)
+</code></pre>
+<p>&quot;TIMED_WAITING (parking)&quot;中的 timed_waiting<br>指等待状态，但这里指定了时间，到达指定的时间后自动退出等待状态；parking指线程处于挂起中。</p>
+<p>&quot;waiting on condition&quot;需要与堆栈中的&quot;parking to wait for<br>&lt;0x00000000acd84de8&gt; (a<br>java.util.concurrent.SynchronousQueue$TransferStack)&quot;<br>结合来看。首先，本线程肯定是在等待某个条件的发生，来把自己唤醒。其次，SynchronousQueue<br>并不是一个队列，只是线程之间移交信息的机制，当我们把一个元素放入到<br>SynchronousQueue<br>中时必须有另一个线程正在等待接受移交的任务，因此这就是本线程在等待的条件。</p>
+<p>示范三</p>
+<pre><code>&quot;RMI RenewClean-[172.16.50.182:4888]&quot; daemon prio=10 tid=0x0000000040d2c800 nid=0x97e  in Object.wait() [0x00007f9ccafd0000]
+   java.lang.Thread.State:  TIMED_WAITING (on object monitor)
+at java.lang.Object.wait(Native Method)
+- waiting on &lt;0x0000000799b032d8&gt; (a java.lang.ref.ReferenceQueue$Lock)
+at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:118)
+- locked &lt;0x0000000799b032d8&gt; (a java.lang.ref.ReferenceQueue$Lock)
+at sun.rmi.transport.DGCClient$EndpointEntry$RenewCleanThread.run(DGCClient.java:516)
+at java.lang.Thread.run(Thread.java:662)
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.onekbase.com/blog/plang/java/analyzer/dtatools/" data-id="clhlnylhz00riojup1e4v15we" data-title="【JAVA】线程日志分析之TDA" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/128/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/127/">127</a><a class="page-number" href="/page/128/">128</a><span class="page-number current">129</span><a class="page-number" href="/page/130/">130</a><a class="page-number" href="/page/131/">131</a><span class="space">&hellip;</span><a class="page-number" href="/page/184/">184</a><a class="extend next" rel="next" href="/page/130/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/explain/">【置顶】公告</a>
+          </li>
+        
+          <li>
+            <a href="/blog/tools/maven/dn-cst-maven-archtype/">开发一个maven脚手架</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustrystock/">neo4j创建行业与股票关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jindustry/">neo4j创建三级行业关系</a>
+          </li>
+        
+          <li>
+            <a href="/blog/nosql/neo4j/neo4jtimeline/">neo4j创建时间线</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/">JAVA WEB</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA-WEB/Spring-Boot/">Spring Boot</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB%E5%BC%80%E5%8F%91/">WEB开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/maven/">maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/">nosql</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/nosql/MongoDB/">MongoDB</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/">基础</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/spark/">spark</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/Emacs/">Emacs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/GIT/">GIT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/VIM/">VIM</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">自制操作系统</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/">架构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/SSO/">SSO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/">任务调度</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">反向代理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E5%AF%86%E7%A0%81%E6%9C%AF/">密码术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">消息队列</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/JMS/">JMS</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E7%BB%84%E4%BB%B6/">组件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">负载均衡</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">知识体系</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/">排序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%A0%91%E7%AE%97%E6%B3%95/">树算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/BASE/">BASE</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/IO/">IO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/JAVA8/">JAVA8</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/NIO/">NIO</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/JAVA/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/">线程安全</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/">Lisp</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Lisp/Common-Lisp/">Common Lisp</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Scala/">Scala</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/javascript/">javascript</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOP/" style="font-size: 10.5px;">AOP</a> <a href="/tags/ASCII%E7%A0%81/" style="font-size: 10px;">ASCII码</a> <a href="/tags/ActiveMQ/" style="font-size: 11px;">ActiveMQ</a> <a href="/tags/Ajax/" style="font-size: 10px;">Ajax</a> <a href="/tags/BAT%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">BAT脚本</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CAS/" style="font-size: 10.5px;">CAS</a> <a href="/tags/Common-Lisp/" style="font-size: 13.5px;">Common Lisp</a> <a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 10.5px;">C语言</a> <a href="/tags/Eclipse/" style="font-size: 11px;">Eclipse</a> <a href="/tags/Emacs/" style="font-size: 16.5px;">Emacs</a> <a href="/tags/Emmet/" style="font-size: 10px;">Emmet</a> <a href="/tags/GIT/" style="font-size: 10px;">GIT</a> <a href="/tags/HttpClient/" style="font-size: 12.5px;">HttpClient</a> <a href="/tags/IPFS/" style="font-size: 10px;">IPFS</a> <a href="/tags/JAVA/" style="font-size: 20px;">JAVA</a> <a href="/tags/JAVA-IO/" style="font-size: 15.5px;">JAVA IO</a> <a href="/tags/JAVA-NIO/" style="font-size: 17px;">JAVA NIO</a> <a href="/tags/JAVA-WEB/" style="font-size: 10.5px;">JAVA WEB</a> <a href="/tags/JAVA8/" style="font-size: 13.5px;">JAVA8</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Lisp/" style="font-size: 12px;">Lisp</a> <a href="/tags/Markdown/" style="font-size: 10.5px;">Markdown</a> <a href="/tags/MongoDB/" style="font-size: 18px;">MongoDB</a> <a href="/tags/SQL/" style="font-size: 15px;">SQL</a> <a href="/tags/Scala/" style="font-size: 11px;">Scala</a> <a href="/tags/Shiro/" style="font-size: 10px;">Shiro</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-MVC/" style="font-size: 10px;">Spring MVC</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/VIM/" style="font-size: 16px;">VIM</a> <a href="/tags/WEB%E5%BC%80%E5%8F%91/" style="font-size: 11px;">WEB开发</a> <a href="/tags/XML/" style="font-size: 10.5px;">XML</a> <a href="/tags/archtype/" style="font-size: 10px;">archtype</a> <a href="/tags/azkaban/" style="font-size: 10.5px;">azkaban</a> <a href="/tags/hadoop/" style="font-size: 13px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/linux/" style="font-size: 13px;">linux</a> <a href="/tags/maven/" style="font-size: 12px;">maven</a> <a href="/tags/nosql/" style="font-size: 18.5px;">nosql</a> <a href="/tags/nosql-neo4j/" style="font-size: 11.5px;">nosql neo4j</a> <a href="/tags/openssl/" style="font-size: 11px;">openssl</a> <a href="/tags/servlet/" style="font-size: 11px;">servlet</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/webservice/" style="font-size: 11px;">webservice</a> <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/" style="font-size: 11.5px;">一致性</a> <a href="/tags/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" style="font-size: 10.5px;">任务调度</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 10px;">区块链</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 17.5px;">大数据</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" style="font-size: 10px;">字符编码</a> <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" style="font-size: 12.5px;">字符集</a> <a href="/tags/%E5%AE%A1%E8%AE%A1/" style="font-size: 10px;">审计</a> <a href="/tags/%E5%AF%86%E7%A0%81%E6%9C%AF/" style="font-size: 14.5px;">密码术</a> <a href="/tags/%E5%B0%BE%E9%80%92%E5%BD%92/" style="font-size: 10px;">尾递归</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 12px;">并发</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 14px;">排序</a> <a href="/tags/%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95/" style="font-size: 10px;">摘要算法</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 10.5px;">数字签名</a> <a href="/tags/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6/" style="font-size: 10px;">数字证书</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.5px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%9D%83%E9%99%90/" style="font-size: 10px;">数据权限</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 11.5px;">杂谈</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 13.5px;">架构</a> <a href="/tags/%E6%A0%91%E7%AE%97%E6%B3%95/" style="font-size: 14px;">树算法</a> <a href="/tags/%E6%AD%A3%E8%A7%84%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正规表达式</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/" style="font-size: 12px;">知识体系</a> <a href="/tags/%E7%A5%9E%E5%99%A8/" style="font-size: 12px;">神器</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 18.5px;">算法</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" style="font-size: 19px;">线程安全</a> <a href="/tags/%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 12.5px;">自制操作系统</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.5px;">设计模式</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 13px;">负载均衡</a> <a href="/tags/%E9%94%81/" style="font-size: 11px;">锁</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 证心<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a target="_blank" rel="noopener" href="http://site.onekbase.com" class="mobile-nav-link">ITEEDU</a>
+  
+    <a href="/about/" class="mobile-nav-link">关于</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
