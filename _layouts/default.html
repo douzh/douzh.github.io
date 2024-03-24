@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="{{ site.lang | default: "en-US" }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+{% seo %}
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
+    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+    <!--[if lt IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    {% include head-custom.html %}
+
+    <style>
+        nav {
+            display: block;
+        }
+        #global-nav {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            display: block;
+            width: 100%;
+            z-index: 999;
+            
+        }
+
+        #global-nav nav {
+            height: 34px;
+            /* padding: 0px 20px; */
+            margin: 0px;
+            width: 100%;
+            top:0px;
+            left:auto;
+            background: repeat-x 0px bottom rgb(27, 27, 27);
+        }
+
+        #global-nav nav ol {
+            list-style: none;
+            margin: 0px;
+            text-align: left;
+            border-right-color: rgba(255, 255, 255, 0.097656);
+            border-left-color: rgba(0, 0, 0, 0.347656);
+            border-right-width: 1px;
+            border-left-width: 1px;
+            border-right-style: solid;
+            border-left-style: solid;
+            float: left;
+            display: inline;
+            padding: 0px;
+        }
+
+        #global-nav nav ol.links {
+            float: right;
+        }
+
+        #global-nav nav ol li {
+            font: bold 13px/17px "Helvetica Neue", Helvetica, Arial, Geneva,
+                sans-serif;
+            transition: 0.2s;
+            top: 1px;
+            border-right-color: rgba(0, 0, 0, 0.347656);
+            border-left-color: rgba(255, 255, 255, 0.097656);
+            border-right-width: 1px;
+            border-left-width: 1px;
+            border-right-style: solid;
+            border-left-style: solid;
+            float: left;
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            font-size-adjust: none;
+            font-stretch: normal;
+            text-shadow: 0px 0px 2px #000;
+            -webkit-transition: all 0.2s;
+        }
+
+        #global-nav nav ol li:hover {
+            background: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
+        }
+
+        #global-nav nav ol li i {
+            height: 1em;
+        }
+
+        #global-nav nav ol li a {
+            padding: 8px 12px;
+            color: rgb(230, 230, 230);
+            font-style: normal;
+            font-weight: normal;
+            text-decoration: none;
+            display: block;
+        }
+
+        #global-nav nav ol li ol {
+            padding: 0px;
+            transition: opacity 0.2s;
+            left: -2px;
+            top: 32px;
+            width: 120px;
+            display: none;
+            visibility: hidden;
+            position: absolute;
+            z-index: 400;
+            opacity: 0;
+            box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.4);
+            -webkit-box-shadow: 0 43px 5px rgba(0, 0, 0, 0.4);
+            -webkit-transiton: opacity 0.2s;
+        }
+
+        #global-nav nav ol li ol.wide {
+            width: 260px;
+        }
+
+        #global-nav nav ol li ol li {
+            background: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
+            float: none;
+            display: block;
+        }
+
+        #global-nav nav ol li ol li:hover {
+            background: rgb(0, 0, 0);
+        }
+
+        #global-nav nav ol li:hover ol {
+            display: block;
+            visibility: visible;
+            opacity: 1;
+        }
+
+        #global-nav nav ol.projects ol.project {
+            padding: 0px;
+            width: 42px;
+            height: 33px;
+            text-indent: -9999px;
+            z-index: 10;
+        }
+
+        #global-nav nav ol.projects li.project a {
+            height: 33px;
+            display: block;
+        }
+    </style>
+  </head>
+  <body>
+
+      <!-- <header style="position: relative;">
+        <h1>{{ page.title | default: site.title | default: site.github.repository_name }}</h1>
+        <p>{{ page.description | default: site.description | default: site.github.project_tagline }}</p>
+      </header> -->
+
+      <!-- topmenu-start -->
+<div id="global-nav">
+        <nav>
+            <ol class="projects">
+                    <li><a href="/">OneKBase.com</a></li>
+            </ol>
+            <ol class="links">
+                <li><a href="site.onekbase.com">IT旧站</a></li>
+                <li><a href="/kb-cst/">IT技术</a></li>
+                <li><a href="/kb-one/">ONE技术</a></li>
+                <li><a href="/about/">关于</a></li>
+                    <!-- <li><a>快捷导航</a>
+                        <ol>
+                            <li><a href="/plang/">编程语言</a></li>
+                            <li><a href="/webtech/">WEB开发</a></li>
+                            <li><a href="/handset/">手机开发</a></li>
+                            <li><a href="/database/">数据库</a></li>
+                            <li><a href="/os/">操作系统</a></li>
+                            <li><a href="/embed/">嵌入式</a></li>
+                            <li><a href="/opensource/">开源软件</a></li>
+                            <li><a href="/works/">作品</a></li>
+
+                        </ol>
+                    </li> -->
+                </ol>
+        </nav>
+</div>
+<!-- topmenu-end -->
+
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section style="margin-top: 40px;">
+        {{ content }}
+
+      </section>
+      <!-- <footer>
+        {% if site.github.is_project_page %}
+          <p>Project maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
+        {% endif %}
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/mattgraham">mattgraham</a></small></p>
+      </footer> -->
+    </div>
+  </body>
+</html>
