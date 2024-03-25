@@ -16,7 +16,7 @@ tags: 知识管理/文档笔记
 | 任务列表   | [\] 或者\[x\]                                                                                                         |
 | 代码块     | 块\`\`\` 行内 \`                                                                                                    |
 | 公式       | 块 `$$` 行内 `$`                                                                                                  |
-| 上标下标   | html:`a<sub>2</sub>`  `a<sup>2</sup>`<br />latex: `$a_2$` `$a^2$`<br />md: `H~2~O`  `X^2^` 不生效 |
+| 上标下标   | html:`a<sub>2</sub>`  `a<sup>2</sup>`<br />latex: `$a_2$` `$a^2$`|
 | 分割线     | `*** 或 ---`                                                                                                        |
 | 目录       | `[TOC]`                                                                                                             |
 | 链接       | ` [an example](http://example.com/ "Title")`                                                                        |
@@ -301,7 +301,7 @@ Use the `printf()` function.
 
 用~~包裹的文本
 
-`~~Mistaken text.~~` 会变成~Mistaken text.~
+`~~Mistaken text.~~` 会变成 ~~Mistaken text.~~
 
 ### 下划线
 
@@ -325,13 +325,10 @@ $lim\_{x \\to\\infty} \\exp(-x) = 0$
 
 ### 下标和上标
 
-- 使用 `~`来包裹下标内容，例如：`H~2~O`,H~2~O
-- 使用 `^`包裹上标内容，例如 `X^2^`,`X^2^
-
 LaTex形式
 
-- 下标：`$a_2$` $a_2$
-- 上标：`$a^2$` $a^2$
+- 下标：\$a_2\$ : $a_2$
+- 上标：\$a^2\$ : $a^2$
 
 Html形式
 
