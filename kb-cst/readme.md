@@ -13,10 +13,6 @@
   - [[2dn-cst-mybatis]]
   - [[2dn-cst-mybatis-plus]]
   - [[2dn-cst-mybatis-plus-ds]]
-  - [[3doc-cst-mybatis]]
-  - [[3doc-cst-mybatis-mapper]]
-  - [[3doc-cst-mybatis-spring]]
-  - [[3doc-cst-mybatis-javapi]]
 
 
 ## 微服务开发
