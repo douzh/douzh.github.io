@@ -6,3 +6,5 @@ title: OneKBase
 description: [OneKBase的公开知识库]
 
 show_downloads: ["false"]
+
+markdown: kramdown
