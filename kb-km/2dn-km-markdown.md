@@ -17,7 +17,7 @@ tags: 知识管理/文档笔记
 - 上标下标：html:`a<sub>2</sub>`  `a<sup>2</sup>` latex: `\$a_2\$` `\$a^2\$`
 - 分割线 ： `*** 或 ---`
 - 目录: `[TOC]`
-- 链接:  ` [an example](http://example.com/ "Title")`
+- 链接:  `[an example](http://example.com/ "Title")`
 - 内部链接: `[This link](#markdown基础)`
 - 引用式链:
 - 图片: `![](/path/to/img.jpg "Optional title")`
