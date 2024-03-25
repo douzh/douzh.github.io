@@ -7,15 +7,11 @@
 
 关注bilibili账号OneKBase及时获取更新消息
 
-[《Springcloud手把手培训教程》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=912428)
-
-[《小白学架构系列》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=1533932)
-
-[《DDD领域驱动设计杂谈》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=1748818)
-
-[《看源码学软件设计》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=1769041)
-
-[《Netty入门》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=1685254)
+- [《Springcloud手把手培训教程》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=912428)
+- [《小白学架构系列》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=1533932)
+- [《DDD领域驱动设计杂谈》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=1748818)
+- [《看源码学软件设计》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=1769041)
+- [《Netty入门》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=1685254)
 
 ## 投资文章
 
