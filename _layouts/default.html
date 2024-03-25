@@ -196,7 +196,7 @@
       </section>
       <script type="text/javascript">
         // Hack: Replace page-link with "Page Title"
-        document.querySelectorAll("markdown-body a[title]").forEach((a) => {
+        document.querySelectorAll("#markdown-body a[title]").forEach((a) => {
           a.innerText = a.title;
         });
         // Hack: Remove .md extension from wikilinks to get the html in jekyll
