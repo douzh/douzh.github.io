@@ -1,5 +1,5 @@
 ---
-title: Foam使用说明
+title: 知识管理Foam使用说明
 date: 2024-03-13
 type: kbase
 tags: 知识管理/文档笔记

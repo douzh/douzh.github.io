@@ -1,5 +1,5 @@
 ---
-title: 知识库标签属性分类
+title: 知识管理标签属性分类
 date: 2018-01-01
 type: kbase
 tags: 知识管理/永久笔记
