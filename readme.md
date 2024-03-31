@@ -12,7 +12,7 @@
 
 ## [软件IT技术](./kb-cst/readme.md)
 
-## 体系介绍
+### 体系介绍
 
 - [[1pn-cst-salary]]
 - [[1pn-cst-pmp-post]]
@@ -30,7 +30,7 @@
 - [《看源码学软件设计》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=1769041)
 - [《Netty入门》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=1685254)
 
-## IT软件知识库
+### IT软件知识库
 
 整理迁移中：传送门 [软件IT技术](./kb-cst/readme.md)
 
