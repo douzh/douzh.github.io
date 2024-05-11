@@ -1,0 +1,22 @@
+# devops开发运维一体化技术
+
+- CICD
+  - jenkins
+  - kubesphere
+- 监控 应用性能管理(Application Performance Management，简称 APM)
+  - (后端)prometheus
+  - (后端)pinpoint
+  - (后端)skywalking
+  - (前端) 
+  - (报表)grafana
+  - (工具)arthas
+- 告警
+- 日志
+  - ELK
+  - sleuth
+- 容器
+  - K8S
+- 路由
+  - nginx
+  - apisix
+  - gateway
