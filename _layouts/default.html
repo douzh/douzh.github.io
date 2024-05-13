@@ -215,6 +215,14 @@
             l.href = l.href.substring(0, l.href.length-3)
           }
         })
+        // 使用 querySelector 找到类名为 "tag-h1 active" 的第一个节点
+      var h1node = document.querySelector('.tag-h1.active');
+
+      // 如果找到了节点
+      if (h1node) {
+        // 删除该节点
+        h1node.parentNode.removeChild(h1node);
+      }
       </script>
       <!-- <footer>
         {% if site.github.is_project_page %}
