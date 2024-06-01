@@ -10,6 +10,11 @@
 - [[1pn-cst-pmp-sre]]
 - [[1pn-cst-pmp-accident]]
 
+## 算法架构
+
+- [[0idx-cst-algo]]
+- [[0idx-cst-arch]]
+
 ## java常用库
 
 - spring
@@ -74,6 +79,8 @@
 [1pn-cst-pmp-archtemplate]: 9-1pmp/1pn-cst-pmp-archtemplate.md "IT项目架构设计文档编写规范"
 [1pn-cst-pmp-sre]: 9-1pmp/1pn-cst-pmp-sre.md "SRE&SLO"
 [1pn-cst-pmp-accident]: 9-1pmp/1pn-cst-pmp-accident.md "经典生产事故"
+[0idx-cst-algo]: 0-1algo/0idx-cst-algo.md "计算机算法"
+[0idx-cst-arch]: 0-2arch/0idx-cst-arch.md "idx-架构与设计 idx-架构与设计"
 [2dn-cst-spring.md]: 0-3lang/javalib/2dn-cst-spring.md "dn-spring"
 [2dn-cst-spring-ioc]: 0-3lang/javalib/2dn-cst-spring-ioc.md "spring ioc"
 [2dn-cst-spring-xml]: 0-3lang/javalib/2dn-cst-spring-xml.md "spring xml定义"

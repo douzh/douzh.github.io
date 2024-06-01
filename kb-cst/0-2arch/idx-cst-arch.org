@@ -1,0 +1,122 @@
+#+filetags: :idx:cst:arch:
+
+* idx-架构与设计
+:properties:
+:id: idx-cst-arch
+:end:
+
+目录
+- [[id:dn-cst-arch-base][软件架构基础]]
+  - 目的、方法
+- 技术复杂度
+  - 高性能
+    - 存储高性能
+      - 关系型数据库:读写分离、分库、分表
+      - [[id:brn-cst-arch-arch0-NoSQL][NoSQL]]：KV存储(redis)、文档数据库(MongoDB)、全文搜索引擎(Elasticsearch)、列式数据库(HBASE)
+      - [[id:brn-cst-arch-arch0-缓存][缓存]]: [[id:brn-cst-arch-arch0-缓存穿透][缓存穿透]]、[[id:brn-cst-arch-arch0-缓存雪崩][缓存雪崩]]、[[id:brn-cst-arch-arch0-缓存热点][缓存热点]]
+    - 计算高性能
+      - 单机高性能
+        - netty
+      - 集群高性能
+  - 高可用
+    - 存储高可用
+    - 计算高可用
+    - 业务高可用:  [[id:brn-cst-arch-arch0-业务高可用-异地多活][异地多活]]、[[id:brn-cst-arch-arch0-业务高可用-降级][降级]]、[[id:brn-cst-arch-arch0-业务高可用-熔断][熔断]]、[[id:brn-cst-arch-arch0-业务高可用-限流][限流]]、[[id:brn-cst-arch-arch0-业务高可用-排队][排队]]
+    - 分布式事务
+  - 可扩展：分层、SOA、微服务、微内核
+    - Spring
+    - Springcloud
+      - openfeign
+    - Dubbo
+    - Seata
+    - Mybatis
+- 常规系统
+  - [[id:dn-cst-arch-upms][dn-arch-upms]]
+  - [[id:dn-cst-arch-wms][dn-arch-wms]]
+    
+- 常用软件架构
+  - [[id:dn-cst-arch-ddd][领域驱动]]
+  - [[id:dn-cst-arch-clean][clean架构]]
+  - [[id:dn-cst-arch-six][六边形架构]]
+  - [[id:dn-cst-arch-layer][分层架构]]
+  - [[id:dn-cst-arch-cqrs][CQRS]]
+  - [[id:dn-cst-arch-event][事件驱动架构]]
+- [[id:idx-cst-mq][消息队列MQ]]
+  - [[id:dn-cst-kafka][kafka]]
+    - [[id:dn-cst-kafka-best][kafka best]]
+  - [[id:dn-cst-rocketmq-base][rocketmq]]
+    - [[id:dn-cst-rocketmq-best][rocketmq best]]
+  - [[id:dn-cst-rabbitmq-base][rabbitmq]]
+
+** brn
+
+- [[id:brn-cst-arch-arch0][从零开始学架构]]
+  - 架构基础、原则、流程
+    - 架构是什么：系统与子系统、模块与组件、框架与架构
+    - 架构目的：解决软件系统复杂度带来的问题
+      - 性能、高可用、可扩展性、成本、安全
+    - 架构设计原则：合适原则、简单原则、演化原则
+    - 架构设计流程：识别复杂度、设计备选方案、评估选择备选方案、详细方案设计
+  - 高性能：存储高性能、计算高性能
+    - 存储高性能
+      - 关系型数据库:读写分离、分库、分表
+      - [[id:brn-cst-arch-arch0-NoSQL][NoSQL]]：KV存储(redis)、文档数据库(MongoDB)、全文搜索引擎(Elasticsearch)、列式数据库(HBASE)
+      - [[id:brn-cst-arch-arch0-缓存][缓存]]: [[id:brn-cst-arch-arch0-缓存穿透][缓存穿透]]、[[id:brn-cst-arch-arch0-缓存雪崩][缓存雪崩]]、[[id:brn-cst-arch-arch0-缓存热点][缓存热点]]
+    - 计算高性能
+      - 单机高性能: [[id:brn-cst-arch-arch0-PPC][PPC]]、[[id:brn-cst-arch--arch0prefork][prefork]]、[[id:brn-cst-arch-arch0-TPC][TPC]]、[[id:brn-cst-arch-arch0-prethread][prethread]]、[[id:brn-cst-arch-arch0-reactor][reactor]]、[[id:brn-cst-arch-arch0-roactor][proactor]]
+      - 集群高性能: 任务分配、任务分解
+  - 高可用(冗余)：CAP、存储高可用、计算高可用、业务高可用
+    - 存储高可用: 主备、主从、主主、数据集群、数据分区
+    - 计算高可用: 主备、主从、对称集群、非对称集群
+    - 状态决策: 独裁式、协商式、民主式
+    - 业务高可用: [[id:brn-cst-arch-arch0-业务高可用-异地多活][异地多活]]、[[id:brn-cst-arch-arch0-业务高可用-降级][降级]]、[[id:brn-cst-arch-arch0-业务高可用-熔断][熔断]]、[[id:brn-cst-arch-arch0-业务高可用-限流][限流]]、[[id:brn-cst-arch-arch0-业务高可用-排队][排队]]
+  - 可扩展(拆)：预测变化、应对变化；分层、SOA、微服务、微内核
+  - 架构实战
+
+  - PN:按负责角色分类工
+    - 基础设施
+      - 存储高性能：数据库安装配置实施保障
+      - 存储可高用：数据库安全配置实施保障
+    - 运维
+      - 计算集群高性能：基础服务实施保障
+      - 计算高可用：基础服务实施保障
+      - 业务高可用：基础服务实施保障
+    - 架构
+      - 存储高性能：数据库读写分离设计、分库分表设计；NoSQL选型；缓存使用
+      - 计算高性能：单机高性能开发、集群高性能选型
+        - 多进程、多线程、reactor技术
+      - 存储高可用：架构选型与性能优化
+      - 计算高可用：架构选型与性能优化
+      - 业务高可用：基础服务架构选型；降级、熔断、限流、排队功能设计开发
+      - 可扩展技术：设计模式、规则引擎、微服务架构与开发
+
+** 重点技术与工具
+    - 深度学习类: 原理、源码、实践、优化
+      - JAVA: 多线程
+      - spring
+      - springboot
+      - 业务高可用：设计模式
+      - 单机高性能：reactor(netty)
+      - 计算集群高性能高可用：springcloud
+      - 存储高性能：mysql、redis、es、mongodb、缓存的使用和问题
+    - 最佳实践：配置、开发、使用、优化
+      - 存储高可用：读写分离、分库分表
+        - 异构数据同步：cancel、Maxwell
+      - 业务高可用：降级、熔断、限流
+      - 业务高可用：rocketmq、kafka、rabbitmq
+      - 业务高可用：规则引擎、工作流
+    - 架构把控类：方案优缺点、选型
+      - CAP: 原理、AP CP选型、补偿实现
+      - 存储高可用：各中方案优缺点
+      - 计算高可用：常用实现方案选型
+      - 业务高可用：常用实现方案选型
+    - MQ: 涉及高可用、高性能、可扩展
+      - 高可用：削峰填谷、重试、死信队列
+      - 高性能：异步、削峰填谷、并发控制
+      - 可扩展：解耦、分布式数据分发汇总
+      - 问题：保障数据一致性方案
+        - 发送：ACK 消息发送表
+        - 消费：幂等 消息消费表
+
+    
+
