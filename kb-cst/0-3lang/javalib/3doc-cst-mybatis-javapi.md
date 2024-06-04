@@ -423,14 +423,14 @@ List<User> getUsersByName(String name);
 
 class UserSqlBuilder {
   public static String buildGetUsersByName(final String name) {
-    return new SQL(){{
+    return new SQL()\{\{
       SELECT("*");
       FROM("users");
       if (name != null) {
         WHERE("name like #{value} || '%'");
       }
       ORDER_BY("id");
-    }}.toString();
+    \}\}.toString();
   }
 }
 ```
