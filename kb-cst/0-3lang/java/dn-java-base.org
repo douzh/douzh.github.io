@@ -1,0 +1,57 @@
+#+filetags: :idx:cst:plang:java
+
+
+* java base
+:PROPERTIES:
+:ID: idx-cst-plang-java-base
+:END:
+
+
+** 注解
+
+
+** java proxy
+:PROPERTIES:
+:ID: idx-cst-plang-java-proxy
+:END:
+
+java的代理类只可以代理接口，由实现了InvocationHandler代理类实现代理功能。
+
+#+begin_src java
+  public static Object newProxyInstance(ClassLoader loader,
+                                        Class<?>[] interfaces,
+                                        InvocationHandler h)
+#+end_src
+
+#+begin_src java
+
+public class ProxyMain {
+    public static void main(String[] args) {
+        Object p = Proxy.newProxyInstance(ProxyMain.class.getClassLoader(),
+                new Class[] { IEcho.class,IHello.class }, new ProxyDemo());
+        ((IHello)p).hello();
+        ((IEcho)p).echo("test");
+    }
+
+    interface IEcho{
+        void echo(String str);
+    }
+
+    interface IHello{
+        void hello();
+    }
+
+     static class ProxyDemo implements InvocationHandler {
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            if(method.getName().equals("hello")){
+                System.out.println("proxy hello");
+            }
+            if(method.getName().equals("echo")){
+                System.out.println("proxy echo "+args[0]);
+            }
+            return true;
+        }
+    }
+}
+#+end_src

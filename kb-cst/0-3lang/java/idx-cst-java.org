@@ -1,0 +1,124 @@
+#+filetags: :idx:cst:plang:java
+
+
+* TODO [#B] idx-java 
+:PROPERTIES:
+:ID: idx-cst-plang-java-java8-base64
+:END:
+
+Java 1.0：于1995年发布。
+Java 1.1：于1996年1月31日发布。
+Java 1.2：于1997年2月18日发布。
+Java 1.3：于2000年5月8日发布。
+Java 1.4：于2002年2月发布。
+Java 5.0（也称为1.5）：于2004年9月30日发布。
+Java SE 6：于2006年6月5日发布。
+Java SE 7：于2011年7月28日发布。
+Java SE 8：于2014年3月18日发布。
+Java SE 9：于2017年9月21日发布。
+Java SE 10：于2018年3月20日发布。
+Java SE 11：于2018年9月25日发布。
+Java SE 14：于2020年3月23日发布。
+Java SE 15：于2021年3月15日发布。
+Java SE 16：于2022年3月23日发布。
+
+[[id:dn-cst-java-http][java http]]
+- [[id:idx-cst-plang-java-base][java base]]
+  - [[id:idx-cst-plang-java-annotation][java annotation]]
+  - [[id:idx-cst-plang-java-reflect][java reflect]]
+  - [[id:idx-cst-plang-java-proxy][java proxy]]
+- [[id:dn-cst-java-io][java.io]]
+  - [[id:dn-cst-java-io-file][java.io.File]]
+  - java.io.InputStream 字节流基类抽象类
+    + [[id:dn-cst-java-FileInputStream][java.io.FileInputStream]] 文件流
+    + java.io.PipedInputStream [[id:dn-cst-java-PipedStream][PipedStream]] 管道流
+    + java.io.ByteArrayInputStream 数组流
+    + java.io.ObjectInputStream 对象流
+    + java.io.FilterInputStream
+      - java.io.BufferedInputStream 缓冲流
+      - java.io.PrintStream  打印流
+      - java.io.DataInputStream
+  - java.io.OutputStream 字节流基类抽象类
+    - [[id:dn-cst-java-FileOutputStream][java.io.FileOutputStream]] 文件流
+    - java.io.PipedOutputStream [[id:dn-cst-java-PipedStream][PipedStream]] 管道流
+    - java.io.ByteArrayOutputStreamm 数组流
+    - java.io.ObjectOutputStream 对象流
+    - java.io.FilterOutputStream
+      - java.io.BufferedOutputStream  缓冲流
+      - java.io.DataOutputStream
+  - java.io.Reader 字符流基类抽象类
+    - java.io.InputStreamReader 转换流
+      - java.io.FileReader 文件流
+    - java.io.PipedReader  管道流
+    - java.io.CharArrayReaderm 数组流
+    - java.io.BufferedReader 缓冲流
+    - java.io.StringReader
+  - java.io.Writer 字符流基类抽象类
+    - java.io.OutputStreamWriter 转换流
+      - java.io.FileWriter 文件流
+    - java.io.PipedWriter  管道流
+    - java.io.CharArrayWriterm 数组流
+    - java.io.BufferedWriter 缓冲流
+    - java.io.PrintWriter 打印流
+    - java.io.StringWriter
+  - java.io.RandomAccessFile 随机访问流
+  - java.io.StreamTokenizer
+- [[id:dn-cst-java-nio][java.nio]]
+  - [[id:dn-cst-java-nio-buffer][NIO Buffer]]
+  - Channel
+  - Selecter
+  - FileChannel 
+  - ServerSocketChannel
+  - SocketChannel
+  - AIO
+    - AsynchronousFileChannel
+    - AsynchronousServerSocketChannel
+    - AsynchronousSocketChannel
+- [[id:dn-java-thread][java thread]]
+  - [[id:dn-java-thread-status][thread status]] jdk1.0
+  - [[id:dn-java-thread-daemon][守护线程]]  jdk1.0
+  - [[id:dn-java-thread-join][join方法]]  jdk1.0
+  - [[id:dn-java-thread-threadlocal][threadlocal]] jdk1.2
+  - [[id:dn-java-thread-volatile][volatile]] jdk3.0
+  - [[id:dn-java-thread-lockinterruptibly][lock interrupt]] jdk1.5
+  - 工具
+    - java.util.Timer jdk1.3
+  - 并行
+    - [[id:dn-java-thread-executor][Executor]] jdk1.5
+      - ThreadPoolExecutor
+      - ScheduledThreadPoolExecutor
+    - [[id:dn-java-thread-forkjoin][Fork/Join]] jdk1.7
+  - 同步
+    - [[id:dn-java-thread-future][Callable&Future]] jdk1.5
+      - [[id:dn-java-thread-future-code][Future原理]]
+    - [[id:dn-java-thread-completionservice][CompletionService]]
+    - [[id:dn-java-thread-completablefuture使用详解][CompletableFuture]] jdk1.8
+  - lock 互斥
+    - [[id:dn-java-thread-mesa][MESA管程]]
+    - [[id:dn-java-thread-synchronized][synchronized]] jdk1.0
+    - [[id:dn-java-thread-waitnotify][wait notify]]  jdk1.0
+    - [[id:dn-java-thread-atomic][atomic]] jdk1.5
+    - [[id:dn-java-thread-ConcurrentLinkedQueue][ConcurrentLinkedQueue]] jdk1.5
+    - [[id:dn-java-thread-locksupport][LockSupport 锁基类]]
+    - [[id:dn-cst-java-thread-aqs][AQS:AbstractQueuedSynchronizer]]
+      - [[id:dn-cst-java-thread-reentrantlock][ReentrantLock]]  jdk1.5
+      - [[id:dn-java-thread-semaphore][Semaphore]] jdk1.5
+      - [[id:dn-java-thread-countdown][CountDownLatch]] jdk1.5
+      - [[id:dn-java-thread-cyclicbarrier][CyclicBarrier]] jdk1.5
+      - [[id:dn-java-thread-readwritelock][ReadWriteLock]]  jdk1.5
+      - [[id:dn-java-thread-BlockingQueue][BlockingQueue]] jdk1.5
+        - [[id:dn-java-thread-ArrayBlockingQueue][ArrayBlockingQueue]] jdk1.5
+        - [[id:dn-java-thread-LinkedBlockingQueue][LinkedBlockingQueue]] jdk1.5
+  - [[id:dn-java-thread-singletion][singletion]]
+  - [[id:dn-java-thread-producer-consumer][producer consumer]] 生产消费问题各种实现
+- [[id:dn-cst-java-sql][java sql]]
+- java8
+  - [[id:dn-cst-java-base64][java Base64]]
+  - [[id:dn-cst-java-date-time-api][java DateTime API]]
+  - [[id:dn-cst-java-default-method][java default method]]
+  - [[id:java-cst-java-optional][java Optional]]
+  - [[id:dn-cst-java-javascript][java javascript]]
+  - [[id:dn-cst-java-lambda][java lambda]]
+  - [[id:dn-cst-java-method-reference][java method reference]]
+  - [[id:dn-cst-java-functional-interface][java functional interface]]
+  - [[id:dn-cst-java-steam][java steam]]

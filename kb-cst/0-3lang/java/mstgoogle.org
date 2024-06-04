@@ -1,0 +1,106 @@
+疑似Google的多线程面试题:
+
+启动4个线程，向4个文件A，B，C，D里写入数据，每个线程只能写一个值。
+
+线程1：只写1
+
+线程2：只写2
+
+线程3：只写3
+
+线程4：只写4
+
+程序运行起来，4个文件的写入结果如下：
+
+A：12341234...
+
+B：23412341...
+
+C：34123412...
+
+D：41234123...
+
+自己写了一下，代码如下：
+
+#+begin_example
+/**
+ * ThreadTest
+ * @author douzh
+ * @version 1.0
+ */
+public class FileWriter {
+    static FileWrapper[] arrFile = { new FileWrapper(1), new FileWrapper(2),
+            new FileWrapper(3), new FileWrapper(4) };
+
+    public static void main(String[] args) throws InterruptedException {
+        Writer t1=new Writer(1,1, arrFile);
+        Writer t2=new Writer(2,2, arrFile);
+        Writer t3=new Writer(3,3, arrFile);
+        Writer t4=new Writer(4,4, arrFile);
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+        Thread.sleep(100);
+        for (int i = 0; i < arrFile.length; i++) {
+            System.out.println(arrFile[i].toString());
+        }
+        t1.stop=true;
+        t2.stop=true;
+        t3.stop=true;
+        t4.stop=true;
+    }
+}
+
+class FileWrapper {
+    /**一个门*/
+    public volatile int door = -1;
+    /**模拟文件 */
+    private StringBuilder file = new StringBuilder();
+
+    public FileWrapper(int door) {
+        this.door = door;
+    }
+
+    public void write(int i) {
+        file.append(i);
+        door=door==4?1:++door;
+    }
+    public String toString(){
+        return file.toString();
+    }
+}
+
+class Writer extends Thread {
+    /**控制线程停止*/
+    public volatile boolean stop=false;
+    /**线程能进的门*/
+    private int door=-1;
+    /**线程要写的内容*/
+    private int content = 0;
+    /**文件列表*/
+    FileWrapper[] arrFile = null;
+
+    public Writer(int i,int door, FileWrapper[] arrFile) {
+        this.content = i;
+        this.door=door;
+        this.arrFile = arrFile;
+    }
+    @Override
+    public void run() {
+        while(!stop){
+            try {
+                for (int i = 0; i < arrFile.length; i++) {
+                    if (arrFile[i].door != door) {
+                        continue;
+                    }
+                    arrFile[i].write(content);
+                }
+            } catch (Exception e) {
+                continue;
+            }
+        }
+        System.out.println(Thread.currentThread().getName()+"stop");
+    }
+}
+#+end_example

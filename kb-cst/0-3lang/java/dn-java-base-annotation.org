@@ -1,0 +1,487 @@
+#+filetags: :idx:cst:plang:java
+
+
+* java annotation
+:PROPERTIES:
+:ID: idx-cst-plang-java-annotation
+:END:
+
+** Annotation究竟是什么？
+Annotation提供了一条与程序元素关联任何信息或者任何元数据（metadata）的途径。从某些方面看，annotation就像修饰符一样被使用，并应用于包、类型、构造方法、方法、成员变量、参数、本地变量的声明中。这些信息被存储在annotation的”name=value”结构对中。
+
+annotation类型是一种接口，能够通过java反射API的方式提供对其信息的访问。
+
+annotation能被用来为某个程序元素（类、方法、成员变量等）关联任何的信息。需要注意的是，这里存在着一个基本的潜规则：annotaion不能影响程序代码的执行，无论增加、删除annotation，代码都始终如一的执行。另外，尽管一些annotation通过java的反射api方法在运行时被访问，而java语言解释器在工作时忽略了这些annotation。正是由于java虚拟机忽略了annotation，导致了annotation类型在代码中是”不起作用”的；只有通过某种配套的工具才会对annotation类型中的信息进行访问和处理。本文中将涵盖标准的annotation和meta-annotation类型，陪伴这些annotation类型的工具是java编译器（当然要以某种特殊的方式处理它们）。
+
+由于上述原因，annotation在使用时十分简便。一个本地变量可以被一个以NonNull命名的annotation类型所标注，来作为对这个本地变量不能被赋予null值的断言。而我们可以编写与之配套的一个annotation代码分析工具，使用它来对具有前面变量的代码进行解析，并且尝试验证这个断言。当然这些代码并不必自己编写。在JDK安装后，在JDK/bin目录中可以找到名为”apt”的工具，它提供了处理annotation的框架：它启动后扫描源代码中的annotation，并调用我们定义好的annotation处理器完成我们所要完成的工作（比如验证前面例子中的断言）。说到这里，annotation的强大功能似乎可以替代XDoclet这类的工具了，随着我们的深入，大家会更加坚信这一点。
+
+** 为什么使用Annotation?
+在JAVA应用中，我们常遇到一些需要使用模版代码。例如，为了编写一个JAX-RPC web service，我们必须提供一对接口和实现作为模版代码。如果使用annotation对远程访问的方法代码进行修饰的话，这个模版就能够使用工具自动生成。
+
+另外，一些API需要使用与程序代码同时维护的附属文件。例如，JavaBeans需要一个BeanInfo
+Class与一个Bean同时使用/维护，而EJB则同样需要一个部署描述符。此时在程序中使用annotation来维护这些附属文件的信息将十分便利而且减少了错误。
+
+
+** Annotation的概念和语法
+首先，关键的概念是理解annotation是与一个程序元素相关联信息或者元数据的标注。它从不影响java程序的执行，但是对例如编译器警告或者像文档生成器等辅助工具产生影响。
+
+下面是常用的annotation列表，我们应该注意在annotation和annotation类型之间的不同：
+
+A.annotation：
+
+annotation 使用了在java5.0所带来的新语法，它的行为十分类似public、final这样的修饰符。每个annotation具有一个名字和成员个数>=0。每个annotation的成员具有被称为name=value对的名字和值（就像javabean一样），name=value装载了annotation的信息。
+
+B.annotation类型：
+
+annotation类型定义了annotation的名字、类型、成员默认值。一个annotation类型可以说是一个特殊的java接口，它的成员变量是受限制的，而声明annotation类型时需要使用新语法。当我们通过java反射api访问annotation时，返回值将是一个实现了该annotation类型接口的对象，通过访问这个对象我们能方便的访问到其annotation成员。后面的章节将提到在java5.0的java.lang包里包含的3个标准annotation类型。
+
+C.annotation成员：
+
+annotation的成员在annotation类型中以无参数的方法的形式被声明。其方法名和返回值定义了该成员的名字和类型。在此有一个特定的默认语法：允许声明任何annotation成员的默认值：一个annotation可以将name=value对作为没有定义默认值的annotation成员的值，当然也可以使用name=value对来覆盖其它成员默认值。这一点有些近似类的继承特性，父类的构造函数可以作为子类的默认构造函数，但是也可以被子类覆盖。
+
+D.marker annotation类型：
+
+一个没有成员定义的annotation类型被称为marker annotation。这种annotation类型仅使用自身的存在与否来为我们提供信息。如后面要说的Override。
+
+E.meta-annotation：
+
+meta-annotation也称为元annotation，它是被用来声明annotation类型的annotation。Java5.0提供了一些标准的元-annotation类型。下面介绍的target、retention就是meta-annotation。
+
+F.target：
+
+annotation的target是一个被标注的程序元素。target说明了annotation所修饰的对象范围：annotation可被用于packages、types（类、接口、枚举、annotation类型）、类型成员（方法、构造方法、成员变量、枚举值）、方法参数和本地变量（如循环变量、catch参数）。在annotation类型的声明中使用了target可更加明晰其修饰的目标。
+
+G.retention：
+
+annotation的retention定义了该annotation被保留的时间长短：某些annotation仅出现在源代码中，而被编译器丢弃；而另一些却被编译在class文件中；编译在class文件中的annotation可能会被虚拟机忽略，而另一些在class被装载时将被读取（请注意并不影响class的执行，因为annotation与class在使用上是被分离的）。使用这个meta-annotation可以对annotation的”生命周期”限制。
+
+H.metadata：
+
+由于metadata被广泛使用于各种计算机开发过程中，所以当我们在这里谈论的metadata即元数据通常指被annotation装载的信息或者annotation本身。
+
+** Annotation工作方式
+在5.0版之前的Java平台已经具有了一些ad hoc annotation机制。比如，使用transient修饰符来标识一个成员变量在序列化子系统中应被忽略。而@deprecated这个javadoctag也是一个ad
+hoc annotation用来说明一个方法已过时。从Java5.0版发布以来，5.0平台提供了一个正式的annotation功能：允许开发者定义、使用自己的annoatation类型。此功能由一个定义annotation类型的语法和一个描述annotation声明的语法，读取annotaion的API，一个使用annotation修饰的class文件，一个annotation处理工具（apt）组成。
+
+annotation并不直接影响代码语义，但是它能够工作的方式被看作类似程序的工具或者类库，它会反过来对正在运行的程序语义有所影响。annotation可以从源文件、class文件或者以在运行时反射的多种方式被读取。
+
+当然annotation在某种程度上使javadoctag更加完整。一般情况下，如果这个标记对java文档产生影响或者用于生成java文档的话，它应该作为一个javadoc tag；否则将作为一个annotation。
+
+** Annotation与反射
+在java5.0中Java.lang.reflect提供的反射API被扩充了读取运行时annotation的能力。让我们回顾一下前面所讲的：一个annotation类型被定义为runtimeretention后，它才是在运行时可见，当class文件被装载时被保存在class文件中的annotation才会被虚拟机读取。那么reflect是如何帮助我们访问class中的annotation呢？
+
+下文将在java.lang.reflect用于annotation的新特性，其中java.lang.reflect.AnnotatedElement是重要的接口，它代表了提供查询annotation能力的程序成员。这个接口被java.lang.Package、java.lang.Class实现，并间接地被Method类、Constructor类、java.lang.reflect的Field类实现。而annotation中的方法参数可以通过Method类、Constructor类的getParameterAnnotations()方法获得。
+
+isAnnotationPresent ()方法对于检查markerannotation是十分有用的，因为markerannotation没有成员变量，所以我们只要知道class的方法是否使用了annotation修饰就可以了。而当处理具有成员的annotation时，我们通过使用getAnnotation()方法来获得annotation的成员信息（成员名称、成员值）。这里我们看到了一套优美的java annotation系统：如果annotation存在，那么实现了相应的annotation类型接口的对象将被getAnnotation()方法返回，接着调用定义在annotation类型中的成员方法 可以方便地获得任何成员值。
+
+** annotation类型声明方式
+通常，应用程序并不是必须定义annotation类型，但是定义annotation类型并非难事。Annotation类型声明于一般的接口声明极为类似，区别只在于它在interface关键字前面使用”@“符号。
+
+annotation类型的每个方法声明定义了一个annotation类型成员，但方法声明不必有参数或者异常声明；方法返回值的类型被限制在以下的范围：primitives、String、Class、enums、annotation和前面类型的数组；方法可以有默认值。
+
+下面是一个简单的annotation类型声明：
+
+#+begin_example java
+import java.lang.annotation.*;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+public @interface Column {
+    boolean isKey() default false;//用于判定是否为数据库中的主键列
+    boolean canNull() default true;//用于插入时判定not null列是否有值
+    String value() default "[ColumnName]";//数据库中对应的列名
+}
+#+end_example
+
+** 修饰方法的annotation声明方式
+annotation是一种修饰符，能够如其它修饰符（如public、static、final）一般使用。习惯用法是annotaions用在其它的修饰符前面。annotations由”@+annotation类型+带有括号的成员-值列表”组成。这些成员的值必须是编译时常量（即在运行时不变）。
+
+下面是一个使用了[Column] annotation的方法声明：
+
+#+begin_example java
+//由于表名和属性名和数据库中的对应，可以不加注释
+@Table(CV.TN_CHARTYPE)
+public class CharType {
+    @Column(isKey=true,value=CV.DB_ID)
+    private String id;
+    @Column(CV.CT_CN_NAME)
+    private String name;
+    @Column(CV.CT_CN_DESC)
+    private String describe;
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getDescribe() {
+        return describe;
+    }
+    public void setDescribe(String describe) {
+        this.describe = describe;
+    }
+
+}
+#+end_example
+
+** 没有成员的annotation类型声明
+当声明一个没有成员的annotation类型声明时，可使用以下方式：
+
+#+begin_example java
+public @interface Preliminary { }
+#+end_example
+
+作为上面没有成员的annotation类型声明的简写方式：
+
+#+begin_example java
+@Preliminary public class TimeTravel { ... }
+#+end_example
+
+** 只有唯一一个成员annotations的声明
+如果在annotations中只有唯一一个成员，则该成员应命名为value：
+
+#+begin_example java
+public @interface Copyright {
+    String value();
+}
+#+end_example
+
+更为方便的是对于具有唯一成员且成员名为value的annotation（如上文），在其使用时可以忽略掉成员名和赋值号（=）：
+
+#+begin_example java
+@Copyright("2002 Yoyodyne Propulsion Systems")
+public class OscillationOverthruster { ... }
+#+end_example
+
+
+
+** 定义Annotation的例子
+[使用annotation来描述那些被标注的成员是不稳定的，需要更改]
+
+#+begin_example java
+import java.lang.annotation.*;
+
+@Retention(RetentionPolicy.RUNTIME)
+  public @interface Unstable {}
+#+end_example
+
+使用Author这个annotation定义在程序中指出代码的作者
+
+#+begin_example java
+public @interface Author {
+      /** 返回作者名 */
+      String value();
+  }
+#+end_example
+
+以下的example更加复杂。Reviews annotation类型只有一个成员，但是这个成员的类型是复杂的：由Review annotation组成的数组。Review annotation类型有3个成员：枚举类型成员grade、表示Review名称的字符串类型成员Reviewer、具有默认值的字符串类型成员Comment。
+
+#+begin_example java
+import java.lang.annotation.*;
+          
+  /**
+  * Reviews annotation类型只有一个成员，
+  * 但是这个成员的类型是复杂的：由Review annotation组成的数组
+  */
+  @Retention(RetentionPolicy.RUNTIME)
+  public @interface Reviews {
+      Review[] value();
+  }
+  
+  /**
+  * Review annotation类型有3个成员： 
+  * 枚举类型成员grade、
+    * 表示Review名称的字符串类型成员Reviewer、
+    * 具有默认值的字符串类型成员Comment。
+  */
+  public @interface Review {
+      // 内嵌的枚举类型
+      public static enum Grade { EXCELLENT, SATISFACTORY, UNSATISFACTORY };
+  
+      // 下面的方法定义了annotation的成员
+      Grade grade();                
+      String reviewer();          
+      String comment() default "";  
+  }
+#+end_example
+
+最后，我们来定义一个annotation方法用于罗列出类运行中所有的unchecked异常。这个annotation类型将一个数组作为了唯一的成员。数组中的每个元素都是异常类。为了加强对未检查的异常（此类异常都是在运行时抛出）进行报告，我们可以在代码中对异常的类型进行限制：
+
+#+begin_example java
+public @interface UncheckedExceptions {
+      Class<? extends RuntimeException>[] value();
+  }
+#+end_example
+
+** 一个使用annotation的实例
+结合上面所讲的，我们在这里建立一个简单的基于annotation测试框架。首先我们需要一个annotation类型来表示某个方法是一个应该被测试工具运行的测试方法。
+
+#+begin_example java
+import java.lang.annotation.*;
+
+    /**
+     * Indicates that the annotated method is a test method.
+     * This annotation should be used only on parameterless static methods.
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.METHOD)
+    public @interface Test { }
+#+end_example
+
+值得注意的是annotaion类型声明是可以标注自己的，这样的annotation被称为”meta-annotations”。
+
+在上面的代码中，@Retention(RetentionPolicy.RUNTIME)这个meta-annotation表示了此类型的annotation将被虚拟机保留使其能够在运行时通过反射被读取。而@Target(ElementType.METHOD)表示此类型的annotation只能用于修饰方法声明。
+
+下面是一个简单的程序，其中部分方法被上面的annotation所标注：
+
+#+begin_example java
+ public class Foo {
+        @Test public static void m1() { }
+        public static void m2() { }
+        @Test public static void m3() {
+            throw new RuntimeException("Boom");
+        }
+        public static void m4() { }
+        @Test public static void m5() { }
+        public static void m6() { }
+        @Test public static void m7() {
+            throw new RuntimeException("Crash");
+        }
+        public static void m8() { }
+    }
+#+end_example
+
+测试
+
+#+begin_example java
+import java.lang.reflect.*;
+
+    public class RunTests {
+       public static void main(String[] args) throws Exception {
+          int passed = 0, failed = 0;
+          for (Method m : Class.forName(args[0]).getMethods()) {
+             if (m.isAnnotationPresent(Test.class)) {
+                try {
+                   m.invoke(null);
+                   passed++;
+                } catch (Throwable ex) {
+                   System.out.printf("Test %s failed: %s %n", m, ex.getCause());
+                   failed++;
+                }
+             }
+          }
+          System.out.printf("Passed: %d, Failed %d%n", passed, failed);
+       }
+    }
+#+end_example
+
+这个程序从命令行参数中取出类名，并且遍历此类的所有方法，尝试调用其中被上面的测试annotation类型标注过的方法。在此过程中为了找出哪些方法被annotation类型标注过，需要使用反射的方式执行此查询。如果在调用方法时抛出异常，此方法被认为已经失败，并打印一个失败报告。最后，打印运行通过/失败的方法数量。
+
+下面文字表示了如何运行这个基于annotation的测试工具：
+
+#+begin_example 
+    $ java RunTests Foo
+    Test public static void Foo.m3() failed: java.lang.RuntimeException: Boom 
+    Test public static void Foo.m7() failed: java.lang.RuntimeException: Crash 
+    Passed: 2, Failed 2
+#+end_example
+
+
+** 内建Annotation
+Java5.0版在java语法中经常用到的内建Annotation：
+
+1. @Deprecated用于修饰已经过时的方法；
+2. @Override用于修饰此方法覆盖了父类的方法（而非重载）；
+3. @SuppressWarnings用于通知java编译器禁止特定的编译警告。
+
+下面代码展示了内建Annotation类型的用法：
+
+#+begin_example java
+import java.util.List;
+
+public class UsingBuiltInAnnotation {
+        //食物类
+        class Food{}
+        //干草类
+        class Hay extends Food{}
+        //动物类
+        class Animal{
+                Food getFood(){
+                        return null;
+                }
+                //使用Annotation声明Deprecated方法
+                @Deprecated
+                void deprecatedMethod(){
+                }
+        }
+        //马类-继承动物类
+        class Horse extends Animal{
+                //使用Annotation声明覆盖方法
+                @Override
+                Hay getFood(){
+                        return new Hay();
+                }
+                //使用Annotation声明禁止警告
+                @SuppressWarnings({"deprecation","unchecked"})
+                void callDeprecatedMethod(List horseGroup){
+                        Animal an=new Animal();
+                        an.deprecatedMethod();
+                        horseGroup.add(an);
+                }
+        }
+}
+#+end_example
+
+** 使用标准Annotation
+java5.0在java.lang包中定义了3种标准的annotation类型：
+
+*** A.Override：
+java.lang.Override 是一个marker annotation类型，它被用作标注方法。它说明了被标注的方法重载了父类的方法，起到了断言的作用。如果我们使用了这种annotation在一个没有覆盖父类方法的方法时，java编译器将以一个编译错误来警示。
+
+这个annotaton常常在我们试图覆盖父类方法而确又写错了方法名时发挥威力。使用方法极其简单：在使用此annotation时只要在被修饰的方法前面加上@Override。下面的代码是一个使用@Override修饰一个企图重载父类的toString方法，而又存在拼写错误的sample：
+
+#+begin_example java
+@Override
+  public String toString() {   
+      return "[" + super.toString() + "]";
+  }
+#+end_example
+
+*** B.Deprecated：
+同样Deprecated也是一个marker annotation。当一个类型或者类型成员使用@Deprecated修饰的话，编译器将不鼓励使用这个被标注的程序元素。而且这种修饰具有一定的 "延续性"：如果我们在代码中通过继承或者覆盖的方式使用了这个过时的类型或者成员，虽然继承或者覆盖后的类型或者成员并不是被声明为 @Deprecated，但编译器仍然要报警。
+
+值得注意，@Deprecated这个annotation类型和javadoc中的 @deprecated这个tag是有区别的：前者是java编译器识别的，而后者是被javadoc工具所识别用来生成文档（包含程序成员为什么已经过时、它应当如何被禁止或者替代的描述）。
+
+在java5.0，java编译器仍然象其从前版本那样寻找@deprecated这个javadoc tag，并使用它们产生警告信息。但是这种状况将在后续版本中改变，我们应在现在就开始使用@Deprecated来修饰过时的方法而不是 @deprecated javadoc tag。
+
+下面是一段使用@Deprecated的代码：
+
+#+begin_example
+/**
+  * 这里是javadoc的@deprecated声明.
+  * @deprecated No one has players for this format any more.  Use VHS instead.
+  */
+  @Deprecated public class Betamax { ... }
+#+end_example
+
+*** C.SuppressWarnings：
+@SuppressWarnings 被用于有选择的关闭编译器对类、方法、成员变量、变量初始化的警告。在java5.0，sun提供的javac编译器为我们提供了-Xlint选项来使编译器对合法的程序代码提出警告，此种警告从某种程度上代表了程序错误。例如当我们使用一个generic collection类而又没有提供它的类型时，编译器将提示出"unchecked warning"的警告。
+
+通常当这种情况发生时，我们就需要查找引起警告的代码。如果它真的表示错误，我们就需要纠正它。例如如果警告信息表明我们代码中的switch语句没有覆盖所有可能的case，那么我们就应增加一个默认的case来避免这种警告。
+
+相仿，有时我们无法避免这种警告，例如，我们使用必须和非generic的旧代码交互的generic
+collection类时，我们不能避免这个unchecked warning。此时@SuppressWarning就要派上用场了，在调用的方法前增加@SuppressWarnings修饰，告诉编译器停止对此方法的警告。
+
+SuppressWarning不是一个marker annotation。它有一个类型为String[]的成员，这个成员的值为被禁止的警告名。对于javac编译器来讲，被-Xlint选项有效的警告名也同样对@SuppressWarings有效，同时编译器忽略掉无法识别的警告名。
+
+annotation语法允许在annotation名后跟括号，括号中是使用逗号分割的name=value对用于为annotation的成员赋值：
+
+#+begin_example
+@SuppressWarnings(value={"unchecked","fallthrough"})
+public void lintTrap() { /* sloppy method body omitted */ }
+#+end_example
+
+在这个例子中SuppressWarnings annotation类型只定义了一个单一的成员，所以只有一个简单的value={...}作为name=value对。又由于成员值是一个数组，故使用大括号来声明数组值。
+
+注意：我们可以在下面的情况中缩写annotation：当annotation只有单一成员，并成员命名为"value="。这时可以省去"value="。比如将上面的SuppressWarnings annotation进行缩写：
+
+#+begin_example
+@SuppressWarnings({"unchecked","fallthrough"})
+#+end_example
+
+如果SuppressWarnings所声明的被禁止警告个数为一个时，可以省去大括号：
+
+#+begin_example
+@SuppressWarnings("unchecked")
+#+end_example
+
+** 开发者自定义Annotation
+
+由开发者自定义Annotation类型。
+
+下面是一个使用annotation进行方法测试的sample：
+
+AnnotationDefineForTestFunction类型定义如下：
+
+#+begin_example java
+import java.lang.annotation.*;
+//加载在VM中，在运行时进行映射
+@Retention(RetentionPolicy.RUNTIME)
+//限定此annotation只能标示方法
+@Target(ElementType.METHOD)
+public @interface AnnotationDefineForTestFunction{}
+#+end_example
+
+测试annotation的代码如下：
+
+#+begin_example java
+import java.lang.reflect.*;
+
+public class UsingAnnotation {
+        @AnnotationDefineForTestFunction public static void method01(){}
+        
+        public static void method02(){}
+        
+        @AnnotationDefineForTestFunction public static void method03(){
+                throw new RuntimeException("method03");
+        }
+        
+        public static void method04(){
+                throw new RuntimeException("method04");
+        }
+        
+        public static void main(String[] argv) throws Exception{
+                int passed = 0, failed = 0;
+                //被检测的类名
+                String className="com.bjinfotech.practice.annotation.UsingAnnotation";
+                //逐个检查此类的方法，当其方法使用annotation声明时调用此方法
+            for (Method m : Class.forName(className).getMethods()) {
+               if (m.isAnnotationPresent(AnnotationDefineForTestFunction.class)) {
+                  try {
+                     m.invoke(null);
+                     passed++;
+                  } catch (Throwable ex) {
+                     System.out.printf("测试 %s 失败: %s %n", m, ex.getCause());
+                     failed++;
+                  }
+               }
+            }
+            System.out.printf("测试结果： 通过: %d, 失败： %d%n", passed, failed);
+        }
+}
+#+end_example
+
+** 使用第三方开发的Annotation类型
+这也是开发人员所常常用到的一种方式。比如我们在使用Hibernate3.0时就可以利用Annotation生成数据表映射配置文件，而不必使用Xdoclet。
+
+** Meta-Annotation
+Annotation 类型可以被它们自己所标注。Java5.0定义了4个标准的meta-annotation类型，它们被用来提供对其它annotation类型作说明。这些类型和它们所支持的类在java.lang.annotation包中可以找到。如果需要更详细的信息可以参考jdk5.0手册。
+
+*** 1．再谈Target
+作为meta-annotation类型的Target,它描述了annotation所修饰的程序成员的类型。当一个annotation类型没有 Target时，它将被作为普通的annotation看待。当将它修饰一个特定的程序成员时，它将发挥其应用的作用，例如：Override用于修饰方法时，增加了@Target这个meta-annotation就使编译器对annotation作检查，从而去掉修饰错误类型的Override。
+
+Target meta-annotation类型有唯一的value作为成员。这个成员的类型是java.lang.annotation.ElementType[]类型的，ElementType类型是可以被标注的程序成员的枚举类型。
+
+*** 2．Retention的用法
+我们在文章的开头曾经提到过Retention，但是没有详细讲解。Retention描述了annotation是否被编译器丢弃或者保留在class文件；如果保留在class文件中，是否在class文件被装载时被虚拟机读取。默认情况下，annotation被保存在class文件中，但在运行时并不能被反射访问。Retention具有三个取值：source、class、runtime，这些取值来自
+java.lang.annotation.RetentionPolicy的枚举类型值。
+
+Retention meta-annotation类型有唯一的value作为成员，它的取值来自java.lang.annotation.RetentionPolicy的枚举类型值。
+
+*** 3．Documented
+Documented是一个meta-annotation类型，用于描述其它类型的annotation应该被作为被标注的程序成员的公共API，因此可以被例如javadoc此类的工具文档化。
+
+Documented是一个marker annotation，没有成员。
+
+*** 4．Inherited
+@Inherited meta-annotation也是一个marker annotation，它阐述了某个被标注的类型是被继承的。如果一个使用了@Inherited修饰的annotation类型被用于一个class，则这个annotation将被用于该class的子类。
+
+注意：@Inherited annotation类型是被标注过的class的子类所继承。类并不从它所实现的接口继承annotation，方法并不从它所重载的方法继承annotation。
+
+值得思考的是，当@Inherited annotation类型标注的annotation的Retention是RetentionPolicy.RUNTIME，则反射API增强了这种继承性。如果我们使用java.lang.reflect去查询一个@Inherited annotation类型的annotation时，反射代码检查将展开工作：检查class和其父类，直到发现指定的annotation类型被发现，或者到达类继承结构的顶层。\\
