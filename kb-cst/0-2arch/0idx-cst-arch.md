@@ -1,7 +1,4 @@
-```{=org}
-#+filetags: :idx:cst:arch:
-```
-# idx-架构与设计 [idx-架构与设计]
+# idx-架构与设计 
 
 目录
 
