@@ -300,7 +300,7 @@ const objectOfAttrs = {
 {{ var a = 1 }}
 
 <!-- 条件控制也不支持，请使用三元表达式 -->
-{{ if (ok) { return message } }}
+\{\{ if (ok) { return message } \}\}
 ```
 
 调用函数
