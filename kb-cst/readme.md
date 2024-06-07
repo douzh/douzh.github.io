@@ -12,25 +12,9 @@
 
 ## 算法架构
 
-- [[0idx-cst-algo]]
-- [[0idx-cst-arch]]
-
-## java
-- [[idx-cst-java]]
-- spring
-  - [[2dn-cst-spring.md]]
-  - [[2dn-cst-spring-ioc]]
-  - [[2dn-cst-spring-xml]]
-  - [[2dn-cst-spring-aop]]
-- mybatis
-  - [[2dn-cst-mybatis]]
-  - [[2dn-cst-mybatis-plus]]
-  - [[2dn-cst-mybatis-plus-ds]]
-  - [[3doc-cst-mybatis]]
-  - [[3doc-cst-mybatis-mapper]]
-  - [[3doc-cst-mybatis-spring]]
-  - [[3doc-cst-mybatis-javapi]]
-
+- 算法：[[0idx-cst-algo]]
+- 架构：[[0idx-cst-arch]]
+- 编程语言：[[0idx-cst-plang]]
 
 ## 微服务开发
 
@@ -85,18 +69,7 @@
 [1pn-cst-pmp-accident]: 9-1pmp/1pn-cst-pmp-accident.md "经典生产事故"
 [0idx-cst-algo]: 0-1algo/0idx-cst-algo.md "计算机算法"
 [0idx-cst-arch]: 0-2arch/0idx-cst-arch.md "idx-架构与设计"
-[idx-cst-java]: 0-3lang/java/idx-cst-java.md "java编程语言"
-[2dn-cst-spring.md]: 0-3lang/javalib/2dn-cst-spring.md "dn-spring"
-[2dn-cst-spring-ioc]: 0-3lang/javalib/2dn-cst-spring-ioc.md "spring ioc"
-[2dn-cst-spring-xml]: 0-3lang/javalib/2dn-cst-spring-xml.md "spring xml定义"
-[2dn-cst-spring-aop]: 0-3lang/javalib/2dn-cst-spring-aop.md "2dn-cst-spring-aop"
-[2dn-cst-mybatis]: 0-3lang/javalib/2dn-cst-mybatis.md "mybatis源码分析"
-[2dn-cst-mybatis-plus]: 0-3lang/javalib/2dn-cst-mybatis-plus.md "mybatis-plus 源码分析"
-[2dn-cst-mybatis-plus-ds]: 0-3lang/javalib/2dn-cst-mybatis-plus-ds.md "dynamic-datasource动态数据源使用"
-[3doc-cst-mybatis]: 0-3lang/javalib/3doc-cst-mybatis.md "mybatis手册"
-[3doc-cst-mybatis-mapper]: 0-3lang/javalib/3doc-cst-mybatis-mapper.md "mybatis XML映射器"
-[3doc-cst-mybatis-spring]: 0-3lang/javalib/3doc-cst-mybatis-spring.md "MyBatis-Spring"
-[3doc-cst-mybatis-javapi]: 0-3lang/javalib/3doc-cst-mybatis-javapi.md "mybatis Java API"
+[0idx-cst-plang]: 0-3lang/0idx-cst-plang.md "编程语言"
 [2dn-cst-web-tomcat]: topic-1web/2dn-cst-web-tomcat.md "tomcat"
 [2dn-cst-springcloud-base]: topic-1web/2dn-cst-springcloud-base.md "springcloud基础"
 [2dn-cst-springcloud-nacos]: topic-1web/2dn-cst-springcloud-nacos.md "nacos"
