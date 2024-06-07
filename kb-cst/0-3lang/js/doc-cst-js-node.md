@@ -529,9 +529,6 @@ server接收到请求，就把它关闭然后进行处理，然后去服务下�
 
 在事件驱动模型中，会生成一个主循环来监听事件，当检测到事件时触发回调函数。
 
-```{=org}
-#+DOWNLOADED: screenshot @ 2023-10-15 21:11:13
-```
 ![](assets/2023-10-15_21-11-12_screenshot.png)
 
 整个事件驱动的流程就是这么实现的，非常简洁。有点类似于观察者模式，事件相当于一个主题(Subject)，而所有注册到这个事件上的处理函数相当于观察者(Observer)。
@@ -641,16 +638,12 @@ setTimeout(function() {
 
 执行结果如下：
 
-运行这段代码，1 秒后控制台输出了 'some~event~ 事件触发'。其原理是 event
-对象注册了事件 some~event~ 的一个监听器，然后我们通过 setTimeout 在 1000
-毫秒以后向 event 对象发送事件 some~event~，此时会调用some~event~
-的监听器。
+运行这段代码，1 秒后控制台输出了 'some~event~ 事件触发'。其原理是 event 对象注册了事件 some~event~ 的一个监听器，然后我们通过 setTimeout 在 1000 毫秒以后向 event 对象发送事件 some~event~，此时会调用some~event~ 的监听器。
 
     $ node event.js 
     some_event 事件触发
 
-EventEmitter
-的每个事件由一个事件名和若干个参数组成，事件名是一个字符串，通常表达一定的语义。对于每个事件，EventEmitter
+EventEmitter 的每个事件由一个事件名和若干个参数组成，事件名是一个字符串，通常表达一定的语义。对于每个事件，EventEmitter
 支持 若干个事件监听器。
 
 当事件触发时，注册到这个事件的事件监听器被依次调用，事件参数作为回调函数参数传递。
@@ -676,14 +669,11 @@ emitter.emit('someEvent', 'arg1 参数', 'arg2 参数');
     listener1 arg1 参数 arg2 参数
     listener2 arg1 参数 arg2 参数
 
-以上例子中，emitter 为事件 someEvent 注册了两个事件监听器，然后触发了
-someEvent 事件。
+以上例子中，emitter 为事件 someEvent 注册了两个事件监听器，然后触发了 someEvent 事件。
 
-运行结果中可以看到两个事件监听器回调函数被先后调用。
-这就是EventEmitter最简单的用法。
+运行结果中可以看到两个事件监听器回调函数被先后调用。 这就是EventEmitter最简单的用法。
 
-EventEmitter 提供了多个属性，如 on 和 emit。on
-函数用于绑定事件函数，emit 属性用于触发一个事件。接下来我们来具体看下
+EventEmitter 提供了多个属性，如 on 和 emit。on 函数用于绑定事件函数，emit 属性用于触发一个事件。接下来我们来具体看下
 EventEmitter 的属性介绍。
 
 看源文件
@@ -747,14 +737,11 @@ console.log("程序执行完毕。");
 
 ### error 事件
 
-EventEmitter 定义了一个特殊的事件 error，它包含了错误的语义，我们在遇到
-异常的时候通常会触发 error 事件。
+EventEmitter 定义了一个特殊的事件 error，它包含了错误的语义，我们在遇到 异常的时候通常会触发 error 事件。
 
-当 error 被触发时，EventEmitter 规定如果没有响 应的监听器，Node.js
-会把它当作异常，退出程序并输出错误信息。
+当 error 被触发时，EventEmitter 规定如果没有响 应的监听器，Node.js 会把它当作异常，退出程序并输出错误信息。
 
-我们一般要为会触发 error
-事件的对象设置监听器，避免遇到错误后整个程序崩溃。例如：
+我们一般要为会触发 error 事件的对象设置监听器，避免遇到错误后整个程序崩溃。例如：
 
 ``` javascript
 var events = require('events'); 
@@ -779,42 +766,27 @@ emitter.emit('error');
 
 ### 继承 EventEmitter
 
-大多数时候我们不会直接使用 EventEmitter，而是在对象中继承它。包括
-fs、net、 http 在内的，只要是支持事件响应的核心模块都是 EventEmitter
-的子类。
+大多数时候我们不会直接使用 EventEmitter，而是在对象中继承它。包括 fs、net、 http 在内的，只要是支持事件响应的核心模块都是 EventEmitter 的子类。
 
 为什么要这样做呢？原因有两点：
 
-首先，具有某个实体功能的对象实现事件符合语义，
-事件的监听和发生应该是一个对象的方法。
+首先，具有某个实体功能的对象实现事件符合语义， 事件的监听和发生应该是一个对象的方法。
 
-其次 JavaScript 的对象机制是基于原型的，支持 部分多重继承，继承
-EventEmitter 不会打乱对象原有的继承关系。
+其次 JavaScript 的对象机制是基于原型的，支持 部分多重继承，继承 EventEmitter 不会打乱对象原有的继承关系。
 
 ## Buffer(缓冲区)
 
 JavaScript 语言自身只有字符串数据类型，没有二进制数据类型。
 
-但在处理像TCP流或文件流时，必须使用到二进制数据。因此在
-Node.js中，定义了一个 Buffer
-类，该类用来创建一个专门存放二进制数据的缓存区。
+但在处理像TCP流或文件流时，必须使用到二进制数据。因此在 Node.js中，定义了一个 Buffer 类，该类用来创建一个专门存放二进制数据的缓存区。
 
-在 Node.js 中，Buffer 类是随 Node 内核一起发布的核心库。Buffer 库为
-Node.js 带来了一种存储原始数据的方法，可以让 Node.js
-处理二进制数据，每当需要在 Node.js
-中处理I/O操作中移动的数据时，就有可能使用 Buffer 库。原始数据存储在
-Buffer 类的实例中。一个 Buffer 类似于一个整数数组，但它对应于 V8
-堆内存之外的一块原始内存。
+在 Node.js 中，Buffer 类是随 Node 内核一起发布的核心库。Buffer 库为 Node.js 带来了一种存储原始数据的方法，可以让 Node.js 处理二进制数据，每当需要在 Node.js 中处理I/O操作中移动的数据时，就有可能使用 Buffer 库。原始数据存储在 Buffer 类的实例中。一个 Buffer 类似于一个整数数组，但它对应于 V8 堆内存之外的一块原始内存。
 
-在v6.0之前创建Buffer对象直接使用new
-Buffer()构造函数来创建对象实例，但是Buffer对内存的权限操作相比很大，可以直接捕获一些敏感信息，所以在v6.0以后，官方文档里面建议使用
-Buffer.from() 接口去创建Buffer对象。
+在v6.0之前创建Buffer对象直接使用new Buffer()构造函数来创建对象实例，但是Buffer对内存的权限操作相比很大，可以直接捕获一些敏感信息，所以在v6.0以后，官方文档里面建议使用 Buffer.from() 接口去创建Buffer对象。
 
 ### Buffer 与字符编码
 
-Buffer 实例一般用于表示编码字符的序列，比如 UTF-8 、 UCS2 、 Base64
-、或十六进制编码的数据。 通过使用显式的字符编码，就可以在 Buffer
-实例与普通的 JavaScript 字符串之间进行相互转换。
+Buffer 实例一般用于表示编码字符的序列，比如 UTF-8 、 UCS2 、 Base64 、或十六进制编码的数据。 通过使用显式的字符编码，就可以在 Buffer 实例与普通的 JavaScript 字符串之间进行相互转换。
 
 ``` javascript
 const buf = Buffer.from('runoob', 'ascii');

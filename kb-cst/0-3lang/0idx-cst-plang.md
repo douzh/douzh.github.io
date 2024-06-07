@@ -19,7 +19,17 @@
 
 ## javascript
 
-
+- [[dn-cst-js-mdn]]
+- [[dn-cst-js-node-hexo]]
+- [[dn-cst-js-node-lib]]
+- [[doc-cst-js-http-axios]]
+- vue
+  - [[dn-cst-js-vue]]
+  - [[dn-cst-js-vite]]
+  - [[doc-cst-js-node]]
+  - [[doc-cst-js-vue-base]]
+  - [[doc-cst-js-vue-com]]
+  - [[doc-cst-js-vue-router]]
 
 ## lisp
 
@@ -52,6 +62,16 @@
 [3doc-cst-mybatis-mapper]: javalib/3doc-cst-mybatis-mapper.md "mybatis XML映射器"
 [3doc-cst-mybatis-spring]: javalib/3doc-cst-mybatis-spring.md "MyBatis-Spring"
 [3doc-cst-mybatis-javapi]: javalib/3doc-cst-mybatis-javapi.md "mybatis Java API"
+[dn-cst-js-mdn]: js/dn-cst-js-mdn.md "mdn"
+[dn-cst-js-node-hexo]: js/dn-cst-js-node-hexo.md "hexo"
+[dn-cst-js-node-lib]: js/dn-cst-js-node-lib.md "dn-node-lib"
+[doc-cst-js-http-axios]: js/doc-cst-js-http-axios.md "doc-http-axios"
+[dn-cst-js-vue]: js/dn-cst-js-vue.md "dn-vue"
+[dn-cst-js-vite]: js/dn-cst-js-vite.md "dn-vite"
+[doc-cst-js-node]: js/doc-cst-js-node.md "doc-nodejs"
+[doc-cst-js-vue-base]: js/doc-cst-js-vue-base.md "doc-vue"
+[doc-cst-js-vue-com]: js/doc-cst-js-vue-com.md "doc-vue-com"
+[doc-cst-js-vue-router]: js/doc-cst-js-vue-router.md "doc-vue-router"
 [dn-lisp-installslime]: lisp/dn-lisp-installslime.md "lisp开发环境之安装slime"
 [dn-lisp-lispbz]: lisp/dn-lisp-lispbz.md "(转)Lisp 的本质-深度好文"
 [dn-lisp-lispgkxx]: lisp/dn-lisp-lispgkxx.md "(转)Lisp概况与学习方法"
