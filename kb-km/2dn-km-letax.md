@@ -113,7 +113,29 @@ $a\qquad a$
 $a  a$  
 $a\  a$  
 $a\quad a$  
-$a\qquad a$  
+$a\qquad a$ 
+
+## 向量集合
+
+```
+\surd \sqrt{2} \sqrt[n]{n} \sqrt[n]{x+y}
+```
+$$\surd \sqrt{2} \sqrt[n]{n} \sqrt[n]{x+y}$$
+
+```
+\{ \} \in \emptyset \not\in \not\ni \ni \cup \cap \supset \subset \nsubseteq \subseteq \nsupseteq \supseteq
+```
+$$\{ \} \in \emptyset \not\in \not\ni \ni \cup \cap \supset \subset \nsubseteq \subseteq \nsupseteq \supseteq$$
+
+```
+\overline{AB} \overleftarrow{AB} \overrightarrow{AB} \underline{AB}
+```
+$$\overline{AB}, \overleftarrow{AB},\overrightarrow{AB},\underline{AB}$$
+
+```
+\check{a} \tilde{a} \acute{a} \grave{a} \breve{a} \bar{a} \vec{a} \mathring{a} \dot{a} 	\ddot{a} \hat{a}
+```
+$$\check{a},\tilde{a},\acute{a},\grave{a},\breve{a},\bar{a},\vec{a},\mathring{a},\dot{a},\ddot{a},\hat{a}$$
 
 ## 标注符号
 单字符向量(固定长度箭头短)，多字符向量（箭头长度随着字符数量的增多变化），单均值，多字符均值
