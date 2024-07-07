@@ -1,5 +1,54 @@
 # 编程语言
 
+如果程序不可以自己写程序：程序在运行态和非运行态，代码和配制等是静态的，是无状态的；数据代表当前系统的状态。
+
+**强弱动静**
+
+强类型：如果一门语言倾向于不对变量的类型做隐式转换，那我们将其称之为强类型语言
+
+弱类型：相反，如果一门语言倾向于对变量的类型做隐式转换，那我们则称之为弱类型语言
+
+动态类型：如果一门语言可以在运行时改变变量的类型，那我们称之为动态类型语言
+
+静态类型：相反，如果一门语言不可以在运行时改变变量的类型，则称之为静态类型语言
+
+Python: 强类型 动态类型
+
+java：强类型 静态类型
+
+**面向对象**
+
+对象本质上是数据的K-V组装。
+
+面向对象语音把对象和操作关联在一起，方便操作。
+
+从Java反射使用上看，java方法的第一个参数为对象本身。
+
+```java
+import java.lang.reflect.*;
+public class Method2 {
+    public int add(int a, int b) {return a + b;}
+    public static void main(String args[]) {
+        try {
+            Class cls = Class.forName("Method2");
+            Class partypes[] = new Class[2];
+            partypes[0] = Integer.TYPE;
+            partypes[1] = Integer.TYPE;
+            Method meth = cls.getMethod("add", partypes);
+            method2 methobj = new method2();
+            Object arglist[] = new Object[2];
+            arglist[0] = new Integer(37);
+            arglist[1] = new Integer(47);
+            Object retobj = meth.invoke(methobj, arglist);
+            Integer retval = (Integer) retobj;
+            System.out.println(retval.intValue());
+        } catch (Throwable e) {System.err.println(e);}
+    }
+}
+```
+
+大多面向对象语言，`obj.method(p1)`的调用本质上都是`Class.method(obj,p1)`。
+
 ## java
 
 - [[idx-cst-java]]
@@ -30,6 +79,24 @@
   - [[doc-cst-js-vue-base]]
   - [[doc-cst-js-vue-com]]
   - [[doc-cst-js-vue-router]]
+
+## python
+
+- [[3doc-cst-python-0install]]
+- [[3doc-cst-python-1base]]
+- [[3doc-cst-python-2ope]]
+- [[3doc-cst-python-3keyword]]
+- [[3doc-cst-python-7db-cursor]]
+- [[3doc-cst-python-8net-cookie]]
+- [[3doc-cst-python-9lib-datetime]]
+- [[3doc-cst-python-9lib-lxml]]
+- [[3doc-cst-python-9lib-mysql-connector]]
+- [[3doc-cst-python-9lib-pymysql]]
+- [[3doc-cst-python-9lib-time]]
+- [[3doc-cst-python-9lib-urllib]]
+- [[3doc-cst-python-10lib-matplotlib]]
+- [[3doc-cst-python-10lib-numpy]]
+- [[3doc-cst-python-10lib-pandas]]
 
 ## lisp
 
@@ -72,6 +139,21 @@
 [doc-cst-js-vue-base]: js/doc-cst-js-vue-base.md "doc-vue"
 [doc-cst-js-vue-com]: js/doc-cst-js-vue-com.md "doc-vue-com"
 [doc-cst-js-vue-router]: js/doc-cst-js-vue-router.md "doc-vue-router"
+[3doc-cst-python-0install]: python/3doc-cst-python-0install.md "Python安装"
+[3doc-cst-python-1base]: python/3doc-cst-python-1base.md "Python基础知识"
+[3doc-cst-python-2ope]: python/3doc-cst-python-2ope.md "Python操作符"
+[3doc-cst-python-3keyword]: python/3doc-cst-python-3keyword.md "Python关键字"
+[3doc-cst-python-7db-cursor]: python/3doc-cst-python-7db-cursor.md "Python数据库游标"
+[3doc-cst-python-8net-cookie]: python/3doc-cst-python-8net-cookie.md "Python cookie管理"
+[3doc-cst-python-9lib-datetime]: python/3doc-cst-python-9lib-datetime.md "Python datetime库"
+[3doc-cst-python-9lib-lxml]: python/3doc-cst-python-9lib-lxml.md "Python lxml库"
+[3doc-cst-python-9lib-mysql-connector]: python/3doc-cst-python-9lib-mysql-connector.md "Python mysql-connector 驱动"
+[3doc-cst-python-9lib-pymysql]: python/3doc-cst-python-9lib-pymysql.md "Python3 MySQL 数据库连接"
+[3doc-cst-python-9lib-time]: python/3doc-cst-python-9lib-time.md "Python time库"
+[3doc-cst-python-9lib-urllib]: python/3doc-cst-python-9lib-urllib.md "Python urllib库"
+[3doc-cst-python-10lib-matplotlib]: python/3doc-cst-python-10lib-matplotlib.md "Python Matplotlib库"
+[3doc-cst-python-10lib-numpy]: python/3doc-cst-python-10lib-numpy.md "Python NumPy库"
+[3doc-cst-python-10lib-pandas]: python/3doc-cst-python-10lib-pandas.md "Python Pandas库"
 [dn-lisp-installslime]: lisp/dn-lisp-installslime.md "lisp开发环境之安装slime"
 [dn-lisp-lispbz]: lisp/dn-lisp-lispbz.md "(转)Lisp 的本质-深度好文"
 [dn-lisp-lispgkxx]: lisp/dn-lisp-lispgkxx.md "(转)Lisp概况与学习方法"

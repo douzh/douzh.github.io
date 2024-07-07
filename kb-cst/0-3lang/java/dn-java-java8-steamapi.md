@@ -171,8 +171,7 @@ collect(Collectors.toList());
 
 ``` java
 List<Integer> nums = Arrays.asList(1, 2, 3, 4);
-List<Integer> squareNums = nums.stream().map(n -> n * n).
-collect(Collectors.toList());
+List<Integer> squareNums = nums.stream().map(n -> n * n).collect(Collectors.toList());
 ```
 
 这段代码生成一个整数 list 的平方数 {1, 4, 9, 16}。
