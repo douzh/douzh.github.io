@@ -6,6 +6,10 @@
   - [[2dn-his-cn-5year]]
   - [[2dn-his-cn-xf2018]]
   - [[2dn-his-cn-ht]]
+- 苏联
+  - [[2dn-his-ussr1922-1953]]
+  - [[2dn-his-ussr1954-1992]]
+  - [[2dn-his-ussr-sum]]
 - 数据
   - [[kb-his-btc]]
   - [[kb-his-etc]]
@@ -18,6 +22,9 @@
 [2dn-his-cn-5year]: cn1949/2dn-his-cn-5year.md "五年计划清单"
 [2dn-his-cn-xf2018]: cn1949/2dn-his-cn-xf2018.md "中国宪法2018"
 [2dn-his-cn-ht]: cn1949/2dn-his-cn-ht.md "航天科技发展史"
+[2dn-his-ussr1922-1953]: ussr1922/2dn-his-ussr1922-1953.md "苏联"
+[2dn-his-ussr1954-1992]: ussr1922/2dn-his-ussr1954-1992.md "苏联1954-1992"
+[2dn-his-ussr-sum]: ussr1922/2dn-his-ussr-sum.md "苏联解体总结"
 [kb-his-btc]: his-data/kb-his-btc.md "比特币诞生至今最全历史价格明细回顾(2024年最新版)"
 [kb-his-etc]: his-data/kb-his-etc.md "以太币"
 [kb-his-jieji2024]: his-data/kb-his-jieji2024.md "2024中国社会财富和学历分布"
