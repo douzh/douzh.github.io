@@ -11,6 +11,7 @@
   - [[2dn-his-ussr1954-1992]]
   - [[2dn-his-ussr-sum]]
 - 数据
+  - [中国统计局](https://www.stats.gov.cn/)
   - [[kb-his-btc]]
   - [[kb-his-etc]]
   - [[kb-his-jieji2024]]
