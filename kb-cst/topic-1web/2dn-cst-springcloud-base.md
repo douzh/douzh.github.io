@@ -3,7 +3,7 @@
 
 ## springcloud微服务套件
 
-[Spring Cloud Alibaba wiki](https://github.com/alibaba/spring-cloud-alibaba/wiki)
+[Spring Cloud Alibaba](https://sca.aliyun.com/)
 
 网关：gateway 支持限流
 
