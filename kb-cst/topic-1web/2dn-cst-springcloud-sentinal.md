@@ -274,15 +274,41 @@ Sentinel 适配了 Feign 组件。如果想使用，除了引入 spring-cloud-st
 
 ## HTTP API
 
+引入`spring-cloud-starter-alibaba-sentinel`会关联引入`sentinel-transport-simple-http`,这会开启一个http服务，核心方法`HttpEventTask.run`。
+
+通过命令行模式映射了31个命名，`SimpleHttpCommandCenter.handlerMap`保存映射
+
 引入了 transport 模块后，可以通过以下的 HTTP API 来获取所有已加载的规则：
 
     http://localhost:8719/getRules?type=<XXXX>
 
 其中，type=flow 以 JSON 格式返回现有的限流规则，degrade 返回现有生效的降级规则列表，system 则返回系统保护规则。
 
-获取所有热点规则：
+getRules最终调用地址：
 
-    http://localhost:8719/getParamRules
+``` java
+@CommandMapping(
+    name = "getRules",
+    desc = "get all active rules by type, request param: type={ruleType}"
+)
+public class FetchActiveRuleCommandHandler implements CommandHandler<String> {
+    public FetchActiveRuleCommandHandler() {
+    }
+
+    public CommandResponse<String> handle(CommandRequest request) {
+        String type = request.getParam("type");
+        if ("flow".equalsIgnoreCase(type)) {
+            return CommandResponse.ofSuccess(JSON.toJSONString(FlowRuleManager.getRules()));
+        } else if ("degrade".equalsIgnoreCase(type)) {
+            return CommandResponse.ofSuccess(JSON.toJSONString(DegradeRuleManager.getRules()));
+        } else if ("authority".equalsIgnoreCase(type)) {
+            return CommandResponse.ofSuccess(JSON.toJSONString(AuthorityRuleManager.getRules()));
+        } else {
+            return "system".equalsIgnoreCase(type) ? CommandResponse.ofSuccess(JSON.toJSONString(SystemRuleManager.getRules())) : CommandResponse.ofFailure(new IllegalArgumentException("invalid type"));
+        }
+    }
+}
+```
 
 ## Sentinel 控制台
 
