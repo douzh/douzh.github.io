@@ -203,6 +203,8 @@ sentinel-record.log
 
 默认 Sentinel 会尝试从 classpath:sentinel.properties 文件读取配置，读取编码默认为 UTF-8。
 
+`csp.sentinel.log.output.type`可以在控制台输出日志，对于定位问题非常有用。
+
 ``` properties
 project.name=appname
 csp.sentinel.log.use.pid=true
@@ -365,4 +367,114 @@ if (rule.getClusterConfig().isFallbackToLocalWhenFail()) {
     // The rule won't be activated, just pass.
     return true;
 }
+```
+
+## 从Nacos读取数据
+
+如果Sentinel 控制台改造接入了Nacos，项目可以从Nacos读取规则。
+
+除了引入sentinel依赖外，还需要引入nacos数据源的依赖。
+
+``` xml
+<dependency>
+    <groupId>com.alibaba.csp</groupId>
+    <artifactId>sentinel-datasource-nacos</artifactId>
+</dependency>
+```
+
+配置文件
+
+```yaml
+appconfig:
+  nacos:
+    server-addr: ${ENV_NACOS_ADDERSS:127.0.0.1:8848}
+    namespace: xxx
+    username: xxx
+    password: xxx
+  sentinel:
+    nacosconfig:
+      namespace: xxx
+      groupId: xxx
+
+spring:
+  application:
+    name: hos-douzh
+  cloud:
+    nacos:
+      config:
+        file-extension: yml
+        prefix: hos-douzh
+        server-addr: ${appconfig.nacos.server-addr}
+        namespace: ${appconfig.nacos.namespace}
+        username: ${appconfig.nacos.username}
+        password: ${appconfig.nacos.password}
+      discovery:
+        server-addr: ${appconfig.nacos.server-addr}
+        namespace: ${appconfig.nacos.namespace}
+        username: ${appconfig.nacos.username}
+        password: ${appconfig.nacos.password}
+    sentinel:
+      transport:
+        # sentinel-dashboard 控制台地址
+        dashboard: localhost:8060
+        # clientIp: 127.0.0.1
+        # 本应用（sentinel应用客户端）与 sentinel-dashboard 的交互端口，默认8719，如果被占用会自动加1
+        port: 8719
+      eager: true
+      # 本应用监听nacos上的sentinel规则
+      datasource:
+        # 流控--dsl-flow允许自定义，没有固定要求，主要是里面的配置
+        dsl-flow:
+          nacos:
+            server-addr: ${spring.cloud.nacos.config.server-addr}
+            username: ${spring.cloud.nacos.config.username}
+            password: ${spring.cloud.nacos.config.password}
+            namespace: ${appconfig.sentinel.nacosconfig.namespace}
+            groupId: ${appconfig.sentinel.nacosconfig.groupId}
+            # 规则类型 flow-流控控制
+            rule-type: flow
+            # 持久化规则文件在nacos上的名称，必须是应用名-flow-rules
+            dataId: ${spring.application.name}-flow-rules
+        # 熔断降级
+        dsl-degrade:
+          nacos:
+            server-addr: ${spring.cloud.nacos.config.server-addr}
+            username: ${spring.cloud.nacos.config.username}
+            password: ${spring.cloud.nacos.config.password}
+            namespace: ${appconfig.sentinel.nacosconfig.namespace}
+            groupId: ${appconfig.sentinel.nacosconfig.groupId}
+            rule-type: degrade
+            dataId: ${spring.application.name}-degrade-rules
+        # 热点规则
+        dsl-param-flow:
+          nacos:
+            server-addr: ${spring.cloud.nacos.config.server-addr}
+            username: ${spring.cloud.nacos.config.username}
+            password: ${spring.cloud.nacos.config.password}
+            namespace: ${appconfig.sentinel.nacosconfig.namespace}
+            groupId: ${appconfig.sentinel.nacosconfig.groupId}
+            rule-type: param-flow
+            dataId: ${spring.application.name}-param-flow-rules
+        # 系统规则
+        dsl-system:
+          nacos:
+            server-addr: ${spring.cloud.nacos.config.server-addr}
+            username: ${spring.cloud.nacos.config.username}
+            password: ${spring.cloud.nacos.config.password}
+            namespace: ${appconfig.sentinel.nacosconfig.namespace}
+            groupId: ${appconfig.sentinel.nacosconfig.groupId}
+            rule-type: system
+            dataId: ${spring.application.name}-system-rules
+        # 授权规则
+        dsl-authority:
+          nacos:
+            server-addr: ${spring.cloud.nacos.config.server-addr}
+            username: ${spring.cloud.nacos.config.username}
+            password: ${spring.cloud.nacos.config.password}
+            namespace: ${appconfig.sentinel.nacosconfig.namespace}
+            groupId: ${appconfig.sentinel.nacosconfig.groupId}
+            rule-type: authority
+            dataId: ${spring.application.name}-authority-rules
+
+
 ```
