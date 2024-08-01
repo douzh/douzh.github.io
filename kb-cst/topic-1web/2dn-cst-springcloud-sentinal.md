@@ -475,6 +475,18 @@ spring:
             groupId: ${appconfig.sentinel.nacosconfig.groupId}
             rule-type: authority
             dataId: ${spring.application.name}-authority-rules
+```
+### 原理
 
+在项目启动时在starter的`SentinelAutoConfiguration`中会注册`SentinelDataSourceHandler`，`SentinelDataSourceHandler`实现了`SmartInitializingSingleton`会在`afterSingletonsInstantiated()`初始化数据源配置，配置使用装配到`SentinelProperties`中的datasource属性。
 
+Nacos最终会装配`NacosDataSource`,这会创建监听器和初始化规则监听器配置。
+
+在调试时，最好打开sentinel的日志，可以看到数据的加载和装配。
+
+sentinel.properties
+
+``` properties
+csp.sentinel.log.use.pid=true
+csp.sentinel.log.output.type=console
 ```
