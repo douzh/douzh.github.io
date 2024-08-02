@@ -527,24 +527,9 @@ csp.sentinel.log.output.type=console
 
 创建包`com.alibaba.csp.sentinel.dashboard.rule.nacos`,
 
-添加配置类`NacosConfig`和`NacosConfig`
+添加配置类`NacosConfig`
 
 ```java
-public final class NacosConfigUtil {
-
-    public static final String GROUP_ID = "SENTINEL_GROUP";
-    public static final String FLOW_DATA_ID_POSTFIX = "-flow-rules";
-    public static final String PARAM_FLOW_DATA_ID_POSTFIX = "-param-flow-rules";
-    public static final String DEGRADE_DATA_ID_POSTFIX = "-degrade-rules";
-    public static final String AUTHORITY_DATA_ID_POSTFIX = "-authority-rules";
-    public static final String SYSTEM_DATA_ID_POSTFIX = "-system-rules";
-    public static final String GETWAY_API_DATA_ID_POSTFIX = "-gateway-api-rules";
-    public static final String GETWAY_FLOW_DATA_ID_POSTFIX = "-gateway-flow-rules";
-
-    private NacosConfigUtil() {}
-}
-
-
 @Configuration
 public class NacosConfig {
 
@@ -575,9 +560,21 @@ public class NacosConfig {
 最关键的是用`ConfigService.getConfig()`和`ConfigService.publishConfig`存取nacos的配置，这里封装一下：
 
 ```java
-public interface CustomDynamicRule<T> {
 
-    default List<T> fromNacosRuleEntity(ConfigService configService, String appName, String postfix, Class<T> clazz) throws NacosException {
+public final class NacosConfigUtil {
+
+    public static final String GROUP_ID = "SENTINEL_GROUP";
+    public static final String FLOW_DATA_ID_POSTFIX = "-flow-rules";
+    public static final String PARAM_FLOW_DATA_ID_POSTFIX = "-param-flow-rules";
+    public static final String DEGRADE_DATA_ID_POSTFIX = "-degrade-rules";
+    public static final String AUTHORITY_DATA_ID_POSTFIX = "-authority-rules";
+    public static final String SYSTEM_DATA_ID_POSTFIX = "-system-rules";
+    public static final String GETWAY_API_DATA_ID_POSTFIX = "-gateway-api-rules";
+    public static final String GETWAY_FLOW_DATA_ID_POSTFIX = "-gateway-flow-rules";
+
+    private NacosConfigUtil() {}
+
+    public static <T> List<T> fromNacosRuleEntity(ConfigService configService, String appName, String postfix, Class<T> clazz) throws NacosException {
         String rules = fromNacosRuleString(configService, appName, postfix);
         if (StringUtil.isEmpty(rules)) {
             return new ArrayList<>();
@@ -585,7 +582,7 @@ public interface CustomDynamicRule<T> {
         return JSONUtils.parseObject(clazz, rules);
     }
 
-    default String fromNacosRuleString(ConfigService configService, String appName, String postfix) throws NacosException {
+    public static String fromNacosRuleString(ConfigService configService, String appName, String postfix) throws NacosException {
         AssertUtil.notEmpty(appName, "app name cannot be empty");
         String rules = configService.getConfig(
                 genDataId(appName, postfix),
@@ -598,24 +595,20 @@ public interface CustomDynamicRule<T> {
         return rules;
     }
 
-    
-    default void setNacosRuleEntityStr(ConfigService configService, String appName, String postfix, List<T> rules) throws NacosException{
+    public static <T> void publishNacosRuleEntityConfig(ConfigService configService, String appName, String postfix, List<T> rules) throws NacosException{
         AssertUtil.notEmpty(appName, "app name cannot be empty");
         if (rules == null) {
             return;
         }
-        // 存储，推送远程nacos服务配置中心
-        publishNacosRuleEntityConfig(configService, appName, postfix, printPrettyJSON(rules));
+        publishNacosConfig(configService, appName, postfix, printPrettyJSON(rules));
     }
 
-    default void publishNacosRuleEntityConfig(ConfigService configService, String appName, String postfix, String rules) throws NacosException{
+    public static void publishNacosConfig(ConfigService configService, String appName, String postfix, String rules) throws NacosException{
         AssertUtil.notEmpty(appName, "app name cannot be empty");
         if (StringUtil.isEmpty(rules)) {
             return;
         }
         String dataId = genDataId(appName, postfix);
-
-        // 存储，推送远程nacos服务配置中心
         boolean publishConfig = configService.publishConfig(
                 dataId,
                 NacosConfigUtil.GROUP_ID,
@@ -626,17 +619,338 @@ public interface CustomDynamicRule<T> {
         }
     }
 
-    default String genDataId(String appName, String postfix) {
+    public static String genDataId(String appName, String postfix) {
         return appName + postfix;
     }
 
-    default String printPrettyJSON(Object obj) {
+    public static String printPrettyJSON(Object obj) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             return JSON.toJSONString(obj);
         }
+    }
+}
+```
+#### 封装读写
+
+参考test的设计，每个规则封装一套Provider，Publisher。
+
+注：源码中的FlowControllerV2有问题，整体都要重写，所以这里要不要这么设计不是重点，最终调用ConfigService就可以。
+
+```java
+@Component("flowRuleNacosProvider")
+public class FlowRuleNacosProvider implements DynamicRuleProvider<List<FlowRuleEntity>> {
+
+    @Autowired
+    private ConfigService configService;
+
+    @Override
+    public List<FlowRuleEntity> getRules(String appName) throws Exception {
+        AssertUtil.notEmpty(appName, "app name cannot be empty");
+        return NacosConfigUtil.fromNacosRuleEntity(configService, appName, NacosConfigUtil.FLOW_DATA_ID_POSTFIX, FlowRuleEntity.class);
+    }
+}
+
+@Component("flowRuleNacosPublisher")
+public class FlowRuleNacosPublisher implements DynamicRulePublisher<List<FlowRuleEntity>> {
+
+    @Autowired
+    private ConfigService configService;
+
+    @Override
+    public void publish(String app, List<FlowRuleEntity> rules) throws Exception {
+        AssertUtil.notEmpty(app, "app name cannot be empty");
+        if (rules == null) {
+            return;
+        }
+        NacosConfigUtil.publishNacosRuleEntityConfig(configService, app, NacosConfigUtil.FLOW_DATA_ID_POSTFIX, rules);
+    }
+}
+```
+
+封装规则的增删除改查：
+
+```java
+
+public abstract class InDataSourceRuleStore<T extends RuleEntity> {
+    private final Logger logger = LoggerFactory.getLogger(InDataSourceRuleStore.class);
+
+    /**
+    * 格式化从外部数据源获取到的数据（RuleEntity下的部分数据字段填充等）
+    **/
+    protected abstract void format(T entity, String app);
+    /**
+    * 更新规则时部分数据的整合，字段维护
+    **/
+    protected abstract void merge(T entity, T oldEntity);
+
+    /**
+    * 根据当前id获取远程匹配的规则实体
+     * 此处只对普通流控做了转换，会经过format进行，其余规则直接返回远程规则对象，后面根据具体情况自行转换改造
+    **/
+    protected T findById(DynamicRuleProvider<List<T>> ruleProvider, String app, Long id) {
+        try {
+            // 远程获取规则(当前种类下（如网关流控，普通流控，系统等）的所有规则数据)
+            List<T> rules = ruleProvider.getRules(app);
+            // 匹配符合当前查询的规则，格式化远端规则数据为sentinel服务端可使用格式（Entity形式）
+            if (rules != null && !rules.isEmpty()) {
+                Optional<T> entity = rules.stream().filter(rule -> (id.equals(rule.getId()))).findFirst();
+                if (entity.isPresent()){
+                    T t = entity.get();
+                    this.format(t, app);
+                    return t;
+                }
+            }
+        } catch (Exception e) {
+            logger.error("服务[{}]规则[{}]匹配远端规则异常：{}", app, id, e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+    * 获取对应模块下的所有规则，存在format的进行规则转换
+    **/
+    protected List<T> list(DynamicRuleProvider<List<T>> ruleProvider, String app) throws Exception {
+        List<T> rules = ruleProvider.getRules(app);
+        if (rules != null && !rules.isEmpty()) {
+            for (T entity : rules) {
+                this.format(entity, app);
+            }
+            rules.sort((p1,p2) -> (int) (p1.getId() - p2.getId()));
+        } else {
+            rules = new ArrayList<>();
+        }
+        return rules;
+    }
+
+    /**
+    * 添加规则至远程数据源
+     * 添加前先获取远程数据源，再加入本次新增，一起推送到远程数据源（否则存在覆盖的可能）
+     * 修改nextId生成规则，原nextId生成由InMemoryRuleRepositoryAdapter类下nextId()方法实现，内部维护了一个AtomicLong实现自增，每次重启则重新从0开始
+    **/
+    protected void save(DynamicRulePublisher<List<T>> rulePublisher, DynamicRuleProvider<List<T>> ruleProvider, T entity) throws Exception {
+        if (null == entity || ObjectUtils.isEmpty(entity.getApp())) {
+            throw new InvalidParameterException("app is required");
+        }
+        if (null != entity.getId()) {
+            throw new InvalidParameterException("id must be null");
+        }
+        List<T> rules = this.list(ruleProvider, entity.getApp());
+        // 增规则添加至集合
+        long nextId = 1;
+        if (!rules.isEmpty()) {
+            // 获取集合的最后一个元素，得到id，进行增1操作（集合在）list方法内进行过排序，以保证此处获取到的最后一个元素为当前集合内id最大的元素
+            nextId = rules.get(rules.size() - 1).getId() + 1;
+        }
+        entity.setId(nextId);
+        setClusterConfigId(entity);
+        rules.add(entity);
+        rulePublisher.publish(entity.getApp(), rules);
+        sleep();
+    }
+
+    /**
+     * 因为同步nacso为异步，界面在增删改后会重新获取数据，可能会导致没有获取到变化后的数据，这里等一下
+     */
+    private void sleep()  {
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setClusterConfigId(Object entity){
+        if(entity instanceof FlowRuleEntity){
+            FlowRuleEntity flow = (FlowRuleEntity) entity;
+            if(flow.getClusterConfig() != null&&flow.getClusterConfig().getFlowId() == null){
+                flow.getClusterConfig().setFlowId(flow.getId());
+            }
+        }
+    }
+
+    protected Result<T> update(DynamicRulePublisher<List<T>> rulePublisher, DynamicRuleProvider<List<T>> ruleProvider, T entity) throws Exception {
+        if (null == entity || null == entity.getId() || ObjectUtils.isEmpty(entity.getApp())) {
+            return Result.ofFail(-1, "id is required");
+        }
+        // 获取远程规则数据
+        List<T> rules = this.list(ruleProvider, entity.getApp());
+        if (null == rules || rules.isEmpty()) {
+            return Result.ofFail(-1, "Failed to save authority rule, no matching authority rule");
+        }
+        // 远程规则集合与当前规则匹配项，当前规则填充旧的集合中对应规则数据
+        for (int i = 0; i < rules.size(); i++) {
+            T oldEntity = rules.get(i);
+            if (oldEntity.getId().equals(entity.getId())) {
+                // 新旧值替换填充，字段检查
+                this.merge(entity, oldEntity);
+                setClusterConfigId(entity);
+                // 写回规则集合
+                rules.set(i, entity);
+                break;
+            }
+        }
+        rulePublisher.publish(entity.getApp(), rules);
+        sleep();
+        return Result.ofSuccess(entity);
+    }
+
+
+    protected Result<Long> delete(DynamicRulePublisher<List<T>> rulePublisher, DynamicRuleProvider<List<T>> ruleProvider, long id, String app) throws Exception {
+        List<T> rules = this.list(ruleProvider, app);
+        if (null == rules || rules.isEmpty()) {
+            return Result.ofSuccess(null);
+        }
+        boolean removeIf = rules.removeIf(flowRuleEntity -> flowRuleEntity.getId().equals(id));
+        if (!removeIf){
+            return Result.ofSuccess(null);
+        }
+        rulePublisher.publish(app, rules);
+        sleep();
+        return Result.ofSuccess(id);
+    }
+}
+```
+#### 修改controller
+
+这里直接修改前端界面对应的后端controller，没有使用FlowControllerV2，因为V2只实现了flow这一类规则其他没实现，而且实现的还有问题。
+
+这里需要注意，可能需要修改前端的代码，前端打包后的dest/js/app.js为最终打包后的js文件，需要前端debug打到代码位置修改。
+
+注意：前端为angular项目，需要会打包的可以直接修改源码重新打包。
+
+```java
+@RestController
+@RequestMapping(value = "/v1/flow")
+public class FlowControllerV1 extends InDataSourceRuleStore<FlowRuleEntity>{
+
+    private final Logger logger = LoggerFactory.getLogger(FlowControllerV2.class);
+
+    @Autowired
+    @Qualifier("flowRuleNacosProvider")
+    private DynamicRuleProvider<List<FlowRuleEntity>> ruleProvider;
+    @Autowired
+    @Qualifier("flowRuleNacosPublisher")
+    private DynamicRulePublisher<List<FlowRuleEntity>> rulePublisher;
+
+    @GetMapping("/rules")
+    @AuthAction(PrivilegeType.READ_RULE)
+    public Result<List<FlowRuleEntity>> apiQueryMachineRules(@RequestParam String app) {
+
+        if (StringUtil.isEmpty(app)) {
+            return Result.ofFail(-1, "app can't be null or empty");
+        }
+        try {
+            List<FlowRuleEntity> rules = this.list(ruleProvider, app);
+            return Result.ofSuccess(rules);
+        } catch (Throwable throwable) {
+            logger.error("Error when querying flow rules", throwable);
+            return Result.ofThrowable(-1, throwable);
+        }
+    }
+
+    private <R> Result<R> checkEntityInternal(FlowRuleEntity entity) {
+        if (entity == null) {
+            return Result.ofFail(-1, "invalid body");
+        }
+        if (StringUtil.isBlank(entity.getApp())) {
+            return Result.ofFail(-1, "app can't be null or empty");
+        }
+        if (StringUtil.isBlank(entity.getLimitApp())) {
+            return Result.ofFail(-1, "limitApp can't be null or empty");
+        }
+        ......
+ 
+        return null;
+    }
+
+    @PostMapping("/rule")
+    @AuthAction(value = PrivilegeType.WRITE_RULE)
+    public Result<FlowRuleEntity> apiAddFlowRule(@RequestBody FlowRuleEntity entity) {
+
+        Result<FlowRuleEntity> checkResult = checkEntityInternal(entity);
+        if (checkResult != null) {
+            return checkResult;
+        }
+        try {
+            Date date = new Date();
+            entity.setGmtCreate(date);
+            entity.setGmtModified(date);
+            this.save(rulePublisher, ruleProvider, entity);
+        } catch (Throwable throwable) {
+            logger.error("Failed to add flow rule", throwable);
+            return Result.ofThrowable(-1, throwable);
+        }
+        return Result.ofSuccess(entity);
+    }
+
+    @PutMapping("/save.json")
+    @AuthAction(PrivilegeType.WRITE_RULE)
+    public Result<FlowRuleEntity> apiUpdateFlowRule(@RequestBody FlowRuleEntity entity) {
+        if (entity == null) {
+            return Result.ofFail(-1, "invalid body");
+        }
+        Long id =  entity.getId();
+        if (id == null || id <= 0) {
+            return Result.ofFail(-1, "Invalid id");
+        }
+        FlowRuleEntity oldEntity = this.findById(ruleProvider, entity.getApp(), id);
+        if (oldEntity == null) {
+            return Result.ofFail(-1, "id " + id + " does not exist");
+        }
+        entity.setId(id);
+
+        Result<FlowRuleEntity> checkResult = checkEntityInternal(entity);
+        if (checkResult != null) {
+            return checkResult;
+        }
+        try {
+            return this.update(rulePublisher, ruleProvider, entity);
+        } catch (Throwable throwable) {
+            logger.error("Failed to update flow rule", throwable);
+            return Result.ofThrowable(-1, throwable);
+        }
+    }
+
+    @DeleteMapping("/delete.json")
+    @AuthAction(PrivilegeType.DELETE_RULE)
+    public Result<Long> apiDeleteRule(@RequestParam("id") Long id, @RequestParam("app") String app) {
+        if (id == null || id <= 0) {
+            return Result.ofFail(-1, "Invalid id");
+        }
+        if (StringUtils.isEmpty(app)) {
+            return Result.ofFail(-1, "Invalid app");
+        }
+        try {
+            return this.delete(rulePublisher, ruleProvider, id, app);
+        } catch (Exception e) {
+            return Result.ofFail(-1, e.getMessage());
+        }
+    }
+
+    @Override
+    protected void format(FlowRuleEntity entity, String app) {
+        entity.setApp(app);
+        if (entity.getClusterConfig() != null && entity.getClusterConfig().getFlowId() != null) {
+            entity.setId(entity.getClusterConfig().getFlowId());
+        }
+//        Date date = new Date();
+//        entity.setGmtCreate(date);
+//        entity.setGmtModified(date);
+        entity.setLimitApp(entity.getLimitApp().trim());
+        entity.setResource(entity.getResource().trim());
+    }
+
+    @Override
+    protected void merge(FlowRuleEntity entity, FlowRuleEntity oldEntity) {
+        entity.setApp(oldEntity.getApp());
+        entity.setIp(oldEntity.getIp());
+        entity.setPort(oldEntity.getPort());
+        Date date = new Date();
+        entity.setGmtCreate(oldEntity.getGmtCreate());
+        entity.setGmtModified(date);
     }
 }
 ```

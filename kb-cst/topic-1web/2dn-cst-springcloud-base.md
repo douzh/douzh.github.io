@@ -148,8 +148,9 @@ spring:
 </dependency>
 ```
 
-方式三：配置加到application.properties
+方式三：删除bootstrap.yml
 
+可以改名为application-cloud.yml，通过
 
 
 ## Ribbon
