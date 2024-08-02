@@ -6,7 +6,7 @@
 
 下载源码方式安装
 
-```
+```sh
 git clone https://github.com/alibaba/nacos.git
 cd nacos/
 mvn -Prelease-nacos -Dmaven.test.skip=true clean install -U  
@@ -18,7 +18,7 @@ cd distribution/target/nacos-server-$version/nacos/bin
 
 启动
 
-```
+```sh
 sh startup.sh -m standalone
 ```
 
@@ -28,7 +28,7 @@ http://127.0.0.1:8848/nacos/index.html
 
 docker
 
-```
+```sh
 docker pull nacos/nacos-server:1.4.2
 docker pull nacos/nacos-server:v2.1.0
 
@@ -36,7 +36,7 @@ docker run --name nacos-quick142 -e MODE=standalone -p 8848:8848 -d nacos/nacos-
 docker run --name nacos-quick210 -e MODE=standalone -p 8848:8848 -d nacos/nacos-server:v2.1.0
 ```
 
-```
+```sh
     docker  run \
     --name nacos -d \
     -p 8848:8848 \
