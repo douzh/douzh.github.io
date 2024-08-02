@@ -358,7 +358,7 @@ java -Dserver.port=9090 -Dcsp.sentinel.dashboard.server=localhost:9090 -Dproject
 
 从 Sentinel 1.6.0 起，Sentinel 控制台引入基本的登录功能，默认用户名和密码都是 sentinel。可以参考 鉴权模块文档 配置用户名和密码。
 
-### 客户端接入控制台
+### 服务端接入控制台
 
 ``` xml
 <dependency>
@@ -368,28 +368,30 @@ java -Dserver.port=9090 -Dcsp.sentinel.dashboard.server=localhost:9090 -Dproject
 </dependency>
 ```
 
-启动时加入 JVM 参数`-Dcsp.sentinel.dashboard.server=consoleIp:port`指定控制台地址和端口。若启动多个应用，则需要通过`-Dcsp.sentinel.api.port=xxxx`指定客户端监控 API 的端口（默认是 8719）。
+启动时加入 JVM 参数`-Dcsp.sentinel.dashboard.server=consoleIp:port`指定控制台地址和端口。若启动多个应用，则需要通过`-Dcsp.sentinel.api.port=xxxx`指定服务端监控 API 的端口（默认是 8719）。
 
 除了修改 JVM 参数，也可以通过配置文件取得同样的效果
 
 ## 生产使用问题
 
-sentinel的规则都缓存在客户端，服务重启后规则会丢失。控制台在配置规则后会主动推送到客户端，本身只存在内存中，在控制台重启后规则会丢失。
+sentinel的规则都缓存在服务端，服务重启后规则会丢失。控制台在配置规则后会主动推送到服务端，本身只存在内存中，在控制台重启后规则会丢失。
 
-控制台不会主动获取客户端的规则，所以显示和实际规则不一致。控制台不影响sentinel的功能，只是一个规则管理端，没有高可用需求，所以不用集群部署。
+控制台不会主动获取服务端的规则，所以显示和实际规则不一致。控制台不影响sentinel的功能，只是一个规则管理端，没有高可用需求，所以不用集群部署。
 
-所以需要sentinel客户端在服务启动时从一个存储中读取规则，在存储规则变更时能同步更新到客户端。控制台对规则的增删改查都从存储中读取，要和客户端规则一致。
+所以需要sentinel服务端在服务启动时从一个存储中读取规则，在存储规则变更时能同步更新到服务端。控制台对规则的增删改查都从存储中读取，要和服务端规则一致。
 
 sentinel在开源版本中支持多种存储，但控制台需要较大改动，要重写规则的增删改查逻辑。
 
 其中Nacos是一个比较主流的存储方式，对于集成spingcloud alibaba的项目非常友好，项目通过引入nacos数据源的依赖就可以从nacos实时更新规则。
 
 
-## 客户端从Nacos读取数据
+### 服务端从Nacos读取数据
 
-如果Sentinel 控制台改造接入了Nacos，项目可以从Nacos读取规则。
+服务端读取的Nacos配置一般是控制台配置的，服务端的每类规则都要配置一个nacos数据源和配置的dataId，dataId命名规则要和nacos中的配置文件一致，控制台一般会以`${spring.application.name}-${ruleType}-flow`格式命名dataId。
 
-除了引入sentinel依赖外，还需要引入nacos数据源的依赖。
+改造后的sentinel控制台将不再给服务端推送规则变更，服务端从nacos监听规则变更。
+
+服务端除了引入sentinel依赖外，还需要引入nacos数据源的依赖，再添加相关配置就可以从nacos中读取规则。
 
 ``` xml
 <dependency>
@@ -492,7 +494,7 @@ spring:
             rule-type: authority
             dataId: ${spring.application.name}-authority-rules
 ```
-### 原理
+#### 原理
 
 在项目启动时在starter的`SentinelAutoConfiguration`中会注册`SentinelDataSourceHandler`，`SentinelDataSourceHandler`实现了`SmartInitializingSingleton`会在`afterSingletonsInstantiated()`初始化数据源配置，配置使用装配到`SentinelProperties`中的datasource属性。
 
@@ -506,3 +508,21 @@ sentinel.properties
 csp.sentinel.log.use.pid=true
 csp.sentinel.log.output.type=console
 ```
+
+### 控制台接入Nacos
+
+
+首先从github上下载sentinel的源码，sentinel-dashboard为源码中的一个模块。
+
+项目为maven项目，首先运行起项目来，从浏览器可以访问到sentinel控制台。
+
+在项目的test目录中，rule/nacos部分为sentinel控制台的接入nacos的示例。
+
+改造方案：
+1. 配置naocs，创建ConfigService
+2. 包装公共方法读写nacos配置文件
+3. 改造sentinel控制台后端controller通过nacos读写配置
+
+#### 配置nacos
+
+
