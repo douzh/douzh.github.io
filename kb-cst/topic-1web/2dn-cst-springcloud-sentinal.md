@@ -312,27 +312,6 @@ public class FetchActiveRuleCommandHandler implements CommandHandler<String> {
 }
 ```
 
-## Sentinel 控制台
-
-下载jar包启动
-```
-java -Dserver.port=9090 -Dcsp.sentinel.dashboard.server=localhost:9090 -Dproject.name=sentinel-dashboard -jar sentinel-dashboard.jar
-```
-从 Sentinel 1.6.0 起，Sentinel 控制台引入基本的登录功能，默认用户名和密码都是 sentinel。可以参考 鉴权模块文档 配置用户名和密码。
-
-### 客户端接入控制台
-
-``` xml
-<dependency>
-    <groupId>com.alibaba.csp</groupId>
-    <artifactId>sentinel-transport-simple-http</artifactId>
-    <version>x.y.z</version>
-</dependency>
-```
-
-启动时加入 JVM 参数`-Dcsp.sentinel.dashboard.server=consoleIp:port`指定控制台地址和端口。若启动多个应用，则需要通过`-Dcsp.sentinel.api.port=xxxx`指定客户端监控 API 的端口（默认是 8719）。
-
-除了修改 JVM 参数，也可以通过配置文件取得同样的效果
 
 ## 源码分析
 
@@ -369,7 +348,44 @@ if (rule.getClusterConfig().isFallbackToLocalWhenFail()) {
 }
 ```
 
-## 从Nacos读取数据
+## Sentinel 控制台
+
+下载jar包启动
+
+```
+java -Dserver.port=9090 -Dcsp.sentinel.dashboard.server=localhost:9090 -Dproject.name=sentinel-dashboard -jar sentinel-dashboard.jar
+```
+
+从 Sentinel 1.6.0 起，Sentinel 控制台引入基本的登录功能，默认用户名和密码都是 sentinel。可以参考 鉴权模块文档 配置用户名和密码。
+
+### 客户端接入控制台
+
+``` xml
+<dependency>
+    <groupId>com.alibaba.csp</groupId>
+    <artifactId>sentinel-transport-simple-http</artifactId>
+    <version>x.y.z</version>
+</dependency>
+```
+
+启动时加入 JVM 参数`-Dcsp.sentinel.dashboard.server=consoleIp:port`指定控制台地址和端口。若启动多个应用，则需要通过`-Dcsp.sentinel.api.port=xxxx`指定客户端监控 API 的端口（默认是 8719）。
+
+除了修改 JVM 参数，也可以通过配置文件取得同样的效果
+
+## 生产使用问题
+
+sentinel的规则都缓存在客户端，服务重启后规则会丢失。控制台在配置规则后会主动推送到客户端，本身只存在内存中，在控制台重启后规则会丢失。
+
+控制台不会主动获取客户端的规则，所以显示和实际规则不一致。控制台不影响sentinel的功能，只是一个规则管理端，没有高可用需求，所以不用集群部署。
+
+所以需要sentinel客户端在服务启动时从一个存储中读取规则，在存储规则变更时能同步更新到客户端。控制台对规则的增删改查都从存储中读取，要和客户端规则一致。
+
+sentinel在开源版本中支持多种存储，但控制台需要较大改动，要重写规则的增删改查逻辑。
+
+其中Nacos是一个比较主流的存储方式，对于集成spingcloud alibaba的项目非常友好，项目通过引入nacos数据源的依赖就可以从nacos实时更新规则。
+
+
+## 客户端从Nacos读取数据
 
 如果Sentinel 控制台改造接入了Nacos，项目可以从Nacos读取规则。
 
@@ -398,12 +414,12 @@ appconfig:
 
 spring:
   application:
-    name: hos-douzh
+    name: xxx
   cloud:
     nacos:
       config:
         file-extension: yml
-        prefix: hos-douzh
+        prefix: ${spring.application.name}
         server-addr: ${appconfig.nacos.server-addr}
         namespace: ${appconfig.nacos.namespace}
         username: ${appconfig.nacos.username}

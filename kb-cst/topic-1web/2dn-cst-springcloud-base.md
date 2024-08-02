@@ -82,6 +82,7 @@ Spring cloud alibaba引入, 在dependencyManagement添加版本管理
             <artifactId>spring-cloud-starter-sleuth</artifactId>
         </dependency>
 ```
+
 gateway依赖，需要先引入cloud和cloud alibaba，再引入gateway和注册中心
 
 ``` xml
@@ -95,7 +96,7 @@ gateway依赖，需要先引入cloud和cloud alibaba，再引入gateway和注册
 </dependency>
 ```
 
-bootstrap.yml配制
+## bootstrap.yml配制
 
 ```yaml
 server:
@@ -115,6 +116,41 @@ spring:
         encode: UTF-8
         file-extension: yaml
 ```
+
+### 禁用问题
+
+```
+09:58:18.046 [main] DEBUG org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter - Application failed to start due to an exception
+org.springframework.cloud.commons.ConfigDataMissingEnvironmentPostProcessor$ImportException: No spring.config.import set
+```
+
+产生问题的原因是bootstrap.properties比application.properties的优先级要高，由于bootstrap.properties是系统级的资源配置文件，是用在程序引导执行时更加早期配置信息读取；而application.properties是用户级的资源配置文件，是用来后续的一些配置所需要的公共参数。但是在SpringCloud 2020.* 版本把bootstrap禁用了，导致在读取文件的时候读取不到而报错，所以我们只要把bootstrap重新导入进来就会生效了。
+
+方式一：添加配置
+
+```yaml
+spring:
+    cloud:
+        nacos:
+            config:
+                import-check:
+                    enabled: false
+```
+
+方式二：添加pom
+
+```xml
+<!--开启Spring Cloud 应用程序启动时加载bootstrap配置文件-->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-bootstrap</artifactId>
+    <version>3.1.4</version>
+</dependency>
+```
+
+方式三：配置加到application.properties
+
+
 
 ## Ribbon
 
