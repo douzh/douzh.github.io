@@ -387,7 +387,7 @@ sentinel在开源版本中支持多种存储，但控制台需要较大改动，
 
 ### 服务端从Nacos读取数据
 
-服务端读取的Nacos配置一般是控制台配置的，服务端的每类规则都要配置一个nacos数据源和配置的dataId，dataId命名规则要和nacos中的配置文件一致，控制台一般会以`${spring.application.name}-${ruleType}-flow`格式命名dataId。
+服务端读取的Nacos配置一般是控制台配置的，服务端的每类规则都要配置一个nacos数据源和配置的dataId，dataId命名规则要和nacos中的配置文件一致，控制台一般会以`${spring.application.name}-${ruleType}-rules`格式命名dataId。
 
 改造后的sentinel控制台将不再给服务端推送规则变更，服务端从nacos监听规则变更。
 
