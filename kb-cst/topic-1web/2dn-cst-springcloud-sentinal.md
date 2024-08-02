@@ -525,4 +525,118 @@ csp.sentinel.log.output.type=console
 
 #### 配置nacos
 
+创建包`com.alibaba.csp.sentinel.dashboard.rule.nacos`,
 
+添加配置类`NacosConfig`和`NacosConfig`
+
+```java
+public final class NacosConfigUtil {
+
+    public static final String GROUP_ID = "SENTINEL_GROUP";
+    public static final String FLOW_DATA_ID_POSTFIX = "-flow-rules";
+    public static final String PARAM_FLOW_DATA_ID_POSTFIX = "-param-flow-rules";
+    public static final String DEGRADE_DATA_ID_POSTFIX = "-degrade-rules";
+    public static final String AUTHORITY_DATA_ID_POSTFIX = "-authority-rules";
+    public static final String SYSTEM_DATA_ID_POSTFIX = "-system-rules";
+    public static final String GETWAY_API_DATA_ID_POSTFIX = "-gateway-api-rules";
+    public static final String GETWAY_FLOW_DATA_ID_POSTFIX = "-gateway-flow-rules";
+
+    private NacosConfigUtil() {}
+}
+
+
+@Configuration
+public class NacosConfig {
+
+    @Value("${sentinel.datasource.nacos.server-addr:localhost:8848}")
+    private String serverAddr;
+
+    @Value("${sentinel.datasource.nacos.namespace:public}")
+    private String namespace;
+
+    @Value("${sentinel.datasource.nacos.username:nacos}")
+    private String username;
+
+    @Value("${sentinel.datasource.nacos.password:nacos}")
+    private String password;
+
+    @Bean
+    public ConfigService nacosConfigService() throws NacosException {
+        Properties properties = new Properties();
+        properties.put(PropertyKeyConst.SERVER_ADDR, serverAddr);
+        properties.put(PropertyKeyConst.NAMESPACE, namespace);
+        properties.put(PropertyKeyConst.USERNAME, username);
+        properties.put(PropertyKeyConst.PASSWORD, password);
+        return NacosFactory.createConfigService(properties);
+    }
+}
+```
+
+最关键的是用`ConfigService.getConfig()`和`ConfigService.publishConfig`存取nacos的配置，这里封装一下：
+
+```java
+public interface CustomDynamicRule<T> {
+
+    default List<T> fromNacosRuleEntity(ConfigService configService, String appName, String postfix, Class<T> clazz) throws NacosException {
+        String rules = fromNacosRuleString(configService, appName, postfix);
+        if (StringUtil.isEmpty(rules)) {
+            return new ArrayList<>();
+        }
+        return JSONUtils.parseObject(clazz, rules);
+    }
+
+    default String fromNacosRuleString(ConfigService configService, String appName, String postfix) throws NacosException {
+        AssertUtil.notEmpty(appName, "app name cannot be empty");
+        String rules = configService.getConfig(
+                genDataId(appName, postfix),
+                NacosConfigUtil.GROUP_ID,
+                3000
+        );
+        if (StringUtil.isEmpty(rules)) {
+            rules = "";
+        }
+        return rules;
+    }
+
+    
+    default void setNacosRuleEntityStr(ConfigService configService, String appName, String postfix, List<T> rules) throws NacosException{
+        AssertUtil.notEmpty(appName, "app name cannot be empty");
+        if (rules == null) {
+            return;
+        }
+        // 存储，推送远程nacos服务配置中心
+        publishNacosRuleEntityConfig(configService, appName, postfix, printPrettyJSON(rules));
+    }
+
+    default void publishNacosRuleEntityConfig(ConfigService configService, String appName, String postfix, String rules) throws NacosException{
+        AssertUtil.notEmpty(appName, "app name cannot be empty");
+        if (StringUtil.isEmpty(rules)) {
+            return;
+        }
+        String dataId = genDataId(appName, postfix);
+
+        // 存储，推送远程nacos服务配置中心
+        boolean publishConfig = configService.publishConfig(
+                dataId,
+                NacosConfigUtil.GROUP_ID,
+                rules
+        );
+        if(!publishConfig){
+            throw new RuntimeException("publish to nacos fail");
+        }
+    }
+
+    default String genDataId(String appName, String postfix) {
+        return appName + postfix;
+    }
+
+    default String printPrettyJSON(Object obj) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            return JSON.toJSONString(obj);
+        }
+    }
+}
+```
