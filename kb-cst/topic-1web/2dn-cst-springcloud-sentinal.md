@@ -509,6 +509,94 @@ csp.sentinel.log.use.pid=true
 csp.sentinel.log.output.type=console
 ```
 
+支持的配置，配置文件的rule-type对应`com.alibaba.cloud.sentinel.datasource.RuleType`枚举, 只支持：
+
+``` java
+public enum RuleType {
+
+	/**
+	 * flow.
+	 */
+	FLOW("flow", FlowRule.class),
+	/**
+	 * degrade.
+	 */
+	DEGRADE("degrade", DegradeRule.class),
+	/**
+	 * param flow.
+	 */
+	PARAM_FLOW("param-flow", ParamFlowRule.class),
+	/**
+	 * system.
+	 */
+	SYSTEM("system", SystemRule.class),
+	/**
+	 * authority.
+	 */
+	AUTHORITY("authority", AuthorityRule.class),
+	/**
+	 * gateway flow.
+	 */
+	GW_FLOW("gw-flow",
+			"com.alibaba.csp.sentinel.adapter.gateway.common.rule.GatewayFlowRule"),
+	/**
+	 * api.
+	 */
+	GW_API_GROUP("gw-api-group",
+			"com.alibaba.csp.sentinel.adapter.gateway.common.api.ApiDefinition");
+```
+
+监听的添加，在`SentinelDataSourceHandler.registerBean`最后会调用`AbstractDataSourceProperties.postRegister`，对不同类型规则添加监听。
+
+```java
+public class AbstractDataSourceProperties {
+
+	@NotEmpty
+	private String dataType = "json";
+
+	@NotNull
+	private RuleType ruleType;
+
+	private String converterClass;
+
+	@JsonIgnore
+	private final String factoryBeanName;
+
+	@JsonIgnore
+	private Environment env;
+
+
+	public void postRegister(AbstractDataSource dataSource) {
+		switch (this.getRuleType()) {
+		case FLOW:
+			FlowRuleManager.register2Property(dataSource.getProperty());
+			break;
+		case DEGRADE:
+			DegradeRuleManager.register2Property(dataSource.getProperty());
+			break;
+		case PARAM_FLOW:
+			ParamFlowRuleManager.register2Property(dataSource.getProperty());
+			break;
+		case SYSTEM:
+			SystemRuleManager.register2Property(dataSource.getProperty());
+			break;
+		case AUTHORITY:
+			AuthorityRuleManager.register2Property(dataSource.getProperty());
+			break;
+		case GW_FLOW:
+			GatewayRuleManager.register2Property(dataSource.getProperty());
+			break;
+		case GW_API_GROUP:
+			GatewayApiDefinitionManager.register2Property(dataSource.getProperty());
+			break;
+		default:
+			break;
+		}
+	}
+
+}
+```
+
 ### 控制台接入Nacos
 
 
