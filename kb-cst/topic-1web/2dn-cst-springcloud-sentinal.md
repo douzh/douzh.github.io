@@ -1042,3 +1042,22 @@ public class FlowControllerV1 extends InDataSourceRuleStore<FlowRuleEntity>{
     }
 }
 ```
+## 集群流控
+
+集群流控需要配置 token server，token client。
+
+因为服务端口每次启动会变化，所以无法持久化到配置中心，需要手动配置。
+
+控制台每次配置后会同步所有服务节点，通过调用服务端以下接口：
+
+- SimpleHttpCommandCenter
+  - /setClusterMode?mode=xx
+  - ModifyClusterModeCommandHandler
+  - ClusterStateManager
+    - ClusterStatePropertyListener：根据状态不同setToClient、setToServer、setStop
+- ClusterClientConfigManager
+
+控制台功能：
+
+1. 控制台没有缓存数据，集群配置是从所有服务节点获取的集群状态
+2. 修改集群配置通过调用ClusterAssignController.apiAssignSingleClusterServersOfApp同步配置到所有服务节点
