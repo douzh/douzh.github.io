@@ -12,7 +12,7 @@
 - [[2dn-km-markdown]]
 - [[2dn-km-letax]]
 
-## [软件IT技术](./kb-cst/readme.md)
+## 软件IT技术
 
 ### 体系介绍
 
