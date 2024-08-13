@@ -130,6 +130,20 @@ gitee star 17.2k
 
 <https://gitee.com/kekingcn/file-online-preview>
 
+### KODExplorer
+
+GPL v3开源协议. 语言：PHP
+
+KodExplorer是一款快捷高效的私有云和在线文档管理系统，为个人网站、企业私有云部署、网络存储、在线文档管理、在线办公等提供安全可控，简便易用、可高度定制的私有云产品。采用windows风格界面、操作习惯，无需适应即可快速上手，支持几百种常用文件格式的在线预览，可扩展易定制。
+
+    体验账号：
+    https://demo.kodcloud.com/
+    demo/demo
+
+### ONLYOFFICE
+
+https://github.com/ONLYOFFICE/
+
 ### screw
 
 gitee star 3.6k
