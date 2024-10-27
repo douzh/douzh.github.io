@@ -9,8 +9,7 @@
         -   存储高性能
             -   关系型数据库:读写分离、分库、分表
             -   NoSQL：KV存储(redis)、文档数据库(MongoDB)、全文搜索引擎(Elasticsearch)、列式数据库(HBASE)
-            -   缓存:
-                缓存穿透、缓存雪崩、缓存热点
+            -   缓存: 缓存穿透、缓存雪崩、缓存热点
         -   计算高性能
             -   单机高性能
                 -   netty
@@ -57,11 +56,9 @@
         -   存储高性能 [[brn-cst-arch0-part2-ch4]]
             -   关系型数据库:读写分离、分库、分表
             -   NoSQL：KV存储(redis)、文档数据库(MongoDB)、全文搜索引擎(Elasticsearch)、列式数据库(HBASE)
-            -   缓存:
-                缓存穿透、缓存雪崩、缓存热点
+            -   缓存: 缓存穿透、缓存雪崩、缓存热点
         -   计算高性能 [[brn-cst-arch0-part2-ch5]]
-            -   单机高性能:
-                PPC、prefork、TPC、prethread、reactor、proactor
+            -   单机高性能: PPC、prefork、TPC、prethread、reactor、proactor
             -   集群高性能: 任务分配、任务分解
 
     -   高可用(冗余)：CAP、存储高可用、计算高可用、业务高可用 [[brn-cst-arch0-part3]]
