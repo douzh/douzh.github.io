@@ -6,13 +6,6 @@ tags: 索引 知识管理
 ---
 # 知识库专题索引
 
-- [[1pn-km-origin]]
-  - [[1pn-km-origin#解混沌]]
-  - [[1pn-km-origin#六步循环法]]
-  - [[1pn-km-origin#知识库组织结构]]
-  - [[1pn-km-origin#5w2h]]
-  - [[1pn-km-origin#知识分层]]
-  - [[1pn-km-origin#知识库建设原则]]
 - [[1pn-km-solution]]
 - [[1pn-km-cat]]
 - [[2dn-km-markdown]]
