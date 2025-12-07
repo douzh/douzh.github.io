@@ -1,5 +1,5 @@
 ---
-title: 命记 第三章 三观定命
+title: 命记 第三章 三观记
 date: 2019-10-12
 type: kbase
 tags: 命记/永久笔记

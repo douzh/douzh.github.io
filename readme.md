@@ -20,6 +20,7 @@
   -  [物理世界](./11shijie/readme.md)
   -  [人类社会](./12shehui/readme.md)
 - [[1pn-10-140mingxue]]
+- [[1pn-10-150shane]]
 
 ## 知识管理系列
 
@@ -62,6 +63,7 @@
 [1pn-10-120rsjj]: 10one/1pn-10-120rsjj.md "命记 第二章 人生九见"
 [1pn-10-130sanguan]: 10one/1pn-10-130sanguan.md "命记 第三章 三观定命"
 [1pn-10-140mingxue]: 10one/1pn-10-140mingxue.md "命记 第四章 命学"
+[1pn-10-150shane]: 10one/1pn-10-150shane.md "命记 第五章 十善"
 [1pn-km-solution]: kb-km/1pn-km-solution.md "知识管理落地方案"
 [2dn-km-vsc-foam]: kb-km/2dn-km-vsc-foam.md "知识管理Foam使用说明"
 [1pn-km-cat]: kb-km/1pn-km-cat.md "知识管理标签属性分类"
