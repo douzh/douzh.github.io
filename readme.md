@@ -14,9 +14,10 @@
 - 人生观：人对人生的目的、意义、价值的根本看法，人生观是世界观在人生问题上的体现。
 - 价值观：人对事物（包括人、事、物）高低贵贱的判断标准，价值观则是人生观的具体延伸。
 
-- [[1pn-one-110jhd]]
-- [[1pn-one-120rsjj]]
-- [[1pn-one-130sanguan]]
+- [[1pn-10-110jhd]]
+- [[1pn-10-120rsjj]]
+- [[1pn-10-130sanguan]]
+- [[1pn-10-140mingxue]]
 
 ## 知识管理系列
 
@@ -27,26 +28,6 @@
 - [[2dn-km-letax]]
 
 ## 软件IT技术
-
-### 体系介绍
-
-- [[1pn-cst-salary]]
-- [[1pn-cst-pmp-post]]
-- [[1pn-cst-pmp-archtemplate]]
-- [[1pn-cst-pmp-sre]]
-- [[1pn-cst-pmp-accident]]
-
-### IT技术视频
-
-关注bilibili账号OneKBase及时获取更新消息
-
-- [《Springcloud手把手培训教程》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=912428)
-- [《小白学架构系列》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=1533932)
-- [《DDD领域驱动设计杂谈》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=1748818)
-- [《看源码学软件设计》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=1769041)
-- [《Netty入门》](https://space.bilibili.com/505668382/channel/collectiondetail?sid=1685254)
-
-### IT软件知识库
 
 整理迁移中：传送门 [软件IT技术](./kb-cst/readme.md)
 
