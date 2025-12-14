@@ -27,8 +27,8 @@ $$\int f(x)dx=F(x)+C$$
 
 ## 基本积分表
 
-![](assets/sum1.png)
-![](assets/sum2.png)
+![](assets/budingjifen/sum1.png)
+![](assets/budingjifen/sum2.png)
 
 ## 不定积分性质
 
