@@ -119,10 +119,8 @@
 
 
 
-
 [1791faraday]: ../1who/1791faraday.md "1791-1867 法拉第 Faraday"
-[1865dynamical-theory-emf]: ../../kb-sci-doc/1831maxwell/1865dynamical-theory-emf.md "1865电磁场的动力学理论"
-[4book-0idx-free-energy-pioneer]: ../../kb-sci-doc/1837keely/free-energy-pioneer/4book-0idx-free-energy-pioneer.md "自由能先驱-Keely"
-[1873treatise-em]: ../../kb-sci-doc/1831maxwell/1873treatise-em.md "1873电磁通论摘录"
+[1865dynamical-theory-emf]: ../../11-98shuji/1831maxwell/1865dynamical-theory-emf.md "1865电磁场的动力学理论"
+[4book-0idx-free-energy-pioneer]: ../../11-98shuji/1837keely/free-energy-pioneer/4book-0idx-free-energy-pioneer.md "自由能先驱-Keely"
+[1873treatise-em]: ../../11-98shuji/1831maxwell/1873treatise-em.md "1873电磁通论摘录"
 [1853lorentz]: ../1who/1853lorentz.md "1853-1928 洛伦兹 Lorentz"
-
