@@ -337,10 +337,10 @@ private void parseConfiguration(XNode root) {
 
 最复杂的为mapper的解析，主要向Configuration注入了两个信息：
 
--   Configuration: Map\<String, MappedStatement\> mappedStatements
+-   `Configuration: Map<String, MappedStatement> mappedStatements`
     方法名和具体Statement信息
--   Configuration: MapperRegistry对象 Map\<Class\<?\>,
-    MapperProxyFactory\<?\>\> 接口名和代理工厂
+-   Configuration: MapperRegistry对象 Map<Class<?>,
+    MapperProxyFactory 接口名和代理工厂
 
 注入流程：
 
@@ -870,8 +870,8 @@ public class SpringXmlMain {
 
 ### SqlSessionTemplate
 
-SqlSessionTemplate 是 MyBatis-Spring 的核心。作为 SqlSession
-的一个实现，这意味着可以使用它无缝代替你代码中已经在使用的 SqlSession。
+SqlSessionTemplate 是 MyBatis-Spring 的核心。作为 SqlSession的一个实现，这意味着可以使用它无缝代替你代码中已经在使用的 SqlSession。
+
 SqlSessionTemplate 是线程安全的，可以被多个 DAO 或映射器所共享使用。
 
 ``` xml
