@@ -178,3 +178,5 @@ scriptName为脚本在配置的脚本目录下的全路径，如`com/onekbase/gr
 
 这可以通过包装**通过脚本ID获取脚本Class再创建对象**操作，加实例缓存实现类似单例管理的功能。
 
+**spring aop**
+
