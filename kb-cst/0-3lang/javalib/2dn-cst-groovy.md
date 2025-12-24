@@ -13,8 +13,8 @@ Groovy **并非完全兼容所有Java语法**，但对绝大多数常规Java代�
 | 包含极端语法（如匿名内部类特殊写法、泛型边界） | ⚠️ 部分可行 | 少数语法需微调                                                           |
 | 依赖Java编译器严格校验的场景（如注解处理器、泛型擦除细节） | ❌ 不可行 | Groovy编译器规则与javac有差异，可能触发兼容问题                         |
 
-### 二、Groovy与Java语法的兼容细节
-#### 1. 完全兼容的核心语法
+**完全兼容的核心语法**
+
 Groovy是JVM语言，**基于Java语法做了扩展**，以下Java代码改后缀后可直接运行：
 - 类/方法/变量定义（`public/private/protected`、`static/final`等）；
 - 控制流（`if/else`、`for/while`、`switch`、`try/catch`）；
@@ -43,7 +43,8 @@ public class UserService {
 }
 ```
 
-#### 2. 存在兼容问题的边界场景
+**存在兼容问题的边界场景**
+
 以下Java语法直接改Groovy会报错或行为异常，需微调：
 
 | 问题类型                | Java示例                          | Groovy兼容问题                          | 修复方案                                  |
@@ -56,7 +57,8 @@ public class UserService {
 | 静态导入的冲突          | `import static java.lang.Math.*;` | Groovy静态导入优先级与Java略有差异      | 显式指定类名（如`Math.abs()`）            |
 | 关键字冲突              | 变量名用`def`/`in`等Groovy关键字  | Java中`def`不是关键字，Groovy中是        | 重命名变量（如`def`→`defVal`）            |
 
-#### 3. Groovy的语法扩展（不影响Java兼容）
+**Groovy的语法扩展（不影响Java兼容）**
+
 Groovy在Java基础上增加了便捷语法（这些语法Java不支持，但Java代码不会触发）：
 - 省略`return`（方法最后一行自动返回）；
 - 省略分号；
@@ -65,8 +67,9 @@ Groovy在Java基础上增加了便捷语法（这些语法Java不支持，但Jav
 - 闭包（`{ param -> ... }`）；
 - 运算符重载（`a + b`可自定义）。
 
-### 三、“改后缀”的实操注意事项
-#### 1. 编译/运行环境
+**“改后缀”的实操注意事项**
+
+1. 编译/运行环境
 - Groovy文件需用`groovyc`编译器（或Spring Boot的`groovy-maven-plugin`），而非`javac`；
 - Spring Boot中引入Groovy依赖后，可自动识别`.groovy`文件：
   ```xml
@@ -79,18 +82,99 @@ Groovy在Java基础上增加了便捷语法（这些语法Java不支持，但Jav
   </dependency>
   ```
 
-#### 2. IDE兼容
+1. IDE兼容
 - IntelliJ IDEA/Eclipse对Groovy的语法提示、断点调试完全支持，改后缀后无需额外配置；
 - 若代码中使用了Java的注解处理器（如Lombok），需确保Groovy编译器兼容（Lombok对Groovy支持有限，建议慎用）。
 
-#### 3. 性能与字节码
+1. 性能与字节码
 - Groovy编译器生成的字节码与Java类似，常规场景下性能无显著差异；
 - Groovy的动态特性（如元编程）会带来少量性能开销，但纯Java语法的Groovy代码无此问题。
 
-### 四、总结
+**总结**
+
 1. **常规Java代码**：直接改后缀为`.groovy`完全可行，无需修改；
 2. **特殊语法场景**：需微调（如char声明、null判断、匿名内部类），但改动量极小；
 3. **核心建议**：
    - 若只是将Java代码迁移为Groovy（无动态脚本需求），改后缀即可；
    - 若要利用Groovy的动态特性，可在兼容Java语法的基础上逐步扩展；
    - 若依赖Java编译器的严格校验（如泛型、注解处理器），建议保留`.java`后缀，Groovy与Java混合编译（Spring Boot支持混合编译）。
+
+## 动态编译
+
+### 编译与执行
+
+**脚本的编译**
+
+groovy提供了动态加载脚本编译的支持，通过GroovyScriptEngine实现：
+
+```java
+    @PostConstruct
+    public void init() {
+        try {
+            // 使用文件系统路径创建GroovyScriptEngine
+            scriptEngine = new GroovyScriptEngine(scriptPath);
+            log.info("groovey script path:"+scriptPath);
+
+            // 生产环境：按修改时间检查重新编译
+            scriptEngine.getGroovyClassLoader().setShouldRecompile(true);
+
+            // 开发环境：总是重新编译
+            // scriptEngine.setRecompileMode(GroovyScriptEngine.RECOMPILE_ALWAYS);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to initialize GroovyScriptEngine", e);
+        }
+    }
+```
+
+GroovyScriptEngine支持缓存编译结果，当脚本修改后才会再次编译。
+
+**脚本的执行**
+
+```java
+    public static Object executeScript(String scriptName, Map<String, Object> parameters) {
+        try {
+            Binding binding = new Binding();
+
+            // 绑定参数
+            if (parameters != null) {
+                parameters.forEach(binding::setVariable);
+            }
+
+            // 执行脚本
+            Object rs =  scriptEngine.run(scriptName, binding);
+            return rs;
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to execute script: " + scriptName, e);
+        }
+    }
+```
+
+scriptName为脚本在配置的脚本目录下的全路径，如`com/onekbase/groovy/scripts/demo/test.groovy`
+
+### spring问题
+
+如果使用静态编译groovy，spring使用和java差异。
+
+动态编译的问题在于需要手工定制bean的注册与销毁，而且存在历史引用失效、依赖管理等问题
+
+解决方案：
+1. 接口层提供统一接口，通过脚本ID调用脚本
+2. 服务层脚本类不注册spring bean，代码中直接new 对象
+3. spingboot项目提供工具类可以getBean，以获取环境常用bean
+4. 数据层使用动态配置查询管理方式实现，提供统一的工具类由脚本调用
+5. mybatis、redis的各种Template可以用工具getBean方式直接获取
+
+**spring ioc**
+
+1. ioc主要为了解决**面向接口编程**中实现类需要经常替换的问题。
+
+在动态脚本中此类需求可以将功能实现为**通过脚本ID获取脚本Class再创建对象**，通过配置脚本的ID切换实现类。
+
+公共资源bean还是通过spring管理，如数据库连接、redis连接等。
+
+2. ioc的第二个优点为方便创建单例bean，减少new操作产生的资源占用和回收问题。
+
+这可以通过包装**通过脚本ID获取脚本Class再创建对象**操作，加实例缓存实现类似单例管理的功能。
+
