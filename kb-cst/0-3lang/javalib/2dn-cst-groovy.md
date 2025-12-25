@@ -153,6 +153,57 @@ GroovyScriptEngine支持缓存编译结果，当脚本修改后才会再次编�
 
 scriptName为脚本在配置的脚本目录下的全路径，如`com/onekbase/groovy/scripts/demo/test.groovy`
 
+### 动态编译说明
+
+所有的脚本文件都会编译成以脚本文件名为名的类。
+
+**纯脚本文件**
+
+任何 .groovy 文件，如果包含顶层语句（脚本代码），都会生成 Script 子类
+
+``` groovy
+def result =  "Parameters: ${binding.variables}"
+if (binding.variables.containsKey('name')) {
+    result += " with name: ${name}"
+}
+println "Hello from Groovy test script!"
+println result
+return result
+```
+
+编译后会生成一个继承自 `groovy.lang.Script` 的类。根据你提供的脚本，编译后的类结构如下：
+
+- **类名**：`Demo1Script`（与脚本文件同名）
+- **父类**：`groovy.lang.Script`
+- `Demo1Script()` - 无参构造函数
+- `Demo1Script(Binding binding)` - 带Binding参数的构造函数
+- **`run()` 方法** - 重写自Script类，包含脚本的主要逻辑
+  - 实现了脚本中所有的语句和表达式
+  - 处理变量绑定和字符串插值逻辑
+- **`main(String[] args)` 静态方法** - 使脚本可以独立运行
+- 脚本中的 `binding.variables` 访问会被编译为对绑定对象的适当方法调用
+- 字符串插值 `${binding.variables}` 和 `${name}` 会被转换为字符串连接操作
+
+**纯类文件**
+
+``` groovy
+// User.groovy - 仅包含类定义，无顶层脚本代码
+package com.onekbase.groovy.scripts.demo
+
+class User {
+    String name
+    String email
+    int age
+    // ...
+}
+```
+
+Groovy 会将其视为普通类文件，不生成 Script 子类。
+
+**混合文件**
+
+类生成类文件，顶层代码会被编译成 Script 子类。
+
 ### spring问题
 
 如果使用静态编译groovy，spring使用和java差异。
