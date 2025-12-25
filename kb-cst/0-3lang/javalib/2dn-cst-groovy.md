@@ -204,7 +204,13 @@ Groovy 会将其视为普通类文件，不生成 Script 子类。
 
 类生成类文件，顶层代码会被编译成 Script 子类。
 
-### spring问题
+### 动态编译依赖说明
+
+如果多个类有引用关系，如 `Api->Service->Dao`，当Dao脚本进行修改时，会触发关联脚本的重新编译，这保障了修改后功能的一致性。
+
+逻辑上应该是类重新编译后版本发生变化，打到引用的类重新编译，从而实现依赖的更新。
+
+### spring混合使用问题
 
 如果使用静态编译groovy，spring使用和java差异。
 
@@ -217,7 +223,7 @@ Groovy 会将其视为普通类文件，不生成 Script 子类。
 4. 数据层使用动态配置查询管理方式实现，提供统一的工具类由脚本调用
 5. mybatis、redis的各种Template可以用工具getBean方式直接获取
 
-**spring ioc**
+### spring ioc
 
 1. ioc主要为了解决**面向接口编程**中实现类需要经常替换的问题。
 
@@ -229,5 +235,127 @@ Groovy 会将其视为普通类文件，不生成 Script 子类。
 
 这可以通过包装**通过脚本ID获取脚本Class再创建对象**操作，加实例缓存实现类似单例管理的功能。
 
-**spring aop**
+```java
+    private static Map<String, Singleton> singletonCache = new HashMap<>();
+
+    public static Object executeScript(String scriptName, Map<String, Object> parameters, boolean cacheScript) {
+        try {
+            Binding binding = new Binding();
+            // 绑定参数
+            if (parameters != null) {
+                parameters.forEach(binding::setVariable);
+            }
+            Script script = createScript(scriptName, binding, cacheScript);
+            if(script==null){
+                throw new RuntimeException("script create fail, script name: " + scriptName);
+            }
+            // 执行脚本
+            Object rs =  script.run();
+            return rs;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to execute script: " + scriptName, e);
+        }
+    }
+
+    public static Script createScript(String scriptName,Binding binding,boolean cache) {
+        try {
+            Class<?> clazz = scriptEngine.loadScriptByName(scriptName);
+            if(clazz==null) return null ;
+            if(!cache){
+                singletonCache.remove(scriptName);
+                return InvokerHelper.createScript(clazz, binding);
+            }
+            // 没有缓存过，直接生成并缓存，不用考虑线程安全，并发创建多个缓存一个就行
+            if(singletonCache.get(scriptName)==null){
+                Script o = InvokerHelper.createScript(clazz, binding);
+                singletonCache.put(scriptName,new Singleton(clazz,o));
+                log.info("create script :"+scriptName);
+                return o;
+            }
+            // scriptEngine没有重新编译脚本且缓存过对象，直接返回缓存对象
+            if(clazz==singletonCache.get(scriptName).clazz){
+                return (Script)singletonCache.get(scriptName).singleton;
+            }
+            // 缓存过对象，但scriptEngine重新编译了脚本，重新生成对象并缓存
+            // 不用考虑线程安全，并发创建多个缓存一个就行
+            singletonCache.remove(scriptName);
+            Script o = InvokerHelper.createScript(clazz, binding);
+            singletonCache.put(scriptName,new Singleton(clazz,o));
+            log.info("recreate script :"+scriptName);
+            return o;
+        } catch (ScriptException e) {
+            throw new RuntimeException(e);
+        } catch (ResourceException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public static Object newObject(String scriptName,boolean cache) {
+        try {
+            Class<?> clazz = scriptEngine.getGroovyClassLoader().loadClass(scriptName);
+            if(clazz==null) return null ;
+            if(!cache){
+                singletonCache.remove(scriptName);
+                return clazz.newInstance();
+            }
+            // 没有缓存过，直接生成并缓存，不用考虑线程安全，并发创建多个缓存一个就行
+            if(singletonCache.get(scriptName)==null){
+                Object o = clazz.newInstance();
+                singletonCache.put(scriptName,new Singleton(clazz,o));
+                log.info("new instance :"+scriptName);
+                return o;
+            }
+            // scriptEngine没有重新编译脚本且缓存过对象，直接返回缓存对象
+            if(clazz==singletonCache.get(scriptName).clazz){
+                return singletonCache.get(scriptName).singleton;
+            }
+            // 缓存过对象，但scriptEngine重新编译了脚本，重新生成对象并缓存
+            // 不用考虑线程安全，并发创建多个缓存一个就行
+            singletonCache.remove(scriptName);
+            Object o = clazz.newInstance();
+            singletonCache.put(scriptName,new Singleton(clazz,o));
+            log.info("renew instance :"+scriptName);
+            return o;
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+```
+
+调用示例
+
+```groovy
+package com.onekbase.groovy.scripts.demo
+
+import com.onekbase.framework.groovy.engine.MetaGroovyEngine
+import com.onekbase.groovy.scripts.demo.User
+import com.onekbase.groovy.scripts.demo.UserDao
+
+class UserService {
+    List<User> users = []
+
+    UserDao userDao = MetaGroovyEngine.newObject("com.onekbase.groovy.scripts.demo.UserDao")
+    UserDao userDaoNew = new UserDao()
+
+    void addUser(User user) {
+        users.add(user)
+        println "Added user: $user"
+        userDao.addUser(user)
+        userDaoNew.addUser(user)
+    }
+
+    List<User> getAllUsers() {
+        return users
+    }
+
+    User findUserByName(String name) {
+        return users.find { it.name == name }
+    }
+}
+```
+
+### spring aop
 
