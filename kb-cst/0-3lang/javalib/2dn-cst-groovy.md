@@ -204,11 +204,20 @@ Groovy 会将其视为普通类文件，不生成 Script 子类。
 
 类生成类文件，顶层代码会被编译成 Script 子类。
 
-### 动态编译依赖说明
+### 重新自动编译
 
-如果多个类有引用关系，如 `Api->Service->Dao`，当Dao脚本进行修改时，会触发关联脚本的重新编译，这保障了修改后功能的一致性。
+- GroovyScriptEngine
+  - Class loadScriptByName(String scriptName)
+    - isSourceNewer(entry)
+    - clazz = groovyLoader.parseClass(content, path);
+  - Script script = InvokerHelper.createScript(clazz, binding);
+  - script.run()
 
-逻辑上应该是类重新编译后版本发生变化，打到引用的类重新编译，从而实现依赖的更新。
+重新编译是通过`loadScriptByName`方法实现的，`loadScriptByName`每次调用都会检测脚本文件的修改时间，如果脚本文件被修改，则重新编译脚本。
+
+脚本关联的类如果修改，脚本也会重新编译，这是通过`isSourceNewer`方法实现的，每个编译的脚本实体都存储了依赖的脚本，`isSourceNewer`会检测依赖的脚本是否有修改，如果依赖的脚本有修改，本脚本也会重新编译。
+
+如果多个类有引用关系，如 `Script->Service->Dao`，当Dao脚本进行修改时不会触发重新编译，当Service脚本进行修改时不仅会触发Script重新编译还会重新编译修改后的Dao。
 
 ### spring混合使用问题
 
