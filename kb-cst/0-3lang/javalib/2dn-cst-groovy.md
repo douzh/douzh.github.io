@@ -266,31 +266,32 @@ Groovy 会将其视为普通类文件，不生成 Script 子类。
         }
     }
 
-    public static Script createScript(String scriptName,Binding binding,boolean cache) {
+    public static Script createScript(String scriptId,Binding binding,boolean cache) {
         try {
-            Class<?> clazz = scriptEngine.loadScriptByName(scriptName);
+            Class<?> clazz = scriptEngine.loadScriptByName(scriptId);
             if(clazz==null) return null ;
+            String className = clazz.getName();
             if(!cache){
-                singletonCache.remove(scriptName);
+                singletonCache.remove(className);
                 return InvokerHelper.createScript(clazz, binding);
             }
             // 没有缓存过，直接生成并缓存，不用考虑线程安全，并发创建多个缓存一个就行
-            if(singletonCache.get(scriptName)==null){
+            if(singletonCache.get(className)==null){
                 Script o = InvokerHelper.createScript(clazz, binding);
-                singletonCache.put(scriptName,new Singleton(clazz,o));
-                log.info("create script :"+scriptName);
+                singletonCache.put(className,new Singleton(scriptId,className,clazz,o));
+                log.info("create script :"+className);
                 return o;
             }
             // scriptEngine没有重新编译脚本且缓存过对象，直接返回缓存对象
-            if(clazz==singletonCache.get(scriptName).clazz){
-                return (Script)singletonCache.get(scriptName).singleton;
+            if(clazz==singletonCache.get(className).clazz){
+                return (Script)singletonCache.get(className).singleton;
             }
             // 缓存过对象，但scriptEngine重新编译了脚本，重新生成对象并缓存
             // 不用考虑线程安全，并发创建多个缓存一个就行
-            singletonCache.remove(scriptName);
+            singletonCache.remove(className);
             Script o = InvokerHelper.createScript(clazz, binding);
-            singletonCache.put(scriptName,new Singleton(clazz,o));
-            log.info("recreate script :"+scriptName);
+            singletonCache.put(className,new Singleton(scriptId,className,clazz,o));
+            log.info("recreate script :"+className);
             return o;
         } catch (ScriptException e) {
             throw new RuntimeException(e);
@@ -299,36 +300,57 @@ Groovy 会将其视为普通类文件，不生成 Script 子类。
         }
     }
 
-
-    public static Object newObject(String scriptName,boolean cache) {
+    public static Object newObject(String className) {
+        return newObject(className,properties.getIsCache());
+    }
+    public static Object newObjectByScriptId(String scriptId,boolean cache) {
         try {
-            Class<?> clazz = scriptEngine.getGroovyClassLoader().loadClass(scriptName);
+            Class<?> clazz =  scriptEngine.loadScriptByName(scriptId);
+            return newObjectByClass(clazz,cache);
+        } catch (ResourceException | ScriptException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Object newObject(String className,boolean cache) {
+        try {
+            Class<?> clazz = scriptEngine.getGroovyClassLoader().loadClass(className);
+            return newObjectByClass(clazz,cache);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static Object newObjectByClass(Class<?> clazz,boolean cache) {
+        try {
             if(clazz==null) return null ;
+            String className = clazz.getName();
             if(!cache){
-                singletonCache.remove(scriptName);
+                singletonCache.remove(className);
                 return clazz.newInstance();
             }
             // 没有缓存过，直接生成并缓存，不用考虑线程安全，并发创建多个缓存一个就行
-            if(singletonCache.get(scriptName)==null){
+            if(singletonCache.get(className)==null){
                 Object o = clazz.newInstance();
-                singletonCache.put(scriptName,new Singleton(clazz,o));
-                log.info("new instance :"+scriptName);
+                singletonCache.put(className,new Singleton(clazz,o));
+                log.info("new instance :"+className);
                 return o;
             }
             // scriptEngine没有重新编译脚本且缓存过对象，直接返回缓存对象
-            if(clazz==singletonCache.get(scriptName).clazz){
-                return singletonCache.get(scriptName).singleton;
+            Class<?> cacheClass =singletonCache.get(className).clazz;
+            if(clazz==cacheClass){
+                return singletonCache.get(className).singleton;
             }
             // 缓存过对象，但scriptEngine重新编译了脚本，重新生成对象并缓存
             // 不用考虑线程安全，并发创建多个缓存一个就行
-            singletonCache.remove(scriptName);
+            singletonCache.remove(className);
             Object o = clazz.newInstance();
-            singletonCache.put(scriptName,new Singleton(clazz,o));
-            log.info("renew instance :"+scriptName);
+            singletonCache.put(className,new Singleton(clazz,o));
+            log.info("renew instance :"+className);
             return o;
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
-        } catch (IllegalAccessException | ClassNotFoundException e) {
+        } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
@@ -368,3 +390,190 @@ class UserService {
 
 ### spring aop
 
+aop是为了面向切面编程，在动态脚本中此类需求可以将功能实现为包装脚本的run接口口，在run方法前后执行切面逻辑。
+
+只能对执行的脚本做切面，不能对脚本内调用的类方法做切面，所以脚本内调用的其他功能需要切面需要将被调用方法做成脚本并用执行脚本接口调用。
+
+```java
+    private static List<Singleton> scriptAspects = new ArrayList<>();
+
+    public static void registerAspect(String scriptId){
+    try {
+            Class<?> clazz = scriptEngine.loadScriptByName(scriptId);
+            if(clazz==null) {
+                log.warn("registerAspect fail, scriptId:{}",scriptId);
+                return;
+            }
+            scriptAspects.add(new Singleton(scriptId,clazz.getName()));
+            log.info("registerAspect scriptId:{} className:{}",scriptId,clazz.getName());
+        } catch (ResourceException e) {
+            throw new RuntimeException(e);
+        } catch (ScriptException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Object executeScript(String scriptId, Map<String, Object> parameters, boolean cacheScript) {
+        List<GroovyScriptAspect> matchedAspects = null;
+        try {
+            Binding binding = new Binding();
+            // 绑定参数
+            if (parameters != null) {
+                parameters.forEach(binding::setVariable);
+            }
+            Script script = createScript(scriptId, binding, cacheScript);
+            if(script==null){
+                throw new RuntimeException("script create fail, script name: " + scriptId);
+            }
+            if(properties.getIsDebug()) {
+                // 只有通过loadScriptByName获取类才会检测脚本变更
+                matchedAspects = scriptAspects.stream().map(aspect -> (GroovyScriptAspect) newObjectByScriptId(aspect.scriptId, properties.getIsCache())).filter(aspect -> aspect.matches(scriptId)).collect(Collectors.toList());
+            }else{
+                // 使用newObject不会检测脚本变更
+                matchedAspects = scriptAspects.stream().map(aspect -> (GroovyScriptAspect) newObject(aspect.className, properties.getIsCache())).filter(aspect -> aspect.matches(scriptId)).collect(Collectors.toList());
+            }
+            // 1. 前置通知：所有切面执行before
+            matchedAspects.forEach(aspect -> aspect.before(scriptId, binding));
+            // 执行脚本
+            Object rs =  script.run();
+            // 3. 后置返回通知：所有切面执行afterReturning
+            matchedAspects.forEach(aspect -> aspect.afterReturning(scriptId, rs));
+            return rs;
+        } catch (Exception e) {
+            // 4. 异常通知：所有切面执行afterThrowing
+            matchedAspects.forEach(aspect -> aspect.afterThrowing(scriptId, e));
+            throw new RuntimeException("Failed to execute script: " + scriptId, e);
+        }finally {
+            // 5. 最终通知：所有切面执行after（无论是否异常）
+            matchedAspects.forEach(aspect -> aspect.after(scriptId));
+        }
+    }
+```
+
+切面接口
+
+```java
+package com.onekbase.framework.groovy.engine;
+
+import groovy.lang.Binding;
+
+
+/**
+ * Groovy脚本执行的AOP切面接口
+ */
+public interface GroovyScriptAspect {
+    /**
+     * 判断当前切面是否适用于指定脚本
+     * @param scriptId 脚本唯一标识（如PAY_001、ORDER_CALC、TEST_002）
+     * @return true=切面生效，false=切面跳过
+     */
+    default boolean matches(String scriptId) {
+        // 默认实现：所有脚本都生效（兼容原有逻辑）
+        return true;
+    }
+    /**
+     * 前置通知：脚本执行前调用
+     * @param scriptId 脚本唯一标识
+     * @param binding 脚本执行入参
+     */
+    default void before(String scriptId, Binding binding) {}
+
+    /**
+     * 后置返回通知：脚本正常执行后调用
+     * @param scriptId 脚本唯一标识
+     * @param result 脚本执行结果
+     */
+    default void afterReturning(String scriptId, Object result) {}
+
+    /**
+     * 异常通知：脚本执行异常时调用
+     * @param scriptId 脚本唯一标识
+     * @param throwable 异常信息
+     */
+    default void afterThrowing(String scriptId, Throwable throwable) {}
+
+    /**
+     * 最终通知：无论是否异常，脚本执行完成后调用（类似finally）
+     * @param scriptId 脚本唯一标识
+     */
+    default void after(String scriptId) {}
+}
+```
+
+切面示例
+
+```groovy
+package com.onekbase.groovy.scripts.aspect;
+
+import com.onekbase.framework.groovy.engine.GroovyScriptAspect;
+import groovy.lang.Binding;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+/**
+ * 脚本执行日志切面
+ */
+class LogGroovyAspect implements GroovyScriptAspect {
+
+    private static final Logger log = LoggerFactory.getLogger(LogGroovyAspect.class);
+
+    @Override
+    void before(String scriptId, Binding binding) {
+        log.info("【Groovy脚本执行前置】scriptId={}, 参数={}", scriptId, binding);
+    }
+
+    @Override
+    void afterReturning(String scriptId, Object result) {
+        log.info("【Groovy脚本执行成功】scriptId={}, 结果={}", scriptId, result);
+    }
+
+    @Override
+    void afterThrowing(String scriptId, Throwable throwable) {
+        log.error("【Groovy脚本执行异常】scriptId={}", scriptId, throwable);
+    }
+
+    @Override
+    void after(String scriptId) {
+        log.info("【Groovy脚本执行最终】scriptId={} 执行完成", scriptId);
+    }
+}
+
+
+package com.onekbase.groovy.scripts.aspect;
+
+import com.onekbase.framework.groovy.engine.GroovyScriptAspect;
+import groovy.lang.Binding
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * 脚本执行性能监控切面（Order=2，在日志切面之后执行）
+ */
+class PerformanceGroovyAspect implements GroovyScriptAspect {
+
+    private static final Logger log = LoggerFactory.getLogger(PerformanceGroovyAspect.class);
+
+    // 存储脚本执行开始时间（线程安全）
+    private final ConcurrentHashMap<String, Long> startTimeMap = new ConcurrentHashMap<>();
+
+    @Override
+    void before(String scriptId, Binding binding) {
+        // 记录开始时间
+        startTimeMap.put(scriptId, System.currentTimeMillis());
+    }
+
+    @Override
+    void after(String scriptId) {
+        // 计算耗时并清理
+        Long startTime = startTimeMap.remove(scriptId);
+        if (startTime != null) {
+            long cost = System.currentTimeMillis() - startTime;
+            log.info("【性能监控】scriptId=" + scriptId + ", 执行耗时=" + cost + "ms");
+            // 可扩展：将耗时存入监控系统（如Prometheus、ELK）
+        }
+    }
+}
+```
