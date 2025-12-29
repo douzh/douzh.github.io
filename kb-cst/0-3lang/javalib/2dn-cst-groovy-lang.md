@@ -436,74 +436,402 @@ new ClosureDelegateDemo().demo()
 #### 示例2：DSL构建
 
 该示例复现了订单DSL的委托实现，完整展示委托在DSL中的核心作用：
+
 ```groovy
-// 1. 业务模型类
+// 1. 定义业务模型类（对应订单领域的核心数据结构）
+class Goods {
+    String name        // 商品名称
+    BigDecimal price   // 商品价格
+    int quantity       // 购买数量
+
+    // 计算商品总价
+    BigDecimal getTotalPrice() {
+        return price * quantity
+    }
+}
+
 class Order {
-    String orderNo
-    String buyer
-    List<String> goods = []
+    String orderNo     // 订单编号
+    String buyer       // 买家姓名
+    String payType     // 支付方式（微信/支付宝/银行卡）
+    List<Goods> goodsList = []  // 订单包含的商品列表
+
+    // 计算订单总金额
+    BigDecimal getOrderTotalAmount() {
+        return goodsList.sum { it.totalPrice } ?: BigDecimal.ZERO
+    }
+
+    // 打印订单详情（辅助展示）
+    void printOrderInfo() {
+        println "==================== 订单详情 ===================="
+        println "订单编号：${orderNo}"
+        println "买家姓名：${buyer}"
+        println "支付方式：${payType}"
+        println "商品列表："
+        goodsList.eachWithIndex { goods, index ->
+            println "  ${index+1}. 商品：${goods.name}，单价：${goods.price}，数量：${goods.quantity}，小计：${goods.totalPrice}"
+        }
+        println "订单总金额：${orderTotalAmount}"
+        println "=================================================="
+    }
 }
 
-// 2. DSL委托类（封装DSL语法的核心逻辑）
+// 2. 定义DSL委托类（核心：封装DSL的语法方法，处理闭包内的逻辑）
 class OrderDslDelegate {
-    Order order = new Order()
+    // 持有订单对象，用于存储DSL配置的数据
+    Order currentOrder = new Order()
 
-    // DSL语法：设置订单编号
-    def orderNo(String no) {
-        order.orderNo = no
+    // DSL语法1：设置订单编号（对应 createOrder "订单号" { ... } 中的订单号）
+    void orderNo(String no) {
+        currentOrder.orderNo = no
     }
 
-    // DSL语法：设置买家
-    def buyer(String name) {
-        order.buyer = name
+    // DSL语法2：设置买家姓名（DSL内可直接写 buyer "张三"）
+    void buyer(String buyerName) {
+        currentOrder.buyer = buyerName
     }
 
-    // DSL语法：添加商品
-    def addGoods(String goodsName) {
-        order.goods.add(goodsName)
+    // DSL语法3：设置支付方式（DSL内可直接写 payType "微信支付"）
+    void payType(String type) {
+        // 简单校验支付方式
+        def validTypes = ["微信支付", "支付宝", "银行卡"]
+        if (!validTypes.contains(type)) {
+            throw new IllegalArgumentException("无效支付方式：${type}，仅支持${validTypes}")
+        }
+        currentOrder.payType = type
+    }
+
+    // DSL语法4：添加商品（支持嵌套/参数映射，DSL内可写 goods "手机", price: 5999, quantity: 1）
+    void goods(Map<String, Object> attrs, String goodsName) {
+        def goods = new Goods()
+        goods.name = goodsName
+        // 从参数映射中获取价格和数量，并做类型转换
+        goods.price = new BigDecimal(attrs.price?.toString() ?: "0")
+        goods.quantity = attrs.quantity ? (attrs.quantity as int) : 1
+
+        currentOrder.goodsList.add(goods)
+    }
+
+    // 获取构建完成的订单对象
+    Order getOrder() {
+        return currentOrder
     }
 }
 
-// 3. DSL入口方法（配置闭包委托）
+// 3. 定义DSL入口方法（对外暴露简洁的DSL入口，封装闭包委托逻辑）
+/**
+ * 订单创建DSL入口方法
+ * @param closure 闭包，内部是DSL语法内容
+ * @return 构建完成的Order对象
+ */
 def createOrder(Closure closure) {
-    // 步骤1：创建委托对象
+    // 创建委托对象
     def orderDelegate = new OrderDslDelegate()
-    // 步骤2：绑定委托对象
+    // 绑定闭包的委托对象为OrderDslDelegate
     closure.delegate = orderDelegate
-    // 步骤3：设置解析策略（DSL首选DELEGATE_FIRST）
+    // 设置闭包解析策略：优先使用委托对象的方法/属性（DSL核心配置）
     closure.resolveStrategy = Closure.DELEGATE_FIRST
-    // 步骤4：执行闭包（触发方法转发）
+    // 执行闭包，解析DSL语法
     closure.call()
 
-    // 返回构建完成的订单对象
+    // 返回构建完成的订单
     return orderDelegate.order
 }
 
-// 4. 使用DSL（用户只需编写简洁语法，无需关心底层实现）
+// 4. 使用DSL创建订单（核心：简洁、可读、接近自然语言）
 def myOrder = createOrder {
     orderNo "202512290001"
     buyer "张三"
-    addGoods "旗舰手机"
-    addGoods "手机壳"
-    addGoods "无线充电器"
+    payType "微信支付"
+    // 批量添加商品
+    goods "旗舰手机", price: 5999.00, quantity: 1
+    goods "手机壳", price: 29.90, quantity: 2
+    goods "无线充电器", price: 199.00, quantity: 1
 }
 
-// 5. 打印订单信息
-println "=== 订单详情 ==="
-println "订单编号：${myOrder.orderNo}"
-println "买家姓名：${myOrder.buyer}"
-println "商品列表：${myOrder.goods}"
+// 5. 展示订单结果
+myOrder.printOrderInfo()
+
+// 扩展：再创建一个订单，验证DSL的灵活性
+def anotherOrder = createOrder {
+    orderNo "202512290002"
+    buyer "李四"
+    payType "支付宝"
+    goods "笔记本电脑", price: 8999.00, quantity: 1
+    goods "无线鼠标", price: 129.00, quantity: 1
+}
+
+println "\n" // 换行分隔
+anotherOrder.printOrderInfo()
 ```
 
 **运行结果**：
 ```
-=== 订单详情 ===
+==================== 订单详情 ====================
 订单编号：202512290001
 买家姓名：张三
-商品列表：[旗舰手机, 手机壳, 无线充电器]
+支付方式：微信支付
+商品列表：
+  1. 商品：旗舰手机，单价：5999.00，数量：1，小计：5999.00
+  2. 商品：手机壳，单价：29.90，数量：2，小计：59.80
+  3. 商品：无线充电器，单价：199.00，数量：1，小计：199.00
+订单总金额：6257.80
+==================================================
+
+
+==================== 订单详情 ====================
+订单编号：202512290002
+买家姓名：李四
+支付方式：支付宝
+商品列表：
+  1. 商品：笔记本电脑，单价：8999.00，数量：1，小计：8999.00
+  2. 商品：无线鼠标，单价：129.00，数量：1，小计：129.00
+订单总金额：9128.00
+==================================================
 ```
 
-## 六、 关键总结
+#### 示例3：营销规则
+
+```groovy
+// 1. 定义业务模型类：承载营销规则和商品订单数据
+// 商品类
+class Product {
+    String sku        // 商品唯一标识
+    String name       // 商品名称
+    BigDecimal price  // 商品单价
+    int quantity      // 购买数量
+
+    // 商品小计
+    BigDecimal getSubtotal() {
+        return price * quantity
+    }
+}
+
+// 营销规则类
+class MarketingRule {
+    String ruleName                // 规则名称
+    String type                    // 规则类型：FULL_DISCOUNT(满减)、DISCOUNT(折扣)、SPECIFIC_PRODUCT(指定商品优惠)
+    BigDecimal threshold = BigDecimal.ZERO // 满减阈值
+    BigDecimal discountAmount = BigDecimal.ZERO // 满减金额/折扣率（折扣场景下为0-1的小数，如0.8代表8折）
+    List<String> targetSkuList = [] // 指定商品优惠的SKU列表
+    BigDecimal maxDiscount = new BigDecimal("999999") // 最大优惠金额（默认无上限）
+
+    // 打印规则详情
+    void printRuleInfo() {
+        println "==================== 营销规则详情 ===================="
+        println "规则名称：${ruleName}"
+        println "规则类型：${type}"
+        switch (type) {
+            case "FULL_DISCOUNT":
+                println "满${threshold}减${discountAmount}，最大优惠${maxDiscount}"
+                break
+            case "DISCOUNT":
+                println "订单享${discountAmount * 10}折优惠，最大优惠${maxDiscount}"
+                break
+            case "SPECIFIC_PRODUCT":
+                println "指定商品SKU：${targetSkuList}"
+                println "指定商品享${discountAmount * 10}折优惠，最大优惠${maxDiscount}"
+                break
+        }
+        println "======================================================"
+    }
+}
+
+// 2. 定义DSL委托类：封装营销规则的构建逻辑（核心）
+class MarketingRuleDslDelegate {
+    MarketingRule currentRule = new MarketingRule() // 当前构建的营销规则
+
+    // -------------- DSL基础语法：设置规则基础信息 --------------
+    // 设置规则名称
+    void ruleName(String name) {
+        currentRule.ruleName = name
+    }
+
+    // -------------- DSL核心语法：定义不同类型的营销规则 --------------
+    // 1. 满减规则：fullDiscount { ... }
+    void fullDiscount(Closure closure) {
+        currentRule.type = "FULL_DISCOUNT"
+        // 嵌套闭包：将满减规则的配置委托给内部逻辑
+        def fullDiscountDelegate = new FullDiscountDelegate(currentRule)
+        configureClosure(closure, fullDiscountDelegate)
+    }
+
+    // 2. 整体折扣规则：discount { ... }
+    void discount(Closure closure) {
+        currentRule.type = "DISCOUNT"
+        def discountDelegate = new DiscountDelegate(currentRule)
+        configureClosure(closure, discountDelegate)
+    }
+
+    // 3. 指定商品折扣规则：specificProduct(Closure closure)
+    void specificProduct(Closure closure) {
+        currentRule.type = "SPECIFIC_PRODUCT"
+        def specificProductDelegate = new SpecificProductDelegate(currentRule)
+        configureClosure(closure, specificProductDelegate)
+    }
+
+    // 通用闭包配置方法（抽取公共逻辑，避免冗余）
+    private void configureClosure(Closure closure, def delegateObj) {
+        closure.delegate = delegateObj
+        closure.resolveStrategy = Closure.DELEGATE_FIRST
+        closure.call()
+    }
+
+    // 获取构建完成的营销规则
+    MarketingRule getRule() {
+        return currentRule
+    }
+}
+
+// 满减规则委托类（封装满减专属配置）
+class FullDiscountDelegate {
+    MarketingRule rule
+
+    FullDiscountDelegate(MarketingRule rule) {
+        this.rule = rule
+    }
+
+    // DSL语法：threshold 300 （设置满减阈值）
+    void threshold(BigDecimal amount) {
+        rule.threshold = amount
+    }
+
+    // DSL语法：reduce 50 （设置减免金额）
+    void reduce(BigDecimal amount) {
+        rule.discountAmount = amount
+    }
+
+    // DSL语法：maxDiscount 100 （设置最大优惠金额）
+    void maxDiscount(BigDecimal amount) {
+        rule.maxDiscount = amount
+    }
+}
+
+// 折扣规则委托类（封装折扣专属配置）
+class DiscountDelegate {
+    MarketingRule rule
+
+    DiscountDelegate(MarketingRule rule) {
+        this.rule = rule
+    }
+
+    // DSL语法：rate 0.8 （设置折扣率，0.8=8折）
+    void rate(BigDecimal rate) {
+        if (rate <= 0 || rate > 1) {
+            throw new IllegalArgumentException("折扣率必须在0-1之间，当前值：${rate}")
+        }
+        rule.discountAmount = rate
+    }
+
+    // DSL语法：maxDiscount 200 （设置最大优惠金额）
+    void maxDiscount(BigDecimal amount) {
+        rule.maxDiscount = amount
+    }
+}
+
+// 指定商品规则委托类（封装指定商品专属配置）
+class SpecificProductDelegate {
+    MarketingRule rule
+
+    SpecificProductDelegate(MarketingRule rule) {
+        this.rule = rule
+    }
+
+    // DSL语法：sku "SKU001", "SKU002" （设置目标商品SKU）
+    void sku(String... skus) {
+        rule.targetSkuList.addAll(skus)
+    }
+
+    // DSL语法：discountRate 0.7 （设置指定商品折扣率）
+    void discountRate(BigDecimal rate) {
+        if (rate <= 0 || rate > 1) {
+            throw new IllegalArgumentException("商品折扣率必须在0-1之间，当前值：${rate}")
+        }
+        rule.discountAmount = rate
+    }
+
+    // DSL语法：maxDiscount 50 （设置单商品最大优惠金额）
+    void maxDiscount(BigDecimal amount) {
+        rule.maxDiscount = amount
+    }
+}
+
+// 3. 定义DSL入口方法：对外暴露简洁的营销规则构建入口
+def defineMarketingRule(Closure closure) {
+    // 创建顶层委托对象
+    def marketingDelegate = new MarketingRuleDslDelegate()
+    // 配置闭包委托和解析策略（DSL核心配置）
+    closure.delegate = marketingDelegate
+    closure.resolveStrategy = Closure.DELEGATE_FIRST
+    closure.call()
+    // 返回构建完成的营销规则
+    return marketingDelegate.rule
+}
+
+// 4. 使用DSL定义各类营销规则（核心：简洁、可读、接近自然语言）
+// 示例1：定义满减规则（满300减50，最大优惠50）
+def fullDiscountRule = defineMarketingRule {
+    ruleName "618全场满减活动"
+    fullDiscount {
+        threshold 300
+        reduce 50
+        maxDiscount 50
+    }
+}
+
+// 示例2：定义整体折扣规则（全店8折，最大优惠200）
+def discountRule = defineMarketingRule {
+    ruleName "双十一全店折扣活动"
+    discount {
+        rate 0.8
+        maxDiscount 200
+    }
+}
+
+// 示例3：定义指定商品优惠规则（指定2个SKU商品7折，最大优惠100）
+def specificProductRule = defineMarketingRule {
+    ruleName "爆款手机专属优惠"
+    specificProduct {
+        sku "SKU001", "SKU002" // 手机SKU
+        discountRate 0.7
+        maxDiscount 100
+    }
+}
+
+// 5. 打印所有营销规则详情，验证DSL构建效果
+println "=== 构建的营销规则列表 ==="
+fullDiscountRule.printRuleInfo()
+println "\n"
+discountRule.printRuleInfo()
+println "\n"
+specificProductRule.printRuleInfo()
+```
+
+```
+=== 构建的营销规则列表 ===
+==================== 营销规则详情 ====================
+规则名称：618全场满减活动
+规则类型：FULL_DISCOUNT
+满300减50，最大优惠50
+======================================================
+
+
+==================== 营销规则详情 ====================
+规则名称：双十一全店折扣活动
+规则类型：DISCOUNT
+订单享8.0折优惠，最大优惠200
+======================================================
+
+
+==================== 营销规则详情 ====================
+规则名称：爆款手机专属优惠
+规则类型：SPECIFIC_PRODUCT
+指定商品SKU：[SKU001, SKU002]
+指定商品享7.0折优惠，最大优惠100
+======================================================
+```
+
+### 六、 关键总结
 1.  **核心定位**：闭包委托（Delegate）是Groovy闭包的灵活扩展点，可手动指定对象接收闭包的方法/属性调用；
 2.  **核心配置**：3步走（创建委托对象 → 绑定`closure.delegate` → 设置`resolveStrategy`（推荐`DELEGATE_FIRST`））；
 3.  **查找规则**：默认`This→Owner→Delegate`，可通过解析策略修改优先级，`DELEGATE_FIRST`是DSL开发核心；
