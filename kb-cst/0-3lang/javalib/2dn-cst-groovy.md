@@ -480,6 +480,80 @@ class PerformanceGroovyAspect implements GroovyScriptAspect {
 }
 ```
 
+### mybatis
+
+mybatis相关代码不支持动态更新，xml文件加载相关entity类发现不了，可以简单使用mapper类添加注解的方式。
+
+```groovy
+package com.onekbase.groovy.scripts.mapper
+
+import com.onekbase.groovy.scripts.entity.BusConfig
+import org.apache.ibatis.annotations.Delete
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param
+import org.apache.ibatis.annotations.Select
+import org.apache.ibatis.annotations.Update;
+
+@Mapper
+public interface BusConfigMapper {
+    @Select("SELECT ckey, value FROM bus_config2 WHERE ckey = #{id}")
+    BusConfig selectById(@Param("id") String id);
+
+    @Insert("INSERT INTO bus_config (ckey, value) VALUES (#{ckey}, #{value})")
+    int insert(BusConfig config);
+
+    @Update("UPDATE bus_config SET value = #{value} WHERE ckey = #{ckey}")
+    int update(BusConfig config);
+
+    @Delete("DELETE FROM bus_config WHERE ckey = #{ckey}")
+    int delete(@Param("ckey") String ckey);
+}
+
+
+package com.onekbase.groovy.scripts.entity;
+
+class BusConfig {
+
+     String ckey;
+     String value;
+
+}
+```
+
+使用方式
+
+```groovy
+
+package com.onekbase.groovy.scripts.core
+
+import com.onekbase.framework.groovy.engine.MetaGroovyEngine
+import org.mybatis.spring.SqlSessionTemplate
+
+class GroovyMapperUtils {
+
+    static <T> T getMapper(Class<T> clazz) {
+        SqlSessionTemplate ss = MetaGroovyEngine.getBean(SqlSessionTemplate)
+        if(ss.getConfiguration().hasMapper(clazz)) {
+            return ss.getMapper(clazz)
+        }
+        ss.getConfiguration().addMapper(clazz)
+        return ss.getMapper(clazz)
+    }
+}
+
+
+package com.onekbase.groovy.scripts.demo
+
+import com.onekbase.groovy.scripts.core.GroovyMapperUtils
+import com.onekbase.groovy.scripts.entity.BusConfig
+import com.onekbase.groovy.scripts.mapper.BusConfigMapper
+
+BusConfigMapper mapper = GroovyMapperUtils.getMapper(BusConfigMapper.class)
+BusConfig bean = mapper.selectById(binding.variables.id)
+return  bean
+```
+
 ## idea 开发环境配置
 
 IDEA 默认对独立的 Groovy 脚本缺少 SpringBoot 相关类的提示，需要通过以下配置解决：
