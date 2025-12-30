@@ -100,6 +100,37 @@ Groovy在Java基础上增加了便捷语法（这些语法Java不支持，但Jav
    - 若要利用Groovy的动态特性，可在兼容Java语法的基础上逐步扩展；
    - 若依赖Java编译器的严格校验（如泛型、注解处理器），建议保留`.java`后缀，Groovy与Java混合编译（Spring Boot支持混合编译）。
 
+## 语言
+
+### POGO
+
+```groovy
+// 定义 POGO（无显式构造方法，仅声明属性）
+class User {
+    Integer id
+    String name
+    Integer age
+    Date createTime
+}
+
+// 1. 定义普通 Map（key 与 POGO 属性名一致）
+def userMap = [
+    id: 1,
+    name: "张三",
+    age: 25,
+    createTime: new Date()
+]
+
+// 2. 直接传入 Map 构造 POGO 实例（自动匹配字段赋值）
+User user = new User(userMap)
+
+// 3. 验证结果：属性已自动赋值
+println("ID: ${user.id}") // 输出 1
+println("姓名: ${user.name}") // 输出 张三
+println("年龄: ${user.age}") // 输出 25
+println("创建时间: ${user.createTime}") // 输出当前日期
+```
+
 ## 闭包
 
 ### 一、 先明确：Closure的核心定义
