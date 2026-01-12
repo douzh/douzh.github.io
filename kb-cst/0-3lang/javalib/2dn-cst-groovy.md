@@ -482,7 +482,7 @@ class PerformanceGroovyAspect implements GroovyScriptAspect {
 
 ### mybatis
 
-mybatis相关代码不支持动态更新，xml文件加载相关entity类发现不了，可以简单使用mapper类添加注解的方式。
+mybatis相关代码不支持动态更新，xml文件加载时相关entity类发现不了（类加载器问题），可以简单使用mapper类添加注解的方式。
 
 ```groovy
 package com.onekbase.groovy.scripts.mapper
