@@ -480,6 +480,58 @@ class PerformanceGroovyAspect implements GroovyScriptAspect {
 }
 ```
 
+### feign
+
+代替feign的方法是使用restTemplate，添加`@LoadBalanced`注解后restTemplate有服务发现能力。
+
+一体化架构（可以微服务部署也可以单体部署）可以做一个调用接口传入脚本ID，当微服务时用restTemplate调用，一体化部署时调用本地运行接口。
+
+``` java
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
+
+@Configuration
+public class RestTemplateConfig {
+
+    /**
+     * 配置支持 Nacos 服务发现的 RestTemplate
+     * @LoadBalanced 注解是核心：开启负载均衡 + 服务名解析
+     */
+    @Bean
+    @LoadBalanced // 必须添加这个注解
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+}
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+@RestController
+public class DemoController {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    /**
+     * 调用 Nacos 中的 user-service 服务
+     * 注意：URL 中使用「服务名」而非 IP:端口
+     */
+    @GetMapping("/call/user/{id}")
+    public String callUserService(@PathVariable Long id) {
+        // 核心：URL 中的 user-service 是 Nacos 中注册的服务名，而非具体 IP
+        String url = "http://user-service/user/" + id;
+        // RestTemplate 会自动通过 Nacos 解析 user-service 为具体的实例地址（如 192.168.1.100:8080）
+        return restTemplate.getForObject(url, String.class);
+    }
+}
+```
+
 ### mybatis
 
 mybatis相关代码不支持动态更新，xml文件加载时相关entity类发现不了（类加载器问题），可以简单使用mapper类添加注解的方式。
@@ -552,6 +604,177 @@ import com.onekbase.groovy.scripts.mapper.BusConfigMapper
 BusConfigMapper mapper = GroovyMapperUtils.getMapper(BusConfigMapper.class)
 BusConfig bean = mapper.selectById(binding.variables.id)
 return  bean
+```
+
+### 数据层
+
+```groovy
+package com.onekbase.groovy.scripts.core.sql
+
+class GSqlUtils {
+
+    static List<Map<String, Object>> select(String sql,Map<String, Object> params){
+        CommonSqlMapper mapper = GroovyMapperUtils.getMapper(CommonSqlMapper.class)
+        return mapper.executeSelect(sql,params)
+    }
+
+    static int executeSql(String sql, Map<String, Object> params){
+        CommonSqlMapper mapper = GroovyMapperUtils.getMapper(CommonSqlMapper.class)
+        return mapper.executeSql(sql,params)
+    }
+}
+
+package com.onekbase.groovy.scripts.core.sql
+
+import org.apache.ibatis.annotations.Mapper
+import org.apache.ibatis.annotations.Param
+
+@Mapper
+interface CommonSqlMapper {
+
+    List<Map<String, Object>> executeSelect(@Param("sql") String sql, @Param("params") Map<String, Object> params)
+
+    int executeSql(@Param("sql") String sql, @Param("params") Map<String, Object> params)
+}
+```
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.onekbase.groovy.scripts.core.sql.CommonSqlMapper">
+
+    <!-- 通用查询方法，返回 Map 列表 -->
+    <select id="executeSelect" parameterType="map" resultType="map">
+        ${sql}
+    </select>
+
+    <!-- 通用方法 -->
+    <update id="executeSql" parameterType="map">
+        ${sql}
+    </update>
+
+</mapper>
+```
+
+```groovy
+package com.onekbase.groovy.scripts.core.sql;
+
+import com.onekbase.framework.groovy.engine.MetaGroovyEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class GSqlExecutor {
+
+    private static final Logger log = LoggerFactory.getLogger(GSqlExecutor.class);
+
+    static final List<String> scriptAspects = new ArrayList<>();
+
+    public static List<Map<String, Object>> select(GSql gsql,Map<String, Object> params){
+        return execute(gsql,params, true);
+    }
+
+    public static int executeSql(GSql gsql,Map<String, Object> params){
+        return execute(gsql,params, false);
+    }
+    private static <T> T execute(GSql gsql,Map<String, Object> params,boolean isSelect){
+        String className = gsql.getClass().getName();
+        List<GSqlAspect> matchedAspects = null;
+        try {
+            matchedAspects = scriptAspects.stream().map(aspectId -> (GSqlAspect) MetaGroovyEngine.newObject(aspectId)).filter(aspect -> aspect.matches(className)).collect(Collectors.toList());
+            matchedAspects.forEach(aspect -> aspect.before(params));
+            gsql.before(params);
+            String sqlStr = gsql.sql(params);
+            T gsr = (T)(isSelect?GSqlUtils.select(sqlStr,params):GSqlUtils.executeSql(sqlStr,params));
+            gsql.afterReturning(sqlStr,params, gsr);
+            matchedAspects.forEach(aspect -> aspect.afterReturning(sqlStr,params, gsr));
+            return gsr;
+        } catch (Exception e) {
+            log.error("Failed to execute sql: {}" , className, e);
+            gsql.afterThrowing(className, e);
+            matchedAspects.forEach(aspect -> aspect.afterThrowing(className, e));
+            throw new RuntimeException("Failed to execute sql: " + className, e);
+        }finally {
+            gsql.after(className);
+            matchedAspects.forEach(aspect -> aspect.after(className));
+        }
+    }
+
+}
+
+package com.onekbase.groovy.scripts.core.sql;
+
+
+import java.util.Map;
+
+public interface GSql extends GSqlAspect {
+
+    public abstract String sql(Map<String, Object> params);
+}
+
+package com.onekbase.groovy.scripts.core.sql;
+
+import java.util.Map;
+
+
+/**
+ * Groovy脚本执行的AOP切面接口
+ */
+public interface GSqlAspect {
+
+    default boolean matches(String scriptId) {
+        return true;
+    }
+
+    default void before(Map<String, Object> params) {}
+
+    default void afterReturning(String sqlStr, Map<String, Object> params, Object gsr) {}
+
+    default void afterThrowing(String scriptId, Throwable throwable) {}
+
+    default void after(String scriptId) {}
+}
+```
+
+```groovy
+package com.onekbase.groovy.scripts.dao
+
+import com.onekbase.groovy.scripts.core.sql.GSql
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+class Test1GSql implements GSql {
+
+    private static final Logger log = LoggerFactory.getLogger(Test1GSql.class);
+
+    @Override
+    String sql(Map<String, Object> params) {
+        return "SELECT ckey, value FROM bus_config WHERE ckey = '${params.id}'"
+    }
+
+    @Override
+    void afterReturning(String sqlStr, Map<String, Object> params, Object gsr) {
+        log.info("Test1GSql 执行结果：{} 在获取数据后处理国际化等逻辑",gsr)
+    }
+}
+```
+
+```groovy
+package com.onekbase.groovy.scripts.demo
+
+import com.onekbase.groovy.scripts.dao.Test1GSql
+import com.onekbase.groovy.scripts.entity.BusConfig
+import com.onekbase.groovy.scripts.core.sql.GSqlExecutor
+
+List<Map<String, Object>> rs = GSqlExecutor.select(new Test1GSql(),binding.variables)
+List<BusConfig> beanList = rs
+return  rs
 ```
 
 ## idea 开发环境配置
