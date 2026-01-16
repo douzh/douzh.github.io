@@ -611,15 +611,27 @@ return  bean
 ```groovy
 package com.onekbase.groovy.scripts.core.sql
 
-class GSqlUtils {
+import com.onekbase.framework.groovy.engine.MetaGroovyEngine
+import org.mybatis.spring.SqlSessionTemplate
+
+class GMapperUtils {
+
+    static <T> T getMapper(Class<T> clazz) {
+        SqlSessionTemplate ss = MetaGroovyEngine.getBean(SqlSessionTemplate)
+        if(ss.getConfiguration().hasMapper(clazz)) {
+            return ss.getMapper(clazz)
+        }
+        ss.getConfiguration().addMapper(clazz)
+        return ss.getMapper(clazz)
+    }
 
     static List<Map<String, Object>> select(String sql,Map<String, Object> params){
-        CommonSqlMapper mapper = GroovyMapperUtils.getMapper(CommonSqlMapper.class)
+        CommonSqlMapper mapper = GMapperUtils.getMapper(CommonSqlMapper.class)
         return mapper.executeSelect(sql,params)
     }
 
     static int executeSql(String sql, Map<String, Object> params){
-        CommonSqlMapper mapper = GroovyMapperUtils.getMapper(CommonSqlMapper.class)
+        CommonSqlMapper mapper = GMapperUtils.getMapper(CommonSqlMapper.class)
         return mapper.executeSql(sql,params)
     }
 }
@@ -676,7 +688,7 @@ public class GSqlExecutor {
 
     static final List<String> scriptAspects = new ArrayList<>();
 
-    public static List<Map<String, Object>> select(GSql gsql,Map<String, Object> params){
+    public static <T> List<T> select(GSql gsql,Map<String, Object> params){
         return execute(gsql,params, true);
     }
 
@@ -691,7 +703,7 @@ public class GSqlExecutor {
             matchedAspects.forEach(aspect -> aspect.before(params));
             gsql.before(params);
             String sqlStr = gsql.sql(params);
-            T gsr = (T)(isSelect?GSqlUtils.select(sqlStr,params):GSqlUtils.executeSql(sqlStr,params));
+            T gsr = (T)(isSelect?GMapperUtils.select(sqlStr,params):GMapperUtils.executeSql(sqlStr,params));
             gsql.afterReturning(sqlStr,params, gsr);
             matchedAspects.forEach(aspect -> aspect.afterReturning(sqlStr,params, gsr));
             return gsr;
@@ -708,12 +720,21 @@ public class GSqlExecutor {
 
 }
 
+
 package com.onekbase.groovy.scripts.core.sql;
 
 
 import java.util.Map;
 
 public interface GSql extends GSqlAspect {
+
+     default <T> List<T> select(Map<String, Object> params){
+        return GSqlExecutor.select(this,params)
+    }
+
+    default int execute(String sql, Map<String, Object> params){
+        return GSqlExecutor.select(this,params)
+    }
 
     public abstract String sql(Map<String, Object> params);
 }
@@ -770,11 +791,9 @@ package com.onekbase.groovy.scripts.demo
 
 import com.onekbase.groovy.scripts.dao.Test1GSql
 import com.onekbase.groovy.scripts.entity.BusConfig
-import com.onekbase.groovy.scripts.core.sql.GSqlExecutor
 
-List<Map<String, Object>> rs = GSqlExecutor.select(new Test1GSql(),binding.variables)
-List<BusConfig> beanList = rs
-return  rs
+List<BusConfig> beanList = new Test1GSql().select(binding.variables)
+return  beanList
 ```
 
 ## idea 开发环境配置
