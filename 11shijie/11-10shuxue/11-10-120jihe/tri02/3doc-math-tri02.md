@@ -164,7 +164,7 @@ $\begin{array}{l}{\cos ^{2} A=\frac{1+\cos 2 A}{2}} \\ {\sin ^{2} A=\frac{1-\cos
 
 （2）半角公式
 
-把降幂公式种 A 变成 \frac{A}{2} ,然后两边开根号就可以得到半角公式：
+把降幂公式中 A 变成 $\frac{A}{2}$ ,然后两边开根号就可以得到半角公式：
 
 $\begin{array}{c}{\sin \left(\frac{A}{2}\right)=\pm \sqrt{\frac{1-\cos A}{2}}} \\ {\cos \left(\frac{A}{2}\right)=\pm \sqrt{\frac{1+\cos A}{2}}} \\ {\tan \left(\frac{A}{2}\right)=\pm \sqrt{\frac{1-\cos A}{1+\cos A}}=\frac{\sin A}{1+\cos A}=\frac{1-\cos A}{\sin A}}\end{array}$
 
