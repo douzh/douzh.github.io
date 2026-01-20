@@ -146,6 +146,8 @@ Groovy 会将其视为普通类文件，不生成 Script 子类。
 
 这可以通过包装**通过脚本ID获取脚本Class再创建对象**操作，加实例缓存实现类似单例管理的功能。
 
+
+
 ```java
     private static Map<String, Singleton> singletonCache = new HashMap<>();
 
@@ -288,33 +290,40 @@ Groovy 会将其视为普通类文件，不生成 Script 子类。
 调用示例
 
 ```groovy
-package com.onekbase.groovy.scripts.demo
+enum SidModule1 {
+    IUserService("com/demo/product1/module1/service/UserService.groovy"),
+    IUserDao("com/demo/product1/module1/mapper/UserDao.groovy"),
+    Test1GSql("com/demo/product1/module1/mapper/sql/Test1GSql.groovy")
 
-import com.onekbase.framework.groovy.engine.MetaGroovyEngine
-import com.onekbase.groovy.scripts.demo.User
-import com.onekbase.groovy.scripts.demo.UserDao
+    private final String sid
 
-class UserService {
-    List<User> users = []
-
-    UserDao userDao = MetaGroovyEngine.newObject("com.onekbase.groovy.scripts.demo.UserDao")
-    UserDao userDaoNew = new UserDao()
-
-    void addUser(User user) {
-        users.add(user)
-        println "Added user: $user"
-        userDao.addUser(user)
-        userDaoNew.addUser(user)
+    // 添加构造函数
+    SidModule1(String sid) {
+        this.sid = sid
     }
 
-    List<User> getAllUsers() {
-        return users
+    <T> T singleton() {
+        return GE.singleton( sid)
     }
 
-    User findUserByName(String name) {
-        return users.find { it.name == name }
+    <T> T prototype() {
+        return GE.prototype( sid)
     }
+
 }
+
+
+import com.demo.product1.module1.SidModule1
+import com.demo.product1.module1.service.IUserService
+import com.demo.product1.module1.mapper.entity.User
+
+// 获取服务实例
+IUserService userService = SidModule1.IUserService.singleton()
+
+println("userService    class:"+userService.metaClass)
+userService.addUser(new User("张三", "zhangsan@example.com", 30))
+
+return "ok"
 ```
 
 ### spring aop
@@ -522,41 +531,70 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class RestTemplateConfig {
 
-    /**
-     * 配置支持 Nacos 服务发现的 RestTemplate
-     * @LoadBalanced 注解是核心：开启负载均衡 + 服务名解析
-     */
     @Bean
-    @LoadBalanced // 必须添加这个注解
+    @LoadBalanced
+    public RestTemplate loadBalancedRestTemplate() {
+        return new RestTemplate();
+    }
+
+    @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 }
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
-@RestController
-public class DemoController {
+class ApiCall {
 
-    @Autowired
-    private RestTemplate restTemplate;
-
-    /**
-     * 调用 Nacos 中的 user-service 服务
-     * 注意：URL 中使用「服务名」而非 IP:端口
-     */
-    @GetMapping("/call/user/{id}")
-    public String callUserService(@PathVariable Long id) {
-        // 核心：URL 中的 user-service 是 Nacos 中注册的服务名，而非具体 IP
-        String url = "http://user-service/user/" + id;
-        // RestTemplate 会自动通过 Nacos 解析 user-service 为具体的实例地址（如 192.168.1.100:8080）
-        return restTemplate.getForObject(url, String.class);
+    static def call(String serverName,String sid, Map<String, Object> params) {
+        // serverName的根据配置确认是走本地还是远程调用
+        Environment env = GE.getBean(Environment.class)
+        boolean enable = env.getProperty( "meta.groovy.cloud.server.${serverName}.enabled", Boolean.class, false);
+        if(!enable){
+            // 非微服务模式直接按本地脚本调用
+            return MetaGroovyEngine.executeScript(sid+".groovy",params)
+        }
+        // 需要用添加@LoadBalanced注解的RestTemplate发起调用
+        boolean loadBalanced = env.getProperty( "meta.groovy.cloud.server.${serverName}.loadBalanced", Boolean.class, false);
+        RestTemplate restTemplate = GE.getBean(loadBalanced?"loadBalancedRestTemplate":"restTemplate",RestTemplate.class);
+        String serverUrl = env.getProperty("meta.groovy.cloud.server.${serverName}.url", String.class);
+        String url = "${serverUrl}/${sid}"
+        // 这里做下post 请求
+        return restTemplate.postForObject(url, params, Map.class)
     }
 }
+
+meta:
+  groovy:
+    cloud:
+      server:
+        test-server1:
+          enabled: true
+          loadBalanced: false
+          url: http://127.0.0.1:9998/run
+```
+
+调用
+
+```groovy
+enum DemoApi {
+    Demo1Script("test-server1","com/demo/product1/module1/controller/Demo1Script")
+
+    private String serverName;
+    private String sid;
+
+    DemoApi(String serverName, String sid) {
+        this.serverName = serverName;
+        this.sid = sid;
+    }
+
+    public <T> T call(Map<String, Object> params){
+        return ApiCall.call(serverName,sid,params);
+
+    }
+}
+
+DemoApi.Demo1Script.call(binding.variables)
 ```
 
 ### mybatis
