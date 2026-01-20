@@ -146,9 +146,79 @@ Groovy 会将其视为普通类文件，不生成 Script 子类。
 
 这可以通过包装**通过脚本ID获取脚本Class再创建对象**操作，加实例缓存实现类似单例管理的功能。
 
+用枚举封装类似ioc容器的对象，调用示例
+
+```groovy
+IUserService userServiceNew = SidService.IUserService.singleton()
+
+enum SidService {
+    IUserService(UserService),
+
+    private final Class<?> clazz
+
+    // 添加构造函数
+    SidService(Class<?> clazz) {
+        this.clazz = clazz
+    }
+
+    <T> T singleton() {
+        return GE.singleton(clazz)
+    }
+
+    <T> T prototype() {
+        return GE.prototype(clazz)
+    }
+
+}
 
 
-```java
+class GE {
+    static <T> T singleton(String sid) {
+        return MetaGroovyEngine.singleton(sid)
+    }
+
+    static <T> T prototype(String sid) {
+        return MetaGroovyEngine.prototype(sid)
+    }
+
+    static <T> T newObject(String sid) {
+        return MetaGroovyEngine.newObject(sid)
+    }
+
+    static <T> T singleton(Class<T> clazz) {
+        return MetaGroovyEngine.singleton(getScriptIdByClassName(clazz.getName()))
+    }
+
+    static <T> T prototype(Class<T> clazz) {
+        return MetaGroovyEngine.prototype(getScriptIdByClassName(clazz.getName()))
+    }
+
+    static <T> T newObject(Class<T> clazz) {
+        return MetaGroovyEngine.newObject(getScriptIdByClassName(clazz.getName()))
+    }
+
+    static <T> T getBean(Class<T> clazz) {
+        return MetaGroovyEngine.getBean(clazz);
+    }
+
+
+    static <T> T getBean(String beanName,Class<T> clazz) {
+        return MetaGroovyEngine.getBean(beanName,clazz)
+    }
+
+    static String getScriptIdByClass(Class<?> clazz) {
+        return getScriptIdByClassName(clazz.getName())
+    }
+
+    static String getScriptIdByClassName(String className) {
+        return className.replace('.', '/')+".groovy";
+    }
+}
+```
+
+MetaGroovyEngine
+
+```groovy
     private static Map<String, Singleton> singletonCache = new HashMap<>();
 
     public static Object executeScript(String scriptId, Map<String, Object> parameters) {
@@ -287,50 +357,88 @@ Groovy 会将其视为普通类文件，不生成 Script 子类。
     }
 ```
 
-调用示例
 
-```groovy
-enum SidModule1 {
-    IUserService("com/demo/product1/module1/service/UserService.groovy"),
-    IUserDao("com/demo/product1/module1/mapper/UserDao.groovy"),
-    Test1GSql("com/demo/product1/module1/mapper/sql/Test1GSql.groovy")
-
-    private final String sid
-
-    // 添加构造函数
-    SidModule1(String sid) {
-        this.sid = sid
-    }
-
-    <T> T singleton() {
-        return GE.singleton( sid)
-    }
-
-    <T> T prototype() {
-        return GE.prototype( sid)
-    }
-
-}
-
-
-import com.demo.product1.module1.SidModule1
-import com.demo.product1.module1.service.IUserService
-import com.demo.product1.module1.mapper.entity.User
-
-// 获取服务实例
-IUserService userService = SidModule1.IUserService.singleton()
-
-println("userService    class:"+userService.metaClass)
-userService.addUser(new User("张三", "zhangsan@example.com", 30))
-
-return "ok"
-```
 
 ### spring aop
 
 aop是为了面向切面编程，在动态脚本中此类需求可以将功能实现为包装脚本的run接口口，在run方法前后执行切面逻辑。
 
 只能对执行的脚本做切面，不能对脚本内调用的类方法做切面，所以脚本内调用的其他功能需要切面需要将被调用方法做成脚本并用执行脚本接口调用。
+
+
+切面接口
+
+```java
+public interface GroovyScriptAspect {
+
+    default boolean matches(String scriptId) {
+        return true;
+    }
+
+    default void before(String scriptId, Binding binding) {}
+
+    default void afterReturning(String scriptId, Object result) {}
+
+    default void afterThrowing(String scriptId, Throwable throwable) {}
+
+    default void after(String scriptId) {}
+}
+```
+
+切面示例
+
+```groovy
+class LogGroovyAspect implements GroovyScriptAspect {
+
+    private static final Logger log = LoggerFactory.getLogger(LogGroovyAspect.class);
+
+    @Override
+    void before(String scriptId, Binding binding) {
+        log.info("【Groovy脚本执行前置】scriptId={}, 参数={}", scriptId, binding);
+    }
+
+    @Override
+    void afterReturning(String scriptId, Object result) {
+        log.info("【Groovy脚本执行成功】scriptId={}, 结果={}", scriptId, result);
+    }
+
+    @Override
+    void afterThrowing(String scriptId, Throwable throwable) {
+        log.error("【Groovy脚本执行异常】scriptId={}", scriptId, throwable);
+    }
+
+    @Override
+    void after(String scriptId) {
+        log.info("【Groovy脚本执行最终】scriptId={} 执行完成", scriptId);
+    }
+}
+
+
+class PerformanceGroovyAspect implements GroovyScriptAspect {
+
+    private static final Logger log = LoggerFactory.getLogger(PerformanceGroovyAspect.class);
+
+    // 存储脚本执行开始时间（线程安全）
+    private final ConcurrentHashMap<String, Long> startTimeMap = new ConcurrentHashMap<>();
+
+    @Override
+    void before(String scriptId, Binding binding) {
+        // 记录开始时间
+        startTimeMap.put(scriptId, System.currentTimeMillis());
+    }
+
+    @Override
+    void after(String scriptId) {
+        // 计算耗时并清理
+        Long startTime = startTimeMap.remove(scriptId);
+        if (startTime != null) {
+            long cost = System.currentTimeMillis() - startTime;
+            log.info("【性能监控】scriptId=" + scriptId + ", 执行耗时=" + cost + "ms");
+            // 可扩展：将耗时存入监控系统（如Prometheus、ELK）
+        }
+    }
+}
+```
 
 ```java
     private static List<Singleton> scriptAspects = new ArrayList<>();
@@ -388,139 +496,38 @@ aop是为了面向切面编程，在动态脚本中此类需求可以将功能�
     }
 ```
 
-切面接口
-
-```java
-package com.onekbase.framework.groovy.engine;
-
-import groovy.lang.Binding;
-
-
-/**
- * Groovy脚本执行的AOP切面接口
- */
-public interface GroovyScriptAspect {
-    /**
-     * 判断当前切面是否适用于指定脚本
-     * @param scriptId 脚本唯一标识（如PAY_001、ORDER_CALC、TEST_002）
-     * @return true=切面生效，false=切面跳过
-     */
-    default boolean matches(String scriptId) {
-        // 默认实现：所有脚本都生效（兼容原有逻辑）
-        return true;
-    }
-    /**
-     * 前置通知：脚本执行前调用
-     * @param scriptId 脚本唯一标识
-     * @param binding 脚本执行入参
-     */
-    default void before(String scriptId, Binding binding) {}
-
-    /**
-     * 后置返回通知：脚本正常执行后调用
-     * @param scriptId 脚本唯一标识
-     * @param result 脚本执行结果
-     */
-    default void afterReturning(String scriptId, Object result) {}
-
-    /**
-     * 异常通知：脚本执行异常时调用
-     * @param scriptId 脚本唯一标识
-     * @param throwable 异常信息
-     */
-    default void afterThrowing(String scriptId, Throwable throwable) {}
-
-    /**
-     * 最终通知：无论是否异常，脚本执行完成后调用（类似finally）
-     * @param scriptId 脚本唯一标识
-     */
-    default void after(String scriptId) {}
-}
-```
-
-切面示例
-
-```groovy
-package com.onekbase.groovy.scripts.aspect;
-
-import com.onekbase.framework.groovy.engine.GroovyScriptAspect;
-import groovy.lang.Binding;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
-/**
- * 脚本执行日志切面
- */
-class LogGroovyAspect implements GroovyScriptAspect {
-
-    private static final Logger log = LoggerFactory.getLogger(LogGroovyAspect.class);
-
-    @Override
-    void before(String scriptId, Binding binding) {
-        log.info("【Groovy脚本执行前置】scriptId={}, 参数={}", scriptId, binding);
-    }
-
-    @Override
-    void afterReturning(String scriptId, Object result) {
-        log.info("【Groovy脚本执行成功】scriptId={}, 结果={}", scriptId, result);
-    }
-
-    @Override
-    void afterThrowing(String scriptId, Throwable throwable) {
-        log.error("【Groovy脚本执行异常】scriptId={}", scriptId, throwable);
-    }
-
-    @Override
-    void after(String scriptId) {
-        log.info("【Groovy脚本执行最终】scriptId={} 执行完成", scriptId);
-    }
-}
-
-
-package com.onekbase.groovy.scripts.aspect;
-
-import com.onekbase.framework.groovy.engine.GroovyScriptAspect;
-import groovy.lang.Binding
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.ConcurrentHashMap;
-
-/**
- * 脚本执行性能监控切面（Order=2，在日志切面之后执行）
- */
-class PerformanceGroovyAspect implements GroovyScriptAspect {
-
-    private static final Logger log = LoggerFactory.getLogger(PerformanceGroovyAspect.class);
-
-    // 存储脚本执行开始时间（线程安全）
-    private final ConcurrentHashMap<String, Long> startTimeMap = new ConcurrentHashMap<>();
-
-    @Override
-    void before(String scriptId, Binding binding) {
-        // 记录开始时间
-        startTimeMap.put(scriptId, System.currentTimeMillis());
-    }
-
-    @Override
-    void after(String scriptId) {
-        // 计算耗时并清理
-        Long startTime = startTimeMap.remove(scriptId);
-        if (startTime != null) {
-            long cost = System.currentTimeMillis() - startTime;
-            log.info("【性能监控】scriptId=" + scriptId + ", 执行耗时=" + cost + "ms");
-            // 可扩展：将耗时存入监控系统（如Prometheus、ELK）
-        }
-    }
-}
-```
 
 ### feign
 
 代替feign的方法是使用restTemplate，添加`@LoadBalanced`注解后restTemplate有服务发现能力。
 
 一体化架构（可以微服务部署也可以单体部署）可以做一个调用接口传入脚本ID，当微服务时用restTemplate调用，一体化部署时调用本地运行接口。
+
+用枚举封装类似Api接口的对象，调用示例
+
+```groovy
+DemoApi.Demo1Script.call(binding.variables)
+
+
+enum DemoApi {
+    Demo1Script("test-server1","com/demo/product1/module1/controller/Demo1Script")
+
+    private String serverName;
+    private String sid;
+
+    DemoApi(String serverName, String sid) {
+        this.serverName = serverName;
+        this.sid = sid;
+    }
+
+    public <T> T call(Map<String, Object> params){
+        return ApiCall.call(serverName,sid,params);
+
+    }
+}
+
+
+```
 
 ``` java
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -574,32 +581,11 @@ meta:
           url: http://127.0.0.1:9998/run
 ```
 
-调用
-
-```groovy
-enum DemoApi {
-    Demo1Script("test-server1","com/demo/product1/module1/controller/Demo1Script")
-
-    private String serverName;
-    private String sid;
-
-    DemoApi(String serverName, String sid) {
-        this.serverName = serverName;
-        this.sid = sid;
-    }
-
-    public <T> T call(Map<String, Object> params){
-        return ApiCall.call(serverName,sid,params);
-
-    }
-}
-
-DemoApi.Demo1Script.call(binding.variables)
-```
-
 ### mybatis
 
 mybatis相关代码不支持动态更新，xml文件加载时相关entity类发现不了（类加载器问题），可以简单使用mapper类添加注解的方式。
+
+如果使用xml不要引用类，可以使用java自带的类，如Map类。
 
 ```groovy
 package com.onekbase.groovy.scripts.mapper
@@ -671,14 +657,127 @@ BusConfig bean = mapper.selectById(binding.variables.id)
 return  bean
 ```
 
-### 数据层
+### mapper
+
+用枚举封装类似mapper的对象，调用示例
 
 ```groovy
-package com.onekbase.groovy.scripts.core.sql
+List<BusConfig> beanList = DemoMapper.QueryBusConfig.select(binding.variables)
 
-import com.onekbase.framework.groovy.engine.MetaGroovyEngine
-import org.mybatis.spring.SqlSessionTemplate
 
+enum DemoMapper {
+    QueryBusConfig(Test1GSql)
+
+    private final Class<?> clazz
+
+    // 添加构造函数
+    DemoMapper(Class<?> clazz) {
+        this.clazz = clazz
+    }
+
+    <T> T select(Map<String, Object> params) {
+        return ((GSql)GE.newObject(clazz)).select(params)
+    }
+
+    <T> T execute(Map<String, Object> params) {
+        return ((GSql)GE.newObject(clazz)).execute(params)
+    }
+
+}
+
+class Test1GSql implements GSql {
+
+    private static final Logger log = LoggerFactory.getLogger(Test1GSql.class);
+
+    @Override
+    String sql(Map<String, Object> params) {
+        return "SELECT ckey, value FROM bus_config WHERE ckey = '${params.id}'"
+    }
+
+    @Override
+    void afterReturning(String sqlStr, Map<String, Object> params, Object gsr) {
+        log.info("Test1GSql 执行结果：{} 在获取数据后处理国际化等逻辑",gsr)
+    }
+}
+```
+
+GSql
+
+```groovy
+public interface GSql extends GSqlAspect {
+
+     default <T> List<T> select(Map<String, Object> params){
+        return GSqlExecutor.select(this,params)
+    }
+
+    default int execute(String sql, Map<String, Object> params){
+        return GSqlExecutor.select(this,params)
+    }
+
+    public abstract String sql(Map<String, Object> params);
+}
+
+
+public interface GSqlAspect {
+
+    default boolean matches(String scriptId) {
+        return true;
+    }
+
+    default void before(Map<String, Object> params) {}
+
+    default void afterReturning(String sqlStr, Map<String, Object> params, Object gsr) {}
+
+    default void afterThrowing(String scriptId, Throwable throwable) {}
+
+    default void after(String scriptId) {}
+}
+```
+
+GSqlExecutor
+
+```groovy
+public class GSqlExecutor {
+
+    private static final Logger log = LoggerFactory.getLogger(GSqlExecutor.class);
+
+    static final List<String> scriptAspects = new ArrayList<>();
+
+    public static <T> List<T> select(GSql gsql,Map<String, Object> params){
+        return execute(gsql,params, true);
+    }
+
+    public static int executeSql(GSql gsql,Map<String, Object> params){
+        return execute(gsql,params, false);
+    }
+    private static <T> T execute(GSql gsql,Map<String, Object> params,boolean isSelect){
+        String className = gsql.getClass().getName();
+        List<GSqlAspect> matchedAspects = null;
+        try {
+            matchedAspects = scriptAspects.stream().map(aspectId -> (GSqlAspect) GE.newObject(aspectId)).filter(aspect -> aspect.matches(className)).collect(Collectors.toList());
+            matchedAspects.forEach(aspect -> aspect.before(params));
+            gsql.before(params);
+            String sqlStr = gsql.sql(params);
+            T gsr = (T)(isSelect?GMapperUtils.select(sqlStr,params):GMapperUtils.executeSql(sqlStr,params));
+            gsql.afterReturning(sqlStr,params, gsr);
+            matchedAspects.forEach(aspect -> aspect.afterReturning(sqlStr,params, gsr));
+            return gsr;
+        } catch (Exception e) {
+            log.error("Failed to execute sql: {}" , className, e);
+            gsql.afterThrowing(className, e);
+            matchedAspects.forEach(aspect -> aspect.afterThrowing(className, e));
+            throw new RuntimeException("Failed to execute sql: " + className, e);
+        }finally {
+            gsql.after(className);
+            matchedAspects.forEach(aspect -> aspect.after(className));
+        }
+    }
+
+}
+
+```
+
+```groovy
 class GMapperUtils {
 
     static <T> T getMapper(Class<T> clazz) {
@@ -691,20 +790,15 @@ class GMapperUtils {
     }
 
     static List<Map<String, Object>> select(String sql,Map<String, Object> params){
-        CommonSqlMapper mapper = GMapperUtils.getMapper(CommonSqlMapper.class)
+        CommonSqlMapper mapper = getMapper(CommonSqlMapper.class)
         return mapper.executeSelect(sql,params)
     }
 
     static int executeSql(String sql, Map<String, Object> params){
-        CommonSqlMapper mapper = GMapperUtils.getMapper(CommonSqlMapper.class)
+        CommonSqlMapper mapper = getMapper(CommonSqlMapper.class)
         return mapper.executeSql(sql,params)
     }
 }
-
-package com.onekbase.groovy.scripts.core.sql
-
-import org.apache.ibatis.annotations.Mapper
-import org.apache.ibatis.annotations.Param
 
 @Mapper
 interface CommonSqlMapper {
@@ -735,131 +829,11 @@ interface CommonSqlMapper {
 </mapper>
 ```
 
-```groovy
-package com.onekbase.groovy.scripts.core.sql;
-
-import com.onekbase.framework.groovy.engine.MetaGroovyEngine;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-public class GSqlExecutor {
-
-    private static final Logger log = LoggerFactory.getLogger(GSqlExecutor.class);
-
-    static final List<String> scriptAspects = new ArrayList<>();
-
-    public static <T> List<T> select(GSql gsql,Map<String, Object> params){
-        return execute(gsql,params, true);
-    }
-
-    public static int executeSql(GSql gsql,Map<String, Object> params){
-        return execute(gsql,params, false);
-    }
-    private static <T> T execute(GSql gsql,Map<String, Object> params,boolean isSelect){
-        String className = gsql.getClass().getName();
-        List<GSqlAspect> matchedAspects = null;
-        try {
-            matchedAspects = scriptAspects.stream().map(aspectId -> (GSqlAspect) MetaGroovyEngine.newObject(aspectId)).filter(aspect -> aspect.matches(className)).collect(Collectors.toList());
-            matchedAspects.forEach(aspect -> aspect.before(params));
-            gsql.before(params);
-            String sqlStr = gsql.sql(params);
-            T gsr = (T)(isSelect?GMapperUtils.select(sqlStr,params):GMapperUtils.executeSql(sqlStr,params));
-            gsql.afterReturning(sqlStr,params, gsr);
-            matchedAspects.forEach(aspect -> aspect.afterReturning(sqlStr,params, gsr));
-            return gsr;
-        } catch (Exception e) {
-            log.error("Failed to execute sql: {}" , className, e);
-            gsql.afterThrowing(className, e);
-            matchedAspects.forEach(aspect -> aspect.afterThrowing(className, e));
-            throw new RuntimeException("Failed to execute sql: " + className, e);
-        }finally {
-            gsql.after(className);
-            matchedAspects.forEach(aspect -> aspect.after(className));
-        }
-    }
-
-}
 
 
-package com.onekbase.groovy.scripts.core.sql;
 
 
-import java.util.Map;
 
-public interface GSql extends GSqlAspect {
-
-     default <T> List<T> select(Map<String, Object> params){
-        return GSqlExecutor.select(this,params)
-    }
-
-    default int execute(String sql, Map<String, Object> params){
-        return GSqlExecutor.select(this,params)
-    }
-
-    public abstract String sql(Map<String, Object> params);
-}
-
-package com.onekbase.groovy.scripts.core.sql;
-
-import java.util.Map;
-
-
-/**
- * Groovy脚本执行的AOP切面接口
- */
-public interface GSqlAspect {
-
-    default boolean matches(String scriptId) {
-        return true;
-    }
-
-    default void before(Map<String, Object> params) {}
-
-    default void afterReturning(String sqlStr, Map<String, Object> params, Object gsr) {}
-
-    default void afterThrowing(String scriptId, Throwable throwable) {}
-
-    default void after(String scriptId) {}
-}
-```
-
-```groovy
-package com.onekbase.groovy.scripts.dao
-
-import com.onekbase.groovy.scripts.core.sql.GSql
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-
-class Test1GSql implements GSql {
-
-    private static final Logger log = LoggerFactory.getLogger(Test1GSql.class);
-
-    @Override
-    String sql(Map<String, Object> params) {
-        return "SELECT ckey, value FROM bus_config WHERE ckey = '${params.id}'"
-    }
-
-    @Override
-    void afterReturning(String sqlStr, Map<String, Object> params, Object gsr) {
-        log.info("Test1GSql 执行结果：{} 在获取数据后处理国际化等逻辑",gsr)
-    }
-}
-```
-
-```groovy
-package com.onekbase.groovy.scripts.demo
-
-import com.onekbase.groovy.scripts.dao.Test1GSql
-import com.onekbase.groovy.scripts.entity.BusConfig
-
-List<BusConfig> beanList = new Test1GSql().select(binding.variables)
-return  beanList
-```
 
 ## idea 开发环境配置
 
