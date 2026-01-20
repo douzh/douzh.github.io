@@ -149,110 +149,137 @@ Groovy 会将其视为普通类文件，不生成 Script 子类。
 ```java
     private static Map<String, Singleton> singletonCache = new HashMap<>();
 
-    public static Object executeScript(String scriptName, Map<String, Object> parameters, boolean cacheScript) {
+    public static Object executeScript(String scriptId, Map<String, Object> parameters) {
+        return executeScript(scriptId,parameters,properties.getScriptCache());
+    }
+
+    public static Object executeScript(String scriptId, Map<String, Object> parameters, boolean cacheScript) {
+        List<GroovyScriptAspect> matchedAspects = null;
+        Long startTime = System.currentTimeMillis();
         try {
             Binding binding = new Binding();
             // 绑定参数
             if (parameters != null) {
                 parameters.forEach(binding::setVariable);
             }
-            Script script = createScript(scriptName, binding, cacheScript);
+            Script script = (Script)newObject(scriptId, cacheScript, true,binding);
             if(script==null){
-                throw new RuntimeException("script create fail, script name: " + scriptName);
+                throw new RuntimeException("script create fail, script name: " + scriptId);
             }
+            // 如果脚本缓存了，Binding也会缓存到脚本对象中，所以要重新设置一下
+            if(cacheScript) {
+                script.setBinding(binding);
+            }
+            matchedAspects = scriptAspects.stream().map(aspectId -> (GroovyScriptAspect) newObject(aspectId, properties.getAspectCache(), false,null)).filter(aspect -> aspect.matches(scriptId)).collect(Collectors.toList());
+            // 1. 前置通知：所有切面执行before
+            matchedAspects.forEach(aspect -> aspect.before(scriptId, binding));
             // 执行脚本
             Object rs =  script.run();
+            // 3. 后置返回通知：所有切面执行afterReturning
+            matchedAspects.forEach(aspect -> aspect.afterReturning(scriptId, rs));
             return rs;
         } catch (Exception e) {
-            throw new RuntimeException("Failed to execute script: " + scriptName, e);
+            log.error("Failed to execute script: {}" , scriptId, e);
+            // 4. 异常通知：所有切面执行afterThrowing
+            matchedAspects.forEach(aspect -> aspect.afterThrowing(scriptId, e));
+            throw new RuntimeException("Failed to execute script: " + scriptId, e);
+        }finally {
+            // 5. 最终通知：所有切面执行after（无论是否异常）
+            matchedAspects.forEach(aspect -> aspect.after(scriptId));
+            if(properties.getIsDebug()) {
+                long cost = System.currentTimeMillis() - startTime;
+                log.info("Performance Monitoring scriptId:{} cost: {} ms", scriptId, cost);
+            }
         }
     }
 
-    public static Script createScript(String scriptId,Binding binding,boolean cache) {
+
+    static class Singleton{
+
+        protected String scriptId;
+        protected Class<?> clazz;
+        protected Object singleton;
+
+        public Singleton(Class<?> clazz, Object singleton) {
+            this.clazz = clazz;
+            this.singleton = singleton;
+        }
+        public Singleton(String scriptId) {
+            this.scriptId = scriptId;
+        }
+        public Singleton(String scriptId,Class<?> clazz, Object singleton) {
+            this.scriptId = scriptId;
+            this.clazz = clazz;
+            this.singleton = singleton;
+        }
+    }
+
+    public static Object singleton(String scriptId) {
+        return newObject(scriptId,true,false,null);
+    }
+
+    public static Object prototype(String scriptId) {
+        return newObject(scriptId,false,false,null);
+    }
+
+    public static Object newObject(String scriptId) {
+        return newObject(scriptId,properties.getNewCache(),false,null);
+    }
+
+
+    private static Object newObject(String scriptId,boolean cache,boolean isScript,Binding binding) {
         try {
-            Class<?> clazz = scriptEngine.loadScriptByName(scriptId);
-            if(clazz==null) return null ;
-            String className = clazz.getName();
-            if(!cache){
-                singletonCache.remove(className);
-                return InvokerHelper.createScript(clazz, binding);
+            Singleton cacheSingleton = singletonCache.get(scriptId);
+            // 缓存 不检查变更 且有实例，直接返回
+            if(cache && !properties.getCheckModify() && cacheSingleton!=null){
+                return cacheSingleton.singleton;
             }
-            // 没有缓存过，直接生成并缓存，不用考虑线程安全，并发创建多个缓存一个就行
-            if(singletonCache.get(className)==null){
-                Script o = InvokerHelper.createScript(clazz, binding);
-                singletonCache.put(className,new Singleton(scriptId,className,clazz,o));
-                log.info("create script :"+className);
+            // 下面的的逻辑都要用到类
+            Class<?> clazz = getClass(scriptId) ;
+            if(clazz==null) return null ;
+            // 不缓存每次新建
+            if(!cache){
+                singletonCache.remove(scriptId);
+                return isScript? InvokerHelper.createScript(clazz, binding):clazz.newInstance();
+            }
+            // 需要缓存，但没有缓存过，直接生成并缓存，不用考虑线程安全，并发创建多个缓存一个就行
+            if(cacheSingleton == null){
+                Object o = isScript? InvokerHelper.createScript(clazz, binding):clazz.newInstance();
+                singletonCache.put(scriptId,new Singleton(scriptId,clazz,o));
+                log.info("new instance:{}",scriptId);
                 return o;
             }
-            // scriptEngine没有重新编译脚本且缓存过对象，直接返回缓存对象
-            if(clazz==singletonCache.get(className).clazz){
-                return (Script)singletonCache.get(className).singleton;
+            // 缓存过对比class是否有变化，scriptEngine没有重新编译脚本且缓存过对象，直接返回缓存对象
+            if(clazz==cacheSingleton.clazz){
+                return cacheSingleton.singleton;
             }
             // 缓存过对象，但scriptEngine重新编译了脚本，重新生成对象并缓存
             // 不用考虑线程安全，并发创建多个缓存一个就行
-            singletonCache.remove(className);
-            Script o = InvokerHelper.createScript(clazz, binding);
-            singletonCache.put(className,new Singleton(scriptId,className,clazz,o));
-            log.info("recreate script :"+className);
+            singletonCache.remove(scriptId);
+            Object o = isScript? InvokerHelper.createScript(clazz, binding):clazz.newInstance();
+            singletonCache.put(scriptId,new Singleton(scriptId,clazz,o));
+            log.info("renew instance:{}",scriptId);
             return o;
-        } catch (ScriptException e) {
-            throw new RuntimeException(e);
-        } catch (ResourceException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static Object newObject(String className) {
-        return newObject(className,properties.getIsCache());
-    }
-    public static Object newObjectByScriptId(String scriptId,boolean cache) {
-        try {
-            Class<?> clazz =  scriptEngine.loadScriptByName(scriptId);
-            return newObjectByClass(clazz,cache);
-        } catch (ResourceException | ScriptException e) {
+        } catch (Exception e) {
+            log.error("new instance error:{}",scriptId,e);
             throw new RuntimeException(e);
         }
     }
 
-    public static Object newObject(String className,boolean cache) {
+    private static Class<?> getClass(String scriptId) {
         try {
-            Class<?> clazz = scriptEngine.getGroovyClassLoader().loadClass(className);
-            return newObjectByClass(clazz,cache);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static Object newObjectByClass(Class<?> clazz,boolean cache) {
-        try {
-            if(clazz==null) return null ;
-            String className = clazz.getName();
-            if(!cache){
-                singletonCache.remove(className);
-                return clazz.newInstance();
+            if(properties.getCheckModify()){
+                // 都用loadScriptByName获取类，每次都会检测脚本是否变更，有变更会重新编译类
+                return scriptEngine.loadScriptByName(scriptId);
             }
-            // 没有缓存过，直接生成并缓存，不用考虑线程安全，并发创建多个缓存一个就行
-            if(singletonCache.get(className)==null){
-                Object o = clazz.newInstance();
-                singletonCache.put(className,new Singleton(clazz,o));
-                log.info("new instance :"+className);
-                return o;
+            Singleton cacheSingleton = singletonCache.get(scriptId);
+            if(cacheSingleton==null){
+                return scriptEngine.loadScriptByName(scriptId);
             }
-            // scriptEngine没有重新编译脚本且缓存过对象，直接返回缓存对象
-            Class<?> cacheClass =singletonCache.get(className).clazz;
-            if(clazz==cacheClass){
-                return singletonCache.get(className).singleton;
-            }
-            // 缓存过对象，但scriptEngine重新编译了脚本，重新生成对象并缓存
-            // 不用考虑线程安全，并发创建多个缓存一个就行
-            singletonCache.remove(className);
-            Object o = clazz.newInstance();
-            singletonCache.put(className,new Singleton(clazz,o));
-            log.info("renew instance :"+className);
-            return o;
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
+            // isRecompile=true时执行脚本关联的类也会重新编译, 所以还要对比是否重新生成
+            // return scriptEngine.getGroovyClassLoader().loadClass(cacheSingleton.getClass().getName());
+            return cacheSingleton.clazz;
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
