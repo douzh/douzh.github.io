@@ -581,36 +581,38 @@ meta:
           url: http://127.0.0.1:9998/run
 ```
 
-### mybatis
+### mybatis mapper
 
-mybatis相关代码不支持动态更新，xml文件加载时相关entity类发现不了（类加载器问题），可以简单使用mapper类添加注解的方式。
+mybatis相关代码不支持动态更新，添加mapper时需要添加GroovyClassLoader解释类文件。
 
-如果使用xml不要引用类，可以使用java自带的类，如Map类。
+
+使用方式
 
 ```groovy
-package com.onekbase.groovy.scripts.mapper
+BusConfigMapper mapper = GroovyMapperUtils.getMapper(BusConfigMapper.class)
+BusConfig bean = mapper.selectById(binding.variables.id)
+return  bean
 
-import com.onekbase.groovy.scripts.entity.BusConfig
-import org.apache.ibatis.annotations.Delete
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param
-import org.apache.ibatis.annotations.Select
-import org.apache.ibatis.annotations.Update;
 
+class GroovyMapperUtils {
+
+    static <T> T getMapper(Class<T> clazz) {
+        SqlSessionTemplate ss = GE.getBean(SqlSessionTemplate)
+        if(ss.getConfiguration().hasMapper(clazz)) {
+            return ss.getMapper(clazz)
+        }
+        Resources.setDefaultClassLoader(GE.getGroovyClassLoader())
+        ss.getConfiguration().addMapper(clazz)
+        return ss.getMapper(clazz)
+    }
+}
+```
+
+```groovy
 @Mapper
 public interface BusConfigMapper {
-    @Select("SELECT ckey, value FROM bus_config2 WHERE ckey = #{id}")
+
     BusConfig selectById(@Param("id") String id);
-
-    @Insert("INSERT INTO bus_config (ckey, value) VALUES (#{ckey}, #{value})")
-    int insert(BusConfig config);
-
-    @Update("UPDATE bus_config SET value = #{value} WHERE ckey = #{ckey}")
-    int update(BusConfig config);
-
-    @Delete("DELETE FROM bus_config WHERE ckey = #{ckey}")
-    int delete(@Param("ckey") String ckey);
 }
 
 
@@ -624,42 +626,33 @@ class BusConfig {
 }
 ```
 
-使用方式
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-```groovy
+<mapper namespace="com.demo.product1.module1.dao.mapper.BusConfigMapper">
 
-package com.onekbase.groovy.scripts.core
+    <!-- 结果映射 -->
+    <resultMap id="BusConfigResultMap" type="com.demo.product1.module1.dao.entity.BusConfig">
+        <id property="ckey" column="ckey"/>
+        <result property="value" column="value"/>
+    </resultMap>
 
-import com.onekbase.framework.groovy.engine.MetaGroovyEngine
-import org.mybatis.spring.SqlSessionTemplate
+    <!-- 查询方法 -->
+    <select id="selectById" parameterType="string" resultMap="BusConfigResultMap">
+        SELECT ckey, value
+        FROM bus_config
+        WHERE ckey = #{id}
+    </select>
 
-class GroovyMapperUtils {
+</mapper>
 
-    static <T> T getMapper(Class<T> clazz) {
-        SqlSessionTemplate ss = MetaGroovyEngine.getBean(SqlSessionTemplate)
-        if(ss.getConfiguration().hasMapper(clazz)) {
-            return ss.getMapper(clazz)
-        }
-        ss.getConfiguration().addMapper(clazz)
-        return ss.getMapper(clazz)
-    }
-}
-
-
-package com.onekbase.groovy.scripts.demo
-
-import com.onekbase.groovy.scripts.core.GroovyMapperUtils
-import com.onekbase.groovy.scripts.entity.BusConfig
-import com.onekbase.groovy.scripts.mapper.BusConfigMapper
-
-BusConfigMapper mapper = GroovyMapperUtils.getMapper(BusConfigMapper.class)
-BusConfig bean = mapper.selectById(binding.variables.id)
-return  bean
 ```
 
-### mapper
+### 动态mapper
 
-用枚举封装类似mapper的对象，调用示例
+用枚举封装类似mapper的对象以实现修改后能动态更新，调用示例
 
 ```groovy
 List<BusConfig> beanList = DemoMapper.QueryBusConfig.select(binding.variables)
