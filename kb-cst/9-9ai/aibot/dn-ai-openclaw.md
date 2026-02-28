@@ -153,3 +153,97 @@ openclaw chat "你好"
 
 ## Ollama 接入
 
+把 **Ollama 接入 OpenClaw**，核心是：**先跑 Ollama 服务 → 配置 OpenClaw 指向 Ollama → 启动 OpenClaw**。下面是完整步骤（Windows/macOS/Linux 通用）。
+
+**一、先准备 Ollama（本地大模型服务）**
+
+1. 安装 Ollama
+
+- 官网下载：https://ollama.com/
+- 安装后，终端/命令行可用 `ollama` 命令。
+
+1. 拉取并运行一个模型（以 qwen2.5:7b 为例）
+
+```bash
+# 拉取模型（按需换：llama3.1:8b、qwen3:4b、gemma2:9b 等）
+ollama pull qwen2.5:7b
+
+# 启动 Ollama 服务（后台常驻，默认端口 11434）
+ollama serve
+# 或直接运行模型（会自动启动服务）
+ollama run qwen2.5:7b
+```
+- 验证服务：浏览器打开 `http://localhost:11434`，显示 `Ollama is running` 即成功。
+
+**二、接入 OpenClaw（两种方式：配置文件 / 向导）**
+
+**方式 A：编辑配置文件（推荐，稳定可控）**
+
+1. 找到/创建 OpenClaw 配置文件：
+   - Windows：`%USERPROFILE%\.openclaw\openclaw.json`
+   - macOS/Linux：`~/.openclaw/openclaw.json`
+2. 写入 Ollama 配置（**关键：provider=ollama + base_url + model 与 ollama list 一致**）：
+```json
+{
+  "provider": "ollama",
+  "model": "qwen2.5:7b",
+  "base_url": "http://localhost:11434",
+  "gateway": {
+    "enabled": true,
+    "port": 3001
+  },
+  "webui": {
+    "enabled": true,
+    "port": 3000
+  },
+  "tools": {
+    "enabled": true
+  }
+}
+```
+- 模型名必须和 `ollama list` 输出完全一致（如 `qwen2.5:7b`、`llama3.1:8b`）。
+- 局域网访问：`base_url` 改为 `http://192.168.x.x:11434`（本机局域网 IP）。
+
+**方式 B：用 `openclaw onboard` 向导（新手友好）**
+
+```bash
+# 运行配置向导
+openclaw onboard
+```
+按提示选择/输入：
+1. Model/auth provider → 选 **Custom Provider**（拉到最后）
+2. API Base URL → `http://localhost:11434/v1`（Ollama OpenAI 兼容端点）
+3. API Key → 随便填（如 `ollama`，Ollama 无鉴权，仅格式要求）
+4. Endpoint compatibility → **OpenAI-compatible**
+5. Model ID → 填你拉的模型名（如 `qwen2.5:7b`）
+6. 其余默认，完成后保存。
+
+**三、启动 OpenClaw 并验证**
+
+```bash
+# 启动 OpenClaw
+openclaw start
+```
+- 访问 WebUI：`http://localhost:3000`
+- 发送消息，能正常回复即接入成功。
+
+**四、常见问题与排查**
+
+1. **连接失败 / 超时**
+   - 确认 `ollama serve` 正在运行，端口 11434 未被占用。
+   - 配置文件 `base_url` 正确：`http://localhost:11434`（非 `/v1`，除非用 OpenAI 兼容模式）。
+   - 防火墙放行 11434、3000、3001 端口。
+
+2. **模型不存在 / 加载失败**
+   - 运行 `ollama list` 核对模型名，配置文件 `model` 字段必须完全匹配。
+   - 重新拉取：`ollama pull qwen2.5:7b`。
+
+3. **性能慢 / 内存不足**
+   - 换小模型：`qwen3:4b`、`llama3.1:8b`（推荐 16GB+ 内存）。
+   - Ollama 自动用 GPU（NVIDIA/AMD），确保显卡驱动正常。
+
+**五、安全提示（对应你之前的 OpenClaw 安全说明）**
+
+- 本地个人使用：默认安全，仅本机访问。
+- 多用户/共享：务必做**白名单、沙箱、最小权限**，不要暴露到公网。
+- 定期审计：`openclaw security audit --deep --fix`。
