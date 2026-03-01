@@ -247,3 +247,74 @@ openclaw start
 - 本地个人使用：默认安全，仅本机访问。
 - 多用户/共享：务必做**白名单、沙箱、最小权限**，不要暴露到公网。
 - 定期审计：`openclaw security audit --deep --fix`。
+
+## Ollama openclaw
+
+https://docs.ollama.com/integrations/openclaw
+
+智能助手：OpenClaw
+
+OpenClaw 是一款可在自有设备上运行的个人AI助手，它通过中心化网关，将各类通讯服务（WhatsApp、电报、Slack、Discord、iMessage等）与AI代码智能体实现互联互通。
+
+快速开始
+
+```
+ollama launch openclaw
+```
+Ollama 会自动完成所有操作：
+- 安装——若未安装OpenClaw，Ollama将提示通过npm完成安装
+- 安全提醒——首次启动时，会弹出安全提示说明工具访问的相关风险
+- 模型选择——从选择器中挑选模型（本地模型或云端模型均可）
+- 初始化配置——Ollama会完成服务商配置、安装网关守护进程，并将所选模型设为默认模型
+- 网关启动——在后台启动网关并打开OpenClaw的终端用户界面
+
+OpenClaw 需要更大的上下文窗口，若使用本地模型，建议上下文窗口的令牌数至少达到64k，更多信息可参考「上下文长度」相关说明。
+
+该工具曾命名为Clawdbot，使用命令`ollama launch clawdbot`仍可作为别名调用。
+
+免启动配置
+
+若想更换模型但不启动网关和终端用户界面，可执行以下命令：
+```
+ollama launch openclaw --config
+```
+若想直接使用指定模型，可执行：
+```
+ollama launch openclaw --model kimi-k2.5:cloud
+```
+若网关已处于运行状态，会自动重启以加载新模型。
+
+推荐模型
+
+云端模型
+
+- `kimi-k2.5:cloud`——支持搭载子智能体的多模态推理
+- `minimax-m2.5:cloud`——运算高效、编码便捷，适配实际工作场景的生产力需求
+- `glm-5:cloud`——擅长推理任务与代码生成
+
+本地模型
+
+- `glm-4.7-flash`——可在本地完成推理与代码生成（约需25GB显存）
+
+绑定通讯应用
+
+执行以下命令：
+```
+openclaw configure --section channels
+```
+即可关联WhatsApp、电报、Slack、Discord或iMessage，随时随地通过这些应用与本地模型对话。
+
+停止网关运行
+
+执行以下命令：
+```
+openclaw gateway stop
+```
+
+专业术语说明
+
+1. **gateway daemon**：网关守护进程，后台持续运行的网关服务进程，保障通讯与模型交互的稳定
+2. **TUI**：终端用户界面（Text-based User Interface），基于命令行的交互界面
+3. **subagents**：子智能体，可协同工作的细分功能智能体，提升多任务处理能力
+4. **VRAM**：显存（Video Random Access Memory），显卡的专用内存，用于承载本地模型运算
+5. **context window**：上下文窗口，大模型可处理的上下文令牌数量，决定模型的上下文理解能力
