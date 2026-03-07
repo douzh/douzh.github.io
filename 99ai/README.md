@@ -7,32 +7,91 @@
 ## 📁 文档结构
 
 ```
-doc/
+99ai/
 ├── README.md                          # 本文档（总索引）
+├── c0-knowledge-system.md             # 知识体系总览
 │
-├── 📁 agent/                          # Agent 相关文档
+├── 📁 agent/                          # Agent 相关文档（历史遗留）
 │   ├── README.md                      # Agent 文档索引
 │   ├── lingma-user-guide.md           # 👤 Lingma 用户指南
 │   ├── lingma-development-guide.md    # 💻 Lingma 开发扩展指南
-│   └── mcp-integration-guide.md       # 🔌 Agent 对接 MCP 指南
+│   ├── lingma-architecture.md         # 🏗️ Lingma 架构设计
+│   ├── lingma-skill-guide.md          # 🎯 Lingma 技能使用指南
+│   ├── mcp-integration-guide.md       # 🔌 Agent 对接 MCP 指南
+│   └── vscode-api-guide.md            # 🔧 VSCode API 使用指南
 │
-└── 📁 mcp/                            # MCP 相关文档
-    ├── README.md                      # MCP 文档索引
-    ├── mcp-user-guide.md              # 👤 MCP 使用指南
-    ├── mcp-development-guide.md       # 💻 MCP 开发指南
-    └── mcp-execution-results.md       # 📊 MCP 执行结果记录
+├── 📁 mcp/                            # MCP 相关文档（历史遗留）
+│   ├── README.md                      # MCP 文档索引
+│   ├── mcp-user-guide.md              # 👤 MCP 使用指南
+│   ├── mcp-development-guide.md       # 💻 MCP 开发指南
+│   └── mcp-execution-results.md       # 📊 MCP 执行结果记录
+│
+├── 📁 c1-core-arch/                   # C1 核心架构 ⭐NEW
+│   ├── README.md                      # c1 模块索引
+│   ├── c1-1-agent-loop.md             # Agent Loop 设计模式
+│   ├── c1-2-hub-spoke-architecture.md # 轮辐式架构实现
+│   └── c1-3-microkernel-vs-monolith.md# 微内核与单体架构对比
+│
+├── 📁 c2-llm-integration/             # C2 LLM 集成 ⭐NEW
+│   ├── README.md                      # c2 模块索引
+│   └── c2-2-function-calling.md       # Function Calling / Tool Calling
+│
+├── 📁 c3-memory-system/               # C3 记忆系统 ⭐NEW
+│   ├── README.md                      # c3 模块索引
+│   └── (待补充)
+│
+├── 📁 c4-platform-connector/          # C4 平台对接 ⭐NEW
+│   └── (待补充)
+│
+├── 📁 c5-automation/                  # C5 自动化执行 ⭐NEW
+│   └── (待补充)
+│
+├── 📁 c6-security/                    # C6 安全管理 ⭐NEW
+│   └── (待补充)
+│
+├── 📁 c7-skill-ecosystem/             # C7 技能生态 ⭐NEW
+│   └── (待补充)
+│
+├── 📁 c8-ux-design/                   # C8 用户体验 ⭐NEW
+│   └── (待补充)
+│
+├── 📁 c9-advanced/                    # C9 进阶能力 ⭐NEW
+│   └── (待补充)
+│
+└── 📁 c10-legal/                      # C10 法律合规 ⭐NEW
+    └── (待补充)
 ```
 
 ---
 
 ## 📚 文档列表
 
-### Agent 模块
+### AI智能体核心模块（新体系）⭐
+
+| 模块 | 文档数 | 核心内容 | 状态 |
+|------|-------|---------|------|
+| **[c1 核心架构](./c1-core-arch/README.md)** | 3 | Agent Loop、轮辐式架构、架构选型 | ✅ 建设中 |
+| **[c2 LLM 集成](./c2-llm-integration/README.md)** | 1 | Function Calling、Prompt 工程 | ✅ 建设中 |
+| **[c3 记忆系统](./c3-memory-system/README.md)** | 0 | 短期/长期记忆、向量检索、RAG | 🚧 规划中 |
+| **[c4 平台对接](./c4-platform-connector/README.md)** | 0 | Telegram/Discord/钉钉等平台 API | 🚧 规划中 |
+| **[c5 自动化执行](./c5-automation/README.md)** | 0 | Shell、浏览器、文件操作 | 🚧 规划中 |
+| **[c6 安全管理](./c6-security/README.md)** | 0 | 权限控制、加密、隐私保护 | 🚧 规划中 |
+| **[c7 技能生态](./c7-skill-ecosystem/README.md)** | 0 | MCP 协议、技能市场 | 🚧 规划中 |
+| **[c8 UX 设计](./c8-ux-design/README.md)** | 0 | NLU、多轮对话、反馈机制 | 🚧 规划中 |
+| **[c9 进阶能力](./c9-advanced/README.md)** | 0 | 自我进化、多智能体协作 | 🚧 规划中 |
+| **[c10 法律合规](./c10-legal/README.md)** | 0 | 开源协议、GDPR | 🚧 规划中 |
+
+---
+
+### Agent 模块（历史文档）
 
 | 文档 | 目标读者 | 核心内容 | 行数 |
 |------|---------|---------|-----|
+| **[Lingma 架构设计](./agent/lingma-architecture.md)** | 架构师 | 完整架构设计、组件说明、数据流 | 1050 |
 | **[Lingma 开发扩展指南](./agent/lingma-development-guide.md)** | 开发者 | 配置部署、扩展开发、性能优化 | 540 |
+| **[Lingma 技能使用指南](./agent/lingma-skill-guide.md)** | 高级用户 | 技能系统、工具调用、最佳实践 | 870 |
 | **[Agent 对接 MCP 指南](./agent/mcp-integration-guide.md)** | Agent 开发者 | Agent 架构、工具匹配、完整示例 | 790 |
+| **[VSCode API 使用指南](./agent/vscode-api-guide.md)** | IDE 开发者 | VSCode 扩展开发、API 参考 | 1180 |
 
 **快速导航：** [Agent 文档索引 →](./agent/README.md)
 
@@ -42,6 +101,7 @@ doc/
 
 | 文档 | 目标读者 | 核心内容 | 行数 |
 |------|---------|---------|-----|
+| **[OpenClaw 知识体系](./openclaw-knowledge-system.md)** | AI 开发者 | OpenClaw 架构、技术栈、学习路径 | 182 |
 | **[MCP 使用指南](./mcp/mcp-user-guide.md)** | 普通用户 | 安装配置、工具使用、IDE 集成 | 279 |
 | **[MCP 开发指南](./mcp/mcp-development-guide.md)** | MCP 开发者 | SDK 使用、多语言开发、服务部署 | 552 |
 | **[MCP 执行结果](./mcp/mcp-execution-results.md)** | 所有读者 | 实际执行示例、输出记录 | 154 |
@@ -150,11 +210,18 @@ Lingma 的能力分为三个层级，这个核心概念贯穿所有文档：
 
 ## 📝 更新日志
 
-### 2026-03-07
-- ✅ 创建完整的文档体系（总索引 + 分索引）
-- ✅ 将原综合指南拆分为用户指南和开发指南
-- ✅ 添加三层能力层级说明到两个指南
-- ✅ 建立文档同步更新机制
+### 2026-03-07 - v3.0
+- ✅ **创建 AI智能体核心知识体系**（c1-c10 章节编号）
+- ✅ 新增 c1 核心架构模块（3 篇详细文档）
+  - Agent Loop 设计模式（337 行）
+  - 轮辐式架构实现（527 行）
+  - 微内核与单体架构对比（282 行）
+- ✅ 新增 c2 LLM 集成模块框架
+  - Function Calling 详细教程（585 行）
+- ✅ 新增 c3 记忆系统模块框架
+- ✅ 创建 10 个标准目录（c1-core-arch 到 c10-legal）
+- 🔄 更新总索引，兼容新旧文档体系
+- 📝 后续计划：补充 c3-c10 模块详细文档
 
 ### 2026-03-06
 - ✅ 创建 MCP 文档体系（使用指南 + 开发指南）
@@ -276,5 +343,5 @@ grep -r "层级 1: 纯数字世界" doc/
 
 **文档维护:** One AI Team  
 **最后更新:** 2026-03-07  
-**文档版本:** 2.0  
+**文档版本:** 2.1  
 **反馈建议:** 欢迎提交 Issue 或 PR
