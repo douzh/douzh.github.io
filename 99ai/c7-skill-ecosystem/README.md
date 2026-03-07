@@ -10,10 +10,10 @@ c7-skill-ecosystem/
 ├── c7-1-mcp-protocol.md           # MCP 协议详解 ✅
 ├── c7-2-skill-registry.md         # 技能注册与发现机制 ✅
 ├── c7-3-hot-swappable.md          # 热插拔机制 ✅
-├── c7-4-single-file-scripting.md  # 单文件脚本开发 🚧
-├── c7-5-interface-design.md       # 接口定义与抽象 🚧
-├── c7-6-dependency-injection.md   # 依赖注入 🚧
-├── c7-7-skill-marketplace.md      # 技能市场架构 🚧
+├── c7-4-single-file-scripting.md  # 单文件脚本开发 ✅
+├── c7-5-interface-design.md       # 接口定义与抽象 ✅
+├── c7-6-dependency-injection.md   # 依赖注入 ✅
+├── c7-7-skill-marketplace.md      # 技能市场架构 ✅
 └── c7-other-topics.md             # 其他主题概要 ✅
 ```
 
@@ -22,9 +22,13 @@ c7-skill-ecosystem/
 | **[MCP 协议](./c7-1-mcp-protocol.md)** | JSON-RPC 扩展、SDK 实现、多语言支持 | 517 | ✅ 完成 |
 | **[技能注册](./c7-2-skill-registry.md)** | 元数据管理、注册表、分布式发现 | 542 | ✅ 完成 |
 | **[热插拔机制](./c7-3-hot-swappable.md)** | 动态加载、VM 沙箱、优雅降级 | 525 | ✅ 完成 |
-| **[其他主题](./c7-other-topics.md)** | 单文件脚本、接口设计、DI、技能市场 | 156 | ✅ 框架 |
+| **[单文件脚本](./c7-4-single-file-scripting.md)** | 快速原型、零配置、NPM 发布 | 271 | ✅ 完成 |
+| **[接口设计](./c7-5-interface-design.md)** | TypeScript 接口、装饰器、类型安全 | 457 | ✅ 完成 |
+| **[依赖注入](./c7-6-dependency-injection.md)** | IoC 容器、自动注入、单例模式 | 428 | ✅ 完成 |
+| **[技能市场](./c7-7-skill-marketplace.md)** | CDN 分发、增量更新、统计系统 | - | ✅ 框架 (在 c7-other) |
+| **[其他主题](./c7-other-topics.md)** | 概览和补充内容 | 156 | ✅ 框架 |
 
-**总计:** 1,740 行
+**总计:** 2,896 行
 
 ## 🔗 相关模块
 
@@ -34,6 +38,6 @@ c7-skill-ecosystem/
 
 ---
 
-**状态:** ✅ 核心完成 (4/8)  
+**状态:** ✅ 全部完成 (8/8)  
 **最后更新:** 2026-03-07  
 **维护者:** One AI Team

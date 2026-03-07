@@ -198,7 +198,260 @@ print(response)
 
 ## 4. 参数提取技巧
 
-### 4.1 隐式参数推断
+### 4.1 强制格式化输出（重要！）
+
+**问题：** 如何确保大模型按指定 JSON 格式输出？
+
+#### 方法 1：使用平台的 Function Calling API（推荐）
+
+OpenAI/Claude 等官方 API **自动保证**输出符合定义的 schema：
+
+```javascript
+// OpenAI 会自动验证输出格式
+const response = await openai.chat.completions.create({
+  model: "gpt-4-turbo",
+  messages: [{ role: "user", content: "北京天气" }],
+  tools: [{
+    type: "function",
+    function: {
+      name: "get_weather",
+      parameters: {
+        type: "object",
+        properties: {
+          location: { type: "string" },
+          unit: { type: "string", enum: ["celsius", "fahrenheit"] }
+        },
+        required: ["location"]
+      }
+    }
+  }],
+  tool_choice: "auto"
+});
+
+// ✅ 返回的 arguments 一定是合法的 JSON
+const args = JSON.parse(response.choices[0].message.tool_calls[0].function.arguments);
+// args 类型：{ location: string; unit?: string }
+```
+
+**优势：**
+- ✅ 平台自动验证格式
+- ✅ 类型安全
+- ✅ 无需手动解析错误处理
+
+#### 方法 2：Few-shot Prompting（少样本提示）
+
+在 prompt 中提供多个正确格式的示例：
+
+```javascript
+const prompt = `
+你是一个 API 调用助手。请根据用户输入，生成正确的工具调用。
+
+可用工具：
+${JSON.stringify(tools, null, 2)}
+
+===== 示例 =====
+
+用户："帮我查一下北京的天气"
+工具调用：
+{
+  "name": "get_weather",
+  "arguments": {
+    "location": "北京"
+  }
+}
+
+用户："给李四发邮件，主题是会议通知"
+工具调用：
+{
+  "name": "send_email",
+  "arguments": {
+    "to": "lisi@example.com",
+    "subject": "会议通知",
+    "body": "您好，请查收会议通知。"
+  }
+}
+
+===== 现在开始 =====
+
+用户："${userInput}"
+工具调用：
+`;
+
+const response = await llm.generate(prompt);
+const toolCall = JSON.parse(response.trim());
+```
+
+**关键技巧：**
+- ✅ 提供 3-5 个不同场景的示例
+- ✅ 示例格式必须完全一致
+- ✅ 最后一个示例留空让模型补全
+
+#### 方法 3：Output Schema 约束
+
+明确要求模型只输出 JSON，不要其他内容：
+
+```javascript
+const systemPrompt = `
+你是一个函数调用引擎。你的任务是根据用户输入选择合适的工具并提取参数。
+
+重要规则：
+1. 只输出 JSON 格式，不要有任何解释文字
+2. JSON 必须符合以下 schema：
+   {
+     "type": "object",
+     "properties": {
+       "tool": { "type": "string", "enum": ["get_weather", "send_email"] },
+       "args": { "type": "object" }
+     },
+     "required": ["tool", "args"]
+   }
+3. 如果无法确定工具或参数，返回 null
+
+可用工具定义：
+${JSON.stringify(tools, null, 2)}
+`;
+
+const userPrompt = `用户输入：明天北京天气怎么样？`;
+
+const response = await llm.generate(systemPrompt + '\n\n' + userPrompt);
+
+// 防御性解析
+try {
+  const toolCall = JSON.parse(response);
+  // 验证 schema
+  if (!toolCall.tool || !toolCall.args) {
+    throw new Error('Invalid format');
+  }
+} catch (error) {
+  console.error('Failed to parse tool call:', error);
+  // 降级处理...
+}
+```
+
+#### 方法 4：Grammar/JSON Mode
+
+部分平台支持强制 JSON 输出模式：
+
+```javascript
+// OpenAI JSON Mode
+const response = await openai.chat.completions.create({
+  model: "gpt-4-turbo",
+  messages: [
+    { 
+      role: "system", 
+      content: "You are a function calling AI. Respond only with valid JSON." 
+    },
+    { role: "user", content: userInput }
+  ],
+  response_format: { type: "json_object" }  // 🔑 强制 JSON 输出
+});
+
+const toolCall = JSON.parse(response.choices[0].message.content);
+```
+
+**支持的平台：**
+- ✅ OpenAI GPT-4 Turbo (`response_format: { type: "json_object" }`)
+- ✅ Claude 3 (`stop_sequences: ['```']`)
+- ✅ Llama.cpp (BNF grammar)
+- ✅ vLLM (guided generation)
+
+#### 方法 5：后处理验证与修复
+
+```javascript
+class ToolCallValidator {
+  constructor(schema) {
+    this.schema = schema;
+    this.ajv = new Ajv(); // JSON Schema validator
+    this.validate = this.ajv.compile(schema);
+  }
+  
+  async validateAndFix(rawOutput) {
+    // 尝试直接解析
+    try {
+      const parsed = JSON.parse(rawOutput);
+      if (this.validate(parsed)) {
+        return parsed; // ✅ 验证通过
+      }
+    } catch (e) {
+      console.log('Initial parse failed, attempting repair...');
+    }
+    
+    // 尝试修复：提取 JSON 片段
+    const jsonMatch = rawOutput.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      try {
+        const extracted = JSON.parse(jsonMatch[0]);
+        if (this.validate(extracted)) {
+          return extracted;
+        }
+      } catch (e) {}
+    }
+    
+    // 请求模型重新生成
+    return await this.requestRegeneration(rawOutput);
+  }
+  
+  async requestRegeneration(failedOutput) {
+    const retryPrompt = `
+    你之前的输出格式不正确：
+    ${failedOutput}
+    
+    请严格按照以下 JSON Schema 重新输出：
+    ${JSON.stringify(this.schema, null, 2)}
+    
+    只输出 JSON，不要其他文字：
+    `;
+    
+    const newResponse = await llm.generate(retryPrompt);
+    return JSON.parse(newResponse);
+  }
+}
+
+// 使用示例
+const validator = new ToolCallValidator({
+  type: "object",
+  properties: {
+    tool: { type: "string" },
+    args: { type: "object" }
+  },
+  required: ["tool", "args"]
+});
+
+const toolCall = await validator.validateAndFix(llmOutput);
+```
+
+**对比总结：**
+
+| 方法 | 可靠性 | 实现难度 | 适用场景 |
+|------|--------|---------|---------|
+| **官方 Function Calling** | ⭐⭐⭐⭐⭐ | ⭐ | 首选，如果有 API |
+| **JSON Mode** | ⭐⭐⭐⭐ | ⭐ | OpenAI/Claude 用户 |
+| **Few-shot Prompting** | ⭐⭐⭐ | ⭐⭐ | 通用，任何模型 |
+| **Output Schema** | ⭐⭐⭐ | ⭐⭐ | 需要明确约束 |
+| **后处理验证** | ⭐⭐⭐⭐ | ⭐⭐⭐ | 高可靠性要求 |
+
+**最佳实践：**
+```javascript
+// 组合使用多种方法
+const robustToolCalling = async (userInput) => {
+  // 1. 使用官方 API（最可靠）
+  if (platform.supportsFunctionCalling) {
+    return await platform.callFunction(userInput);
+  }
+  
+  // 2. 启用 JSON Mode
+  const response = await llm.generate(userInput, {
+    response_format: { type: "json_object" },
+    system: `You only output valid JSON.`
+  });
+  
+  // 3. 验证和修复
+  const validator = new ToolCallValidator(toolSchema);
+  return await validator.validateAndFix(response);
+};
+```
+
+### 4.2 隐式参数推断
 
 **用户输入：**
 ```
@@ -233,7 +486,7 @@ ${JSON.stringify(tools, null, 2)}
 `;
 ```
 
-### 4.2 多轮对话参数收集
+### 4.3 多轮对话参数收集
 
 ```javascript
 async function collectParameters(schema, userMessage, conversationHistory) {

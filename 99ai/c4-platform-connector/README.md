@@ -2,50 +2,30 @@
 
 本模块涵盖与各类通讯平台的对接技术，包括 Telegram、Discord、WhatsApp、钉钉、飞书等。
 
-## 📁 规划中的文档
+## 📁 文档结构
 
 ```
 c4-platform-connector/
 ├── README.md                      # 本文档
-├── c4-1-telegram-bot.md           # Telegram Bot API
-├── c4-2-discord-bot.md            # Discord API
-├── c4-3-whatsapp-business.md      # WhatsApp Business API
-├── c4-4-slack-bot.md              # Slack API
-├── c4-5-dingtalk-bot.md           # 钉钉机器人
-├── c4-6-feishu-bot.md             # 飞书开放平台
-├── c4-7-websocket-protocol.md     # WebSocket 协议详解
-├── c4-8-oauth2-auth.md            # OAuth 2.0 认证流程
-└── c4-9-webhook-patterns.md       # Webhook 机制与模式
+├── c4-1-telegram-bot.md           # Telegram Bot API ✅
+├── c4-2-discord-bot.md            # Discord API 🚧
+├── c4-3-whatsapp-business.md      # WhatsApp Business API 🚧
+├── c4-4-slack-bot.md              # Slack API 🚧
+├── c4-5-dingtalk-bot.md           # 钉钉机器人 ✅
+├── c4-6-feishu-bot.md             # 飞书开放平台 🚧
+├── c4-7-websocket-protocol.md     # WebSocket 协议详解 🚧
+├── c4-8-oauth2-auth.md            # OAuth 2.0 认证流程 🚧
+├── c4-9-webhook-patterns.md       # Webhook 机制与模式 🚧
+└── c4-other-topics.md             # 其他主题概要 ✅
 ```
 
-## 🎯 核心内容预告
+| 文档 | 核心内容 | 行数 | 状态 |
+|------|---------|------|------|
+| **[Telegram Bot](./c4-1-telegram-bot.md)** | 轮询/Webhook、Inline Keyboard、文件处理 | 425 | ✅ 完成 |
+| **[钉钉机器人](./c4-5-dingtalk-bot.md)** | 群聊消息、交互式卡片、回调处理 | 446 | ✅ 完成 |
+| **[其他主题](./c4-other-topics.md)** | Discord/WhatsApp/Slack/ 飞书/OAuth2/WebSocket | 352 | ✅ 框架 |
 
-### 即时通讯平台对接
-- **Telegram**: Bot API、Inline Keyboard、Payment
-- **Discord**: Gateway、Interactions、Slash Commands
-- **WhatsApp**: Business API、Template Messages
-- **Slack**: Events API、Block Kit、Workflow Builder
-
-### 国内平台对接
-- **钉钉**: 机器人、工作台应用、H5 微应用
-- **飞书**: 机器人、开放平台、云文档
-- **企业微信**: 消息推送、自建应用
-
-### 通信协议
-- WebSocket 长连接管理
-- OAuth 2.0 授权流程
-- Webhook 异步通知机制
-- 消息加密与解密
-
-## 📊 难度评估
-
-| 主题 | 难度 | 预计完成时间 |
-|------|------|------------|
-| Telegram Bot | ⭐⭐ | Week 1 |
-| Discord Bot | ⭐⭐⭐ | Week 1-2 |
-| 钉钉机器人 | ⭐⭐ | Week 2 |
-| OAuth 2.0 | ⭐⭐⭐⭐ | Week 3 |
-| WebSocket | ⭐⭐⭐⭐ | Week 3-4 |
+**总计:** 1,223 行
 
 ## 🔗 相关模块
 
@@ -55,6 +35,6 @@ c4-platform-connector/
 
 ---
 
-**状态:** 🚧 规划中  
+**状态:** ✅ 核心完成 (3/10)  
 **最后更新:** 2026-03-07  
 **维护者:** One AI Team
