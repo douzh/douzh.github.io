@@ -38,7 +38,24 @@
 
 ---
 
-### 3. [MCP 执行结果](./mcp-execution-results.md) 📊
+### 3. [MCP 协议规范](./mcp-specification.md) 📋
+**官方规范整理** - MCP 协议的完整说明
+
+**主要内容:**
+- ✅ MCP 概述和核心价值
+- ✅ 基础架构详解 (Client-Host-Server)
+- ✅ 核心组件说明 (Hosts, Clients, Servers)
+- ✅ JSON-RPC 2.0 协议格式
+- ✅ 会话管理和初始化流程
+- ✅ 安全机制和认证流程
+- ✅ 实现指南 (Node.js/Python)
+- ✅ 应用场景和最佳实践
+
+**适合人群:** 开发者、架构师、需要深入了解 MCP 的用户
+
+---
+
+### 4. [MCP 执行结果](./mcp-execution-results.md) 📊
 **实际执行记录** - 工具调用的真实返回结果
 
 **主要内容:**
@@ -79,10 +96,11 @@
 
 ```
 doc/mcp/
-├── README.md                      # 本文档（索引）
-├── mcp-user-guide.md              # 使用指南（用户向）
-├── mcp-development-guide.md       # 开发指南（开发者向）
-└── mcp-execution-results.md       # 执行结果记录
+├── README.md                          # 本文档（索引）
+├── mcp-specification.md               # 协议规范（核心文档）
+├── mcp-user-guide.md                  # 使用指南（用户向）
+├── mcp-development-guide.md           # 开发指南（开发者向）
+└── mcp-execution-results.md           # 执行结果记录
 ```
 
 ---
@@ -94,9 +112,10 @@ doc/mcp/
 2. [MCP 执行结果](./mcp-execution-results.md) - 查看示例
 
 ### 对于开发者
-1. [MCP 使用指南](./mcp-user-guide.md) - 快速浏览
-2. [MCP 开发指南](./mcp-development-guide.md) - 深入阅读
-3. [MCP 执行结果](./mcp-execution-results.md) - 参考格式
+1. [MCP 协议规范](./mcp-specification.md) - 深入阅读
+2. [MCP 使用指南](./mcp-user-guide.md) - 快速浏览
+3. [MCP 开发指南](./mcp-development-guide.md) - 实践操作
+4. [MCP 执行结果](./mcp-execution-results.md) - 参考格式
 
 ### 对于测试人员
 1. [MCP 使用指南](./mcp-user-guide.md) - 了解基本用法
@@ -106,6 +125,7 @@ doc/mcp/
 
 ## 📝 更新记录
 
+- **2026-03-10**: 添加 MCP 协议规范说明文档，基于官方规范整理
 - **2026-03-06**: 创建完整文档体系，拆分为使用指南和开发指南
 - **2026-03-06**: 添加 IDE 配置说明（包含界面截图说明）
 - **2026-03-06**: 添加文档索引（本文档）
@@ -121,4 +141,4 @@ doc/mcp/
 ---
 
 **文档维护:** One AI Team  
-**最后更新:** 2026-03-06
+**最后更新:**2026-03-10
