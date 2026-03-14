@@ -21,10 +21,10 @@
 → [c3-1 短期记忆](./c3-memory-system/c3-1-short-term-memory.md) (788 行，⭐⭐⭐)
 
 ### 查看完整知识体系？
-→ [AI智能助手知识体系](./knowledge-system.md) (182 行)
+→ [AI智能助手知识体系](1aik/knowledge-system.md) (182 行)
 
 ### 查看项目进度？
-→ [项目建设状态](./PROJECT-STATUS.md)
+→ [项目建设状态](1aik/PROJECT-STATUS.md)
 
 ---
 
@@ -117,9 +117,9 @@
 4. [c2-2 Function Calling](./c2-llm-integration/c2-2-function-calling.md) - 参数收集
 
 ### 📊 产品经理
-1. [knowledge-system](./knowledge-system.md) - 完整知识体系
+1. [knowledge-system](1aik/knowledge-system.md) - 完整知识体系
 2. [c1-3 架构对比](./c1-core-arch/c1-3-microkernel-vs-monolith.md) - 技术方案理解
-3. [PROJECT-STATUS](./PROJECT-STATUS.md) - 项目进度
+3. [PROJECT-STATUS](1aik/PROJECT-STATUS.md) - 项目进度
 
 ---
 
