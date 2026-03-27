@@ -6,11 +6,11 @@
   "last_updated": "2026-03-27T00:00:00Z",
   
   "vision_portfolio": {
-    "total_visions": 0,
-    "active_visions": [],
+    "total_visions": 2,
+    "active_visions": ["V001", "V002"],
     "completed_visions": [],
     "paused_visions": [],
-    "visions": {}
+    "visions": {"V001": {"name": "示例愿景","status": "active","priority": "P0","progress": 0},"V002": {"name": "自主运营企业系统","status": "active","priority": "P0","progress": 5}}
   },
   
   "global_state": {
@@ -61,4 +61,5 @@
     "resource_efficiency": 0
   }
 }
+
 
