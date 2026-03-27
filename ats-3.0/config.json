@@ -1,0 +1,53 @@
+{
+  "project_name": "ATS 3.0 任务管理系统",
+  "version": "3.0",
+  "description": "AI 自主驱动的任务管理系统（含六类工程文档同步机制）",
+  "created_date": "2026-03-27",
+  "last_updated": "2026-03-27",
+  "status": "initializing",
+  
+  "document_system": {
+    "enabled": true,
+    "types": ["BRD", "PDD", "AD", "HLD", "DD", "DP"],
+    "sync_enabled": true,
+    "version_control": true
+  },
+  
+  "architecture_layers": [
+    "Vision",
+    "Problems", 
+    "Goals",
+    "Tasks",
+    "Plans"
+  ],
+  
+  "state_management": {
+    "current_mode": "vision_definition",
+    "available_modes": [
+      "vision_definition",
+      "problem_analysis",
+      "goal_setting",
+      "task_breakdown",
+      "planning",
+      "execution",
+      "completion"
+    ]
+  },
+  
+  "active_task": null,
+  "available_tasks": [],
+  "completed_tasks": [],
+  
+  "ai_context": {
+    "last_ai_id": null,
+    "handover_notes": "",
+    "session_count": 0
+  },
+  
+  "progress_tracking": {
+    "total_steps": 0,
+    "completed_steps": 0,
+    "current_step": null,
+    "last_checkpoint": null
+  }
+}

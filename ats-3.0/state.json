@@ -1,0 +1,62 @@
+{
+  "project_name": "ATS 3.0 任务管理系统",
+  "version": "3.0",
+  "current_mode": "vision_definition",
+  "status": "initializing",
+  "last_updated": "2026-03-27T00:00:00Z",
+  
+  "vision_definition": {
+    "status": "pending",
+    "defined_date": null,
+    "last_reviewed": null
+  },
+  
+  "problem_analysis": {
+    "status": "pending",
+    "problems_identified": 0,
+    "last_updated": null
+  },
+  
+  "goal_setting": {
+    "status": "pending",
+    "goals_defined": [],
+    "completion_rate": 0
+  },
+  
+  "task_breakdown": {
+    "status": "pending",
+    "tasks_created": [],
+    "tasks_completed": [],
+    "tasks_in_progress": []
+  },
+  
+  "planning": {
+    "status": "pending",
+    "active_plan": null,
+    "plans_archive": []
+  },
+  
+  "execution": {
+    "status": "not_started",
+    "current_task": null,
+    "progress_percentage": 0,
+    "checkpoints": []
+  },
+  
+  "document_sync": {
+    "brd_version": null,
+    "pdd_version": null,
+    "ad_version": null,
+    "hld_version": null,
+    "dd_version": null,
+    "dp_version": null,
+    "last_sync": null
+  },
+  
+  "ai_session": {
+    "session_id": null,
+    "started_at": null,
+    "last_activity": null,
+    "handover_required": false
+  }
+}

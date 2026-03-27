@@ -1,0 +1,63 @@
+{
+  "project_name": "ATS 4.0 多愿景任务管理系统",
+  "version": "4.0",
+  "current_mode": "vision_portfolio_setup",
+  "status": "initializing",
+  "last_updated": "2026-03-27T00:00:00Z",
+  
+  "vision_portfolio": {
+    "total_visions": 0,
+    "active_visions": [],
+    "completed_visions": [],
+    "paused_visions": [],
+    "visions": {}
+  },
+  
+  "global_state": {
+    "vision_portfolio_setup": {
+      "status": "pending",
+      "initialized_date": null
+    },
+    "resource_allocation": {
+      "status": "not_started",
+      "allocated_resources": {}
+    },
+    "cross_vision_coordination": {
+      "status": "not_started",
+      "dependencies": [],
+      "conflicts": []
+    }
+  },
+  
+  "per_vision_states": {},
+  
+  "execution_context": {
+    "current_vision_id": null,
+    "current_task": null,
+    "active_plans": [],
+    "resource_utilization": {}
+  },
+  
+  "document_sync": {
+    "global_versions": {
+      "portfolio_version": "v1.0"
+    },
+    "per_vision_versions": {},
+    "last_sync": null
+  },
+  
+  "ai_session": {
+    "session_id": null,
+    "started_at": null,
+    "last_activity": null,
+    "handover_required": false,
+    "multi_vision_context": {}
+  },
+  
+  "analytics": {
+    "total_tasks_all_visions": 0,
+    "completed_tasks_all_visions": 0,
+    "overall_progress": 0,
+    "resource_efficiency": 0
+  }
+}

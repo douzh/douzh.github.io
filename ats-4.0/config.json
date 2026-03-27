@@ -1,0 +1,86 @@
+{
+  "project_name": "ATS 4.0 多愿景任务管理系统",
+  "version": "4.0",
+  "description": "AI 自主驱动的任务管理系统（支持多愿景并行管理）",
+  "created_date": "2026-03-27",
+  "last_updated": "2026-03-27",
+  "status": "initializing",
+  
+  "multi_vision_system": {
+    "enabled": true,
+    "max_visions": 10,
+    "concurrent_execution": true,
+    "resource_allocation": "dynamic",
+    "vision_templates": [
+      "technology_development",
+      "product_launch",
+      "research_project",
+      "business_transformation",
+      "custom"
+    ]
+  },
+  
+  "document_system": {
+    "enabled": true,
+    "types": ["BRD", "PDD", "AD", "HLD", "DD", "DP"],
+    "sync_enabled": true,
+    "version_control": true,
+    "per_vision_docs": true
+  },
+  
+  "architecture_layers": [
+    "Vision",
+    "Problems", 
+    "Goals",
+    "Tasks",
+    "Plans"
+  ],
+  
+  "portfolio_management": {
+    "enabled": true,
+    "resource_pooling": true,
+    "dependency_tracking": true,
+    "cross_vision_collaboration": true
+  },
+  
+  "state_management": {
+    "current_mode": "vision_portfolio_setup",
+    "available_modes": [
+      "vision_portfolio_setup",
+      "vision_definition",
+      "problem_analysis",
+      "goal_setting",
+      "task_breakdown",
+      "planning",
+      "execution",
+      "completion"
+    ],
+    "scope": "global"
+  },
+  
+  "active_vision_id": null,
+  "active_task": null,
+  "available_tasks": [],
+  "completed_tasks": [],
+  
+  "ai_context": {
+    "last_ai_id": null,
+    "handover_notes": "",
+    "session_count": 0,
+    "multi_vision_awareness": true
+  },
+  
+  "progress_tracking": {
+    "total_steps": 0,
+    "completed_steps": 0,
+    "current_step": null,
+    "last_checkpoint": null,
+    "per_vision_progress": true
+  },
+  
+  "resource_management": {
+    "ai_agents": [],
+    "compute_resources": {},
+    "time_allocation": {}
+  }
+}
