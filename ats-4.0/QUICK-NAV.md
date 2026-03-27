@@ -1,4 +1,4 @@
-# ATS 4.0 - 快速导航
+﻿# ATS 4.0 - 快速导航
 
 ## 🎯 系统入口
 
@@ -28,7 +28,13 @@ ats-4.0/
 │   │   ├── ats-portfolio-management.md
 │   │   └── upgrade-verification.md
 │   └── templates/            # 模板文件
-│       └── vision_template.md
+│       ├── vision_template.md
+│       ├── brd_template.md
+│       ├── pdd_template.md
+│       ├── ad_template.md
+│       ├── hld_template.md
+│       ├── dd_template.md
+│       └── dp_template.md
 │
 ├── visions/                  # 🎯 愿景工作区（每个愿景独立）
 │   ├── V001_example/         # 愿景 1 示例
@@ -71,7 +77,7 @@ Copy-Item docs/templates/vision_template.md visions/V002_your_vision/vision.md
 # 打开 visions/V002_your_vision/vision.md 填写信息
 ```
 
-### 2. 查看投资组合
+### 2. 查看全局总览
 
 ```powershell
 # 查看所有愿景的全局状态

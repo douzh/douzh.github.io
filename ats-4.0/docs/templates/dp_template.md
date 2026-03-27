@@ -1,9 +1,10 @@
-# 开发计划文档 (DP - Development Plan)
+# 开发计划文档 (DP) - {VISION_ID}
 
 ## 📋 文档信息
 
 | 项目 | 内容 |
 |------|------|
+| **愿景 ID** | {VISION_ID} |
 | **项目名称** | [填写项目名称] |
 | **文档版本** | v1.0 |
 | **创建日期** | YYYY-MM-DD |
@@ -23,13 +24,13 @@
 
 | 目标 ID | 目标描述 | 来源 |
 |---------|----------|------|
-| [G001](../../goals.md#目标 -1) | [目标描述] | goals.md |
+| [G001](../../visions/{VISION_ID}/goals.md#目标 -1) | [目标描述] | goals.md |
 
 ### 1.3 关联任务
 
 | 任务 ID | 任务名称 | 优先级 | 预估工时 |
 |---------|----------|--------|----------|
-| [T001](../../tasks.md#任务 -1) | [任务名称] | 高 | X 小时 |
+| [T001](../../visions/{VISION_ID}/tasks.md#任务 -1) | [任务名称] | 高 | X 小时 |
 
 ---
 
@@ -203,8 +204,8 @@ gantt
 
 ### 9.1 文档交付物
 
-- [ ] [需求文档](../brd/brd_vision.md)
-- [ ] [设计文档](../dd/dd_tasks.md)
+- [ ] [需求文档](./brd_{VISION_ID}.md)
+- [ ] [设计文档](./dd_{VISION_ID}.md)
 - [ ] 测试报告
 - [ ] 用户手册
 
@@ -226,12 +227,21 @@ gantt
 
 ## 🔗 关联文档
 
-- **上游**: [goals.md](../../goals.md), [tasks.md](../../tasks.md)
-- **上游文档**: [HLD](../hld/hld_goals.md), [DD](./dd_tasks.md)
-- **下游**: [progress/](../../progress/)
+### 本愿景文档
+- **上游**: [../visions/{VISION_ID}/goals.md](../../visions/{VISION_ID}/goals.md)
+- **上游**: [../visions/{VISION_ID}/tasks.md](../../visions/{VISION_ID}/tasks.md)
+- **上游文档**: [./hld_{VISION_ID}.md](./hld_{VISION_ID}.md)
+- **上游文档**: [./dd_{VISION_ID}.md](./dd_{VISION_ID}.md)
+
+### 下游文档
+- **Progress**: [../../progress/progress_{VISION_ID}.md](../../progress/progress_{VISION_ID}.md)
+
+### 跨愿景文档（如适用）
+- **全局 DP**: [./dp_global.md](./dp_global.md)
 
 ---
 
 **文档状态**: 草稿  
 **最后更新**: YYYY-MM-DD  
-**负责人**: [填写]
+**负责人**: [填写]  
+**愿景 ID**: {VISION_ID}

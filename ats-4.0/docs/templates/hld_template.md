@@ -1,9 +1,10 @@
-# 概要设计文档 (HLD - High Level Design)
+# 概要设计文档 (HLD) - {VISION_ID}
 
 ## 📋 文档信息
 
 | 项目 | 内容 |
 |------|------|
+| **愿景 ID** | {VISION_ID} |
 | **项目名称** | [填写项目名称] |
 | **文档版本** | v1.0 |
 | **创建日期** | YYYY-MM-DD |
@@ -103,8 +104,8 @@ graph TB
 
 | 模块 ID | 模块名称 | 职责描述 | 关联目标 |
 |---------|----------|----------|----------|
-| M001 | [模块 1] | [职责] | [G001](../../goals.md#目标 -1) |
-| M002 | [模块 2] | [职责] | [G002](../../goals.md#目标 -2) |
+| M001 | [模块 1] | [职责] | [G001](../../visions/{VISION_ID}/goals.md#目标 -1) |
+| M002 | [模块 2] | [职责] | [G002](../../visions/{VISION_ID}/goals.md#目标 -2) |
 
 ### 4.2 模块关系
 
@@ -206,7 +207,7 @@ erDiagram
 
 | 目标 ID | 涉及模块 | 相关任务 |
 |---------|----------|----------|
-| [G001](../../goals.md#目标 -1) | M001, M002 | [T001](../../tasks.md#任务 -1), [T002](../../tasks.md#任务 -2) |
+| [G001](../../visions/{VISION_ID}/goals.md#目标 -1) | M001, M002 | [T001](../../visions/{VISION_ID}/tasks.md#任务 -1), [T002](../../visions/{VISION_ID}/tasks.md#任务 -2) |
 
 ### 8.2 任务实现路径
 
@@ -228,12 +229,21 @@ G001 (目标)
 
 ## 🔗 关联文档
 
-- **上游**: [goals.md](../../goals.md), [tasks.md](../../tasks.md)
-- **上游文档**: [AD](../ad/ad_vision.md)
-- **下游**: [DD](./dd_tasks.md), [DP](../dp/dp_tasks.md)
+### 本愿景文档
+- **上游**: [../visions/{VISION_ID}/goals.md](../../visions/{VISION_ID}/goals.md)
+- **上游**: [../visions/{VISION_ID}/tasks.md](../../visions/{VISION_ID}/tasks.md)
+- **上游文档**: [./ad_{VISION_ID}.md](./ad_{VISION_ID}.md)
+
+### 下游文档
+- **DD**: [./dd_{VISION_ID}.md](./dd_{VISION_ID}.md)
+- **DP**: [./dp_{VISION_ID}.md](./dp_{VISION_ID}.md)
+
+### 跨愿景文档（如适用）
+- **全局 HLD**: [./hld_global.md](./hld_global.md)
 
 ---
 
 **文档状态**: 草稿  
 **最后更新**: YYYY-MM-DD  
-**负责人**: [填写]
+**负责人**: [填写]  
+**愿景 ID**: {VISION_ID}

@@ -9,7 +9,7 @@
 - ✅ **多愿景并行**: 同时管理多个独立或关联的愿景
 - ✅ **五层架构**: Vision → Problems → Goals → Tasks → Plans
 - ✅ **六类文档**: BRD/PDD/AD/HLD/DD/DP同步机制
-- ✅ **投资组合管理**: 统一视角下的资源优化配置
+- ✅ **全局总览管理**: 统一视角下的资源优化配置
 - ✅ **中断恢复**: 任意时间点中断后快速恢复
 - ✅ **跨愿景协作**: 愿景间的依赖管理和资源共享
 - ✅ **动态资源分配**: 根据优先级和进度智能调配资源
@@ -34,7 +34,7 @@ ats-4.0/
 │   │   └── tasks.md                # 任务列表
 │   └── V002_vision_name/           # 愿景 2 工作区
 │
-├── hub/                     # 投资组合视图
+├── hub/                     # 全局总览视图
 │   ├── overview.md       # 总览仪表板
 │   └── resources.md      # 资源配置表
 │
@@ -74,7 +74,7 @@ Copy-Item ../vision_template.md visions/V001_your_vision/vision.md
 # Step 5: 编辑愿景文档，填写愿景信息
 ```
 
-### 2. 更新投资组合
+### 2. 更新全局总览
 
 编辑 `state.json`，在 `vision_portfolio.visions` 中添加新愿景：
 
@@ -127,7 +127,7 @@ Plans (计划)
 - 独立的六类文档
 - 独立的状态追踪
 
-### 投资组合 (Portfolio)
+### 全局总览 (Portfolio)
 
 所有愿景的集合视图，用于：
 - 全局资源优化
@@ -185,7 +185,7 @@ AI 在不同愿景间切换工作的机制：
 ### state.json
 
 包含三个层次的状态：
-1. **全局状态**: 投资组合整体状态
+1. **全局状态**: 全局总览整体状态
 2. **愿景状态**: 每个愿景的独立状态
 3. **执行上下文**: 当前正在执行的愿景和任务
 
@@ -196,7 +196,7 @@ AI 在不同愿景间切换工作的机制：
 | 文档 | 用途 |
 |------|------|
 | [ats-portfolio-management.md](./ats-portfolio-management.md) | 多愿景管理详细指南 |
-| [hub/overview.md](../hub/overview.md) | 投资组合总览 |
+| [hub/overview.md](../hub/overview.md) | 全局总览总览 |
 | [hub/resources.md](../hub/resources.md) | 资源配置表 |
 | [visions/V001_example/vision.md](../visions/V001_example/vision.md) | 愿景示例 |
 
@@ -208,7 +208,7 @@ AI 在不同愿景间切换工作的机制：
 
 1. **愿景命名**: 使用 `V001_short_name` 格式
 2. **优先级管理**: P0 愿景不超过 2 个
-3. **定期审查**: 每周更新投资组合状态
+3. **定期审查**: 每周更新全局总览状态
 4. **依赖管理**: 明确记录愿景间关系
 5. **上下文切换**: 避免频繁切换，降低效率
 

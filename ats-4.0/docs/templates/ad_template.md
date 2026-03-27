@@ -1,9 +1,10 @@
-# 架构文档 (AD - Architecture Document)
+# 架构文档 (AD) - {VISION_ID}
 
 ## 📋 文档信息
 
 | 项目 | 内容 |
 |------|------|
+| **愿景 ID** | {VISION_ID} |
 | **项目名称** | [填写项目名称] |
 | **文档版本** | v1.0 |
 | **创建日期** | YYYY-MM-DD |
@@ -243,11 +244,22 @@ erDiagram
 
 ## 🔗 关联文档
 
-- **上游**: [vision.md](../vision.md), [problems.md](../problems.md), [goals.md](../goals.md)
-- **下游**: [BRD](./brd_vision.md), [PDD](./pdd_vision.md), [HLD](../hld/hld_goals.md)
+### 本愿景文档
+- **上游**: [../visions/{VISION_ID}/vision.md](../../visions/{VISION_ID}/vision.md)
+- **上游**: [../visions/{VISION_ID}/problems.md](../../visions/{VISION_ID}/problems.md)
+- **上游**: [../visions/{VISION_ID}/goals.md](../../visions/{VISION_ID}/goals.md)
+
+### 下游文档
+- **BRD**: [./brd_{VISION_ID}.md](./brd_{VISION_ID}.md)
+- **PDD**: [./pdd_{VISION_ID}.md](./pdd_{VISION_ID}.md)
+- **HLD**: [./hld_{VISION_ID}.md](./hld_{VISION_ID}.md)
+
+### 跨愿景文档（如适用）
+- **全局 AD**: [./ad_global.md](./ad_global.md)
 
 ---
 
 **文档状态**: 草稿  
 **最后更新**: YYYY-MM-DD  
-**负责人**: [填写]
+**负责人**: [填写]  
+**愿景 ID**: {VISION_ID}

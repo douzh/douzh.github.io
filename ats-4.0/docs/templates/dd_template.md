@@ -1,9 +1,10 @@
-# 详细设计文档 (DD - Detailed Design)
+# 详细设计文档 (DD) - {VISION_ID}
 
 ## 📋 文档信息
 
 | 项目 | 内容 |
 |------|------|
+| **愿景 ID** | {VISION_ID} |
 | **项目名称** | [填写项目名称] |
 | **文档版本** | v1.0 |
 | **创建日期** | YYYY-MM-DD |
@@ -21,7 +22,7 @@
 |------|-----|
 | **模块名称** | [模块名称] |
 | **模块 ID** | M001 |
-| **关联任务** | [T001](../../tasks.md#任务 -1) |
+| **关联任务** | [T001](../../visions/{VISION_ID}/tasks.md#任务 -1) |
 | **优先级** | 高/中/低 |
 
 ### 1.2 功能说明
@@ -195,7 +196,7 @@ flowchart TD
 
 ### 6.1 关联计划
 
-本文档对应的执行计划：[plan_XXX.md](../../plans/plan_XXX.md)
+本文档对应的执行计划：[plan_{VISION_ID}_XXX.md](../../plans/plan_{VISION_ID}_XXX.md)
 
 ### 6.2 实现步骤
 
@@ -255,7 +256,7 @@ src/
 完成率：0%
 ```
 
-详细进度记录：[progress/progress_XXX.md](../../progress/progress_XXX.md)
+详细进度记录：[../../progress/progress_{VISION_ID}.md](../../progress/progress_{VISION_ID}.md)
 
 ---
 
@@ -269,12 +270,23 @@ src/
 
 ## 🔗 关联文档
 
-- **上游**: [HLD](./hld_template.md), [tasks.md](../../tasks.md)
-- **下游**: [DP](../dp/dp_tasks.md), [plans/](../../plans/)
-- **参考**: [AD](../ad/ad_vision.md)
+### 本愿景文档
+- **上游**: [./hld_{VISION_ID}.md](./hld_{VISION_ID}.md)
+- **上游**: [../visions/{VISION_ID}/tasks.md](../../visions/{VISION_ID}/tasks.md)
+
+### 下游文档
+- **DP**: [./dp_{VISION_ID}.md](./dp_{VISION_ID}.md)
+- **Plans**: [../../plans/](../../plans/)
+
+### 参考文档
+- **AD**: [./ad_{VISION_ID}.md](./ad_{VISION_ID}.md)
+
+### 跨愿景文档（如适用）
+- **全局 DD**: [./dd_global.md](./dd_global.md)
 
 ---
 
 **文档状态**: 草稿  
 **最后更新**: YYYY-MM-DD  
-**负责人**: [填写]
+**负责人**: [填写]  
+**愿景 ID**: {VISION_ID}

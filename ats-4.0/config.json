@@ -1,4 +1,4 @@
-{
+﻿{
   "project_name": "ATS 4.0 多愿景任务管理系统",
   "version": "4.0",
   "description": "AI 自主驱动的任务管理系统（支持多愿景并行管理）",
@@ -84,3 +84,4 @@
     "time_allocation": {}
   }
 }
+

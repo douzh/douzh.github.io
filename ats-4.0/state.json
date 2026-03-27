@@ -1,4 +1,4 @@
-{
+﻿{
   "project_name": "ATS 4.0 多愿景任务管理系统",
   "version": "4.0",
   "current_mode": "vision_portfolio_setup",
@@ -61,3 +61,4 @@
     "resource_efficiency": 0
   }
 }
+
