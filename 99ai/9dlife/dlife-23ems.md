@@ -15,8 +15,6 @@
 
 EMS系统总结：临时笔记是收纳箱，中期笔记是学习资料，文献笔记是学习总结，知识库为资料归档，永久笔记才是真正的核心网状记忆，通过成果笔记形成网状记忆的反馈循环(解混沌)。
 
-
-
 ## 卡片内容格式规范
 
 - **Front Matter**: 存储元数据（ID、标题、标签、时间戳、链接关系）。
@@ -216,10 +214,127 @@ smy-5person-doumx-成长记录-20260410170000.md
 永久笔记示例:
 
 ```
-pn-01-life-wo-混沌经心法-20260410143500.md
-pn-03-meta-wuxing-五行生克规律-20260410151000.md
-pn-04-sci-08-gongxue-神经网络原理-20260410162000.md
+pn-1life-wo-混沌经心法-20260410143500.md
+pn-3meta-wuxing-五行生克规律-20260410151000.md
+pn-4sci-08-gongxue-神经网络原理-20260410162000.md
 ```
+
+## EMS-数据库同步方案架构
+
+markdown的文件存储为原始基础，定时同步git保障数据安全。
+
+实现知识图谱skill，可以将ems所有数据同步到neo4j，实现向量库+图库的功能，同步包括文件增删改变化。
+
+语言建议用python实现。
+
+要保障任何时候都可以从ems的原始markdown重建知识图谱，neo4j只是工具，将来可以换成任务更好的数据库。
+
+一个**Markdown 驱动、Neo4j 为视图**的存储同步方案。该方案确保 Markdown 是唯一真理来源（Single Source of Truth），Neo4j 仅作为高性能检索与推理层。
+
+**1. 核心原则**
+
+*   **单向/双向可控**: 默认以本地 Markdown 为准推送到 Neo4j，支持从远程 Git 拉取更新后重建图谱。
+*   **原子化节点**: 每个 `.md` 文件对应 Neo4j 中的一个 `Card` 节点。
+*   **向量内嵌**: 在同步时实时计算 Embedding 并存入 Neo4j 原生向量索引。
+*   **幂等性**: 无论运行多少次同步脚本，只要 Markdown 内容不变，图谱状态保持一致。
+
+---
+
+**2. Neo4j 数据模型设计 (Schema)**
+
+| 元素 | 标签/类型 | 关键属性 | 说明 |
+| :--- | :--- | :--- | :--- |
+| **卡片节点** | `Card` | `id`, `title`, `content`, `path`, `hash`, `embedding`, `updated_at` | `hash` 用于快速判断文件是否变更 |
+| **链接关系** | `LINKS_TO` | `type` (引用/相关) | 解析 Markdown 中的 `[[id]]` 生成 |
+| **分类节点** | `Category` | `name`, `level` | 根据目录结构自动生成，建立 `BELONGS_TO` 关系 |
+| **向量索引** | `vector` | `card_embeddings` | 维度 384 (all-MiniLM-L6-v2)，相似度 cosine |
+
+---
+
+**3. Python 同步引擎实现逻辑**
+
+我们将创建一个名为 `ems_sync.py` 的核心脚本，包含以下模块：
+
+A. 变更检测器 (Change Detector)
+
+利用文件 Hash 值避免重复处理大文本。
+```python
+import hashlib
+def get_file_hash(path):
+    with open(path, 'r', encoding='utf-8') as f:
+        return hashlib.md5(f.read().encode()).hexdigest()
+```
+
+B. 解析器 (Parser)
+
+提取 Front Matter 元数据和正文，并识别内部链接。
+
+```python
+import yaml, re
+def parse_card(path):
+    with open(path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    # 分离 YAML 和正文
+    meta, body = content.split('---', 2)[1], content.split('---', 2)[2]
+    data = yaml.safe_load(meta)
+    # 提取 [[id]] 链接
+    links = re.findall(r'\[\[(.*?)\]\]', body)
+    return data, body, links
+```
+
+C. 向量化器 (Embedder)
+
+使用本地模型生成向量。
+
+```python
+from sentence_transformers import SentenceTransformer
+model = SentenceTransformer('all-MiniLM-L6-v2')
+def get_embedding(text):
+    return model.encode(text).tolist()
+```
+
+D. 图谱写入器 (Graph Writer)
+
+使用 `neo4j-driver` 执行 Upsert 操作。
+
+```python
+def sync_to_neo4j(driver, card_id, data, body, links, file_hash):
+    with driver.session() as session:
+        # 1. 创建或更新卡片节点
+        session.run("""
+            MERGE (c:Card {id: $id})
+            SET c.title = $title, c.content = $content, c.hash = $hash, 
+                c.embedding = $embedding, c.updated_at = datetime()
+        """, id=card_id, title=data['title'], content=body, 
+            hash=file_hash, embedding=get_embedding(body))
+        
+        # 2. 建立链接关系
+        for link_id in links:
+            session.run("""
+                MATCH (source:Card {id: $src}), (target:Card {id: $tgt})
+                MERGE (source)-[:LINKS_TO]->(target)
+            """, src=card_id, tgt=link_id)
+```
+
+**4. 完整工作流 (Workflow)**
+
+a.  **Git Pull**: 从远程 EMS 仓库拉取最新 Markdown 文件。
+b.  **扫描目录**: 遍历 `ems/` 下所有 `.md` 文件。
+c.  **对比 Hash**: 
+    *   若文件 Hash 与 Neo4j 中存储的一致 → **跳过**。
+    *   若不一致或节点不存在 → **进入处理流程**。
+d.  **解析与嵌入**: 提取内容、链接，调用本地模型生成向量。
+e.  **事务写入**: 批量更新 Neo4j 节点与关系。
+f.  **清理孤儿节点**: 删除 Neo4j 中存在但物理文件已删除的节点。
+
+**5. 优势与扩展性**
+
+*   **数据库无关性**: 由于逻辑是 `Markdown -> Python Object -> DB`，未来若想换成 ChromaDB 或 Milvus，只需重写“图谱写入器”模块。
+*   **离线可用**: 向量化和解析均在本地完成，不依赖云端 API。
+*   **混合检索**: 
+    *   **精确查找**: `MATCH (c:Card {id: 'xxx'})`
+    *   **语义联想**: `CALL db.index.vector.queryNodes('card_embeddings', 5, $vec)`
+    *   **路径推理**: `MATCH path = (c1)-[:LINKS_TO*2..5]->(c2)`
 
 ## 如何总结文献笔记
 
