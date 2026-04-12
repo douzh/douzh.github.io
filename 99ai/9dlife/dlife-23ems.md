@@ -204,21 +204,21 @@ ems/
 - 成果笔记out
 - 知识库kb
 
-文件/卡片名：{smy、pn、out、kb}-{生命、人物、玄学、科学}-一级目录-二级目录-关键词-yyyyMMddHHmmss.md
+文件/卡片名：{smy、pn、out、kb}-{生命、人物、玄学、科学}-一级目录-二级目录-yyyyMMddHHmmss-关键词.md
 
 文献笔记示例:
 
-smy-1life-wo-自我认知核心-20260410143000.md
-smy-3meta-yijing-卦象解读方法-20260410150000.md
-smy-4sci-07-ligong-量子力学基础-20260410160000.md
-smy-5person-doumx-成长记录-20260410170000.md
+smy-1life-wo-20260410143000-自我认知核心.md
+smy-3meta-yijing-20260410150000-卦象解读方法.md
+smy-4sci-07-ligong-20260410160000-量子力学基础.md
+smy-5person-doumx-20260410170000-成长记录.md
 
 永久笔记示例:
 
 ```
-pn-1life-wo-混沌经心法-20260410143500.md
-pn-3meta-wuxing-五行生克规律-20260410151000.md
-pn-4sci-08-gongxue-神经网络原理-20260410162000.md
+pn-1life-wo-20260410143500-混沌经心法.md
+pn-3meta-wuxing-20260410151000-五行生克规律.md
+pn-4sci-08-gongxue-20260410162000-神经网络原理.md
 ```
 
 ## EMS-数据库同步方案架构
