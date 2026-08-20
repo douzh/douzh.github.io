@@ -31,3 +31,7 @@ https://github.com/zexadev/lapisnote
 1. Local‑first 本地优先：笔记全部是本地 Markdown 文件；
 2. 核心功能个人永久免费，无需注册账号；
 3. 高度可扩展，开放插件 API，交给社区扩展能力。
+
+## 思源笔记
+
+https://github.com/siyuan-note/siyuan
