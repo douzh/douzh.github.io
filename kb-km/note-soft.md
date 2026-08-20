@@ -23,3 +23,11 @@ https://github.com/zexadev/lapisnote
 - 内置 AI 写作助手，支持 DeepSeek、OpenAI、Claude、Gemini、Ollama 本地模型，可同时配置多模型切换
 - 支持 Markdown 编辑、标签系统、日历视图、全文搜索、废纸篓、提醒等完整笔记功能
 - 支持导出 Markdown / PDF
+
+## Obsidian
+
+完全本地、纯 Markdown、可双向链接、不绑架数据的知识库
+
+1. Local‑first 本地优先：笔记全部是本地 Markdown 文件；
+2. 核心功能个人永久免费，无需注册账号；
+3. 高度可扩展，开放插件 API，交给社区扩展能力。
