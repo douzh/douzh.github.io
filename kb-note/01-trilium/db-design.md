@@ -236,6 +236,15 @@ CREATE TABLE attachments (
 
 实测:图片 jpg/svg、canvas 导出 svg、mermaid 导出 svg 均为附件;**附件内容也存 blobs**(与笔记正文共用去重机制)。
 
+**附件 100% 在库内,无外部文件**(与 Obsidian 的 `attachments/` 文件夹路线根本不同):
+
+| typeof(blobs.content) | 含义 | 实测例 |
+| --- | --- | --- |
+| `blob` | 二进制字节直接入库 | codenames.jpg(7KB)、The Last Question.pdf(48KB)、woff2 字体、01.jpeg~03.jpeg |
+| `text` | 文本型附件 | mermaid-export.svg、geoMap.json、chart.js |
+
+本库 153 个 blob = 16 个二进制 + 137 个文本,`trilium-data/` 目录下除 `document.db` 外没有任何内容文件。**含大附件时备份就是复制一个 db 文件,但库体积会随附件线性膨胀**(SQLite 单值上限约 1GB,理论可存视频)。
+
 ### 4.2 revisions —— 版本历史
 
 ```sql
