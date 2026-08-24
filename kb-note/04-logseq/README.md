@@ -2,9 +2,20 @@
 
 [返回总览](../note-soft.md)
 
-- 项目:https://github.com/logseq/logseq(MIT 开源)
+- 项目:https://github.com/logseq/logseq(**AGPL-3.0 开源**)
 - 定位:开源、本地优先、隐私优先的大纲式双链知识管理工具(Roam Research 主流开源替代)
 - 一句话:**大纲块级记录流——以"块"为最小单位,Journal 日记流"先捕捉后整理",块引用原生最强之一**
+
+## 开源情况
+
+| 维度 | 说明 |
+| --- | --- |
+| 许可证 | **AGPL-3.0**(GitHub API 实测确认;强 copyleft) |
+| 开放范围 | ✅ 全部开源:ClojureScript 主体 + 白板,代码完整可自编译 |
+| 治理主体 | Logseq 公司 + 开放社区(有公开 roadmap) |
+| 商业模式 | 核心永久免费开源;付费项 = 官方端到端加密 Sync(可完全不用,自行搭配 Git/网盘) |
+| 社区规模 | GitHub 44.5k+ stars、2.7k+ forks,持续活跃 |
+| 风险对冲 | 数据是纯 Markdown/Org 文本,开源 + 文本双保险,几乎无锁定风险 |
 
 核心设计原则:用户完全拥有数据——官方服务器永远不存储、不分析私人笔记;提供可选的端到端加密协作。
 
