@@ -5,7 +5,7 @@
 - 项目:https://github.com/TriliumNext/Trilium
 - 定位:可编程的树状个人知识库,极客向,关系建模能力最强
 - 一句话:**"程序+SQLite 全放 U 盘"的官方原生最优解;唯一把"关系"作为数据库一等公民的笔记工具;v0.104+ 官方内置 AI(可复用 Claude Code 订阅)+ MCP 端点**
-- 相关文档:[数据库表设计与存储逻辑(实测 document.db)](db-design.md) | [可编程性说明(五层能力+实测脚本组成)](scripting.md) | [属性系统:标签/关系与定义](attributes.md) | [vs Notion 功能对标](vs-notion.md)
+- 相关文档:[数据库表设计与存储逻辑(实测 document.db)](db-design.md) | [可编程性说明(五层能力+实测脚本组成)](scripting.md) | [属性系统:标签/关系与定义](attributes.md) | [vs Notion 功能对标](vs-notion.md) | [数学物理公式推理关系(图谱谓词表)](formula-relations.md)
 
 ## 开源情况
 
