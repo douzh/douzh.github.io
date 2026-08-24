@@ -17,6 +17,20 @@
 | 社区规模 | GitHub 61.8k+ stars,头部开源项目,融资充足 |
 | 风险对冲 | 自部署栈(Docker Compose)全开源,数据可导出 Markdown;但块结构与白板导出有损 |
 
+## 发展历史
+
+| 时间 | 里程碑 |
+| --- | --- |
+| 前史 | 源于新加坡的 TOVER 研究项目,后成立 TOEVERYTHING Pte. Ltd. 推进产品化 |
+| 2022-08 | GitHub 开源(AGPL-3.0),以"Notion + Miro 开源替代"定位引发关注,当年 stars 破万 |
+| 2022–2023 | Cloud 版 Beta;Edgeless 无限白板模式与多视图数据库落地,确立"文档 + 白板 + 数据库"三合一形态 |
+| 2023–2024 | 数据层独立开源:**OctoBase**(CRDT 引擎)与 **BlockSuite** 编辑器分拆为独立项目,本地优先架构成熟 |
+| 2024–2025 | AFFiNE Cloud 商业化(协作/AI 额度)、内置多模态 AI(Copilot)、自托管 Docker 栈完善;61.8k+ stars,多轮融资支撑 |
+
+**演进主线**:研究项目 → 开源三合一工作台 → 核心组件独立开源化。与 AppFlowy"克隆 Notion"路线不同,AFFiNE 重投入自研编辑器与 CRDT 数据引擎,走平台化技术路线。
+
+---
+
 ## 一、笔记功能
 
 | 能力 | 说明 |

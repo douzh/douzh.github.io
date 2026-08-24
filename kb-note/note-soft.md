@@ -14,6 +14,8 @@
 | [06-affine/](06-affine/README.md) | AFFiNE | Notion+Miro 融合——文档⇄白板双模式唯一开源方案,内置多模态 AI |
 | [07-appflowy/](07-appflowy/README.md) | AppFlowy | Notion 像素级开源克隆——本地 SQLite + AI 会议纪要,全平台含移动原生 |
 | [08-anytype/](08-anytype/README.md) | Anytype | 加密去中心化知识库——对象+关系建模(L4),E2EE + P2P,官方也读不了你的数据 |
+| [09-roam/](09-roam/README.md) | Roam Research | 双链笔记鼻祖(闭源云端)——发明了块级双链/日记流范式,如今停滞+最贵+无免费版 |
+| [10-notion/](10-notion/README.md) | Notion | All-in-one 协作标杆(闭源云端)——协作/数据库/内置 AI/官方托管 MCP 四项天花板 |
 
 ---
 
@@ -89,17 +91,34 @@
 
 > 与 01-05 的本质分野:01-05 是 PKM 系(树/大纲/双链文本),06-08 是 Notion 系(块+数据库+对象)。两系唯一交集是"关系建模"——Trilium(L5,SQL 可查)> Anytype(L4,UI 层)> 思源(L4-L5)> 其余。
 
-### 开源情况(全八款)
+### 闭源云端系(09-10)对比
 
-| | Trilium | lapisnote | Obsidian | Logseq | 思源 | AFFiNE | AppFlowy | Anytype |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 许可证 | AGPL-3.0 | AGPL-3.0 | ❌ **闭源** | AGPL-3.0 | AGPL-3.0 | AGPL-3.0 | AGPL-3.0 | 协议 MIT/客户端受限 |
-| 开放范围 | ✅ 全部 | ✅ 全部 | 仅插件 API/主题 | ✅ 全部 | ✅ 全部(含移动端) | ⚠️ 核心开源,企业功能闭源 | ✅ 全部 | ⚠️ 半开源 |
-| 治理主体 | TriliumNext 社区 | 个人开发者(极早期) | Dynalist Inc.(商业) | Logseq 公司 | 88250/B3log | TOEVERYTHING 公司 | AppFlowy-IO(YC) | **非营利协会** |
-| 付费项 | 无(无官方云) | 无 | Sync/Publish 云 | Sync 云 | 云同步/云空间 | 官方云/AI | Cloud/AI 积分 | 备份空间 |
-| 社区规模 | 30k+ ⭐ | 16 ⭐ | —(闭源) | 44.5k+ ⭐ | 45k+ ⭐ | 61.8k+ ⭐ | **67.5k+ ⭐** | 活跃 |
+| | Roam Research | Notion |
+| --- | --- | --- |
+| 历史角色 | **双链范式发明者**(2019),被开源系全面复刻 | **块+数据库范式定义者**(2016),开源系共同对标原点 |
+| 编辑范式 | 大纲块级(原创) | 块+数据库(原创) |
+| 双链/块引用 | ✅ 手感最佳 + Unlinked References | ⚠️ mentions 弱,数据库 Relation 强 |
+| 内置 AI | ❌ 几乎为零 | ✅ **最成熟**(Q&A/Connectors/Agents/纪要) |
+| 官方 MCP | ❌(社区适配器,T2) | ✅ **官方托管 + OAuth**(T1+) |
+| 多人协作 | ✅ 实时共编图谱 | ✅ **最强**(权限/评论/团队空间) |
+| 存储范式 | 纯云端图谱(导出有损) | 纯云端块库(导出有损) |
+| 定价 | $15/月,**无免费版** | 免费版 + $10-20/人/月(AI 已捆绑) |
+| 数据主权 | ❌ 十款最弱 | ❌ 弱 |
+| 2026 现状 | 开发停滞,新用户理由不足 | 破亿用户,ARR 逼近 $10 亿 |
 
-> 开源格局速读:**AGPL-3.0 是笔记工具的事实标准**(八款中五款采用,防白嫖式套壳又保证个人免费);Obsidian 走"闭源但纯文本无锁定"的特殊路线;Anytype 半开源但治理最纯粹(非营利协会)。个人日常使用下,闭源不影响 Obsidian 数据安全,但影响长期信任与可审计性。
+> 09-10 是两代"原创者":Roam 发明的范式被 Obsidian/Logseq 免费发扬,自己成了活化石;Notion 定义的范式养活了整个开源替代生态,自己靠协作+AI 继续领跑。共同代价:闭源 + 纯云端,数据主权均垫底。
+
+### 开源情况(全十款)
+
+| | Trilium | lapisnote | Obsidian | Logseq | 思源 | AFFiNE | AppFlowy | Anytype | Roam | Notion |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 许可证 | AGPL-3.0 | AGPL-3.0 | ❌ **闭源** | AGPL-3.0 | AGPL-3.0 | AGPL-3.0 | AGPL-3.0 | 协议 MIT/客户端受限 | ❌ **闭源** | ❌ **闭源** |
+| 开放范围 | ✅ 全部 | ✅ 全部 | 仅插件 API/主题 | ✅ 全部 | ✅ 全部(含移动端) | ⚠️ 核心开源,企业功能闭源 | ✅ 全部 | ⚠️ 半开源 | 仅 API | API+官方 MCP |
+| 治理主体 | TriliumNext 社区 | 个人开发者(极早期) | Dynalist Inc.(商业) | Logseq 公司 | 88250/B3log | TOEVERYTHING 公司 | AppFlowy-IO(YC) | **非营利协会** | Roam 公司 | Notion Labs |
+| 付费项 | 无(无官方云) | 无 | Sync/Publish 云 | Sync 云 | 云同步/云空间 | 官方云/AI | Cloud/AI 积分 | 备份空间 | **全订阅(无免费版)** | 订阅(AI 已捆绑) |
+| 社区规模 | 30k+ ⭐ | 16 ⭐ | —(闭源) | 44.5k+ ⭐ | 45k+ ⭐ | 61.8k+ ⭐ | **67.5k+ ⭐** | 活跃 | —(闭源) | —(闭源,用户破亿) |
+
+> 开源格局速读:**AGPL-3.0 是笔记工具的事实标准**(十款中五款采用,防白嫖式套壳又保证个人免费);Obsidian 走"闭源但纯文本无锁定"的特殊路线;Anytype 半开源但治理最纯粹(非营利协会);Roam/Notion 则是完全的闭源云端商业软件——用数据主权换协作与 AI 成熟度。个人日常使用下,闭源不影响 Obsidian 数据安全,但影响长期信任与可审计性;而 Roam/Notion 的云端闭源则是实打实的锁定风险。
 
 ---
 
@@ -124,6 +143,11 @@
 | 隐私敏感内容(官方也无法读取) | **Anytype**(E2EE+P2P) |
 | 对象+关系的 Notion 式建模但去中心化 | **Anytype**(Trilium 的加密镜像) |
 | 移动端原生体验(Notion 系) | **Anytype / AppFlowy** |
+| 团队协作 + 项目管理 + 权限管理 | **Notion**(闭源云)/ AFFiNE、AppFlowy(开源自托管) |
+| 应用内 AI 全家桶(Q&A/Agents/会议纪要) | **Notion**(最成熟,付费) |
+| AI 客户端官方托管 MCP 直连(OAuth 零配置) | **Notion**(唯一;Trilium/lapisnote 为本地 MCP 次之) |
+| 原教旨双链 + 块引用手感(接受订阅) | Roam Research(范式发明者;免费替代 = Logseq) |
+| 多人实时共编同一双链图谱 | Roam Research(十款中少有) |
 
 ---
 
