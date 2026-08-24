@@ -1,5 +1,15 @@
 # 笔记软件
 
+## 档案文档(按维度)
+
+- [01-note-features.md](01-note-features.md) —— 笔记功能对比(编辑范式/组织结构/任务/闪卡/插件生态)
+- [02-storage.md](02-storage.md) —— 存储方式对比(SQLite 单文件 vs 纯 Markdown 文件夹 vs 混合格式)
+- [03-link-features.md](03-link-features.md) —— 链接功能对比(双链/块引用/图谱/链接带属性·三元组建模)
+- [04-mcp-support.md](04-mcp-support.md) —— MCP 与 AI 接入能力对比(原生 MCP/API 路线/内置 AI)
+- [05-portable.md](05-portable.md) —— 便携支持对比(官方 Portable/数据目录自定义/U 盘方案)
+
+覆盖工具:Trilium Notes / lapisnote / Obsidian / Logseq / 思源笔记
+
 在github搜
 - https://github.com/topics/knowledge-base
 - https://github.com/topics/knowledge-management
