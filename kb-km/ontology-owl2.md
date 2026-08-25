@@ -1,0 +1,104 @@
+# OWL 2 是什么
+
+## 一句话定位
+
+**OWL 2（Web Ontology Language 2）** 是 W3C 于 2009 年发布的**知识表示语言标准**，用于在 Web 上发布和共享本体（ontology）。它是 OWL 1（2004 年）的继任者，也是语义网（Semantic Web）技术栈的核心层，建立在 RDF/RDFS 之上。
+
+## 本质：描述逻辑的"工业封装"
+
+OWL 2 的语义根基就是**描述逻辑 SROIQ**——这正是前面聊的 TBox/ABox/RBox 三盒结构的来源。一句话：**OWL 2 = SROIQ 描述逻辑 + RDF 语法 + 标准化的推理与交换协议**。你问的 RBox（角色公理、属性链）在 OWL 2 里就是 `owl:TransitiveProperty`、`owl:propertyChainAxiom` 这些东西。
+
+## 为什么需要 OWL 2（相比 OWL 1）
+
+| 问题 | OWL 1 的痛点 | OWL 2 的改进 |
+|---|---|---|
+| 角色推理弱 | 只有简单角色 | 引入属性链、自反/反自反、不相交属性、复杂角色（SROIQ） |
+| 复杂度过高 | 全功能推理难保证 | 提供 **profiles（剖面）**，分档限定表达能力以换计算效率 |
+| 键约束缺失 | 无法表达唯一性 | 新增 `owl:hasKey`（属性键） |
+| 限定性约束 | 无法表达"只与已知个体相关" | 新增 `owl:AllDifferent`、限定 ∃ 约束支持 |
+| 元数据/注释 | 基本没有 | 注解（annotations）、`owl:versionInfo` 等 |
+
+## 核心架构
+
+```
+OWL 2（全部公理）
+ ├── 2 DL  （OWL 2 DL，基于 SROIQ，表达力最强，可判定）
+ ├── 2 EL  （基于 EL++，只做存在性构造——适合大型生物医学本体如 SNOMED CT）
+ ├── 2 QL  （基于 DL-Lite，查询重写优化——适合数据库/数据集成场景）
+ └── 2 RL  （基于 Datalog 规则，能用规则引擎线性时间推理——适合大规模数据校验）
+```
+
+- **DL**：全功能，Protege 里默认用，HermiT/Pellet 推理。
+- **EL**：没有全称量词和析取，复杂度多项式级，**可扩展性强**，大型本体首选。
+- **QL**：面向查询回答，适合"用本体当数据库视图"。
+- **RL**：规则化，适合用 Jena/OWL RL 引擎做数据校验。
+
+选剖面 = 在"表达力"和"可计算性"之间做工程权衡。
+
+## 三盒结构在 OWL 2 中的体现
+
+- **TBox** → Class 公理：`SubClassOf`、`EquivalentClasses`、`DisjointClasses` + 属性 domain/range
+- **RBox** → 属性公理：`SubObjectPropertyOf`、`TransitiveProperty`、`SymmetricProperty`、`inverseOf`、`propertyChainAxiom`、`propertyDisjointWith` 等
+- **ABox** → 个体断言：`ClassAssertion`、`ObjectPropertyAssertion`、`DataPropertyAssertion`
+
+## 关键语法层面
+
+OWL 2 提供两种主流序列化：
+
+1. **RDF 语法**：RDF/XML、Turtle、N-Triples——面向机器交换，语义网生态通用。
+2. **函数式语法（Functional Syntax）**：类似 SROIQ 的数学记法，读起来更像逻辑公式：
+
+```
+EquivalentClasses(
+    :Father
+    ObjectIntersectionOf(:Man ObjectSomeValuesFrom(:hasChild :Person))
+)
+```
+
+功能语法更接近"逻辑"，RDF 语法更接近"数据"，两者表达的是同一个本体。
+
+## 一个完整小例子
+
+```turtle
+# 本体声明
+@prefix : <http://example.org/family#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# TBox：类公理
+:Father owl:equivalentClass
+    [ a owl:Restriction ;
+      owl:onProperty :hasChild ;
+      owl:someValuesFrom :Person ] .
+:Man rdfs:subClassOf :Person .
+
+# RBox：角色公理
+:hasParent owl:inverseOf :hasChild .
+:ancestorOf a owl:TransitiveProperty .
+
+# ABox：个体断言
+:zhangsan a :Man .
+:lisi a :Person .
+:zhangsan :hasChild :lisi .
+```
+
+这段本体里，推理器能自动推出：`lisi :hasParent :zhangsan`（逆角色）、`:lisi a :Person` 已有但 `:zhangsan` 满足 Father 定义（TBox 等价类 + ABox 组合推理）。
+
+## 现实生态
+
+- **编辑**：Protege（桌面端标配）、WebProtégé
+- **推理器**：HermiT、Pellet、FaCT++、ELK（专攻 EL）、Konclude（高性能）
+- **Java API**：OWL API（标准）、Jena（RDF 侧）
+- **Python**：owlready2
+- **典型应用**：医学本体（SNOMED CT、Gene Ontology）、企业数据建模、知识图谱 schema 层
+
+## 与知识图谱的关系（容易混淆）
+
+- **RDF** = 数据格式（三元组），只管"存储与交换"；
+- **OWL 2** = 语义层（schema + 推理规则），管"定义与推导"；
+- **知识图谱** ≈ RDF/属性图 存数据 + OWL/SHACL 定义 schema + 推理/规则引擎做逻辑演绎。
+
+很多"知识图谱项目"实际只用了 RDF + 手工规则，没启用 OWL 推理——这是工程常见取舍，不是缺陷，但要知道自己没用上 TBox/RBox 的自动推导能力。
+
+---
+
+需要的话，我可以继续展开：**四个 profile 的选型对比**、**OWL 2 与 RDFS 的区别**、或者**用 Protege 建一个带 RBox 的本体**的具体步骤。
