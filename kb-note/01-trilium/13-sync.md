@@ -102,7 +102,7 @@ docker run -d --name trilium \
 
 | 手段 | 说明 |
 | --- | --- |
-| **Tailscale**(推荐) | 公司/家/手机全装,组虚拟局域网,服务器地址填 Tailscale 内网 IP,免费、免公网、加密 |
+| **Tailscale**(推荐,详见 [13.1-tailscale.md](13.1-tailscale.md)) | 公司/家/手机全装,组虚拟局域网,服务器地址填 Tailscale 内网 IP,免费、免公网、加密 |
 | frp / cpolar 内网穿透 | 需一台有公网的跳板或付费服务 |
 | 仅局域网同步 | 家里 NAS 跑服务器,人在家才同步;公司改动攒着,回家自动合并(Trilium 支持离线积累后同步) |
 

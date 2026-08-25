@@ -142,3 +142,4 @@ Relation Map:~map:作者                     ← 关系网络可视化
 | 11 | [vs Notion](11-vs-notion.md) | 深度 vs 广度,数据主权 vs 协作 AI |
 | 12 | [便携配置](12-portable-config.md) | U 盘方案,--data-dir,数据目录定制 |
 | 13 | [多端同步](13-sync.md) | U 盘随身库 vs 自建服务器,公司 Win+家 macOS 双端实践 |
+| 13.1 | [Tailscale 详解](13.1-tailscale.md) | 异地组网原理、免费额度、落地步骤、国内对策 |
