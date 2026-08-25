@@ -1,6 +1,6 @@
 # Trilium 属性系统:标签/关系 与 标签定义/关系定义
 
-[返回 Trilium 档案](README.md) | [数据库表设计与存储逻辑](db-design.md) | [可编程性说明](scripting.md) | [vs Notion 功能对标](vs-notion.md) | [返回总览](../note-soft.md)
+[返回 Trilium 档案](README.md) | [数据库表设计与存储逻辑](03-db-design.md) | [可编程性说明](10-scripting.md) | [vs Notion 功能对标](11-vs-notion.md) | [返回总览](../note-soft.md)
 
 > 四者的关系一句话:**标签/关系是"数据",标签定义/关系定义是"数据的模式(schema)"**——定义本身也是一条属性,只是名字带前缀、挂在父笔记/模板上、作用于子笔记。
 
@@ -99,4 +99,4 @@ SQL:SELECT notes.title FROM notes
 ## 五、两个易混点
 
 1. **定义 ≠ 继承**:`isInheritable`(可继承)是另一回事——它是把**标签/关系本身连同值**沿子树下传(如父笔记挂可继承的 `#type=文集`,所有子笔记自动是文集);定义只传"字段规则",不传值。
-2. **系统保留名**:`~template`(套模板)、`~renderNote`、`~run`、`~internalLink`(正文链接自动生成的系统关系)等被 Trilium 保留,自定义时避开——本库实测存在这些名字(见 [db-design.md](db-design.md) 第 5 节)。
+2. **系统保留名**:`~template`(套模板)、`~renderNote`、`~run`、`~internalLink`(正文链接自动生成的系统关系)等被 Trilium 保留,自定义时避开——本库实测存在这些名字(见 [db-design.md](03-db-design.md) 第 5 节)。

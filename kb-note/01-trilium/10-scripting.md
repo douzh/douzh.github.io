@@ -1,6 +1,6 @@
 # Trilium 可编程性说明
 
-[返回档案](README.md) | [数据库设计](db-design.md)
+[返回档案](README.md) | [数据库设计](03-db-design.md)
 
 一句话:**笔记即程序**——脚本是笔记、界面组件是笔记、REST 端点是笔记、数据模型也是笔记,全部住在同一棵树里,用属性声明行为。
 
@@ -117,7 +117,7 @@ api.activateNoteById("xxx");                   // 程序化跳转
 
 ## 七、SQL 控制台
 
-应用内直接对 SQLite 执行任意查询(15 张表,见 [db-design.md](db-design.md)):
+应用内直接对 SQLite 执行任意查询(15 张表,见 [db-design.md](03-db-design.md)):
 
 - 统计聚合:`SELECT COUNT(*) FROM notes WHERE isDeleted=0 GROUP BY type`
 - 关系审计:查孤儿 relation、统计 internalLink 网络

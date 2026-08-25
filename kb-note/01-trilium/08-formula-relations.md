@@ -1,6 +1,6 @@
 # 数学与物理公式的推理关系
 
-[返回 Trilium 档案](README.md) | [属性系统:标签/关系与定义](attributes.md) | [返回总览](../note-soft.md)
+[返回 Trilium 档案](README.md) | [属性系统:标签/关系与定义](04-attributes.md) | [返回总览](../note-soft.md)
 
 > 公式之间的推理关系分四层:**逻辑变换关系、推导关系、结构对应关系、物理特有关系**。核心区分维度是**保真度**:等价(无损)→ 演绎(保真)→ 极限/特例(条件保真)→ 近似(有损)→ 类比(仅结构相似,不保真)。文末给出知识图谱建模谓词表(Trilium relation 用法)。
 
@@ -60,4 +60,4 @@
 ~消元自        combinedFrom     (联立)
 ```
 
-谓词用法见 [attributes.md](attributes.md) 第三节;建好后可用 Relation Map(`~map:推导自` 等)把公式网络可视化,用 SQL 直查推理链(如"欧拉公式的一切特例")。
+谓词用法见 [attributes.md](04-attributes.md) 第三节;建好后可用 Relation Map(`~map:推导自` 等)把公式网络可视化,用 SQL 直查推理链(如"欧拉公式的一切特例")。

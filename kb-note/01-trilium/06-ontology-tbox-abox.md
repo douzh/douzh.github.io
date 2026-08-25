@@ -1,6 +1,6 @@
 # Trilium 与本体论:TBox/ABox 对应实现
 
-[返回 Trilium 档案](README.md) | [属性系统:标签/关系与定义](attributes.md) | [数学物理公式推理关系(图谱谓词表)](formula-relations.md) | [按学科分类笔记(GB/T 13745)](subject-classification.md) | [返回总览](../note-soft.md)
+[返回 Trilium 档案](README.md) | [属性系统:标签/关系与定义](04-attributes.md) | [数学物理公式推理关系(图谱谓词表)](08-formula-relations.md) | [按学科分类笔记(GB/T 13745)](09-subject-classification.md) | [返回总览](../note-soft.md)
 
 > 这对概念来自**描述逻辑(Description Logic)**——OWL 本体语言的理论基础。一个本体 = 词汇表 + 事实库,两部分分开存放。Trilium 没有显式的 TBox/ABox 划分,但它的架构天然映射这两层。
 
@@ -45,7 +45,7 @@
 | 本体论概念 | Trilium 对应 | 实现 |
 | --- | --- | --- |
 | **TBox:类(Class)** | 实体类型模板笔记 | 建一个"字典/Schema"子树:`字典/人物`、`字典/作品`,每条是模板 |
-| **TBox:子类层级** | 树结构 + 编码 | 子类作为父类的子笔记(或学科码前缀,见 [subject-classification.md](subject-classification.md)) |
+| **TBox:子类层级** | 树结构 + 编码 | 子类作为父类的子笔记(或学科码前缀,见 [subject-classification.md](09-subject-classification.md)) |
 | **TBox:数据属性定义** | `#label:xxx` 定义 | 模板上挂 `#label:出生年份=date,promoted` |
 | **TBox:对象属性定义** | `#relation:xxx` 定义 | 模板上挂 `#relation:作者=promoted` |
 | **TBox:定义域/值域** | 模板归属约束(弱) | 定义挂在哪类模板上,哪类笔记就出现该字段 |
@@ -61,7 +61,7 @@
 ├── 📖 字典(TBox 区)
 │   ├── 人物          ← 模板:#label:出生年份=date,promoted  #relation:写作=promoted
 │   ├── 作品          ← 模板:#label:发表年份=number,promoted  #relation:作者=promoted
-│   └── 谓词表         ← 每个关系一条笔记,记录定义域/值域/逆词(参考 [formula-relations.md](formula-relations.md) 谓词表)
+│   └── 谓词表         ← 每个关系一条笔记,记录定义域/值域/逆词(参考 [formula-relations.md](08-formula-relations.md) 谓词表)
 └── 📄 内容(ABox 区)
     ├── 狂人日记       ← ~template=@字典/作品  #发表年份=1918  ~作者=@鲁迅
     └── 鲁迅          ← ~template=@字典/人物  ~写作=@狂人日记

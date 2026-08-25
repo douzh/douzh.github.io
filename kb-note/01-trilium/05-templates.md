@@ -1,6 +1,6 @@
 # Trilium 模板笔记详解
 
-[返回 Trilium 档案](README.md) | [属性系统:标签/关系与定义](attributes.md) | [本体论 TBox/ABox 对应实现](ontology-tbox-abox.md) | [返回总览](../note-soft.md)
+[返回 Trilium 档案](README.md) | [属性系统:标签/关系与定义](04-attributes.md) | [本体论 TBox/ABox 对应实现](06-ontology-tbox-abox.md) | [返回总览](../note-soft.md)
 
 > 模板笔记是 Trilium 的"类定义"机制——它**本身就是一条普通笔记**,但通过挂 `~template` 关系或设为父节点,让其他笔记"套用"它,自动获得它声明的全部字段定义、初始内容和行为脚本。
 
@@ -189,9 +189,9 @@ attributes 表:
 | **人物档案** | 生卒年/职业/代表作 + 人物关系 relation |
 | **日记** | 日期/天气/心情 + runOnNoteCreation 自动填日期 |
 | **会议纪要** | 时间/地点/参会人/决议 + 模板正文骨架 |
-| **学科节点**(见 [subject-classification.md](subject-classification.md)) | code/level/门类 + 群体学科标记 |
-| **公式笔记** | 公式/学科码/推导自关系(见 [formula-relations.md](formula-relations.md) 谓词) |
-| **启动器脚本** | script/keyboardShortcut + 子笔记 JS 代码(见 [scripting.md](scripting.md)) |
+| **学科节点**(见 [subject-classification.md](09-subject-classification.md)) | code/level/门类 + 群体学科标记 |
+| **公式笔记** | 公式/学科码/推导自关系(见 [formula-relations.md](08-formula-relations.md) 谓词) |
+| **启动器脚本** | script/keyboardShortcut + 子笔记 JS 代码(见 [scripting.md](10-scripting.md)) |
 
 ## 六、易混点提醒
 

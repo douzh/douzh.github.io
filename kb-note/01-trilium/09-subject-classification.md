@@ -1,6 +1,6 @@
 # Trilium 按学科分类笔记(GB/T 13745 编码体系)
 
-[返回 Trilium 档案](README.md) | [属性系统:标签/关系与定义](attributes.md) | [数据库表设计](db-design.md) | [返回总览](../note-soft.md)
+[返回 Trilium 档案](README.md) | [属性系统:标签/关系与定义](04-attributes.md) | [数据库表设计](03-db-design.md) | [返回总览](../note-soft.md)
 
 > 源数据:[level1](../../kb-km/index-sci-source-level1.md) / [level2](../../kb-km/index-sci-source-level2.md) / [level3](../../kb-km/index-sci-source-level3.md)(GB/T 13745—2009,62 一级 / 738 二级 / 2732 三级)。
 > GB/T 编码的关键特性:**7 位编码自带层级**(前 3 位一级、前 5 位二级、前 7 位三级)——这正是 Trilium 建模的抓手,一个标签字段即可表达三层归属。

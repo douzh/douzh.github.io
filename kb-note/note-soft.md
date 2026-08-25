@@ -6,7 +6,7 @@
 
 | 目录 | 软件 | 一句话定位 |
 | --- | --- | --- |
-| [01-trilium/](01-trilium/README.md) | Trilium Notes | 可编程树状知识库——唯一官方全便携 + 唯一关系属性(L5 三元组);v0.104+ 内置 AI + MCP |
+| [01-trilium/](01-trilium/README.md) | Trilium Notes | 可编程树状知识库——唯一官方全便携 + 唯一关系属性(L5 三元组);v0.104+ 内置 AI + MCP;[最佳实践:本体方法论笔记法](01-trilium/00-best-practice.md) |
 | [02-lapisnote/](02-lapisnote/README.md) | lapisnote | AI 原生轻量新锐——唯一零配置原生 MCP(自动注册 Claude Code) |
 | [03-obsidian/](03-obsidian/README.md) | Obsidian | 插件生态之王(2000+)——纯 Markdown 数据主权最强 |
 | [04-logseq/](04-logseq/README.md) | Logseq | 大纲块级记录流——Journal 日记流 + 块引用 + Datalog,开源 |
