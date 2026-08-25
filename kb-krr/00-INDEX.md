@@ -38,6 +38,7 @@
 | **70** | [[70-engineering]] | 本体工程方法论（Ontology 101）| ✅ |
 | **71** | [[71-reuse]] | 知名本体库复用（SNOMED/GO/schema.org…）| ✅ |
 | **72** | [[72-llm]] | 本体 × 大模型：RAG/GraphRAG/本体学习 | ✅ |
+| **73** | [[73-ontology-wisdom-models]] | 本体能否实现所有外部智慧模型（能力边界） | ✅ |
 
 ---
 
