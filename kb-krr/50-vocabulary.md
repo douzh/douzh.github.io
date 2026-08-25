@@ -14,7 +14,7 @@
 | **OWL 2 QL** | OWL 2 Query Language profile | OWL 2 查询剖面 | 基于 DL-Lite，优化数据库查询重写，适合数据集成 |
 | **OWL 2 RL** | OWL 2 Rule Logic profile | OWL 2 规则剖面 | 基于 Datalog 规则，可线性时间推理，适合大规模数据校验 |
 
-> OWL 1（2004 版）已基本被 OWL 2（2009 版）取代，现在说 "OWL" 通常即指 OWL 2。
+> 记忆口诀见下；四个剖面的**详细选型对比**见 [[22-profiles]]。
 
 ---
 
@@ -122,4 +122,12 @@ Schema 层 RDFS
 - **RDFS** 和 **RDF** 是更底层的"地基"（RDFS 管 schema，RDF 管数据）；
 - **Protege** 是画这些结构的工具，**HermiT/Pellet** 是帮你自动推理的引擎。
 
-需要我把其中某层（比如 SROIQ 的语法、或 RDF 三元组与 SPARQL 的实战）再展开吗？
+## 相关笔记
+
+- [[10-ontology]]　Ontology 是什么（定位与体系）
+- [[20-dl]]　描述逻辑 DL / SROIQ 语法与语义
+- [[21-owl2]]　OWL 2 语言详解
+- [[22-profiles]]　四剖面选型对比
+- [[30-tbox]] / [[31-rbox]] / [[32-abox]]　三盒结构详解
+- [[60-tools]]　工具与平台安装清单
+- [[62-sparql]]　SPARQL 查询实战
