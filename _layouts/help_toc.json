@@ -1,0 +1,1508 @@
+{
+ "pageCount": 289,
+ "roots": [
+  {
+   "title": "Feature Highlights",
+   "noteId": "_help_BOCnjTMBCoxW",
+   "children": []
+  },
+  {
+   "title": "Installation & Setup",
+   "noteId": "_help_Otzi9La2YAUX",
+   "children": [
+    {
+     "title": "Desktop Installation",
+     "noteId": "_help_poXkQfguuA0U",
+     "children": [
+      {
+       "title": "Using the desktop application as a server",
+       "noteId": "_help_nRqcgfTb97uV",
+       "children": []
+      },
+      {
+       "title": "System Requirements",
+       "noteId": "_help_Rp0q8bSP6Ayl",
+       "children": []
+      },
+      {
+       "title": "Nix flake",
+       "noteId": "_help_Un4wj2Mak2Ky",
+       "children": []
+      },
+      {
+       "title": "Network Access",
+       "noteId": "_help_swSFivWk6KkA",
+       "children": []
+      },
+      {
+       "title": "Tray icon & automatic startup",
+       "noteId": "_help_7iwde4lsKc6O",
+       "children": []
+      },
+      {
+       "title": "Troubleshooting",
+       "noteId": "_help_hvRfsDr591WP",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Server Installation",
+     "noteId": "_help_WOcw2SLH6tbX",
+     "children": [
+      {
+       "title": "1. Installing the server",
+       "noteId": "_help_Dgg7bR3b6K9j",
+       "children": [
+        {
+         "title": "Packaged version for Linux",
+         "noteId": "_help_3tW6mORuTHnB",
+         "children": []
+        },
+        {
+         "title": "Using Docker",
+         "noteId": "_help_rWX5eY045zbE",
+         "children": []
+        },
+        {
+         "title": "On NixOS",
+         "noteId": "_help_moVgBcoxE3EK",
+         "children": []
+        },
+        {
+         "title": "Manually",
+         "noteId": "_help_J1Bb6lVlwU5T",
+         "children": []
+        },
+        {
+         "title": "Using Kubernetes",
+         "noteId": "_help_DCmT6e7clMoP",
+         "children": []
+        },
+        {
+         "title": "Multiple server instances",
+         "noteId": "_help_klCWNks3ReaQ",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "2. Reverse proxy",
+       "noteId": "_help_vcjrb3VVYPZI",
+       "children": [
+        {
+         "title": "Nginx",
+         "noteId": "_help_ud6MShXL4WpO",
+         "children": []
+        },
+        {
+         "title": "Apache using Docker",
+         "noteId": "_help_fDLvzOx29Pfg",
+         "children": []
+        },
+        {
+         "title": "Trusted proxy",
+         "noteId": "_help_LLzSMXACKhUs",
+         "children": []
+        },
+        {
+         "title": "Traefik",
+         "noteId": "_help_5ERVJb9s4FRD",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "HTTPS (TLS)",
+       "noteId": "_help_l2VkvOwUNfZj",
+       "children": []
+      },
+      {
+       "title": "Authentication",
+       "noteId": "_help_0hzsNCP31IAB",
+       "children": [
+        {
+         "title": "Resetting your password",
+         "noteId": "_help_lwAX5SvbrK2g",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "Multi-factor authentication with TOTP",
+       "noteId": "_help_7DAiwaf8Z7Rz",
+       "children": []
+      },
+      {
+       "title": "Nix flake",
+       "noteId": "_help_Un4wj2Mak2Ky",
+       "children": []
+      },
+      {
+       "title": "Signing in with OpenID Connect",
+       "noteId": "_help_x1lQNKQBqLcA",
+       "children": [
+        {
+         "title": "Setting up with various providers",
+         "noteId": "_help_IgkTHSaFfq6A",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "Third-party cloud hosting",
+       "noteId": "_help_yeEaYqosGLSh",
+       "children": []
+      },
+      {
+       "title": "System Requirements",
+       "noteId": "_help_iGTnKjubbXkA",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Synchronization",
+     "noteId": "_help_cbkrhQjrkKrh",
+     "children": []
+    },
+    {
+     "title": "Mobile Frontend",
+     "noteId": "_help_RDslemsQ6gCp",
+     "children": []
+    },
+    {
+     "title": "Web Clipper",
+     "noteId": "_help_MtPxeAWVAzMg",
+     "children": []
+    },
+    {
+     "title": "Upgrading TriliumNext",
+     "noteId": "_help_n1lujUxCwipy",
+     "children": []
+    },
+    {
+     "title": "Backup",
+     "noteId": "_help_ODY7qQn5m2FT",
+     "children": []
+    },
+    {
+     "title": "Data directory",
+     "noteId": "_help_tAassRL4RSQL",
+     "children": []
+    }
+   ]
+  },
+  {
+   "title": "Basic Concepts and Features",
+   "noteId": "_help_gh7bpGYxajRS",
+   "children": [
+    {
+     "title": "UI Elements",
+     "noteId": "_help_Vc8PjrjAGuOp",
+     "children": [
+      {
+       "title": "Vertical and horizontal layout",
+       "noteId": "_help_x0JgW8UqGXvq",
+       "children": []
+      },
+      {
+       "title": "Global menu",
+       "noteId": "_help_x3i7MxGccDuM",
+       "children": []
+      },
+      {
+       "title": "Note Tree",
+       "noteId": "_help_oPVyFC7WL2Lp",
+       "children": [
+        {
+         "title": "Note tree contextual menu",
+         "noteId": "_help_YtSN43OrfzaA",
+         "children": []
+        },
+        {
+         "title": "Multiple selection",
+         "noteId": "_help_yTjUdsOi4CIE",
+         "children": []
+        },
+        {
+         "title": "Keyboard shortcuts",
+         "noteId": "_help_DvdZhoQZY9Yd",
+         "children": []
+        },
+        {
+         "title": "Hiding the subtree",
+         "noteId": "_help_wyaGBBQrl4i3",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "Ribbon",
+       "noteId": "_help_BlN9DFI679QC",
+       "children": []
+      },
+      {
+       "title": "Tabs",
+       "noteId": "_help_3seOhtN8uLIY",
+       "children": []
+      },
+      {
+       "title": "Launch Bar",
+       "noteId": "_help_xYmIYSP6wE3F",
+       "children": []
+      },
+      {
+       "title": "Note buttons",
+       "noteId": "_help_8YBEPzcpUgxw",
+       "children": []
+      },
+      {
+       "title": "Options",
+       "noteId": "_help_4TIF1oA4VQRO",
+       "children": []
+      },
+      {
+       "title": "Split View",
+       "noteId": "_help_luNhaphA37EO",
+       "children": []
+      },
+      {
+       "title": "Floating buttons",
+       "noteId": "_help_XpOYSgsLkTJy",
+       "children": []
+      },
+      {
+       "title": "Right Sidebar",
+       "noteId": "_help_RnaPdbciOfeq",
+       "children": [
+        {
+         "title": "Outline tab",
+         "noteId": "_help_2dcGDhp9WFKb",
+         "children": []
+        },
+        {
+         "title": "Attributes tab",
+         "noteId": "_help_uNtgN0cUKEBc",
+         "children": []
+        },
+        {
+         "title": "AI chat tab",
+         "noteId": "_help_LrKznOtw9cQD",
+         "children": []
+        },
+        {
+         "title": "Connections tab",
+         "noteId": "_help_KRlZFoIH0j6p",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "Recent Changes",
+       "noteId": "_help_r5JGHN99bVKn",
+       "children": []
+      },
+      {
+       "title": "Zoom",
+       "noteId": "_help_ny318J39E5Z0",
+       "children": []
+      },
+      {
+       "title": "Note Tooltip",
+       "noteId": "_help_lgKX7r3aL30x",
+       "children": []
+      },
+      {
+       "title": "New Layout",
+       "noteId": "_help_IjZS7iK5EXtb",
+       "children": [
+        {
+         "title": "Breadcrumb",
+         "noteId": "_help_I6p2a06hdnL6",
+         "children": []
+        },
+        {
+         "title": "Status bar",
+         "noteId": "_help_AlJ73vBCjWDw",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "Note types with split view",
+       "noteId": "_help_SL5f1Auq7sVN",
+       "children": []
+      },
+      {
+       "title": "Content width",
+       "noteId": "_help_t596jLvPrqkS",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Notes",
+     "noteId": "_help_BFs8mudNFgCS",
+     "children": [
+      {
+       "title": "Title",
+       "noteId": "_help_l7pigIGu01K2",
+       "children": []
+      },
+      {
+       "title": "Note Icons & Colors",
+       "noteId": "_help_p9kXRFAkwN4o",
+       "children": []
+      },
+      {
+       "title": "Attachments",
+       "noteId": "_help_0vhv7lsOLy82",
+       "children": []
+      },
+      {
+       "title": "Cloning Notes",
+       "noteId": "_help_IakOLONlIfGI",
+       "children": [
+        {
+         "title": "Branch prefix",
+         "noteId": "_help_TBwsyfadTA18",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "Protected Notes",
+       "noteId": "_help_bwg0e8ewQMak",
+       "children": []
+      },
+      {
+       "title": "Archived Notes",
+       "noteId": "_help_MKmLg5x6xkor",
+       "children": []
+      },
+      {
+       "title": "Note Revisions",
+       "noteId": "_help_vZWERwf8U3nx",
+       "children": []
+      },
+      {
+       "title": "Sorting Notes",
+       "noteId": "_help_aGlEvb9hyDhS",
+       "children": []
+      },
+      {
+       "title": "Printing & Exporting as PDF",
+       "noteId": "_help_NRnIZmSMc5sj",
+       "children": []
+      },
+      {
+       "title": "Read-Only Notes",
+       "noteId": "_help_CoFPLs3dRlXc",
+       "children": []
+      },
+      {
+       "title": "Note List",
+       "noteId": "_help_0ESUbbAxVnoK",
+       "children": []
+      },
+      {
+       "title": "Note Inbox",
+       "noteId": "_help_S0Fos78ZfcY7",
+       "children": []
+      },
+      {
+       "title": "Restoring Deleted Notes",
+       "noteId": "_help_5Ct4MAJTS4tQ",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Navigation",
+     "noteId": "_help_wArbEsdSae6g",
+     "children": [
+      {
+       "title": "Tree Concepts",
+       "noteId": "_help_kBrnXNG3Hplm",
+       "children": []
+      },
+      {
+       "title": "Note Navigation",
+       "noteId": "_help_MMiBEQljMQh2",
+       "children": []
+      },
+      {
+       "title": "Quick search",
+       "noteId": "_help_Ms1nauBra7gq",
+       "children": []
+      },
+      {
+       "title": "Jump to & command palette",
+       "noteId": "_help_F1r9QtzQLZqm",
+       "children": []
+      },
+      {
+       "title": "Search",
+       "noteId": "_help_eIg8jdvaoNNd",
+       "children": []
+      },
+      {
+       "title": "Bookmarks",
+       "noteId": "_help_u3YFHC9tQlpm",
+       "children": []
+      },
+      {
+       "title": "Note Hoisting",
+       "noteId": "_help_OR8WJ7Iz9K4U",
+       "children": []
+      },
+      {
+       "title": "Quick edit",
+       "noteId": "_help_ZjLYv08Rp3qC",
+       "children": []
+      },
+      {
+       "title": "Workspaces",
+       "noteId": "_help_9sRHySam5fXb",
+       "children": []
+      },
+      {
+       "title": "Similar Notes",
+       "noteId": "_help_xWtq5NUHOwql",
+       "children": []
+      },
+      {
+       "title": "Search in note",
+       "noteId": "_help_McngOG2jbUWX",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Keyboard Shortcuts",
+     "noteId": "_help_A9Oc6YKKc65v",
+     "children": []
+    },
+    {
+     "title": "Themes",
+     "noteId": "_help_Wy267RK4M69c",
+     "children": [
+      {
+       "title": "Theme Gallery",
+       "noteId": "_help_VbjZvtUek0Ln",
+       "children": []
+      },
+      {
+       "title": "Icon Packs",
+       "noteId": "_help_gOKqSJgXLcIj",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Import & Export",
+     "noteId": "_help_mHbBMPDPkVV5",
+     "children": [
+      {
+       "title": "Markdown",
+       "noteId": "_help_Oau6X9rCuegd",
+       "children": [
+        {
+         "title": "Supported syntax",
+         "noteId": "_help_rJ9grSgoExl9",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "Importing data from other applications",
+       "noteId": "_help_ckZ2uNWQmVeX",
+       "children": [
+        {
+         "title": "Microsoft OneNote",
+         "noteId": "_help_GnhlmrATVqcH",
+         "children": []
+        },
+        {
+         "title": "Notion",
+         "noteId": "_help_Y5mKeJ6dsCld",
+         "children": []
+        },
+        {
+         "title": "Google Keep",
+         "noteId": "_help_nhQVuO4zvIxi",
+         "children": []
+        },
+        {
+         "title": "Evernote",
+         "noteId": "_help_syuSEKf2rUGr",
+         "children": [
+          {
+           "title": "Process internal links by title",
+           "noteId": "_help_dj3j8dG4th4l",
+           "children": []
+          }
+         ]
+        },
+        {
+         "title": "Anytype",
+         "noteId": "_help_83zmPBJRgfnW",
+         "children": []
+        },
+        {
+         "title": "Obsidian",
+         "noteId": "_help_iWD7wiIuMtgV",
+         "children": []
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "title": "Zen mode",
+     "noteId": "_help_rC3pL2aptaRE",
+     "children": []
+    },
+    {
+     "title": "Active content",
+     "noteId": "_help_YzMcWlCVeW09",
+     "children": []
+    }
+   ]
+  },
+  {
+   "title": "Quick Start",
+   "noteId": "_help_s3YCWHBfmYuM",
+   "children": []
+  },
+  {
+   "title": "FAQ",
+   "noteId": "_help_i6dbnitykE5D",
+   "children": []
+  },
+  {
+   "title": "Note Types",
+   "noteId": "_help_KSZ04uQ2D1St",
+   "children": [
+    {
+     "title": "Text",
+     "noteId": "_help_iPIMuisry3hd",
+     "children": [
+      {
+       "title": "Anchors",
+       "noteId": "_help_oSuaNgyyKnhu",
+       "children": []
+      },
+      {
+       "title": "Automatic replacements",
+       "noteId": "_help_oI7GoyilXXAr",
+       "children": []
+      },
+      {
+       "title": "Block quotes & admonitions",
+       "noteId": "_help_NwBbFdNZ9h7O",
+       "children": []
+      },
+      {
+       "title": "Collapsible blocks",
+       "noteId": "_help_4n4oQUVbnOxa",
+       "children": []
+      },
+      {
+       "title": "Content language & Right-to-left support",
+       "noteId": "_help_veGu4faJErEM",
+       "children": []
+      },
+      {
+       "title": "Cut to subnote",
+       "noteId": "_help_2x0ZAX9ePtzV",
+       "children": []
+      },
+      {
+       "title": "Developer-specific formatting",
+       "noteId": "_help_UYuUB1ZekNQU",
+       "children": [
+        {
+         "title": "Code blocks",
+         "noteId": "_help_QxEyIjRBizuC",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "Footnotes",
+       "noteId": "_help_AgjCISero73a",
+       "children": []
+      },
+      {
+       "title": "Format Painter",
+       "noteId": "_help_5wZallV2Qo1t",
+       "children": []
+      },
+      {
+       "title": "Formatting toolbar",
+       "noteId": "_help_nRhnJkTT8cPs",
+       "children": []
+      },
+      {
+       "title": "General formatting",
+       "noteId": "_help_Gr6xFaF6ioJ5",
+       "children": []
+      },
+      {
+       "title": "Highlights list",
+       "noteId": "_help_AxshuNRegLAv",
+       "children": []
+      },
+      {
+       "title": "Images",
+       "noteId": "_help_mT0HEkOsz6i1",
+       "children": [
+        {
+         "title": "Image references",
+         "noteId": "_help_0Ofbk1aSuVRu",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "In-editor AI assistant",
+       "noteId": "_help_VRoP0g1uHHc2",
+       "children": [
+        {
+         "title": "Custom AI quick actions",
+         "noteId": "_help_mVEYwt20exhO",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "Include Note",
+       "noteId": "_help_nBAXQFj20hS1",
+       "children": []
+      },
+      {
+       "title": "Insert buttons",
+       "noteId": "_help_CohkqWQC1iBv",
+       "children": []
+      },
+      {
+       "title": "Keyboard shortcuts",
+       "noteId": "_help_oiVPnW8QfnvS",
+       "children": []
+      },
+      {
+       "title": "Link Previews",
+       "noteId": "_help_UmgZAfcltxkS",
+       "children": []
+      },
+      {
+       "title": "Links",
+       "noteId": "_help_QEAPj01N5f7w",
+       "children": [
+        {
+         "title": "External links",
+         "noteId": "_help_3IDVtesTQ8ds",
+         "children": []
+        },
+        {
+         "title": "Internal (reference) links",
+         "noteId": "_help_hrZ1D00cLbal",
+         "children": []
+        },
+        {
+         "title": "Backlinks",
+         "noteId": "_help_wfGXLmm7x27z",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "Lists",
+       "noteId": "_help_S6Xx8QIWTV66",
+       "children": []
+      },
+      {
+       "title": "Markdown-like formatting",
+       "noteId": "_help_QrtTYPmdd1qq",
+       "children": []
+      },
+      {
+       "title": "Math Equations",
+       "noteId": "_help_YfYAtQBcfo5V",
+       "children": []
+      },
+      {
+       "title": "Other features",
+       "noteId": "_help_dEHYtoWWi8ct",
+       "children": []
+      },
+      {
+       "title": "Premium features",
+       "noteId": "_help_gLt3vA97tMcp",
+       "children": []
+      },
+      {
+       "title": "Slash Commands",
+       "noteId": "_help_ZlN4nump6EbW",
+       "children": []
+      },
+      {
+       "title": "Spell Check",
+       "noteId": "_help_oBo3iHIZnbG2",
+       "children": []
+      },
+      {
+       "title": "Table of contents",
+       "noteId": "_help_BFvAtE74rbP6",
+       "children": []
+      },
+      {
+       "title": "Tables",
+       "noteId": "_help_NdowYOC1GFKS",
+       "children": []
+      },
+      {
+       "title": "Text Snippets",
+       "noteId": "_help_pwc194wlRzcH",
+       "children": []
+      },
+      {
+       "title": "To-do Lists",
+       "noteId": "_help_fASfBrYnquKU",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Code",
+     "noteId": "_help_6f9hih2hXXZk",
+     "children": []
+    },
+    {
+     "title": "Saved Search",
+     "noteId": "_help_m523cpzocqaD",
+     "children": []
+    },
+    {
+     "title": "Relation Map",
+     "noteId": "_help_iRwzGnHPzonm",
+     "children": []
+    },
+    {
+     "title": "Note Map",
+     "noteId": "_help_bdUJEHsAPYQR",
+     "children": []
+    },
+    {
+     "title": "Render Note",
+     "noteId": "_help_HcABDtFCkbFN",
+     "children": []
+    },
+    {
+     "title": "Mermaid Diagrams",
+     "noteId": "_help_s1aBHPd79XYj",
+     "children": [
+      {
+       "title": "ELK layout",
+       "noteId": "_help_RH6yLjjWJHof",
+       "children": []
+      },
+      {
+       "title": "Syntax reference",
+       "noteId": "_help_WWgeUaBb7UfC",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Canvas",
+     "noteId": "_help_grjYqerjn243",
+     "children": []
+    },
+    {
+     "title": "Web View",
+     "noteId": "_help_1vHRoWCEjj0L",
+     "children": []
+    },
+    {
+     "title": "Mind Map",
+     "noteId": "_help_gBbsAeiuUxI5",
+     "children": []
+    },
+    {
+     "title": "File",
+     "noteId": "_help_W8vYD3Q1zjCR",
+     "children": [
+      {
+       "title": "PDFs",
+       "noteId": "_help_XJGJrpu7F9sh",
+       "children": []
+      },
+      {
+       "title": "Audio & Video",
+       "noteId": "_help_AjqEeiDUOzj4",
+       "children": []
+      },
+      {
+       "title": "Office documents",
+       "noteId": "_help_KG48zgNY31NW",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Spreadsheets",
+     "noteId": "_help_GWHEkY4I4OE3",
+     "children": []
+    },
+    {
+     "title": "Markdown",
+     "noteId": "_help_6RM1Q7ppFVoj",
+     "children": []
+    },
+    {
+     "title": "Converting between note types",
+     "noteId": "_help_jludwdW7N4hg",
+     "children": []
+    }
+   ]
+  },
+  {
+   "title": "Collections",
+   "noteId": "_help_GTwFsgaA0lCt",
+   "children": [
+    {
+     "title": "Calendar",
+     "noteId": "_help_xWbu3jpNWapp",
+     "children": []
+    },
+    {
+     "title": "Table",
+     "noteId": "_help_2FvYrpmOXm29",
+     "children": []
+    },
+    {
+     "title": "Kanban Board",
+     "noteId": "_help_CtBQqbwXDx1w",
+     "children": []
+    },
+    {
+     "title": "Geo Map",
+     "noteId": "_help_81SGnPGMk7Xc",
+     "children": []
+    },
+    {
+     "title": "Presentation",
+     "noteId": "_help_zP3PMqaG71Ct",
+     "children": []
+    },
+    {
+     "title": "Grid View",
+     "noteId": "_help_8QqnMzx393bx",
+     "children": []
+    },
+    {
+     "title": "List View",
+     "noteId": "_help_mULW0Q3VojwY",
+     "children": []
+    },
+    {
+     "title": "Collection Properties",
+     "noteId": "_help_CssoWBu8I7jF",
+     "children": []
+    },
+    {
+     "title": "Dashboard",
+     "noteId": "_help_IF7Q6I9x7zuw",
+     "children": []
+    }
+   ]
+  },
+  {
+   "title": "Troubleshooting",
+   "noteId": "_help_BgmBlOIl72jZ",
+   "children": [
+    {
+     "title": "Reporting issues",
+     "noteId": "_help_wy8So3yZZlH9",
+     "children": []
+    },
+    {
+     "title": "Anonymized Database",
+     "noteId": "_help_x59R8J8KV5Bp",
+     "children": []
+    },
+    {
+     "title": "Error logs",
+     "noteId": "_help_qzNzp9LYQyPT",
+     "children": [
+      {
+       "title": "Backend (server) logs",
+       "noteId": "_help_bnyigUA2UK7s",
+       "children": []
+      },
+      {
+       "title": "Frontend logs",
+       "noteId": "_help_9yEHzMyFirZR",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Synchronization fails with 504 Gateway Timeout",
+     "noteId": "_help_vdlYGAcpXAgc",
+     "children": []
+    },
+    {
+     "title": "Refreshing the application",
+     "noteId": "_help_s8alTXmpFR61",
+     "children": []
+    }
+   ]
+  },
+  {
+   "title": "Theme development",
+   "noteId": "_help_pKK96zzmvBGf",
+   "children": [
+    {
+     "title": "Creating a custom theme",
+     "noteId": "_help_7NfNr5pZpVKV",
+     "children": []
+    },
+    {
+     "title": "Customize the Next theme",
+     "noteId": "_help_WFGzWeUK6arS",
+     "children": []
+    },
+    {
+     "title": "Reference",
+     "noteId": "_help_WN5z4M8ASACJ",
+     "children": []
+    },
+    {
+     "title": "Custom app-wide CSS",
+     "noteId": "_help_AlhDUqhENtH7",
+     "children": []
+    },
+    {
+     "title": "Creating an icon pack",
+     "noteId": "_help_g1mlRoU8CsqC",
+     "children": []
+    }
+   ]
+  },
+  {
+   "title": "Advanced Usage",
+   "noteId": "_help_tC7s2alapj8V",
+   "children": [
+    {
+     "title": "Attributes",
+     "noteId": "_help_zEY4DaJG4YT5",
+     "children": [
+      {
+       "title": "Labels",
+       "noteId": "_help_HI6GBBIduIgv",
+       "children": []
+      },
+      {
+       "title": "Relations",
+       "noteId": "_help_Cq5X6iKQop6R",
+       "children": []
+      },
+      {
+       "title": "Attribute Inheritance",
+       "noteId": "_help_bwZpz2ajCEwO",
+       "children": []
+      },
+      {
+       "title": "Promoted Attributes",
+       "noteId": "_help_OFXdgB2nNk1F",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Templates",
+     "noteId": "_help_KC1HB96bqqHX",
+     "children": []
+    },
+    {
+     "title": "Snippets",
+     "noteId": "_help_B2ORr7OVEZtc",
+     "children": [
+      {
+       "title": "Markdown Snippets",
+       "noteId": "_help_VQjhl61rlWh9",
+       "children": []
+      },
+      {
+       "title": "Code Snippets",
+       "noteId": "_help_IEgsWp5hHH35",
+       "children": []
+      },
+      {
+       "title": "Text Snippets",
+       "noteId": "_help_pwc194wlRzcH",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Note Map (Link map, Tree map)",
+     "noteId": "_help_BCkXAVs63Ttv",
+     "children": []
+    },
+    {
+     "title": "Sharing",
+     "noteId": "_help_R9pX4DGra2Vt",
+     "children": [
+      {
+       "title": "Serving directly the content of a note",
+       "noteId": "_help_Qjt68inQ2bRj",
+       "children": []
+      },
+      {
+       "title": "Exporting static HTML for web publishing",
+       "noteId": "_help_ycBFjKrrwE9p",
+       "children": []
+      },
+      {
+       "title": "Reverse proxy configuration",
+       "noteId": "_help_sLIJ6f1dkJYW",
+       "children": []
+      },
+      {
+       "title": "Custom share template",
+       "noteId": "_help_Ad7Ku5gOHrDU",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Advanced Showcases",
+     "noteId": "_help_5668rwcirq1t",
+     "children": [
+      {
+       "title": "Day Notes",
+       "noteId": "_help_l0tKav7yLHGF",
+       "children": []
+      },
+      {
+       "title": "Weight Tracker",
+       "noteId": "_help_R7abl2fc6Mxi",
+       "children": []
+      },
+      {
+       "title": "Task Manager",
+       "noteId": "_help_xYjQUYhpbUEW",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Customizing to-do task states",
+     "noteId": "_help_i16PM6A7GXdU",
+     "children": []
+    },
+    {
+     "title": "Custom Request Handler",
+     "noteId": "_help_J5Ex1ZrMbyJ6",
+     "children": []
+    },
+    {
+     "title": "Custom Resource Providers",
+     "noteId": "_help_d3fAXQ2diepH",
+     "children": []
+    },
+    {
+     "title": "ETAPI (REST API)",
+     "noteId": "_help_pgxEVkzLl1OP",
+     "children": [
+      {
+       "title": "API Reference",
+       "noteId": "_help_9qPsTWBorUhQ",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Default Note Title",
+     "noteId": "_help_47ZrP6FNuoG8",
+     "children": []
+    },
+    {
+     "title": "Database",
+     "noteId": "_help_wX4HbRucYSDD",
+     "children": [
+      {
+       "title": "Manually altering the database",
+       "noteId": "_help_oyIAJ9PvvwHX",
+       "children": [
+        {
+         "title": "SQL Console",
+         "noteId": "_help_YKWqdJhzi2VY",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "Demo Notes",
+       "noteId": "_help_6tZeKvSHEUiB",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Configuration (config.ini or environment variables)",
+     "noteId": "_help_Gzjqa934BdH4",
+     "children": [
+      {
+       "title": "Trilium instance",
+       "noteId": "_help_c5xB8m4g2IY6",
+       "children": []
+      },
+      {
+       "title": "Cross-Origin Resource Sharing (CORS)",
+       "noteId": "_help_LWtBjFej3wX3",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Bulk Actions",
+     "noteId": "_help_ivYnonVFBxbQ",
+     "children": []
+    },
+    {
+     "title": "Note source",
+     "noteId": "_help_4FahAwuGTAwC",
+     "children": []
+    },
+    {
+     "title": "Technologies used",
+     "noteId": "_help_1YeN2MzFUluU",
+     "children": [
+      {
+       "title": "CKEditor",
+       "noteId": "_help_MI26XDLSAlCD",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Note ID",
+     "noteId": "_help_m1lbrzyKDaRB",
+     "children": []
+    },
+    {
+     "title": "Internal API",
+     "noteId": "_help_0vTSyvhPTAOz",
+     "children": [
+      {
+       "title": "API Reference",
+       "noteId": "_help_z8O2VG4ZZJD7",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Hidden Notes",
+     "noteId": "_help_2mUhVmZK8RF3",
+     "children": []
+    },
+    {
+     "title": "Metrics",
+     "noteId": "_help_uYF7pmepw27K",
+     "children": [
+      {
+       "title": "grafana-dashboard.json",
+       "noteId": "_help_bOP3TB56fL1V",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Safe mode",
+     "noteId": "_help_64ZTlUPgEPtW",
+     "children": []
+    },
+    {
+     "title": "Nightly release",
+     "noteId": "_help_HAIOFBoYIIdO",
+     "children": []
+    },
+    {
+     "title": "Read-only database",
+     "noteId": "_help_ZmT9ln8XJX2o",
+     "children": []
+    },
+    {
+     "title": "Text Extraction (OCR)",
+     "noteId": "_help_TiQbQDgP8L5t",
+     "children": []
+    }
+   ]
+  },
+  {
+   "title": "AI",
+   "noteId": "_help_GBBMSlVSOIGP",
+   "children": [
+    {
+     "title": "Providers",
+     "noteId": "_help_bkPZAMT7d2sR",
+     "children": []
+    },
+    {
+     "title": "Privacy",
+     "noteId": "_help_cRRrdZjgyhNc",
+     "children": []
+    },
+    {
+     "title": "MCP",
+     "noteId": "_help_KOWBFgsZXJAD",
+     "children": []
+    }
+   ]
+  },
+  {
+   "title": "Scripting",
+   "noteId": "_help_CdNpE2pqjmI6",
+   "children": [
+    {
+     "title": "Frontend Basics",
+     "noteId": "_help_yIhgI5H7A2Sm",
+     "children": [
+      {
+       "title": "Custom Widgets",
+       "noteId": "_help_MgibgPcfeuGz",
+       "children": [
+        {
+         "title": "Widget Basics",
+         "noteId": "_help_SynTBQiBsdYJ",
+         "children": []
+        },
+        {
+         "title": "Note context aware widget",
+         "noteId": "_help_GhurYZjh8e1V",
+         "children": []
+        },
+        {
+         "title": "Right pane widget",
+         "noteId": "_help_M8IppdwVHSjG",
+         "children": []
+        },
+        {
+         "title": "Word count widget",
+         "noteId": "_help_YNxAqkI5Kg1M",
+         "children": []
+        },
+        {
+         "title": "CSS",
+         "noteId": "_help_VqGQnnPGnqAU",
+         "children": []
+        },
+        {
+         "title": "Troubleshooting",
+         "noteId": "_help_gMkgcLJ6jBkg",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "Examples",
+       "noteId": "_help_es8OU2GuguFU",
+       "children": [
+        {
+         "title": "\"New Task\" launcher button",
+         "noteId": "_help_TjLYAo3JMO8X",
+         "children": []
+        },
+        {
+         "title": "Downloading responses from Google Forms",
+         "noteId": "_help_7kZPMD0uFwkH",
+         "children": []
+        },
+        {
+         "title": "Using promoted attributes to configure scripts",
+         "noteId": "_help_DL92EjAaXT26",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "Launch Bar Widgets",
+       "noteId": "_help_4Gn3psZKsfSm",
+       "children": [
+        {
+         "title": "Note Title Widget",
+         "noteId": "_help_IPArqVfDQ4We",
+         "children": []
+        },
+        {
+         "title": "Analog Watch",
+         "noteId": "_help_gcI7RPbaNSh3",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "Preact",
+       "noteId": "_help_KLsqhjaqh1QW",
+       "children": [
+        {
+         "title": "Component libraries",
+         "noteId": "_help_Bqde6BvPo05g",
+         "children": []
+        },
+        {
+         "title": "Hooks",
+         "noteId": "_help_ykYtbM9k3a7B",
+         "children": []
+        },
+        {
+         "title": "CSS",
+         "noteId": "_help_Sg9GrCtyftZf",
+         "children": []
+        },
+        {
+         "title": "Built-in components",
+         "noteId": "_help_RSssb9S3xgSr",
+         "children": [
+          {
+           "title": "Widget showcase",
+           "noteId": "_help_i9B4IW7b6V6z",
+           "children": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "title": "Frontend Events",
+       "noteId": "_help_irkwjdNtjcxR",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Backend scripts",
+     "noteId": "_help_SPirpZypehBG",
+     "children": [
+      {
+       "title": "Server-side imports",
+       "noteId": "_help_fZ2IGYFXjkEy",
+       "children": []
+      },
+      {
+       "title": "Backend Events",
+       "noteId": "_help_GPERMystNGTB",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Common concepts",
+     "noteId": "_help_wqXwKJl6VpNk",
+     "children": [
+      {
+       "title": "Script bundles",
+       "noteId": "_help_hA834UaHhSNn",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Script API",
+     "noteId": "_help_GLks18SNjxmC",
+     "children": [
+      {
+       "title": "Frontend API",
+       "noteId": "_help_Q2z6av6JZVWm",
+       "children": [
+        {
+         "title": "FNote",
+         "noteId": "_help_habiZ3HU8Kw8",
+         "children": []
+        }
+       ]
+      },
+      {
+       "title": "Backend API",
+       "noteId": "_help_MEtfsqa5VwNi",
+       "children": []
+      },
+      {
+       "title": "Electron API",
+       "noteId": "_help_GFXVHyblVN3d",
+       "children": []
+      },
+      {
+       "title": "Day.js",
+       "noteId": "_help_ApVHZ8JY5ofC",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Logging",
+     "noteId": "_help_vElnKeDNPSVl",
+     "children": []
+    },
+    {
+     "title": "Breaking changes",
+     "noteId": "_help_cNpC0ITcfX0N",
+     "children": [
+      {
+       "title": "v0.104.0: Disabling the Node integration in Electron",
+       "noteId": "_help_YeOa2l7Pu39I",
+       "children": []
+      },
+      {
+       "title": "v0.103.0: Removal of axios",
+       "noteId": "_help_fqAK6opjUagR",
+       "children": []
+      },
+      {
+       "title": "v0.103.0: `cheerio` is now deprecated",
+       "noteId": "_help_pAJ0jWz16xFm",
+       "children": []
+      },
+      {
+       "title": "v0.102.0: Upgrade to jQuery 4.0.0",
+       "noteId": "_help_72dxvnbnkDFY",
+       "children": []
+      }
+     ]
+    },
+    {
+     "title": "Security",
+     "noteId": "_help_fiHicjpHjIRJ",
+     "children": []
+    }
+   ]
+  },
+  {
+   "title": "Miscellaneous",
+   "noteId": "_help_Fm0j45KqyHpU",
+   "children": [
+    {
+     "title": "Privacy Policy",
+     "noteId": "_help_WFbFXrgnDyyU",
+     "children": []
+    },
+    {
+     "title": "Patterns of personal knowledge",
+     "noteId": "_help_NcsmUYZRWEW4",
+     "children": []
+    },
+    {
+     "title": "License",
+     "noteId": "_help_d1Ap6Pg6IjaJ",
+     "children": []
+    }
+   ]
+  }
+ ]
+}
