@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import json, urllib.request, re
+import json, urllib.request
 
 URL='http://127.0.0.1:37840/mcp'
 HDR={'Authorization':'dErucsr17Ybr_dbnEu20jKX4b48O8USXrzDlWbhfhCSyvyYYR60KpGgE=','Content-Type':'application/json','Accept':'application/json, text/event-stream'}
@@ -17,21 +17,14 @@ def call(tool,args):
             except: pass
     return out[-1] if out else None
 
-# check the unknown ids
-for nid in ['Hb2E70L7HPuf','WWRGzqHUFrln','LhtnZxtVsUMp','_help_iRwzGnHPzomn']:
+# check attachments on a few bilingual notes that have images
+for nid,title in [('3GTPwnM0LXzq','Tray icon'),('EkPCJ5MeC1N6','Mobile Frontend'),('zFJQZNoPNdYB','Note tree contextual menu'),('hgzRSQb9i9t5','Multiple selection')]:
     res=call('get_note',{'noteId':nid})
     try:
         d=json.loads(res['result']['content'][0]['text'])
-        print(nid, '->', d.get('title'), '| type:', d.get('type'), '| parent:', d.get('parentNoteIds'))
+        att=d.get('attachments',{}).get('results',[])
+        print(nid, title, '| attachments:', d.get('attachments',{}).get('totalCount'))
+        for a in att[:10]:
+            print('    ', a.get('attachmentId'), a.get('title'), a.get('mime'), a.get('filename'))
     except Exception as e:
-        print(nid, 'ERR', str(res)[:150])
-
-# look at context in the notes
-for nid,label in [('Bgf8cWUPyF9q','Patterns'),('zFJQZNoPNdYB','ContextMenu'),('jEjptFSIqsK5','Printing'),('QnI6RA5ZtkQl','Markdown')]:
-    res=call('get_note_content',{'noteId':nid})
-    d=json.loads(res['result']['content'][0]['text'])
-    c=d.get('content','')
-    print('===',label)
-    for pat in ['_help_iRwzGnHPzomn','Hb2E70L7HPuf','WWRGzqHUFrln','LhtnZxtVsUMp']:
-        for m in re.finditer(r'.{50}'+re.escape(pat)+r'.{50}', c):
-            print('  ', pat, ':', repr(m.group(0)))
+        print(nid,'ERR',str(res)[:150])

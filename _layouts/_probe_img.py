@@ -30,10 +30,7 @@ def walk(nid):
             walk(k['noteId'])
 walk('yTRmjAPEV7Wm')
 
-mp=json.load(open('help_map.json',encoding='utf-8'))['node_map']
-new_ids=set(mp.values())
-
-remaining=[]  # (nid,title,kind,text)
+img_styles=set(); img_srcs=set(); img_notes=0; sample=[]
 for nid,title,ntype in nodes:
     if ntype not in ('text','book'):
         continue
@@ -43,29 +40,26 @@ for nid,title,ntype in nodes:
         c=d.get('content','')
     except:
         continue
-    # any leftover _help refs anywhere in content
-    for m in re.finditer(r'_help_[A-Za-z0-9]+', c):
-        remaining.append((nid,title,'_help_token',m.group(0), c[max(0,m.start()-40):m.end()+20]))
-    # markdown-style internal links like ](#root/xxx) or plain hrefs to _help
-    for m in re.finditer(r'\(#root/(_help_[A-Za-z0-9]+)\)', c):
-        remaining.append((nid,title,'mdlink',m.group(1)))
+    if '<img' in c:
+        img_notes+=1
+        for m in re.finditer(r'<img[^>]*>', c):
+            tag=m.group(0)
+            src=re.search(r'src="([^"]*)"', tag)
+            st=re.search(r'style="([^"]*)"', tag)
+            if src: img_srcs.add(src.group(1))
+            if st: img_styles.add(st.group(1))
+            if len(sample)<5:
+                sample.append((nid,title,tag[:200]))
 
-print('remaining _help references in content:', len(remaining))
-for r in remaining[:40]:
-    print('  ', r)
-
-# also verify: count how many content links now point to new ids
-total_new=0
-for nid,title,ntype in nodes:
-    if ntype not in ('text','book'):
-        continue
-    res=call('get_note_content',{'noteId':nid})
-    try:
-        d=json.loads(res['result']['content'][0]['text'])
-        c=d.get('content','')
-    except:
-        continue
-    for m in re.finditer(r'#root/([A-Za-z0-9]{10,})', c):
-        if m.group(1) in new_ids:
-            total_new+=1
-print('total links now pointing to new ids:', total_new)
+print('notes with <img>:', img_notes)
+print('distinct src values:', len(img_srcs))
+for s in sorted(img_srcs)[:40]:
+    print('  SRC:', repr(s))
+print()
+print('distinct style values:', len(img_styles))
+for s in sorted(img_styles)[:15]:
+    print('  STYLE:', repr(s))
+print()
+print('--- samples ---')
+for s in sample:
+    print(s[0], s[1], ':', s[2])

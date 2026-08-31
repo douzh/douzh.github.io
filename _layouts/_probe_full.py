@@ -1,0 +1,33 @@
+# -*- coding: utf-8 -*-
+import json, urllib.request
+
+URL='http://127.0.0.1:37840/mcp'
+HDR={'Authorization':'dErucsr17Ybr_dbnEu20jKX4b48O8USXrzDlWbhfhCSyvyYYR60KpGgE=','Content-Type':'application/json','Accept':'application/json, text/event-stream'}
+
+def call(tool,args):
+    payload={'jsonrpc':'2.0','id':99,'method':'tools/call','params':{'name':tool,'arguments':args}}
+    req=urllib.request.Request(URL,data=json.dumps(payload).encode('utf-8'),headers=HDR,method='POST')
+    with urllib.request.urlopen(req,timeout=180) as r:
+        data=r.read().decode('utf-8')
+    out=[]
+    for line in data.splitlines():
+        line=line.strip()
+        if line.startswith('data:'):
+            try: out.append(json.loads(line[5:].strip()))
+            except: pass
+    return out[-1] if out else None
+
+# full get_note for source help note
+res=call('get_note',{'noteId':'_help_7iwde4lsKc6O'})
+print('FULL:', json.dumps(res,ensure_ascii=False))
+
+# try get_note on a source help note that references image note links
+# check _help_GTwFsgaA0lCt (Collections) full content
+res=call('get_note_content',{'noteId':'_help_GTwFsgaA0lCt'})
+d=json.loads(res['result']['content'][0]['text'])
+c=d.get('content','')
+print()
+print('Collections src content len:', len(c))
+import re
+for m in re.finditer(r'<img[^>]*>', c):
+    print('IMG:', m.group(0)[:200])

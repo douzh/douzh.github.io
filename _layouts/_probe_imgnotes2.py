@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import json, urllib.request
+import json, urllib.request, re
 
 URL='http://127.0.0.1:37840/mcp'
 HDR={'Authorization':'dErucsr17Ybr_dbnEu20jKX4b48O8USXrzDlWbhfhCSyvyYYR60KpGgE=','Content-Type':'application/json','Accept':'application/json, text/event-stream'}
@@ -17,25 +17,16 @@ def call(tool,args):
             except: pass
     return out[-1] if out else None
 
-def get_children(nid):
-    res=call('get_child_notes',{'noteId':nid})
-    d=json.loads(res['result']['content'][0]['text'])
-    return d if isinstance(d,list) else d.get('results',[])
+# check source help content for these image notes - how are they referenced in the raw doc content?
+# Search the help content for one of the image note titles
+res=call('search_notes',{'query':'note.type = image','limit':100})
+d=json.loads(res['result']['content'][0]['text'])
+print('all image notes:', d.get('totalResults'))
+# check where they live
+for r_ in d.get('results',[]):
+    print('  ', r_.get('noteId'), repr(r_.get('title')), 'parent:', r_.get('parentTitle'))
 
-nodes=[]
-def walk(nid):
-    for k in get_children(nid):
-        nodes.append((k['noteId'],k['title']))
-        if k.get('childCount',0)>0:
-            walk(k['noteId'])
-walk('yTRmjAPEV7Wm')
-
-# build title->id, ignoring the (中文) part
-import re
-bytitle={}
-for nid,title in nodes:
-    en=re.split(r'\(', title)[0].strip()
-    bytitle.setdefault(en,[]).append(nid)
-json.dump(bytitle, open('_bytitle.json','w',encoding='utf-8'), ensure_ascii=False, indent=1)
-for en in sorted(bytitle):
-    print(en, '->', bytitle[en])
+# check an image note metadata
+res=call('get_note',{'noteId':'OmISaHjINmQ7'})
+print()
+print('image note meta:', json.dumps(res,ensure_ascii=False)[:400])

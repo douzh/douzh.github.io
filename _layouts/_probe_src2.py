@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import json, urllib.request, re
+import json, urllib.request
 
 URL='http://127.0.0.1:37840/mcp'
 HDR={'Authorization':'dErucsr17Ybr_dbnEu20jKX4b48O8USXrzDlWbhfhCSyvyYYR60KpGgE=','Content-Type':'application/json','Accept':'application/json, text/event-stream'}
@@ -17,17 +17,10 @@ def call(tool,args):
             except: pass
     return out[-1] if out else None
 
-# check specific notes with odd links
-targets={'hcZlVY6xuwTM':'Backlinks','7GvIUovXTWfm':'Note Map','jEjptFSIqsK5':'Printing'}
-for nid,title in targets.items():
-    res=call('get_note_content',{'noteId':nid})
-    d=json.loads(res['result']['content'][0]['text'])
-    c=d.get('content','')
-    print('===', title)
-    # find all href with _help anywhere
-    for m in re.finditer(r'href="#root/[^"]*_help[^"]*"', c):
-        s=max(0,m.start()-10); e=min(len(c),m.end()+10)
-        print('  ', repr(c[s:e]))
-    for m in re.finditer(r'\(#root/[^)]*_help[^)]*\)', c):
-        s=max(0,m.start()-10); e=min(len(c),m.end()+10)
-        print('  MD', repr(c[s:e]))
+# try get_note on the source help node
+res=call('get_note',{'noteId':'7iwde4lsKc6O'})
+print('get_note raw:', json.dumps(res,ensure_ascii=False)[:500])
+print()
+# try search for the source node
+res=call('search_notes',{'query':'noteId:7iwde4lsKc6O','limit':5})
+print('search raw:', json.dumps(res,ensure_ascii=False)[:500])

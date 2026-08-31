@@ -17,20 +17,13 @@ def call(tool,args):
             except: pass
     return out[-1] if out else None
 
-# check links in a couple of notes
-mp=json.load(open('help_map.json',encoding='utf-8'))['node_map']
-# find notes that contain reference links in source
-import random
-hc=json.load(open('help_content.json',encoding='utf-8'))
-withlinks=[k for k,v in hc.items() if 'reference-link' in v or '#root/' in v]
-print('source pages with links:', len(withlinks))
-for src in withlinks[:3]:
-    nid=mp.get(src)
-    res=call('get_note_content',{'noteId':nid})
-    d=json.loads(res['result']['content'][0]['text'])
-    c=d.get('content','')
-    # find link snippets
-    print('=== ', src, '->', nid)
-    for m in re.finditer(r'<a class="reference-link" href="#root/([^"]+)">([^<]*)</a>', c):
-        print('  LINK href=#root/%s text=%r' % (m.group(1), m.group(2)))
-    print('  (total len', len(c), ')')
+res=call('get_note_content',{'noteId':'_help_7iwde4lsKc6O'})
+d=json.loads(res['result']['content'][0]['text'])
+c=d.get('content','')
+print('source content length:', len(c))
+print('--- img tags ---')
+for m in re.finditer(r'<img[^>]*>', c):
+    print(' ', m.group(0))
+print('--- any #root refs ---')
+for m in re.finditer(r'#root/[A-Za-z0-9]+', c):
+    print(' ', m.group(0))
