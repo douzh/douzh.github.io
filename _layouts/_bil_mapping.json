@@ -1,0 +1,1139 @@
+[
+ {
+  "noteId": "3GTPwnM0LXzq",
+  "title": "Tray icon & automatic startup(托盘图标与自动启动)",
+  "base": "Tray icon & automatic startup",
+  "docName": "User Guide/User Guide/Installation & Setup/Desktop Installation/Tray icon & automatic startup",
+  "imgs": [
+   "Tray icon &amp; automatic startup_image.png"
+  ]
+ },
+ {
+  "noteId": "Y2SA0lctNgeT",
+  "title": "Synchronization(同步)",
+  "base": "Synchronization",
+  "docName": "User Guide/User Guide/Installation & Setup/Synchronization",
+  "imgs": [
+   "Synchronization_image.png",
+   "Synchronization_sync-config.png",
+   "Synchronization_sync-init.png",
+   "Synchronization_sync-in-progress.png"
+  ]
+ },
+ {
+  "noteId": "EkPCJ5MeC1N6",
+  "title": "Mobile Frontend(移动端前端)",
+  "base": "Mobile Frontend",
+  "docName": "User Guide/User Guide/Installation & Setup/Mobile Frontend",
+  "imgs": [
+   "Mobile Frontend_IMG_1765.PNG"
+  ]
+ },
+ {
+  "noteId": "5ij28kFBfVBt",
+  "title": "Web Clipper(网页剪藏)",
+  "base": "Web Clipper",
+  "docName": "User Guide/User Guide/Installation & Setup/Web Clipper",
+  "imgs": [
+   "Web%20Clipper_image.png"
+  ]
+ },
+ {
+  "noteId": "wvQAQhxkLit4",
+  "title": "Data directory(数据目录)",
+  "base": "Data directory",
+  "docName": "User Guide/User Guide/Installation & Setup/Data directory",
+  "imgs": [
+   "Data%20directory_image.png"
+  ]
+ },
+ {
+  "noteId": "1EV8BZdIFoNf",
+  "title": "Vertical and horizontal layout(垂直与水平布局)",
+  "base": "Vertical and horizontal layout",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Vertical and horizontal layout",
+  "imgs": [
+   "5_Vertical%20and%20horizontal%20layout_image.png",
+   "4_Vertical%20and%20horizontal%20layout_image.png",
+   "5_Vertical%20and%20horizontal%20layout_image.png",
+   "4_Vertical%20and%20horizontal%20layout_image.png",
+   "3_Vertical%20and%20horizontal%20layout_image.png",
+   "1_Vertical%20and%20horizontal%20layout_image.png",
+   "Vertical%20and%20horizontal%20layout_image.png",
+   "1_Vertical%20and%20horizontal%20layout_image.png",
+   "Vertical%20and%20horizontal%20layout_image.png",
+   "2_Vertical%20and%20horizontal%20layout_image.png"
+  ]
+ },
+ {
+  "noteId": "a1NgEcaebRLj",
+  "title": "Global menu(全局菜单)",
+  "base": "Global menu",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Global menu",
+  "imgs": [
+   "Global%20menu_image.png"
+  ]
+ },
+ {
+  "noteId": "zFJQZNoPNdYB",
+  "title": "Note tree contextual menu(笔记树右键菜单)",
+  "base": "Note tree contextual menu",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note Tree/Note tree contextual menu",
+  "imgs": [
+   "1_Note tree contextual menu_image.png",
+   "Note tree contextual menu_image.png"
+  ]
+ },
+ {
+  "noteId": "hgzRSQb9i9t5",
+  "title": "Multiple selection(多选)",
+  "base": "Multiple selection",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note Tree/Multiple selection",
+  "imgs": [
+   "Multiple selection_image.png",
+   "1_Multiple selection_image.png",
+   "2_Multiple selection_image.png"
+  ]
+ },
+ {
+  "noteId": "HgSJWr791xpC",
+  "title": "Hiding the subtree(隐藏子树)",
+  "base": "Hiding the subtree",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note Tree/Hiding the subtree",
+  "imgs": [
+   "1_Hiding the subtree_image.png",
+   "Hiding the subtree_image.png"
+  ]
+ },
+ {
+  "noteId": "1HxqZrvnxBIk",
+  "title": "Ribbon(功能区)",
+  "base": "Ribbon",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Ribbon",
+  "imgs": [
+   "Ribbon_image.png"
+  ]
+ },
+ {
+  "noteId": "6NDWkg3KY9Sa",
+  "title": "Tabs(标签页)",
+  "base": "Tabs",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Tabs",
+  "imgs": [
+   "2_Tabs_image.png",
+   "1_Tabs_image.png",
+   "Tabs_image.png",
+   "1_Tabs_image.png",
+   "Tabs_image.png",
+   "Tabs_IMG_1767.PNG"
+  ]
+ },
+ {
+  "noteId": "9tK6XcPShKXh",
+  "title": "Launch Bar(启动栏)",
+  "base": "Launch Bar",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Launch Bar",
+  "imgs": [
+   "Launch%20Bar_image.png"
+  ]
+ },
+ {
+  "noteId": "Y4XIsb451ZaD",
+  "title": "Note buttons(笔记按钮)",
+  "base": "Note buttons",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note buttons",
+  "imgs": [
+   "Note%20buttons_image.png",
+   "Note%20buttons_image.png"
+  ]
+ },
+ {
+  "noteId": "1XpCQcfrsPx1",
+  "title": "Options(选项)",
+  "base": "Options",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Options",
+  "imgs": [
+   "Options_image.png",
+   "1_Options_image.png",
+   "1_Options_image.png"
+  ]
+ },
+ {
+  "noteId": "HYla67RMxrV7",
+  "title": "Split View(分屏视图)",
+  "base": "Split View",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Split View",
+  "imgs": [
+   "Split View_2_Split View_image.png",
+   "Split%20View_Split%20View_image.png",
+   "Split%20View_3_Split%20View_image.png",
+   "Split%20View_4_Split%20View_image.png",
+   "Split%20View_1_Split%20View_image.png",
+   "Split%20View_Split%20View_image.png",
+   "Split%20View_3_Split%20View_image.png",
+   "Split%20View_4_Split%20View_image.png",
+   "Split%20View_1_Split%20View_image.png"
+  ]
+ },
+ {
+  "noteId": "jI0JKEbEB1Wd",
+  "title": "Floating buttons(悬浮按钮)",
+  "base": "Floating buttons",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Floating buttons",
+  "imgs": [
+   "Floating buttons_image.png"
+  ]
+ },
+ {
+  "noteId": "aG6mm97D5DtM",
+  "title": "Outline tab(大纲标签页)",
+  "base": "Outline tab",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Right Sidebar/Outline tab",
+  "imgs": [
+   "1_Outline tab_image.png",
+   "Outline tab_image.png"
+  ]
+ },
+ {
+  "noteId": "nMwXg3X1RZGs",
+  "title": "Attributes tab(属性标签页)",
+  "base": "Attributes tab",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Right Sidebar/Attributes tab",
+  "imgs": [
+   "Attributes tab_image.png"
+  ]
+ },
+ {
+  "noteId": "36GZKqQAoCXM",
+  "title": "Connections tab(关联标签页)",
+  "base": "Connections tab",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Right Sidebar/Connections tab",
+  "imgs": [
+   "Connections tab_image.png"
+  ]
+ },
+ {
+  "noteId": "ZNKu9ifJum0a",
+  "title": "Recent Changes(最近更改)",
+  "base": "Recent Changes",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Recent Changes",
+  "imgs": [
+   "1_Recent Changes_image.png",
+   "Recent Changes_image.png",
+   "Recent Changes_image.png"
+  ]
+ },
+ {
+  "noteId": "YC6x3H44Ez7o",
+  "title": "Note Tooltip(笔记悬停提示)",
+  "base": "Note Tooltip",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note Tooltip",
+  "imgs": [
+   "Note Tooltip_image.png"
+  ]
+ },
+ {
+  "noteId": "nmnEU9QuisOT",
+  "title": "Breadcrumb(面包屑导航)",
+  "base": "Breadcrumb",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/New Layout/Breadcrumb",
+  "imgs": [
+   "Breadcrumb_image.png"
+  ]
+ },
+ {
+  "noteId": "62U3dQz38ayb",
+  "title": "Note Icons & Colors(笔记图标与颜色)",
+  "base": "Note Icons & Colors",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Note Icons & Colors",
+  "imgs": [
+   "Note Icons &amp; Colors_image.png"
+  ]
+ },
+ {
+  "noteId": "6fSfWrwDjuLL",
+  "title": "Protected Notes(受保护笔记)",
+  "base": "Protected Notes",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Protected Notes",
+  "imgs": [
+   "Protected%20Notes_protecting-note.gif"
+  ]
+ },
+ {
+  "noteId": "nyo1rLbxdtdK",
+  "title": "Archived Notes(归档笔记)",
+  "base": "Archived Notes",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Archived Notes",
+  "imgs": [
+   "Archived%20Notes_hide-archived.png"
+  ]
+ },
+ {
+  "noteId": "D4v0OM8xectv",
+  "title": "Note Revisions(笔记修订)",
+  "base": "Note Revisions",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Note Revisions",
+  "imgs": [
+   "2_Note Revisions_image.png",
+   "1_Note Revisions_image.png",
+   "1_Note Revisions_image.png",
+   "Note Revisions_image.png",
+   "Note Revisions_image.png"
+  ]
+ },
+ {
+  "noteId": "jEjptFSIqsK5",
+  "title": "Printing & Exporting as PDF(打印与导出为 PDF)",
+  "base": "Printing & Exporting as PDF",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Printing & Exporting as PDF",
+  "imgs": [
+   "1_Printing &amp; Exporting as PDF_image.png",
+   "1_Printing &amp; Exporting as PDF_image.png",
+   "Printing &amp; Exporting as PDF_image.png",
+   "Printing &amp; Exporting as PDF_image.png",
+   "Printing &amp; Exporting as PDF_image.png",
+   "Printing &amp; Exporting as PDF_image.png"
+  ]
+ },
+ {
+  "noteId": "3vjSs0ZFNrg1",
+  "title": "Note List(笔记列表)",
+  "base": "Note List",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Note List",
+  "imgs": [
+   "Note List_image.png"
+  ]
+ },
+ {
+  "noteId": "qwloOOXWvDCQ",
+  "title": "Note Navigation(笔记导航)",
+  "base": "Note Navigation",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Note Navigation",
+  "imgs": [
+   "Note%20Navigation_image.png"
+  ]
+ },
+ {
+  "noteId": "N3SsXCFtv6z6",
+  "title": "Quick search(快速搜索)",
+  "base": "Quick search",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Quick search",
+  "imgs": [
+   "Quick search_image.png"
+  ]
+ },
+ {
+  "noteId": "Yiu7KsmhnMGP",
+  "title": "Jump to & command palette(跳转与命令面板)",
+  "base": "Jump to & command palette",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Jump to & command palette",
+  "imgs": [
+   "1_Jump to &amp; command palette_image.png",
+   "Jump to &amp; command palette_image.png"
+  ]
+ },
+ {
+  "noteId": "IBjErTFqyXuY",
+  "title": "Search(搜索)",
+  "base": "Search",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Search",
+  "imgs": [
+   "Search_image.png"
+  ]
+ },
+ {
+  "noteId": "A8M0RjeMsL1L",
+  "title": "Note Hoisting(笔记提升)",
+  "base": "Note Hoisting",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Note Hoisting",
+  "imgs": [
+   "Note%20Hoisting_note-hoisting.gif"
+  ]
+ },
+ {
+  "noteId": "y0lydABr9fMs",
+  "title": "Quick edit(快速编辑)",
+  "base": "Quick edit",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Quick edit",
+  "imgs": [
+   "Quick edit_image.png"
+  ]
+ },
+ {
+  "noteId": "gQEzKXgmELw3",
+  "title": "Workspaces(工作区)",
+  "base": "Workspaces",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Workspaces",
+  "imgs": [
+   "1_Workspaces_image.png",
+   "Workspaces_image.png",
+   "1_Workspaces_image.png",
+   "Workspaces_image.png"
+  ]
+ },
+ {
+  "noteId": "9ed1hO1aac7q",
+  "title": "Similar Notes(相似笔记)",
+  "base": "Similar Notes",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Similar Notes",
+  "imgs": [
+   "Similar Notes_image.png"
+  ]
+ },
+ {
+  "noteId": "BmMwFBKbXbXY",
+  "title": "Search in note(在笔记中搜索)",
+  "base": "Search in note",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Search in note",
+  "imgs": [
+   "Search in note_image.png"
+  ]
+ },
+ {
+  "noteId": "ioBsMOyJWNL6",
+  "title": "Icon Packs(图标包)",
+  "base": "Icon Packs",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Themes/Icon Packs",
+  "imgs": [
+   "Icon Packs_image.png"
+  ]
+ },
+ {
+  "noteId": "Go0LKhYLvRQ3",
+  "title": "Zen mode(专注模式)",
+  "base": "Zen mode",
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Zen mode",
+  "imgs": [
+   "3_Zen%20mode_image.png",
+   "2_Zen%20mode_image.png",
+   "Zen%20mode_image.png",
+   "Zen%20mode_image.png",
+   "1_Zen%20mode_image.png"
+  ]
+ },
+ {
+  "noteId": "HrLTDB4biEjd",
+  "title": "Anchors(锚点)",
+  "base": "Anchors",
+  "docName": "User Guide/User Guide/Note Types/Text/Anchors",
+  "imgs": [
+   "Anchors_plus.png",
+   "1_Anchors_plus.png",
+   "Anchors_plus.png",
+   "1_Anchors_plus.png"
+  ]
+ },
+ {
+  "noteId": "9oZoMCUVrwYH",
+  "title": "Block quotes & admonitions(块引用与提示框)",
+  "base": "Block quotes & admonitions",
+  "docName": "User Guide/User Guide/Note Types/Text/Block quotes & admonitions",
+  "imgs": [
+   "Block quotes &amp; admonitions_image.png",
+   "Block quotes &amp; admonitions_image.png",
+   "2_Block quotes &amp; admonitions_image.png",
+   "1_Block%20quotes%20%26%20admonitions_image.png"
+  ]
+ },
+ {
+  "noteId": "dp0yR8iJcHUz",
+  "title": "Content language & Right-to-left support(内容语言与从右到左支持)",
+  "base": "Content language & Right-to-left support",
+  "docName": "User Guide/User Guide/Note Types/Text/Content language & Right-to-left support",
+  "imgs": [
+   "Content%20language%20&amp;%20Right-to-left%20support_image.png"
+  ]
+ },
+ {
+  "noteId": "198XztYEqPOu",
+  "title": "Cut to subnote(剪切到子笔记)",
+  "base": "Cut to subnote",
+  "docName": "User Guide/User Guide/Note Types/Text/Cut to subnote",
+  "imgs": [
+   "Cut to subnote_cut-to-subnote.gif"
+  ]
+ },
+ {
+  "noteId": "yDSAJA52YSSc",
+  "title": "Code blocks(代码块)",
+  "base": "Code blocks",
+  "docName": "User Guide/User Guide/Note Types/Text/Developer-specific formatting/Code blocks",
+  "imgs": [
+   "1_Code%20blocks_image.png",
+   "Code%20blocks_image.png",
+   "Code%20blocks_image.png",
+   "2_Code%20blocks_image.png"
+  ]
+ },
+ {
+  "noteId": "WwIfSGzpiZv2",
+  "title": "Footnotes(脚注)",
+  "base": "Footnotes",
+  "docName": "User Guide/User Guide/Note Types/Text/Footnotes",
+  "imgs": [
+   "1_Footnotes_image.png",
+   "Footnotes_image.png",
+   "Footnotes_image.png"
+  ]
+ },
+ {
+  "noteId": "DKVvUJu5d9wk",
+  "title": "Format Painter(格式刷)",
+  "base": "Format Painter",
+  "docName": "User Guide/User Guide/Note Types/Text/Format Painter",
+  "imgs": [
+   "Format Painter_image.png",
+   "Format Painter_746436a2e1.svg",
+   "Format Painter_746436a2e1.svg"
+  ]
+ },
+ {
+  "noteId": "uTm1sydiZVk9",
+  "title": "Formatting toolbar(格式工具栏)",
+  "base": "Formatting toolbar",
+  "docName": "User Guide/User Guide/Note Types/Text/Formatting toolbar",
+  "imgs": [
+   "1_Formatting%20toolbar_image.png",
+   "3_Formatting%20toolbar_image.png",
+   "Formatting%20toolbar_image.png",
+   "2_Formatting%20toolbar_image.png"
+  ]
+ },
+ {
+  "noteId": "aqXgtWf2ZGM3",
+  "title": "General formatting(常规格式)",
+  "base": "General formatting",
+  "docName": "User Guide/User Guide/Note Types/Text/General formatting",
+  "imgs": [
+   "3_General formatting_image.png",
+   "General formatting_image.png",
+   "4_General formatting_image.png",
+   "2_General formatting_image.png",
+   "1_General formatting_image.png",
+   "1_General formatting_image.png"
+  ]
+ },
+ {
+  "noteId": "loS5qeT288Pr",
+  "title": "Image references(图片引用)",
+  "base": "Image references",
+  "docName": "User Guide/User Guide/Note Types/Text/Images/Image references",
+  "imgs": [
+   "Image references_image.png",
+   "1_Image%20references_image.png",
+   "1_Image%20references_image.png"
+  ]
+ },
+ {
+  "noteId": "J2k5GcYmen5K",
+  "title": "Include Note(包含笔记)",
+  "base": "Include Note",
+  "docName": "User Guide/User Guide/Note Types/Text/Include Note",
+  "imgs": [
+   "Include%20Note_image.png",
+   "Include%20Note_image.png"
+  ]
+ },
+ {
+  "noteId": "gJKh845gMEpr",
+  "title": "Insert buttons(插入按钮)",
+  "base": "Insert buttons",
+  "docName": "User Guide/User Guide/Note Types/Text/Insert buttons",
+  "imgs": [
+   "4_Insert buttons_image.png",
+   "4_Insert buttons_image.png",
+   "Insert buttons_plus.png",
+   "1_Insert buttons_plus.png",
+   "1_Insert buttons_image.png",
+   "7_Insert buttons_image.png",
+   "7_Insert buttons_image.png",
+   "2_Insert buttons_image.png",
+   "2_Insert buttons_image.png",
+   "6_Insert buttons_image.png",
+   "5_Insert buttons_image.png",
+   "5_Insert buttons_image.png",
+   "3_Insert buttons_image.png",
+   "8_Insert buttons_image.png",
+   "Insert buttons_image.png",
+   "Insert buttons_image.png"
+  ]
+ },
+ {
+  "noteId": "gxho81Q6xsWT",
+  "title": "Link Previews(链接预览)",
+  "base": "Link Previews",
+  "docName": "User Guide/User Guide/Note Types/Text/Link Previews",
+  "imgs": [
+   "Link Previews_image.png",
+   "2_Link Previews_image.png",
+   "1_Link Previews_image.png",
+   "Link Previews_image.png",
+   "2_Link Previews_image.png",
+   "1_Link Previews_image.png"
+  ]
+ },
+ {
+  "noteId": "rLuBfXs5PmYs",
+  "title": "External links(外部链接)",
+  "base": "External links",
+  "docName": "User Guide/User Guide/Note Types/Text/Links/External links",
+  "imgs": [
+   "1_External links_image.png",
+   "1_External links_image.png",
+   "External links_image.png",
+   "External links_image.png",
+   "2_External links_image.png",
+   "2_External links_image.png"
+  ]
+ },
+ {
+  "noteId": "BPZTTRWAsfZQ",
+  "title": "Lists(列表)",
+  "base": "Lists",
+  "docName": "User Guide/User Guide/Note Types/Text/Lists",
+  "imgs": [
+   "4_Lists_image.png",
+   "1_Lists_image.png",
+   "Lists_image.png",
+   "4_Lists_image.png",
+   "1_Lists_image.png",
+   "Lists_image.png",
+   "2_Lists_image.png",
+   "2_Lists_image.png",
+   "7_Lists_image.png",
+   "7_Lists_image.png",
+   "6_Lists_image.png",
+   "9_Lists_image.png",
+   "5_Lists_image.png",
+   "10_Lists_image.png",
+   "8_Lists_image.png",
+   "3_Lists_image.png",
+   "6_Lists_image.png",
+   "9_Lists_image.png",
+   "5_Lists_image.png",
+   "10_Lists_image.png",
+   "8_Lists_image.png",
+   "3_Lists_image.png"
+  ]
+ },
+ {
+  "noteId": "eM78Yo7Hs77x",
+  "title": "Math Equations(数学公式)",
+  "base": "Math Equations",
+  "docName": "User Guide/User Guide/Note Types/Text/Math Equations",
+  "imgs": [
+   "Math Equations_image.png",
+   "1_Math Equations_image.png",
+   "1_Math Equations_image.png"
+  ]
+ },
+ {
+  "noteId": "JiD49BSV4B2l",
+  "title": "Other features(其他功能)",
+  "base": "Other features",
+  "docName": "User Guide/User Guide/Note Types/Text/Other features",
+  "imgs": [
+   "6_Other features_image.png",
+   "5_Other features_image.png",
+   "5_Other features_image.png",
+   "1_Other features_image.png",
+   "1_Other features_image.png",
+   "2_Other features_image.png",
+   "2_Other features_image.png",
+   "Other features_image.png",
+   "Other features_image.png",
+   "4_Other features_image.png",
+   "3_Other features_image.png",
+   "3_Other features_image.png"
+  ]
+ },
+ {
+  "noteId": "fwhBAyFO5Puc",
+  "title": "Slash Commands(斜杠命令)",
+  "base": "Slash Commands",
+  "docName": "User Guide/User Guide/Note Types/Text/Slash Commands",
+  "imgs": [
+   "Slash Commands_image.png"
+  ]
+ },
+ {
+  "noteId": "8k17cIeeDnmP",
+  "title": "Tables(表格)",
+  "base": "Tables",
+  "docName": "User Guide/User Guide/Note Types/Text/Tables",
+  "imgs": [
+   "6_Tables_image.png",
+   "10_Tables_image.png",
+   "11_Tables_image.png",
+   "5_Tables_image.png",
+   "11_Tables_image.png",
+   "5_Tables_image.png",
+   "8_Tables_image.png",
+   "8_Tables_image.png",
+   "Tables_image.png",
+   "Tables_image.png",
+   "7_Tables_image.png",
+   "7_Tables_image.png",
+   "1_Tables_image.png",
+   "1_Tables_image.png",
+   "2_Tables_image.png",
+   "13_Tables_image.png",
+   "13_Tables_image.png",
+   "3_Tables_image.png",
+   "12_Tables_image.png",
+   "12_Tables_image.png",
+   "4_Tables_image.png",
+   "4_Tables_image.png",
+   "14_Tables_image.png",
+   "9_Tables_image.png",
+   "14_Tables_image.png",
+   "9_Tables_image.png",
+   "5_Tables_image.png",
+   "5_Tables_image.png"
+  ]
+ },
+ {
+  "noteId": "uzjKmQ6n2OOV",
+  "title": "To-do Lists(待办清单)",
+  "base": "To-do Lists",
+  "docName": "User Guide/User Guide/Note Types/Text/To-do Lists",
+  "imgs": [
+   "To-do Lists_image.png"
+  ]
+ },
+ {
+  "noteId": "sIfLV6itqwru",
+  "title": "Code(代码)",
+  "base": "Code",
+  "docName": "User Guide/User Guide/Note Types/Code",
+  "imgs": [
+   "Code_image.png",
+   "1_Code_image.png"
+  ]
+ },
+ {
+  "noteId": "GEo52zaDBG8C",
+  "title": "Saved Search(保存的搜索)",
+  "base": "Saved Search",
+  "docName": "User Guide/User Guide/Note Types/Saved Search",
+  "imgs": [
+   "Saved Search_saved-search.gif"
+  ]
+ },
+ {
+  "noteId": "Tt58b3ruaARW",
+  "title": "Relation Map(关系图谱)",
+  "base": "Relation Map",
+  "docName": "User Guide/User Guide/Note Types/Relation Map",
+  "imgs": [
+   "Relation Map_relation-map-dev-process.png",
+   "Relation Map_relation-map-dev-process-demo.gif",
+   "Relation Map_relation-map-family.png",
+   "Relation Map_relation-map-family-demo.gif"
+  ]
+ },
+ {
+  "noteId": "7GvIUovXTWfm",
+  "title": "Note Map(笔记图谱)",
+  "base": "Note Map",
+  "docName": "User Guide/User Guide/Note Types/Note Map",
+  "imgs": [
+   "Note Map_image.png"
+  ]
+ },
+ {
+  "noteId": "JJu6GkCERkeT",
+  "title": "Render Note(渲染笔记)",
+  "base": "Render Note",
+  "docName": "User Guide/User Guide/Note Types/Render Note",
+  "imgs": [
+   "Render Note_image.png"
+  ]
+ },
+ {
+  "noteId": "YhIg7ouiRtvs",
+  "title": "Canvas(画布)",
+  "base": "Canvas",
+  "docName": "User Guide/User Guide/Note Types/Canvas",
+  "imgs": [
+   "Canvas_image.png"
+  ]
+ },
+ {
+  "noteId": "G7e6Ptj7kQIk",
+  "title": "Mind Map(思维导图)",
+  "base": "Mind Map",
+  "docName": "User Guide/User Guide/Note Types/Mind Map",
+  "imgs": [
+   "Mind Map_image.png"
+  ]
+ },
+ {
+  "noteId": "bGT6BMYxwjGT",
+  "title": "PDFs(PDF)",
+  "base": "PDFs",
+  "docName": "User Guide/User Guide/Note Types/File/PDFs",
+  "imgs": [
+   "PDFs_image.png",
+   "1_PDFs_image.png",
+   "1_PDFs_image.png"
+  ]
+ },
+ {
+  "noteId": "Dwj5nj7RqU3n",
+  "title": "Audio & Video(音频与视频)",
+  "base": "Audio & Video",
+  "docName": "User Guide/User Guide/Note Types/File/Audio & Video",
+  "imgs": [
+   "Audio &amp; Video_image.png",
+   "1_Audio &amp; Video_image.png"
+  ]
+ },
+ {
+  "noteId": "tix71hsh3Eri",
+  "title": "Spreadsheets(电子表格)",
+  "base": "Spreadsheets",
+  "docName": "User Guide/User Guide/Note Types/Spreadsheets",
+  "imgs": [
+   "Spreadsheets_image.png"
+  ]
+ },
+ {
+  "noteId": "QnI6RA5ZtkQl",
+  "title": "Markdown(Markdown)",
+  "base": "Markdown",
+  "docName": "User Guide/User Guide/Note Types/Markdown",
+  "imgs": [
+   "Markdown_image.png",
+   "Markdown_image.png"
+  ]
+ },
+ {
+  "noteId": "B5Ebs25hoxP1",
+  "title": "Calendar(日历)",
+  "base": "Calendar",
+  "docName": "User Guide/User Guide/Collections/Calendar",
+  "imgs": [
+   "1_Calendar_image.png",
+   "4_Calendar_image.png",
+   "4_Calendar_image.png",
+   "6_Calendar_image.png",
+   "6_Calendar_image.png",
+   "8_Calendar_image.png",
+   "7_Calendar_image.png",
+   "5_Calendar_image.png",
+   "2_Calendar_image.png",
+   "2_Calendar_image.png",
+   "3_Calendar_image.png",
+   "3_Calendar_image.png",
+   "Calendar_image.png",
+   "Calendar_image.png"
+  ]
+ },
+ {
+  "noteId": "foEhWvQBxltm",
+  "title": "Table(表格)",
+  "base": "Table",
+  "docName": "User Guide/User Guide/Collections/Table",
+  "imgs": [
+   "Table_image.png"
+  ]
+ },
+ {
+  "noteId": "L9sWMBAswtyf",
+  "title": "Kanban Board(看板)",
+  "base": "Kanban Board",
+  "docName": "User Guide/User Guide/Collections/Kanban Board",
+  "imgs": [
+   "2_Kanban Board_image.png",
+   "Kanban Board_image.png",
+   "1_Kanban Board_image.png"
+  ]
+ },
+ {
+  "noteId": "UXBuf33jNcgz",
+  "title": "Geo Map(地理地图)",
+  "base": "Geo Map",
+  "docName": "User Guide/User Guide/Collections/Geo Map",
+  "imgs": [
+   "Geo Map_image.png",
+   "3_Geo Map_image.png",
+   "1_Geo Map_image.png",
+   "2_Geo Map_image.png"
+  ]
+ },
+ {
+  "noteId": "QHiADJNhwNhw",
+  "title": "Presentation(演示文稿)",
+  "base": "Presentation",
+  "docName": "User Guide/User Guide/Collections/Presentation",
+  "imgs": [
+   "Presentation_image.png",
+   "1_Presentation_image.png"
+  ]
+ },
+ {
+  "noteId": "OJRjVCOEAzaT",
+  "title": "Grid View(网格视图)",
+  "base": "Grid View",
+  "docName": "User Guide/User Guide/Collections/Grid View",
+  "imgs": [
+   "Grid View_image.png"
+  ]
+ },
+ {
+  "noteId": "WQgpbMEr3pfv",
+  "title": "List View(列表视图)",
+  "base": "List View",
+  "docName": "User Guide/User Guide/Collections/List View",
+  "imgs": [
+   "List View_image.png"
+  ]
+ },
+ {
+  "noteId": "W05HdY8M2oK4",
+  "title": "Collection Properties(集合属性)",
+  "base": "Collection Properties",
+  "docName": "User Guide/User Guide/Collections/Collection Properties",
+  "imgs": [
+   "Collection Properties_image.png"
+  ]
+ },
+ {
+  "noteId": "0pooXvN1W3Ra",
+  "title": "Dashboard(仪表盘)",
+  "base": "Dashboard",
+  "docName": "User Guide/User Guide/Collections/Dashboard",
+  "imgs": [
+   "Dashboard_image.png"
+  ]
+ },
+ {
+  "noteId": "qvnmjhzknXEy",
+  "title": "Anonymized Database(匿名化数据库)",
+  "base": "Anonymized Database",
+  "docName": "User Guide/User Guide/Troubleshooting/Anonymized Database",
+  "imgs": [
+   "Anonymized%20Database_image.png"
+  ]
+ },
+ {
+  "noteId": "nBmiCnNn0nHr",
+  "title": "Frontend logs(前端日志)",
+  "base": "Frontend logs",
+  "docName": "User Guide/User Guide/Troubleshooting/Error logs/Frontend logs",
+  "imgs": [
+   "Frontend%20logs_error-logs-firefox-context-men.png",
+   "Frontend%20logs_image.png"
+  ]
+ },
+ {
+  "noteId": "tR2ZMqLnx653",
+  "title": "Creating a custom theme(创建自定义主题)",
+  "base": "Creating a custom theme",
+  "docName": "User Guide/User Guide/Theme development/Creating a custom theme",
+  "imgs": [
+   "Creating%20a%20custom%20theme_5_Creating%20a%20custom%20theme_im.png",
+   "Creating%20a%20custom%20theme_3_Creating%20a%20custom%20theme_im.png",
+   "Creating%20a%20custom%20theme_1_Creating%20a%20custom%20theme_im.png",
+   "Creating%20a%20custom%20theme_Creating%20a%20custom%20theme_im.png",
+   "Creating%20a%20custom%20theme_2_Creating%20a%20custom%20theme_im.png",
+   "Creating%20a%20custom%20theme_4_Creating%20a%20custom%20theme_im.png"
+  ]
+ },
+ {
+  "noteId": "K9rtCEuSuTKA",
+  "title": "Customize the Next theme(自定义 Next 主题)",
+  "base": "Customize the Next theme",
+  "docName": "User Guide/User Guide/Theme development/Customize the Next theme",
+  "imgs": [
+   "Customize%20the%20Next%20theme_image.png"
+  ]
+ },
+ {
+  "noteId": "4ACP3eqPx2dd",
+  "title": "Custom app-wide CSS(自定义全局 CSS)",
+  "base": "Custom app-wide CSS",
+  "docName": "User Guide/User Guide/Theme development/Custom app-wide CSS",
+  "imgs": [
+   "Custom%20app-wide%20CSS_image.png",
+   "2_Custom%20app-wide%20CSS_image.png",
+   "3_Custom%20app-wide%20CSS_image.png",
+   "1_Custom app-wide CSS_image.png"
+  ]
+ },
+ {
+  "noteId": "X30jtqpvopIq",
+  "title": "Promoted Attributes(提升属性)",
+  "base": "Promoted Attributes",
+  "docName": "User Guide/User Guide/Advanced Usage/Attributes/Promoted Attributes",
+  "imgs": [
+   "Promoted Attributes_image.png",
+   "2_Promoted Attributes_image.png",
+   "1_Promoted Attributes_image.png",
+   "3_Promoted Attributes_image.png"
+  ]
+ },
+ {
+  "noteId": "kcJchn50gVTm",
+  "title": "Templates(模板)",
+  "base": "Templates",
+  "docName": "User Guide/User Guide/Advanced Usage/Templates",
+  "imgs": [
+   "Templates_template.png",
+   "Templates_template-create-instance-note.png"
+  ]
+ },
+ {
+  "noteId": "Gvn2qWmhOWRM",
+  "title": "Text Snippets(文本片段)",
+  "base": "Text Snippets",
+  "docName": "User Guide/User Guide/Note Types/Text/Text Snippets",
+  "imgs": [
+   "Text Snippets_image.png",
+   "1_Text Snippets_image.png",
+   "1_Text Snippets_image.png"
+  ]
+ },
+ {
+  "noteId": "ViCvcIFfq0UU",
+  "title": "Note Map (Link map, Tree map)(笔记图谱（链接图谱、树形图谱）)",
+  "base": "Note Map",
+  "docName": "User Guide/User Guide/Note Types/Note Map",
+  "imgs": [
+   "Note Map (Link map, Tree map)_image.png",
+   "1_Note Map (Link map, Tree map)_image.png"
+  ]
+ },
+ {
+  "noteId": "pDCO1wTDC3IW",
+  "title": "Serving directly the content of a note(直接提供笔记内容)",
+  "base": "Serving directly the content of a note",
+  "docName": "User Guide/User Guide/Advanced Usage/Sharing/Serving directly the content of a note",
+  "imgs": [
+   "1_Serving directly the content of a note_image.png",
+   "Serving%20directly%20the%20content%20of%20a%20note_image.png"
+  ]
+ },
+ {
+  "noteId": "wbICLlA62rmW",
+  "title": "Day Notes(日记)",
+  "base": "Day Notes",
+  "docName": "User Guide/User Guide/Advanced Usage/Advanced Showcases/Day Notes",
+  "imgs": [
+   "1_Day%20Notes_image.png",
+   "Day%20Notes_image.png"
+  ]
+ },
+ {
+  "noteId": "xMXiS4o28Adh",
+  "title": "Weight Tracker(体重记录)",
+  "base": "Weight Tracker",
+  "docName": "User Guide/User Guide/Advanced Usage/Advanced Showcases/Weight Tracker",
+  "imgs": [
+   "Weight%20Tracker_image.png"
+  ]
+ },
+ {
+  "noteId": "RJN1dMFl924A",
+  "title": "Task Manager(任务管理器)",
+  "base": "Task Manager",
+  "docName": "User Guide/User Guide/Advanced Usage/Advanced Showcases/Task Manager",
+  "imgs": [
+   "Task%20Manager_task-manager.png"
+  ]
+ },
+ {
+  "noteId": "RH7t1Ag3eb9j",
+  "title": "SQL Console(SQL 控制台)",
+  "base": "SQL Console",
+  "docName": "User Guide/User Guide/Advanced Usage/Database/Manually altering the database/SQL Console",
+  "imgs": [
+   "SQL%20Console_image.png",
+   "2_SQL Console_image.png",
+   "1_SQL%20Console_image.png",
+   "1_SQL%20Console_image.png"
+  ]
+ },
+ {
+  "noteId": "rSU82X0tzehu",
+  "title": "Bulk Actions(批量操作)",
+  "base": "Bulk Actions",
+  "docName": "User Guide/User Guide/Advanced Usage/Bulk Actions",
+  "imgs": [
+   "Bulk Actions_image.png"
+  ]
+ },
+ {
+  "noteId": "OfF1t5zkPFxz",
+  "title": "Note source(笔记来源)",
+  "base": "Note source",
+  "docName": "User Guide/User Guide/Advanced Usage/Note source",
+  "imgs": [
+   "Note%20source_image.png"
+  ]
+ },
+ {
+  "noteId": "jRmejps7iWUA",
+  "title": "Hidden Notes(隐藏笔记)",
+  "base": "Hidden Notes",
+  "docName": "User Guide/User Guide/Advanced Usage/Hidden Notes",
+  "imgs": [
+   "Hidden Notes_image.png"
+  ]
+ },
+ {
+  "noteId": "gGTux7IC9n9K",
+  "title": "Word count widget(字数统计小组件)",
+  "base": "Word count widget",
+  "docName": "User Guide/User Guide/Scripting/Frontend Basics/Custom Widgets/Word count widget",
+  "imgs": [
+   "Word count widget_image.png"
+  ]
+ },
+ {
+  "noteId": "CvWUVMGDU2x5",
+  "title": "Using promoted attributes to configure scripts(使用提升属性配置脚本)",
+  "base": "Using promoted attributes to configure scripts",
+  "docName": "User Guide/User Guide/Scripting/Frontend Basics/Examples/Using promoted attributes to configure scripts",
+  "imgs": [
+   "Using%20promoted%20attributes%20to%20configure%20scripts_image.png"
+  ]
+ },
+ {
+  "noteId": "mfpvjXwRIWVa",
+  "title": "Note Title Widget(笔记标题小组件)",
+  "base": "Note Title Widget",
+  "docName": "User Guide/User Guide/Scripting/Frontend Basics/Launch Bar Widgets/Note Title Widget",
+  "imgs": [
+   "Note Title Widget_image.png"
+  ]
+ },
+ {
+  "noteId": "MRcvJo0GdFyo",
+  "title": "Analog Watch(模拟手表)",
+  "base": "Analog Watch",
+  "docName": "User Guide/User Guide/Scripting/Frontend Basics/Launch Bar Widgets/Analog Watch",
+  "imgs": [
+   "Analog Watch_image.png"
+  ]
+ },
+ {
+  "noteId": "fANd7DEVfLd9",
+  "title": "Logging(日志)",
+  "base": "Logging",
+  "docName": "User Guide/User Guide/Scripting/Logging",
+  "imgs": [
+   "Logging_image.png"
+  ]
+ },
+ {
+  "noteId": "Bgf8cWUPyF9q",
+  "title": "Patterns of personal knowledge(个人知识模式)",
+  "base": "Patterns of personal knowledge",
+  "docName": "User Guide/User Guide/Miscellaneous/Patterns of personal knowledge",
+  "imgs": [
+   "Patterns of personal knowledge_relation-map-family.png"
+  ]
+ }
+]
