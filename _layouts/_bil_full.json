@@ -1,0 +1,519 @@
+{
+ "bil_notes": [
+  {
+   "noteId": "wbICLlA62rmW",
+   "title": "日记",
+   "docPath": "User Guide/User Guide/Advanced Usage/Advanced Showcases/Day Notes"
+  },
+  {
+   "noteId": "RJN1dMFl924A",
+   "title": "任务管理器",
+   "docPath": "User Guide/User Guide/Advanced Usage/Advanced Showcases/Task Manager"
+  },
+  {
+   "noteId": "xMXiS4o28Adh",
+   "title": "体重记录",
+   "docPath": "User Guide/User Guide/Advanced Usage/Advanced Showcases/Weight Tracker"
+  },
+  {
+   "noteId": "X30jtqpvopIq",
+   "title": "提升属性",
+   "docPath": "User Guide/User Guide/Advanced Usage/Attributes/Promoted Attributes"
+  },
+  {
+   "noteId": "rSU82X0tzehu",
+   "title": "批量操作",
+   "docPath": "User Guide/User Guide/Advanced Usage/Bulk Actions"
+  },
+  {
+   "noteId": "RH7t1Ag3eb9j",
+   "title": "SQL 控制台",
+   "docPath": "User Guide/User Guide/Advanced Usage/Database/Manually altering the database/SQL Console"
+  },
+  {
+   "noteId": "jRmejps7iWUA",
+   "title": "隐藏笔记",
+   "docPath": "User Guide/User Guide/Advanced Usage/Hidden Notes"
+  },
+  {
+   "noteId": "OfF1t5zkPFxz",
+   "title": "笔记来源",
+   "docPath": "User Guide/User Guide/Advanced Usage/Note source"
+  },
+  {
+   "noteId": "pDCO1wTDC3IW",
+   "title": "直接提供笔记内容",
+   "docPath": "User Guide/User Guide/Advanced Usage/Sharing/Serving directly the content of a note"
+  },
+  {
+   "noteId": "kcJchn50gVTm",
+   "title": "模板",
+   "docPath": "User Guide/User Guide/Advanced Usage/Templates"
+  },
+  {
+   "noteId": "Yiu7KsmhnMGP",
+   "title": "跳转与命令面板",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Navigation/Jump to & command palette"
+  },
+  {
+   "noteId": "A8M0RjeMsL1L",
+   "title": "笔记提升",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Navigation/Note Hoisting"
+  },
+  {
+   "noteId": "qwloOOXWvDCQ",
+   "title": "笔记导航",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Navigation/Note Navigation"
+  },
+  {
+   "noteId": "y0lydABr9fMs",
+   "title": "快速编辑",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Navigation/Quick edit"
+  },
+  {
+   "noteId": "N3SsXCFtv6z6",
+   "title": "快速搜索",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Navigation/Quick search"
+  },
+  {
+   "noteId": "IBjErTFqyXuY",
+   "title": "搜索",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Navigation/Search"
+  },
+  {
+   "noteId": "BmMwFBKbXbXY",
+   "title": "在笔记中搜索",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Navigation/Search in note"
+  },
+  {
+   "noteId": "9ed1hO1aac7q",
+   "title": "相似笔记",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Navigation/Similar Notes"
+  },
+  {
+   "noteId": "gQEzKXgmELw3",
+   "title": "工作区",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Navigation/Workspaces"
+  },
+  {
+   "noteId": "nyo1rLbxdtdK",
+   "title": "归档笔记",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Notes/Archived Notes"
+  },
+  {
+   "noteId": "62U3dQz38ayb",
+   "title": "笔记图标与颜色",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Notes/Note Icons & Colors"
+  },
+  {
+   "noteId": "3vjSs0ZFNrg1",
+   "title": "笔记列表",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Notes/Note List"
+  },
+  {
+   "noteId": "D4v0OM8xectv",
+   "title": "笔记修订",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Notes/Note Revisions"
+  },
+  {
+   "noteId": "jEjptFSIqsK5",
+   "title": "打印与导出为 PDF",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Notes/Printing & Exporting as PDF"
+  },
+  {
+   "noteId": "6fSfWrwDjuLL",
+   "title": "受保护笔记",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Notes/Protected Notes"
+  },
+  {
+   "noteId": "ioBsMOyJWNL6",
+   "title": "图标包",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Themes/Icon Packs"
+  },
+  {
+   "noteId": "jI0JKEbEB1Wd",
+   "title": "悬浮按钮",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Floating buttons"
+  },
+  {
+   "noteId": "a1NgEcaebRLj",
+   "title": "全局菜单",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Global menu"
+  },
+  {
+   "noteId": "9tK6XcPShKXh",
+   "title": "启动栏",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Launch Bar"
+  },
+  {
+   "noteId": "nmnEU9QuisOT",
+   "title": "面包屑导航",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/New Layout/Breadcrumb"
+  },
+  {
+   "noteId": "YC6x3H44Ez7o",
+   "title": "笔记悬停提示",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note Tooltip"
+  },
+  {
+   "noteId": "HgSJWr791xpC",
+   "title": "隐藏子树",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note Tree/Hiding the subtree"
+  },
+  {
+   "noteId": "hgzRSQb9i9t5",
+   "title": "多选",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note Tree/Multiple selection"
+  },
+  {
+   "noteId": "zFJQZNoPNdYB",
+   "title": "笔记树右键菜单",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note Tree/Note tree contextual menu"
+  },
+  {
+   "noteId": "Y4XIsb451ZaD",
+   "title": "笔记按钮",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note buttons"
+  },
+  {
+   "noteId": "1XpCQcfrsPx1",
+   "title": "选项",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Options"
+  },
+  {
+   "noteId": "ZNKu9ifJum0a",
+   "title": "最近更改",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Recent Changes"
+  },
+  {
+   "noteId": "1HxqZrvnxBIk",
+   "title": "功能区",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Ribbon"
+  },
+  {
+   "noteId": "nMwXg3X1RZGs",
+   "title": "属性标签页",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Right Sidebar/Attributes tab"
+  },
+  {
+   "noteId": "36GZKqQAoCXM",
+   "title": "关联标签页",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Right Sidebar/Connections tab"
+  },
+  {
+   "noteId": "aG6mm97D5DtM",
+   "title": "大纲标签页",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Right Sidebar/Outline tab"
+  },
+  {
+   "noteId": "HYla67RMxrV7",
+   "title": "分屏视图",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Split View"
+  },
+  {
+   "noteId": "6NDWkg3KY9Sa",
+   "title": "标签页",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Tabs"
+  },
+  {
+   "noteId": "1EV8BZdIFoNf",
+   "title": "与水平布局",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Vertical and horizontal layout"
+  },
+  {
+   "noteId": "Go0LKhYLvRQ3",
+   "title": "专注模式",
+   "docPath": "User Guide/User Guide/Basic Concepts and Features/Zen mode"
+  },
+  {
+   "noteId": "B5Ebs25hoxP1",
+   "title": "日历",
+   "docPath": "User Guide/User Guide/Collections/Calendar"
+  },
+  {
+   "noteId": "W05HdY8M2oK4",
+   "title": "集合属性",
+   "docPath": "User Guide/User Guide/Collections/Collection Properties"
+  },
+  {
+   "noteId": "0pooXvN1W3Ra",
+   "title": "仪表盘",
+   "docPath": "User Guide/User Guide/Collections/Dashboard"
+  },
+  {
+   "noteId": "UXBuf33jNcgz",
+   "title": "地理地图",
+   "docPath": "User Guide/User Guide/Collections/Geo Map"
+  },
+  {
+   "noteId": "OJRjVCOEAzaT",
+   "title": "网格视图",
+   "docPath": "User Guide/User Guide/Collections/Grid View"
+  },
+  {
+   "noteId": "L9sWMBAswtyf",
+   "title": "看板",
+   "docPath": "User Guide/User Guide/Collections/Kanban Board"
+  },
+  {
+   "noteId": "WQgpbMEr3pfv",
+   "title": "列表视图",
+   "docPath": "User Guide/User Guide/Collections/List View"
+  },
+  {
+   "noteId": "QHiADJNhwNhw",
+   "title": "演示文稿",
+   "docPath": "User Guide/User Guide/Collections/Presentation"
+  },
+  {
+   "noteId": "foEhWvQBxltm",
+   "title": "表格",
+   "docPath": "User Guide/User Guide/Collections/Table"
+  },
+  {
+   "noteId": "wvQAQhxkLit4",
+   "title": "数据目录",
+   "docPath": "User Guide/User Guide/Installation & Setup/Data directory"
+  },
+  {
+   "noteId": "3GTPwnM0LXzq",
+   "title": "Tray icon & automatic startup(托盘图标与自动启动)",
+   "docPath": "User Guide/User Guide/Installation & Setup/Desktop Installation/Tray icon & automatic startup"
+  },
+  {
+   "noteId": "EkPCJ5MeC1N6",
+   "title": "移动端前端",
+   "docPath": "User Guide/User Guide/Installation & Setup/Mobile Frontend"
+  },
+  {
+   "noteId": "Y2SA0lctNgeT",
+   "title": "同步",
+   "docPath": "User Guide/User Guide/Installation & Setup/Synchronization"
+  },
+  {
+   "noteId": "5ij28kFBfVBt",
+   "title": "Web Clipper(网页剪藏)",
+   "docPath": "User Guide/User Guide/Installation & Setup/Web Clipper"
+  },
+  {
+   "noteId": "Bgf8cWUPyF9q",
+   "title": "个人知识模式",
+   "docPath": "User Guide/User Guide/Miscellaneous/Patterns of personal knowledge"
+  },
+  {
+   "noteId": "YhIg7ouiRtvs",
+   "title": "画布",
+   "docPath": "User Guide/User Guide/Note Types/Canvas"
+  },
+  {
+   "noteId": "sIfLV6itqwru",
+   "title": "代码",
+   "docPath": "User Guide/User Guide/Note Types/Code"
+  },
+  {
+   "noteId": "Dwj5nj7RqU3n",
+   "title": "音频与视频",
+   "docPath": "User Guide/User Guide/Note Types/File/Audio & Video"
+  },
+  {
+   "noteId": "bGT6BMYxwjGT",
+   "title": "PDF",
+   "docPath": "User Guide/User Guide/Note Types/File/PDFs"
+  },
+  {
+   "noteId": "QnI6RA5ZtkQl",
+   "title": "Markdown",
+   "docPath": "User Guide/User Guide/Note Types/Markdown"
+  },
+  {
+   "noteId": "G7e6Ptj7kQIk",
+   "title": "思维导图",
+   "docPath": "User Guide/User Guide/Note Types/Mind Map"
+  },
+  {
+   "noteId": "7GvIUovXTWfm",
+   "title": "笔记图谱",
+   "docPath": "User Guide/User Guide/Note Types/Note Map"
+  },
+  {
+   "noteId": "ViCvcIFfq0UU",
+   "title": "笔记图谱（链接图谱、树形图谱）",
+   "docPath": "User Guide/User Guide/Note Types/Note Map"
+  },
+  {
+   "noteId": "Tt58b3ruaARW",
+   "title": "关系图谱",
+   "docPath": "User Guide/User Guide/Note Types/Relation Map"
+  },
+  {
+   "noteId": "JJu6GkCERkeT",
+   "title": "渲染笔记",
+   "docPath": "User Guide/User Guide/Note Types/Render Note"
+  },
+  {
+   "noteId": "GEo52zaDBG8C",
+   "title": "保存的搜索",
+   "docPath": "User Guide/User Guide/Note Types/Saved Search"
+  },
+  {
+   "noteId": "tix71hsh3Eri",
+   "title": "电子表格",
+   "docPath": "User Guide/User Guide/Note Types/Spreadsheets"
+  },
+  {
+   "noteId": "HrLTDB4biEjd",
+   "title": "锚点",
+   "docPath": "User Guide/User Guide/Note Types/Text/Anchors"
+  },
+  {
+   "noteId": "9oZoMCUVrwYH",
+   "title": "块引用与提示框",
+   "docPath": "User Guide/User Guide/Note Types/Text/Block quotes & admonitions"
+  },
+  {
+   "noteId": "dp0yR8iJcHUz",
+   "title": "内容语言与从右到左支持",
+   "docPath": "User Guide/User Guide/Note Types/Text/Content language & Right-to-left support"
+  },
+  {
+   "noteId": "198XztYEqPOu",
+   "title": "剪切到子笔记",
+   "docPath": "User Guide/User Guide/Note Types/Text/Cut to subnote"
+  },
+  {
+   "noteId": "yDSAJA52YSSc",
+   "title": "代码块",
+   "docPath": "User Guide/User Guide/Note Types/Text/Developer-specific formatting/Code blocks"
+  },
+  {
+   "noteId": "WwIfSGzpiZv2",
+   "title": "脚注",
+   "docPath": "User Guide/User Guide/Note Types/Text/Footnotes"
+  },
+  {
+   "noteId": "DKVvUJu5d9wk",
+   "title": "格式刷",
+   "docPath": "User Guide/User Guide/Note Types/Text/Format Painter"
+  },
+  {
+   "noteId": "uTm1sydiZVk9",
+   "title": "格式工具栏",
+   "docPath": "User Guide/User Guide/Note Types/Text/Formatting toolbar"
+  },
+  {
+   "noteId": "aqXgtWf2ZGM3",
+   "title": "常规格式",
+   "docPath": "User Guide/User Guide/Note Types/Text/General formatting"
+  },
+  {
+   "noteId": "loS5qeT288Pr",
+   "title": "图片引用",
+   "docPath": "User Guide/User Guide/Note Types/Text/Images/Image references"
+  },
+  {
+   "noteId": "J2k5GcYmen5K",
+   "title": "包含笔记",
+   "docPath": "User Guide/User Guide/Note Types/Text/Include Note"
+  },
+  {
+   "noteId": "gJKh845gMEpr",
+   "title": "插入按钮",
+   "docPath": "User Guide/User Guide/Note Types/Text/Insert buttons"
+  },
+  {
+   "noteId": "gxho81Q6xsWT",
+   "title": "链接预览",
+   "docPath": "User Guide/User Guide/Note Types/Text/Link Previews"
+  },
+  {
+   "noteId": "rLuBfXs5PmYs",
+   "title": "外部链接",
+   "docPath": "User Guide/User Guide/Note Types/Text/Links/External links"
+  },
+  {
+   "noteId": "BPZTTRWAsfZQ",
+   "title": "列表",
+   "docPath": "User Guide/User Guide/Note Types/Text/Lists"
+  },
+  {
+   "noteId": "eM78Yo7Hs77x",
+   "title": "数学公式",
+   "docPath": "User Guide/User Guide/Note Types/Text/Math Equations"
+  },
+  {
+   "noteId": "JiD49BSV4B2l",
+   "title": "其他功能",
+   "docPath": "User Guide/User Guide/Note Types/Text/Other features"
+  },
+  {
+   "noteId": "fwhBAyFO5Puc",
+   "title": "斜杠命令",
+   "docPath": "User Guide/User Guide/Note Types/Text/Slash Commands"
+  },
+  {
+   "noteId": "8k17cIeeDnmP",
+   "title": "表格",
+   "docPath": "User Guide/User Guide/Note Types/Text/Tables"
+  },
+  {
+   "noteId": "Gvn2qWmhOWRM",
+   "title": "文本片段",
+   "docPath": "User Guide/User Guide/Note Types/Text/Text Snippets"
+  },
+  {
+   "noteId": "uzjKmQ6n2OOV",
+   "title": "待办清单",
+   "docPath": "User Guide/User Guide/Note Types/Text/To-do Lists"
+  },
+  {
+   "noteId": "gGTux7IC9n9K",
+   "title": "Word count widget(字数统计小组件)",
+   "docPath": "User Guide/User Guide/Scripting/Frontend Basics/Custom Widgets/Word count widget"
+  },
+  {
+   "noteId": "CvWUVMGDU2x5",
+   "title": "使用提升属性配置脚本",
+   "docPath": "User Guide/User Guide/Scripting/Frontend Basics/Examples/Using promoted attributes to configure scripts"
+  },
+  {
+   "noteId": "MRcvJo0GdFyo",
+   "title": "模拟手表",
+   "docPath": "User Guide/User Guide/Scripting/Frontend Basics/Launch Bar Widgets/Analog Watch"
+  },
+  {
+   "noteId": "mfpvjXwRIWVa",
+   "title": "笔记标题小组件",
+   "docPath": "User Guide/User Guide/Scripting/Frontend Basics/Launch Bar Widgets/Note Title Widget"
+  },
+  {
+   "noteId": "fANd7DEVfLd9",
+   "title": "日志",
+   "docPath": "User Guide/User Guide/Scripting/Logging"
+  },
+  {
+   "noteId": "tR2ZMqLnx653",
+   "title": "自定义主题",
+   "docPath": "User Guide/User Guide/Theme development/Creating a custom theme"
+  },
+  {
+   "noteId": "4ACP3eqPx2dd",
+   "title": "自定义全局 CSS",
+   "docPath": "User Guide/User Guide/Theme development/Custom app-wide CSS"
+  },
+  {
+   "noteId": "K9rtCEuSuTKA",
+   "title": "自定义 Next 主题",
+   "docPath": "User Guide/User Guide/Theme development/Customize the Next theme"
+  },
+  {
+   "noteId": "qvnmjhzknXEy",
+   "title": "匿名化数据库",
+   "docPath": "User Guide/User Guide/Troubleshooting/Anonymized Database"
+  },
+  {
+   "noteId": "nBmiCnNn0nHr",
+   "title": "前端日志",
+   "docPath": "User Guide/User Guide/Troubleshooting/Error logs/Frontend logs"
+  }
+ ]
+}

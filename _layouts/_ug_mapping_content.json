@@ -1,0 +1,898 @@
+[
+ {
+  "noteId": "C0gsLjbVjkhn",
+  "title": "标题",
+  "match": "_help_mHbBMPDPkVV5",
+  "score": 0.057,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export"
+ },
+ {
+  "noteId": "QMdizlUHF0tN",
+  "title": "主题库",
+  "match": "_help_VbjZvtUek0Ln",
+  "score": 0.036,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Themes/Theme Gallery"
+ },
+ {
+  "noteId": "dPPVSl1OVX4A",
+  "title": "导出静态 HTML 用于网页发布",
+  "match": "_help_3tW6mORuTHnB",
+  "score": 0.033,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Packaged version for Linux"
+ },
+ {
+  "noteId": "4hBLB6wTZ1Zv",
+  "title": "CSS",
+  "match": "_help_Qjt68inQ2bRj",
+  "score": 0.015,
+  "docName": "User Guide/User Guide/Advanced Usage/Sharing/Serving directly the content of a note"
+ },
+ {
+  "noteId": "xA1k6rzHw1jJ",
+  "title": "Labels(标签)",
+  "match": "_help_OFXdgB2nNk1F",
+  "score": 0.061,
+  "docName": "User Guide/User Guide/Advanced Usage/Attributes/Promoted Attributes"
+ },
+ {
+  "noteId": "G6uh5oxvadSV",
+  "title": "报告问题",
+  "match": "_help_wy8So3yZZlH9",
+  "score": 0.231,
+  "docName": "User Guide/User Guide/Troubleshooting/Reporting issues"
+ },
+ {
+  "noteId": "6at3wkEnLIfu",
+  "title": "快速开始",
+  "match": "_help_J1Bb6lVlwU5T",
+  "score": 0.069,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Manually"
+ },
+ {
+  "noteId": "aFYvSvzqySw1",
+  "title": "Using Kubernetes(使用 Kubernetes)",
+  "match": "_help_DCmT6e7clMoP",
+  "score": 0.544,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Using Kubernetes"
+ },
+ {
+  "noteId": "EWv4L9CU9Bzk",
+  "title": "AI 对话标签页",
+  "match": "_help_R7abl2fc6Mxi",
+  "score": 0.013,
+  "docName": "User Guide/User Guide/Advanced Usage/Advanced Showcases/Weight Tracker"
+ },
+ {
+  "noteId": "BROicBbRhY1u",
+  "title": "FNote",
+  "match": null,
+  "score": 0,
+  "reason": "内容过短"
+ },
+ {
+  "noteId": "a3TKVvk1Jcuq",
+  "title": "System Requirements(系统要求)",
+  "match": "_help_Rp0q8bSP6Ayl",
+  "score": 0.321,
+  "docName": "User Guide/User Guide/Installation & Setup/Desktop Installation/System Requirements"
+ },
+ {
+  "noteId": "WaA1iBEA7o8D",
+  "title": "Google Keep",
+  "match": "_help_nhQVuO4zvIxi",
+  "score": 0.072,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Importing data from other applications/Google Keep"
+ },
+ {
+  "noteId": "JHsKupgT1tda",
+  "title": "缩放",
+  "match": "_help_ny318J39E5Z0",
+  "score": 0.047,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Zoom"
+ },
+ {
+  "noteId": "NQzDmfb1Rz2v",
+  "title": "自动替换",
+  "match": "_help_oI7GoyilXXAr",
+  "score": 0.051,
+  "docName": "User Guide/User Guide/Note Types/Text/Automatic replacements"
+ },
+ {
+  "noteId": "NTVYMnkwiZCF",
+  "title": "状态栏",
+  "match": "_help_6f9hih2hXXZk",
+  "score": 0.016,
+  "docName": "User Guide/User Guide/Note Types/Code"
+ },
+ {
+  "noteId": "eaZEEY2i4YT2",
+  "title": "Resetting your password(重置密码)",
+  "match": "_help_lwAX5SvbrK2g",
+  "score": 0.168,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/Authentication/Resetting your password"
+ },
+ {
+  "noteId": "IEeQqk3crB3k",
+  "title": "ELK 布局",
+  "match": "_help_RH6yLjjWJHof",
+  "score": 0.188,
+  "docName": "User Guide/User Guide/Note Types/Mermaid Diagrams/ELK layout"
+ },
+ {
+  "noteId": "uqfol1gEV8BT",
+  "title": "服务端导入",
+  "match": "_help_fZ2IGYFXjkEy",
+  "score": 0.329,
+  "docName": "User Guide/User Guide/Scripting/Backend scripts/Server-side imports"
+ },
+ {
+  "noteId": "HqE8ndZ8OVlv",
+  "title": "v0.104.0：禁用 Electron 中的 Node 集成",
+  "match": "_help_YeOa2l7Pu39I",
+  "score": 0.025,
+  "docName": "User Guide/User Guide/Scripting/Breaking changes/v0.104.0 Disabling the Node integration in Electron"
+ },
+ {
+  "noteId": "cNDws8XZlCoV",
+  "title": "\"新建任务\"启动按钮",
+  "match": "_help_F1r9QtzQLZqm",
+  "score": 0.033,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Jump to & command palette"
+ },
+ {
+  "noteId": "xhnTlJGRE7Te",
+  "title": "组件库",
+  "match": "_help_Bqde6BvPo05g",
+  "score": 0.106,
+  "docName": "User Guide/User Guide/Scripting/Frontend Basics/Preact/Component libraries"
+ },
+ {
+  "noteId": "GDf62xzQAPH5",
+  "title": "刷新应用",
+  "match": "_help_fASfBrYnquKU",
+  "score": 0.105,
+  "docName": "User Guide/User Guide/Note Types/Text/To-do Lists"
+ },
+ {
+  "noteId": "1XvW40oOLX0w",
+  "title": "Microsoft OneNote",
+  "match": "_help_GnhlmrATVqcH",
+  "score": 0.052,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Importing data from other applications/Microsoft OneNote"
+ },
+ {
+  "noteId": "FCd0fUcq1TF8",
+  "title": "Notion",
+  "match": "_help_m523cpzocqaD",
+  "score": 0.026,
+  "docName": "User Guide/User Guide/Note Types/Saved Search"
+ },
+ {
+  "noteId": "VQ3ULRNr3aRq",
+  "title": "夜间构建版本",
+  "match": "_help_3tW6mORuTHnB",
+  "score": 0.113,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Packaged version for Linux"
+ },
+ {
+  "noteId": "4aQnfnnr9AKb",
+  "title": "目录",
+  "match": null,
+  "score": 0,
+  "reason": "内容过短"
+ },
+ {
+  "noteId": "SJz4TOTAnudY",
+  "title": "默认笔记标题",
+  "match": "_help_Ad7Ku5gOHrDU",
+  "score": 0.017,
+  "docName": "User Guide/User Guide/Advanced Usage/Sharing/Custom share template"
+ },
+ {
+  "noteId": "JqFcpg0mfise",
+  "title": "键盘快捷键",
+  "match": "_help_ZmT9ln8XJX2o",
+  "score": 0.009,
+  "docName": "User Guide/User Guide/Advanced Usage/Read-only database"
+ },
+ {
+  "noteId": "WLwB4rf7Dqu4",
+  "title": "前端事件",
+  "match": "_help_irkwjdNtjcxR",
+  "score": 0.034,
+  "docName": "User Guide/User Guide/Scripting/Frontend Basics/Frontend Events"
+ },
+ {
+  "noteId": "bBQ7RKmRvKlM",
+  "title": "后端（服务器）日志",
+  "match": "_help_YzMcWlCVeW09",
+  "score": 0.017,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Active content"
+ },
+ {
+  "noteId": "v0ST0oYz6iSM",
+  "title": "只读笔记",
+  "match": "_help_GBBMSlVSOIGP",
+  "score": 0.008,
+  "docName": "User Guide/User Guide/AI"
+ },
+ {
+  "noteId": "GNyhAHMsfcne",
+  "title": "Office 文档",
+  "match": "_help_KG48zgNY31NW",
+  "score": 0.063,
+  "docName": "User Guide/User Guide/Note Types/File/Office documents"
+ },
+ {
+  "noteId": "ArrYKBJoy7G0",
+  "title": "只读数据库",
+  "match": "_help_ZmT9ln8XJX2o",
+  "score": 0.041,
+  "docName": "User Guide/User Guide/Advanced Usage/Read-only database"
+ },
+ {
+  "noteId": "1dZhMvJmxKPn",
+  "title": "后端事件",
+  "match": "_help_yeEaYqosGLSh",
+  "score": 0.042,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/Third-party cloud hosting"
+ },
+ {
+  "noteId": "syL2rkuSPUXB",
+  "title": "Obsidian",
+  "match": "_help_iWD7wiIuMtgV",
+  "score": 0.018,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Importing data from other applications/Obsidian"
+ },
+ {
+  "noteId": "eT4hTrNrfbR0",
+  "title": "备份",
+  "match": "_help_oyIAJ9PvvwHX",
+  "score": 0.025,
+  "docName": "User Guide/User Guide/Advanced Usage/Database/Manually altering the database"
+ },
+ {
+  "noteId": "9H8FKhPVYLTX",
+  "title": "Trusted proxy(受信任的代理)",
+  "match": "_help_LLzSMXACKhUs",
+  "score": 0.126,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/2. Reverse proxy/Trusted proxy"
+ },
+ {
+  "noteId": "v14qii09xWVc",
+  "title": "Setting up with various providers(使用各种提供商进行设置)",
+  "match": "_help_IgkTHSaFfq6A",
+  "score": 0.726,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/Signing in with OpenID Connect/Setting up with various providers"
+ },
+ {
+  "noteId": "NsIGoRoDUTG8",
+  "title": "键盘快捷键",
+  "match": "_help_oyIAJ9PvvwHX",
+  "score": 0.019,
+  "docName": "User Guide/User Guide/Advanced Usage/Database/Manually altering the database"
+ },
+ {
+  "noteId": "OA7pdMSIVH5t",
+  "title": "自定义待办任务状态",
+  "match": "_help_i16PM6A7GXdU",
+  "score": 0.082,
+  "docName": "User Guide/User Guide/Advanced Usage/Customizing to-do task states"
+ },
+ {
+  "noteId": "pN4jKprod7oX",
+  "title": "高级功能",
+  "match": "_help_mVEYwt20exhO",
+  "score": 0.042,
+  "docName": "User Guide/User Guide/Note Types/Text/In-editor AI assistant/Custom AI quick actions"
+ },
+ {
+  "noteId": "20c3yUXh3jcZ",
+  "title": "Electron API",
+  "match": null,
+  "score": 0,
+  "reason": "内容过短"
+ },
+ {
+  "noteId": "stmJLtrW8j2H",
+  "title": "从 Google 表单下载回复",
+  "match": "_help_7kZPMD0uFwkH",
+  "score": 0.073,
+  "docName": "User Guide/User Guide/Scripting/Frontend Basics/Examples/Downloading responses from Google Forms"
+ },
+ {
+  "noteId": "F695Rxy3UEeT",
+  "title": "Day.js",
+  "match": "_help_ApVHZ8JY5ofC",
+  "score": 0.153,
+  "docName": "User Guide/User Guide/Scripting/Script API/Day.js"
+ },
+ {
+  "noteId": "pOHxWBPSPF4K",
+  "title": "CKEditor",
+  "match": "_help_gLt3vA97tMcp",
+  "score": 0.043,
+  "docName": "User Guide/User Guide/Note Types/Text/Premium features"
+ },
+ {
+  "noteId": "ZpqlSTz8sFPI",
+  "title": "拼写检查",
+  "match": "_help_oBo3iHIZnbG2",
+  "score": 0.056,
+  "docName": "User Guide/User Guide/Note Types/Text/Spell Check"
+ },
+ {
+  "noteId": "KNgNIbGyOwdC",
+  "title": "右侧面板小组件",
+  "match": "_help_M8IppdwVHSjG",
+  "score": 0.089,
+  "docName": "User Guide/User Guide/Scripting/Frontend Basics/Custom Widgets/Right pane widget"
+ },
+ {
+  "noteId": "qfffwa20agq7",
+  "title": "网页视图",
+  "match": "_help_1vHRoWCEjj0L",
+  "score": 0.041,
+  "docName": "User Guide/User Guide/Note Types/Web View"
+ },
+ {
+  "noteId": "6OOBk6hUKjLW",
+  "title": "System Requirements(系统要求)",
+  "match": "_help_iGTnKjubbXkA",
+  "score": 0.047,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/System Requirements"
+ },
+ {
+  "noteId": "mWpKWRZZLu3R",
+  "title": "Traefik(Traefik)",
+  "match": "_help_5ERVJb9s4FRD",
+  "score": 0.459,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/2. Reverse proxy/Traefik"
+ },
+ {
+  "noteId": "vkgg8iM2mHvN",
+  "title": "代码片段",
+  "match": "_help_IEgsWp5hHH35",
+  "score": 0.034,
+  "docName": "User Guide/User Guide/Advanced Usage/Snippets/Code Snippets"
+ },
+ {
+  "noteId": "v4jDFrdyA3XU",
+  "title": "升级 TriliumNext",
+  "match": "_help_pgxEVkzLl1OP",
+  "score": 0.019,
+  "docName": "User Guide/User Guide/Advanced Usage/ETAPI (REST API)"
+ },
+ {
+  "noteId": "Td5XP4paGGvm",
+  "title": "FAQ(常见问题)",
+  "match": "_help_3tW6mORuTHnB",
+  "score": 0.052,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Packaged version for Linux"
+ },
+ {
+  "noteId": "Aol4QMxJQ106",
+  "title": "笔记排序",
+  "match": "_help_aGlEvb9hyDhS",
+  "score": 0.034,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Sorting Notes"
+ },
+ {
+  "noteId": "P5P0lLNUT9eC",
+  "title": "grafana-dashboard.json",
+  "match": "_help_pgxEVkzLl1OP",
+  "score": 0.042,
+  "docName": "User Guide/User Guide/Advanced Usage/ETAPI (REST API)"
+ },
+ {
+  "noteId": "MvkvDstoBpsO",
+  "title": "v0.103.0：移除 axios",
+  "match": "_help_ycBFjKrrwE9p",
+  "score": 0.018,
+  "docName": "User Guide/User Guide/Advanced Usage/Sharing/Exporting static HTML for web publishing"
+ },
+ {
+  "noteId": "LhQmZX32MQ0c",
+  "title": "可折叠块",
+  "match": "_help_4n4oQUVbnOxa",
+  "score": 0.06,
+  "docName": "User Guide/User Guide/Note Types/Text/Collapsible blocks"
+ },
+ {
+  "noteId": "Ht8ZUwhpA1DH",
+  "title": "Nix flake(Nix flake)",
+  "match": "_help_Un4wj2Mak2Ky",
+  "score": 0.41,
+  "docName": "User Guide/User Guide/Installation & Setup/Desktop Installation/Nix flake"
+ },
+ {
+  "noteId": "I9TEAj9A5NIv",
+  "title": "Troubleshooting(故障排除)",
+  "match": "_help_hvRfsDr591WP",
+  "score": 0.117,
+  "docName": "User Guide/User Guide/Installation & Setup/Desktop Installation/Troubleshooting"
+ },
+ {
+  "noteId": "sPaAXjVcvZZl",
+  "title": "Packaged version for Linux(Linux 打包版本)",
+  "match": "_help_3tW6mORuTHnB",
+  "score": 0.359,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Packaged version for Linux"
+ },
+ {
+  "noteId": "TNBOr62S7Osb",
+  "title": "安全",
+  "match": "_help_fiHicjpHjIRJ",
+  "score": 0.025,
+  "docName": "User Guide/User Guide/Scripting/Security"
+ },
+ {
+  "noteId": "kEA3GOPRnzx7",
+  "title": "笔记收件箱",
+  "match": "_help_J5Ex1ZrMbyJ6",
+  "score": 0.017,
+  "docName": "User Guide/User Guide/Advanced Usage/Custom Request Handler"
+ },
+ {
+  "noteId": "o5byGpiYwkAf",
+  "title": "Nginx(Nginx)",
+  "match": "_help_ud6MShXL4WpO",
+  "score": 0.318,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/2. Reverse proxy/Nginx"
+ },
+ {
+  "noteId": "79rSvQaP5JCE",
+  "title": "CSS(CSS)",
+  "match": "_help_VqGQnnPGnqAU",
+  "score": 0.179,
+  "docName": "User Guide/User Guide/Scripting/Frontend Basics/Custom Widgets/CSS"
+ },
+ {
+  "noteId": "X3YqkCaUUU4u",
+  "title": "活动内容",
+  "match": "_help_MgibgPcfeuGz",
+  "score": 0.043,
+  "docName": "User Guide/User Guide/Scripting/Frontend Basics/Custom Widgets"
+ },
+ {
+  "noteId": "yekICwqk31HM",
+  "title": "提供程序",
+  "match": "_help_bkPZAMT7d2sR",
+  "score": 0.008,
+  "docName": "User Guide/User Guide/AI/Providers"
+ },
+ {
+  "noteId": "74oHxA6XDX7Z",
+  "title": "Apache using Docker(使用 Docker 的 Apache)",
+  "match": "_help_fDLvzOx29Pfg",
+  "score": 0.571,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/2. Reverse proxy/Apache using Docker"
+ },
+ {
+  "noteId": "Ax2xW59Ff3jb",
+  "title": "高亮列表",
+  "match": null,
+  "score": 0,
+  "reason": "内容过短"
+ },
+ {
+  "noteId": "ShThQsAzq8H9",
+  "title": "参考",
+  "match": "_help_WN5z4M8ASACJ",
+  "score": 0.098,
+  "docName": "User Guide/User Guide/Theme development/Reference"
+ },
+ {
+  "noteId": "2FGr3nWmquVd",
+  "title": "在笔记类型之间转换",
+  "match": "_help_jludwdW7N4hg",
+  "score": 0.043,
+  "docName": "User Guide/User Guide/Note Types/Converting between note types"
+ },
+ {
+  "noteId": "7cAfhPfEAIrM",
+  "title": "Hooks",
+  "match": "_help_ykYtbM9k3a7B",
+  "score": 0.139,
+  "docName": "User Guide/User Guide/Scripting/Frontend Basics/Preact/Hooks"
+ },
+ {
+  "noteId": "KENrlyFaUbZN",
+  "title": "Network Access(网络访问)",
+  "match": "_help_swSFivWk6KkA",
+  "score": 0.361,
+  "docName": "User Guide/User Guide/Installation & Setup/Desktop Installation/Network Access"
+ },
+ {
+  "noteId": "8kz4JE6Llklc",
+  "title": "前缀",
+  "match": "_help_zEY4DaJG4YT5",
+  "score": 0.019,
+  "docName": "User Guide/User Guide/Advanced Usage/Attributes"
+ },
+ {
+  "noteId": "mf5d77kGDVvQ",
+  "title": "v0.103.0：`cheerio` 现已弃用",
+  "match": "_help_pAJ0jWz16xFm",
+  "score": 0.036,
+  "docName": "User Guide/User Guide/Scripting/Breaking changes/v0.103.0 `cheerio` is now deprecated"
+ },
+ {
+  "noteId": "tJxRbIWRmEp8",
+  "title": "License(许可证)",
+  "match": "_help_d1Ap6Pg6IjaJ",
+  "score": 0.272,
+  "docName": "User Guide/User Guide/Miscellaneous/License"
+ },
+ {
+  "noteId": "hWMN4ej0xMh3",
+  "title": "API 参考",
+  "match": null,
+  "score": 0,
+  "reason": "内容过短"
+ },
+ {
+  "noteId": "3jBts3KWOAAP",
+  "title": "HTTPS (TLS)(HTTPS (TLS))",
+  "match": "_help_l2VkvOwUNfZj",
+  "score": 0.196,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/HTTPS (TLS)"
+ },
+ {
+  "noteId": "SBcn989ASCLZ",
+  "title": "关系",
+  "match": "_help_xYjQUYhpbUEW",
+  "score": 0.052,
+  "docName": "User Guide/User Guide/Advanced Usage/Advanced Showcases/Task Manager"
+ },
+ {
+  "noteId": "J2vVDbQtQZtM",
+  "title": "感知笔记上下文的小组件",
+  "match": "_help_gcI7RPbaNSh3",
+  "score": 0.042,
+  "docName": "User Guide/User Guide/Scripting/Frontend Basics/Launch Bar Widgets/Analog Watch"
+ },
+ {
+  "noteId": "5uFWhktAIRyu",
+  "title": "脚本包",
+  "match": "_help_0vhv7lsOLy82",
+  "score": 0.017,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Attachments"
+ },
+ {
+  "noteId": "k8g7PA6MK9oa",
+  "title": "按标题处理内部链接",
+  "match": null,
+  "score": 0,
+  "reason": "内容过短"
+ },
+ {
+  "noteId": "6FRj4QSfbL9T",
+  "title": "附件",
+  "match": "_help_0vhv7lsOLy82",
+  "score": 0.04,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Attachments"
+ },
+ {
+  "noteId": "SAlWCKOJjNBy",
+  "title": "自定义 AI 快捷操作",
+  "match": "_help_mVEYwt20exhO",
+  "score": 0.045,
+  "docName": "User Guide/User Guide/Note Types/Text/In-editor AI assistant/Custom AI quick actions"
+ },
+ {
+  "noteId": "5HwfHJFwczl9",
+  "title": "Using Docker(使用 Docker)",
+  "match": "_help_rWX5eY045zbE",
+  "score": 0.275,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Using Docker"
+ },
+ {
+  "noteId": "sFWMuPR2S3QB",
+  "title": "安全模式",
+  "match": "_help_64ZTlUPgEPtW",
+  "score": 0.131,
+  "docName": "User Guide/User Guide/Advanced Usage/Safe mode"
+ },
+ {
+  "noteId": "jFXOYH8BO8zS",
+  "title": "后端 API",
+  "match": null,
+  "score": 0,
+  "reason": "内容过短"
+ },
+ {
+  "noteId": "lJ6ySSiTSr3j",
+  "title": "键盘快捷键",
+  "match": "_help_A9Oc6YKKc65v",
+  "score": 0.017,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Keyboard Shortcuts"
+ },
+ {
+  "noteId": "VugMPu4jc7IZ",
+  "title": "API 参考",
+  "match": null,
+  "score": 0,
+  "reason": "内容过短"
+ },
+ {
+  "noteId": "SEYvbzIDbgtV",
+  "title": "On NixOS(在 NixOS 上)",
+  "match": "_help_moVgBcoxE3EK",
+  "score": 0.327,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/On NixOS"
+ },
+ {
+  "noteId": "Etxj5aRT3vkB",
+  "title": "内容宽度",
+  "match": "_help_Qjt68inQ2bRj",
+  "score": 0.017,
+  "docName": "User Guide/User Guide/Advanced Usage/Sharing/Serving directly the content of a note"
+ },
+ {
+  "noteId": "zSF9gd8EeVtg",
+  "title": "书签",
+  "match": "_help_u3YFHC9tQlpm",
+  "score": 0.077,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Bookmarks"
+ },
+ {
+  "noteId": "NwgMJByVeFyC",
+  "title": "Multi-factor authentication with TOTP(使用 TOTP 的多因素身份验证)",
+  "match": "_help_7DAiwaf8Z7Rz",
+  "score": 0.804,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/Multi-factor authentication with TOTP"
+ },
+ {
+  "noteId": "lwnKte9zowVK",
+  "title": "恢复已删除的笔记",
+  "match": "_help_u3YFHC9tQlpm",
+  "score": 0.029,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Bookmarks"
+ },
+ {
+  "noteId": "ip1BHr5q3vY4",
+  "title": "创建图标包",
+  "match": "_help_g1mlRoU8CsqC",
+  "score": 0.017,
+  "docName": "User Guide/User Guide/Theme development/Creating an icon pack"
+ },
+ {
+  "noteId": "yAM7BBICJYqk",
+  "title": "类 Markdown 格式",
+  "match": "_help_Oau6X9rCuegd",
+  "score": 0.028,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Markdown"
+ },
+ {
+  "noteId": "S9b1TAsJZF1u",
+  "title": "跨域资源共享 (CORS)",
+  "match": "_help_LWtBjFej3wX3",
+  "score": 0.049,
+  "docName": "User Guide/User Guide/Advanced Usage/Configuration (config.ini or environment variables)/Cross-Origin Resource Sharing (CORS)"
+ },
+ {
+  "noteId": "2P0eR6E4qLOA",
+  "title": "文本提取 (OCR)",
+  "match": "_help_mT0HEkOsz6i1",
+  "score": 0.026,
+  "docName": "User Guide/User Guide/Note Types/Text/Images"
+ },
+ {
+  "noteId": "NoLYuQ9qUQg7",
+  "title": "隐私政策",
+  "match": "_help_WFbFXrgnDyyU",
+  "score": 0.185,
+  "docName": "User Guide/User Guide/Miscellaneous/Privacy Policy"
+ },
+ {
+  "noteId": "z2cMreTyvWVz",
+  "title": "Third-party cloud hosting(第三方云托管)",
+  "match": "_help_yeEaYqosGLSh",
+  "score": 0.308,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/Third-party cloud hosting"
+ },
+ {
+  "noteId": "KXp59dH02JDZ",
+  "title": "故障排除",
+  "match": "_help_IPArqVfDQ4We",
+  "score": 0.051,
+  "docName": "User Guide/User Guide/Scripting/Frontend Basics/Launch Bar Widgets/Note Title Widget"
+ },
+ {
+  "noteId": "9achoYMafjHP",
+  "title": "属性继承",
+  "match": "_help_bwZpz2ajCEwO",
+  "score": 0.033,
+  "docName": "User Guide/User Guide/Advanced Usage/Attributes/Attribute Inheritance"
+ },
+ {
+  "noteId": "H6xRarZDzD4p",
+  "title": "演示笔记",
+  "match": "_help_5668rwcirq1t",
+  "score": 0.046,
+  "docName": "User Guide/User Guide/Advanced Usage/Advanced Showcases"
+ },
+ {
+  "noteId": "0FBBMpFaI2jU",
+  "title": "支持的语法",
+  "match": "_help_Oau6X9rCuegd",
+  "score": 0.027,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Markdown"
+ },
+ {
+  "noteId": "5huozA6LMahz",
+  "title": "支持分屏视图的笔记类型",
+  "match": "_help_SL5f1Auq7sVN",
+  "score": 0.043,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note types with split view"
+ },
+ {
+  "noteId": "L0HLzREIQ8E9",
+  "title": "Anytype",
+  "match": "_help_GBBMSlVSOIGP",
+  "score": 0.027,
+  "docName": "User Guide/User Guide/AI"
+ },
+ {
+  "noteId": "dccVjGrNHB5o",
+  "title": "反向代理配置",
+  "match": "_help_VbjZvtUek0Ln",
+  "score": 0.098,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Themes/Theme Gallery"
+ },
+ {
+  "noteId": "kBQZqj9dubVL",
+  "title": "Nix flake(Nix flake)",
+  "match": null,
+  "score": 0,
+  "reason": "内容过短"
+ },
+ {
+  "noteId": "NRzmLnGiDb8U",
+  "title": "内部（引用）链接",
+  "match": "_help_Gzjqa934BdH4",
+  "score": 0.016,
+  "docName": "User Guide/User Guide/Advanced Usage/Configuration (config.ini or environment variables)"
+ },
+ {
+  "noteId": "PFtFDf3JuA4D",
+  "title": "同步失败并报 504 网关超时",
+  "match": "_help_vdlYGAcpXAgc",
+  "score": 0.347,
+  "docName": "User Guide/User Guide/Troubleshooting/Synchronization fails with 504 Gateway Timeout"
+ },
+ {
+  "noteId": "sKi0De0UzUbQ",
+  "title": "自定义请求处理器",
+  "match": "_help_R9pX4DGra2Vt",
+  "score": 0.027,
+  "docName": "User Guide/User Guide/Advanced Usage/Sharing"
+ },
+ {
+  "noteId": "HDOtajV3qR0i",
+  "title": "自定义资源提供程序",
+  "match": "_help_AlhDUqhENtH7",
+  "score": 0.042,
+  "docName": "User Guide/User Guide/Theme development/Custom app-wide CSS"
+ },
+ {
+  "noteId": "aIwhuIM42UXZ",
+  "title": "Using the desktop application as a server(将桌面应用用作服务器)",
+  "match": "_help_nRqcgfTb97uV",
+  "score": 0.168,
+  "docName": "User Guide/User Guide/Installation & Setup/Desktop Installation/Using the desktop application as a server"
+ },
+ {
+  "noteId": "hcZlVY6xuwTM",
+  "title": "反向链接",
+  "match": "_help_QEAPj01N5f7w",
+  "score": 0.025,
+  "docName": "User Guide/User Guide/Note Types/Text/Links"
+ },
+ {
+  "noteId": "t9tDQ3yYHSIQ",
+  "title": "功能亮点",
+  "match": "_help_GTwFsgaA0lCt",
+  "score": 0.033,
+  "docName": "User Guide/User Guide/Collections"
+ },
+ {
+  "noteId": "fupEm5MLR0eF",
+  "title": "Multiple server instances(多个服务器实例)",
+  "match": "_help_klCWNks3ReaQ",
+  "score": 0.564,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Multiple server instances"
+ },
+ {
+  "noteId": "8ea9bUjqQm46",
+  "title": "v0.102.0：升级到 jQuery 4.0.0",
+  "match": "_help_72dxvnbnkDFY",
+  "score": 0.152,
+  "docName": "User Guide/User Guide/Scripting/Breaking changes/v0.102.0 Upgrade to jQuery 4.0.0"
+ },
+ {
+  "noteId": "d8rJUlge3Be1",
+  "title": "树的概念",
+  "match": "_help_kBrnXNG3Hplm",
+  "score": 0.033,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Tree Concepts"
+ },
+ {
+  "noteId": "yzyWwxCeBHm2",
+  "title": "语法参考",
+  "match": null,
+  "score": 0,
+  "reason": "内容过短"
+ },
+ {
+  "noteId": "fEvxRDgByx6J",
+  "title": "Manually(手动安装)",
+  "match": "_help_J1Bb6lVlwU5T",
+  "score": 0.234,
+  "docName": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Manually"
+ },
+ {
+  "noteId": "mme9Dn0AMMYr",
+  "title": "Markdown 片段",
+  "match": "_help_IEgsWp5hHH35",
+  "score": 0.039,
+  "docName": "User Guide/User Guide/Advanced Usage/Snippets/Code Snippets"
+ },
+ {
+  "noteId": "o672rnPvm0jD",
+  "title": "笔记 ID",
+  "match": "_help_0vhv7lsOLy82",
+  "score": 0.017,
+  "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Attachments"
+ },
+ {
+  "noteId": "nrdIPDm87oD3",
+  "title": "Trilium 实例",
+  "match": "_help_c5xB8m4g2IY6",
+  "score": 0.079,
+  "docName": "User Guide/User Guide/Advanced Usage/Configuration (config.ini or environment variables)/Trilium instance"
+ },
+ {
+  "noteId": "R6SqwFdNe39J",
+  "title": "小组件基础",
+  "match": "_help_M8IppdwVHSjG",
+  "score": 0.047,
+  "docName": "User Guide/User Guide/Scripting/Frontend Basics/Custom Widgets/Right pane widget"
+ },
+ {
+  "noteId": "G85N2AiEbbuW",
+  "title": "隐私",
+  "match": "_help_GBBMSlVSOIGP",
+  "score": 0.008,
+  "docName": "User Guide/User Guide/AI"
+ },
+ {
+  "noteId": "7Tc9Zf7xh8Xs",
+  "title": "MCP",
+  "match": "_help_KOWBFgsZXJAD",
+  "score": 0.017,
+  "docName": "User Guide/User Guide/AI/MCP"
+ },
+ {
+  "noteId": "hF1RdP002030",
+  "title": "自定义分享模板",
+  "match": "_help_Ad7Ku5gOHrDU",
+  "score": 0.035,
+  "docName": "User Guide/User Guide/Advanced Usage/Sharing/Custom share template"
+ },
+ {
+  "noteId": "5JQ4vkZqncQO",
+  "title": "文本片段",
+  "match": null,
+  "score": 0,
+  "reason": "内容过短"
+ },
+ {
+  "noteId": "iyj7sZ20qUw8",
+  "title": "小组件展示",
+  "match": "_help_RSssb9S3xgSr",
+  "score": 0.188,
+  "docName": "User Guide/User Guide/Scripting/Frontend Basics/Preact/Built-in components"
+ }
+]

@@ -1,0 +1,2039 @@
+[
+ {
+  "noteId": "cNDws8XZlCoV",
+  "title": "\"新建任务\"启动按钮",
+  "path": "脚本/前端基础/示例",
+  "len": 4360,
+  "text": "警告：此文档已过时，因为它指的是使用已弃用的 addButtonToToolbar API，该 API 只会为桌面端创建小部件。 相反，可以使用 Launch Bar Widgets(启动栏小组件) 文档创建一个自定义启动器小部件。 在本示例中，我们将通过 启动栏 中添加一个按钮（ ![] (New%20Task%20launcher%20button_image.png)）来扩展 Task Manager(任务管理器) 示例（Tril",
+  "enwords": [
+   "addButtonToToolbar API",
+   "API ",
+   "Launch Bar Widgets",
+   "New",
+   "Task",
+   "launcher",
+   "button",
+   "image.png"
+  ]
+ },
+ {
+  "noteId": "EWv4L9CU9Bzk",
+  "title": "AI 对话标签页",
+  "path": "基本概念与功能/界面元素/右侧边栏",
+  "len": 948,
+  "text": "一旦激活 AI(AI) 集成， 聊天（Chat） 条目将出现在 右侧边栏 中。 与专门的笔记类型不同，侧边栏可以可选地访问当前笔记，方便你询问信息或修改笔记，而无需先搜索笔记。 要切换当前笔记是否对 AI 可见，只需点击聊天界面底部的文件图标。 在侧边栏的右上角有三个按钮： 创建新对话。 转到之前的对话。 将当前对话保存为 Day Notes(日记) 中的专门笔记，使其成为专门的聊天笔记。 注意：侧边栏聊天存储在 Hidden Note",
+  "enwords": [
+   "Chat",
+   "AI ",
+   "Day Notes",
+   "Hidden Notes",
+   "AI ",
+   "AI Chat History"
+  ]
+ },
+ {
+  "noteId": "VugMPu4jc7IZ",
+  "title": "API 参考",
+  "path": "高级用法/ETAPI (REST API)",
+  "len": 0,
+  "text": "",
+  "enwords": []
+ },
+ {
+  "noteId": "hWMN4ej0xMh3",
+  "title": "API 参考",
+  "path": "高级用法/内部 API",
+  "len": 0,
+  "text": "",
+  "enwords": []
+ },
+ {
+  "noteId": "L0HLzREIQ8E9",
+  "title": "Anytype",
+  "path": "基本概念与功能/导入与导出/从其他应用导入数据",
+  "len": 6620,
+  "text": "从 v0.104.0 开始，Trilium 能够从 Anytype 的 JSON 导入中导入数据，该导入会保留大部分格式和元信息。 导入过程 一步是从 Anytype 导出数据： 要导出单个页面： 选择要导出的页面。 按下窗口右上角的 […] 并选择 导出（Export） 。 确保设置了以下选项： 导出格式：Any-Block 文件格式：JSON 压缩包：开启（On） On 包含链接对象：开启（On） 包含文件：开启（On） 包含已归档",
+  "enwords": [
+   "Trilium ",
+   "Anytype ",
+   "JSON ",
+   "Anytype ",
+   "Export",
+   "Any-Block ",
+   "JSON ",
+   "On "
+  ]
+ },
+ {
+  "noteId": "74oHxA6XDX7Z",
+  "title": "Apache using Docker(使用 Docker 的 Apache)",
+  "path": "安装与设置/服务器安装/2. Reverse proxy(2. 反向代理)",
+  "len": 4097,
+  "text": "This tutorial assumes that you have created a DNS A record for trilium.yourdomain.com that you want to use for your Trilium server. 本教程假设你已经为 trilium.yourdomain.com 创建了要用于 Trilium 服务器的 DNS A 记录。 Docker setup / Docker 配置 ",
+  "enwords": [
+   "This tutorial assumes that you have created a DNS A record for trilium.yourdomain.com that you want to use for your Trilium server. ",
+   "trilium.yourdomain.com ",
+   "Trilium ",
+   "DNS A ",
+   "Docker setup ",
+   "Docker ",
+   "Download docker image and create container ",
+   "docker "
+  ]
+ },
+ {
+  "noteId": "pOHxWBPSPF4K",
+  "title": "CKEditor",
+  "path": "高级用法/使用的技术",
+  "len": 2496,
+  "text": "编辑器核心 CKEditor 是 文本（Text） 笔记背后的所见即所得（WYSIWYG，即 What You See Is What You Get）编辑器。 他们的网站是 ckeditor.com 。 CKEditor 本身是商业产品，但核心是开源的。如其 文档（documentation） 中所述，该编辑器支持相当多的功能。请注意，并非所有功能都在 Trilium 中启用。 高级功能 CKEditor 功能集中的某些功能被标记为高",
+  "enwords": [
+   "CKEditor ",
+   "Text",
+   "WYSIWYG",
+   "What You See Is What You Get",
+   "ckeditor.com ",
+   "CKEditor ",
+   "documentation",
+   "Trilium "
+  ]
+ },
+ {
+  "noteId": "4hBLB6wTZ1Zv",
+  "title": "CSS",
+  "path": "脚本/前端基础/Preact",
+  "len": 448,
+  "text": "内联样式 div style={{ display: \"flex\", height: \"53px\", width: \"fit-content\", fontSize: \"0.75em\", alignItems: \"center\", flexShrink: 0 }} {/* [...] */} /div 自定义 CSS 文件 只需创建一个 自定义全局 CSS 。确保类名足够唯一，以免与其他 UI 元素交叉，请考虑添加前缀（例如 x-my-w",
+  "enwords": [
+   "div style",
+   "display",
+   "flex",
+   "height",
+   "width",
+   "fit-content",
+   "fontSize",
+   "alignItems"
+  ]
+ },
+ {
+  "noteId": "79rSvQaP5JCE",
+  "title": "CSS(CSS)",
+  "path": "脚本/前端基础/自定义小组件",
+  "len": 642,
+  "text": "传统小部件 在 doRender() 中： [1] this.cssBlock(`#my-widget { position: absolute; bottom: 40px; left: 60px; z-index: 1; }`); Preact 小部件 参见专门页面： CSS(CSS) 。 ^ Reference: https://trilium.rocks/X7pxYpiu0lgU",
+  "enwords": [
+   "doRender",
+   "this.cssBlock",
+   "my-widget ",
+   "position",
+   "absolute",
+   "bottom",
+   "left",
+   "z-index"
+  ]
+ },
+ {
+  "noteId": "F695Rxy3UEeT",
+  "title": "Day.js",
+  "path": "脚本/脚本 API",
+  "len": 1780,
+  "text": "Day.js 是 Trilium 使用的一个日期操作库，但它也同时提供给前端和后端脚本共享。有关该库本身的更多信息，请查阅 官方文档 。 如何使用 dayjs 方法直接在 api 全局变量中提供： const date = api.dayjs(); api.log(date.format(\"YYYY-MM-DD\")); 插件 Day.js 使用模块化、基于插件的架构。一般来说这些插件必须被导入，但由于使用了打包器（bundler），这个",
+  "enwords": [
+   "Day.js ",
+   "Trilium ",
+   "dayjs ",
+   "api ",
+   "const date ",
+   "api.dayjs",
+   "api.log",
+   "date.format"
+  ]
+ },
+ {
+  "noteId": "IEeQqk3crB3k",
+  "title": "ELK 布局",
+  "path": "笔记类型/Mermaid 图表",
+  "len": 460,
+  "text": "Mermaid 支持一种不同的布局引擎，可以支持稍微更复杂的图表，称为 Eclipse Layout Kernel（ELK） 。Trilium 也支持它，但默认未启用。 要为任意图表启用 ELK，请在图表开头插入以下 YAML frontmatter： --- config: layout: elk --- 关闭 ELK 开启 ELK ![](ELK layout_ELK off.svg) ![](ELK layout_ELK on.s",
+  "enwords": [
+   "Mermaid ",
+   "Eclipse Layout Kernel",
+   "ELK",
+   "Trilium ",
+   "ELK",
+   "YAML frontmatter",
+   "config",
+   "layout"
+  ]
+ },
+ {
+  "noteId": "20c3yUXh3jcZ",
+  "title": "Electron API",
+  "path": "脚本/脚本 API",
+  "len": 0,
+  "text": "",
+  "enwords": []
+ },
+ {
+  "noteId": "Td5XP4paGGvm",
+  "title": "FAQ(常见问题)",
+  "path": "",
+  "len": 4103,
+  "text": "名称“Trilium”的由来 给软件取名很难。项目刚启动时我住在安大略省，延龄草（Trillium，一种花）算是该省的标志之一，安大略有很多机构以“Trillium（某某）”命名。所以我几乎每天都会听到或看到这个词，我喜欢它的发音和自然寓意，就直接沿用了。 – Zadam (original Trilium maintainer) – Zadam（Trilium 原维护者） 虽然 Trillium 这种花有两个“l”，但 Trilium",
+  "enwords": [
+   "Trilium",
+   "Trillium",
+   "Trillium",
+   "Zadam ",
+   "original Trilium maintainer",
+   "Zadam",
+   "Trilium ",
+   "Trillium "
+  ]
+ },
+ {
+  "noteId": "BROicBbRhY1u",
+  "title": "FNote",
+  "path": "脚本/脚本 API/前端 API",
+  "len": 0,
+  "text": "",
+  "enwords": []
+ },
+ {
+  "noteId": "WaA1iBEA7o8D",
+  "title": "Google Keep",
+  "path": "基本概念与功能/导入与导出/从其他应用导入数据",
+  "len": 3247,
+  "text": "Trilium 可以从 Google Keep 导入笔记，并保留其结构和格式。 导入过程 Google Keep 没有原生的导出过程，但 Google 数据导出（Google Takeout）允许您下载包含所有笔记的 ZIP。 一步是下载您的 Google Keep 信息： 导航到 takeout.google.com 。 创建新导出（Create a new export） 部分，按下 全部取消选择（Deselect all） 。 在",
+  "enwords": [
+   "Trilium ",
+   "Google Keep ",
+   "Google Keep ",
+   "Google ",
+   "Google Takeout",
+   "ZIP",
+   "Google Keep ",
+   "takeout.google.com "
+  ]
+ },
+ {
+  "noteId": "3jBts3KWOAAP",
+  "title": "HTTPS (TLS)(HTTPS (TLS))",
+  "path": "安装与设置/服务器安装",
+  "len": 4953,
+  "text": "Configuring TLS is essential for server installation in Trilium. This guide details the steps to set up TLS within Trilium itself. 配置 TLS 对 Trilium 的 服务器安装 至关重要。本指南详述了在 Trilium 内部配置 TLS 的步骤。 While Trilium supports HTTPS ",
+  "enwords": [
+   "Configuring TLS is essential for server installation in Trilium. This guide details the steps to set up TLS within Trilium itself. ",
+   "TLS ",
+   "Trilium ",
+   "Trilium ",
+   "TLS ",
+   "While Trilium supports HTTPS on its own",
+   "s generally a good idea to use a reverse proxy instead with TLS termination. You can follow a guide like this for such setups. ",
+   "Trilium "
+  ]
+ },
+ {
+  "noteId": "7cAfhPfEAIrM",
+  "title": "Hooks",
+  "path": "脚本/前端基础/Preact",
+  "len": 1559,
+  "text": "标准 Preact hooks 所有标准的 Preact hooks 都可以作为 trilium:api 中的导入使用。 例如： import { useState } from \"trilium:preact\"; const [ myState, setMyState ] = useState(\"Hi\"); 自定义 hooks Trilium 附带了一大套用于 Preact 的自定义 hooks，所有这些也可用于自定义小部件和 渲染笔",
+  "enwords": [
+   "Preact hooks ",
+   "Preact hooks ",
+   "trilium",
+   "api ",
+   "import ",
+   "useState ",
+   "from ",
+   "trilium"
+  ]
+ },
+ {
+  "noteId": "xA1k6rzHw1jJ",
+  "title": "Labels(标签)",
+  "path": "高级用法/属性",
+  "len": 13171,
+  "text": "标签是笔记的 属性（attribute） ，它有一个名称，并可选地有一个值。 常见用例 个人使用元数据 ：为分类分配带有可选值的标签，例如 #year=1999 、 #genre=\"sci-fi\" 或 #author=\"Neal Stephenson\" 。这可以与 Promoted Attributes(提升属性) 结合使用，使其显示更加用户友好。 配置 ：标签可以配置高级功能或设置（参见下面的参考）。 脚本和插件 ：用于使用特殊元数据",
+  "enwords": [
+   "attribute",
+   "year",
+   "genre",
+   "sci-fi",
+   "author",
+   "Neal Stephenson",
+   "Promoted Attributes",
+   "Weight Tracker"
+  ]
+ },
+ {
+  "noteId": "tJxRbIWRmEp8",
+  "title": "License(许可证)",
+  "path": "杂项",
+  "len": 45722,
+  "text": "GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007 Copyright (C) 2007 Free Software Foundation, Inc. https://fsf.org/ Everyone is permitted to copy and distribute verbatim copies of this license document, but ",
+  "enwords": [
+   "GNU AFFERO GENERAL PUBLIC LICENSE Version ",
+   "November ",
+   "Copyright ",
+   "Free Software Foundation",
+   "Inc. https",
+   "fsf.org",
+   "Everyone is permitted to copy and distribute verbatim copies of this license document",
+   "but changing it is not allowed. GNU AFFERO "
+  ]
+ },
+ {
+  "noteId": "7Tc9Zf7xh8Xs",
+  "title": "MCP",
+  "path": "AI",
+  "len": 1668,
+  "text": "模型上下文协议（Model Context Protocol） 允许 Claude Code 等外部聊天应用程序访问 Trilium 数据库。 内置 MCP v0.103.0 附带一个默认不激活的内置 MCP 服务器。要激活它，请前往 选项 → AI/LLM 并切换_MCP 服务器（MCP server）_选项。 一旦 MCP 激活，只需将 MCP 服务器添加到你的 AI 助手中。要使用的 URL 显示在 MCP 开关下方的_端点（En",
+  "enwords": [
+   "Model Context Protocol",
+   "Claude Code ",
+   "Trilium ",
+   "MCP v",
+   "MCP ",
+   "LLM ",
+   "MCP ",
+   "MCP server"
+  ]
+ },
+ {
+  "noteId": "fEvxRDgByx6J",
+  "title": "Manually(手动安装)",
+  "path": "安装与设置/服务器安装/1. Installing the server(1. 安装服务器)",
+  "len": 3821,
+  "text": "This page describes manually installing Trilium on your server. Note that this is a not well supported way to install Trilium, problems may appear, information laid out here is quite out of date. It is recommended to use",
+  "enwords": [
+   "This page describes manually installing Trilium on your server. Note that this is a not well supported way to install Trilium",
+   "problems may appear",
+   "information laid out here is quite out of date. It is recommended to use either Docker Server Installation or Packaged server installation ",
+   "Trilium",
+   "Docker ",
+   "Requirements ",
+   "Trilium is a node.js application. Supported ",
+   "tested"
+  ]
+ },
+ {
+  "noteId": "mme9Dn0AMMYr",
+  "title": "Markdown 片段",
+  "path": "高级用法/代码片段",
+  "len": 1125,
+  "text": "Markdown 片段与 模板 密切相关，但与定义整个笔记的内容不同，片段是一段可复用的 Markdown 文本，可以轻松插入到 Markdown 笔记中。 创建 Markdown 片段 在 笔记树 中： 右键单击要放置片段的笔记。 选择 插入子（Insert child） 笔记（note） 。 选择_ Markdown 片段（Markdown snippet） _。 然后只需将所需内容输入笔记中。 笔记的标题成为片段的标题。可选地，你",
+  "enwords": [
+   "Markdown ",
+   "Markdown ",
+   "Markdown ",
+   "Markdown ",
+   "Insert child",
+   "note",
+   "Markdown ",
+   "Markdown snippet"
+  ]
+ },
+ {
+  "noteId": "1XvW40oOLX0w",
+  "title": "Microsoft OneNote",
+  "path": "基本概念与功能/导入与导出/从其他应用导入数据",
+  "len": 6676,
+  "text": "Trilium 允许从 OneNote 导入。目前唯一支持的机制是通过 Microsoft Graph API，这需要您在浏览器中进行身份验证，以便 Trilium 获取笔记。 导入过程 在 笔记树 中，右键单击并选择 导入到笔记（Import into note） 。 在 从...导入（Import from） 部分，选择 OneNote 。 按下 连接（Connect） 按钮： 在桌面应用中，您将被重定向到 Microsoft 的身",
+  "enwords": [
+   "Trilium ",
+   "OneNote ",
+   "Microsoft Graph API",
+   "Trilium ",
+   "Import into note",
+   "Import from",
+   "OneNote ",
+   "Connect"
+  ]
+ },
+ {
+  "noteId": "NwgMJByVeFyC",
+  "title": "Multi-factor authentication with TOTP(使用 TOTP 的多因素身份验证)",
+  "path": "安装与设置/服务器安装",
+  "len": 3975,
+  "text": "Multi-factor authentication (MFA) is a security process that requires users to provide two or more verification factors to gain access to a system, application, or account. This adds an extra layer of protection beyond j",
+  "enwords": [
+   "Multi-factor authentication ",
+   "MFA",
+   "is a security process that requires users to provide two or more verification factors to gain access to a system",
+   "application",
+   "or account. This adds an extra layer of protection beyond just using a password. ",
+   "MFA",
+   "By requiring more than one verification method",
+   "MFA helps reduce the risk of unauthorized access"
+  ]
+ },
+ {
+  "noteId": "fupEm5MLR0eF",
+  "title": "Multiple server instances(多个服务器实例)",
+  "path": "安装与设置/服务器安装/1. Installing the server(1. 安装服务器)",
+  "len": 2862,
+  "text": "Trilium does not support multiple users. In order to have two or more persons with their own set of notes, multiple server instances must be set up. It is also not possible to use multiple sync servers. Trilium 不支持多用户。若要",
+  "enwords": [
+   "Trilium does not support multiple users. In order to have two or more persons with their own set of notes",
+   "multiple server instances must be set up. It is also not possible to use multiple sync servers. Trilium ",
+   "To allow multiple server instances on a single physical server",
+   "For Packaged version for Linux or Manually ",
+   "if starting the server manually just specify a different port and data directory per instance",
+   "TRILIUM",
+   "NETWORK",
+   "PORT"
+  ]
+ },
+ {
+  "noteId": "KENrlyFaUbZN",
+  "title": "Network Access(网络访问)",
+  "path": "安装与设置/桌面安装",
+  "len": 2808,
+  "text": "Prior to v0.104.0, the desktop application would also open a network port so that it can offer access to ETAPI (REST API) or even use it as a web server (see Using the desktop application as a server ). 在 v0.104.0 之前， 桌面",
+  "enwords": [
+   "Prior to v",
+   "the desktop application would also open a network port so that it can offer access to ETAPI ",
+   "REST API",
+   "or even use it as a web server ",
+   "see Using the desktop application as a server ",
+   "ETAPI",
+   "REST API",
+   "Web "
+  ]
+ },
+ {
+  "noteId": "o5byGpiYwkAf",
+  "title": "Nginx(Nginx)",
+  "path": "安装与设置/服务器安装/2. Reverse proxy(2. 反向代理)",
+  "len": 5291,
+  "text": "Configure Nginx proxy and HTTPS. The operating system here is Ubuntu. 配置 Nginx 代理与 HTTPS。本文以 Ubuntu 操作系统为例。 Installing Nginx / 安装 Nginx Download Nginx and remove Apache2 下载 Nginx 并移除 Apache2 sudo apt-get install nginx su",
+  "enwords": [
+   "Configure Nginx proxy and HTTPS. The operating system here is Ubuntu. ",
+   "Nginx ",
+   "HTTPS",
+   "Ubuntu ",
+   "Installing Nginx ",
+   "Nginx Download Nginx and remove Apache",
+   "Nginx ",
+   "Apache"
+  ]
+ },
+ {
+  "noteId": "kBQZqj9dubVL",
+  "title": "Nix flake(Nix flake)",
+  "path": "安装与设置/桌面安装",
+  "len": 0,
+  "text": "",
+  "enwords": []
+ },
+ {
+  "noteId": "Ht8ZUwhpA1DH",
+  "title": "Nix flake(Nix flake)",
+  "path": "安装与设置/服务器安装",
+  "len": 2732,
+  "text": "Since TriliumNext 0.94.1, the desktop and server applications can be built using Nix . 自 TriliumNext 0.94.1 起，桌面版和服务器版应用都可以使用 Nix 构建。 System requirements / 系统要求 Installation of Nix on Mac or Linux ( download page ). Abou",
+  "enwords": [
+   "Since TriliumNext ",
+   "the desktop and server applications can be built using Nix . ",
+   "TriliumNext ",
+   "Nix ",
+   "System requirements ",
+   "Installation of Nix on Mac or Linux ",
+   "download page ",
+   "About "
+  ]
+ },
+ {
+  "noteId": "FCd0fUcq1TF8",
+  "title": "Notion",
+  "path": "基本概念与功能/导入与导出/从其他应用导入数据",
+  "len": 8194,
+  "text": "Trilium 可以导入来自 Notion 的 ZIP 导出，同时保留结构和格式。 导入过程 在 Notion 中，有两种导出数据的方式： 要导出单个页面（以及可选地其子页面）： 选择要导出的页面。 按下窗口右上角的 […] 按钮并选择 导出（Export） 。 确保设置了以下选项： HTML 导出格式：HTML 页面内容：全部（Everything） 包含子页面：开启（On） On 为子页面创建文件夹：开启（On） 按下导出（Expo",
+  "enwords": [
+   "Trilium ",
+   "Notion ",
+   "ZIP ",
+   "Notion ",
+   "Export",
+   "HTML ",
+   "HTML ",
+   "Everything"
+  ]
+ },
+ {
+  "noteId": "syL2rkuSPUXB",
+  "title": "Obsidian",
+  "path": "基本概念与功能/导入与导出/从其他应用导入数据",
+  "len": 7081,
+  "text": "虽然 Obsidian 曾通过标准的 Markdown 导入得到间接支持，但它的知识库结构足够独特，值得拥有自己专门的导入通道。 导入过程 第一步是获取您 Obsidian 知识库的 .zip： 首先，确定您的 Obsidian 知识库所在的位置。最简单的方法是打开 Obsidian，右键单击左侧边栏底部的知识库名称，然后选择 在系统资源管理器中显示（Show in system explorer） 。 在您的系统资源管理器中，右键单击",
+  "enwords": [
+   "Obsidian ",
+   "Markdown ",
+   "Obsidian ",
+   "zip",
+   "Obsidian ",
+   "Obsidian",
+   "Show in system explorer",
+   "Obsidian "
+  ]
+ },
+ {
+  "noteId": "GNyhAHMsfcne",
+  "title": "Office 文档",
+  "path": "笔记类型/文件",
+  "len": 2885,
+  "text": "自 v0.105.0 起，存储在 Trilium 中的 Office 文档会显示其内容的内联预览，无需下载它们或在外部应用程序中打开。 支持的格式 Microsoft Office 格式：Word（ .docx ）、Excel（ .xlsx ）和 PowerPoint（ .pptx ）。 之前格式的 OpenDocument 替代品（文本 Text、电子表格 Spreadsheet、演示文稿 Presentation），由 LibreO",
+  "enwords": [
+   "Trilium ",
+   "Office ",
+   "Microsoft Office ",
+   "Word",
+   "docx ",
+   "Excel",
+   "xlsx ",
+   "PowerPoint"
+  ]
+ },
+ {
+  "noteId": "SEYvbzIDbgtV",
+  "title": "On NixOS(在 NixOS 上)",
+  "path": "安装与设置/服务器安装/1. Installing the server(1. 安装服务器)",
+  "len": 1235,
+  "text": "This page describes configuring the Trilium module included in NixOS. 本页介绍如何配置 NixOS 内置的 Trilium 模块。 Requirements / 要求 NixOS installation. 已安装 NixOS 。 Configuration / 配置 Add this to your configuration.nix : 将其添加到你的 confi",
+  "enwords": [
+   "This page describes configuring the Trilium module included in NixOS. ",
+   "NixOS ",
+   "Trilium ",
+   "Requirements ",
+   "NixOS installation. ",
+   "NixOS ",
+   "Configuration ",
+   "Add this to your configuration.nix "
+  ]
+ },
+ {
+  "noteId": "sPaAXjVcvZZl",
+  "title": "Packaged version for Linux(Linux 打包版本)",
+  "path": "安装与设置/服务器安装/1. Installing the server(1. 安装服务器)",
+  "len": 8626,
+  "text": "This is essentially Trilium sources + node modules + node.js runtime packaged into one 7z file. 这本质上就是把 Trilium 源码 + node 模块 + node.js 运行时打包进一个 7z 文件。 Steps / 步骤 SSH into your server use wget (or curl ) to download lates",
+  "enwords": [
+   "This is essentially Trilium sources ",
+   "node modules ",
+   "node.js runtime packaged into one ",
+   "z file. ",
+   "Trilium ",
+   "node ",
+   "node.js ",
+   "Steps "
+  ]
+ },
+ {
+  "noteId": "eaZEEY2i4YT2",
+  "title": "Resetting your password(重置密码)",
+  "path": "安装与设置/服务器安装/Authentication(身份验证)",
+  "len": 3949,
+  "text": "If you forget your password: Protected notes are irretrievable without the password. Unprotected notes can be recovered. 重要：如果你忘记密码： 受保护的笔记在无密码情况下无法找回。 未受保护的笔记可以恢复。 There are two options, both involving access to the dev",
+  "enwords": [
+   "If you forget your password",
+   "Protected notes are irretrievable without the password. Unprotected notes can be recovered. ",
+   "There are two options",
+   "both involving access to the device that is running your server. ",
+   "By disabling authentication ",
+   "See Authentication on how to disable the authentication. Restart the server. Go to Options ",
+   "Password ",
+   "Reset password. Re-enable authentication by following step "
+  ]
+ },
+ {
+  "noteId": "v14qii09xWVc",
+  "title": "Setting up with various providers(使用各种提供商进行设置)",
+  "path": "安装与设置/服务器安装/Signing in with OpenID Connect(使用 OpenID Connect 登录)",
+  "len": 14439,
+  "text": "This page contains instructions on how to set up Signing in with OpenID Connect with various providers such as Authelia, GitLab, Google. Note that while the configuration reference is correct and up to date, the steps to",
+  "enwords": [
+   "This page contains instructions on how to set up Signing in with OpenID Connect with various providers such as Authelia",
+   "GitLab",
+   "Google. Note that while the configuration reference is correct and up to date",
+   "the steps to create the OAuth application might differ slightly as providers change their UI. ",
+   "Authelia",
+   "GitLab",
+   "Google",
+   "OpenID Connect "
+  ]
+ },
+ {
+  "noteId": "a3TKVvk1Jcuq",
+  "title": "System Requirements(系统要求)",
+  "path": "安装与设置/桌面安装",
+  "len": 842,
+  "text": "The desktop version of Trilium supports all three main operating systems: Trilium 桌面版支持所有三大主流操作系统： Windows Windows 11 is officially supported. Windows on ARM is also supported Windows 官方支持 Windows 11。 同时支持 ARM 版 Windows。",
+  "enwords": [
+   "The desktop version of Trilium supports all three main operating systems",
+   "Trilium ",
+   "Windows Windows ",
+   "is officially supported. Windows on ARM is also supported Windows ",
+   "Windows ",
+   "ARM ",
+   "Windows",
+   "Linux"
+  ]
+ },
+ {
+  "noteId": "6OOBk6hUKjLW",
+  "title": "System Requirements(系统要求)",
+  "path": "安装与设置/服务器安装",
+  "len": 1668,
+  "text": "Using Docker, the server can be run on Windows, Linux and macOS devices. 使用 Docker，服务器可以在 Windows、Linux 和 macOS 设备上运行。 Native binaries are provided for Linux x64 and ARM ( aarch64 ). 为 Linux x64 和 ARM（ aarch64 ）提供原生二进制文件",
+  "enwords": [
+   "Using Docker",
+   "the server can be run on Windows",
+   "Linux and macOS devices. ",
+   "Docker",
+   "Windows",
+   "Linux ",
+   "macOS ",
+   "Native binaries are provided for Linux x"
+  ]
+ },
+ {
+  "noteId": "z2cMreTyvWVz",
+  "title": "Third-party cloud hosting(第三方云托管)",
+  "path": "安装与设置/服务器安装",
+  "len": 2486,
+  "text": "As an alternative to hosting your own Trilium instance , there are two services out there that provide out of the box support for Trilium. 作为 自托管 Trilium 实例 的替代方案，有两个服务提供对 Trilium 的开箱即用支持。 Disclaimer : The Trilium Notes ",
+  "enwords": [
+   "As an alternative to hosting your own Trilium instance ",
+   "there are two services out there that provide out of the box support for Trilium. ",
+   "Trilium ",
+   "Trilium ",
+   "Disclaimer ",
+   "The Trilium Notes project and maintainers are not directly affiliated with either of the projects. PikaPods have gracefully offered us free credits for testing purposes. ",
+   "Trilium Notes ",
+   "PikaPods "
+  ]
+ },
+ {
+  "noteId": "mWpKWRZZLu3R",
+  "title": "Traefik(Traefik)",
+  "path": "安装与设置/服务器安装/2. Reverse proxy(2. 反向代理)",
+  "len": 4672,
+  "text": "The goal of this article is to configure Traefik proxy and HTTPS. See #7768 for reference. 本文旨在配置 Traefik 代理与 HTTPS。参考 #7768 。 Breaking change in Traefik 3.6.4 / Traefik 3.6.4 中的破坏性变更 Traefik 3.6.4 introduced a breaking ",
+  "enwords": [
+   "The goal of this article is to configure Traefik proxy and HTTPS. See ",
+   "for reference. ",
+   "Traefik ",
+   "HTTPS",
+   "Breaking change in Traefik ",
+   "Traefik ",
+   "Traefik ",
+   "introduced a breaking change regarding how percent-encoded characters are handled in URLs. More specifically some URLs used by Trilium "
+  ]
+ },
+ {
+  "noteId": "nrdIPDm87oD3",
+  "title": "Trilium 实例",
+  "path": "高级用法/Configuration (config.ini or environment variables)(配置（config.ini 或环境变量）)",
+  "len": 573,
+  "text": "Trilium 实例代表一个服务器。如果设置了 同步（Synchronization） ，由于涉及多个服务器（来自桌面客户端的一个和设置同步的那个），有时区分你正在运行的实例会很有用。 设置实例名称 要为实例设置名称，请修改 config.ini ： [General] instanceName=Hello 在后端区分实例 使用 api.getInstanceName() 获取当前服务器的实例名称，如配置文件或环境变量中所指定的 根据实",
+  "enwords": [
+   "Trilium ",
+   "Synchronization",
+   "config.ini ",
+   "General",
+   "instanceName",
+   "Hello ",
+   "api.getInstanceName",
+   "runOnInstance "
+  ]
+ },
+ {
+  "noteId": "I9TEAj9A5NIv",
+  "title": "Troubleshooting(故障排除)",
+  "path": "安装与设置/桌面安装",
+  "len": 1921,
+  "text": "Trilium only shows a blank window / Trilium 只显示空白窗口 Trilium uses Electron which is based on Chromium (the open-source alternative to Google Chrome); in order to improve performance it makes use of GPU acceleration . In s",
+  "enwords": [
+   "Trilium only shows a blank window ",
+   "Trilium ",
+   "Trilium uses Electron which is based on Chromium ",
+   "the open-source alternative to Google Chrome",
+   "in order to improve performance it makes use of GPU acceleration . In some cases",
+   "a GPU incompatibility ",
+   "especially on older models of integrated graphics",
+   "can cause nothing to render at all"
+  ]
+ },
+ {
+  "noteId": "9H8FKhPVYLTX",
+  "title": "Trusted proxy(受信任的代理)",
+  "path": "安装与设置/服务器安装/2. Reverse proxy(2. 反向代理)",
+  "len": 1510,
+  "text": "If you are running the Trilium server under a reverse proxy , it's important to configure it as a trusted proxy so that the application can correctly identify the real IP address of the clients (for authentication and ra",
+  "enwords": [
+   "If you are running the Trilium server under a reverse proxy ",
+   "s important to configure it as a trusted proxy so that the application can correctly identify the real IP address of the clients ",
+   "for authentication and rate limiting purposes",
+   "Trilium ",
+   "IP ",
+   "To do so",
+   "simply modify Configuration ",
+   "config.ini or environment variables"
+  ]
+ },
+ {
+  "noteId": "5HwfHJFwczl9",
+  "title": "Using Docker(使用 Docker)",
+  "path": "安装与设置/服务器安装/1. Installing the server(1. 安装服务器)",
+  "len": 17401,
+  "text": "Official docker images are published on docker hub for AMD64 , ARMv7 and ARM64/v8 : https://hub.docker.com/r/triliumnext/trilium/ 官方 docker 镜像已在 docker hub 发布，支持 AMD64 、 ARMv7 和 ARM64/v8 ： https://hub.docker.com/r/triliu",
+  "enwords": [
+   "Official docker images are published on docker hub for AMD",
+   "ARMv",
+   "and ARM",
+   "https",
+   "hub.docker.com",
+   "triliumnext",
+   "trilium",
+   "docker "
+  ]
+ },
+ {
+  "noteId": "aFYvSvzqySw1",
+  "title": "Using Kubernetes(使用 Kubernetes)",
+  "path": "安装与设置/服务器安装/1. Installing the server(1. 安装服务器)",
+  "len": 3446,
+  "text": "As Trilium can be run in Docker it also can be deployed in Kubernetes. You can either use our Helm chart, a community Helm chart, or roll your own Kubernetes deployment. 由于 Trilium 可以运行在 Docker 中，因此也可以部署到 Kubernetes。你可以使",
+  "enwords": [
+   "As Trilium can be run in Docker it also can be deployed in Kubernetes. You can either use our Helm chart",
+   "a community Helm chart",
+   "or roll your own Kubernetes deployment. ",
+   "Trilium ",
+   "Docker ",
+   "Kubernetes",
+   "Helm chart",
+   "Helm chart"
+  ]
+ },
+ {
+  "noteId": "aIwhuIM42UXZ",
+  "title": "Using the desktop application as a server(将桌面应用用作服务器)",
+  "path": "安装与设置/桌面安装",
+  "len": 3699,
+  "text": "Sometimes, setting up a dedicated server installation is not feasible. The desktop application ships with a fully functional server instance by default. 有时，部署 专用服务器安装 并不可行。桌面应用默认自带一个功能完整的服务器实例。 For security reasons, this",
+  "enwords": [
+   "Sometimes",
+   "setting up a dedicated server installation is not feasible. The desktop application ships with a fully functional server instance by default. ",
+   "For security reasons",
+   "this feature is not enabled by default. To enable it",
+   "enable Network access in Security . ",
+   "Security ",
+   "Network access",
+   "After enabling network access and restarting the application"
+  ]
+ },
+ {
+  "noteId": "P5P0lLNUT9eC",
+  "title": "grafana-dashboard.json",
+  "path": "高级用法/指标",
+  "len": 99,
+  "text": "[doc content not available] [文档内容不可用] 此笔记包含 Metrics 功能使用的 Grafana 仪表盘 JSON。内容作为文件附件存储。",
+  "enwords": [
+   "doc content not available",
+   "Metrics ",
+   "Grafana ",
+   "JSON"
+  ]
+ },
+ {
+  "noteId": "8ea9bUjqQm46",
+  "title": "v0.102.0：升级到 jQuery 4.0.0",
+  "path": "脚本/破坏性变更",
+  "len": 1293,
+  "text": "jQuery 4 移除了对旧浏览器的支持（例如 IE11 支持），但它也移除了一些被视为已弃用的 API，例如： jQuery.isArray 、 jQuery.parseJSON 、 jQuery.trim 、 jQuery.type 、 jQuery.now 、 jQuery.isNumeric 、 jQuery.isFunction 、 jQuery.isWindow 、 jQuery.camelCase 、 jQuery.nod",
+  "enwords": [
+   "jQuery ",
+   "API",
+   "jQuery.isArray ",
+   "jQuery.parseJSON ",
+   "jQuery.trim ",
+   "jQuery.type ",
+   "jQuery.now ",
+   "jQuery.isNumeric "
+  ]
+ },
+ {
+  "noteId": "mf5d77kGDVvQ",
+  "title": "v0.103.0：`cheerio` 现已弃用",
+  "path": "脚本/破坏性变更",
+  "len": 760,
+  "text": "api.cheerio 库已弃用，并将在未来的版本中被移除。 原因 Cheerio 仅用于脚本 API，而服务器内部使用 node-html-parser 进行 HTML 解析。移除 cheerio 会减少打包大小和维护开销。 迁移 之前（ cheerio ）： const $ = api.cheerio.load(html); const title = $('h1').text(); const links = $('a').map",
+  "enwords": [
+   "api.cheerio ",
+   "Cheerio ",
+   "API",
+   "node-html-parser ",
+   "HTML ",
+   "cheerio ",
+   "cheerio ",
+   "const "
+  ]
+ },
+ {
+  "noteId": "MvkvDstoBpsO",
+  "title": "v0.103.0：移除 axios",
+  "path": "脚本/破坏性变更",
+  "len": 1487,
+  "text": "api.axios 库已从后端脚本 API 中移除。 尝试使用 api.axios 的脚本现在将抛出一个带有迁移说明的错误。 原因 Axios 至少从 2024 年 4 月起就被标记为已弃用，取而代之的是原生 fetch() API，它在浏览器和 Node.js 环境中都可用。经过两年的弃用期后，该库在 2026 年 3 月 npm 供应链事件 之后被移除，在这次事件中，攻击者发布了部署远程访问木马的恶意版本。Trilium 的首席开发",
+  "enwords": [
+   "api.axios ",
+   "API ",
+   "api.axios ",
+   "Axios ",
+   "fetch",
+   "API",
+   "Node.js ",
+   "npm "
+  ]
+ },
+ {
+  "noteId": "HqE8ndZ8OVlv",
+  "title": "v0.104.0：禁用 Electron 中的 Node 集成",
+  "path": "脚本/破坏性变更",
+  "len": 1698,
+  "text": "介绍 在 v0.104.0 之前，在渲染器级别执行的代码（例如前端脚本）可以直接 require @electron/remote 甚至 Node.js API（例如 process 或 fs ）。虽然这使它们很强大，但也暴露了显著的攻击面——笔记中的任何 XSS 或不受信任的脚本都会变成主机上的远程代码执行。 缓解这一点，客户端不再能访问这些 API，一切都必须改为通过 Electron API 进行。 注意：如果此 API 更改导致",
+  "enwords": [
+   "require ",
+   "electron",
+   "remote ",
+   "Node.js API",
+   "process ",
+   "fs ",
+   "XSS ",
+   "API"
+  ]
+ },
+ {
+  "noteId": "QMdizlUHF0tN",
+  "title": "主题库",
+  "path": "基本概念与功能/主题",
+  "len": 3203,
+  "text": "以下是用户创建并公开可用的主题： 旧版主题 这些主题可能兼容也可能不兼容 TriliumNext 的最新版本，它们基于原始/旧版主题。 主题 作者 Midnight / 午夜 tobealive EOTE tobealive Trilium Themes / Trilium 主题 Abourass MaterialDark / 材质深色 ZMonk91 lightslategray / 浅蓝灰色 jaroet melon-4 / 甜瓜-",
+  "enwords": [
+   "TriliumNext ",
+   "Midnight ",
+   "tobealive EOTE tobealive Trilium Themes ",
+   "Trilium ",
+   "Abourass MaterialDark ",
+   "ZMonk",
+   "lightslategray ",
+   "jaroet melon-"
+  ]
+ },
+ {
+  "noteId": "zSF9gd8EeVtg",
+  "title": "书签",
+  "path": "基本概念与功能/导航",
+  "len": 618,
+  "text": "经常使用的笔记可以被收藏（bookmarked），这将使它们出现在 启动栏 中，方便访问。 配置启动栏 如果收藏没有出现在启动栏中，那么很可能是收藏部分被隐藏了。从 全局菜单 进入 启动栏 配置，确保 收藏（Bookmarks） 在 可见启动器（Visible Launchers） 部分中。 收藏文件夹 左侧面板的空间有限，你可能想收藏许多项目。一种可能的解决方案是收藏一个文件夹，这样它会显示其子笔记： 要做到这一点，收藏一个文件夹并为",
+  "enwords": [
+   "bookmarked",
+   "Bookmarks",
+   "Visible Launchers",
+   "bookmarkFolder "
+  ]
+ },
+ {
+  "noteId": "stmJLtrW8j2H",
+  "title": "从 Google 表单下载回复",
+  "path": "脚本/前端基础/示例",
+  "len": 1755,
+  "text": "本教程展示了与 Google Forms 的基本集成，我们可以使用“链接到表格（Link to Sheets）”功能下载表单的回复。 请注意，该链接将对所有人公开可访问（不过该链接是一种难以猜测的格式，例如 https://docs.google.com/spreadsheets/d/e/2PACX-1vTA8NU2_eZFhc8TFadCZPreBfvP7un8IHd6J0SchrLLw3ueGmntNZjwRmsH2ZRcp1pJY",
+  "enwords": [
+   "Google Forms ",
+   "Link to Sheets",
+   "https",
+   "docs.google.com",
+   "spreadsheets",
+   "PACX-",
+   "vTA",
+   "eZFhc"
+  ]
+ },
+ {
+  "noteId": "vkgg8iM2mHvN",
+  "title": "代码片段",
+  "path": "高级用法/代码片段",
+  "len": 1217,
+  "text": "代码片段与 模板 密切相关，但与定义整个笔记的内容不同，片段是一段可复用的代码，可以轻松插入到 代码 笔记中 创建代码片段 在 笔记树 中： 右键单击要放置片段的笔记。 选择 插入子（Insert child） 笔记（note） 。 选择_ 代码片段（Code snippet） _。 然后只需将所需代码输入笔记中并设置正确的语言模式。 笔记的标题成为片段的标题。可选地，你可以在 提升属性 部分添加描述。 插入片段 要插入片段，请输入 /",
+  "enwords": [
+   "Insert child",
+   "note",
+   "Code snippet",
+   "snippet ",
+   "CSS ",
+   "CSS ",
+   "JavaScript ",
+   "Plain text"
+  ]
+ },
+ {
+  "noteId": "SBcn989ASCLZ",
+  "title": "关系",
+  "path": "高级用法/属性",
+  "len": 4448,
+  "text": "关系类似于 标签（label） ，但它不是拥有文本值，而是引用另一个笔记。 常见用例 个人使用元数据关系 ：例如，将书籍笔记链接到作者笔记。 这可以与 Promoted Attributes(提升属性) 结合使用，使其显示更加用户友好。 配置 ：用于配置某些笔记，例如 渲染笔记 ，或配置 Sharing(分享) 或 Templates(模板) （参见下面的列表）。 脚本编写 ：将脚本附加到与笔记相关的事件或条件上。 使用可视化编辑器创建",
+  "enwords": [
+   "label",
+   "Promoted Attributes",
+   "Sharing",
+   "Templates",
+   "Owned Attributes",
+   "Add new attribute",
+   "Add new relation",
+   "Alt"
+  ]
+ },
+ {
+  "noteId": "Etxj5aRT3vkB",
+  "title": "内容宽度",
+  "path": "基本概念与功能/界面元素",
+  "len": 1360,
+  "text": "某些笔记类型（如 Text(文本) 、 Relation Map(关系图谱) 和已保存搜索）有意限制内容的宽度。 这可能一开始看起来令人惊讶，但目的是让文本在更宽的屏幕上很好地适配而不会显得扭曲。当文档包含 Images(图片) 、表格或其他依赖宽度的元素时尤其如此。 配置内容宽度和对齐 内容宽度以像素表示，可以在 选项 → 外观（Appearance） → 内容宽度（Content Width） 中调整 最大内容宽度（Max cont",
+  "enwords": [
+   "Text",
+   "Relation Map",
+   "Images",
+   "Appearance",
+   "Content Width",
+   "Max content width",
+   "Keep content centered",
+   "Tables"
+  ]
+ },
+ {
+  "noteId": "NRzmLnGiDb8U",
+  "title": "内部（引用）链接",
+  "path": "笔记类型/文本/链接",
+  "len": 1896,
+  "text": "内部链接是指向 Trilium 内其他笔记的链接。 你可以通过点击打开内部链接。你也可以通过悬停在内部链接上查看其内容的只读预览。 插入内部链接 可以通过以下方式在文本笔记的当前位置创建内部链接： 按 Ctrl + L，或点击 格式工具栏 中 菜单下方的 按钮。 搜索要链接的所需笔记的标题。也可以在此对话框中通过输入不存在的笔记标题并选择_创建并链接子笔记（Create and link child note）_来创建新笔记。 创建指向",
+  "enwords": [
+   "Trilium ",
+   "Ctrl ",
+   "Create and link child note",
+   "reference link",
+   "inline",
+   "Up ",
+   "Down ",
+   "Enter "
+  ]
+ },
+ {
+  "noteId": "ip1BHr5q3vY4",
+  "title": "创建图标包",
+  "path": "主题开发",
+  "len": 9547,
+  "text": "注意：本页逐步说明如何创建自定义图标包。有关如何使用已有图标包的通用说明，请参阅 图标包 。 首先阅读快速流程以了解整体步骤。之后有一个具体示例（Phosphor），附带一个小型 Node.js 脚本，你可以运行它来生成清单（manifest）。 快速流程（你需要做什么） 验证图标集是一种字体（其一：.woff2、.woff、.ttf）。 获取一个将图标名称映射到 Unicode 码点的列表（通常作为类似 selection.json ",
+  "enwords": [
+   "Phosphor",
+   "Node.js ",
+   "manifest",
+   "woff",
+   "woff",
+   "ttf",
+   "Unicode ",
+   "selection.json "
+  ]
+ },
+ {
+  "noteId": "GDf62xzQAPH5",
+  "title": "刷新应用",
+  "path": "故障排除",
+  "len": 75,
+  "text": "对应用程序的某些更改不会立即生效，因此可能需要手动重新加载或刷新应用程序。 要做到这一点，只需按 Ctrl+Shift+R。",
+  "enwords": [
+   "Ctrl",
+   "Shift"
+  ]
+ },
+ {
+  "noteId": "WLwB4rf7Dqu4",
+  "title": "前端事件",
+  "path": "脚本/前端基础",
+  "len": 792,
+  "text": "前端脚本可以在某些触发条件下自动运行。 为此，将 run 标签（label） 设置为以下之一： frontendStartup - 当 Trilium 前端启动（或被刷新）时，但在移动端不会。 mobileStartup - 当 Trilium 前端启动（或被刷新）时，在移动端上。 ：一个脚本可以在多个事件上触发，这可以通过添加多个 run 标签来实现。用逗号分隔多个值 不 受支持。 后端脚本有更强大的触发条件，例如它们可以按小时或按天",
+  "enwords": [
+   "run ",
+   "label",
+   "frontendStartup - ",
+   "Trilium ",
+   "mobileStartup - ",
+   "Trilium ",
+   "run ",
+   "Backend Events"
+  ]
+ },
+ {
+  "noteId": "8kz4JE6Llklc",
+  "title": "前缀",
+  "path": "基本概念与功能/笔记/克隆笔记",
+  "len": 296,
+  "text": "由于单个笔记可以通过称为 克隆笔记 的过程出现在 笔记树 的多个位置，建议选择一个适合所有位置的通用名称，而不是更具体的名称，以避免混淆。 在某些情况下这不可能实现，因此 Trilium 提供了\"分支前缀（branch prefixes）\"，它显示在树中笔记名称之前，从而提供一种特定的上下文。 前缀是位置特定的，因此它只在笔记树中显示。",
+  "enwords": [
+   "Trilium ",
+   "branch prefixes"
+  ]
+ },
+ {
+  "noteId": "t9tDQ3yYHSIQ",
+  "title": "功能亮点",
+  "path": "",
+  "len": 4715,
+  "text": "本节按版本介绍最重要的变更。如需完整变更列表，请查阅各版本的发布日志。为简洁起见，跳过测试版本，特性按最近的稳定版本归并。 v0.105.0: 文本笔记现已内置 编辑器内 AI 助手 ，用于快速校对及其他无需完整对话的纯文本操作。 v0.101.0: 引入了 新布局 ，对界面与交互做出重大调整，例如将功能区与悬浮按钮整合进其他界面元素，并新增了 面包屑导航 等新功能。 v0.97.0: 书籍（Books）现已改为 Collections",
+  "enwords": [
+   "AI ",
+   "Books",
+   "Collections",
+   "Table",
+   "Quick edit",
+   "Collections",
+   "CKEditor ",
+   "Text"
+  ]
+ },
+ {
+  "noteId": "v4jDFrdyA3XU",
+  "title": "升级 TriliumNext",
+  "path": "安装与设置",
+  "len": 763,
+  "text": "本文档概述了将 Trilium 升级到新发布版本所需的步骤。 如何升级 Trilium 不支持内置的自动升级；所有更新都必须手动执行。升级过程因安装方式而异： Docker 服务器安装 ：拉取新镜像并重启容器。 其他安装方式 ：从 发布页 下载最新版本，并替换现有的应用文件。 数据库兼容性与迁移 启动时，Trilium 会自动将 数据库 迁移到新版本。请注意，迁移后旧版本的 Trilium 将无法读取该数据库。如果你需要回退到旧版本的 ",
+  "enwords": [
+   "Trilium ",
+   "Trilium ",
+   "Docker ",
+   "Trilium ",
+   "Trilium ",
+   "Trilium ",
+   "Trilium "
+  ]
+ },
+ {
+  "noteId": "ShThQsAzq8H9",
+  "title": "参考",
+  "path": "主题开发",
+  "len": 5255,
+  "text": "检测移动端 vs. 桌面端 移动端布局与桌面端布局不同。使用 body.mobile 和 body.desktop 来区分它们。 body.mobile #root-widget { /* Do something on mobile */ /* 在移动端做某事 */ } body.desktop #root-widget { /* Do something on desktop */ /* 在桌面端做某事 */ } 请注意，移动端布局",
+  "enwords": [
+   "vs. ",
+   "body.mobile ",
+   "body.desktop ",
+   "body.mobile ",
+   "root-widget ",
+   "Do something on mobile ",
+   "body.desktop ",
+   "root-widget "
+  ]
+ },
+ {
+  "noteId": "dccVjGrNHB5o",
+  "title": "反向代理配置",
+  "path": "高级用法/分享",
+  "len": 684,
+  "text": "可能希望只将 Trilium 的分享功能暴露到互联网，而使应用程序仅在本地网络或通过 VPN 可访问。 要做到这一点，需要一个反向代理。 Caddy http://domain.com { reverse_proxy /share http://localhost:8080/share } 这适用于分享功能被隔离的较新版本，对于较旧版本还需要包含 /assets 。 [1] ^ https://github.com/orgs/Trili",
+  "enwords": [
+   "Trilium ",
+   "VPN ",
+   "Caddy http",
+   "domain.com ",
+   "reverse",
+   "proxy ",
+   "share http",
+   "localhost"
+  ]
+ },
+ {
+  "noteId": "hcZlVY6xuwTM",
+  "title": "反向链接",
+  "path": "笔记类型/文本/链接",
+  "len": 3217,
+  "text": "链接从一条笔记指向另一条笔记；_反向链接（backlink）_是从另一端看到的同一条连接：指向当前笔记的笔记列表。 反向链接是自动维护的，并且在这一侧是只读的。当创建它的笔记移除链接时，反向链接就会消失；它无法从被指向的笔记中删除。 什么算作反向链接 任何指向当前笔记的 内部（引用）链接 ，这涵盖两种相当不同的情况： Trilium 代表你维护的关系。 最常见的是 internalLink ，每当笔记通过其文本中的 内部（引用）链接 引",
+  "enwords": [
+   "backlink",
+   "Trilium ",
+   "internalLink ",
+   "imageLink ",
+   "relationMapLink ",
+   "includeNoteLink ",
+   "author ",
+   "Saved Search"
+  ]
+ },
+ {
+  "noteId": "ArrYKBJoy7G0",
+  "title": "只读数据库",
+  "path": "高级用法",
+  "len": 1433,
+  "text": "警告：此功能仍处于预览阶段，请期待可能出现的问题，甚至功能完全消失。 请随时 报告（report） 你可能遇到的任何问题。 只读数据库（read-only database）是 分享（Sharing） 笔记的替代方案。虽然分享功能在以一种 wiki、博客般的格式将页面发布到互联网方面工作得很好，但它不提供 Trilium 背后的全部功能（例如高级 搜索（Search） 或 集合（Collections） 背后的交互性，或各种 笔记类型（",
+  "enwords": [
+   "report",
+   "read-only database",
+   "Sharing",
+   "wiki",
+   "Trilium ",
+   "Search",
+   "Collections",
+   "Note Types"
+  ]
+ },
+ {
+  "noteId": "v0ST0oYz6iSM",
+  "title": "只读笔记",
+  "path": "基本概念与功能/笔记",
+  "len": 2687,
+  "text": "Trilium 中某些笔记类型（如 Text(文本) 和 Code(代码) 笔记）可以设置为只读。当笔记处于只读模式时，它以不可编辑的视图呈现给用户，并可在需要时切换到编辑模式。 自动只读模式 出于优化目的，Trilium 会自动将非常大的笔记设置为只读。在编辑模式下显示如此长的笔记会降低性能，尤其是在无需编辑时。 此行为可以按笔记禁用，方法是遵循下一节的说明。 此外，可以在 选项 中通过进入 文本笔记 和 代码笔记 的选项来更改触发自",
+  "enwords": [
+   "Trilium ",
+   "Text",
+   "Code",
+   "Trilium ",
+   "Editable",
+   "Basic Properties",
+   "Editable",
+   "Auto"
+  ]
+ },
+ {
+  "noteId": "LhQmZX32MQ0c",
+  "title": "可折叠块",
+  "path": "笔记类型/文本",
+  "len": 946,
+  "text": "可折叠块（Collapsible blocks）是可以展开和折叠的内容区块，让你在需要之前把细节隐藏起来。 一个可折叠块由以下部分组成： 始终可见的标题栏（header） ，包含： 箭头（arrow） ：点击时展开或折叠该块。 摘要行（summary line） ：充当块的标题。光标位于摘要行时，按 Ctrl+Enter 可展开或折叠该块。 拖拽手柄（drag handle） ：用于在笔记内重新调整该块的位置。 正文（body） ：在块",
+  "enwords": [
+   "Collapsible blocks",
+   "header",
+   "arrow",
+   "summary line",
+   "Ctrl",
+   "Enter ",
+   "drag handle",
+   "body"
+  ]
+ },
+ {
+  "noteId": "KNgNIbGyOwdC",
+  "title": "右侧面板小组件",
+  "path": "脚本/前端基础/自定义小组件",
+  "len": 4105,
+  "text": "关键要点 doRender 不能被覆盖，而必须覆盖 doRenderBody() 。 doRenderBody 可以选择是 async 。 parentWidget() 必须设置为 “rightPane”。 widgetTitle() getter 可以选择被覆盖，否则小部件将显示为 “无标题小部件（Untitled widget）”。 新布局示例 重要：本节介绍的示例是为 新布局 （自 v0.101.0 起可用）量身定制的，在该布局中",
+  "enwords": [
+   "doRender ",
+   "doRenderBody",
+   "doRenderBody ",
+   "async ",
+   "parentWidget",
+   "rightPane",
+   "widgetTitle",
+   "getter "
+  ]
+ },
+ {
+  "noteId": "PFtFDf3JuA4D",
+  "title": "同步失败并报 504 网关超时",
+  "path": "故障排除",
+  "len": 393,
+  "text": "同步有时可能需要很长时间来计算需要更新的项目。当在反向代理后面运行时，请求可能会超时。 解决方案是在代理级别增加超时时间。 Nginx 将以下内容添加到配置文件中： proxy_connect_timeout 300; proxy_send_timeout 300; proxy_read_timeout 300; send_timeout 300; 然后重启服务器。 有关 Nginx 设置的更多信息，请参阅 Nginx 代理设置（Ngi",
+  "enwords": [
+   "Nginx ",
+   "proxy",
+   "connect",
+   "timeout ",
+   "proxy",
+   "send",
+   "timeout ",
+   "proxy"
+  ]
+ },
+ {
+  "noteId": "jFXOYH8BO8zS",
+  "title": "后端 API",
+  "path": "脚本/脚本 API",
+  "len": 0,
+  "text": "",
+  "enwords": []
+ },
+ {
+  "noteId": "1dZhMvJmxKPn",
+  "title": "后端事件",
+  "path": "脚本/后端脚本",
+  "len": 7030,
+  "text": "脚本（Script） 笔记可以由事件触发。请注意，这些是后端事件，因此关系需要指向“JavaScript（Trilium 后端）”代码笔记。 全局事件 全局事件通过标签附加到脚本笔记上。只需创建一个带有这些值之一的 run 标签，当事件发生时脚本笔记将被执行一次。 标签 描述 run 定义脚本应在哪些事件上运行。可能的值有： backendStartup - 当 Trilium 后端启动时 hourly - 每小时运行一次。你可以使用附",
+  "enwords": [
+   "Script",
+   "JavaScript",
+   "Trilium ",
+   "run ",
+   "run ",
+   "backendStartup - ",
+   "Trilium ",
+   "hourly - "
+  ]
+ },
+ {
+  "noteId": "bBQ7RKmRvKlM",
+  "title": "后端（服务器）日志",
+  "path": "故障排除/错误日志",
+  "len": 1693,
+  "text": "通过后端日志访问 在 全局菜单 中，转到_高级（Advanced）_ → 显示后端日志（Show backend log） 。这将显示当前的后端日志（即今天的），历史信息仅在磁盘上可用（见下文）。 自 v0.104.0 起的交互： 可以使用 笔记按钮 区域中的专用按钮将文件下载为文本文件（仅限 新布局 ）。 该文件也可以像普通的 代码 笔记一样被搜索。 磁盘上的位置 后端日志存储在文件系统上。要找到它们，请打开 数据目录 ，转到 log",
+  "enwords": [
+   "Advanced",
+   "Show backend log",
+   "log ",
+   "trilium-",
+   "log ",
+   "Trilium ",
+   "ini ",
+   "Configuration "
+  ]
+ },
+ {
+  "noteId": "2FGr3nWmquVd",
+  "title": "在笔记类型之间转换",
+  "path": "笔记类型",
+  "len": 1061,
+  "text": "笔记的类型可以转换为另一种： 文本 笔记到 Markdown 笔记 Markdown 笔记到文本（Text）笔记 在转换之前，会自动保存一个修订版（revision），因此如果转换产生不理想的结果，你可以从其中恢复原始版本或找回任何丢失的元素。更多信息参见 笔记修订 。 转换单个笔记 Markdown 到文本笔记 Markdown 笔记可以转换为文本（Text）笔记，格式保真度损失可忽略不计。 为此，请转到笔记菜单 → “ 高级（Adv",
+  "enwords": [
+   "Markdown ",
+   "Markdown ",
+   "Text",
+   "revision",
+   "Markdown ",
+   "Markdown ",
+   "Text",
+   "Advanced"
+  ]
+ },
+ {
+  "noteId": "eT4hTrNrfbR0",
+  "title": "备份",
+  "path": "安装与设置",
+  "len": 7249,
+  "text": "Trilium 支持简单的备份方案，它会在以下事件时保存 Database(数据库) 的副本： 每天一次 每周一次 每月一次 在数据库迁移到新版本之前 所以总共你最多会有来自不同时间点的 4 份备份，应该能保护你免受各种问题的影响。这些备份默认存储在 数据目录 下的 backup 目录中。 这只是非常基础的备份方案，我们鼓励你添加更好的备份方案——例如将 Database(数据库) 备份到云端/另一台计算机等。 注意， 同步 本身通过将",
+  "enwords": [
+   "Trilium ",
+   "Database",
+   "backup ",
+   "Database",
+   "Web ",
+   "Settings",
+   "Backup",
+   "Backup Now"
+  ]
+ },
+ {
+  "noteId": "VQ3ULRNr3aRq",
+  "title": "夜间构建版本",
+  "path": "高级用法",
+  "len": 1927,
+  "text": "夜间版（Nightly releases）是每天构建的版本，直接来自主开发分支，包含最新的改进和错误修复。这些版本通常在为发布做准备时很有用，以确保没有需要先解决的重要错误，或者它们可以用来确认某个特定错误是否已修复或功能是否实现良好。 关于稳定性 尽管处于开发分支，但通常主分支是相当稳定的，因为 PR 在合并之前会经过测试。如果你注意到任何问题，请随时通过工单（ticket）或通过 Matrix 报告。 手动下载夜间版 前往 gith",
+  "enwords": [
+   "Nightly releases",
+   "PR ",
+   "ticket",
+   "Matrix ",
+   "github.com",
+   "TriliumNext",
+   "Trilium",
+   "releases"
+  ]
+ },
+ {
+  "noteId": "TNBOr62S7Osb",
+  "title": "安全",
+  "path": "脚本",
+  "len": 1465,
+  "text": "从 v0.104.0 开始，Trilium 中的一些功能被有意禁用，以减少攻击面： 后端脚本 ，它们可以在服务器上运行进程、访问文件系统或绕过安全措施。 SQL Console(SQL 控制台) ，它可以被用来窃取重要数据（如文档机密）或对数据库造成不可修复的损害。 Network Access(网络访问) ，用于 桌面安装 。 要激活其中任何一个，有三种方式： 对于桌面应用程序，前往 选项 → _安全（Security）_并切换所需选",
+  "enwords": [
+   "Trilium ",
+   "SQL Console",
+   "SQL ",
+   "Network Access",
+   "Security",
+   "config.ini ",
+   "Security ",
+   "TRILIUM"
+  ]
+ },
+ {
+  "noteId": "sFWMuPR2S3QB",
+  "title": "安全模式",
+  "path": "高级用法",
+  "len": 908,
+  "text": "安全模式（Safe mode）通过将 TRILIUM_SAFE_MODE 环境变量设置为真值（通常是 1 ）来触发。 在每个构建物中都有一个 trilium-safe-mode.sh （或 .bat ）脚本用于启用它。 它的作用： 禁用 app/widgets/containers/launcher.js 中的 customWidget 启动器类型。 禁用 mobileStartup 或 frontendStartup 脚本的运行。 显",
+  "enwords": [
+   "Safe mode",
+   "TRILIUM",
+   "SAFE",
+   "MODE ",
+   "trilium-safe-mode.sh ",
+   "bat ",
+   "app",
+   "widgets"
+  ]
+ },
+ {
+  "noteId": "dPPVSl1OVX4A",
+  "title": "导出静态 HTML 用于网页发布",
+  "path": "高级用法/分享",
+  "len": 2988,
+  "text": "如 Sharing(分享) 中所述，Trilium 可以充当公共服务器，在其中以只读模式显示共享笔记。虽然这在大多数情况下可以工作，但它通常不适用于高流量网站，而且由于它运行在 Node.js 服务器上，可能会被潜在利用。 另一种替代方案是生成静态 HTML 文件（就像其他静态站点生成器（例如 MkDocs ）一样）。由于普通的 HTML ZIP 导出不包含任何样式或附加功能，Trilium 提供了一种方法，将与 Sharing(分享)",
+  "enwords": [
+   "Sharing",
+   "Trilium ",
+   "Node.js ",
+   "HTML ",
+   "MkDocs ",
+   "HTML ZIP ",
+   "Trilium ",
+   "Sharing"
+  ]
+ },
+ {
+  "noteId": "R6SqwFdNe39J",
+  "title": "小组件基础",
+  "path": "脚本/前端基础/自定义小组件",
+  "len": 3629,
+  "text": "本指南将带你逐步了解如何在 Trilium 中创建一个基本小部件。按照这些步骤，你将学会如何构建一个与用户交互的简单 UI 元素。 第 1 步：基本小部件结构 首先，我们将创建最基础的小部件。这里是一个简单示例： class MyWidget extends api.BasicWidget { get position() { return 1; } get parentWidget() { return \"left-pane\"; } ",
+  "enwords": [
+   "Trilium ",
+   "UI ",
+   "class MyWidget extends api.BasicWidget ",
+   "get position",
+   "return ",
+   "get parentWidget",
+   "return ",
+   "left-pane"
+  ]
+ },
+ {
+  "noteId": "iyj7sZ20qUw8",
+  "title": "小组件展示",
+  "path": "脚本/前端基础/Preact/内置组件",
+  "len": 74,
+  "text": "[文档内容不可用] 此笔记是小部件展示（Widget showcase）的容器。其内容作为附件存储或有意留空。",
+  "enwords": [
+   "Widget showcase"
+  ]
+ },
+ {
+  "noteId": "9achoYMafjHP",
+  "title": "属性继承",
+  "path": "高级用法/属性",
+  "len": 1978,
+  "text": "继承指的是让一个 标签（label） 或一个 关系（relation） 在多个笔记之间共享的过程，通常是在父子关系中（如果使用模板，则可以在任何地方）。 标准继承 在 Trilium 中，如果属性设置了 isInheritable 标志为 true ，子笔记可以自动继承该属性。这意味着该属性（键值对）被应用于该笔记及其所有后代。 要使属性可继承，只需使用 Labels(标签) 或 关系 的可视化编辑器。或者，可以手动定义属性，当可继承时",
+  "enwords": [
+   "label",
+   "relation",
+   "Trilium ",
+   "isInheritable ",
+   "true ",
+   "Labels",
+   "myLabel",
+   "value "
+  ]
+ },
+ {
+  "noteId": "6at3wkEnLIfu",
+  "title": "快速开始",
+  "path": "",
+  "len": 1334,
+  "text": "选择安装方式 仅本地桌面/笔记本 - 允许在桌面上运行单个实例，笔记将保存在该桌面本地。 Desktop Installation / 桌面安装 服务器 + 仅 Web 访问 - 将应用安装在服务器上，可从任何设备的任何 Web 浏览器访问，包括移动设备。 Server Installation / 服务器安装 Mobile Frontend / 移动端 (optional / 可选) Third-party cloud hosting",
+  "enwords": [
+   "Desktop Installation ",
+   "Web ",
+   "Web ",
+   "Server Installation ",
+   "Mobile Frontend ",
+   "optional ",
+   "Third-party cloud hosting ",
+   "Web "
+  ]
+ },
+ {
+  "noteId": "lwnKte9zowVK",
+  "title": "恢复已删除的笔记",
+  "path": "基本概念与功能/笔记",
+  "len": 551,
+  "text": "已删除笔记列在\"已删除笔记（Deleted Notes）\"对话框中（ 全局菜单（Global Menu）→ 显示已删除笔记（Show Deleted Notes） ），可以通过按下\" 取消删除（undelete） \"链接来恢复。 如果笔记有子笔记，它们将随笔记一起恢复。如果原始位置不再存在（例如父笔记已被删除），笔记将恢复到新笔记的默认位置（ 笔记收件箱 ）。 注意：当笔记在树中被提升时，对话框只会显示从该提升笔记的子树中删除的笔记。 ",
+  "enwords": [
+   "Deleted Notes",
+   "Global Menu",
+   "Show Deleted Notes",
+   "undelete",
+   "Erase deleted notes now",
+   "Deleted Notes Settings"
+  ]
+ },
+ {
+  "noteId": "J2vVDbQtQZtM",
+  "title": "感知笔记上下文的小组件",
+  "path": "脚本/前端基础/自定义小组件",
+  "len": 1488,
+  "text": "笔记上下文感知小部件是一种不同类型的小部件，它会自动对当前笔记的变化做出反应。 重要方面： 小部件必须导出一个 class 而不是该类的实例（例如 no new ），因为它需要为每个笔记进行复制，以便分屏正确工作。 由于导出的是 class 而不是实例， parentWidget getter 必须是 static ，否则小部件会被忽略。 显示当前笔记标题的示例 这是一个简单的显示当前笔记名称的笔记上下文感知小部件。 经典示例 clas",
+  "enwords": [
+   "class ",
+   "no new ",
+   "class ",
+   "parentWidget getter ",
+   "static ",
+   "class HelloNoteDetail extends api.NoteContextAwareWidget ",
+   "constructor",
+   "super"
+  ]
+ },
+ {
+  "noteId": "G6uh5oxvadSV",
+  "title": "报告问题",
+  "path": "故障排除",
+  "len": 167,
+  "text": "转到 Issues · TriliumNext/Trilium 并按 “新建问题（New issue）”。 如果你要报告错误，请选择 “错误报告（Bug Report）” 并填写详细信息。",
+  "enwords": [
+   "Issues ",
+   "TriliumNext",
+   "Trilium ",
+   "New issue",
+   "Bug Report"
+  ]
+ },
+ {
+  "noteId": "ZpqlSTz8sFPI",
+  "title": "拼写检查",
+  "path": "笔记类型/文本",
+  "len": 2847,
+  "text": "Trilium 支持为你笔记提供拼写检查。其工作方式取决于你使用的是 桌面应用（desktop application） （Electron）还是通过**网页浏览器（web browser）**访问 Trilium。 桌面 桌面应用使用 Chromium 内置的拼写检查器。你可以从_选项（Options）_ → 拼写检查（Spell Check） 进行配置。 启用拼写检查 切换_检查拼写（Check spelling）_以启用或禁用拼写",
+  "enwords": [
+   "Trilium ",
+   "desktop application",
+   "Electron",
+   "web browser",
+   "Trilium",
+   "Chromium ",
+   "Options",
+   "Spell Check"
+  ]
+ },
+ {
+  "noteId": "k8g7PA6MK9oa",
+  "title": "按标题处理内部链接",
+  "path": "基本概念与功能/导入与导出/从其他应用导入数据/Evernote",
+  "len": 51,
+  "text": "[文档内容不可用] 此笔记的内容作为附件存储，或在此导出的帮助数据中不可用。",
+  "enwords": []
+ },
+ {
+  "noteId": "yekICwqk31HM",
+  "title": "提供程序",
+  "path": "AI",
+  "len": 3888,
+  "text": "使用 API 密钥的云提供商 目前，支持以下云提供商： Anthropic OpenRouter Gemini DeepSeek 所有提供商都需要一个 API 密钥。请注意，这与你可能已有的订阅（例如 Claude Pro）分开计费。如果这可能是个问题，请考虑使用订阅提供商（见下文）或通过 MCP 在外部使用它。 请注意，大多数其他 LLM 提供商（例如 OpenRouter、Groq、Mistral）仍然可以通过 OpenAI 兼容的",
+  "enwords": [
+   "API ",
+   "Anthropic OpenRouter Gemini DeepSeek ",
+   "API ",
+   "Claude Pro",
+   "MCP ",
+   "LLM ",
+   "OpenRouter",
+   "Groq"
+  ]
+ },
+ {
+  "noteId": "5huozA6LMahz",
+  "title": "支持分屏视图的笔记类型",
+  "path": "基本概念与功能/界面元素",
+  "len": 1145,
+  "text": "分屏视图是 Mermaid Diagrams(Mermaid 图表) 和 Markdown(Markdown) 笔记的一项功能，一侧显示源代码，另一侧显示内容预览。 Mermaid Diagrams(Mermaid 图表) 还允许在水平或垂直分屏之间切换，以适应各种大小的图表。 显示模式与交互 分屏带有三种不同的显示模式： 分屏视图（Split view） ，一侧是源代码且可编辑，另一侧是预览。 在此模式下，可以通过拖动它们之间的小边框",
+  "enwords": [
+   "Mermaid Diagrams",
+   "Mermaid ",
+   "Markdown",
+   "Markdown",
+   "Mermaid Diagrams",
+   "Mermaid ",
+   "Split view",
+   "Source view"
+  ]
+ },
+ {
+  "noteId": "0FBBMpFaI2jU",
+  "title": "支持的语法",
+  "path": "基本概念与功能/导入与导出/Markdown",
+  "len": 2347,
+  "text": "GitHub 风格 Markdown（GitHub-Flavored Markdown） 是 Trilium 遵循的主要语法。 图像 导出时，图像通常保留基本 Markdown 语法，但如果图像有自定义宽度，则会使用 HTML 语法。图形（figure）总是以 HTML 嵌入。 表格 简单的表格使用 Markdown 语法支持。如果表格过于复杂或包含会渲染为 HTML 的元素，则该表格也会渲染为 HTML。 链接 支持标准 Markdo",
+  "enwords": [
+   "GitHub ",
+   "Markdown",
+   "GitHub-Flavored Markdown",
+   "Trilium ",
+   "Markdown ",
+   "HTML ",
+   "figure",
+   "HTML "
+  ]
+ },
+ {
+  "noteId": "KXp59dH02JDZ",
+  "title": "故障排除",
+  "path": "脚本/前端基础/自定义小组件",
+  "len": 448,
+  "text": "为什么我的小部件被其他 UI 元素裁剪 出于性能和布局的原因，Trilium 中小部件的大小与其子元素无关。在 CSS 层面，这意味着小部件容器应用了 contain: size 。 如果小部件有固定大小（或基于其父容器），这很好，但要使小部件调整大小以适合其内容，请应用以下更改： class MyWidget extends api.RightPanelWidget { + constructor() { + super(); + t",
+  "enwords": [
+   "UI ",
+   "Trilium ",
+   "CSS ",
+   "contain",
+   "size ",
+   "class MyWidget extends api.RightPanelWidget ",
+   "constructor",
+   "super"
+  ]
+ },
+ {
+  "noteId": "2P0eR6E4qLOA",
+  "title": "文本提取 (OCR)",
+  "path": "高级用法",
+  "len": 4993,
+  "text": "光学字符识别（Optical Character Recognition）是从图像或 PDF 中提取文本的过程。 内置支持 自 v0.103.0 起，Trilium 内置了对 OCR 的支持。提取的文本可以： 与 搜索（Search） 集成，以根据文本片段快速找到图像或文件。 与 AI 功能集成，这允许智能体访问非文本笔记的内容。 手动访问用于其他目的（例如复制到笔记中或发送到其他地方）。 支持的格式 Trilium 中的 OCR 支持",
+  "enwords": [
+   "Optical Character Recognition",
+   "PDF ",
+   "Trilium ",
+   "OCR ",
+   "Search",
+   "AI ",
+   "Trilium ",
+   "OCR "
+  ]
+ },
+ {
+  "noteId": "5JQ4vkZqncQO",
+  "title": "文本片段",
+  "path": "笔记类型/文本",
+  "len": 0,
+  "text": "",
+  "enwords": []
+ },
+ {
+  "noteId": "uqfol1gEV8BT",
+  "title": "服务端导入",
+  "path": "脚本/后端脚本",
+  "len": 436,
+  "text": "较旧版本的 Trilium Notes 允许在后端脚本中使用 Common.js 模块导入，例如： const isBetween = require('dayjs/plugin/isBetween') api.dayjs.extend(isBetween) 对于较新版本，Node.js 导入 不再被官方支持 ，因为我们添加了一个打包器（bundler），这使得复用依赖更加困难。 理论上，通过 npm 或 pnpm 在服务器目录中手动设",
+  "enwords": [
+   "Trilium Notes ",
+   "Common.js ",
+   "const isBetween ",
+   "require",
+   "dayjs",
+   "plugin",
+   "isBetween",
+   "api.dayjs.extend"
+  ]
+ },
+ {
+  "noteId": "C0gsLjbVjkhn",
+  "title": "标题",
+  "path": "基本概念与功能/笔记",
+  "len": 2933,
+  "text": "除了内容之外， 标题（title） 是 笔记 的两个主要属性之一。它是显示在每个笔记顶部可编辑字段中的简短、人类可读的名称，也是在界面中标识笔记的东西（在 笔记树 、标签页、 面包屑导航 和 Internal (reference) links(内部（引用）链接) 中）。 在内部，笔记通过唯一的 Note ID(笔记 ID) 而不是标题来标识，所以标题纯粹是为了方便你。这带来一些后果： 标题不必唯一。 你可以拥有任意数量共享相同标题的笔",
+  "enwords": [
+   "title",
+   "Internal ",
+   "reference",
+   "links",
+   "Note ID",
+   "ZIP ",
+   "Trilium ",
+   "Enter"
+  ]
+ },
+ {
+  "noteId": "d8rJUlge3Be1",
+  "title": "树的概念",
+  "path": "基本概念与功能/导航",
+  "len": 710,
+  "text": "此页面解释 TriliumNext 中与笔记树结构相关的基本概念。 笔记 笔记是 TriliumNext 中的核心实体。更多详情，参见 笔记 。 分支 分支（branch）描述笔记在笔记树中的位置。本质上，它是 parentNoteId 和 noteId 的元组，表示给定笔记被放置在指定父笔记之下作为其子笔记。 每个笔记可以有多个分支，意味着任何笔记都可以被放置在树中的多个位置。这个概念被称为 克隆笔记 。 前缀 前缀（prefix）是",
+  "enwords": [
+   "TriliumNext ",
+   "TriliumNext ",
+   "branch",
+   "parentNoteId ",
+   "noteId ",
+   "prefix",
+   "Edit branch prefix",
+   "subtree"
+  ]
+ },
+ {
+  "noteId": "X3YqkCaUUU4u",
+  "title": "活动内容",
+  "path": "基本概念与功能",
+  "len": 2845,
+  "text": "活动内容（Active content） 是 Trilium 中强大功能的统称，范围从自定义 UI 到可以更改您的笔记甚至个人电脑的高级脚本。 安全导入 活动内容存在安全问题，尤其当这些活动内容来自第三方时，例如从网站下载然后导入到 Trilium 中。 当 导入 .zip 压缩包到 Trilium 时，默认会激活 安全模式（safe mode） ，它会尝试阻止不受信任的代码执行。例如，一个 自定义小组件（custom widget） ",
+  "enwords": [
+   "Active content",
+   "Trilium ",
+   "UI ",
+   "Trilium ",
+   "zip ",
+   "Trilium ",
+   "safe mode",
+   "custom widget"
+  ]
+ },
+ {
+  "noteId": "H6xRarZDzD4p",
+  "title": "演示笔记",
+  "path": "高级用法/数据库",
+  "len": 1247,
+  "text": "当你第一次运行 Trilium 时，它将生成一个包含演示笔记的新数据库。这些笔记展示了它的许多功能，例如： 关系图（Relation Map） 日笔记（Day Notes） 体重追踪器（Weight Tracker） 任务管理器（Task Manager） 主题（Themes） 恢复演示笔记 在某些情况下，你可能想要恢复原始的演示笔记。例如，如果你试验了一些更高级的功能并想查看原始参考，或者如果你只是想探索演示笔记的最新版本，它可能会展",
+  "enwords": [
+   "Trilium ",
+   "Relation Map",
+   "Day Notes",
+   "Weight Tracker",
+   "Task Manager",
+   "Themes",
+   "Trilium ",
+   "zip "
+  ]
+ },
+ {
+  "noteId": "NTVYMnkwiZCF",
+  "title": "状态栏",
+  "path": "基本概念与功能/界面元素/新布局",
+  "len": 1984,
+  "text": "状态栏显示关于当前笔记的信息，并允许更改与之相关的设置，例如配置语言或属性。 布局与交互 在左侧，显示 面包屑导航 ，它指示当前笔记及其父笔记，并允许在整个层级中快速导航。 在右侧，会根据当前笔记的类型显示特定部分。 对于 Code(代码) 笔记，指示笔记的语言模式（例如 JavaScript、纯文本），并允许轻松切换到另一种模式。 对于 Text(文本) 笔记，显示内容语言并可更改，从而配置拼写检查和从右到左支持。 注意，与某些文本编",
+  "enwords": [
+   "Code",
+   "JavaScript",
+   "Text",
+   "MIME",
+   "peek"
+  ]
+ },
+ {
+  "noteId": "4aQnfnnr9AKb",
+  "title": "目录",
+  "path": "笔记类型/文本",
+  "len": 126,
+  "text": "本页已迁移至 大纲标签页 .",
+  "enwords": []
+ },
+ {
+  "noteId": "o672rnPvm0jD",
+  "title": "笔记 ID",
+  "path": "高级用法",
+  "len": 959,
+  "text": "虽然一些应用程序使用文件名来唯一标识笔记，但 Trilium 使用笔记 ID（Note ID）的概念。 通常，笔记 ID 是一个 12 个字符长的字母数字序列（包括大写和小写字母），为每个新笔记随机生成。 导入/导出如何影响笔记 ID 当笔记被导出时，其笔记 ID 保留在导出的元数据中。然而，当它们被重新导入时，会为所有笔记生成新的笔记 ID。这也包括作为导入/导出过程一部分的其他实体，例如 附件（Attachments） 。 笔记冲突",
+  "enwords": [
+   "Trilium ",
+   "Note ID",
+   "ID ",
+   "ID ",
+   "ID ",
+   "Attachments",
+   "ID ",
+   "pigeonhole principle"
+  ]
+ },
+ {
+  "noteId": "Aol4QMxJQ106",
+  "title": "笔记排序",
+  "path": "基本概念与功能/笔记",
+  "len": 3544,
+  "text": "手动排序 你可以通过右键点击 笔记树 中的父笔记并选择 高级（Advanced）- 按...排序笔记（Sort notes by ...）来排序笔记。这会排序现有笔记，但不会自动排序将来添加到该父笔记的笔记。 排序对话框允许： 按标题、创建或修改日期排序。 也可以调整排序方向（升序或降序）。 确保文件夹显示在顶部。 自然排序，基于特定语言的排序规则。 自动/永久排序 子笔记可以通过向父笔记附加特定的 标签 来自动排序： 标签 描述 #s",
+  "enwords": [
+   "Advanced",
+   "Sort notes by ...",
+   "sorted ",
+   "sortDirection If sorted is applied",
+   "specifies the direction of the sort",
+   "ASC ",
+   "ascending ",
+   "default"
+  ]
+ },
+ {
+  "noteId": "kEA3GOPRnzx7",
+  "title": "笔记收件箱",
+  "path": "基本概念与功能/笔记",
+  "len": 1432,
+  "text": "收件箱（inbox）是快速捕获笔记的默认目的地。当创建笔记时没有先选择位置，它就会落入收件箱。这使得快速捕获笔记并在之后整理它们变得容易。 收件箱在哪里使用 启动栏 中的 新建笔记（New note） 按钮。 全局 创建笔记到收件箱（Create note into inbox） 快捷键（默认 Ctrl+Alt+P）。 托盘图标菜单 中的 新建笔记（New note） 操作。 Web Clipper(网页剪藏) 扩展。 设置笔记收件箱 ",
+  "enwords": [
+   "inbox",
+   "New note",
+   "Create note into inbox",
+   "Ctrl",
+   "Alt",
+   "New note",
+   "Web Clipper",
+   "inbox "
+  ]
+ },
+ {
+  "noteId": "yAM7BBICJYqk",
+  "title": "类 Markdown 格式",
+  "path": "笔记类型/文本",
+  "len": 4074,
+  "text": "类似 Markdown 的格式化允许通过输入对应的 Markdown 等价物来插入一些基本格式。请注意，这并不意味着 文本 笔记支持 Markdown，这些只是一些便捷快捷键。 要将更复杂的格式导入文本笔记，请考虑使用 从 Markdown 导入（Import from Markdown） 功能。对于功能完整的 Markdown 笔记导入，请考虑使用专门的 导入（import） 功能。 针对 标题 ： ## 对应标题 2（一级标题保留给",
+  "enwords": [
+   "Markdown ",
+   "Markdown ",
+   "Markdown",
+   "Markdown ",
+   "Import from Markdown",
+   "Markdown ",
+   "import",
+   "text"
+  ]
+ },
+ {
+  "noteId": "xhnTlJGRE7Te",
+  "title": "组件库",
+  "path": "脚本/前端基础/Preact",
+  "len": 1914,
+  "text": "使用 Script bundles(脚本包) 的概念，可以创建供多个小部件或 渲染笔记 共享的组件。 导出一个组件 这通常对大型组件有用。 这里是一个使用 渲染笔记 的子层级示例…… 我的渲染笔记（My render note） 笔记类型：渲染笔记（Render Note） 将 ~renderNote 链接到子笔记（ 带子组件的渲染笔记 ） 带子组件的渲染笔记（Render note with subcomponents） 类型：JSX",
+  "enwords": [
+   "Script bundles",
+   "My render note",
+   "Render Note",
+   "renderNote ",
+   "Render note with subcomponents",
+   "JSX export default function",
+   "return ",
+   "MyComponent "
+  ]
+ },
+ {
+  "noteId": "JHsKupgT1tda",
+  "title": "缩放",
+  "path": "基本概念与功能/界面元素",
+  "len": 303,
+  "text": "缩放适用于整个界面，包括文本。 在桌面应用中，使用 全局菜单 进行放大/缩小。 在 Web 浏览器和桌面上，都可以使用键盘快捷键 Ctrl+Shift++ 和 Ctrl+Shift+-。 改为调整文本大小 作为缩放的替代方案，文本大小可以单独调整：进入 选项 → 外观（Appearance） 。",
+  "enwords": [
+   "Web ",
+   "Ctrl",
+   "Shift",
+   "Ctrl",
+   "Shift",
+   "Appearance"
+  ]
+ },
+ {
+  "noteId": "qfffwa20agq7",
+  "title": "网页视图",
+  "path": "笔记类型",
+  "len": 1739,
+  "text": "配置 网页视图（webview）需要知道要渲染哪个 URL，可以通过设置 webViewSrc 标签（label） 来提供，例如： #webViewSrc=\"https://www.wikipedia.org\" URL 需要包含完整的协议方案。 服务器端网页视图与 Electron 端 当通过浏览器而非桌面应用访问 Trilium 时，网页视图仍会尝试渲染所需网页的内容。然而，由于它在浏览器中运行，与桌面端相比会有相当多的限制。 更具体",
+  "enwords": [
+   "webview",
+   "URL",
+   "webViewSrc ",
+   "label",
+   "webViewSrc",
+   "https",
+   "www.wikipedia.org",
+   "URL "
+  ]
+ },
+ {
+  "noteId": "5uFWhktAIRyu",
+  "title": "脚本包",
+  "path": "脚本/通用概念",
+  "len": 1666,
+  "text": "对于 渲染笔记 和更复杂的脚本，通常很有用的做法是将代码拆分到多个 代码 笔记中。 当脚本运行时，正在运行的脚本（或 渲染笔记 ）的子节点会被检查是否有子节点。如果子节点是与正在运行的代码对应类型（前端或后端）的代码笔记，它们也会被求值。 一个脚本及其子笔记的集合被称为_捆绑包（bundle） 。捆绑包内的子笔记被称为_模块（module） 。 作为依赖关系的基本示例，请考虑以下笔记结构： 带依赖的脚本（Script with depe",
+  "enwords": [
+   "bundle",
+   "module",
+   "Script with dependency",
+   "api.log",
+   "MyMath.sum",
+   "MyMath",
+   "module.exports ",
+   "sum"
+  ]
+ },
+ {
+  "noteId": "NQzDmfb1Rz2v",
+  "title": "自动替换",
+  "path": "笔记类型/文本",
+  "len": 3924,
+  "text": "自动替换 当你在文本笔记中输入时，某些字符序列会被替换为它们所代表的排版符号。输入 (c) 会得到 ©，输入 ... 会得到 …，输入 \"quote\" 会得到 “quote”。 这些替换不会在代码块或行内代码内应用，粘贴的文本永远不会受影响——只有你输入的文字。如果你粘贴了代码片段，或在代码块内编写了一个，它的字符会保持原样。 一旦发生自动替换，可以通过以下方式撤销： 在替换后立即按 Backspace 会撤销它并恢复你输入的内容。 请",
+  "enwords": [
+   "quote",
+   "quote",
+   "Backspace ",
+   "Ctrl",
+   "Space ",
+   "Ctrl",
+   "Text notes",
+   "Automatic replacements"
+  ]
+ },
+ {
+  "noteId": "SAlWCKOJjNBy",
+  "title": "自定义 AI 快捷操作",
+  "path": "笔记类型/文本/编辑器内 AI 助手",
+  "len": 1091,
+  "text": "_快速操作_ 是 文本 笔记的 编辑器内 AI 助手 的一项功能，它会基于定义的提示词自动触发 LLM 建议。内置快速操作带有预定义的提示词，但也可以定义你自己的快速操作。 创建自定义快速操作 在 笔记树 中： 右键点击一个要放置文本片段的笔记。 选择_插入子笔记（Insert child note）_。 选择_AI 快速操作（AI Quick Action）_。 之后，只需在笔记内容中输入所需的提示词。文本可以像普通文本笔记一样格式化",
+  "enwords": [
+   "AI ",
+   "LLM ",
+   "Insert child note",
+   "AI ",
+   "AI Quick Action",
+   "Markdown ",
+   "LLM",
+   "Code"
+  ]
+ },
+ {
+  "noteId": "hF1RdP002030",
+  "title": "自定义分享模板",
+  "path": "高级用法/分享",
+  "len": 3589,
+  "text": "注意：创建分享模板这一主题被认为是高级内容，需要 JavaScript/EJS 知识。 默认分享模板应该覆盖大多数正常用途。 为了完全控制共享页面的 HTML 结构——超越自定义 CSS、JS 或 HTML 片段所允许的范围——你可以使用 ~shareTemplate 关系完全替换页面模板。 要做到这一点： 创建一个语言为_嵌入式 JavaScript（Embedded JavaScript）_（EJS）的 代码 笔记。 对于要应用新创",
+  "enwords": [
+   "JavaScript",
+   "EJS ",
+   "HTML ",
+   "CSS",
+   "JS ",
+   "HTML ",
+   "shareTemplate ",
+   "JavaScript"
+  ]
+ },
+ {
+  "noteId": "OA7pdMSIVH5t",
+  "title": "自定义待办任务状态",
+  "path": "高级用法",
+  "len": 2429,
+  "text": "Trilium 具有可自定义的待办清单任务状态。要自定义它们，请前往 “选项（Options）” → “文本笔记（Text Notes）” → “相关设置（Related Settings）” → “待办清单的自定义复选框状态（Custom checkbox states for to-do lists）” 。或者，在可编辑文本笔记中右键单击复选框并点击铅笔图标。 警告：更改仅在重启应用程序后生效。 创建新任务状态 点击左侧窗格中任务状",
+  "enwords": [
+   "Trilium ",
+   "Options",
+   "Text Notes",
+   "Related Settings",
+   "Custom checkbox states for to-do lists",
+   "Task States",
+   "None",
+   "Done"
+  ]
+ },
+ {
+  "noteId": "sKi0De0UzUbQ",
+  "title": "自定义请求处理器",
+  "path": "高级用法",
+  "len": 3646,
+  "text": "Trilium 为 脚本（scripts） 提供了一种开放公共 REST 端点的机制。这为与其他服务的各种集成打开了道路——一个简单的例子是通过发出斜杠命令（例如 /trilium buy milk ）从 Slack 创建新笔记。 从 Trilium 外部创建笔记 让我们看一个例子。目标是提供一个 REST 端点，我们可以向它发送标题和内容，Trilium 将创建一个笔记。 我们将从创建一个包含以下内容的 JavaScript 后端 代",
+  "enwords": [
+   "Trilium ",
+   "scripts",
+   "REST ",
+   "trilium buy milk ",
+   "Slack ",
+   "Trilium ",
+   "REST ",
+   "Trilium "
+  ]
+ },
+ {
+  "noteId": "HDOtajV3qR0i",
+  "title": "自定义资源提供程序",
+  "path": "高级用法",
+  "len": 1871,
+  "text": "自定义资源提供器允许导入 Trilium 的任何文件（图像、字体、样式表）通过 URL 公开访问。 一个潜在用例是在主题旁添加嵌入自定义字体。 创建自定义资源提供器的步骤 通过拖放将文件（例如图像或字体）导入 Trilium。 选择该文件并转到_自有属性（Owned Attributes）_部分。 添加标签 #customResourceProvider=hello 。 要测试它是否工作，使用浏览器导航到 protocol :// ho",
+  "enwords": [
+   "Trilium ",
+   "URL ",
+   "Trilium",
+   "Owned Attributes",
+   "customResourceProvider",
+   "hello ",
+   "protocol ",
+   "host "
+  ]
+ },
+ {
+  "noteId": "yzyWwxCeBHm2",
+  "title": "语法参考",
+  "path": "笔记类型/Mermaid 图表",
+  "len": 0,
+  "text": "",
+  "enwords": []
+ },
+ {
+  "noteId": "S9b1TAsJZF1u",
+  "title": "跨域资源共享 (CORS)",
+  "path": "高级用法/Configuration (config.ini or environment variables)(配置（config.ini 或环境变量）)",
+  "len": 1122,
+  "text": "默认情况下，Trilium 无法在 Web 浏览器中被来自除 Trilium 自身以外的其他域/来源的请求访问。 然而，自 Trilium v0.93.0 起，可以使用环境变量或 config.ini 手动配置 跨源资源共享（Cross-Origin Resource Sharing (CORS)） ，如下所示： CORS 请求头 对应的环境变量 Network 部分中 config.ini 的对应选项 Access-Control-A",
+  "enwords": [
+   "Trilium ",
+   "Web ",
+   "Trilium ",
+   "Trilium v",
+   "config.ini ",
+   "Cross-Origin Resource Sharing ",
+   "CORS",
+   "CORS "
+  ]
+ },
+ {
+  "noteId": "JqFcpg0mfise",
+  "title": "键盘快捷键",
+  "path": "基本概念与功能/界面元素/笔记树",
+  "len": 1912,
+  "text": "笔记树 带有多个键盘快捷键以加快编辑速度： 树内导航 ↑ 和 ↑ 在笔记之间导航。 ← 折叠有子笔记的笔记，→ 展开它。 在没有子笔记的笔记上按 ← 导航到其父笔记。 打开笔记 点击 在当前标签页打开笔记。 Ctrl+点击 或 鼠标中键点击 在新标签页打开笔记。 Ctrl+右键点击 在 Quick edit(快速编辑) 中打开笔记。 剪贴板管理 Ctrl+C 根据选择复制一个或多个笔记（参见 Cloning Notes(克隆笔记) ）。",
+  "enwords": [
+   "Ctrl",
+   "Ctrl",
+   "Quick edit",
+   "Ctrl",
+   "Cloning Notes",
+   "Ctrl",
+   "Ctrl",
+   "Ctrl "
+  ]
+ },
+ {
+  "noteId": "lJ6ySSiTSr3j",
+  "title": "键盘快捷键",
+  "path": "基本概念与功能",
+  "len": 4486,
+  "text": "这应该是一份完整的键盘快捷键列表。请注意，其中一些可能仅在特定上下文中生效（例如在树面板或笔记编辑器中）。 配置键盘快捷键 也可以在 选项 → 快捷键（Shortcuts） 中配置大多数键盘快捷键。 在 桌面安装 中，还可以通过按下键组合旁边的地球图标使快捷键全局生效，这样即使 Trilium 未处于焦点状态，快捷键也能工作。 快捷键参考 注意：所有这些快捷键均指默认按键绑定，可以在 选项 → 快捷键（Shortcuts） 中单独更改。",
+  "enwords": [
+   "Shortcuts",
+   "Trilium ",
+   "Shortcuts",
+   "Alt",
+   "Alt",
+   "Ctrl",
+   "Jump to",
+   "Ctrl"
+  ]
+ },
+ {
+  "noteId": "NsIGoRoDUTG8",
+  "title": "键盘快捷键",
+  "path": "笔记类型/文本",
+  "len": 7293,
+  "text": "Trilium 专属快捷键 操作 PC Mac 调出行内格式化工具栏（用 ←,→ 方向键导航，Enter 应用） Alt+F10 ⌥+F10 调出块格式化工具栏 Alt+F10 ⌥+F10 创建 外部链接 Ctrl+K ⌘+K 创建 内部（笔记）链接 Ctrl+L ⌘+L 在光标位置插入当前日期和时间 Alt+T ⌥+T 增加段落缩进 Tab ⇥ 减少段落缩进 Shift + Tab ⇧ + ⇥ 将选中文本标记为 键盘快捷键 Ctrl ",
+  "enwords": [
+   "Trilium ",
+   "PC Mac ",
+   "Enter ",
+   "Alt",
+   "Alt",
+   "Ctrl",
+   "Ctrl",
+   "Alt"
+  ]
+ },
+ {
+  "noteId": "6FRj4QSfbL9T",
+  "title": "附件",
+  "path": "基本概念与功能/笔记",
+  "len": 1972,
+  "text": "Trilium 中的 笔记 可以_拥有_一个或多个附件，它们可以是图片或文件。这些附件可以在拥有它们的笔记中显示或链接。 这对于包含你的 脚本 的依赖特别有用。 Weight Tracker(体重记录) 展示了如何使用附加到脚本笔记上的 chartjs 。 每个笔记独占其附件，意味着附件不能从一个笔记共享或链接到另一个笔记。如果附件链接被复制到不同的笔记，附件本身会被复制，此后副本被独立管理。 附件，尤其是图片文件，是在笔记中嵌入视觉内",
+  "enwords": [
+   "Trilium ",
+   "Weight Tracker",
+   "chartjs ",
+   "User content",
+   "System attachments",
+   "Trilium ",
+   "Collections",
+   "Kanban Board"
+  ]
+ },
+ {
+  "noteId": "G85N2AiEbbuW",
+  "title": "隐私",
+  "path": "AI",
+  "len": 4680,
+  "text": "Trilium 在你发送消息之前不会向 AI 提供商发送任何内容。启用集成、添加提供商或打开聊天本身不会传输任何内容，唯一的例外是列出提供商的模型会把你的 API 密钥发送给该提供商，以便获取列表。 一旦你发送消息或运行 编辑器内 AI 助手 ，离开你机器的内容取决于你选择的提供商以及启用了哪些上下文选项。 你的笔记去向何处 提供商类型 目的地 云提供商 提供商的服务器（Anthropic、OpenRouter、Google、DeepS",
+  "enwords": [
+   "Trilium ",
+   "AI ",
+   "API ",
+   "AI ",
+   "Anthropic",
+   "OpenRouter",
+   "Google",
+   "DeepSeek"
+  ]
+ },
+ {
+  "noteId": "NoLYuQ9qUQg7",
+  "title": "隐私政策",
+  "path": "杂项",
+  "len": 690,
+  "text": "Trilium Notes Trilium Notes 不会从用户的安装中收集/发送任何数据，即没有分析、没有遥测等。数据仅在用户控制的/已安装的应用程序之间流动，没有任何中间方。 自动网络活动包括： Trilium 会定期查询 URL https://github.com/TriliumNext/Trilium/releases ，以查看是否有新的稳定版本发布。（仅检查，没有自动下载和/或安装）。 Trilium 会根据语言设置按需自",
+  "enwords": [
+   "Trilium Notes Trilium Notes ",
+   "Trilium ",
+   "URL https",
+   "github.com",
+   "TriliumNext",
+   "Trilium",
+   "releases ",
+   "Trilium "
+  ]
+ },
+ {
+  "noteId": "Ax2xW59Ff3jb",
+  "title": "高亮列表",
+  "path": "笔记类型/文本",
+  "len": 126,
+  "text": "本页已迁移至 大纲标签页 .",
+  "enwords": []
+ },
+ {
+  "noteId": "pN4jKprod7oX",
+  "title": "高级功能",
+  "path": "笔记类型/文本",
+  "len": 1099,
+  "text": "我们使用的文本编辑器名为 CKEditor(CKEditor) ，它拥有开源核心，但同时也是一个提供 高级功能（premium features） 的商业产品。 在 v0.105.0 之前，Trilium 将以下高级功能作为 CKEditor 与 Trilium 团队之间签署协议的一部分来使用： Slash Commands(斜杠命令) Text Snippets(文本片段) 格式刷 从 v0.105.0 开始，这些功能已被完全重写为自",
+  "enwords": [
+   "CKEditor",
+   "CKEditor",
+   "premium features",
+   "Trilium ",
+   "CKEditor ",
+   "Trilium ",
+   "Slash Commands",
+   "Text Snippets"
+  ]
+ },
+ {
+  "noteId": "SJz4TOTAnudY",
+  "title": "默认笔记标题",
+  "path": "高级用法",
+  "len": 2336,
+  "text": "当创建一个新笔记时，其名称默认是 “new note（新笔记）”。在某些情况下，拥有一个不同的甚至动态的默认笔记标题可能是可取的。 针对这种用例，Trilium（自 v0.52 起）支持 #titleTemplate 标签（label） 。你可以为给定的笔记创建这样的标签，为其分配一个值，该值将在创建子笔记时用作默认标题。与其他标签一样，你可以使其可继承以递归应用，甚至可以将其放在根笔记上以在全局任何地方应用。 作为一个示例用例，想象你",
+  "enwords": [
+   "new note",
+   "Trilium",
+   "titleTemplate ",
+   "label",
+   "Books",
+   "Neal Stephenson",
+   "Anathem",
+   "Franz Kafka"
+  ]
+ }
+]

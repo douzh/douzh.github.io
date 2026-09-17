@@ -1,0 +1,898 @@
+[
+ {
+  "noteId": "t9tDQ3yYHSIQ",
+  "title": "功能亮点",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "aIwhuIM42UXZ",
+  "title": "Using the desktop application as a server(将桌面应用用作服务器)",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backup', 'Data directory', 'Desktop Installation', 'Mobile Frontend', 'Server Installation']"
+ },
+ {
+  "noteId": "a3TKVvk1Jcuq",
+  "title": "System Requirements(系统要求)",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backup', 'Data directory', 'Desktop Installation', 'Mobile Frontend', 'Server Installation']"
+ },
+ {
+  "noteId": "kBQZqj9dubVL",
+  "title": "Nix flake(Nix flake)",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backup', 'Data directory', 'Desktop Installation', 'Mobile Frontend', 'Server Installation']"
+ },
+ {
+  "noteId": "KENrlyFaUbZN",
+  "title": "Network Access(网络访问)",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backup', 'Data directory', 'Desktop Installation', 'Mobile Frontend', 'Server Installation']"
+ },
+ {
+  "noteId": "I9TEAj9A5NIv",
+  "title": "Troubleshooting(故障排除)",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backup', 'Data directory', 'Desktop Installation', 'Mobile Frontend', 'Server Installation']"
+ },
+ {
+  "noteId": "sPaAXjVcvZZl",
+  "title": "Packaged version for Linux(Linux 打包版本)",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "5HwfHJFwczl9",
+  "title": "Using Docker(使用 Docker)",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "SEYvbzIDbgtV",
+  "title": "On NixOS(在 NixOS 上)",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "fEvxRDgByx6J",
+  "title": "Manually(手动安装)",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "aFYvSvzqySw1",
+  "title": "Using Kubernetes(使用 Kubernetes)",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "fupEm5MLR0eF",
+  "title": "Multiple server instances(多个服务器实例)",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "o5byGpiYwkAf",
+  "title": "Nginx(Nginx)",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "74oHxA6XDX7Z",
+  "title": "Apache using Docker(使用 Docker 的 Apache)",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "9H8FKhPVYLTX",
+  "title": "Trusted proxy(受信任的代理)",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "mWpKWRZZLu3R",
+  "title": "Traefik(Traefik)",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "3jBts3KWOAAP",
+  "title": "HTTPS (TLS)(HTTPS (TLS))",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backup', 'Data directory', 'Desktop Installation', 'Mobile Frontend', 'Server Installation']"
+ },
+ {
+  "noteId": "eaZEEY2i4YT2",
+  "title": "Resetting your password(重置密码)",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "NwgMJByVeFyC",
+  "title": "Multi-factor authentication with TOTP(使用 TOTP 的多因素身份验证)",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backup', 'Data directory', 'Desktop Installation', 'Mobile Frontend', 'Server Installation']"
+ },
+ {
+  "noteId": "Ht8ZUwhpA1DH",
+  "title": "Nix flake(Nix flake)",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backup', 'Data directory', 'Desktop Installation', 'Mobile Frontend', 'Server Installation']"
+ },
+ {
+  "noteId": "v14qii09xWVc",
+  "title": "Setting up with various providers(使用各种提供商进行设置)",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "z2cMreTyvWVz",
+  "title": "Third-party cloud hosting(第三方云托管)",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backup', 'Data directory', 'Desktop Installation', 'Mobile Frontend', 'Server Installation']"
+ },
+ {
+  "noteId": "6OOBk6hUKjLW",
+  "title": "System Requirements(系统要求)",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backup', 'Data directory', 'Desktop Installation', 'Mobile Frontend', 'Server Installation']"
+ },
+ {
+  "noteId": "v4jDFrdyA3XU",
+  "title": "升级 TriliumNext",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "eT4hTrNrfbR0",
+  "title": "备份",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "JqFcpg0mfise",
+  "title": "键盘快捷键",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Content width', 'Floating buttons', 'Global menu', 'Launch Bar', 'New Layout']"
+ },
+ {
+  "noteId": "EWv4L9CU9Bzk",
+  "title": "AI 对话标签页",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Content width', 'Floating buttons', 'Global menu', 'Launch Bar', 'New Layout']"
+ },
+ {
+  "noteId": "JHsKupgT1tda",
+  "title": "缩放",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Active content', 'Import & Export', 'Keyboard Shortcuts', 'Notes', 'Themes']"
+ },
+ {
+  "noteId": "NTVYMnkwiZCF",
+  "title": "状态栏",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Content width', 'Floating buttons', 'Global menu', 'Launch Bar', 'New Layout']"
+ },
+ {
+  "noteId": "5huozA6LMahz",
+  "title": "支持分屏视图的笔记类型",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Active content', 'Import & Export', 'Keyboard Shortcuts', 'Notes', 'Themes']"
+ },
+ {
+  "noteId": "Etxj5aRT3vkB",
+  "title": "内容宽度",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Active content', 'Import & Export', 'Keyboard Shortcuts', 'Notes', 'Themes']"
+ },
+ {
+  "noteId": "C0gsLjbVjkhn",
+  "title": "标题",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Active content', 'Import & Export', 'Keyboard Shortcuts', 'Notes', 'Themes']"
+ },
+ {
+  "noteId": "6FRj4QSfbL9T",
+  "title": "附件",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Active content', 'Import & Export', 'Keyboard Shortcuts', 'Notes', 'Themes']"
+ },
+ {
+  "noteId": "8kz4JE6Llklc",
+  "title": "前缀",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Archived Notes', 'Attachments', 'Cloning Notes', 'Note Icons & Colors', 'Note Inbox']"
+ },
+ {
+  "noteId": "Aol4QMxJQ106",
+  "title": "笔记排序",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Active content', 'Import & Export', 'Keyboard Shortcuts', 'Notes', 'Themes']"
+ },
+ {
+  "noteId": "v0ST0oYz6iSM",
+  "title": "只读笔记",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Active content', 'Import & Export', 'Keyboard Shortcuts', 'Notes', 'Themes']"
+ },
+ {
+  "noteId": "kEA3GOPRnzx7",
+  "title": "笔记收件箱",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Active content', 'Import & Export', 'Keyboard Shortcuts', 'Notes', 'Themes']"
+ },
+ {
+  "noteId": "lwnKte9zowVK",
+  "title": "恢复已删除的笔记",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Active content', 'Import & Export', 'Keyboard Shortcuts', 'Notes', 'Themes']"
+ },
+ {
+  "noteId": "d8rJUlge3Be1",
+  "title": "树的概念",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Active content', 'Import & Export', 'Keyboard Shortcuts', 'Notes', 'Themes']"
+ },
+ {
+  "noteId": "zSF9gd8EeVtg",
+  "title": "书签",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Active content', 'Import & Export', 'Keyboard Shortcuts', 'Notes', 'Themes']"
+ },
+ {
+  "noteId": "lJ6ySSiTSr3j",
+  "title": "键盘快捷键",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "QMdizlUHF0tN",
+  "title": "主题库",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Active content', 'Import & Export', 'Keyboard Shortcuts', 'Notes', 'Themes']"
+ },
+ {
+  "noteId": "0FBBMpFaI2jU",
+  "title": "支持的语法",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "1XvW40oOLX0w",
+  "title": "Microsoft OneNote",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "FCd0fUcq1TF8",
+  "title": "Notion",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "WaA1iBEA7o8D",
+  "title": "Google Keep",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "k8g7PA6MK9oa",
+  "title": "按标题处理内部链接",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "L0HLzREIQ8E9",
+  "title": "Anytype",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "syL2rkuSPUXB",
+  "title": "Obsidian",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "X3YqkCaUUU4u",
+  "title": "活动内容",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "6at3wkEnLIfu",
+  "title": "快速开始",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "Td5XP4paGGvm",
+  "title": "FAQ(常见问题)",
+  "docName": "User Guide/User Guide/FAQ",
+  "conf": "MEDIUM",
+  "method": "子串匹配"
+ },
+ {
+  "noteId": "NQzDmfb1Rz2v",
+  "title": "自动替换",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Canvas', 'Code', 'Converting between note types', 'File', 'Markdown']"
+ },
+ {
+  "noteId": "LhQmZX32MQ0c",
+  "title": "可折叠块",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Canvas', 'Code', 'Converting between note types', 'File', 'Markdown']"
+ },
+ {
+  "noteId": "Ax2xW59Ff3jb",
+  "title": "高亮列表",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Canvas', 'Code', 'Converting between note types', 'File', 'Markdown']"
+ },
+ {
+  "noteId": "SAlWCKOJjNBy",
+  "title": "自定义 AI 快捷操作",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Anchors', 'Automatic replacements', 'Block quotes & admonitions', 'Collapsible blocks', 'Content language & Right-to-left support']"
+ },
+ {
+  "noteId": "NsIGoRoDUTG8",
+  "title": "键盘快捷键",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Canvas', 'Code', 'Converting between note types', 'File', 'Markdown']"
+ },
+ {
+  "noteId": "NRzmLnGiDb8U",
+  "title": "内部（引用）链接",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Anchors', 'Automatic replacements', 'Block quotes & admonitions', 'Collapsible blocks', 'Content language & Right-to-left support']"
+ },
+ {
+  "noteId": "hcZlVY6xuwTM",
+  "title": "反向链接",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Anchors', 'Automatic replacements', 'Block quotes & admonitions', 'Collapsible blocks', 'Content language & Right-to-left support']"
+ },
+ {
+  "noteId": "yAM7BBICJYqk",
+  "title": "类 Markdown 格式",
+  "docName": "User Guide/User Guide/Note Types/Markdown",
+  "conf": "MEDIUM",
+  "method": "子串匹配"
+ },
+ {
+  "noteId": "pN4jKprod7oX",
+  "title": "高级功能",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Canvas', 'Code', 'Converting between note types', 'File', 'Markdown']"
+ },
+ {
+  "noteId": "ZpqlSTz8sFPI",
+  "title": "拼写检查",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Canvas', 'Code', 'Converting between note types', 'File', 'Markdown']"
+ },
+ {
+  "noteId": "4aQnfnnr9AKb",
+  "title": "目录",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Canvas', 'Code', 'Converting between note types', 'File', 'Markdown']"
+ },
+ {
+  "noteId": "5JQ4vkZqncQO",
+  "title": "文本片段",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Canvas', 'Code', 'Converting between note types', 'File', 'Markdown']"
+ },
+ {
+  "noteId": "IEeQqk3crB3k",
+  "title": "ELK 布局",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Canvas', 'Code', 'Converting between note types', 'File', 'Markdown']"
+ },
+ {
+  "noteId": "yzyWwxCeBHm2",
+  "title": "语法参考",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Canvas', 'Code', 'Converting between note types', 'File', 'Markdown']"
+ },
+ {
+  "noteId": "qfffwa20agq7",
+  "title": "网页视图",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "GNyhAHMsfcne",
+  "title": "Office 文档",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Canvas', 'Code', 'Converting between note types', 'File', 'Markdown']"
+ },
+ {
+  "noteId": "2FGr3nWmquVd",
+  "title": "在笔记类型之间转换",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "G6uh5oxvadSV",
+  "title": "报告问题",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "bBQ7RKmRvKlM",
+  "title": "后端（服务器）日志",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Anonymized Database', 'Error logs', 'Refreshing the application', 'Reporting issues', 'Synchronization fails with 504 Gateway Timeout']"
+ },
+ {
+  "noteId": "PFtFDf3JuA4D",
+  "title": "同步失败并报 504 网关超时",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "GDf62xzQAPH5",
+  "title": "刷新应用",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "ShThQsAzq8H9",
+  "title": "参考",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "ip1BHr5q3vY4",
+  "title": "创建图标包",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "xA1k6rzHw1jJ",
+  "title": "Labels(标签)",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "SBcn989ASCLZ",
+  "title": "关系",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "9achoYMafjHP",
+  "title": "属性继承",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "mme9Dn0AMMYr",
+  "title": "Markdown 片段",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "vkgg8iM2mHvN",
+  "title": "代码片段",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "dPPVSl1OVX4A",
+  "title": "导出静态 HTML 用于网页发布",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "dccVjGrNHB5o",
+  "title": "反向代理配置",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "hF1RdP002030",
+  "title": "自定义分享模板",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "OA7pdMSIVH5t",
+  "title": "自定义待办任务状态",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "sKi0De0UzUbQ",
+  "title": "自定义请求处理器",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "HDOtajV3qR0i",
+  "title": "自定义资源提供程序",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "VugMPu4jc7IZ",
+  "title": "API 参考",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "SJz4TOTAnudY",
+  "title": "默认笔记标题",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "H6xRarZDzD4p",
+  "title": "演示笔记",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "nrdIPDm87oD3",
+  "title": "Trilium 实例",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "S9b1TAsJZF1u",
+  "title": "跨域资源共享 (CORS)",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "pOHxWBPSPF4K",
+  "title": "CKEditor",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "o672rnPvm0jD",
+  "title": "笔记 ID",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "hWMN4ej0xMh3",
+  "title": "API 参考",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "P5P0lLNUT9eC",
+  "title": "grafana-dashboard.json",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "sFWMuPR2S3QB",
+  "title": "安全模式",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "VQ3ULRNr3aRq",
+  "title": "夜间构建版本",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "ArrYKBJoy7G0",
+  "title": "只读数据库",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "2P0eR6E4qLOA",
+  "title": "文本提取 (OCR)",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "yekICwqk31HM",
+  "title": "提供程序",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "G85N2AiEbbuW",
+  "title": "隐私",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "7Tc9Zf7xh8Xs",
+  "title": "MCP",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "R6SqwFdNe39J",
+  "title": "小组件基础",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Custom Widgets', 'Frontend Events', 'Launch Bar Widgets', 'Preact']"
+ },
+ {
+  "noteId": "J2vVDbQtQZtM",
+  "title": "感知笔记上下文的小组件",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Custom Widgets', 'Frontend Events', 'Launch Bar Widgets', 'Preact']"
+ },
+ {
+  "noteId": "KNgNIbGyOwdC",
+  "title": "右侧面板小组件",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Custom Widgets', 'Frontend Events', 'Launch Bar Widgets', 'Preact']"
+ },
+ {
+  "noteId": "79rSvQaP5JCE",
+  "title": "CSS(CSS)",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Custom Widgets', 'Frontend Events', 'Launch Bar Widgets', 'Preact']"
+ },
+ {
+  "noteId": "KXp59dH02JDZ",
+  "title": "故障排除",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Custom Widgets', 'Frontend Events', 'Launch Bar Widgets', 'Preact']"
+ },
+ {
+  "noteId": "cNDws8XZlCoV",
+  "title": "\"新建任务\"启动按钮",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Custom Widgets', 'Frontend Events', 'Launch Bar Widgets', 'Preact']"
+ },
+ {
+  "noteId": "stmJLtrW8j2H",
+  "title": "从 Google 表单下载回复",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Custom Widgets', 'Frontend Events', 'Launch Bar Widgets', 'Preact']"
+ },
+ {
+  "noteId": "xhnTlJGRE7Te",
+  "title": "组件库",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Custom Widgets', 'Frontend Events', 'Launch Bar Widgets', 'Preact']"
+ },
+ {
+  "noteId": "7cAfhPfEAIrM",
+  "title": "Hooks",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Custom Widgets', 'Frontend Events', 'Launch Bar Widgets', 'Preact']"
+ },
+ {
+  "noteId": "4hBLB6wTZ1Zv",
+  "title": "CSS",
+  "docName": null,
+  "conf": null,
+  "method": "父目录2段翻译OK,叶子未匹配,候选=['Custom Widgets', 'Frontend Events', 'Launch Bar Widgets', 'Preact']"
+ },
+ {
+  "noteId": "iyj7sZ20qUw8",
+  "title": "小组件展示",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "WLwB4rf7Dqu4",
+  "title": "前端事件",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backend scripts', 'Frontend Basics', 'Logging', 'Script API', 'Security']"
+ },
+ {
+  "noteId": "uqfol1gEV8BT",
+  "title": "服务端导入",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backend scripts', 'Frontend Basics', 'Logging', 'Script API', 'Security']"
+ },
+ {
+  "noteId": "1dZhMvJmxKPn",
+  "title": "后端事件",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backend scripts', 'Frontend Basics', 'Logging', 'Script API', 'Security']"
+ },
+ {
+  "noteId": "5uFWhktAIRyu",
+  "title": "脚本包",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backend scripts', 'Frontend Basics', 'Logging', 'Script API', 'Security']"
+ },
+ {
+  "noteId": "BROicBbRhY1u",
+  "title": "FNote",
+  "docName": null,
+  "conf": null,
+  "method": "路径无法翻译"
+ },
+ {
+  "noteId": "jFXOYH8BO8zS",
+  "title": "后端 API",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backend scripts', 'Frontend Basics', 'Logging', 'Script API', 'Security']"
+ },
+ {
+  "noteId": "20c3yUXh3jcZ",
+  "title": "Electron API",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backend scripts', 'Frontend Basics', 'Logging', 'Script API', 'Security']"
+ },
+ {
+  "noteId": "F695Rxy3UEeT",
+  "title": "Day.js",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backend scripts', 'Frontend Basics', 'Logging', 'Script API', 'Security']"
+ },
+ {
+  "noteId": "HqE8ndZ8OVlv",
+  "title": "v0.104.0：禁用 Electron 中的 Node 集成",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backend scripts', 'Frontend Basics', 'Logging', 'Script API', 'Security']"
+ },
+ {
+  "noteId": "MvkvDstoBpsO",
+  "title": "v0.103.0：移除 axios",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backend scripts', 'Frontend Basics', 'Logging', 'Script API', 'Security']"
+ },
+ {
+  "noteId": "mf5d77kGDVvQ",
+  "title": "v0.103.0：`cheerio` 现已弃用",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backend scripts', 'Frontend Basics', 'Logging', 'Script API', 'Security']"
+ },
+ {
+  "noteId": "8ea9bUjqQm46",
+  "title": "v0.102.0：升级到 jQuery 4.0.0",
+  "docName": null,
+  "conf": null,
+  "method": "父目录1段翻译OK,叶子未匹配,候选=['Backend scripts', 'Frontend Basics', 'Logging', 'Script API', 'Security']"
+ },
+ {
+  "noteId": "TNBOr62S7Osb",
+  "title": "安全",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "NoLYuQ9qUQg7",
+  "title": "隐私政策",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ },
+ {
+  "noteId": "tJxRbIWRmEp8",
+  "title": "License(许可证)",
+  "docName": null,
+  "conf": null,
+  "method": "父目录0段翻译OK,叶子未匹配,候选=[]"
+ }
+]

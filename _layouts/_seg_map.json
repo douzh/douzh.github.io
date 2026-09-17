@@ -1,0 +1,102 @@
+{
+ "0|高级用法": [
+  "Advanced Usage",
+  "Note Types"
+ ],
+ "1|高级示例展示": [
+  "Advanced Showcases"
+ ],
+ "1|属性": [
+  "Attributes"
+ ],
+ "1|数据库": [
+  "Database"
+ ],
+ "2|手动修改数据库": [
+  "Manually altering the database"
+ ],
+ "1|分享": [
+  "Sharing"
+ ],
+ "0|基本概念与功能": [
+  "Basic Concepts and Features"
+ ],
+ "1|导航": [
+  "Navigation"
+ ],
+ "1|笔记": [
+  "Notes"
+ ],
+ "1|主题": [
+  "Themes"
+ ],
+ "1|界面元素": [
+  "UI Elements"
+ ],
+ "2|新布局": [
+  "New Layout"
+ ],
+ "2|笔记树": [
+  "Note Tree"
+ ],
+ "2|右侧边栏": [
+  "Right Sidebar"
+ ],
+ "0|集合": [
+  "Collections"
+ ],
+ "0|安装与设置": [
+  "Installation & Setup"
+ ],
+ "1|桌面安装": [
+  "Desktop Installation"
+ ],
+ "0|杂项": [
+  "Miscellaneous"
+ ],
+ "0|笔记类型": [
+  "Note Types"
+ ],
+ "1|文件": [
+  "File"
+ ],
+ "1|文本": [
+  "Text"
+ ],
+ "2|开发者专用格式": [
+  "Developer-specific formatting"
+ ],
+ "2|图片": [
+  "Images"
+ ],
+ "2|链接": [
+  "Links"
+ ],
+ "1|代码片段": [
+  "Text"
+ ],
+ "0|脚本": [
+  "Scripting"
+ ],
+ "1|前端基础": [
+  "Frontend Basics"
+ ],
+ "2|自定义小组件": [
+  "Custom Widgets"
+ ],
+ "2|示例": [
+  "Examples"
+ ],
+ "2|启动栏小组件": [
+  "Launch Bar Widgets"
+ ],
+ "0|主题开发": [
+  "Theme development"
+ ],
+ "0|故障排除": [
+  "Troubleshooting"
+ ],
+ "1|错误日志": [
+  "Error logs"
+ ]
+}

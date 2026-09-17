@@ -1,0 +1,1329 @@
+{
+ "help_notes": [
+  {
+   "noteId": "_help_GBBMSlVSOIGP",
+   "title": "AI",
+   "docName": "User Guide/User Guide/AI"
+  },
+  {
+   "noteId": "_help_KOWBFgsZXJAD",
+   "title": "MCP",
+   "docName": "User Guide/User Guide/AI/MCP"
+  },
+  {
+   "noteId": "_help_cRRrdZjgyhNc",
+   "title": "Privacy",
+   "docName": "User Guide/User Guide/AI/Privacy"
+  },
+  {
+   "noteId": "_help_bkPZAMT7d2sR",
+   "title": "Providers",
+   "docName": "User Guide/User Guide/AI/Providers"
+  },
+  {
+   "noteId": "_help_5668rwcirq1t",
+   "title": "Advanced Showcases",
+   "docName": "User Guide/User Guide/Advanced Usage/Advanced Showcases"
+  },
+  {
+   "noteId": "_help_l0tKav7yLHGF",
+   "title": "Day Notes",
+   "docName": "User Guide/User Guide/Advanced Usage/Advanced Showcases/Day Notes"
+  },
+  {
+   "noteId": "_help_xYjQUYhpbUEW",
+   "title": "Task Manager",
+   "docName": "User Guide/User Guide/Advanced Usage/Advanced Showcases/Task Manager"
+  },
+  {
+   "noteId": "_help_R7abl2fc6Mxi",
+   "title": "Weight Tracker",
+   "docName": "User Guide/User Guide/Advanced Usage/Advanced Showcases/Weight Tracker"
+  },
+  {
+   "noteId": "_help_zEY4DaJG4YT5",
+   "title": "Attributes",
+   "docName": "User Guide/User Guide/Advanced Usage/Attributes"
+  },
+  {
+   "noteId": "_help_bwZpz2ajCEwO",
+   "title": "Attribute Inheritance",
+   "docName": "User Guide/User Guide/Advanced Usage/Attributes/Attribute Inheritance"
+  },
+  {
+   "noteId": "_help_HI6GBBIduIgv",
+   "title": "Labels",
+   "docName": "User Guide/User Guide/Advanced Usage/Attributes/Labels"
+  },
+  {
+   "noteId": "_help_OFXdgB2nNk1F",
+   "title": "Promoted Attributes",
+   "docName": "User Guide/User Guide/Advanced Usage/Attributes/Promoted Attributes"
+  },
+  {
+   "noteId": "_help_Cq5X6iKQop6R",
+   "title": "Relations",
+   "docName": "User Guide/User Guide/Advanced Usage/Attributes/Relations"
+  },
+  {
+   "noteId": "_help_ivYnonVFBxbQ",
+   "title": "Bulk Actions",
+   "docName": "User Guide/User Guide/Advanced Usage/Bulk Actions"
+  },
+  {
+   "noteId": "_help_Gzjqa934BdH4",
+   "title": "Configuration (config.ini or environment variables)",
+   "docName": "User Guide/User Guide/Advanced Usage/Configuration (config.ini or environment variables)"
+  },
+  {
+   "noteId": "_help_LWtBjFej3wX3",
+   "title": "Cross-Origin Resource Sharing (CORS)",
+   "docName": "User Guide/User Guide/Advanced Usage/Configuration (config.ini or environment variables)/Cross-Origin Resource Sharing (CORS)"
+  },
+  {
+   "noteId": "_help_c5xB8m4g2IY6",
+   "title": "Trilium instance",
+   "docName": "User Guide/User Guide/Advanced Usage/Configuration (config.ini or environment variables)/Trilium instance"
+  },
+  {
+   "noteId": "_help_J5Ex1ZrMbyJ6",
+   "title": "Custom Request Handler",
+   "docName": "User Guide/User Guide/Advanced Usage/Custom Request Handler"
+  },
+  {
+   "noteId": "_help_d3fAXQ2diepH",
+   "title": "Custom Resource Providers",
+   "docName": "User Guide/User Guide/Advanced Usage/Custom Resource Providers"
+  },
+  {
+   "noteId": "_help_i16PM6A7GXdU",
+   "title": "Customizing to-do task states",
+   "docName": "User Guide/User Guide/Advanced Usage/Customizing to-do task states"
+  },
+  {
+   "noteId": "_help_wX4HbRucYSDD",
+   "title": "Database",
+   "docName": "User Guide/User Guide/Advanced Usage/Database"
+  },
+  {
+   "noteId": "_help_6tZeKvSHEUiB",
+   "title": "Demo Notes",
+   "docName": "User Guide/User Guide/Advanced Usage/Database/Demo Notes"
+  },
+  {
+   "noteId": "_help_oyIAJ9PvvwHX",
+   "title": "Manually altering the database",
+   "docName": "User Guide/User Guide/Advanced Usage/Database/Manually altering the database"
+  },
+  {
+   "noteId": "_help_YKWqdJhzi2VY",
+   "title": "SQL Console",
+   "docName": "User Guide/User Guide/Advanced Usage/Database/Manually altering the database/SQL Console"
+  },
+  {
+   "noteId": "_help_47ZrP6FNuoG8",
+   "title": "Default Note Title",
+   "docName": "User Guide/User Guide/Advanced Usage/Default Note Title"
+  },
+  {
+   "noteId": "_help_pgxEVkzLl1OP",
+   "title": "ETAPI (REST API)",
+   "docName": "User Guide/User Guide/Advanced Usage/ETAPI (REST API)"
+  },
+  {
+   "noteId": "_help_2mUhVmZK8RF3",
+   "title": "Hidden Notes",
+   "docName": "User Guide/User Guide/Advanced Usage/Hidden Notes"
+  },
+  {
+   "noteId": "_help_uYF7pmepw27K",
+   "title": "Metrics",
+   "docName": "User Guide/User Guide/Advanced Usage/Metrics"
+  },
+  {
+   "noteId": "_help_HAIOFBoYIIdO",
+   "title": "Nightly release",
+   "docName": "User Guide/User Guide/Advanced Usage/Nightly release"
+  },
+  {
+   "noteId": "_help_m1lbrzyKDaRB",
+   "title": "Note ID",
+   "docName": "User Guide/User Guide/Advanced Usage/Note ID"
+  },
+  {
+   "noteId": "_help_BCkXAVs63Ttv",
+   "title": "Note Map (Link map, Tree map)",
+   "docName": "User Guide/User Guide/Advanced Usage/Note Map (Link map, Tree map)"
+  },
+  {
+   "noteId": "_help_4FahAwuGTAwC",
+   "title": "Note source",
+   "docName": "User Guide/User Guide/Advanced Usage/Note source"
+  },
+  {
+   "noteId": "_help_ZmT9ln8XJX2o",
+   "title": "Read-only database",
+   "docName": "User Guide/User Guide/Advanced Usage/Read-only database"
+  },
+  {
+   "noteId": "_help_64ZTlUPgEPtW",
+   "title": "Safe mode",
+   "docName": "User Guide/User Guide/Advanced Usage/Safe mode"
+  },
+  {
+   "noteId": "_help_R9pX4DGra2Vt",
+   "title": "Sharing",
+   "docName": "User Guide/User Guide/Advanced Usage/Sharing"
+  },
+  {
+   "noteId": "_help_Ad7Ku5gOHrDU",
+   "title": "Custom share template",
+   "docName": "User Guide/User Guide/Advanced Usage/Sharing/Custom share template"
+  },
+  {
+   "noteId": "_help_ycBFjKrrwE9p",
+   "title": "Exporting static HTML for web publishing",
+   "docName": "User Guide/User Guide/Advanced Usage/Sharing/Exporting static HTML for web publishing"
+  },
+  {
+   "noteId": "_help_sLIJ6f1dkJYW",
+   "title": "Reverse proxy configuration",
+   "docName": "User Guide/User Guide/Advanced Usage/Sharing/Reverse proxy configuration"
+  },
+  {
+   "noteId": "_help_Qjt68inQ2bRj",
+   "title": "Serving directly the content of a note",
+   "docName": "User Guide/User Guide/Advanced Usage/Sharing/Serving directly the content of a note"
+  },
+  {
+   "noteId": "_help_B2ORr7OVEZtc",
+   "title": "Snippets",
+   "docName": "User Guide/User Guide/Advanced Usage/Snippets"
+  },
+  {
+   "noteId": "_help_IEgsWp5hHH35",
+   "title": "Code Snippets",
+   "docName": "User Guide/User Guide/Advanced Usage/Snippets/Code Snippets"
+  },
+  {
+   "noteId": "_help_VQjhl61rlWh9",
+   "title": "Markdown Snippets",
+   "docName": "User Guide/User Guide/Advanced Usage/Snippets/Markdown Snippets"
+  },
+  {
+   "noteId": "_help_1YeN2MzFUluU",
+   "title": "Technologies used",
+   "docName": "User Guide/User Guide/Advanced Usage/Technologies used"
+  },
+  {
+   "noteId": "_help_MI26XDLSAlCD",
+   "title": "CKEditor",
+   "docName": "User Guide/User Guide/Advanced Usage/Technologies used/CKEditor"
+  },
+  {
+   "noteId": "_help_KC1HB96bqqHX",
+   "title": "Templates",
+   "docName": "User Guide/User Guide/Advanced Usage/Templates"
+  },
+  {
+   "noteId": "_help_TiQbQDgP8L5t",
+   "title": "Text Extraction (OCR)",
+   "docName": "User Guide/User Guide/Advanced Usage/Text Extraction (OCR)"
+  },
+  {
+   "noteId": "_help_YzMcWlCVeW09",
+   "title": "Active content",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Active content"
+  },
+  {
+   "noteId": "_help_mHbBMPDPkVV5",
+   "title": "Import & Export",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export"
+  },
+  {
+   "noteId": "_help_ckZ2uNWQmVeX",
+   "title": "Importing data from other applications",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Importing data from other applications"
+  },
+  {
+   "noteId": "_help_83zmPBJRgfnW",
+   "title": "Anytype",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Importing data from other applications/Anytype"
+  },
+  {
+   "noteId": "_help_syuSEKf2rUGr",
+   "title": "Evernote",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Importing data from other applications/Evernote"
+  },
+  {
+   "noteId": "_help_nhQVuO4zvIxi",
+   "title": "Google Keep",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Importing data from other applications/Google Keep"
+  },
+  {
+   "noteId": "_help_GnhlmrATVqcH",
+   "title": "Microsoft OneNote",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Importing data from other applications/Microsoft OneNote"
+  },
+  {
+   "noteId": "_help_Y5mKeJ6dsCld",
+   "title": "Notion",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Importing data from other applications/Notion"
+  },
+  {
+   "noteId": "_help_iWD7wiIuMtgV",
+   "title": "Obsidian",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Importing data from other applications/Obsidian"
+  },
+  {
+   "noteId": "_help_Oau6X9rCuegd",
+   "title": "Markdown",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Markdown"
+  },
+  {
+   "noteId": "_help_rJ9grSgoExl9",
+   "title": "Supported syntax",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Markdown/Supported syntax"
+  },
+  {
+   "noteId": "_help_A9Oc6YKKc65v",
+   "title": "Keyboard Shortcuts",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Keyboard Shortcuts"
+  },
+  {
+   "noteId": "_help_u3YFHC9tQlpm",
+   "title": "Bookmarks",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Bookmarks"
+  },
+  {
+   "noteId": "_help_F1r9QtzQLZqm",
+   "title": "Jump to & command palette",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Jump to & command palette"
+  },
+  {
+   "noteId": "_help_OR8WJ7Iz9K4U",
+   "title": "Note Hoisting",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Note Hoisting"
+  },
+  {
+   "noteId": "_help_MMiBEQljMQh2",
+   "title": "Note Navigation",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Note Navigation"
+  },
+  {
+   "noteId": "_help_ZjLYv08Rp3qC",
+   "title": "Quick edit",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Quick edit"
+  },
+  {
+   "noteId": "_help_Ms1nauBra7gq",
+   "title": "Quick search",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Quick search"
+  },
+  {
+   "noteId": "_help_eIg8jdvaoNNd",
+   "title": "Search",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Search"
+  },
+  {
+   "noteId": "_help_McngOG2jbUWX",
+   "title": "Search in note",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Search in note"
+  },
+  {
+   "noteId": "_help_xWtq5NUHOwql",
+   "title": "Similar Notes",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Similar Notes"
+  },
+  {
+   "noteId": "_help_kBrnXNG3Hplm",
+   "title": "Tree Concepts",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Tree Concepts"
+  },
+  {
+   "noteId": "_help_9sRHySam5fXb",
+   "title": "Workspaces",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Navigation/Workspaces"
+  },
+  {
+   "noteId": "_help_BFs8mudNFgCS",
+   "title": "Notes",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Notes"
+  },
+  {
+   "noteId": "_help_MKmLg5x6xkor",
+   "title": "Archived Notes",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Archived Notes"
+  },
+  {
+   "noteId": "_help_0vhv7lsOLy82",
+   "title": "Attachments",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Attachments"
+  },
+  {
+   "noteId": "_help_IakOLONlIfGI",
+   "title": "Cloning Notes",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Cloning Notes"
+  },
+  {
+   "noteId": "_help_TBwsyfadTA18",
+   "title": "Branch prefix",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Cloning Notes/Branch prefix"
+  },
+  {
+   "noteId": "_help_p9kXRFAkwN4o",
+   "title": "Note Icons & Colors",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Note Icons & Colors"
+  },
+  {
+   "noteId": "_help_S0Fos78ZfcY7",
+   "title": "Note Inbox",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Note Inbox"
+  },
+  {
+   "noteId": "_help_0ESUbbAxVnoK",
+   "title": "Note List",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Note List"
+  },
+  {
+   "noteId": "_help_vZWERwf8U3nx",
+   "title": "Note Revisions",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Note Revisions"
+  },
+  {
+   "noteId": "_help_NRnIZmSMc5sj",
+   "title": "Printing & Exporting as PDF",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Printing & Exporting as PDF"
+  },
+  {
+   "noteId": "_help_bwg0e8ewQMak",
+   "title": "Protected Notes",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Protected Notes"
+  },
+  {
+   "noteId": "_help_CoFPLs3dRlXc",
+   "title": "Read-Only Notes",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Read-Only Notes"
+  },
+  {
+   "noteId": "_help_5Ct4MAJTS4tQ",
+   "title": "Restoring Deleted Notes",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Restoring Deleted Notes"
+  },
+  {
+   "noteId": "_help_aGlEvb9hyDhS",
+   "title": "Sorting Notes",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Sorting Notes"
+  },
+  {
+   "noteId": "_help_l7pigIGu01K2",
+   "title": "Title",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Title"
+  },
+  {
+   "noteId": "_help_Wy267RK4M69c",
+   "title": "Themes",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Themes"
+  },
+  {
+   "noteId": "_help_gOKqSJgXLcIj",
+   "title": "Icon Packs",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Themes/Icon Packs"
+  },
+  {
+   "noteId": "_help_VbjZvtUek0Ln",
+   "title": "Theme Gallery",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Themes/Theme Gallery"
+  },
+  {
+   "noteId": "_help_t596jLvPrqkS",
+   "title": "Content width",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Content width"
+  },
+  {
+   "noteId": "_help_XpOYSgsLkTJy",
+   "title": "Floating buttons",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Floating buttons"
+  },
+  {
+   "noteId": "_help_x3i7MxGccDuM",
+   "title": "Global menu",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Global menu"
+  },
+  {
+   "noteId": "_help_xYmIYSP6wE3F",
+   "title": "Launch Bar",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Launch Bar"
+  },
+  {
+   "noteId": "_help_IjZS7iK5EXtb",
+   "title": "New Layout",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/New Layout"
+  },
+  {
+   "noteId": "_help_I6p2a06hdnL6",
+   "title": "Breadcrumb",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/New Layout/Breadcrumb"
+  },
+  {
+   "noteId": "_help_AlJ73vBCjWDw",
+   "title": "Status bar",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/New Layout/Status bar"
+  },
+  {
+   "noteId": "_help_lgKX7r3aL30x",
+   "title": "Note Tooltip",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note Tooltip"
+  },
+  {
+   "noteId": "_help_oPVyFC7WL2Lp",
+   "title": "Note Tree",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note Tree"
+  },
+  {
+   "noteId": "_help_wyaGBBQrl4i3",
+   "title": "Hiding the subtree",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note Tree/Hiding the subtree"
+  },
+  {
+   "noteId": "_help_DvdZhoQZY9Yd",
+   "title": "Keyboard shortcuts",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note Tree/Keyboard shortcuts"
+  },
+  {
+   "noteId": "_help_yTjUdsOi4CIE",
+   "title": "Multiple selection",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note Tree/Multiple selection"
+  },
+  {
+   "noteId": "_help_YtSN43OrfzaA",
+   "title": "Note tree contextual menu",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note Tree/Note tree contextual menu"
+  },
+  {
+   "noteId": "_help_8YBEPzcpUgxw",
+   "title": "Note buttons",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note buttons"
+  },
+  {
+   "noteId": "_help_SL5f1Auq7sVN",
+   "title": "Note types with split view",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note types with split view"
+  },
+  {
+   "noteId": "_help_4TIF1oA4VQRO",
+   "title": "Options",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Options"
+  },
+  {
+   "noteId": "_help_r5JGHN99bVKn",
+   "title": "Recent Changes",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Recent Changes"
+  },
+  {
+   "noteId": "_help_BlN9DFI679QC",
+   "title": "Ribbon",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Ribbon"
+  },
+  {
+   "noteId": "_help_RnaPdbciOfeq",
+   "title": "Right Sidebar",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Right Sidebar"
+  },
+  {
+   "noteId": "_help_LrKznOtw9cQD",
+   "title": "AI chat tab",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Right Sidebar/AI chat tab"
+  },
+  {
+   "noteId": "_help_uNtgN0cUKEBc",
+   "title": "Attributes tab",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Right Sidebar/Attributes tab"
+  },
+  {
+   "noteId": "_help_KRlZFoIH0j6p",
+   "title": "Connections tab",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Right Sidebar/Connections tab"
+  },
+  {
+   "noteId": "_help_2dcGDhp9WFKb",
+   "title": "Outline tab",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Right Sidebar/Outline tab"
+  },
+  {
+   "noteId": "_help_luNhaphA37EO",
+   "title": "Split View",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Split View"
+  },
+  {
+   "noteId": "_help_3seOhtN8uLIY",
+   "title": "Tabs",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Tabs"
+  },
+  {
+   "noteId": "_help_x0JgW8UqGXvq",
+   "title": "Vertical and horizontal layout",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Vertical and horizontal layout"
+  },
+  {
+   "noteId": "_help_ny318J39E5Z0",
+   "title": "Zoom",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Zoom"
+  },
+  {
+   "noteId": "_help_rC3pL2aptaRE",
+   "title": "Zen mode",
+   "docName": "User Guide/User Guide/Basic Concepts and Features/Zen mode"
+  },
+  {
+   "noteId": "_help_GTwFsgaA0lCt",
+   "title": "Collections",
+   "docName": "User Guide/User Guide/Collections"
+  },
+  {
+   "noteId": "_help_xWbu3jpNWapp",
+   "title": "Calendar",
+   "docName": "User Guide/User Guide/Collections/Calendar"
+  },
+  {
+   "noteId": "_help_CssoWBu8I7jF",
+   "title": "Collection Properties",
+   "docName": "User Guide/User Guide/Collections/Collection Properties"
+  },
+  {
+   "noteId": "_help_IF7Q6I9x7zuw",
+   "title": "Dashboard",
+   "docName": "User Guide/User Guide/Collections/Dashboard"
+  },
+  {
+   "noteId": "_help_81SGnPGMk7Xc",
+   "title": "Geo Map",
+   "docName": "User Guide/User Guide/Collections/Geo Map"
+  },
+  {
+   "noteId": "_help_8QqnMzx393bx",
+   "title": "Grid View",
+   "docName": "User Guide/User Guide/Collections/Grid View"
+  },
+  {
+   "noteId": "_help_CtBQqbwXDx1w",
+   "title": "Kanban Board",
+   "docName": "User Guide/User Guide/Collections/Kanban Board"
+  },
+  {
+   "noteId": "_help_mULW0Q3VojwY",
+   "title": "List View",
+   "docName": "User Guide/User Guide/Collections/List View"
+  },
+  {
+   "noteId": "_help_zP3PMqaG71Ct",
+   "title": "Presentation",
+   "docName": "User Guide/User Guide/Collections/Presentation"
+  },
+  {
+   "noteId": "_help_2FvYrpmOXm29",
+   "title": "Table",
+   "docName": "User Guide/User Guide/Collections/Table"
+  },
+  {
+   "noteId": "_help_i6dbnitykE5D",
+   "title": "FAQ",
+   "docName": "User Guide/User Guide/FAQ"
+  },
+  {
+   "noteId": "_help_BOCnjTMBCoxW",
+   "title": "Feature Highlights",
+   "docName": "User Guide/User Guide/Feature Highlights"
+  },
+  {
+   "noteId": "_help_ODY7qQn5m2FT",
+   "title": "Backup",
+   "docName": "User Guide/User Guide/Installation & Setup/Backup"
+  },
+  {
+   "noteId": "_help_tAassRL4RSQL",
+   "title": "Data directory",
+   "docName": "User Guide/User Guide/Installation & Setup/Data directory"
+  },
+  {
+   "noteId": "_help_poXkQfguuA0U",
+   "title": "Desktop Installation",
+   "docName": "User Guide/User Guide/Installation & Setup/Desktop Installation"
+  },
+  {
+   "noteId": "_help_swSFivWk6KkA",
+   "title": "Network Access",
+   "docName": "User Guide/User Guide/Installation & Setup/Desktop Installation/Network Access"
+  },
+  {
+   "noteId": "_help_Un4wj2Mak2Ky",
+   "title": "Nix flake",
+   "docName": "User Guide/User Guide/Installation & Setup/Desktop Installation/Nix flake"
+  },
+  {
+   "noteId": "_help_Rp0q8bSP6Ayl",
+   "title": "System Requirements",
+   "docName": "User Guide/User Guide/Installation & Setup/Desktop Installation/System Requirements"
+  },
+  {
+   "noteId": "_help_7iwde4lsKc6O",
+   "title": "Tray icon & automatic startup",
+   "docName": "User Guide/User Guide/Installation & Setup/Desktop Installation/Tray icon & automatic startup"
+  },
+  {
+   "noteId": "_help_hvRfsDr591WP",
+   "title": "Troubleshooting",
+   "docName": "User Guide/User Guide/Installation & Setup/Desktop Installation/Troubleshooting"
+  },
+  {
+   "noteId": "_help_nRqcgfTb97uV",
+   "title": "Using the desktop application as a server",
+   "docName": "User Guide/User Guide/Installation & Setup/Desktop Installation/Using the desktop application as a server"
+  },
+  {
+   "noteId": "_help_RDslemsQ6gCp",
+   "title": "Mobile Frontend",
+   "docName": "User Guide/User Guide/Installation & Setup/Mobile Frontend"
+  },
+  {
+   "noteId": "_help_WOcw2SLH6tbX",
+   "title": "Server Installation",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation"
+  },
+  {
+   "noteId": "_help_J1Bb6lVlwU5T",
+   "title": "Manually",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Manually"
+  },
+  {
+   "noteId": "_help_klCWNks3ReaQ",
+   "title": "Multiple server instances",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Multiple server instances"
+  },
+  {
+   "noteId": "_help_moVgBcoxE3EK",
+   "title": "On NixOS",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/On NixOS"
+  },
+  {
+   "noteId": "_help_3tW6mORuTHnB",
+   "title": "Packaged version for Linux",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Packaged version for Linux"
+  },
+  {
+   "noteId": "_help_rWX5eY045zbE",
+   "title": "Using Docker",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Using Docker"
+  },
+  {
+   "noteId": "_help_DCmT6e7clMoP",
+   "title": "Using Kubernetes",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Using Kubernetes"
+  },
+  {
+   "noteId": "_help_vcjrb3VVYPZI",
+   "title": "2. Reverse proxy",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/2. Reverse proxy"
+  },
+  {
+   "noteId": "_help_fDLvzOx29Pfg",
+   "title": "Apache using Docker",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/2. Reverse proxy/Apache using Docker"
+  },
+  {
+   "noteId": "_help_ud6MShXL4WpO",
+   "title": "Nginx",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/2. Reverse proxy/Nginx"
+  },
+  {
+   "noteId": "_help_5ERVJb9s4FRD",
+   "title": "Traefik",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/2. Reverse proxy/Traefik"
+  },
+  {
+   "noteId": "_help_LLzSMXACKhUs",
+   "title": "Trusted proxy",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/2. Reverse proxy/Trusted proxy"
+  },
+  {
+   "noteId": "_help_0hzsNCP31IAB",
+   "title": "Authentication",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/Authentication"
+  },
+  {
+   "noteId": "_help_lwAX5SvbrK2g",
+   "title": "Resetting your password",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/Authentication/Resetting your password"
+  },
+  {
+   "noteId": "_help_l2VkvOwUNfZj",
+   "title": "HTTPS (TLS)",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/HTTPS (TLS)"
+  },
+  {
+   "noteId": "_help_7DAiwaf8Z7Rz",
+   "title": "Multi-factor authentication with TOTP",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/Multi-factor authentication with TOTP"
+  },
+  {
+   "noteId": "_help_x1lQNKQBqLcA",
+   "title": "Signing in with OpenID Connect",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/Signing in with OpenID Connect"
+  },
+  {
+   "noteId": "_help_IgkTHSaFfq6A",
+   "title": "Setting up with various providers",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/Signing in with OpenID Connect/Setting up with various providers"
+  },
+  {
+   "noteId": "_help_iGTnKjubbXkA",
+   "title": "System Requirements",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/System Requirements"
+  },
+  {
+   "noteId": "_help_yeEaYqosGLSh",
+   "title": "Third-party cloud hosting",
+   "docName": "User Guide/User Guide/Installation & Setup/Server Installation/Third-party cloud hosting"
+  },
+  {
+   "noteId": "_help_cbkrhQjrkKrh",
+   "title": "Synchronization",
+   "docName": "User Guide/User Guide/Installation & Setup/Synchronization"
+  },
+  {
+   "noteId": "_help_n1lujUxCwipy",
+   "title": "Upgrading TriliumNext",
+   "docName": "User Guide/User Guide/Installation & Setup/Upgrading TriliumNext"
+  },
+  {
+   "noteId": "_help_MtPxeAWVAzMg",
+   "title": "Web Clipper",
+   "docName": "User Guide/User Guide/Installation & Setup/Web Clipper"
+  },
+  {
+   "noteId": "_help_d1Ap6Pg6IjaJ",
+   "title": "License",
+   "docName": "User Guide/User Guide/Miscellaneous/License"
+  },
+  {
+   "noteId": "_help_NcsmUYZRWEW4",
+   "title": "Patterns of personal knowledge",
+   "docName": "User Guide/User Guide/Miscellaneous/Patterns of personal knowledge"
+  },
+  {
+   "noteId": "_help_WFbFXrgnDyyU",
+   "title": "Privacy Policy",
+   "docName": "User Guide/User Guide/Miscellaneous/Privacy Policy"
+  },
+  {
+   "noteId": "_help_KSZ04uQ2D1St",
+   "title": "Note Types",
+   "docName": "User Guide/User Guide/Note Types"
+  },
+  {
+   "noteId": "_help_grjYqerjn243",
+   "title": "Canvas",
+   "docName": "User Guide/User Guide/Note Types/Canvas"
+  },
+  {
+   "noteId": "_help_6f9hih2hXXZk",
+   "title": "Code",
+   "docName": "User Guide/User Guide/Note Types/Code"
+  },
+  {
+   "noteId": "_help_jludwdW7N4hg",
+   "title": "Converting between note types",
+   "docName": "User Guide/User Guide/Note Types/Converting between note types"
+  },
+  {
+   "noteId": "_help_W8vYD3Q1zjCR",
+   "title": "File",
+   "docName": "User Guide/User Guide/Note Types/File"
+  },
+  {
+   "noteId": "_help_AjqEeiDUOzj4",
+   "title": "Audio & Video",
+   "docName": "User Guide/User Guide/Note Types/File/Audio & Video"
+  },
+  {
+   "noteId": "_help_KG48zgNY31NW",
+   "title": "Office documents",
+   "docName": "User Guide/User Guide/Note Types/File/Office documents"
+  },
+  {
+   "noteId": "_help_XJGJrpu7F9sh",
+   "title": "PDFs",
+   "docName": "User Guide/User Guide/Note Types/File/PDFs"
+  },
+  {
+   "noteId": "_help_6RM1Q7ppFVoj",
+   "title": "Markdown",
+   "docName": "User Guide/User Guide/Note Types/Markdown"
+  },
+  {
+   "noteId": "_help_s1aBHPd79XYj",
+   "title": "Mermaid Diagrams",
+   "docName": "User Guide/User Guide/Note Types/Mermaid Diagrams"
+  },
+  {
+   "noteId": "_help_RH6yLjjWJHof",
+   "title": "ELK layout",
+   "docName": "User Guide/User Guide/Note Types/Mermaid Diagrams/ELK layout"
+  },
+  {
+   "noteId": "_help_gBbsAeiuUxI5",
+   "title": "Mind Map",
+   "docName": "User Guide/User Guide/Note Types/Mind Map"
+  },
+  {
+   "noteId": "_help_bdUJEHsAPYQR",
+   "title": "Note Map",
+   "docName": "User Guide/User Guide/Note Types/Note Map"
+  },
+  {
+   "noteId": "_help_iRwzGnHPzonm",
+   "title": "Relation Map",
+   "docName": "User Guide/User Guide/Note Types/Relation Map"
+  },
+  {
+   "noteId": "_help_HcABDtFCkbFN",
+   "title": "Render Note",
+   "docName": "User Guide/User Guide/Note Types/Render Note"
+  },
+  {
+   "noteId": "_help_m523cpzocqaD",
+   "title": "Saved Search",
+   "docName": "User Guide/User Guide/Note Types/Saved Search"
+  },
+  {
+   "noteId": "_help_GWHEkY4I4OE3",
+   "title": "Spreadsheets",
+   "docName": "User Guide/User Guide/Note Types/Spreadsheets"
+  },
+  {
+   "noteId": "_help_iPIMuisry3hd",
+   "title": "Text",
+   "docName": "User Guide/User Guide/Note Types/Text"
+  },
+  {
+   "noteId": "_help_oSuaNgyyKnhu",
+   "title": "Anchors",
+   "docName": "User Guide/User Guide/Note Types/Text/Anchors"
+  },
+  {
+   "noteId": "_help_oI7GoyilXXAr",
+   "title": "Automatic replacements",
+   "docName": "User Guide/User Guide/Note Types/Text/Automatic replacements"
+  },
+  {
+   "noteId": "_help_NwBbFdNZ9h7O",
+   "title": "Block quotes & admonitions",
+   "docName": "User Guide/User Guide/Note Types/Text/Block quotes & admonitions"
+  },
+  {
+   "noteId": "_help_4n4oQUVbnOxa",
+   "title": "Collapsible blocks",
+   "docName": "User Guide/User Guide/Note Types/Text/Collapsible blocks"
+  },
+  {
+   "noteId": "_help_veGu4faJErEM",
+   "title": "Content language & Right-to-left support",
+   "docName": "User Guide/User Guide/Note Types/Text/Content language & Right-to-left support"
+  },
+  {
+   "noteId": "_help_2x0ZAX9ePtzV",
+   "title": "Cut to subnote",
+   "docName": "User Guide/User Guide/Note Types/Text/Cut to subnote"
+  },
+  {
+   "noteId": "_help_UYuUB1ZekNQU",
+   "title": "Developer-specific formatting",
+   "docName": "User Guide/User Guide/Note Types/Text/Developer-specific formatting"
+  },
+  {
+   "noteId": "_help_QxEyIjRBizuC",
+   "title": "Code blocks",
+   "docName": "User Guide/User Guide/Note Types/Text/Developer-specific formatting/Code blocks"
+  },
+  {
+   "noteId": "_help_AgjCISero73a",
+   "title": "Footnotes",
+   "docName": "User Guide/User Guide/Note Types/Text/Footnotes"
+  },
+  {
+   "noteId": "_help_5wZallV2Qo1t",
+   "title": "Format Painter",
+   "docName": "User Guide/User Guide/Note Types/Text/Format Painter"
+  },
+  {
+   "noteId": "_help_nRhnJkTT8cPs",
+   "title": "Formatting toolbar",
+   "docName": "User Guide/User Guide/Note Types/Text/Formatting toolbar"
+  },
+  {
+   "noteId": "_help_Gr6xFaF6ioJ5",
+   "title": "General formatting",
+   "docName": "User Guide/User Guide/Note Types/Text/General formatting"
+  },
+  {
+   "noteId": "_help_AxshuNRegLAv",
+   "title": "Highlights list",
+   "docName": "User Guide/User Guide/Note Types/Text/Highlights list"
+  },
+  {
+   "noteId": "_help_mT0HEkOsz6i1",
+   "title": "Images",
+   "docName": "User Guide/User Guide/Note Types/Text/Images"
+  },
+  {
+   "noteId": "_help_0Ofbk1aSuVRu",
+   "title": "Image references",
+   "docName": "User Guide/User Guide/Note Types/Text/Images/Image references"
+  },
+  {
+   "noteId": "_help_VRoP0g1uHHc2",
+   "title": "In-editor AI assistant",
+   "docName": "User Guide/User Guide/Note Types/Text/In-editor AI assistant"
+  },
+  {
+   "noteId": "_help_mVEYwt20exhO",
+   "title": "Custom AI quick actions",
+   "docName": "User Guide/User Guide/Note Types/Text/In-editor AI assistant/Custom AI quick actions"
+  },
+  {
+   "noteId": "_help_nBAXQFj20hS1",
+   "title": "Include Note",
+   "docName": "User Guide/User Guide/Note Types/Text/Include Note"
+  },
+  {
+   "noteId": "_help_CohkqWQC1iBv",
+   "title": "Insert buttons",
+   "docName": "User Guide/User Guide/Note Types/Text/Insert buttons"
+  },
+  {
+   "noteId": "_help_oiVPnW8QfnvS",
+   "title": "Keyboard shortcuts",
+   "docName": "User Guide/User Guide/Note Types/Text/Keyboard shortcuts"
+  },
+  {
+   "noteId": "_help_UmgZAfcltxkS",
+   "title": "Link Previews",
+   "docName": "User Guide/User Guide/Note Types/Text/Link Previews"
+  },
+  {
+   "noteId": "_help_QEAPj01N5f7w",
+   "title": "Links",
+   "docName": "User Guide/User Guide/Note Types/Text/Links"
+  },
+  {
+   "noteId": "_help_wfGXLmm7x27z",
+   "title": "Backlinks",
+   "docName": "User Guide/User Guide/Note Types/Text/Links/Backlinks"
+  },
+  {
+   "noteId": "_help_3IDVtesTQ8ds",
+   "title": "External links",
+   "docName": "User Guide/User Guide/Note Types/Text/Links/External links"
+  },
+  {
+   "noteId": "_help_hrZ1D00cLbal",
+   "title": "Internal (reference) links",
+   "docName": "User Guide/User Guide/Note Types/Text/Links/Internal (reference) links"
+  },
+  {
+   "noteId": "_help_S6Xx8QIWTV66",
+   "title": "Lists",
+   "docName": "User Guide/User Guide/Note Types/Text/Lists"
+  },
+  {
+   "noteId": "_help_QrtTYPmdd1qq",
+   "title": "Markdown-like formatting",
+   "docName": "User Guide/User Guide/Note Types/Text/Markdown-like formatting"
+  },
+  {
+   "noteId": "_help_YfYAtQBcfo5V",
+   "title": "Math Equations",
+   "docName": "User Guide/User Guide/Note Types/Text/Math Equations"
+  },
+  {
+   "noteId": "_help_dEHYtoWWi8ct",
+   "title": "Other features",
+   "docName": "User Guide/User Guide/Note Types/Text/Other features"
+  },
+  {
+   "noteId": "_help_gLt3vA97tMcp",
+   "title": "Premium features",
+   "docName": "User Guide/User Guide/Note Types/Text/Premium features"
+  },
+  {
+   "noteId": "_help_ZlN4nump6EbW",
+   "title": "Slash Commands",
+   "docName": "User Guide/User Guide/Note Types/Text/Slash Commands"
+  },
+  {
+   "noteId": "_help_oBo3iHIZnbG2",
+   "title": "Spell Check",
+   "docName": "User Guide/User Guide/Note Types/Text/Spell Check"
+  },
+  {
+   "noteId": "_help_BFvAtE74rbP6",
+   "title": "Table of contents",
+   "docName": "User Guide/User Guide/Note Types/Text/Table of contents"
+  },
+  {
+   "noteId": "_help_NdowYOC1GFKS",
+   "title": "Tables",
+   "docName": "User Guide/User Guide/Note Types/Text/Tables"
+  },
+  {
+   "noteId": "_help_pwc194wlRzcH",
+   "title": "Text Snippets",
+   "docName": "User Guide/User Guide/Note Types/Text/Text Snippets"
+  },
+  {
+   "noteId": "_help_fASfBrYnquKU",
+   "title": "To-do Lists",
+   "docName": "User Guide/User Guide/Note Types/Text/To-do Lists"
+  },
+  {
+   "noteId": "_help_1vHRoWCEjj0L",
+   "title": "Web View",
+   "docName": "User Guide/User Guide/Note Types/Web View"
+  },
+  {
+   "noteId": "_help_s3YCWHBfmYuM",
+   "title": "Quick Start",
+   "docName": "User Guide/User Guide/Quick Start"
+  },
+  {
+   "noteId": "_help_CdNpE2pqjmI6",
+   "title": "Scripting",
+   "docName": "User Guide/User Guide/Scripting"
+  },
+  {
+   "noteId": "_help_SPirpZypehBG",
+   "title": "Backend scripts",
+   "docName": "User Guide/User Guide/Scripting/Backend scripts"
+  },
+  {
+   "noteId": "_help_GPERMystNGTB",
+   "title": "Backend Events",
+   "docName": "User Guide/User Guide/Scripting/Backend scripts/Backend Events"
+  },
+  {
+   "noteId": "_help_fZ2IGYFXjkEy",
+   "title": "Server-side imports",
+   "docName": "User Guide/User Guide/Scripting/Backend scripts/Server-side imports"
+  },
+  {
+   "noteId": "_help_72dxvnbnkDFY",
+   "title": "v0.102.0: Upgrade to jQuery 4.0.0",
+   "docName": "User Guide/User Guide/Scripting/Breaking changes/v0.102.0 Upgrade to jQuery 4.0.0"
+  },
+  {
+   "noteId": "_help_fqAK6opjUagR",
+   "title": "v0.103.0: Removal of axios",
+   "docName": "User Guide/User Guide/Scripting/Breaking changes/v0.103.0 Removal of axios"
+  },
+  {
+   "noteId": "_help_pAJ0jWz16xFm",
+   "title": "v0.103.0: `cheerio` is now deprecated",
+   "docName": "User Guide/User Guide/Scripting/Breaking changes/v0.103.0 `cheerio` is now deprecated"
+  },
+  {
+   "noteId": "_help_YeOa2l7Pu39I",
+   "title": "v0.104.0: Disabling the Node integration in Electron",
+   "docName": "User Guide/User Guide/Scripting/Breaking changes/v0.104.0 Disabling the Node integration in Electron"
+  },
+  {
+   "noteId": "_help_hA834UaHhSNn",
+   "title": "Script bundles",
+   "docName": "User Guide/User Guide/Scripting/Common concepts/Script bundles"
+  },
+  {
+   "noteId": "_help_yIhgI5H7A2Sm",
+   "title": "Frontend Basics",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics"
+  },
+  {
+   "noteId": "_help_MgibgPcfeuGz",
+   "title": "Custom Widgets",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Custom Widgets"
+  },
+  {
+   "noteId": "_help_VqGQnnPGnqAU",
+   "title": "CSS",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Custom Widgets/CSS"
+  },
+  {
+   "noteId": "_help_GhurYZjh8e1V",
+   "title": "Note context aware widget",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Custom Widgets/Note context aware widget"
+  },
+  {
+   "noteId": "_help_M8IppdwVHSjG",
+   "title": "Right pane widget",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Custom Widgets/Right pane widget"
+  },
+  {
+   "noteId": "_help_gMkgcLJ6jBkg",
+   "title": "Troubleshooting",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Custom Widgets/Troubleshooting"
+  },
+  {
+   "noteId": "_help_SynTBQiBsdYJ",
+   "title": "Widget Basics",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Custom Widgets/Widget Basics"
+  },
+  {
+   "noteId": "_help_YNxAqkI5Kg1M",
+   "title": "Word count widget",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Custom Widgets/Word count widget"
+  },
+  {
+   "noteId": "_help_7kZPMD0uFwkH",
+   "title": "Downloading responses from Google Forms",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Examples/Downloading responses from Google Forms"
+  },
+  {
+   "noteId": "_help_TjLYAo3JMO8X",
+   "title": "\"New Task\" launcher button",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Examples/New Task launcher button"
+  },
+  {
+   "noteId": "_help_DL92EjAaXT26",
+   "title": "Using promoted attributes to configure scripts",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Examples/Using promoted attributes to configure scripts"
+  },
+  {
+   "noteId": "_help_irkwjdNtjcxR",
+   "title": "Frontend Events",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Frontend Events"
+  },
+  {
+   "noteId": "_help_4Gn3psZKsfSm",
+   "title": "Launch Bar Widgets",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Launch Bar Widgets"
+  },
+  {
+   "noteId": "_help_gcI7RPbaNSh3",
+   "title": "Analog Watch",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Launch Bar Widgets/Analog Watch"
+  },
+  {
+   "noteId": "_help_IPArqVfDQ4We",
+   "title": "Note Title Widget",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Launch Bar Widgets/Note Title Widget"
+  },
+  {
+   "noteId": "_help_KLsqhjaqh1QW",
+   "title": "Preact",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Preact"
+  },
+  {
+   "noteId": "_help_RSssb9S3xgSr",
+   "title": "Built-in components",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Preact/Built-in components"
+  },
+  {
+   "noteId": "_help_Sg9GrCtyftZf",
+   "title": "CSS",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Preact/CSS"
+  },
+  {
+   "noteId": "_help_Bqde6BvPo05g",
+   "title": "Component libraries",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Preact/Component libraries"
+  },
+  {
+   "noteId": "_help_ykYtbM9k3a7B",
+   "title": "Hooks",
+   "docName": "User Guide/User Guide/Scripting/Frontend Basics/Preact/Hooks"
+  },
+  {
+   "noteId": "_help_vElnKeDNPSVl",
+   "title": "Logging",
+   "docName": "User Guide/User Guide/Scripting/Logging"
+  },
+  {
+   "noteId": "_help_GLks18SNjxmC",
+   "title": "Script API",
+   "docName": "User Guide/User Guide/Scripting/Script API"
+  },
+  {
+   "noteId": "_help_ApVHZ8JY5ofC",
+   "title": "Day.js",
+   "docName": "User Guide/User Guide/Scripting/Script API/Day.js"
+  },
+  {
+   "noteId": "_help_fiHicjpHjIRJ",
+   "title": "Security",
+   "docName": "User Guide/User Guide/Scripting/Security"
+  },
+  {
+   "noteId": "_help_7NfNr5pZpVKV",
+   "title": "Creating a custom theme",
+   "docName": "User Guide/User Guide/Theme development/Creating a custom theme"
+  },
+  {
+   "noteId": "_help_g1mlRoU8CsqC",
+   "title": "Creating an icon pack",
+   "docName": "User Guide/User Guide/Theme development/Creating an icon pack"
+  },
+  {
+   "noteId": "_help_AlhDUqhENtH7",
+   "title": "Custom app-wide CSS",
+   "docName": "User Guide/User Guide/Theme development/Custom app-wide CSS"
+  },
+  {
+   "noteId": "_help_WFGzWeUK6arS",
+   "title": "Customize the Next theme",
+   "docName": "User Guide/User Guide/Theme development/Customize the Next theme"
+  },
+  {
+   "noteId": "_help_WN5z4M8ASACJ",
+   "title": "Reference",
+   "docName": "User Guide/User Guide/Theme development/Reference"
+  },
+  {
+   "noteId": "_help_BgmBlOIl72jZ",
+   "title": "Troubleshooting",
+   "docName": "User Guide/User Guide/Troubleshooting"
+  },
+  {
+   "noteId": "_help_x59R8J8KV5Bp",
+   "title": "Anonymized Database",
+   "docName": "User Guide/User Guide/Troubleshooting/Anonymized Database"
+  },
+  {
+   "noteId": "_help_qzNzp9LYQyPT",
+   "title": "Error logs",
+   "docName": "User Guide/User Guide/Troubleshooting/Error logs"
+  },
+  {
+   "noteId": "_help_bnyigUA2UK7s",
+   "title": "Backend (server) logs",
+   "docName": "User Guide/User Guide/Troubleshooting/Error logs/Backend (server) logs"
+  },
+  {
+   "noteId": "_help_9yEHzMyFirZR",
+   "title": "Frontend logs",
+   "docName": "User Guide/User Guide/Troubleshooting/Error logs/Frontend logs"
+  },
+  {
+   "noteId": "_help_s8alTXmpFR61",
+   "title": "Refreshing the application",
+   "docName": "User Guide/User Guide/Troubleshooting/Refreshing the application"
+  },
+  {
+   "noteId": "_help_wy8So3yZZlH9",
+   "title": "Reporting issues",
+   "docName": "User Guide/User Guide/Troubleshooting/Reporting issues"
+  },
+  {
+   "noteId": "_help_vdlYGAcpXAgc",
+   "title": "Synchronization fails with 504 Gateway Timeout",
+   "docName": "User Guide/User Guide/Troubleshooting/Synchronization fails with 504 Gateway Timeout"
+  }
+ ]
+}
