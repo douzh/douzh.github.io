@@ -1,0 +1,46 @@
+=== ORPHAN ===
+[12] *   _Insert note after_, to put the new note underneath the one selected.
+
+=== CN ===
+Trilium 的核心特性之一是它支持多种类型的笔记，具体取决于需求。
+
+## 通过笔记树创建不同类型的笔记
+
+Trilium 中的默认笔记类型（例如创建新笔记时）是<a class="reference-link" href="#root/B5oluBvu2gBY">文本（Text）</a>，因为它用于一般用途。
+
+要创建不同类型的笔记，请前往<a class="reference-link" href="#root/45vpyB99b5XE">笔记树（Note Tree）</a>，右键点击一个用于放置新笔记的现有笔记并选择：
+
+*   _Insert note after_, to put the new note underneath the one selected.
+*   _在后面插入笔记（Insert note after）_，将新笔记放在所选笔记的下方。
+*   _插入子笔记（Insert child note）_，将笔记作为所选笔记的子笔记插入。
+
+![图片：笔记类型选择菜单](Note%20Types_image.png)
+
+## 通过添加链接或新标签页创建不同类型的笔记
+
+*   当在<a class="reference-link" href="#root/B5oluBvu2gBY">文本（Text）</a>笔记中添加[链接](#root/2IpMVDLsydKq)时，输入新笔记的所需标题并按 Enter。之后会询问笔记的类型。
+*   类似地，当创建新标签页时，输入所需标题并按 Enter。
+
+## 更改笔记的类型
+
+可以在笔记创建后通过<a class="reference-link" href="#root/1HxqZrvnxBIk">功能区（Ribbon）</a>中的_基本属性（Basic Properties）_标签页更改笔记的类型。请注意，通常只在笔记为空时才更改笔记类型是一个好主意。它也可用于编辑[笔记的源代码](#root/OfF1t5zkPFxz)。
+
+## 支持的笔记类型
+
+Trilium 支持以下笔记类型：
+
+| 笔记类型 | 描述 |
+| --- | --- |
+| <a class="reference-link" href="#root/B5oluBvu2gBY">文本（Text）</a> | 默认笔记类型，支持富文本格式化、图像、提示框和从右到左（RTL）支持。 |
+| <a class="reference-link" href="#root/sIfLV6itqwru">代码（Code）</a> | 使用等宽字体，可以存储比文本笔记更大块的代码或纯文本，并且具有更好的语法高亮。 |
+| <a class="reference-link" href="#root/GEo52zaDBG8C">已保存搜索（Saved Search）</a> | 存储有关搜索的信息（搜索文本、条件等）以备后用。例如，可用于快速过滤大量笔记。搜索可以轻松触发。 |
+| <a class="reference-link" href="#root/Tt58b3ruaARW">关系图（Relation Map）</a> | 允许轻松创建笔记及它们之间的关系。主要用于关系型数据，例如家谱。 |
+| <a class="reference-link" href="#root/7GvIUovXTWfm">笔记图（Note Map）</a> | 显示笔记之间的关系，无论是通过关系还是它们的层级结构。 |
+| <a class="reference-link" href="#root/JJu6GkCERkeT">渲染笔记（Render Note）</a> | 用于<a class="reference-link" href="#root/gBJUFdOLz9GA">脚本（Scripting）</a>中，它显示另一个笔记的 HTML 内容。这允许显示任何类型的内容，只要背后有一个脚本来生成它。 |
+| <a class="reference-link" href="#root/iLOq7QKFCwlZ">集合（Collections）</a> | 将笔记的子项以网格、列表形式显示，或在更专门的场景下：以日历形式显示。通常有助于轻松阅读短笔记。 |
+| <a class="reference-link" href="#root/I1BPKT4HF7wh">Mermaid 图表（Mermaid Diagrams）</a> | 显示条形图、流程图、状态图等图表。需要一些技术知识，因为图表以专门的格式编写。 |
+| <a class="reference-link" href="#root/YhIg7ouiRtvs">画布（Canvas）</a> | 允许轻松绘制草图、图表、手写内容。使用与 excalidraw.com 相同的技术。 |
+| <a class="reference-link" href="#root/qfffwa20agq7">网页视图（Web View）</a> | 显示外部网页的内容，类似于浏览器。 |
+| <a class="reference-link" href="#root/G7e6Ptj7kQIk">思维导图（Mind Map）</a> | 通过将想法放在层级布局中，便于头脑风暴。 |
+| <a class="reference-link" href="#root/UXBuf33jNcgz">地理地图（Geo Map）</a> | 将笔记的子项显示为地理地图，一个用例是规划假期。它甚至对轨迹有基本支持。也可以从其中创建笔记。 |
+| <a class="reference-link" href="#root/RC8UiNCM0fHL">文件（File）</a> | 表示上传的文件，例如 PDF、图像、视频或音频文件。 |

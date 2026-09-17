@@ -1,0 +1,157 @@
+﻿处理笔记: 42
+
+=== 含英文孤儿行的笔记 ===
+AI: 61 行
+    [9] *   As a dedicated note type, it can read and modify notes through tools, which you can switch off per conversation if y
+    [10] *   A panel in the right sidebar, which acts similarly to the dedicated note type but it also has optional access to the
+    [19] *   Chat-based interface with live streaming of the messages.
+    [20] *   Provides the AI context with the note currently being looked at.
+属性: 8 行
+    [6] 1.  <a class="reference-link" href="#root/xA1k6rzHw1jJ">Labels</a> can be used for a variety of purposes, such as storin
+    [8]     For more information, including predefined labels, see <a class="reference-link" href="#root/xA1k6rzHw1jJ">Labels</a
+    [9] 2.  <a class="reference-link" href="#root/SBcn989ASCLZ">Relations</a> define connections between notes, similar to links
+    [11]     For more information, including a list of predefined relations, see  <a class="reference-link" href="#root/SBcn989AS
+Configuration (config.ini or environment variables)(配置（config.ini 或环境变量）): 9 行
+    [15] 1.  **Environment variables** (checked first)
+    [16] 2.  **config.ini file values**
+    [31] *   `SECTION` is the INI section name in UPPERCASE
+    [149] *   **True**: `"true"`, `"1"`, `1`
+数据库: 3 行
+    [27] *   Create and switch to a new blank knowledge base
+    [28] *   Use a different knowledge base synced from a server or desktop application
+    [37] > [!IMPORTANT]
+手动修改数据库: 6 行
+    [33] 1.  In the main menu, select File → Open database… and navigate to the database in the [Data directory](#root/wvQAQhxkLi
+    [34] 2.  Select the _Execute SQL_ tab.
+    [35] 3.  Type in the desired SQL statement.
+    [36] 4.  Press the "Play" button in the toolbar underneath the "Execute SQL" tab (or F5 key).
+分享: 169 行
+    [9] *   Searching by note title.
+    [10] *   Automatic dark/light mode based on the user's browser settings.
+    [11] *   Mobile-friendly layout, with sidebar.
+    [12] *   Collapsible tree with the same note icons as the application.
+使用的技术: 10 行
+    [6] ## CKEditor
+    [7] ## CKEditor
+    [15] ## Excalidraw
+    [16] ## Excalidraw
+从其他应用导入数据: 9 行
+    [5] *   <a class="reference-link" href="#root/1XvW40oOLX0w">Microsoft OneNote</a>, by connecting to your account using Micro
+    [7] *   <a class="reference-link" href="#root/FCd0fUcq1TF8">Notion</a>, via a ZIP export.
+    [9] *   <a class="reference-link" href="#root/WaA1iBEA7o8D">Google Keep</a>, via a ZIP export from _Google Takeout_ (Keep ha
+    [11] *   <a class="reference-link" href="#root/WYTkBSXUaU4m">Evernote</a>, via an ENEX export.
+Evernote: 55 行
+    [8] *   To export a single notebook:
+    [10]     *   In the left sidebar, select _Notebooks_.
+    [12]     *   If you have a notebook stack, expand it.
+    [14]     *   Right click on a notebook and select _Export notebook_.
+Markdown: 4 行
+    [17] *   single markdown file (with .md extension)
+    [19] *   whole tree of markdown files (packaged into [.zip](https://en.wikipedia.org/wiki/Tar_(computing)) archive)
+    [21]     *   Markdown files need to be packaged into ZIP archive because browser can't read directories, only single files.
+    [23]     *   You can use e.g. [7-zip](https://www.7-zip.org) to package directory of markdown files into the ZIP file
+克隆笔记: 10 行
+    [13]         *   Kotlin
+    [16]         *   Linux
+    [17]         *   Windows
+    [38]         *   Kotlin
+主题: 3 行
+    [82] 1.  Go to "Menu" -> "Options" -> "Appearance."
+    [84] 2.  In the theme selection dropdown, you should see your custom theme listed under the name you provided with the `#appT
+    [86] 3.  Select your custom theme to activate it.
+新布局: 46 行
+    [13] <figure class="image"><img style="aspect-ratio:1150/27;" src="5_New Layout_image.png" width="1150" height="27"></figure>
+    [29] <figure class="image"><img style="aspect-ratio:899/122;" src="New Layout_image.png" width="899" height="122"><figcaption
+    [41] <img src="6_New Layout_image.png" width="735" height="143">
+    [48] <figure class="image"><img style="aspect-ratio:910/49;" src="3_New Layout_image.png" width="910" height="49"></figure>
+笔记树: 5 行
+    [17] *   <kbd>Ctrl</kbd> + <kbd><span>↑</span></kbd> and <kbd>Ctrl</kbd> +<kbd><span>↓</span></kbd>: Move the note up or down
+    [18] *   <kbd>Ctrl</kbd>+<kbd><span>←</span></kbd>: Move the note up in the hierarchy by changing its parent to the note's gr
+    [19] *   <kbd>Ctrl</kbd>+<kbd><span>→</span></kbd>: Move the note down in the hierarchy by setting its parent to the note cur
+    [39] *   **Hide archived notes**: When enabled, archived notes are not shown in the tree.
+右侧边栏: 10 行
+    [0] <figure class="image"><img style="aspect-ratio:1990/1168;" src="1_Right Sidebar_image.png" width="1990" height="1168"></
+    [5] *   <a class="reference-link" href="#root/aG6mm97D5DtM">Outline tab</a>, which displays the table of contents, highlight
+    [6] *   <a class="reference-link" href="#root/nMwXg3X1RZGs">Attributes tab</a>, which provides a visual editor for the curre
+    [7] *   <a class="reference-link" href="#root/EWv4L9CU9Bzk">AI chat tab</a>, which uses the <a class="reference-link" href="
+集合: 5 行
+    [37] 1.  Create a new note of type _Text_ (or any type).
+    [38] 2.  Change the [note type](#root/Q0A1Gg3pgIOP) to _Collection_.
+    [39] 3.  In <a class="reference-link" href="#root/W05HdY8M2oK4">Collection Properties</a>, select the desired view type.
+    [79] 1.  Create a new collection.
+桌面安装: 1 行
+    [15] *   `trilium-no-cert-check`: Starts Trilium without validating [TLS certificates](#root/3jBts3KWOAAP), useful if connect
+服务器安装: 4 行
+    [13] *   [Kubernetes](#root/aFYvSvzqySw1) / [Kubernetes](#root/aFYvSvzqySw1)
+    [14] *   [Cloudron](https://www.cloudron.io/store/com.github.trilium.cloudronapp.html) / [Cloudron](https://www.cloudron.io/s
+    [48] ### nginx
+    [72] ### Apache
+2. Reverse proxy(2. 反向代理): 8 行
+    [8] *   <a class="reference-link" href="#root/o5byGpiYwkAf">Nginx</a>
+    [43] *   **Exempt the sync endpoints from the proxy's authentication.** If you must keep auth at the proxy, exclude these pat
+    [44]     *   `/api/setup/*`
+    [45]     *   `/api/login/sync`
+Signing in with OpenID Connect(使用 OpenID Connect 登录): 18 行
+    [11] 1.  First the Trilium server must be configured with information about your authentication provider such as the URL, cli
+    [18] 1.  First, make sure the authentication provider (e.g. Google, Authelia) is configured properly. See <a class="reference
+    [20]     1.  The redirect URL of Trilium is `https://<your-trilium-domain>/callback`.
+    [21]     2.  You should obtain the base URL, client ID and client secret.
+笔记类型: 1 行
+    [12] *   _Insert note after_, to put the new note underneath the one selected.
+文件: 17 行
+    [9] *   Drag a file into the <a class="reference-link" href="#root/45vpyB99b5XE">Note Tree</a>.
+    [17] ### PDFs
+    [18] ### PDF
+    [38] *   _Copy reference to clipboard_, for embedding the image within <a class="reference-link" href="#root/B5oluBvu2gBY">Te
+Mermaid 图表: 16 行
+    [0] > [!TIP]
+    [19] *   Simply click on any of the samples to apply it.
+    [30] *   Horizontal, where the source code (editable part) is on the left side of the screen and the preview is to the right.
+    [41] *   The source code of the diagram (in Mermaid format) is displayed on the left or bottom side of the note (depending on
+文本: 77 行
+    [9] *   The _Floating toolbar_ is hidden by default and only appears when needed. In this mode there are actually two differ
+    [10]     <img src="1_Text_image.png" width="496" height="91"> <img src="2_Text_image.png" width="812" height="114">
+    [11] *   A toolbar that appears when text is selected. This provides text-level formatting such as bold, italic, text colors,
+    [12]     _<img src="Text_image.png" width="1109" height="124">_
+图片: 1 行
+    [25] *   For a mix of text and images, the images are downloaded automatically by the server (or desktop app, depending on wh
+编辑器内 AI 助手: 9 行
+    [22] *   Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>K</kbd>.
+    [23] *   按 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>K</kbd>。
+    [33] | Text is selected | The selection. |
+    [34] | Nothing is selected, and you pick a quick action | The paragraph the cursor is in. |
+链接: 1 行
+    [5] *   <a class="reference-link" href="#root/NRzmLnGiDb8U">Internal (reference) links</a> for links to other notes within T
+脚本: 3 行
+    [9] *   frontend running in the browser (using HTML, CSS, JavaScript) - this is mainly used to interact with the user, displ
+    [53] *   A `#executeButton` with the value of the label being displayed as the label of the button.
+    [70] > [!NOTE]
+脚本 API: 3 行
+    [6] *   One for the front-end scripts: <a class="reference-link" href="#root/stK1EEQ7I07S">Frontend API</a>
+    [21] > [!NOTE]
+    [22] > **Note**  
+后端脚本: 1 行
+    [6] > [!IMPORTANT]
+前端基础: 1 行
+    [32] *   For legacy widgets, the script note must export a `BasicWidget` or a derived one (see <a class="reference-link" href
+自定义小组件: 47 行
+    [21] 1.  Create a <a class="reference-link" href="#root/sIfLV6itqwru">Code</a> note.
+    [22] 2.  Set the language to:
+    [23]     1.  JavaScript (frontend) for legacy widgets using jQuery.
+    [24]     2.  JSX for Preact widgets. You might need to go to Options → Code to enable the language first.
+启动栏小组件: 9 行
+    [9] 1.  Create a Code note of type _JavaScript (front-end)_ or JSX (for Preact-based widgets).
+    [10]     *   The script itself uses the same concepts as <a class="reference-link" href="#root/onXZFHEZNtWj">Custom Widgets</
+    [11]     *   As examples in both legacy and Preact formats, see <a class="reference-link" href="#root/mfpvjXwRIWVa">Note Titl
+    [12] 2.  Don't set `#widget`, as that attribute is reserved for <a class="reference-link" href="#root/onXZFHEZNtWj">Custom Wi
+Preact: 3 行
+    [6] *   <a class="reference-link" href="#root/JJu6GkCERkeT">Render Note</a>, where a JSX code note is used instead of an HTM
+    [14] > [!IMPORTANT]
+    [75] > [!NOTE]
+内置组件: 4 行
+    [36] > [!TIP]
+    [46] 1.  Create a render note.
+    [47] 2.  Create a child code note of JSX type with the content of this file: <a class="reference-link" href="#root/iyj7sZ20qU
+    [48] 3.  Set the `~renderNote` relation of the parent note to the child note.
+故障排除: 1 行
+    [71] *   Use GitHub issues for reporting: [https://github.com/TriliumNext/Trilium/issues](https://github.com/TriliumNext/Tril

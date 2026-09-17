@@ -1,0 +1,378 @@
+AI: raw=16375 cn=12225 orphan=58
+    ORPHAN: The integration is off by default and does nothing until you enable it and configure a provider; Tri
+    ORPHAN: Once enabled, the assistant is available as:
+    ORPHAN: > Claude Sonnet is known to produce very good frontend or backend scripts with little guidance, as t
+    ORPHAN: Trilium supports four different types of providers:
+    ORPHAN: *   **Cloud providers**  
+    ORPHAN:     Pay-per use with an API key which is billed separately from any subscription you might already h
+    ORPHAN:     *   Anthropic (Claude)
+    ORPHAN:     *   OpenRouter (GPT)
+    ORPHAN:     *   Google (Gemini)
+    ORPHAN:     *   DeepSeek
+高级示例展示: raw=943 cn=705 orphan=1
+    ORPHAN: It's important to note that these examples are not natively supported by Trilium out of the box; ins
+属性: raw=5353 cn=5066 orphan=17
+    ORPHAN: In Trilium, attributes are key-value pairs assigned to notes, providing additional metadata or funct
+    ORPHAN: 1.  <a class="reference-link" href="#root/xA1k6rzHw1jJ">Labels</a> can be used for a variety of purp
+    ORPHAN:     For more information, including predefined labels, see <a class="reference-link" href="#root/xA1
+    ORPHAN: 2.  <a class="reference-link" href="#root/SBcn989ASCLZ">Relations</a> define connections between not
+    ORPHAN:     For more information, including a list of predefined relations, see  <a class="reference-link" h
+    ORPHAN: These attributes play a crucial role in organizing, categorizing, and enhancing the functionality of
+    ORPHAN: Conceptually there are two types of attributes (applying to both labels and relations):
+    ORPHAN: 1.  **System attributes**  
+    ORPHAN:     As the name suggests, these attributes have a special meaning since they are interpreted by Tril
+    ORPHAN: 2.  **User-defined attributes**  
+Configuration (config.ini or environment variables)(配置（config.ini 或环境变量）): raw=9832 cn=6967 orphan=14
+    ORPHAN: The configuration file is not located in the same directory as the application. Instead, the `config
+    ORPHAN: Configuration values are loaded in the following order of precedence (highest to lowest):
+    ORPHAN: Trilium supports multiple environment variable patterns for flexibility. The primary pattern is: `TR
+    ORPHAN: Where:
+    ORPHAN: Additionally, shorter aliases are available for common configurations (see Alternative Variables sec
+    ORPHAN: See [Signing in with OpenID Connect](#root/g0OYZmaGK1v8).
+    ORPHAN: The following alternative environment variable names are also supported and work identically to thei
+    ORPHAN: Boolean environment variables accept the following values:
+    ORPHAN: *   **False**: `"false"`, `"0"`, `0`
+    ORPHAN: *   Any other value defaults to `false`
+数据库: raw=3655 cn=3098 orphan=11
+    ORPHAN: When first starting Trilium, it will provide a set of notes to showcase various features of the appl
+    ORPHAN: For more information see [Demo Notes](#root/H6xRarZDzD4p).
+    ORPHAN: Trilium provides a lot of flexibility, and with it, opportunities for advanced users to tweak it. If
+    ORPHAN: See [Manually altering the database](#root/qUcx4LMepbQt) for more information.
+    ORPHAN: If you want to start again and:
+    ORPHAN: You can navigate to **Settings → Database** and click the **Start over** button. You'll be prompted 
+    ORPHAN: > For the web client, Trilium cannot restart automatically. You'll need to manually restart the serv
+    ORPHAN: After restarting, the setup screen will appear. You can choose to back up your existing database, th
+    ORPHAN: If you are experimenting with Trilium and want to return it to its original state, you can do that b
+    ORPHAN: To delete the database, simply go to the [data directory](#root/wvQAQhxkLit4) and delete the `docume
+手动修改数据库: raw=2352 cn=1585 orphan=8
+    ORPHAN: If you are doing any advanced development or troubleshooting where you manually modify the database,
+    ORPHAN: The SQL Console is Trilium's built-in database editor.
+    ORPHAN: See [SQL Console](#root/RH7t1Ag3eb9j).
+    ORPHAN: Sometimes the SQL Console cannot be used (for example if the application cannot start).
+    ORPHAN: When making external modifications, consider closing the desktop application. If modifying the serve
+    ORPHAN: DB Browser for SQLite is a cross-platform editor that can be used to alter the database using a grap
+    ORPHAN: To do so:
+    ORPHAN: First, start the SQLite 3 CLI by specifying the path to the database:
+分享: raw=26399 cn=20375 orphan=152
+    ORPHAN: <figure class="image"><img style="aspect-ratio:1144/660;" src="Sharing_image.png" width="1144" heigh
+    ORPHAN:     <colgroup>
+    ORPHAN:         <col style="width:19.92%;">
+    ORPHAN:         <col style="width:41.66%;">
+    ORPHAN:         <col style="width:38.42%;">
+    ORPHAN:     </colgroup>
+    ORPHAN:     <thead>
+    ORPHAN:         <tr>
+    ORPHAN:             <th>&nbsp;</th>
+    ORPHAN:     <tbody>
+代码片段: raw=163 cn=51 orphan=0
+使用的技术: raw=3358 cn=3166 orphan=20
+    ORPHAN: This page showcases some of the technologies used, for a better understanding of how Trilium works b
+    ORPHAN: ## CKEditor
+    ORPHAN: ## CKEditor
+    ORPHAN: CKEditor is the editor behind [Text](#root/B5oluBvu2gBY) notes, as well as integrated in various fac
+    ORPHAN: For more information see [CKEditor](#root/pOHxWBPSPF4K).
+    ORPHAN: ## Excalidraw
+    ORPHAN: ## Excalidraw
+    ORPHAN: [Excalidraw](https://excalidraw.com/) is the technology behind the [Canvases](#root/YhIg7ouiRtvs) no
+    ORPHAN: We are using an unmodified version of it, so it shares the same [issues](https://github.com/excalidr
+    ORPHAN: ## MapLibre GL JS
+从其他应用导入数据: raw=2936 cn=2628 orphan=11
+    ORPHAN: *   <a class="reference-link" href="#root/1XvW40oOLX0w">Microsoft OneNote</a>, by connecting to your
+    ORPHAN: *   <a class="reference-link" href="#root/FCd0fUcq1TF8">Notion</a>, via a ZIP export.
+    ORPHAN: *   <a class="reference-link" href="#root/WaA1iBEA7o8D">Google Keep</a>, via a ZIP export from _Goog
+    ORPHAN: *   <a class="reference-link" href="#root/WYTkBSXUaU4m">Evernote</a>, via an ENEX export.
+    ORPHAN: *   <a class="reference-link" href="#root/L0HLzREIQ8E9">Anytype</a>, via a JSON export.
+    ORPHAN: *   <a class="reference-link" href="#root/syL2rkuSPUXB">Obsidian</a>, via a ZIP of the vault.
+    ORPHAN: To import from an application, there are two ways to access the import dialog:
+    ORPHAN: *   In the <a class="reference-link" href="#root/45vpyB99b5XE">Note Tree</a>, right click on a note 
+    ORPHAN: *   In the <a class="reference-link" href="#root/Y4XIsb451ZaD">Note buttons</a> area, select _Import
+    ORPHAN: A list of supported applications will appear at the top, each with their own configuration. Simply c
+Evernote: raw=10271 cn=10089 orphan=66
+    ORPHAN: The first step is to export the data from Evernote:
+    ORPHAN: *   To export a single notebook:
+    ORPHAN:     *   In the left sidebar, select _Notebooks_.
+    ORPHAN:     *   If you have a notebook stack, expand it.
+    ORPHAN:     *   Right click on a notebook and select _Export notebook_.
+    ORPHAN:     *   Make sure the following options are set:
+    ORPHAN:         *   File format is set to _ENEX format_.
+    ORPHAN:         *   All the options in _Export note attributes_ are checked.
+    ORPHAN: *   To export a bunch of notes (up to 100 notes):
+    ORPHAN:     *   In the left sidebar, select _Notes_.
+Markdown: raw=2111 cn=1995 orphan=10
+    ORPHAN: If you want to import just a chunk of markdown from clipboard, you can do it from editor block menu:
+    ORPHAN: You can also import Markdown files from files:
+    ORPHAN: *   single markdown file (with .md extension)
+    ORPHAN: *   whole tree of markdown files (packaged into [.zip](https://en.wikipedia.org/wiki/Tar_(computing)
+    ORPHAN:     *   Markdown files need to be packaged into ZIP archive because browser can't read directories, 
+    ORPHAN:     *   You can use e.g. [7-zip](https://www.7-zip.org) to package directory of markdown files into 
+    ORPHAN: You can export whole subtree to ZIP archive which will have directory structured modeled after subtr
+    ORPHAN: If you want to export just single note without its subtree, you can do it from Note Actions menu:
+    ORPHAN: If you want to export protected notes, enter a protected session first! This will export the notes i
+    ORPHAN: See the dedicated page: <a class="reference-link" href="#root/0FBBMpFaI2jU">Supported syntax</a>
+笔记: raw=4213 cn=4096 orphan=11
+    ORPHAN: The main note type is a rich-text note type called <a class="reference-link" href="#root/B5oluBvu2gB
+    ORPHAN: There are also more complex note types such as <a class="reference-link" href="#root/GEo52zaDBG8C">S
+    ORPHAN: In Trilium there's no specific "folder" note type. Any note can have children and thus be a folder.
+    ORPHAN: There's one special note called "root note" which is root of the note tree. All other notes are plac
+    ORPHAN: Importantly, note itself doesn't carry information on its placement in note tree. See <a class="refe
+    ORPHAN: Tree structure of notes can resemble file system - but compared to that notes in Trilium can act as 
+    ORPHAN: When you delete a note in Trilium, it is actually only marked for deletion (soft-delete) - the actua
+    ORPHAN: Within (by default) 7 days, it is possible to undelete these soft-deleted notes - open the <a class=
+    ORPHAN: Clicking an undelete will recover the note, its content and attributes - note should be just as befo
+    ORPHAN: To be able to undelete a note, it is necessary that deleted note's parent must be undeleted (otherwi
+克隆笔记: raw=4476 cn=3846 orphan=20
+    ORPHAN: Trilium's core feature is the ability to structure your notes into hierarchical tree-like structure.
+    ORPHAN: It is expected then that you'll have an elaborate and deep note hierarchy - each subtree will repres
+    ORPHAN: This is a pretty powerful approach, but it also carries a hidden assumption that each "subtopic" is 
+    ORPHAN:         *   JavaScript
+    ORPHAN:         *   Linux
+    ORPHAN:         *   Windows
+    ORPHAN: Now, I'm starting to learn about [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) and would l
+    ORPHAN: The solution to the problem shown above is to allow notes to have multiple parents.
+    ORPHAN: I call these "clones", but that is a bit misleading - there's no original and cloned note - the note
+    ORPHAN: Another misleading thing about "cloning" is that it suggests that a copy of the note has been made. 
+主题: raw=7690 cn=6644 orphan=18
+    ORPHAN: Trilium comes with a couple pre-installed color themes, with the default being a light theme. To swi
+    ORPHAN: Trilium supports custom user themes, allowing you to personalize the application's appearance. To cr
+    ORPHAN: Once you've created your custom theme:
+    ORPHAN: 1.  Go to "Menu" -> "Options" -> "Appearance."
+    ORPHAN: 2.  In the theme selection dropdown, you should see your custom theme listed under the name you prov
+    ORPHAN: 3.  Select your custom theme to activate it.
+    ORPHAN: If you make changes to your theme, press <kbd>Ctrl</kbd> + <kbd>R</kbd> to reload the frontend and a
+    ORPHAN: Custom themes can be exported as `.tar` archives, which can be shared with other users. However, be 
+    ORPHAN: An example user theme, _Steel Blue_, is available in the demo document.
+    ORPHAN: In addition to full themes, Trilium allows for custom CSS that isn't tied to a theme. This can be pa
+新布局: raw=17103 cn=11386 orphan=33
+    ORPHAN: At the bottom of the window there is a new bar called the _Status bar_. This bar houses multiple ite
+    ORPHAN: For more information, consult the [dedicated page](#root/NTVYMnkwiZCF).
+    ORPHAN: <figure class="image"><img style="aspect-ratio:1150/27;" src="5_New Layout_image.png" width="1150" h
+    ORPHAN: In previous versions of Trilium, the title bar was fixed at all times. In the new layout, there is b
+    ORPHAN: Whenever the title is scrolled past, the fixed title is shown instead.
+    ORPHAN: This only affects <a class="reference-link" href="#root/B5oluBvu2gBY">Text</a> and <a class="referen
+    ORPHAN: Depending on the note type, the inline title will also present some more interactive options such as
+    ORPHAN: <figure class="image"><img style="aspect-ratio:899/122;" src="New Layout_image.png" width="899" heig
+    ORPHAN: When a new <a class="reference-link" href="#root/B5oluBvu2gBY">Text</a> or <a class="reference-link"
+    ORPHAN: The switcher will disappear as soon as a text is entered.
+笔记树: raw=3612 cn=2144 orphan=5
+    ORPHAN: You can easily rearrange the note tree by dragging and dropping notes, as demonstrated in the exampl
+    ORPHAN: You can also move notes using the familiar cut and paste functions available in the context menu, or
+    ORPHAN: See <a class="reference-link" href="#root/zFJQZNoPNdYB">Note tree contextual menu</a> for more infor
+    ORPHAN: Click the tree icon in the tree toolbar to open the tree settings popup. It contains the following o
+    ORPHAN: The note tree comes with multiple keyboard shortcuts to make editing faster, consult the dedicated <
+右侧边栏: raw=3301 cn=1658 orphan=4
+    ORPHAN: The right sidebar displays specific content for the current note. The sidebar is grouped into multip
+    ORPHAN: > There are currently two types of sidebars; the documentation here refers only to the one defined i
+    ORPHAN: There are two ways to toggle the right sidebar:
+    ORPHAN: There is a small strip near the right edge of the app which shows an arrow icon.
+集合: raw=9979 cn=7890 orphan=18
+    ORPHAN: Classic collections are read-only mode and compiles the contents of all child notes into one continu
+    ORPHAN: Classic collections make use of pagination to support a large number of notes. The size of a page ca
+    ORPHAN: To create a new collection, right click in the <a class="reference-link" href="#root/45vpyB99b5XE">N
+    ORPHAN: By default, collections come with a default configuration and sometimes even sample notes. To create
+    ORPHAN: To change the configuration of a collection or even switch to a different collection (e.g. from Kanb
+    ORPHAN: By default, [archived notes](#root/nyo1rLbxdtdK) will not be shown in collections. This behavior can
+    ORPHAN: Archived notes will be generally indicated by being greyed out as opposed to the normal ones.
+    ORPHAN: For collections with a large number of items, it can be helpful to hide the items from the note tree
+    ORPHAN: To do so, go to <a class="reference-link" href="#root/W05HdY8M2oK4">Collection Properties</a> and se
+    ORPHAN: To add a text before the collection, for example to describe it:
+桌面安装: raw=2327 cn=1113 orphan=2
+    ORPHAN: Trilium offers various startup scripts to customize your experience:
+    ORPHAN: For Trilium desktop users who wish to synchronize their data with a server instance, refer to the <a
+服务器安装: raw=4046 cn=3277 orphan=14
+    ORPHAN: There are several ways to install Trilium on a server, each with its own advantages:
+    ORPHAN: *   [Cloudron](https://www.cloudron.io/store/com.github.trilium.cloudronapp.html) / [Cloudron](https
+    ORPHAN: *   [HomelabOS](https://homelabos.com/docs/software/trilium/) / [HomelabOS](https://homelabos.com/do
+    ORPHAN: The server installation includes both web and [mobile frontends](#root/EkPCJ5MeC1N6).
+    ORPHAN: After setting up your server installation, you may want to configure settings such as the port or en
+    ORPHAN: You can also review the [configuration](#root/zimAIUMnhVS8) file to provide all `config.ini` values 
+    ORPHAN: By default, `config.ini`, the [database](#root/kwZgWIQRy44x), and other important Trilium data files
+    ORPHAN: See <a class="reference-link" href="#root/PrgLiFypVLYw">Authentication</a>.
+    ORPHAN: To configure a reverse proxy for Trilium, you can use either **nginx** or **Apache**. You can also c
+    ORPHAN: ### nginx
+2. Reverse proxy(2. 反向代理): raw=5241 cn=3837 orphan=14
+    ORPHAN: This section collects provider-specific guides and the configuration that applies regardless of whic
+    ORPHAN: *   <a class="reference-link" href="#root/mWpKWRZZLu3R">Traefik</a>
+    ORPHAN: Regardless of the proxy you choose, make sure of the following:
+    ORPHAN: Some setups place a **forward-auth / SSO layer** (Authelia, Authentik, oauth2-proxy, or an OIDC plug
+    ORPHAN: This **breaks synchronization and initial setup.** Sync is a machine-to-machine process that runs un
+    ORPHAN: There are two ways to resolve this:
+    ORPHAN:     *   `/api/setup/*`
+    ORPHAN:     *   `/api/login/sync`
+    ORPHAN:     *   `/api/sync/*`
+    ORPHAN:     *   `/api/setup/*`
+Authentication(身份验证): raw=2356 cn=2349 orphan=7
+    ORPHAN: If you are running Trilium on `localhost` only or if authentication is handled by another component,
+    ORPHAN: Disabling authentication will bypass even the <a class="reference-link" href="#root/NwgMJByVeFyC">Mu
+    ORPHAN: Once logged into Trilium, the application will store this information about the login into a cookie 
+    ORPHAN: If “Remember me” is checked, then the login will expire in 21 days. This period can be adjusted by m
+    ORPHAN: When “Remember me” is unchecked, the behavior is different. At client/browser level the authenticati
+    ORPHAN: The login sessions are now stored in the same <a class="reference-link" href="#root/kwZgWIQRy44x">Da
+    ORPHAN: Expired sessions are periodically cleaned by the server, generally an hourly interval.
+Signing in with OpenID Connect(使用 OpenID Connect 登录): raw=14712 cn=10212 orphan=19
+    ORPHAN: When OpenID is activated, the password-based authentication in Trilium is replaced with a button tha
+    ORPHAN: Setting up authentication with OpenID connect is a two-step process:
+    ORPHAN: 1.  First, make sure the authentication provider (e.g. Google, Authelia) is configured properly. See
+    ORPHAN:     2.  You should obtain the base URL, client ID and client secret.
+    ORPHAN: 2.  Set the following information using <a class="reference-link" href="#root/zimAIUMnhVS8">Configur
+    ORPHAN:     All the fields here are optional, since the default OAuth issuer is Google.
+    ORPHAN:     The OIDC session lifetime is automatically bound to Trilium's own session cookie lifetime (the `
+    ORPHAN: > Legacy environment variables are also supported: `TRILIUM_OAUTH_BASE_URL`, `TRILIUM_OAUTH_CLIENT_I
+    ORPHAN: Once the server has been configured at the previous step, the next step is to create a link between 
+    ORPHAN: To do so:
+笔记类型: raw=6529 cn=3288 orphan=5
+    ORPHAN: The default note type in Trilium (e.g. when creating a new note) is <a class="reference-link" href="
+    ORPHAN: To create a new note of a different type, head to the <a class="reference-link" href="#root/45vpyB99
+    ORPHAN: It is possible to change the type of a note after it has been created via the _Basic Properties_ tab
+    ORPHAN: The following note types are supported by Trilium:
+    ORPHAN: | <a class="reference-link" href="#root/B5oluBvu2gBY">Text</a> | The default note type, which allows
+文件: raw=8458 cn=6586 orphan=25
+    ORPHAN: Since these files come from an external source, it is not possible to create a _File_ note type dire
+    ORPHAN: ### PDFs
+    ORPHAN: ### PDF
+    ORPHAN: PDFs can be uploaded to Trilium and they will display a live preview with full support for various f
+    ORPHAN: Trilium offers previews for Office documents such as Word (`.docx`), Excel (`.xlsx`) and PowerPoint 
+    ORPHAN: <figure class="image image-style-align-center image_resized" style="width:50%;"><img style="aspect-r
+    ORPHAN: Interaction:
+    ORPHAN: See <a class="reference-link" href="#root/Dwj5nj7RqU3n">Audio &amp; Video</a>.
+    ORPHAN: <figure class="image image-style-align-center image_resized" style="width:50%;"><img style="aspect-r
+    ORPHAN: Adding a supported audio file will reveal a basic audio player that can be used to play it.
+Mermaid 图表: raw=5670 cn=3224 orphan=9
+    ORPHAN: > For a quick understanding of the Mermaid syntax, see <a class="reference-link" href="#root/yzyWwxC
+    ORPHAN: <figure class="image image-style-align-center"><img style="aspect-ratio:886/663;" src="2_Mermaid Dia
+    ORPHAN: Trilium supports Mermaid, which adds support for various diagrams such as flowchart, sequence diagra
+    ORPHAN: This note type is a split view, meaning that both the source code and a preview of the document are 
+    ORPHAN: Starting with v0.103.0, Mermaid diagrams no longer start with a sample flowchart, but instead a pane
+    ORPHAN: Depending on the chart being edited and user preference, there are two layouts supported by the Merm
+    ORPHAN: It's possible to switch between the two layouts at any time by pressing the ![](Mermaid%20Diagrams_i
+    ORPHAN: If there is an error in the source code, the error will be displayed in an information pane.
+    ORPHAN: During the state of an error, the diagram will no longer be rendered and the previously working diag
+文本: raw=9587 cn=8886 orphan=72
+    ORPHAN: Most of the interaction with text notes is done via the built-in toolbars. Depending on preference, 
+    ORPHAN: *   The _Floating toolbar_ is hidden by default and only appears when needed. In this mode there are
+    ORPHAN:     <img src="1_Text_image.png" width="496" height="91"> <img src="2_Text_image.png" width="812" hei
+    ORPHAN: *   A toolbar that appears when text is selected. This provides text-level formatting such as bold, 
+    ORPHAN:     _<img src="Text_image.png" width="1109" height="124">_
+    ORPHAN:     <img src="1_Text_image.png" width="496" height="91"> <img src="2_Text_image.png" width="812" hei
+    ORPHAN: Fore more information see <a class="reference-link" href="#root/uTm1sydiZVk9">Formatting toolbar</a>
+    ORPHAN: Here's a list of various features supported by text notes:
+    ORPHAN:     <thead>
+    ORPHAN:         <tr>
+开发者专用格式: raw=2549 cn=2254 orphan=11
+    ORPHAN: Inline code formats text using a monospace font to indicate technical content in a sentence such as 
+    ORPHAN: Example of inline code being used to illustrate file system paths as well as shell commands (`git` i
+    ORPHAN: To insert an inline code:
+    ORPHAN: Code blocks display a snippet of code as a dedicated block:
+    ORPHAN: A code block with JavaScript syntax highlighting enabled.
+    ORPHAN: Note that these are not meant for very large portions of code. Use the dedicated [Code](#root/sIfLV6
+    ORPHAN: See the dedicated documentation for more information: [Code blocks](#root/yDSAJA52YSSc)
+    ORPHAN: This allows marking a portion of text as a shortcut key.
+    ORPHAN: To apply this style, press the ![](6_Developer-specific%20formatting_image.png)button in the ![](1_D
+    ORPHAN: Alternatively, press the <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>K</kbd> combination to apply keyboard s
+图片: raw=5620 cn=3466 orphan=10
+    ORPHAN: An image can be uploaded in the form of note's [attachment](#root/6FRj4QSfbL9T) or as a standalone [
+    ORPHAN: To add an image to the note:
+    ORPHAN: Trilium has a special handling for images copied to and pasted from the clipboard.
+    ORPHAN: The automatic download of images is enabled by default and can be toggled from <a class="reference-l
+    ORPHAN: Clicking on an image will reveal a popup with multiple options:  
+    ORPHAN: The first set of options configure the alignment are, in order:
+    ORPHAN: | ![](5_Images_image.png) | Inline | ![](1_Images_image.png) | As the name suggests, the name can be
+    ORPHAN: Since Trilium isn't really meant to be primary storage for image data, it attempts to compress and r
+    ORPHAN: If you want to save images in their original resolution, it is recommended to save them as attachmen
+    ORPHAN: There are generally two ways to display images side by side:
+编辑器内 AI 助手: raw=7498 cn=5371 orphan=19
+    ORPHAN: The AI assistant works on the text you are already writing: select a passage and have it rewritten, 
+    ORPHAN: The assistant is only available once at least one provider is configured in <a class="reference-link
+    ORPHAN: To access the AI assistant:
+    ORPHAN: *   按 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>K</kbd>。
+    ORPHAN: *   On the desktop app, right click in the text and choose the _AI assistant_ option.
+    ORPHAN: | Nothing is selected, and you type your own prompt | Nothing, the response is new content written a
+    ORPHAN: In all cases the assistant also sends the text before and after the target, so that the model can te
+    ORPHAN: > That means a single run sends more than the passage you highlighted. See  <a class="reference-link
+    ORPHAN: The arrow beside the toolbar button opens a menu of ready-made instructions, grouped by what they do
+    ORPHAN: Actions that need something to work on are greyed out when there is nothing to work on (for example 
+链接: raw=978 cn=540 orphan=1
+    ORPHAN: Trilium provides a visualization of incoming and outgoing links for a particular note. See [note map
+脚本: raw=5541 cn=4462 orphan=16
+    ORPHAN: To go further I must explain basic architecture of Trilium - in its essence it is a classic web appl
+    ORPHAN: So we have frontend and backend, each with their own set of responsibilities, but their common featu
+    ORPHAN: Saving the note to the database is backend's responsibility, so we immediately pass control to the b
+    ORPHAN: So we have a script which will add the button to the toolbar. But how can we execute it? One possibi
+    ORPHAN: We need to execute it every time Trilium starts up, but we probably don't want to have to manually c
+    ORPHAN: The solution is marked by red circle at the bottom - this note has [label](#root/KULw53GiQ4vA) `#run
+    ORPHAN: (`#run=frontendStartup` does not work for [Mobile frontend](#root/EkPCJ5MeC1N6) - if you want to hav
+    ORPHAN: Runnable code notes (frontend or backend) and saved SQL consoles can optionally have a dedicated exe
+    ORPHAN: To do so, apply the following [labels](#root/xA1k6rzHw1jJ):
+    ORPHAN: Starting with Trilium v0.104.0, frontend scripts, backend scripts and render notes benefit from an a
+脚本 API: raw=1085 cn=723 orphan=4
+    ORPHAN: There are two APIs:
+    ORPHAN: In both cases, the API resides in a global variable, `api`, that can be used anywhere in the script.
+    ORPHAN: For example, to display a message to the user the following front-end script can be used:
+    ORPHAN: > The Script API is currently experimental and may undergo changes in future updates.
+后端脚本: raw=2864 cn=2573 orphan=8
+    ORPHAN: Back-end scripts can be used both on a <a class="reference-link" href="#root/z5TN5NCWzga3">Server In
+    ORPHAN: > Starting with v0.104.0, backend scripts are disabled by default to reduce the attack surface. See 
+    ORPHAN: The benefit of backend scripts is that they can be pretty powerful, for example to have access to th
+    ORPHAN: However, the main benefit of backend scripts is that they have easier access to the notes since the 
+    ORPHAN: Create a new <a class="reference-link" href="#root/sIfLV6itqwru">Code</a> note and select the langua
+    ORPHAN: Backend scripts can be either run manually (via the Execute button on the script page), or they can 
+    ORPHAN: In addition, scripts can be run automatically when the server starts up, on a fixed time interval or
+    ORPHAN: Trilium exposes a set of APIs that can be directly consumed by scripts, under the `api` object. For 
+前端基础: raw=4026 cn=2732 orphan=9
+    ORPHAN: There are four flavors of front-end scripts:
+    ORPHAN: | --- | --- |
+    ORPHAN: | Regular scripts | These are run with the current app and note context. These can be run either man
+    ORPHAN: For more advanced behaviors that do not require a user interface (e.g. batch modifying notes), see <
+    ORPHAN: Scripts don't have any special requirements. They can be run manually using the _Execute_ button on 
+    ORPHAN: Widgets require a certain format in order for Trilium to be able to integrate them into the UI.
+    ORPHAN: For more information, see <a class="reference-link" href="#root/onXZFHEZNtWj">Custom Widgets</a>.
+    ORPHAN: The front-end API of Trilium is available to all scripts running in the front-end context as a globa
+    ORPHAN: For more information on building widgets, take a look at [Widget Basics](#root/R6SqwFdNe39J).
+自定义小组件: raw=7424 cn=6323 orphan=52
+    ORPHAN: In older versions of Trilium, custom widgets were exclusively written in a combination of jQuery wit
+    ORPHAN: Starting with v0.101.0, custom widgets can also be written in JSX using the <a class="reference-link
+    ORPHAN: Wherever possible, widget examples will be both in the legacy and Preact formats.
+    ORPHAN: Let's start by creating a widget that shows a message near the content area. Follow the previous sec
+    ORPHAN: [Refresh the application](#root/GDf62xzQAPH5) and the widget should appear underneath the content ar
+    ORPHAN: [Refresh the application](#root/GDf62xzQAPH5) and the widget should appear underneath the content ar
+    ORPHAN: A widget can be placed in one of the following sections of the applications:
+    ORPHAN:         <col style="width:30.42%;">
+    ORPHAN:         <col style="width:16.68%;">
+    ORPHAN:         <col style="width:37.31%;">
+启动栏小组件: raw=3385 cn=1767 orphan=2
+    ORPHAN: Unlike <a class="reference-link" href="#root/onXZFHEZNtWj">Custom Widgets</a>, the process of settin
+    ORPHAN: Custom launch bar widgets are also supported on the <a class="reference-link" href="#root/EkPCJ5MeC1
+Preact: raw=4803 cn=4262 orphan=11
+    ORPHAN: Preact can be used for:
+    ORPHAN: To get started, the first step is to enable JSX in the list of Code languages. Go to Options → Code 
+    ORPHAN: > The documentation assumes prior knowledge with React or Preact. As a starting point, consider the 
+    ORPHAN: When using Preact with JSX, there is a special syntax which provides ES-like imports. This `import` 
+    ORPHAN: Instead of:
+    ORPHAN: the JSX version looks like this:
+    ORPHAN: There's a new <a class="reference-link" href="#root/RnGPOFzZTT85">Script API</a> dedicated to Preact
+    ORPHAN: JSX notes can export a component for use in <a class="reference-link" href="#root/JJu6GkCERkeT">Rend
+    ORPHAN: These imports are syntactic sugar meant to replace the usage for the `api`global object (see <a clas
+    ORPHAN: > The `import` and `export` syntax work only for JSX notes. Standard/jQuery code notes still need to
+内置组件: raw=2565 cn=1986 orphan=6
+    ORPHAN: Trilium comes with its own set of Preact components, some of which are also available to <a class="r
+    ORPHAN: To use these components, simply import them from `trilium:preact`:
+    ORPHAN: and then use them:
+    ORPHAN: > Starting with v0.101.0, the widget showcase is also available in the <a class="reference-link" hre
+    ORPHAN: This is a <a class="reference-link" href="#root/JJu6GkCERkeT">Render Note</a> example with JSX that 
+    ORPHAN: To use it, simply:
+故障排除: raw=3571 cn=3054 orphan=13
+    ORPHAN: The first step in troubleshooting is often a restart.
+    ORPHAN: If you experience an UI issue, the frontend may have entered an inconsistent state. Reload the appli
+    ORPHAN: If the issue persists or appears to be a backend problem, restart the entire application. For the de
+    ORPHAN: Certain problems, such as rendering a note with a faulty script, can cause Trilium to crash. If Tril
+    ORPHAN: To resolve this, use the `TRILIUM_START_NOTE_ID` environment variable to reset the open tabs to a si
+    ORPHAN: If a custom script causes Trilium to crash, and it is set as a startup script or in an active [custo
+    ORPHAN: Depending on your Trilium distribution, you may have pre-made scripts available: `trilium-safe-mode.
+    ORPHAN: Once Trilium starts, locate and fix or delete the problematic note.
+    ORPHAN: Trilium periodically verifies the logical consistency of the database (e.g., ensuring every note has
+    ORPHAN: In such cases, file a bug report and attach an [anonymized database](#root/qvnmjhzknXEy) if necessar
+错误日志: raw=1511 cn=1353 orphan=5
+    ORPHAN: There are two types of error logs, both of which are useful when reporting bugs.
+    ORPHAN: If you don't feel comfortable attaching the logs or anything sensitive to the public GitHub issues, 
+    ORPHAN: Use this email to also provide anything which could assist in analyzing the bug - e.g. files/images/
+    ORPHAN: Often times, bugs manifest themselves in specific notes and having them would greatly ease reproduct
+    ORPHAN: In such case, please export the relevant note subtree by right-clicking it on the left tree, choosin

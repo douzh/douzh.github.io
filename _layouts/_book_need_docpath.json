@@ -1,0 +1,346 @@
+[
+ {
+  "book_noteId": "39unKGhUFGBr",
+  "book_title": "桌面安装",
+  "book_bl": 2327,
+  "src_docName": "User Guide/User Guide/Installation & Setup/Desktop Installation",
+  "src_title": "Desktop Installation",
+  "has": false
+ },
+ {
+  "book_noteId": "z5TN5NCWzga3",
+  "book_title": "服务器安装",
+  "book_bl": 4046,
+  "src_docName": "User Guide/User Guide/Installation & Setup/Server Installation",
+  "src_title": "Server Installation",
+  "has": false
+ },
+ {
+  "book_noteId": "O4yjkaVH3YxV",
+  "book_title": "2. Reverse proxy(2. 反向代理)",
+  "book_bl": 5241,
+  "src_docName": "User Guide/User Guide/Installation & Setup/Server Installation/2. Reverse proxy",
+  "src_title": "2. Reverse proxy",
+  "has": false
+ },
+ {
+  "book_noteId": "PrgLiFypVLYw",
+  "book_title": "Authentication(身份验证)",
+  "book_bl": 2356,
+  "src_docName": "User Guide/User Guide/Installation & Setup/Server Installation/Authentication",
+  "src_title": "Authentication",
+  "has": false
+ },
+ {
+  "book_noteId": "g0OYZmaGK1v8",
+  "book_title": "Signing in with OpenID Connect(使用 OpenID Connect 登录)",
+  "book_bl": 14712,
+  "src_docName": "User Guide/User Guide/Installation & Setup/Server Installation/Signing in with OpenID Connect",
+  "src_title": "Signing in with OpenID Connect",
+  "has": false
+ },
+ {
+  "book_noteId": "45vpyB99b5XE",
+  "book_title": "笔记树",
+  "book_bl": 3612,
+  "src_docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Note Tree",
+  "src_title": "Note Tree",
+  "has": false
+ },
+ {
+  "book_noteId": "R3myDXkvEDLx",
+  "book_title": "右侧边栏",
+  "book_bl": 3301,
+  "src_docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/Right Sidebar",
+  "src_title": "Right Sidebar",
+  "has": false
+ },
+ {
+  "book_noteId": "u1QzNAKOIwgl",
+  "book_title": "新布局",
+  "book_bl": 17103,
+  "src_docName": "User Guide/User Guide/Basic Concepts and Features/UI Elements/New Layout",
+  "src_title": "New Layout",
+  "has": false
+ },
+ {
+  "book_noteId": "Tt0BN2uUso39",
+  "book_title": "笔记",
+  "book_bl": 4213,
+  "src_docName": "User Guide/User Guide/Basic Concepts and Features/Notes",
+  "src_title": "Notes",
+  "has": false
+ },
+ {
+  "book_noteId": "Gh7vim8mU3XG",
+  "book_title": "克隆笔记",
+  "book_bl": 4476,
+  "src_docName": "User Guide/User Guide/Basic Concepts and Features/Notes/Cloning Notes",
+  "src_title": "Cloning Notes",
+  "has": false
+ },
+ {
+  "book_noteId": "RsgLJ2Bh2p6v",
+  "book_title": "主题",
+  "book_bl": 7690,
+  "src_docName": "User Guide/User Guide/Basic Concepts and Features/Themes",
+  "src_title": "Themes",
+  "has": false
+ },
+ {
+  "book_noteId": "ThwV4HVTjhHq",
+  "book_title": "Markdown",
+  "book_bl": 2111,
+  "src_docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Markdown",
+  "src_title": "Markdown",
+  "has": false
+ },
+ {
+  "book_noteId": "LvouaBp1WS0Y",
+  "book_title": "从其他应用导入数据",
+  "book_bl": 2936,
+  "src_docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Importing data from other applications",
+  "src_title": "Importing data from other applications",
+  "has": false
+ },
+ {
+  "book_noteId": "WYTkBSXUaU4m",
+  "book_title": "Evernote",
+  "book_bl": 10271,
+  "src_docName": "User Guide/User Guide/Basic Concepts and Features/Import & Export/Importing data from other applications",
+  "src_title": "Importing data from other applications",
+  "has": false
+ },
+ {
+  "book_noteId": "Q0A1Gg3pgIOP",
+  "book_title": "笔记类型",
+  "book_bl": 6529,
+  "src_docName": "User Guide/User Guide/Note Types",
+  "src_title": "Note Types",
+  "has": false
+ },
+ {
+  "book_noteId": "B5oluBvu2gBY",
+  "book_title": "文本",
+  "book_bl": 9587,
+  "src_docName": "User Guide/User Guide/Note Types/Text",
+  "src_title": "Text",
+  "has": false
+ },
+ {
+  "book_noteId": "cSgjbDO3SCet",
+  "book_title": "开发者专用格式",
+  "book_bl": 2549,
+  "src_docName": "User Guide/User Guide/Note Types/Text/Developer-specific formatting",
+  "src_title": "Developer-specific formatting",
+  "has": false
+ },
+ {
+  "book_noteId": "ylo1oZtjQP5B",
+  "book_title": "图片",
+  "book_bl": 5620,
+  "src_docName": "User Guide/User Guide/Note Types/Text/Images",
+  "src_title": "Images",
+  "has": false
+ },
+ {
+  "book_noteId": "Y5pCr7P1spvA",
+  "book_title": "编辑器内 AI 助手",
+  "book_bl": 7498,
+  "src_docName": "User Guide/User Guide/Note Types/Text/In-editor AI assistant",
+  "src_title": "In-editor AI assistant",
+  "has": false
+ },
+ {
+  "book_noteId": "2IpMVDLsydKq",
+  "book_title": "链接",
+  "book_bl": 978,
+  "src_docName": "User Guide/User Guide/Note Types/Text/Links",
+  "src_title": "Links",
+  "has": false
+ },
+ {
+  "book_noteId": "I1BPKT4HF7wh",
+  "book_title": "Mermaid 图表",
+  "book_bl": 5670,
+  "src_docName": "User Guide/User Guide/Note Types/Mermaid Diagrams",
+  "src_title": "Mermaid Diagrams",
+  "has": false
+ },
+ {
+  "book_noteId": "RC8UiNCM0fHL",
+  "book_title": "文件",
+  "book_bl": 8458,
+  "src_docName": "User Guide/User Guide/Note Types/File",
+  "src_title": "File",
+  "has": false
+ },
+ {
+  "book_noteId": "iLOq7QKFCwlZ",
+  "book_title": "集合",
+  "book_bl": 9979,
+  "src_docName": "User Guide/User Guide/Collections",
+  "src_title": "Collections",
+  "has": false
+ },
+ {
+  "book_noteId": "g0sMuS8IdnE9",
+  "book_title": "故障排除",
+  "book_bl": 3571,
+  "src_docName": "User Guide/User Guide/Troubleshooting",
+  "src_title": "Troubleshooting",
+  "has": false
+ },
+ {
+  "book_noteId": "xpEQq6DVwNEt",
+  "book_title": "错误日志",
+  "book_bl": 1511,
+  "src_docName": "User Guide/User Guide/Troubleshooting/Error logs",
+  "src_title": "Error logs",
+  "has": false
+ },
+ {
+  "book_noteId": "KULw53GiQ4vA",
+  "book_title": "属性",
+  "book_bl": 5353,
+  "src_docName": "User Guide/User Guide/Advanced Usage/Attributes",
+  "src_title": "Attributes",
+  "has": false
+ },
+ {
+  "book_noteId": "JmvAMQu8gb4o",
+  "book_title": "代码片段",
+  "book_bl": 163,
+  "src_docName": "User Guide/User Guide/Advanced Usage/Snippets",
+  "src_title": "Snippets",
+  "has": false
+ },
+ {
+  "book_noteId": "VEi95epAyiaa",
+  "book_title": "分享",
+  "book_bl": 26399,
+  "src_docName": "User Guide/User Guide/Advanced Usage/Sharing",
+  "src_title": "Sharing",
+  "has": false
+ },
+ {
+  "book_noteId": "GN7LU2N7OhJi",
+  "book_title": "高级示例展示",
+  "book_bl": 943,
+  "src_docName": "User Guide/User Guide/Advanced Usage/Advanced Showcases",
+  "src_title": "Advanced Showcases",
+  "has": false
+ },
+ {
+  "book_noteId": "kwZgWIQRy44x",
+  "book_title": "数据库",
+  "book_bl": 3655,
+  "src_docName": "User Guide/User Guide/Advanced Usage/Database",
+  "src_title": "Database",
+  "has": false
+ },
+ {
+  "book_noteId": "qUcx4LMepbQt",
+  "book_title": "手动修改数据库",
+  "book_bl": 2352,
+  "src_docName": "User Guide/User Guide/Advanced Usage/Database/Manually altering the database",
+  "src_title": "Manually altering the database",
+  "has": false
+ },
+ {
+  "book_noteId": "zimAIUMnhVS8",
+  "book_title": "Configuration (config.ini or environment variables)(配置（config.ini 或环境变量）)",
+  "book_bl": 9832,
+  "src_docName": "User Guide/User Guide/Advanced Usage/Configuration (config.ini or environment variables)",
+  "src_title": "Configuration (config.ini or environment variables)",
+  "has": false
+ },
+ {
+  "book_noteId": "DrRneFhQ9YLP",
+  "book_title": "使用的技术",
+  "book_bl": 3358,
+  "src_docName": "User Guide/User Guide/Advanced Usage/Technologies used",
+  "src_title": "Technologies used",
+  "has": false
+ },
+ {
+  "book_noteId": "s5yEiZdU32Oh",
+  "book_title": "AI",
+  "book_bl": 16375,
+  "src_docName": "User Guide/User Guide/AI",
+  "src_title": "AI",
+  "has": false
+ },
+ {
+  "book_noteId": "gBJUFdOLz9GA",
+  "book_title": "脚本",
+  "book_bl": 5541,
+  "src_docName": "User Guide/User Guide/Scripting",
+  "src_title": "Scripting",
+  "has": false
+ },
+ {
+  "book_noteId": "NCY5OgXkK1DG",
+  "book_title": "前端基础",
+  "book_bl": 4026,
+  "src_docName": "User Guide/User Guide/Scripting/Frontend Basics",
+  "src_title": "Frontend Basics",
+  "has": false
+ },
+ {
+  "book_noteId": "onXZFHEZNtWj",
+  "book_title": "自定义小组件",
+  "book_bl": 7424,
+  "src_docName": "User Guide/User Guide/Scripting/Frontend Basics/Custom Widgets",
+  "src_title": "Custom Widgets",
+  "has": false
+ },
+ {
+  "book_noteId": "GSJbXGisvcFM",
+  "book_title": "启动栏小组件",
+  "book_bl": 3385,
+  "src_docName": "User Guide/User Guide/Scripting/Frontend Basics/Launch Bar Widgets",
+  "src_title": "Launch Bar Widgets",
+  "has": false
+ },
+ {
+  "book_noteId": "iPUwA7ypTuJr",
+  "book_title": "Preact",
+  "book_bl": 4803,
+  "src_docName": "User Guide/User Guide/Scripting/Frontend Basics/Preact",
+  "src_title": "Preact",
+  "has": false
+ },
+ {
+  "book_noteId": "fEqSpbCn0Ydu",
+  "book_title": "内置组件",
+  "book_bl": 2565,
+  "src_docName": "User Guide/User Guide/Scripting/Frontend Basics/Preact",
+  "src_title": "Preact",
+  "has": false
+ },
+ {
+  "book_noteId": "ZlacHrx96iIP",
+  "book_title": "后端脚本",
+  "book_bl": 2864,
+  "src_docName": "User Guide/User Guide/Scripting/Backend scripts",
+  "src_title": "Backend scripts",
+  "has": false
+ },
+ {
+  "book_noteId": "RnGPOFzZTT85",
+  "book_title": "脚本 API",
+  "book_bl": 1085,
+  "src_docName": "User Guide/User Guide/Scripting",
+  "src_title": "Scripting",
+  "has": false
+ },
+ {
+  "book_noteId": "stK1EEQ7I07S",
+  "book_title": "前端 API",
+  "book_bl": 0,
+  "src_docName": "User Guide/User Guide/Scripting",
+  "src_title": "Scripting",
+  "has": false
+ }
+]

@@ -1,0 +1,90 @@
+[
+ {
+  "noteId": "kBQZqj9dubVL",
+  "title": "Nix flake(Nix flake)",
+  "type": "text",
+  "bl": 0,
+  "docPath": "User Guide/User Guide/Installation & Setup/Desktop Installation/Nix flake",
+  "path": "/安装与设置/桌面安装/Nix flake(Nix flake)",
+  "src_type": "doc",
+  "src_title": "Nix flake",
+  "src_bl": 0
+ },
+ {
+  "noteId": "5JQ4vkZqncQO",
+  "title": "文本片段",
+  "type": "text",
+  "bl": 0,
+  "docPath": "User Guide/User Guide/Note Types/Text/Text Snippets",
+  "path": "/笔记类型/文本/文本片段",
+  "src_type": "doc",
+  "src_title": "Text Snippets",
+  "src_bl": 0
+ },
+ {
+  "noteId": "yzyWwxCeBHm2",
+  "title": "语法参考",
+  "type": "text",
+  "bl": 0,
+  "docPath": "User Guide/User Guide/Note Types/Mermaid Diagrams",
+  "path": "/笔记类型/Mermaid 图表/语法参考",
+  "src_type": "doc",
+  "src_title": "Mermaid Diagrams",
+  "src_bl": 0
+ },
+ {
+  "noteId": "VugMPu4jc7IZ",
+  "title": "API 参考",
+  "type": "text",
+  "bl": 0,
+  "docPath": "User Guide/User Guide/Advanced Usage/ETAPI (REST API)",
+  "path": "/高级用法/ETAPI (REST API)/API 参考",
+  "src_type": "doc",
+  "src_title": "ETAPI (REST API)",
+  "src_bl": 0
+ },
+ {
+  "noteId": "hWMN4ej0xMh3",
+  "title": "API 参考",
+  "type": "text",
+  "bl": 0,
+  "docPath": "User Guide/User Guide/Advanced Usage/Hidden Notes",
+  "path": "/高级用法/内部 API/API 参考",
+  "src_type": "doc",
+  "src_title": "Hidden Notes",
+  "src_bl": 0
+ },
+ {
+  "noteId": "BROicBbRhY1u",
+  "title": "FNote",
+  "type": "text",
+  "bl": 0,
+  "docPath": "User Guide/User Guide/Scripting/Script API",
+  "path": "/脚本/脚本 API/前端 API/FNote",
+  "src_type": "doc",
+  "src_title": "Script API",
+  "src_bl": 0
+ },
+ {
+  "noteId": "jFXOYH8BO8zS",
+  "title": "后端 API",
+  "type": "text",
+  "bl": 0,
+  "docPath": "User Guide/User Guide/Scripting/Script API",
+  "path": "/脚本/脚本 API/后端 API",
+  "src_type": "doc",
+  "src_title": "Script API",
+  "src_bl": 0
+ },
+ {
+  "noteId": "20c3yUXh3jcZ",
+  "title": "Electron API",
+  "type": "text",
+  "bl": 0,
+  "docPath": "User Guide/User Guide/Scripting/Script API",
+  "path": "/脚本/脚本 API/Electron API",
+  "src_type": "doc",
+  "src_title": "Script API",
+  "src_bl": 0
+ }
+]
