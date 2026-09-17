@@ -1,0 +1,71 @@
+s typically exposed to the internet behind a **reverse proxy** , which handles TLS termination, presents a single public entry point, and (optionally) lets you host multiple instances under one domain. Trilium itself keeps running on plain HTTP on its local port; the proxy sits in front of it.
+
+This section collects provider-specific guides and the configuration that applies regardless of which proxy you use.
+
+## Provider guides
+
+  * [Nginx](#root/_help_ud6MShXL4WpO)
+  * [Traefik](#root/_help_5ERVJb9s4FRD)
+  * [Apache using Docker](#root/_help_fDLvzOx29Pfg)
+
+## Applies to every proxy
+
+Regardless of the proxy you choose, make sure of the following:
+
+  * **Forward the WebSocket upgrade.** Trilium uses a WebSocket for synchronization and live UI updates. Your proxy must pass the `Upgrade`and `Connection` headers through, otherwise the client will appear to load but never receive updates.
+  * **Configure the trusted proxy.** So that Trilium sees the real client IP (for rate limiting, logging, and secure cookies) rather than the proxy's address. See [Trusted proxy](#root/_help_LLzSMXACKhUs).
+  * **Terminate TLS at the proxy.** See [HTTPS (TLS)](#root/_help_l2VkvOwUNfZj).
+
+## Putting an authentication proxy in front of Trilium
+
+Some setups place a **forward-auth / SSO layer** (Authelia, Authentik, oauth2-proxy, or an OIDC plugin) at the proxy so that _every_ request must pass an interactive login first.
+
+This **breaks synchronization and initial setup.** Sync is a machine-to-machine process that runs unattended in the background — it has no browser and cannot complete an interactive login challenge. When the proxy intercepts a sync request, it returns its HTML login page instead of the expected JSON, and the client fails with an error such as:
+    
+    
+    Sync failed: Request to GET https://trilium.example.com/api/setup/status failed,
+    error: Unexpected token '<', "<!doctype "... is not valid JSON
+    
+
+There are two ways to resolve this:
+
+  * **Preferred, use Trilium's built-in authentication.** Don't gate Trilium at the proxy at all. Trilium can authenticate the web interface itself, including via [OpenID Connect](#root/_help_x1lQNKQBqLcA). This leaves the sync endpoints free to authenticate the way they're designed to.
+  * **Exempt the sync endpoints from the proxy's authentication.** If you must keep auth at the proxy, exclude these paths from the forward-auth check: 
+    * `/api/setup/*`
+    * `/api/login/sync`
+    * `/api/sync/*`
+
+This is safe: Trilium authenticates these endpoints itself. Sync uses a challenge-free HMAC handshake based on a shared secret, and the one-time setup seed request is password-protected — so exempting them at the proxy does not expose unauthenticated access to your data.
+
+An example for Nginx, where `/auth` is your forward-auth endpoint:
+    
+    
+    server {
+        # ... TLS, server_name, etc. ...
+    
+        # Sync and setup endpoints authenticate themselves — skip forward-auth.
+        location ~ ^/api/(sync|login/sync|setup) {
+            auth_request off;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_pass http://trilium;
+        }
+    
+        # Everything else goes through forward-auth.
+        location / {
+            auth_request /auth;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_pass http://trilium;
+        }
+    }
+
+This tuto

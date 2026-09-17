@@ -1,0 +1,18 @@
+To install Trilium on your desktop, follow these steps:
+
+1.  **Download the Latest Release**: Obtain the appropriate binary release for your operating system from the [latest release page](https://github.com/TriliumNext/Trilium/releases/latest) on GitHub.
+2.  **Extract the Package**: Unzip the downloaded package to a location of your choice.
+3.  **Run the Application**: Launch Trilium by executing the `trilium`executable found within the unzipped folder.
+
+## Startup Scripts
+
+Trilium offers various startup scripts to customize your experience:
+
+*   `trilium-no-cert-check`: Starts Trilium without validating [TLS certificates](#root/_help_l2VkvOwUNfZj), useful if connecting to a server with a self-signed certificate.
+    *   Alternatively, set the `NODE_TLS_REJECT_UNAUTHORIZED=0` environment variable before starting Trilium.
+*   `trilium-portable`: Launches Trilium in portable mode, where the [data directory](#root/_help_tAassRL4RSQL) is created within the application's directory, making it easy to move the entire setup. Electron's internal data (caches, dictionaries, etc.) is also stored within the data directory, so no files are written to the system's roaming profile.
+*   `trilium-safe-mode`: Boots Trilium in "safe mode," disabling any startup scripts that might cause the application to crash.
+
+## Synchronization
+
+For Trilium desktop users who wish to synchronize their data with a server instance, refer to the <a class="reference-link" href="#root/_help_cbkrhQjrkKrh">Synchronization</a> guide for detailed instructions.

@@ -1,0 +1,3 @@
+let you define reusable pieces of text, Markdown or code that can be quickly inserted into your notes.
+
+Code Snip

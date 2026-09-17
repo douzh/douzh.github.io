@@ -1,0 +1,22 @@
+rtant to provide all available error logs together with bug reports.
+
+There are two types of error logs, both of which are useful when reporting bugs.
+
+  * [Backend (server) logs](#root/_help_bnyigUA2UK7s)
+  * [Frontend logs](#root/_help_9yEHzMyFirZR)
+
+## Providing sensitive data
+
+If you don't feel comfortable attaching the logs or anything sensitive to the public GitHub issues, feel free to contact the devs in our Matrix [support channel](https://github.com/TriliumNext/Trilium#-discuss-with-us).
+
+Use this email to also provide anything which could assist in analysing the bug - e.g. files/images/ZIPs being imported or [anonymized database](#root/_help_x59R8J8KV5Bp).
+
+### Exporting note subtree for reproduction
+
+Often times, bugs manifest themselves in specific notes and having them would greatly ease reproduction and fixing.
+
+In such case, please export the relevant note subtree by right-clicking it on the left tree, choosing Export - HTML as ZIP:
+
+![](Error%20logs_error-logs-export-subtree.png)
+
+## Accessin

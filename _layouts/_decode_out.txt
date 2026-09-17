@@ -1,0 +1,48 @@
+﻿===== Gh7vim8mU3XG len=3316 =====
+## Motivation
+
+
+
+Trilium's core feature is the ability to structure your notes into hierarchical tree-like structure.
+
+
+
+It is expected then that you'll have an elaborate and deep note hierarchy - eac
+
+===== iLOq7QKFCwlZ len=7249 =====
+Collections are a unique type of note that don't have content, but instead display their child notes in various presentation methods.
+
+
+
+## Main collections
+
+
+
+|  |  |
+
+| --- | --- |
+
+| <figure class=
+
+===== B5oluBvu2gBY len=5666 =====
+The default note type in Trilium, text notes allow for rich formatting, tables, images, admonitions and a handful of other features.
+
+
+
+## Formatting bars
+
+
+
+Most of the interaction with text notes is
+
+===== WYTkBSXUaU4m len=6819 =====
+Trilium can import ENEX files, which are used by Evernote for backup/export. One ENEX file represents the content (notes and resources) of one notebook.
+
+
+
+## Import process
+
+
+
+The first step is to ex
+
