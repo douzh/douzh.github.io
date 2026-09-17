@@ -1,0 +1,6 @@
+main-process-start: +1047ms (1047ms since process creation)
+database-opened: +156ms (1203ms since process creation)
+electron-ready: +236ms (1439ms since process creation)
+core-initialized: +183ms (1622ms since process creation)
+main-window-created: +1383ms (3005ms since process creation)
+server-started: +193ms (3198ms since process creation)
