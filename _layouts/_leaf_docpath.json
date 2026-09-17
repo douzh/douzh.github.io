@@ -1,0 +1,152 @@
+{
+ "aIwhuIM42UXZ": {
+  "title": "Using the desktop application as a server(将桌面应用用作服务器)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Desktop Installation/Using the desktop application as a server",
+  "src_title": "(库中无此节点)"
+ },
+ "a3TKVvk1Jcuq": {
+  "title": "System Requirements(系统要求)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Desktop Installation/System Requirements",
+  "src_title": "(库中无此节点)"
+ },
+ "KENrlyFaUbZN": {
+  "title": "Network Access(网络访问)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Desktop Installation/Network Access",
+  "src_title": "(库中无此节点)"
+ },
+ "3GTPwnM0LXzq": {
+  "title": "Tray icon & automatic startup(托盘图标与自动启动)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Desktop Installation/Tray icon & automatic startup",
+  "src_title": "(库中无此节点)"
+ },
+ "I9TEAj9A5NIv": {
+  "title": "Troubleshooting(故障排除)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Desktop Installation/Troubleshooting",
+  "src_title": "(库中无此节点)"
+ },
+ "sPaAXjVcvZZl": {
+  "title": "Packaged version for Linux(Linux 打包版本)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Packaged version for Linux",
+  "src_title": "(库中无此节点)"
+ },
+ "5HwfHJFwczl9": {
+  "title": "Using Docker(使用 Docker)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Using Docker",
+  "src_title": "(库中无此节点)"
+ },
+ "SEYvbzIDbgtV": {
+  "title": "On NixOS(在 NixOS 上)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/On NixOS",
+  "src_title": "(库中无此节点)"
+ },
+ "fEvxRDgByx6J": {
+  "title": "Manually(手动安装)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Manually",
+  "src_title": "(库中无此节点)"
+ },
+ "aFYvSvzqySw1": {
+  "title": "Using Kubernetes(使用 Kubernetes)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Using Kubernetes",
+  "src_title": "(库中无此节点)"
+ },
+ "fupEm5MLR0eF": {
+  "title": "Multiple server instances(多个服务器实例)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/1. Installing the server/Multiple server instances",
+  "src_title": "(库中无此节点)"
+ },
+ "O4yjkaVH3YxV": {
+  "title": "2. Reverse proxy(2. 反向代理)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/2. Reverse proxy",
+  "src_title": "(库中无此节点)"
+ },
+ "o5byGpiYwkAf": {
+  "title": "Nginx(Nginx)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/2. Reverse proxy/Nginx",
+  "src_title": "(库中无此节点)"
+ },
+ "74oHxA6XDX7Z": {
+  "title": "Apache using Docker(使用 Docker 的 Apache)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/2. Reverse proxy/Apache using Docker",
+  "src_title": "(库中无此节点)"
+ },
+ "9H8FKhPVYLTX": {
+  "title": "Trusted proxy(受信任的代理)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/2. Reverse proxy/Trusted proxy",
+  "src_title": "(库中无此节点)"
+ },
+ "mWpKWRZZLu3R": {
+  "title": "Traefik(Traefik)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/2. Reverse proxy/Traefik",
+  "src_title": "(库中无此节点)"
+ },
+ "3jBts3KWOAAP": {
+  "title": "HTTPS (TLS)(HTTPS (TLS))",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/HTTPS (TLS)",
+  "src_title": "(库中无此节点)"
+ },
+ "PrgLiFypVLYw": {
+  "title": "Authentication(身份验证)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/Authentication",
+  "src_title": "(库中无此节点)"
+ },
+ "eaZEEY2i4YT2": {
+  "title": "Resetting your password(重置密码)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/Authentication/Resetting your password",
+  "src_title": "(库中无此节点)"
+ },
+ "NwgMJByVeFyC": {
+  "title": "Multi-factor authentication with TOTP(使用 TOTP 的多因素身份验证)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/Multi-factor authentication with TOTP",
+  "src_title": "(库中无此节点)"
+ },
+ "Ht8ZUwhpA1DH": {
+  "title": "Nix flake(Nix flake)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Desktop Installation/Nix flake",
+  "src_title": "(库中无此节点)"
+ },
+ "g0OYZmaGK1v8": {
+  "title": "Signing in with OpenID Connect(使用 OpenID Connect 登录)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/Signing in with OpenID Connect",
+  "src_title": "(库中无此节点)"
+ },
+ "v14qii09xWVc": {
+  "title": "Setting up with various providers(使用各种提供商进行设置)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/Signing in with OpenID Connect/Setting up with various providers",
+  "src_title": "(库中无此节点)"
+ },
+ "z2cMreTyvWVz": {
+  "title": "Third-party cloud hosting(第三方云托管)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/Third-party cloud hosting",
+  "src_title": "(库中无此节点)"
+ },
+ "6OOBk6hUKjLW": {
+  "title": "System Requirements(系统要求)",
+  "type": "text",
+  "docPath": "User Guide/User Guide/Installation & Setup/Server Installation/System Requirements",
+  "src_title": "(库中无此节点)"
+ }
+}
